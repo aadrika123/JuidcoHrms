@@ -7,7 +7,7 @@
 "use client";
 
 // Imports // ----------------------------------------------------------------
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "@/lib/axiosConfig";
 
 import { useMutation, useQueryClient } from "react-query";
@@ -36,7 +36,7 @@ export const EmployeeOnBoard = () => {
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<object>(
-    {}
+    JSON.parse(sessionStorage.getItem("employeeOnBoardDetails") as string) || {}
   );
 
   console.log(tabIndex, employeeOnBoardDetails, "emp");
@@ -50,9 +50,16 @@ export const EmployeeOnBoard = () => {
     index?: number
   ) {
     setEmployeeOnBoardDetails((prev) => ({ ...prev, [key]: values }));
-    sessionStorage.setItem("emp_onboard", JSON.stringify(employeeOnBoardDetails));
     setTabIndex(index || tabIndex);
   }
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "emp_onboard",
+      JSON.stringify(employeeOnBoardDetails)
+    );
+  }, [employeeOnBoardDetails]);
+
   // ------------------ Functions ------------------//
 
   // Add Bank Details

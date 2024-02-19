@@ -23,16 +23,36 @@ const EmployeeBasicDetails: React.FC<
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
+
+  const handleSubmitFormik = (
+    values: EmployeeDetailsType,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      setSubmitting(false);
+
+      if (props.setData) {
+        props.setData("officeDetails", values);
+      }
+      router.push(`${pathName}?page=2`);
+    }
+  };
+
+  const initialValues =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("emp_office_details")
+        ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
+        : initialEmployeeDetails
+      : initialEmployeeDetails;
+
   return (
     <>
       <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
       <Formik
-        initialValues={initialEmployeeDetails}
+        initialValues={initialValues}
         validationSchema={employeeValidationSchema}
-        onSubmit={(values: EmployeeDetailsType) => {
-          props.setData("EmpPersonalDetails", values);
-          router.push(`${pathName}?page=3`);
-        }}
+        onSubmit={handleSubmitFormik}
       >
         {({
           values,
