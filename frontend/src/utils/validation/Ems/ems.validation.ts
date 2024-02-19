@@ -1,6 +1,7 @@
 import {
   EmployeeDetailsType,
   EmployeeOfficeDetaislType,
+  EmployeePersonalDetailsType,
 } from "@/utils/types/employee.type";
 import * as yup from "yup";
 
@@ -22,7 +23,7 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 };
 /// ------------- Employee Office Details ---------------------///
 
-/// ------------- Employee Details ---------------------///
+/// ------------- Employee Basic Details ---------------------///
 export const employeeValidationSchema = yup.object({
   emp_id: yup.string().required("Employee ID is required"),
   emp_image: yup.string().required("Employee image is required"),
@@ -60,4 +61,49 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
   gps: "",
   dob: "",
 };
-/// ------------- Employee Details ---------------------///
+/// ------------- Employee  Basic Details ---------------------///
+
+/// ------------- Employee personal Details ---------------------///
+export const employeePersonalDetailsValidationSchema = yup.object({
+  married_status: yup.mixed().required("Please Enter the Employee Category"),
+  identification_marks: yup
+    .mixed()
+    .required("Please Enter the Identification Marks"),
+  religion: yup.mixed().required("Please Enter the Religion"),
+  emp_categories: yup.mixed().required("Please Enter the Employee Category"),
+  emp_home_state: yup.string().required("Please Enter the Home State"),
+  emp_district: yup.string().required("Please Enter the Home District"),
+  emp_blood_group: yup.mixed().required("Please Enter the Blood Group"),
+  emp_health_status: yup.mixed().required("Please Enter the Health Status"),
+  emp_ltc_home_town: yup.string().required("Please Enter the LTC Home Town"),
+  emp_nearest_railway_station: yup
+    .string()
+    .required("Please Enter the Nearest Railway Station"),
+  emp_phy_health_type: yup
+    .mixed()
+    .required("Please Enter the Physical Health Type"),
+  emp_family: yup.mixed().required("Please Enter the Family"),
+  emp_lang: yup.mixed().required("Please Enter the Language"),
+  emp_lang_do: yup
+    .string()
+    .oneOf(["read", "write", "speak"])
+    .required("Please Enter the Language Proficiency"),
+});
+
+export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
+  married_status: "",
+  identification_marks: "",
+  religion: "",
+  emp_categories: "",
+  emp_home_state: "",
+  emp_district: "",
+  emp_blood_group: "",
+  emp_health_status: "",
+  emp_ltc_home_town: "",
+  emp_nearest_railway_station: "",
+  emp_phy_health_type: "",
+  emp_family: "",
+  emp_lang: "",
+  emp_lang_do: "read",
+};
+/// ------------- Employee personal Details ---------------------///

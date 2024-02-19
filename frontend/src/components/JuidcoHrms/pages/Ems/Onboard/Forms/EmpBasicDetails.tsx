@@ -33,9 +33,9 @@ const EmployeeBasicDetails: React.FC<
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("officeDetails", values);
+        props.setData("EmpPersonalDetails", values);
       }
-      router.push(`${pathName}?page=2`);
+      router.push(`${pathName}?page=3`);
     }
   };
 
@@ -48,7 +48,7 @@ const EmployeeBasicDetails: React.FC<
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
+      <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
       <Formik
         initialValues={initialValues}
         validationSchema={employeeValidationSchema}

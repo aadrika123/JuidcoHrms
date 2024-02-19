@@ -46,7 +46,8 @@ export interface EmployeeOnBoardForm {
 
 export type EmployeeOnBoardAllTypes =
   | EmployeeOfficeDetaislType
-  | EmployeeDetailsType;
+  | EmployeeDetailsType
+  | EmployeePersonalDetailsType;
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;

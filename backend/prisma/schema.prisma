@@ -10,73 +10,42 @@ datasource db {
 //-----------------------------------------------------------------//
 // Author: Krish
 // status: Open
-model employee {
-  id                         Int             @id @default(autoincrement())
-  name                       String
-  dob                        DateTime
-  father_nm                  String
-  mother_nm                  String
-  spouse_nm                  String?
-  gender                     String
-  marital_status             String
-  identification_mark_status String
-  height                     Int
-  weight                     Int
-  category                   String
-  physically_handicapped     Boolean
-  religion                   String
-  mobile_number              String
-  email_id                   String
-  blood_group                String
-  home_state                 String
-  home_district              String
-  ltc_home_town              String
-  nearest_railway_station    String
-  health_status              String
-  ph_type                    String
-  adhar_card_no              String
-  voter_id_card              String
-  mode_of_recruitment        String
-  employee_type              String
-  gpf_cps_pran_no            String
-  emergency_contact_number   String
-  emp_primary_skills         String
-  emp_secondary_skills       String
-  emp_employment_status      String
-  emp_debt_info              emp_debt_info[]
+model Employee {
+  id                    Int                   @id @default(autoincrement())
+  emp_office_details    EmployeeOfficeDetails @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details_id Int
+  emp_basic_details     EmployeeBasicDetails  @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details_id  Int
 }
 
-model EmployeeAddressDetails {
-  id                       Int    @id @default(autoincrement())
-  perm_addr_1              String
-  perm_addr_2              String
-  perm_addr_po             String
-  perm_addr_block_ulb      String
-  perm_addr_vill_town_city String
-  perm_addr_dist           String
-  perm_addr_police_station String
-  temp_addr_1              String
-  temp_addr_2              String
-  temp_addr_po             String
-  temp_addr_block_ulb      String
-  temp_addr_vill_town_city String
-  temp_addr_dist           String
-  temp_addr_ps             String
-  perm_addr_pincode        Int
-  temp_addr_pincode        Int
-}
-
-model emp_debt_info {
-  id              Int      @id @default(autoincrement())
-  employee        employee @relation(fields: [employee_id], references: [id])
-  employee_id     Int
-  name            String
-  designation     String
-  department      String
-  office_code     String
-  ddo_code        String
+model EmployeeOfficeDetails {
+  id              Int        @id @default(autoincrement())
   office_name     String
+  office_code     String
   ddo_designation String
+  ddo_code        String
+  district        String
+  Employee        Employee[]
+}
+
+model EmployeeBasicDetails {
+  id                  Int        @id @default(autoincrement())
+  emp_image           String
+  emp_name            String
+  mode_of_recruitment String // Assuming you want to store it as a string, adjust as needed
+  contact_no          String
+  emg_contact_no      String
+  aadhar_no           Int
+  epic_no             String
+  gender              String // Assuming you want to store it as a string, adjust as needed
+  pran                String
+  emp_type            String // Assuming you want to store it as a string, adjust as needed
+  weight              Float
+  height              Float
+  cps                 String
+  gps                 String
+  dob                 String
+  Employee            Employee[]
 }
 
 //-----------------------------------------------------------------//

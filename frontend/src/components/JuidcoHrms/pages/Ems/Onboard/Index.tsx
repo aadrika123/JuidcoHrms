@@ -23,6 +23,7 @@ import {
 } from "@/utils/types/employee.type";
 import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
+import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -36,7 +37,10 @@ export const EmployeeOnBoard = () => {
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<object>(
-    JSON.parse(sessionStorage.getItem("employeeOnBoardDetails") as string) || {}
+    () =>
+      typeof window !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
+        : {}
   );
 
   console.log(tabIndex, employeeOnBoardDetails, "emp");
@@ -123,6 +127,8 @@ export const EmployeeOnBoard = () => {
             <EmployeeOfficeDetails setData={getStateData} />
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
+          ) : searchParam === "3" ? (
+            <EmpployeePersonalDetails setData={getStateData} />
           ) : (
             <></>
           )}
