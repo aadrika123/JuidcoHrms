@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background-color: white !important;
+}
+
+.flex-all-center {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px;
+}
+
+
+
+table tbody::-webkit-scrollbar {
+  /* Set display to none */
+  display: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
