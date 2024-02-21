@@ -43,12 +43,15 @@ export interface EmployeeOnBoardForm {
   officeDetails: EmployeeOfficeDetaislType;
   EmpBasicDetails: EmployeeDetailsType;
   EmpPersonalDetails: EmployeeDetailsType;
+  EmpAddressDetails: EmployeePresentAddressDetailsType;
+
 }
 
 export type EmployeeOnBoardAllTypes =
   | EmployeeOfficeDetaislType
   | EmployeeDetailsType
-  | EmployeePersonalDetailsType;
+  | EmployeePersonalDetailsType
+  | EmployeePresentAddressDetailsType;
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;
@@ -96,4 +99,19 @@ export interface EmployeePersonalDetailsType {
   emp_family: string | number;
   emp_lang: string | number;
   emp_lang_do: "read" | "write" | "speak";
+}
+
+
+export interface EmployeePresentAddressDetailsType {
+  address_primary: string | number;
+  address_secondary: string | number;
+  village: string;
+  post_office: string;
+  state: string;
+  district: string;
+  block_ulb: string | number;
+  pin_code: string | number;
+  police_station: string;
+  // emp_address_same: "yes" | "no" ;
+
 }

@@ -24,6 +24,8 @@ import {
 import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
+import EmpPresentAddress from "./Forms/EmpPresentAddress";
+import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -129,7 +131,11 @@ export const EmployeeOnBoard = () => {
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
             <EmpployeePersonalDetails setData={getStateData} />
-          ) : (
+          ) : searchParam === "4" ? (
+            <EmpPresentAddress setData={getStateData} />
+          ):  searchParam === "5" ? (
+            <EmpInitialJoinDetails  />
+          ):  (
             <></>
           )}
         </div>

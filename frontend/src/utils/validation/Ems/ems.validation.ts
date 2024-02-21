@@ -2,6 +2,7 @@ import {
   EmployeeDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
+  EmployeePresentAddressDetailsType,
 } from "@/utils/types/employee.type";
 import * as yup from "yup";
 
@@ -105,5 +106,28 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_family: "",
   emp_lang: "",
   emp_lang_do: "read",
+};
+
+
+export const employeePresentAddressValidationSchema = yup.object({
+  address_primary: yup.string().required("Please Enter the Correct Address"),
+  village: yup.string().required("Please Enter the Correct City"),
+  state: yup.string().required("Please Enter the Correct State"),
+  district: yup.string().required("Please Enter the Correct District"),
+  pin_code: yup.string().required("Please Enter the Correct Pin Code"),
+  police_station: yup.string().required("Please Enter the Correct Police Station")
+});
+
+export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType = {
+  address_primary: "",
+  address_secondary: "",
+  village: "",
+  post_office: "",
+  state: "",
+  district: "",
+  block_ulb: "",
+  pin_code: "",
+  police_station: "",
+  // emp_address_same: "yes",
 };
 /// ------------- Employee personal Details ---------------------///

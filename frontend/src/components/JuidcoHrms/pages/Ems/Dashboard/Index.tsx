@@ -1,6 +1,6 @@
 "use client"
 
-import { SubHeading, InnerHeading } from '@/components/Helpers/Heading';
+import { SubHeading, InnerHeading, InnerTextHeading } from '@/components/Helpers/Heading';
 import ReactApexChart from 'react-apexcharts';
 
 
@@ -76,8 +76,6 @@ export const DashboardMain = () => {
 
     };
 
-
-
     return (
         <>
             <SubHeading className='mx-5 my-5 mb-0 text-4xl'>
@@ -85,9 +83,9 @@ export const DashboardMain = () => {
             </SubHeading>
             <div className="w-full flex flex-col sm:flex-row justify-between">
 
-                <div className={`w-full md:w-[43.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
+                <div className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
 
-                    <InnerHeading className='text-red'>
+                    <InnerHeading className='text-xl'>
                         <i>
                             <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
                                 <rect width="39" height="39" rx="11.4169" fill="#12743B" />
@@ -113,17 +111,17 @@ export const DashboardMain = () => {
                             <div className="w-full flex flex-col sm:flex-row justify-between ">
 
                                 <div className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}>
-                                    <span className='text-[#12743B] text-3xl font-bold'>94</span>
-                                    <InnerHeading className="text-center">
+                                    <span className='text-[#12743B] text-3xl font-bold'>90</span>
+                                    <InnerTextHeading className="text-center">
                                         Total No. of Present Employee
-                                    </InnerHeading>
+                                    </InnerTextHeading>
                                 </div>
 
                                 <div className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative`}>
-                                    <span className='text-[#00E640] text-3xl font-bold'>34</span>
-                                    <InnerHeading className="text-center">
-                                        Total No. of Present Employee
-                                    </InnerHeading>
+                                    <span className='text-[#00E640] text-3xl font-bold'>10</span>
+                                    <InnerTextHeading className="text-center">
+                                        Total No. of Absent Employee
+                                    </InnerTextHeading>
                                 </div>
 
                             </div>
@@ -135,8 +133,8 @@ export const DashboardMain = () => {
 
                 </div>
 
-                <div className={`w-full md:w-[43.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
-                    <InnerHeading>
+                <div className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
+                    <InnerHeading className='text-xl'>
                         <i>
                             <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
                                 <rect width="39" height="39" rx="11.4169" fill="#12743B" />
@@ -154,7 +152,7 @@ export const DashboardMain = () => {
 
                 </div>
 
-                <div className={`w-full md:w-[13.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg  }`}>
+                <div className={`w-full md:w-[18.5%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg  }`}>
                     <i>
                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                             <rect width="27" height="27" rx="7.90404" fill="#12743B" />
@@ -166,17 +164,18 @@ export const DashboardMain = () => {
                             <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
                         </div>
                     </i>
-                    <InnerHeading className='mt-5 text-center text-xl text-[#000]'>
-                        See the Log * Activity
+                    <InnerHeading className='mt-5 text-center justify-center text-[22px]'>
+                        See the Log *<br/> Activity
                     </InnerHeading>
 
-                    <h2 className='text-[#00E640] mt-4' >21 Feb - 2024</h2>
+                    <h2 className='text-[#00E640] mt-4' >17 Feb - 2024</h2>
+                    <InnerHeading><b className='text-[#12743B]'>admin - </b>  added a new record</InnerHeading>
+
+                    <h2 className='text-[#00E640] mt-2'>18 Feb - 2024</h2>
                     <InnerHeading><b className='text-[#12743B]'>admin - </b>  added a new record</InnerHeading>
 
                     <h2 className='text-[#00E640] mt-2'>21 Feb - 2024</h2>
                     <InnerHeading><b className='text-[#12743B]'>admin - </b>  added a new record</InnerHeading>
-
-
 
 
                     {/* <div className='h-[12rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-2 py-2 mt-4'>
@@ -187,7 +186,6 @@ export const DashboardMain = () => {
                         <InnerHeading><b className='text-[#12743B]'>admin</b>  added a new record</InnerHeading>
                     </div> */}
                 </div>
-
             </div>
         </>
     )
