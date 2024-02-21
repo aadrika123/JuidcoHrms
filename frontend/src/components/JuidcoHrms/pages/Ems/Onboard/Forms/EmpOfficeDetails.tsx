@@ -31,7 +31,7 @@ const EmployeeOfficeDetails: React.FC<
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("officeDetails", values, tabIndex);
+        props.setData("emp_office_details", values, tabIndex);
       }
       router.push(`${pathName}?page=2`);
     }

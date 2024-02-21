@@ -21,7 +21,7 @@ type Urls = {
 export const HRMS_URL: Urls = {
   EMS: {
     get: "/bank-master/get-all?limit=10",
-    create: "/bank-master/create",
+    create: "/employee/create",
     update: "/bank-master/update",
     getById: "/bank-master/get-by-id",
   },

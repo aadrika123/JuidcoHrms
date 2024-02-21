@@ -40,9 +40,9 @@
 // Common
 
 export interface EmployeeOnBoardForm {
-  officeDetails: EmployeeOfficeDetaislType;
-  EmpBasicDetails: EmployeeDetailsType;
-  EmpPersonalDetails: EmployeeDetailsType;
+  emp_office_details: EmployeeOfficeDetaislType;
+  emp_basic_details: EmployeeDetailsType;
+  emp_personal_details: EmployeeDetailsType;
 }
 
 export type EmployeeOnBoardAllTypes =
@@ -72,6 +72,7 @@ export interface EmployeeDetailsType {
   aadhar_no: number;
   epic_no: string;
   gender: string | number;
+  gender_name?: string | number;
   pran: string;
   emp_type: string | number;
   weight: number;
@@ -95,5 +96,5 @@ export interface EmployeePersonalDetailsType {
   emp_phy_health_type: string | number;
   emp_family: string | number;
   emp_lang: string | number;
-  emp_lang_do: "read" | "write" | "speak";
+  emp_lang_do: ("read" | "write" | "speak")[];
 }

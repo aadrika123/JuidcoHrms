@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import HrmsRoute from "./component/juidcoFinance/router";
+import HrmsRoute from "./component/juidcoPfms/router";
 import cors from "cors";
 
 dotenv.config();

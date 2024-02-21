@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { HRMS_URL } from "@/utils/api/urls";
-import goBack from "@/utils/helper";
+import goBack, { DateFormatter } from "@/utils/helper";
 import { HeaderWidget } from "@/components/Helpers/Widgets/HeaderWidget";
 import EmployeeOfficeDetails from "./Forms/EmpOfficeDetails";
 import {
@@ -24,6 +24,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
+import Button from "@/components/global/atoms/Button";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -36,7 +37,7 @@ export const EmployeeOnBoard = () => {
   const searchParam = useSearchParams().get("page");
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
-  const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<object>(
+  const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
     () =>
       typeof window !== "undefined"
         ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
@@ -53,7 +54,7 @@ export const EmployeeOnBoard = () => {
     values: EmployeeOnBoardAllTypes,
     index?: number
   ) {
-    setEmployeeOnBoardDetails((prev) => ({ ...prev, [key]: values }));
+    setEmployeeOnBoardDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
 
@@ -68,9 +69,10 @@ export const EmployeeOnBoard = () => {
 
   // Add Bank Details
   const createVendorDetails = async (
-    values: VendorDetailsData
-  ): Promise<VendorDetailsData> => {
-    console.log(values, "lolo");
+    values: EmployeeOnBoardForm
+  ): Promise<EmployeeOnBoardForm> => {
+    values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
+
     const res = await axios({
       url: `${HRMS_URL.EMS.create}`,
       method: "POST",
@@ -92,8 +94,6 @@ export const EmployeeOnBoard = () => {
       }, 1000);
     },
   });
-
-  console.log(searchParam, "search");
 
   return (
     <>
@@ -128,7 +128,16 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
-            <EmpployeePersonalDetails setData={getStateData} />
+            <>
+              <EmpployeePersonalDetails setData={getStateData} />
+              <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button>
+            </>
           ) : (
             <></>
           )}
