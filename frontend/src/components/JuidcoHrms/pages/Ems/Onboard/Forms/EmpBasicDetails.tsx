@@ -29,11 +29,11 @@ const EmployeeBasicDetails: React.FC<
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("EmpPersonalDetails", values);
+        props.setData("EmpBasicDetails", values);
       }
       router.push(`${pathName}?page=3`);
     }
@@ -41,8 +41,8 @@ const EmployeeBasicDetails: React.FC<
 
   const initialValues =
     typeof window !== "undefined"
-      ? sessionStorage.getItem("emp_office_details")
-        ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
+      ? sessionStorage.getItem("emp_basic_details")
+        ? JSON.parse(sessionStorage.getItem("emp_basic_details") ?? "{}")
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
@@ -279,7 +279,7 @@ const EmployeeBasicDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>

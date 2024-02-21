@@ -41,6 +41,7 @@
 
 export interface EmployeeOnBoardForm {
   officeDetails: EmployeeOfficeDetaislType;
+  EmpBasicDetails: EmployeeDetailsType;
   EmpPersonalDetails: EmployeeDetailsType;
 }
 

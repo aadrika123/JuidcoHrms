@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Formik } from "formik";
 import type {
@@ -24,31 +24,48 @@ const EmpployeePersonalDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
 
+  const [empLangTypes, setEmpLangTypes] = useState<
+    ("read" | "write" | "speak")[]
+  >([]);
+
+  function updateEmpLangTypes(langType: "read" | "write" | "speak") {
+    setEmpLangTypes((prev) => {
+      // Toggle the value in the array
+      if (prev.includes(langType)) {
+        return prev.filter((lang) => lang !== langType);
+      } else {
+        return [...prev, langType];
+      }
+    });
+  }
   const handleSubmitFormik = (
     values: EmployeePersonalDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("EmpPersonalDetails", values);
+        const val = { ...values, empLangTypes };
+        props.setData("EmpPersonalDetails", val);
       }
-      router.push(`${pathName}?page=3`);
+      router.push(`${pathName}?page=4`);
     }
   };
 
   const initialValues =
     typeof window !== "undefined"
-      ? sessionStorage.getItem("emp_office_details")
-        ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
+      ? sessionStorage.getItem("emp_personal_details")
+        ? JSON.parse(sessionStorage.getItem("emp_personal_details") ?? "{}")
         : initialEmployeePersonalDetails
       : initialEmployeePersonalDetails;
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
+      <SubHeading className="text-[20px] py-4">
+        Employee Personal Details
+      </SubHeading>
       <Formik
         initialValues={initialValues}
         validationSchema={employeePersonalDetailsValidationSchema}
@@ -191,7 +208,7 @@ const EmpployeePersonalDetails: React.FC<
                 touched={touched.emp_phy_health_type}
                 label="Physical Health Type"
                 name="emp_phy_health_type"
-                placeholder={"Enter Physical Health Type"}
+                placeholder={"Select Physical Health Type"}
                 options={[
                   {
                     id: 1,
@@ -212,7 +229,7 @@ const EmpployeePersonalDetails: React.FC<
                 touched={touched.emp_family}
                 label="Family/Guardian*"
                 name="emp_family"
-                placeholder={"Enter Family/Guardian"}
+                placeholder={"Select Family/Guardian"}
                 options={[
                   {
                     id: 1,
@@ -224,6 +241,62 @@ const EmpployeePersonalDetails: React.FC<
                   },
                 ]}
               />
+
+              <SelectForNoApi
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.emp_lang}
+                error={errors.emp_lang}
+                touched={touched.emp_lang}
+                label="Language*"
+                name="emp_lang"
+                placeholder={"Select Language"}
+                options={[
+                  {
+                    id: 1,
+                    name: "hindi",
+                  },
+                  {
+                    id: 2,
+                    name: "english",
+                  },
+                ]}
+              />
+              <div></div>
+              <div className="flex items-center gap-5">
+                <div className="flex items-center">
+                  <input
+                    onChange={() => updateEmpLangTypes("read")}
+                    className={`mr-1 bg-white checkbox border border-zinc-500`}
+                    name={"read"}
+                    id="read"
+                    type="checkbox"
+                  />
+                  <label htmlFor="read">Read</label>
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                    onChange={() => updateEmpLangTypes("write")}
+                    className={`mr-1 bg-white checkbox border border-zinc-500`}
+                    name={"write"}
+                    id="write"
+                    type="checkbox"
+                  />
+                  <label htmlFor="write">Write</label>
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                    onChange={() => updateEmpLangTypes("speak")}
+                    className={`mr-1 bg-white checkbox border border-zinc-500`}
+                    name={"write"}
+                    id="write"
+                    type="checkbox"
+                  />
+                  <label htmlFor="write">Speak</label>
+                </div>
+              </div>
             </div>
 
             <div className="flex items-center justify-end mt-5 gap-5">
