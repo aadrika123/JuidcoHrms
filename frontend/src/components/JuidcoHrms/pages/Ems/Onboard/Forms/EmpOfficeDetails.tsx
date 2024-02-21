@@ -26,16 +26,23 @@ const EmployeeOfficeDetails: React.FC<
     values: EmployeeOfficeDetaislType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    sessionStorage.setItem("emp_office_details", JSON.stringify(values));
-    setSubmitting(false);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      setSubmitting(false);
 
-    props.setData("officeDetails", values, tabIndex);
-    router.push(`${pathName}?page=2`);
+      if (props.setData) {
+        props.setData("officeDetails", values, tabIndex);
+      }
+      router.push(`${pathName}?page=2`);
+    }
   };
 
-  const initialValues = sessionStorage.getItem("emp_office_details")
-    ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
-    : initialOfficeDetails;
+  const initialValues =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("emp_office_details")
+        ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
+        : initialOfficeDetails
+      : initialOfficeDetails;
 
   return (
     <>
@@ -163,7 +170,7 @@ const EmployeeOfficeDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>

@@ -19,7 +19,7 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         // value={props.value}
-        className={`mr-1 bg-white ${props.className}`}
+        className={`mr-1 bg-white ${props.className} checkbox border border-zinc-500`}
         name={props.name}
         id={fieldId}
         type="checkbox"

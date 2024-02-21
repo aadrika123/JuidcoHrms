@@ -23,16 +23,36 @@ const EmployeeBasicDetails: React.FC<
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
+
+  const handleSubmitFormik = (
+    values: EmployeeDetailsType,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
+      setSubmitting(false);
+
+      if (props.setData) {
+        props.setData("EmpBasicDetails", values);
+      }
+      router.push(`${pathName}?page=3`);
+    }
+  };
+
+  const initialValues =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("emp_basic_details")
+        ? JSON.parse(sessionStorage.getItem("emp_basic_details") ?? "{}")
+        : initialEmployeeDetails
+      : initialEmployeeDetails;
+
   return (
     <>
-      <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
+      <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
       <Formik
-        initialValues={initialEmployeeDetails}
+        initialValues={initialValues}
         validationSchema={employeeValidationSchema}
-        onSubmit={(values: EmployeeDetailsType) => {
-          props.setData("EmpPersonalDetails", values);
-          router.push(`${pathName}?page=3`);
-        }}
+        onSubmit={handleSubmitFormik}
       >
         {({
           values,
@@ -259,7 +279,7 @@ const EmployeeBasicDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>
