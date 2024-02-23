@@ -1,3 +1,9 @@
+/**
+ * | Author- Krish
+ * | Created for- Employee OnBoarding
+ * | Status: open
+ */
+
 import { Request, Response } from "express";
 import EmployeeOnBoardDao from "../dao/empOnBoard.dao";
 import { resObj } from "../../../util/types";
@@ -7,11 +13,6 @@ import {
 } from "../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
-/**
- * | Author- Bijoy Paitandi
- * | Created for- ChequeIssuances Controller
- * | Status: open
- */
 
 class EmployeeOnBoardController {
   private employeeOnBoardDao: EmployeeOnBoardDao;
@@ -54,7 +55,6 @@ class EmployeeOnBoardController {
       } else {
         return CommonRes.VALIDATION_ERROR(error, resObj, res);
       }
-
 
       const data = await this.employeeOnBoardDao.store(req);
       return CommonRes.CREATED(
