@@ -25,6 +25,7 @@ import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
+import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -44,7 +45,7 @@ export const EmployeeOnBoard = () => {
         : {}
   );
 
-  console.log(tabIndex, employeeOnBoardDetails, "emp");
+  // console.log(tabIndex, employeeOnBoardDetails, "emp");
 
   // ----------Employee All Detail states------------ //
 
@@ -138,6 +139,8 @@ export const EmployeeOnBoard = () => {
                 Save
               </Button>
             </>
+          ) : searchParam === "4" ? (
+            <EmployeeServiceHistory />
           ) : (
             <></>
           )}
