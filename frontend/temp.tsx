@@ -4,7 +4,9 @@ import Button from "../atoms/Button";
 
 interface COLUMNS<T> {
   HEADER: string;
-  ACCESSOR: T;
+  ACCESSOR: {
+    [key: string]: T;
+  };
   isRequired: boolean;
   sl_no?: boolean;
 }
@@ -35,7 +37,18 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const TableFormContainerTwo: React.FC<TableFormProps> = (props) => {
-  const [tableData, setTableData] = useState([{}]);
+  const [tableData, setTableData] = useState([
+    {
+      sr_no: {
+        from: "",
+        to: "",
+      },
+      dl_no: {
+        from: "",
+        to: "",
+      },
+    },
+  ]);
 
   console.log(tableData);
 
@@ -95,55 +108,54 @@ const TableFormContainerTwo: React.FC<TableFormProps> = (props) => {
                   return (
                     <>
                       <td className="border border-zinc-400 ">
-                        <div className="flex items-center gap-3">
-                          <p>From:</p>
-                          <InputField
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                              onChangeTableDataHandler(
-                                index,
-                                e.target.value,
-                                col.ACCESSOR.from
-                              )
-                            }
-                            value={
-                              col.sl_no
-                                ? index
-                                : (tableData[index] as Record<string, string>)[
-                                    col.ACCESSOR.from
-                                  ] || ""
-                            }
-                            name={col.ACCESSOR.from}
-                            placeholder={"Enter " + col.HEADER}
-                            isRequired={col.isRequired}
-                          />
-                        </div>
+                        {Object.keys(col.ACCESSOR).map((key) => {
+                          return (
+                            <React.Fragment key={key}>
+                              <p>From:</p>
+                              <InputField
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) =>
+                                  onChangeTableDataHandler(
+                                    index,
+                                    e.target.value,
+                                    col.ACCESSOR[key].from
+                                  )
+                                }
+                                value={col.ACCESSOR[key].from}
+                                name={col.ACCESSOR[key].from}
+                                placeholder={"Enter " + col.HEADER}
+                                isRequired={col.isRequired}
+                              />
 
-                        <div className="flex items-center gap-3">
-                          <p>To:</p>
-                          <InputField
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                              onChangeTableDataHandler(
-                                index,
-                                e.target.value,
-                                col.ACCESSOR.to
-                              )
-                            }
-                            value={
-                              col.sl_no
-                                ? index
-                                : (tableData[index] as Record<string, string>)[
-                                    col.ACCESSOR.to
-                                  ] || ""
-                            }
-                            name={col.ACCESSOR.to}
-                            placeholder={"Enter " + col.HEADER}
-                            isRequired={col.isRequired}
-                          />
-                        </div>
+                              <p>To:</p>
+                              <InputField
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) =>
+                                  onChangeTableDataHandler(
+                                    index,
+                                    e.target.value,
+                                    col.ACCESSOR[key].to
+                                  )
+                                }
+                                value={
+                                  col.sl_no
+                                    ? index
+                                    : (
+                                        tableData[index] as Record<
+                                          string,
+                                          string
+                                        >
+                                      )[col.ACCESSOR[key].to] || ""
+                                }
+                                name={col.ACCESSOR[key].to}
+                                placeholder={"Enter " + col.HEADER}
+                                isRequired={col.isRequired}
+                              />
+                            </React.Fragment>
+                          );
+                        })}
                       </td>
                     </>
                   );

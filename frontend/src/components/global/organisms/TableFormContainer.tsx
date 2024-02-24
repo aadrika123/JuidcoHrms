@@ -1,5 +1,11 @@
+/***
+ * Author: Krish
+ * Status: Open
+ * Date: 23/02/2024
+ */
+
 import { SubHeading } from "@/components/Helpers/Heading";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 
 interface COLUMNS {
@@ -15,6 +21,7 @@ interface TableFormProps {
   addRows?: () => void;
   subHeading: string;
   isRequired?: boolean;
+  setData: (key: string, values: any, index?: number | undefined) => void;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -25,7 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
   return (
     <>
       <input
-        className={`w-full h-full p-2 bg-transparent outline-none ${isRequired && "placeholder-red-500"}`}
+        className={`w-full h-full p-2 bg-transparent outline-none ${isRequired && "placeholder-zinc-400"}`}
         type="text"
         {...props}
       />
@@ -35,6 +42,10 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 
 const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState([{}]);
+
+  useEffect(() => {
+    props.setData("emp_inc_details", tableData);
+  }, [tableData]);
 
   function onChangeTableDataHandler(id: number, value: string, key: string) {
     setTableData((prev) => {
@@ -61,7 +72,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   }
 
   const header = (
-    <SubHeading className="text-[18px]">{props.subHeading}</SubHeading>
+    <SubHeading className="text-[17px]">{props.subHeading}</SubHeading>
   );
   return (
     <>
@@ -73,7 +84,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
               <>
                 <th
                   key={index}
-                  className="border border-zinc-400 w-[20%] font-medium"
+                  className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
                 >
                   <div className="flex gap-2">
                     <span>{cols.HEADER}</span>
@@ -102,7 +113,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                           }
                           value={
                             col.sl_no
-                              ? index
+                              ? index + 1
                               : (tableData[index] as Record<string, string>)[
                                   col.ACCESSOR
                                 ] || ""

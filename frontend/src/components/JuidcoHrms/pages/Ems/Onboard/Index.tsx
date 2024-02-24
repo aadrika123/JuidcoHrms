@@ -44,9 +44,6 @@ export const EmployeeOnBoard = () => {
         ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
         : {}
   );
-
-  // console.log(tabIndex, employeeOnBoardDetails, "emp");
-
   // ----------Employee All Detail states------------ //
 
   // ------------------ Functions ------------------//
@@ -140,7 +137,7 @@ export const EmployeeOnBoard = () => {
               </Button>
             </>
           ) : searchParam === "4" ? (
-            <EmployeeServiceHistory />
+            <EmployeeServiceHistory setData={getStateData} />
           ) : (
             <></>
           )}

@@ -1,5 +1,11 @@
 "use client";
 
+/***
+ * Author: Krish
+ * Status: Open
+ * Date: 24/02/2024
+ */
+
 import React, { useState } from "react";
 
 import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
@@ -10,16 +16,18 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
-import TableFormContainerTwo from "@/components/global/organisms/TableFormContainerTwo";
+import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
+import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
 
 const EmployeeServiceHistory: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
+  const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
 
-  const handleSubmitFormik = (
+  const handleSubmitForm = (
     values: EmployeeOfficeDetaislType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
@@ -33,6 +41,8 @@ const EmployeeServiceHistory: React.FC<
       router.push(`${pathName}?page=2`);
     }
   };
+
+  console.log(employeeServiceHistory, "yess");
 
   // ----------------------- TABLE COLUMNS --------------------------------//
 
@@ -79,21 +89,12 @@ const EmployeeServiceHistory: React.FC<
     },
   ];
 
-  const COLUMNS_FOR_EMP_PROM_DET = [
-    {
-      HEADER: "SL. No.",
-      ACCESSOR: {
-        sr_no: {
-          from: "",
-          to: "",
-        },
-      },
-      isRequired: false,
-      sl_no: true,
-    },
-  ];
-
   // ----------------------- TABLE COLUMNS --------------------------------//
+
+  function getStateData(key: string, values: any, index?: number) {
+    setEmloyeeServiceHistory((prev: any) => ({ ...prev, [key]: values }));
+    setTabIndex(index || tabIndex);
+  }
 
   return (
     <>
@@ -102,6 +103,7 @@ const EmployeeServiceHistory: React.FC<
       </SubHeading>
       <div className="">
         <TableFormContainer
+          setData={getStateData}
           columns={COLUMNS_FOR_EMP_INCR_DET}
           getData={[]}
           subHeading={"Employee Increment Details "}
@@ -109,12 +111,8 @@ const EmployeeServiceHistory: React.FC<
       </div>
 
       <div className="">
-        <TableFormContainerTwo
-          columns={COLUMNS_FOR_EMP_PROM_DET}
-          getData={[]}
-          subHeading={"Employee Increment Details "}
-          doubleField={true}
-        />
+        <EmployeePromotionDetailsTable setData={getStateData} />
+        <EmployeeTransferDetailsTable setData={getStateData} />
       </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">
