@@ -4,7 +4,7 @@
  * Date: 23/02/2024
  */
 
-import { SubHeading } from "@/components/Helpers/Heading";
+import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 
@@ -71,9 +71,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     }
   }
 
-  const header = (
-    <SubHeading className="text-[17px]">{props.subHeading}</SubHeading>
-  );
+  const header = <InnerHeading>{props.subHeading}</InnerHeading>;
   return (
     <>
       {header}

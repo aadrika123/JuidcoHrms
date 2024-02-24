@@ -101,7 +101,7 @@ const EmployeeServiceHistory: React.FC<
       <SubHeading className="text-[20px] pt-4">
         Employee Service History{" "}
       </SubHeading>
-      <div className="">
+      <div className="mt-4">
         <TableFormContainer
           setData={getStateData}
           columns={COLUMNS_FOR_EMP_INCR_DET}

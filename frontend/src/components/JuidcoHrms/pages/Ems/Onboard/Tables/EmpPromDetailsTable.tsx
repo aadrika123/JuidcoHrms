@@ -4,7 +4,7 @@
  * Uses: EMployee promotion details is a section of Emp Service details
  */
 
-import { SubHeading } from "@/components/Helpers/Heading";
+import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
 
@@ -153,7 +153,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   }, [tableData]);
 
   const header = (
-    <SubHeading className="text-[17px]">Employee Promotion Details </SubHeading>
+    <InnerHeading>Employee Promotion Details </InnerHeading>
   );
   return (
     <>
