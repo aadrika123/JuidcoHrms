@@ -4,7 +4,7 @@
  * Uses: EMployee promotion details is a section of Emp Service details
  */
 
-import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
+import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
 
