@@ -4,14 +4,22 @@
  * Date: 23/02/2024
  */
 
-import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
+import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 
-interface COLUMNS {
+type OptionProps = {
+  id: number;
+  name: string;
+};
+
+export interface COLUMNS {
   HEADER: string;
   ACCESSOR: string;
   isRequired: boolean;
+  type?: "radio" | "select" | "text";
+  select_options?: OptionProps[];
+  placeholder?: string;
   sl_no?: boolean;
 }
 
@@ -57,6 +65,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     });
   }
 
+  console.log(tableData, "tb data");
+
   function addRow() {
     const lastRow = tableData[tableData.length - 1];
     const isLastRowEmpty =
@@ -70,6 +80,19 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       setTableData((prev) => [...prev, {}]);
     }
   }
+
+  const options = [
+    {
+      key: "yes",
+      value: "Yes",
+    },
+    {
+      key: "no",
+      value: "No",
+    },
+  ];
+
+  console.log(props.columns);
 
   const header = <InnerHeading>{props.subHeading}</InnerHeading>;
   return (
@@ -98,30 +121,97 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
             return (
               <tr key={index} className="border border-zinc-400 text-secondary">
                 {props.columns?.map((col) => {
+                  console.log(col, "type");
                   return (
-                    <>
-                      <td className="border border-zinc-400 ">
-                        <InputField
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            onChangeTableDataHandler(
-                              index,
-                              e.target.value,
-                              col.ACCESSOR
-                            )
-                          }
-                          value={
-                            col.sl_no
-                              ? index + 1
-                              : (tableData[index] as Record<string, string>)[
-                                  col.ACCESSOR
-                                ] || ""
-                          }
-                          name={col.ACCESSOR}
-                          placeholder={"Enter " + col.HEADER}
-                          isRequired={col.isRequired}
-                        />
+                    <React.Fragment key={col.ACCESSOR}>
+                      <td className="border border-zinc-400">
+                        {!col.type ? (
+                          <InputField
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                              onChangeTableDataHandler(
+                                index,
+                                e.target.value,
+                                col.ACCESSOR
+                              )
+                            }
+                            value={
+                              col.sl_no
+                                ? index + 1
+                                : (tableData[index] as Record<string, string>)[
+                                    col.ACCESSOR
+                                  ] || ""
+                            }
+                            name={col.ACCESSOR}
+                            placeholder={"Enter " + col.HEADER}
+                            isRequired={col.isRequired}
+                          />
+                        ) : col.type === "radio" ? (
+                          <div className="flex flex-col gap-3 pl-5 items-start">
+                            {options.map((option) => (
+                              <div
+                                className="flex items-center mr-3 gap-2"
+                                key={option.key}
+                              >
+                                <input
+                                  className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white checked:border-transparent"
+                                  type="radio"
+                                  id={option.value}
+                                  value={option.value}
+                                  onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                  ) =>
+                                    onChangeTableDataHandler(
+                                      index,
+                                      e.target.value,
+                                      col.ACCESSOR
+                                    )
+                                  }
+                                  name={col.ACCESSOR}
+                                />
+                                <label
+                                  className="text-secondary text-sm"
+                                  htmlFor={option.value}
+                                >
+                                  {option.key}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        ) : col.type === "select" ? (
+                          <select
+                            onChange={(
+                              e: React.ChangeEvent<HTMLSelectElement>
+                            ) =>
+                              onChangeTableDataHandler(
+                                index,
+                                e.target.value,
+                                col.ACCESSOR
+                              )
+                            }
+                            value={
+                              (tableData[index] as Record<string, string>)?.[
+                                col.ACCESSOR
+                              ]
+                            }
+                            name={col.ACCESSOR}
+                            className={`text-primary h-[40px] pl-3 rounded-lg border bg-transparent border-zinc-400`}
+                          >
+                            <option selected value="">
+                              {col.placeholder}
+                            </option>
+                            {col?.select_options?.map((d: OptionProps) => (
+                              <option key={d?.id} value={d?.id}>
+                                {d?.name}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <></>
+                        )}
                       </td>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </tr>

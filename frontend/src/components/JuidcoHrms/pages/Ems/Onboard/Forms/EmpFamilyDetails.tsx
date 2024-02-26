@@ -13,7 +13,7 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import { usePathname, useRouter } from "next/navigation";
-import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
+
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
@@ -42,55 +42,53 @@ const EmployeeServiceHistory: React.FC<
     }
   };
 
-  console.log(employeeServiceHistory, "yess");
-
   // ----------------------- TABLE COLUMNS --------------------------------//
 
-  const COLUMNS_FOR_EMP_INCR_DET: COLUMNS[] = [
-    {
-      HEADER: "SL. No.",
-      ACCESSOR: "sl_no",
-      isRequired: false,
-      sl_no: true,
-    },
-    {
-      HEADER: "Scale",
-      ACCESSOR: "scale",
-      isRequired: true,
-    },
+  // const COLUMNS_FOR_EMP_INCR_DET = [
+  //   {
+  //     HEADER: "SL. No.",
+  //     ACCESSOR: "sl_no",
+  //     isRequired: false,
+  //     sl_no: true,
+  //   },
+  //   // {
+  //   //   HEADER: "Scale",
+  //   //   ACCESSOR: "scale",
+  //   //   // isRequired: true,
+  //   //   type: "radio",
+  //   // },
 
-    {
-      HEADER: "Increment Date",
-      ACCESSOR: "increment_date",
-      isRequired: true,
-    },
+  //   {
+  //     HEADER: "Increment Date",
+  //     ACCESSOR: "increment_date",
+  //     isRequired: true,
+  //   },
 
-    {
-      HEADER: "Increment Amount",
-      ACCESSOR: "increment_amount",
-      isRequired: true,
-    },
+  //   {
+  //     HEADER: "Increment Amount",
+  //     ACCESSOR: "increment_amount",
+  //     isRequired: true,
+  //   },
 
-    {
-      HEADER: "Basic Pay After Increment",
-      ACCESSOR: "basic_pay_increment",
-      isRequired: true,
-    },
+  //   {
+  //     HEADER: "Basic Pay After Increment",
+  //     ACCESSOR: "basic_pay_increment",
+  //     isRequired: true,
+  //   },
 
-    {
-      HEADER: "Vide Order No.",
-      ACCESSOR: "vide_order_no",
-      isRequired: true,
-    },
-    {
-      HEADER: "Vide Order Date",
-      ACCESSOR: "vide_order_date",
-      isRequired: true,
-    },
-  ];
+  //   {
+  //     HEADER: "Vide Order No.",
+  //     ACCESSOR: "vide_order_no",
+  //     isRequired: true,
+  //   },
+  //   {
+  //     HEADER: "Vide Order Date",
+  //     ACCESSOR: "vide_order_date",
+  //     isRequired: true,
+  //   },
+  // ];
 
   // ----------------------- TABLE COLUMNS --------------------------------//
-
   function getStateData(key: string, values: any, index?: number) {
     setEmloyeeServiceHistory((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
