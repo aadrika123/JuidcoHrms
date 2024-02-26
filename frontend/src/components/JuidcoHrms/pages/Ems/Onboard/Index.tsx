@@ -26,6 +26,7 @@ import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
 import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -62,6 +63,7 @@ export const EmployeeOnBoard = () => {
       JSON.stringify(employeeOnBoardDetails)
     );
   }, [employeeOnBoardDetails]);
+  console.log(employeeOnBoardDetails, "index");
 
   // ------------------ Functions ------------------//
 
@@ -138,6 +140,8 @@ export const EmployeeOnBoard = () => {
             </>
           ) : searchParam === "4" ? (
             <EmployeeServiceHistory setData={getStateData} />
+          ) : searchParam === "5" ? (
+            <EmployeeFamilyDetails setData={getStateData} />
           ) : (
             <></>
           )}

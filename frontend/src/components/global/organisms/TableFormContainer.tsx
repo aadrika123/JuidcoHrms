@@ -1,3 +1,5 @@
+"use client";
+
 /***
  * Author: Krish
  * Status: Open
@@ -27,6 +29,7 @@ interface TableFormProps {
   columns: COLUMNS[];
   getData: [];
   addRows?: () => void;
+  session_key: string;
   subHeading: string;
   isRequired?: boolean;
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -52,11 +55,24 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState([{}]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedData = sessionStorage.getItem(`${props.session_key}`);
+      setTableData(storedData ? JSON.parse(storedData) : [{}]);
+    }
+  }, [props.session_key]);
+
+  function setDataSesson() {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(`${props.session_key}`, JSON.stringify(tableData));
+    }
+  }
+
+  useEffect(() => {
     props.setData("emp_inc_details", tableData);
   }, [tableData]);
 
   function onChangeTableDataHandler(id: number, value: string, key: string) {
-    setTableData((prev) => {
+    setTableData((prev: any) => {
       const updatedData = [...prev];
       const row: any = { ...updatedData[id] };
       row[key as keyof typeof row] = value;
@@ -65,9 +81,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     });
   }
 
-  console.log(tableData, "tb data");
-
   function addRow() {
+    setDataSesson();
     const lastRow = tableData[tableData.length - 1];
     const isLastRowEmpty =
       Object.keys(lastRow).length === 0 ||
@@ -77,7 +92,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       );
 
     if (!isLastRowEmpty) {
-      setTableData((prev) => [...prev, {}]);
+      setTableData((prev: any) => [...prev, {}]);
     }
   }
 
@@ -91,8 +106,6 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       value: "No",
     },
   ];
-
-  console.log(props.columns);
 
   const header = <InnerHeading>{props.subHeading}</InnerHeading>;
   return (
@@ -117,11 +130,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
         </thead>
 
         <tbody>
-          {tableData?.map((row, index: number) => {
+          {tableData?.map((row: any, index: number) => {
             return (
               <tr key={index} className="border border-zinc-400 text-secondary">
                 {props.columns?.map((col) => {
-                  console.log(col, "type");
                   return (
                     <React.Fragment key={col.ACCESSOR}>
                       <td className="border border-zinc-400">
@@ -155,24 +167,26 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                 key={option.key}
                               >
                                 <input
-                                  className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white checked:border-transparent"
+                                  className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
                                   type="radio"
                                   id={option.value}
                                   value={option.value}
-                                  onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>
-                                  ) =>
+                                  onChange={() =>
                                     onChangeTableDataHandler(
                                       index,
-                                      e.target.value,
+                                      option.value,
                                       col.ACCESSOR
                                     )
                                   }
-                                  name={col.ACCESSOR}
+                                  checked={
+                                    (
+                                      tableData[index] as Record<string, string>
+                                    )?.[col.ACCESSOR] === option.value
+                                  }
                                 />
                                 <label
                                   className="text-secondary text-sm"
-                                  htmlFor={option.value}
+                                  htmlFor={option.key}
                                 >
                                   {option.key}
                                 </label>
