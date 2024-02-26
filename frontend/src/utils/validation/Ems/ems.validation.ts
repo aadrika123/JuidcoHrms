@@ -3,6 +3,8 @@ import {
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
   EmployeePresentAddressDetailsType,
+  EmployeeJoinDetailsType,
+  EmployeeLoanDetailsType
 } from "@/utils/types/employee.type";
 import * as yup from "yup";
 
@@ -115,7 +117,8 @@ export const employeePresentAddressValidationSchema = yup.object({
   state: yup.string().required("Please Enter the Correct State"),
   district: yup.string().required("Please Enter the Correct District"),
   pin_code: yup.string().required("Please Enter the Correct Pin Code"),
-  police_station: yup.string().required("Please Enter the Correct Police Station")
+  police_station: yup.string().required("Please Enter the Correct Police Station"),
+  emp_address_same:yup.string().required("Please Choose Correct Option")
 });
 
 export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType = {
@@ -128,6 +131,74 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType = 
   block_ulb: "",
   pin_code: "",
   police_station: "",
-  // emp_address_same: "yes",
+  emp_address_same: "yes",
+};
+
+
+export const employeeJoinValidationSchema = yup.object({
+  department: yup.string().required("Please Enter the Correct Department"),
+  designation: yup.string().required("Please Enter the Correct Designation"),
+  task: yup.string().required("Please Choose Correct Task"),
+  doj: yup.string().required("Please Enter the Correct Date Of Joining"),
+  effective_pay_commision: yup.string().required("Please Choose the Correct Pay Commission"),
+  pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
+  pay_band: yup.string().required("Please Enter the Correct Pay Band"),
+  grade_pay: yup.string().required("Please Enter the Correct Grade Pay"),
+  basic_pay: yup.string().required("Please Enter the Correct Basic Pay"),
+  deduction_type:yup.string().required("Please Enter the Correct Deduction Type (GPF/CPS)"), 
+  confirmation_order: yup.string().oneOf(["yes", "no"]).required("Please Choose the Correct Option"),
+});
+
+export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
+  department: "",
+  designation: "",
+  task: "",
+  class: "",
+  doj: "",
+  effective_pay_commision: "",
+  confirmation_order: "",
+  pay_scale:"",
+  pay_band:"",
+  grade_pay:"",
+  doc:"",
+  basic_pay:"",
+  conf_order_number:"",
+  deduction_type:"",
+  conf_order_date:"",
+  member_gis: "yes",
+  appoint_authority:"",
+  gis_account:"",
+  ulb:"",
+  last_inc_order:"",
+  name_of_service:"",
+  last_inc_order_date:"",
+  bank_name:"",
+  wef_date:"",
+  branch_name:"",
+  pf_category:"",
+  acc_number:"",
+  ifsc:"",
+  sen_grade_list: "",
+};
+
+
+export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
+  loan_name: "",
+  loan_account_num: "",
+  sanc_order_num: "",
+  dos: "",
+  san_authority: "",
+  dod: "",
+  dis_treasury_name: "",
+  voucher_date: "",
+  treasury_voc_num: "",
+  loan_name_principal:"",
+  tot_amt_released:"",
+  total_install: "",
+  monthly_install: "",
+  last_paid_install: "",
+  month_last_install: "",
+  total_amnt: "",
+ 
 };
 /// ------------- Employee personal Details ---------------------///

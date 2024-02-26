@@ -11,11 +11,14 @@ datasource db {
 // Author: Krish
 // status: Open
 model Employee {
-  id                    Int                   @id @default(autoincrement())
-  emp_office_details    EmployeeOfficeDetails @relation(fields: [emp_office_details_id], references: [id])
-  emp_office_details_id Int
-  emp_basic_details     EmployeeBasicDetails  @relation(fields: [emp_basic_details_id], references: [id])
-  emp_basic_details_id  Int
+  id                      Int                     @id @default(autoincrement())
+  emp_id                  String
+  emp_office_details      EmployeeOfficeDetails   @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details_id   Int
+  emp_basic_details       EmployeeBasicDetails    @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details_id    Int
+  emp_personal_details    EmployeePersonalDetails @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details_id Int
 }
 
 model EmployeeOfficeDetails {
@@ -30,22 +33,42 @@ model EmployeeOfficeDetails {
 
 model EmployeeBasicDetails {
   id                  Int        @id @default(autoincrement())
+  emp_id              String
   emp_image           String
   emp_name            String
   mode_of_recruitment String // Assuming you want to store it as a string, adjust as needed
   contact_no          String
   emg_contact_no      String
-  aadhar_no           Int
+  aadhar_no           BigInt
   epic_no             String
-  gender              String // Assuming you want to store it as a string, adjust as needed
+  gender              Int // Assuming you want to store it as a string, adjust as needed
   pran                String
-  emp_type            String // Assuming you want to store it as a string, adjust as needed
+  emp_type            Int // Assuming you want to store it as a string, adjust as needed
   weight              Float
   height              Float
-  cps                 String
-  gps                 String
-  dob                 String
+  cps                 BigInt
+  gps                 BigInt
+  dob                 DateTime
   Employee            Employee[]
+}
+
+model EmployeePersonalDetails {
+  id                          Int        @id @default(autoincrement())
+  married_status              Int
+  identification_marks        String
+  religion                    Int
+  emp_categories              Int
+  emp_home_state              String
+  emp_district                String
+  emp_blood_group             Int
+  emp_health_status           Int
+  emp_ltc_home_town           String
+  emp_nearest_railway_station String
+  emp_phy_health_type         Int
+  emp_family                  Int
+  emp_lang                    Int
+  emp_lang_do                 String
+  Employee                    Employee[]
 }
 
 //-----------------------------------------------------------------//

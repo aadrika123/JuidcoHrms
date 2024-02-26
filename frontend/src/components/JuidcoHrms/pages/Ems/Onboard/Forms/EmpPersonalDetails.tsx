@@ -47,8 +47,7 @@ const EmpployeePersonalDetails: React.FC<
       setSubmitting(false);
 
       if (props.setData) {
-        const val = { ...values, empLangTypes };
-        props.setData("EmpPersonalDetails", val);
+        props.setData("emp_personal_details", values);
       }
       router.push(`${pathName}?page=4`);
     }

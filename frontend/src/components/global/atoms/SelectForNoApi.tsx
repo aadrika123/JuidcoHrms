@@ -9,11 +9,11 @@ import { useField } from "formik";
  */
 
 interface Option {
-    id: number;
-    name?: string;
-    type?: string;
-    code?: string;
-  }
+  id: number;
+  name?: string;
+  type?: string;
+  code?: string;
+}
 
 interface SelectProps {
   label: string;
@@ -30,23 +30,22 @@ interface SelectProps {
   onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void;
 }
 
-
-
 const SelectForNoApi: React.FC<SelectProps> = (props) => {
   const [, , helpers] = useField(props.name);
-  const [, , helpers1] = useField(`${props.name}_name`);
- 
-  const { setValue } = helpers;
-  const { setValue: setValue1 } = helpers1;
+  // const [, , helpers1] = useField(`${props.name}_name`);
 
+  const { setValue } = helpers;
+  // const { setValue: setValue1 } = helpers1;
 
   const fieldId = "id_" + props.name;
 
-  const handleChange = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setValue(parseInt(e.target.value))
-    const selectedOption = e.target.options[e.target.selectedIndex].dataset;
-    setValue1(selectedOption.name);
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(parseInt(e.target.value));
+    // const selectedOption = e.target.options[e.target.selectedIndex].dataset;
+    // setValue1(selectedOption.name);
+  };
+
+  console.log(props.value, "val");
 
   return (
     <>
@@ -63,9 +62,15 @@ const SelectForNoApi: React.FC<SelectProps> = (props) => {
           name={props.name}
           id={fieldId}
         >
-          <option selected value="">{props.placeholder}</option>
+          <option selected value="">
+            {props.placeholder}
+          </option>
           {props?.options.map((d: Option) => (
-            <option key={d?.id} value={d?.id} data-name={d?.name || d?.type || d?.code}>
+            <option
+              key={d?.id}
+              value={d?.id}
+              data-name={d?.name || d?.type || d?.code}
+            >
               {d?.name || d?.type || d?.code}
             </option>
           ))}

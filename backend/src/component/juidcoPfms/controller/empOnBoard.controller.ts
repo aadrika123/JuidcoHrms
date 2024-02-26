@@ -1,106 +1,72 @@
-import { Request } from "express";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { generateRes } from "../../../../util/generateRes";
+import { Request, Response } from "express";
+import EmployeeOnBoardDao from "../dao/empOnBoard.dao";
+import { resObj } from "../../../util/types";
 import {
-  multiRequestData,
-  requestData,
-} from "../../requests/transactions/billInvoicesValidation";
+  employeeDetailsSchema,
+  employeeOfficeDetailsSchema,
+} from "../requests/ems/emp_pers_details.validation";
+import CommonRes from "../../../util/helper/commonResponse";
+import { resMessage } from "../../../util/common";
+/**
+ * | Author- Bijoy Paitandi
+ * | Created for- ChequeIssuances Controller
+ * | Status: open
+ */
 
-const prisma = new PrismaClient();
-
-class BillInvoicesDao {
+class EmployeeOnBoardController {
+  private employeeOnBoardDao: EmployeeOnBoardDao;
+  private initMesg: string;
   constructor() {
-    //////
+    this.employeeOnBoardDao = new EmployeeOnBoardDao();
+    this.initMesg = "Employee OnBoard";
   }
 
-  // store
-  store = async (req: Request) => {
-    return await prisma.bill_invoices.createMany({
-      data: multiRequestData(req),
-    });
-  };
-
-  // Get limited bill invoices
-  get = async (req: Request) => {
-    const page: number = Number(req.query.page);
-    const limit: number = Number(req.query.limit);
-    const search: string = String(req.query.search);
-
-    const query: Prisma.bill_invoicesFindManyArgs = {
-      skip: (page - 1) * limit,
-      take: limit,
-      select: {
-        id: true,
-        bill_no: true,
-        vendor: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        department: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-
-        bill_date: true,
-        entry_date: true,
-        bill_stage: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        type: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        address: true,
-        amount: true,
-        narration: true,
-        admin_ward: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        is_authorized: true,
-      },
+  // Create
+  create = async (
+    req: Request,
+    res: Response,
+    apiId: string
+  ): Promise<Response> => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
     };
+    try {
+      const { error } = employeeOfficeDetailsSchema.validate(
+        req.body.emp_office_details
+      );
 
-    if (search !== "undefined" && search !== "") {
-      query.where = {
-        OR: [
-          {
-            vendor: {
-              name: {
-                contains: search,
-                mode: "insensitive",
-              },
-            },
-          },
-          {
-            department: {
-              name: {
-                contains: search,
-                mode: "insensitive",
-              },
-            },
-          },
-        ],
-      };
+      if (!error) {
+        const { error } = employeeDetailsSchema.validate(
+          req.body.emp_basic_details
+        );
+        if (!error) {
+          const { error } = employeeDetailsSchema.validate(
+            req.body.emp_basic_details
+          );
+          if (error) {
+            return CommonRes.VALIDATION_ERROR(error, resObj, res);
+          }
+        } else {
+          return CommonRes.VALIDATION_ERROR(error, resObj, res);
+        }
+      } else {
+        return CommonRes.VALIDATION_ERROR(error, resObj, res);
+      }
+
+
+      const data = await this.employeeOnBoardDao.store(req);
+      return CommonRes.CREATED(
+        resMessage(this.initMesg).CREATED,
+        data,
+        resObj,
+        res
+      );
+    } catch (error: any) {
+      return CommonRes.SERVER_ERROR(error, resObj, res);
     }
-
-    const [data, count] = await prisma.$transaction([
-      prisma.bill_invoices.findMany(query),
-      prisma.bill_invoices.count({ where: query.where }),
-    ]);
-    return generateRes(data, count, page, limit);
   };
 }
 
-export default BillInvoicesDao;
+export default EmployeeOnBoardController;

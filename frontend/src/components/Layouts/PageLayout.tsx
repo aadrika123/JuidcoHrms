@@ -13,7 +13,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           <Sidebar className="col-span-2 border-r border-[#12743B] rounded-tr-2xl w-full min-h-screen " />
           <div className="col-span-8">
             <Header className="border-b border-b-[#12743B] w-full h-[6.5rem] flex items-center justify-between px-5 " />
-            <section className="p-8 h-screen bg-[#f3f9f2]">{children}</section>
+            <section className="p-8 h-screen bg-[#f3f9f2] ">{children}</section>
           </div>
         </div>
       </main>

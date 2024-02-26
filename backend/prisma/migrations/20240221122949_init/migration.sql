@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "EmployeeBasicDetails" ALTER COLUMN "cps" SET DATA TYPE BIGINT,
+ALTER COLUMN "gps" SET DATA TYPE BIGINT;

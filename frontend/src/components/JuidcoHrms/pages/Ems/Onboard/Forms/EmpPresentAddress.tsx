@@ -17,37 +17,27 @@ const EmpPresentAddress: React.FC<
   const pathName = usePathname();
   const router = useRouter();
 
-  // const [empLangTypes, setEmpLangTypes] = useState<
-  //   ("read" | "write" | "speak")[]
-  // >([]);
+  const [confirmationOrder, setConfirmationOrder] = useState('');
 
-  // function updateEmpLangTypes(langType: "read" | "write" | "speak") {
-  //   setEmpLangTypes((prev) => {
-  //     // Toggle the value in the array
-  //     if (prev.includes(langType)) {
-  //       return prev.filter((lang) => lang !== langType);
-  //     } else {
-  //       return [...prev, langType];
-  //     }
-  //   });
-  // }
-
-  const updateEmpLangTypes = ()=>{
-
-  }
+  const updateConfirmationOrder = (value: string) => {
+      setConfirmationOrder(value);
+    };
 
   const handleSubmitFormik = (
     values: EmployeePresentAddressDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_address_details", JSON.stringify(values));
+      const formData = { ...values, emp_address_same: confirmationOrder};
+
+      sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
       setSubmitting(false);
+
       if (props.setData) {
-        props.setData("EmpAddressDetails", values);
+          props.setData("emp_address_details", formData);
       }
       router.push(`${pathName}?page=5`);
-    }
+  }
   };
 
   const initialValues =
@@ -167,19 +157,19 @@ const EmpPresentAddress: React.FC<
               <div className="flex items-center gap-5">
                 <div className="flex items-center">
                   <input
-                    onChange={() => updateEmpLangTypes()}
+                    onChange={() => updateConfirmationOrder('yes')}
+                    checked={confirmationOrder === 'yes'}
                     className={`mr-1 bg-white checkbox border border-zinc-500`}
-                    name={"read"}
-                    id="read"
+                    id="yes"
+                    name="emp_address_same"
                     type="checkbox"
                   />
-                  <label htmlFor="">If Present & Permanent Address are not same*</label>
+                  <label htmlFor="">If Present & Permanent Address are not same</label>
                 </div>
-
-                
+                {/* {touched.emp_address_same && errors.emp_address_same && (
+                 <div className="text-red-500 text-md block">{errors.emp_address_same}</div>
+                 )}    */}
               </div>
-  
-             
             </div>
 
             <div className="flex items-center justify-end mt-5 gap-5">

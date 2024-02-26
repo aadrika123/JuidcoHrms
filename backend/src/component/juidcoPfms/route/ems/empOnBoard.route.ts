@@ -1,22 +1,26 @@
 "use strict";
 
-
+import express, { Request, Response } from "express";
+import { baseUrl } from "../../../../util/common";
+import EmployeeOnBoardController from "../../controller/empOnBoard.controller";
 
 /**
- * | Route - 11
+ * | Route - 01
  */
 
-class AdministrativeWardRoute {
-  private administrativeWardController: AdministrativeWardController;
+class EmployeeOnBoardRoute {
+  private employeeOnBoardController: EmployeeOnBoardController;
   constructor() {
-    this.administrativeWardController = new AdministrativeWardController();
+    this.employeeOnBoardController = new EmployeeOnBoardController();
   }
 
   configure(app: express.Application): void {
     app
-      .route(`${baseUrl}/adminis-ward/get`)
-      .get(this.administrativeWardController.getAdministrativeWards); //1101
+      .route(`${baseUrl}/employee/create`)
+      .post((req: Request, res: Response) =>
+        this.employeeOnBoardController.create(req, res, "0101")
+      ); //1101
   }
 }
 
-export default AdministrativeWardRoute;
+export default EmployeeOnBoardRoute;

@@ -33,7 +33,7 @@ const EmployeeBasicDetails: React.FC<
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("EmpBasicDetails", values);
+        props.setData("emp_basic_details", values);
       }
       router.push(`${pathName}?page=3`);
     }
@@ -113,7 +113,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Contact No.*"
                 name="contact_no"
                 placeholder={"Enter Contact No."}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -124,7 +123,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Emergency Contact No.*"
                 name="emg_contact_no"
                 placeholder={"Enter Emergency Contact Number"}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -135,7 +133,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Aadhar Card No.*"
                 name="aadhar_no"
                 placeholder={"Enter Aadhar Card No."}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -146,7 +143,6 @@ const EmployeeBasicDetails: React.FC<
                 label="EPIC No.*"
                 name="epic_no"
                 placeholder={"Enter EPIC Number"}
-                type="number"
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -177,7 +173,6 @@ const EmployeeBasicDetails: React.FC<
                 label="PRAN*"
                 name="pran"
                 placeholder={"Enter PRAN"}
-                type="number"
               />
               <SelectForNoApi
                 onChange={handleChange}
