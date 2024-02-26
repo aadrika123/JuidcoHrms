@@ -10,28 +10,28 @@ datasource db {
 //-----------------------------------------------------------------//
 // Author: Krish
 // status: Open
-model Employee {
+model employees {
   id                      Int                     @id @default(autoincrement())
   emp_id                  String
-  emp_office_details      EmployeeOfficeDetails   @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details      employee_office_details   @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
-  emp_basic_details       EmployeeBasicDetails    @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details       employee_basic_details    @relation(fields: [emp_basic_details_id], references: [id])
   emp_basic_details_id    Int
-  emp_personal_details    EmployeePersonalDetails @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details    employee_personal_details @relation(fields: [emp_personal_details_id], references: [id])
   emp_personal_details_id Int
 }
 
-model EmployeeOfficeDetails {
+model employee_office_details {
   id              Int        @id @default(autoincrement())
   office_name     String
   office_code     String
   ddo_designation String
   ddo_code        String
   district        String
-  Employee        Employee[]
+  Employee        employees[]
 }
 
-model EmployeeBasicDetails {
+model employee_basic_details {
   id                  Int        @id @default(autoincrement())
   emp_id              String
   emp_image           String
@@ -49,10 +49,10 @@ model EmployeeBasicDetails {
   cps                 BigInt
   gps                 BigInt
   dob                 DateTime
-  Employee            Employee[]
+  Employee            employees[]
 }
 
-model EmployeePersonalDetails {
+model employee_personal_details {
   id                          Int        @id @default(autoincrement())
   married_status              Int
   identification_marks        String
@@ -68,7 +68,7 @@ model EmployeePersonalDetails {
   emp_family                  Int
   emp_lang                    Int
   emp_lang_do                 String
-  Employee                    Employee[]
+  Employee                    employees[]
 }
 
 //-----------------------------------------------------------------//

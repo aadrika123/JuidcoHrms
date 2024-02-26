@@ -29,6 +29,7 @@ import EmpPresentAddress from "./Forms/EmpPresentAddress";
 import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
 import EmpEducationDetails from "./Forms/EmpEducationDetails";
 import EmpLoanDetails from "./Forms/EmpLoanDetails";
+import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -47,9 +48,6 @@ export const EmployeeOnBoard = () => {
         ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
         : {}
   );
-
-  console.log(tabIndex, employeeOnBoardDetails, "emp");
-
   // ----------Employee All Detail states------------ //
 
   // ------------------ Functions ------------------//
@@ -150,6 +148,8 @@ export const EmployeeOnBoard = () => {
             </>
           ) : searchParam === "7" ? (
             <EmpLoanDetails setData={getStateData} />
+          ) : searchParam === "4" ? (
+            <EmployeeServiceHistory setData={getStateData} />
           ) : (
             <></>
           )}

@@ -45,15 +45,20 @@ const EmpLoanDetails: React.FC<
     const [innerTabIndex, setInnerTabIndex] = useState<number>(1);
 
     const [additionalForms, setAdditionalForms] = useState<Array<number>>([1]);
+    const [additionalForms2, setAdditionalForms2] = useState<Array<number>>([1]);
 
     const handleAddMore = () => {
         setAdditionalForms((prevForms) => [...prevForms, prevForms.length + 1]);
     };
 
+    const handleAddMoreRecovery = () => {
+        setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
+    };
+
     return (
         <>
             <SubHeading className="text-[20px] py-4">
-                Employee Initial Joining Details
+              Employee Loan & Advance Information           
             </SubHeading>
 
             <Formik
@@ -100,26 +105,8 @@ const EmpLoanDetails: React.FC<
                             </div>
                         </div>
 
-                        {additionalForms.map((formIndex) => (
-                            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-
-                                <SelectForNoApi
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.loan_name}
-                                    label="Loan Name"
-                                    name="loan_name"
-                                    placeholder={"Please Select"}
-                                    options={[
-                                        { id: 1, name: "loan 1" },
-                                        { id: 2, name: "loan 2" },
-                                    ]}
-                                />
-                            </div>
-                        ))}
-
-                        {tabIndex === 1 && (
-                            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
+                        {tabIndex === 1 && additionalForms.map((formIndex, arrayIndex) => (
+                            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4 ">
 
                                 <SelectForNoApi
                                     onChange={handleChange}
@@ -197,22 +184,17 @@ const EmpLoanDetails: React.FC<
                                     placeholder="Enter Treasury Voucher Number"
                                     name="treasury_voc_num"
                                 />
-                                {/* <div className="flex items-center justify-end mt-5 gap-5">
-                                <PrimaryButton variant="primary">
-                                    +Add More
-                                </PrimaryButton>
-                                </div> */}
-                                <div className="flex items-center justify-end mt-5 gap-5">
-                                    <PrimaryButton buttonType="button" onClick={handleAddMore} variant="primary">
-                                        +Add More
-                                    </PrimaryButton>
-                                </div>
-
-
+                                {arrayIndex === additionalForms.length - 1 && (
+                                    <div className="flex items-center justify-end mt-5 gap-5">
+                                        <PrimaryButton buttonType="button" onClick={handleAddMore} variant="primary">
+                                            +Add More
+                                        </PrimaryButton>
+                                    </div>
+                                )}
                             </div>
-                        )}
+                        ))}
 
-                        {tabIndex === 2 && (
+                        {tabIndex === 2 && additionalForms2.map((formIndex, arrayIndexRec) => (
                             <>
                                 <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
                                     <div className="flex-all-center">
@@ -374,9 +356,20 @@ const EmpLoanDetails: React.FC<
                                             name="total_amnt_recovery"
                                         />
                                     </div>
+
+
+
+                                )}
+
+                                {arrayIndexRec === additionalForms2.length - 1 && (
+                                    <div className="flex items-center justify-end mt-5 gap-5">
+                                        <PrimaryButton buttonType="button" onClick={handleAddMoreRecovery} variant="primary">
+                                            +Add More
+                                        </PrimaryButton>
+                                    </div>
                                 )}
                             </>
-                        )}
+                        ))}
 
                         <div className="flex items-center justify-end mt-5 gap-5">
                             <PrimaryButton

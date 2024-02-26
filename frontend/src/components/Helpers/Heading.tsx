@@ -18,6 +18,7 @@ export const SubHeading: React.FC<HeadingProps> = (props) => {
 export const InnerHeading: React.FC<HeadingProps> = (props) => {
   return (
     <h3
+      className={`text-secondary text-xl flex items-center gap-2 ${props.className}`}
       className={`flex items-center gap-2 text-black-100  ${props.className}`}
     >
       {props.children}
