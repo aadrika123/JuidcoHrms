@@ -1,4 +1,5 @@
 import express from "express";
+import EmployeeOnBoardRoute from "./route/ems/empOnBoard.route";
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,11 +17,11 @@ import express from "express";
  */
 
 class HrmsRoute {
-
+  private employeeOnBoardRoute: EmployeeOnBoardRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
-    // this.chequebookEntryRoute = new ChequeBookEntryRoute();
-    // this.chequebookEntryRoute.configure(app); // 08
+    this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
+    this.employeeOnBoardRoute.configure(app); // 08
   }
 }
 

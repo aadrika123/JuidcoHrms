@@ -1,3 +1,9 @@
+/***
+ * Author: Krish
+ * Status: Closed
+ * Date: 21/02/2024
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -31,7 +37,7 @@ const EmployeeOfficeDetails: React.FC<
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("officeDetails", values, tabIndex);
+        props.setData("emp_office_details", values, tabIndex);
       }
       router.push(`${pathName}?page=2`);
     }
@@ -170,7 +176,7 @@ const EmployeeOfficeDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>

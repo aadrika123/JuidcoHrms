@@ -1,84 +1,114 @@
-type Gender = "Male" | "Female" | "Other";
-type RecruitmentMode = "Direct" | "Promotion" | "Contractual";
-type EmployeeType = "Permanent" | "Temporary" | "Contractual";
-
 /**
  * Author : Krish
  * use case: defined types for employee details, used by EMS.
  * status: Open
  */
-export interface Employee {
-  id?: string;
-  name: string;
-  dob: Date;
-  father_nm: string;
-  mother_nm: string;
-  spouse_nm?: string;
-  gender: Gender;
-  marital_status: string;
-  identification_mark_status: string;
-  height: number;
-  weight: number;
-  category: string;
-  physically_handicapped: boolean;
-  religion: string;
-  mobile_number: string;
-  email_id: string;
-  blood_group: string;
-  home_state: string;
-  home_district: string;
-  ltc_home_town: string;
-  nearest_railway_station: string;
-  health_status: string;
-  ph_type: string;
-  adhar_card_no: string;
-  voter_id_card: string;
-  mode_of_recruitment: RecruitmentMode;
-  employee_type: EmployeeType;
-  gpf_cps_pran_no: string;
-  emergency_contact_number: string;
-  emp_primary_skills: string;
-  emp_secondary_skills: string;
-  emp_employment_status: string;
-}
 
-export interface EmployeeAddressDetails {
-  emp_id: number;
-  perm_addr_1: string;
-  perm_addr_2: string;
-  perm_addr_po: string;
-  perm_addr_block_ulb: string;
-  perm_addr_vill_town_city: string;
-  perm_addr_dist: string;
-  perm_addr_police_station: string;
-  temp_addr_1: string;
-  temp_addr_2: string;
-  temp_addr_po: string;
-  temp_addr_block_ulb: string;
-  temp_addr_vill_town_city: string;
-  temp_addr_dist: string;
-  temp_addr_ps: string;
-  perm_addr_pincode: number;
-  temp_addr_pincode: number;
-}
-
-export interface EmployeeDebtInfo {
-  id: string;
-  name: string;
-  designation: string;
-  department: string;
-  office_code: string;
-  ddo_code: string;
+export interface EmployeeOfficeDetaislType {
   office_name: string;
+  office_code: string;
   ddo_designation: string;
+  ddo_code: string;
+  district: string;
 }
 
-export interface EmployeePromotionDetails {
-  id: string;
-  emp_promotion_designation_from: string;
-  emp_promotion_designation_to: string;
-  emp_promotion_scale_from: string;
-  emp_promotion_scale_to: string;
-  vide_order_no_date: string;
-  emp_promotion_transfer: string;
+export interface EmployeeBasicDetailsType {
+  emp_id: string;
+  emp_image: string;
+  emp_name: string;
+  mode_of_recruitment: number | string;
+  contact_no: string;
+  emg_contact_no: string;
+  aadhar_no: number;
+  epic_no: string;
+  gender: string | number;
+  pran: string;
+  emp_type: string | number;
+  weight: number;
+  height: number;
+  cps: string;
+  gps: string;
+  dob: string;
 }
+
+export interface EmployeePersonalDetailsType {
+  married_status: string | number;
+  identification_marks: string | number;
+  religion: string | number;
+  emp_categories: string | number;
+  emp_home_state: string;
+  emp_district: string;
+  emp_blood_group: string | number;
+  emp_health_status: string | number;
+  emp_ltc_home_town: string;
+  emp_nearest_railway_station: string;
+  emp_phy_health_type: string | number;
+  emp_family: string | number;
+  emp_lang: string | number;
+  emp_lang_do: "read" | "write" | "speak";
+}
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+type InnerInputBox = {
+  from: string;
+  to: string;
+};
+
+export type EmployeeIncDetails = {
+  scale: string;
+  inc_date: string;
+  inc_amount: number;
+  basic_pay_after_inc: number;
+  vide_order_no: string;
+  vide_order_date: string;
+};
+
+export type EmployeePromDetails = {
+  desigination: InnerInputBox;
+  scale: InnerInputBox;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer: "yes" | "no";
+};
+
+export type EmployeeTransDetails = {
+  desigination: InnerInputBox;
+  office: InnerInputBox;
+  joining_date: string;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer_after_prom: boolean;
+};
+
+export interface EmployeeServiceHistoryType {
+  emp_inc_details: EmployeeIncDetails[];
+  emp_prom_details: EmployeePromDetails[];
+  emp_trans_details: EmployeeTransDetails[];
+}
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+//------------------------- Employee Family Details Types -----------------------------//
+export type EmpFamilyDetailsType = {
+  id?: string | number;
+  name: string;
+  relation: string;
+  dob: string;
+  dependent: "yes" | "no";
+};
+
+export type EmpNomineeDetailsType = {
+  id?: string | number;
+  nominee_name: string;
+  relation: string;
+  percentage: number;
+  address: string;
+  minor: "yes" | "no";
+};
+
+export interface EmployeeFamilyDetailsType {
+  emp_family_details: EmpFamilyDetailsType;
+  emp_nominee_details: EmpNomineeDetailsType;
+}
+//------------------------- Employee Family Details Types -----------------------------//

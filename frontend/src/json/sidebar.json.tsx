@@ -36,8 +36,15 @@ export const sidebarLinks: SidebarLinksProps = {
             />
           ),
           path: `${url}/ems/onboard`,
-          subModules: [{ moduleName: "On Board", path: `${url}/ems/onboard` }],
+          subModules: [
+            { moduleName: "On Board", path: `${url}/ems/onboard` },
+            { moduleName: "Dashboard", path: `${url}/ems/dashboard` }, 
+
+          ],
+
         },
+       
+        
       ],
     },
   ],

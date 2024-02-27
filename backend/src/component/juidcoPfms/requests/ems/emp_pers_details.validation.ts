@@ -1,75 +1,166 @@
 import Joi from "joi";
-import type { Employee } from "../../../../util/types/employee_management/employee.type";
-import { Request } from "express";
+import type {
+  EmpFamilyDetailsType,
+  EmpNomineeDetailsType,
+  EmployeeBasicDetailsType,
+  EmployeeOfficeDetaislType,
+  EmployeePersonalDetailsType,
+} from "../../../../util/types/employee_management/employee.type";
 
-// Validating request data
-export const bankMasterValidation = Joi.object({
-  name: Joi.string().required(),
-  dob: Joi.date().required(),
-  father_nm: Joi.string().required(),
-  mother_nm: Joi.string().required(),
-  spouse_nm: Joi.string().optional(),
-  gender: Joi.string().required(),
-  marital_status: Joi.string().required(),
-  identification_mark_status: Joi.string().required(),
-  height: Joi.number().required(),
-  weight: Joi.number().required(),
-  category: Joi.string().required(),
-  physically_handicapped: Joi.boolean().required(),
-  religion: Joi.string().required(),
-  mobile_number: Joi.string().required(),
-  email_id: Joi.string().email().required(),
-  blood_group: Joi.string().required(),
-  home_state: Joi.string().required(),
-  home_district: Joi.string().required(),
-  ltc_home_town: Joi.string().required(),
-  nearest_railway_station: Joi.string().required(),
-  health_status: Joi.string().required(),
-  ph_type: Joi.string().required(),
-  adhar_card_no: Joi.string().required(),
-  voter_id_card: Joi.string().required(),
-  mode_of_recruitment: Joi.string().required(),
-  employee_type: Joi.string().required(),
-  gpf_cps_pran_no: Joi.string().required(),
-  emergency_contact_number: Joi.string().required(),
-  emp_primary_skills: Joi.string().required(),
-  emp_secondary_skills: Joi.string().required(),
-  emp_employment_status: Joi.string().required(),
-});
-
-// arrange request data for store and update
-export const employeePersonalDetailsRequestData = (req: Request): Employee => {
+//------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
+export const employeeOfficeDetailRequestData = (
+  empOfficeDetails: EmployeeOfficeDetaislType
+): EmployeeOfficeDetaislType => {
   return {
-    name: req.body.name,
-    dob: new Date(req.body.dob),
-    father_nm: req.body.father_nm,
-    mother_nm: req.body.mother_nm,
-    spouse_nm: req.body.spouse_nm || null,
-    gender: req.body.gender,
-    marital_status: req.body.marital_status,
-    identification_mark_status: req.body.identification_mark_status,
-    height: req.body.height,
-    weight: req.body.weight,
-    category: req.body.category,
-    physically_handicapped: req.body.physically_handicapped,
-    religion: req.body.religion,
-    mobile_number: req.body.mobile_number,
-    email_id: req.body.email_id,
-    blood_group: req.body.blood_group,
-    home_state: req.body.home_state,
-    home_district: req.body.home_district,
-    ltc_home_town: req.body.ltc_home_town,
-    nearest_railway_station: req.body.nearest_railway_station,
-    health_status: req.body.health_status,
-    ph_type: req.body.ph_type,
-    adhar_card_no: req.body.adhar_card_no,
-    voter_id_card: req.body.voter_id_card,
-    mode_of_recruitment: req.body.mode_of_recruitment,
-    employee_type: req.body.employee_type,
-    gpf_cps_pran_no: req.body.gpf_cps_pran_no,
-    emergency_contact_number: req.body.emergency_contact_number,
-    emp_primary_skills: req.body.emp_primary_skills,
-    emp_secondary_skills: req.body.emp_secondary_skills,
-    emp_employment_status: req.body.emp_employment_status,
+    office_name: empOfficeDetails.office_code,
+    office_code: empOfficeDetails.office_code,
+    ddo_code: empOfficeDetails.ddo_code,
+    ddo_designation: empOfficeDetails.ddo_designation,
+    district: empOfficeDetails.district,
   };
 };
+
+export const employeeOfficeDetailsSchema = Joi.object({
+  office_name: Joi.string().required(),
+  office_code: Joi.string().required(),
+  ddo_designation: Joi.string().required(),
+  ddo_code: Joi.string().required(),
+  district: Joi.string().required(),
+});
+//------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
+
+//------------------ EMPLOYEE BASIC DETAILS ------------------------------//
+export const employeeBasicDetailRequestData = (
+  empBasicDetails: EmployeeBasicDetailsType
+): EmployeeBasicDetailsType => {
+  return {
+    emp_id: empBasicDetails.emp_id,
+    emp_image: empBasicDetails.emp_image,
+    emp_name: empBasicDetails.emp_name,
+    mode_of_recruitment: empBasicDetails.mode_of_recruitment,
+    contact_no: empBasicDetails.contact_no,
+    emg_contact_no: empBasicDetails.emg_contact_no,
+    aadhar_no: empBasicDetails.aadhar_no,
+    epic_no: empBasicDetails.epic_no,
+    gender: empBasicDetails.gender,
+    pran: empBasicDetails.pran,
+    emp_type: empBasicDetails.emp_type,
+    weight: empBasicDetails.weight,
+    height: empBasicDetails.height,
+    cps: empBasicDetails.cps,
+    gps: empBasicDetails.gps,
+    dob: empBasicDetails.dob,
+  };
+};
+
+export const employeeBasicDetailsSchema = Joi.object({
+  emp_id: Joi.string().required(),
+  emp_image: Joi.string().required(),
+  emp_name: Joi.string().required(),
+  mode_of_recruitment: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .required(),
+  contact_no: Joi.string().required(),
+  emg_contact_no: Joi.string().required(),
+  aadhar_no: Joi.number().required(),
+  epic_no: Joi.string().required(),
+  gender: Joi.number().required(),
+  pran: Joi.string().required(),
+  emp_type: Joi.number().required(),
+  weight: Joi.number().required(),
+  height: Joi.number().required(),
+  cps: Joi.number().required(),
+  gps: Joi.number().required(),
+  dob: Joi.string().required(),
+});
+//------------------ EMPLOYEE BASIC DETAILS ------------------------------//
+
+//------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
+
+export const employeePersonalDetailsRequestData = (
+  empPersonalDetails: EmployeePersonalDetailsType
+): EmployeePersonalDetailsType => {
+  return {
+    married_status: empPersonalDetails.married_status,
+    identification_marks: empPersonalDetails.identification_marks,
+    religion: empPersonalDetails.religion,
+    emp_categories: empPersonalDetails.emp_categories,
+    emp_home_state: empPersonalDetails.emp_home_state,
+    emp_district: empPersonalDetails.emp_district,
+    emp_blood_group: empPersonalDetails.emp_blood_group,
+    emp_health_status: empPersonalDetails.emp_health_status,
+    emp_ltc_home_town: empPersonalDetails.emp_ltc_home_town,
+    emp_nearest_railway_station: empPersonalDetails.emp_nearest_railway_station,
+    emp_phy_health_type: empPersonalDetails.emp_phy_health_type,
+    emp_family: empPersonalDetails.emp_family,
+    emp_lang: empPersonalDetails.emp_lang,
+    emp_lang_do: empPersonalDetails.emp_lang_do,
+  };
+};
+
+export const employeePersonalDetailsSchema = Joi.object({
+  married_status: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  identification_marks: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  religion: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_categories: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_home_state: Joi.string().required(),
+  emp_district: Joi.string().required(),
+  emp_blood_group: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_health_status: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_ltc_home_town: Joi.string().required(),
+  emp_nearest_railway_station: Joi.string().required(),
+  emp_phy_health_type: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_family: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_lang: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_lang_do: Joi.string().valid("read", "write", "speak").required(),
+});
+//------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
+
+//------------------ EMPLOYEE FAMILY DETAILS ------------------------------//
+
+export const employeeFamilyDetailsRequestData = (
+  empFamilyDetails: EmpFamilyDetailsType[]
+) => {
+  return empFamilyDetails?.map((item) => {
+    return {
+      name: item.name,
+      relation: item.relation,
+      dob: item.dob,
+      dependent: item.dependent,
+    };
+  });
+};
+const employeeFamilyDetails = Joi.object({
+  name: Joi.string().required(),
+  relation: Joi.string().required(),
+  dob: Joi.string().required(),
+  dependent: Joi.string().required(),
+});
+
+export const employeeNomineeDetailsRequestData = (
+  empNomineeDetails: EmpNomineeDetailsType[]
+) => {
+  empNomineeDetails?.map((item) => {
+    return {
+      nominee_name: item.nominee_name,
+      relation: item.relation,
+      percentage: item.percentage,
+      address: item.address,
+      minor: item.minor,
+    };
+  });
+};
+const employeeNomineeDetails = Joi.object({
+  nominee_name: Joi.string().required(),
+  relation: Joi.string().required(),
+  percentage: Joi.number().required(),
+  address: Joi.string().required(),
+  minor: Joi.string().required(),
+});
+
+export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
+  employeeFamilyDetails,
+  employeeNomineeDetails
+);
+
+//------------------ EMPLOYEE FAMILY DETAILS ------------------------------//

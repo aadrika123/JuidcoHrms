@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { HRMS_URL } from "@/utils/api/urls";
-import goBack from "@/utils/helper";
+import goBack, { DateFormatter } from "@/utils/helper";
 import { HeaderWidget } from "@/components/Helpers/Widgets/HeaderWidget";
 import EmployeeOfficeDetails from "./Forms/EmpOfficeDetails";
 import {
@@ -23,6 +23,10 @@ import {
 } from "@/utils/types/employee.type";
 import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
+import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
+import Button from "@/components/global/atoms/Button";
+// import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -35,12 +39,12 @@ export const EmployeeOnBoard = () => {
   const searchParam = useSearchParams().get("page");
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
-  const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<object>(
-    JSON.parse(sessionStorage.getItem("employeeOnBoardDetails") as string) || {}
+  const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
+    () =>
+      typeof window !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
+        : {}
   );
-
-  console.log(tabIndex, employeeOnBoardDetails, "emp");
-
   // ----------Employee All Detail states------------ //
 
   // ------------------ Functions ------------------//
@@ -49,7 +53,7 @@ export const EmployeeOnBoard = () => {
     values: EmployeeOnBoardAllTypes,
     index?: number
   ) {
-    setEmployeeOnBoardDetails((prev) => ({ ...prev, [key]: values }));
+    setEmployeeOnBoardDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
 
@@ -59,14 +63,16 @@ export const EmployeeOnBoard = () => {
       JSON.stringify(employeeOnBoardDetails)
     );
   }, [employeeOnBoardDetails]);
+  // console.log(employeeOnBoardDetails, "index");
 
   // ------------------ Functions ------------------//
 
   // Add Bank Details
   const createVendorDetails = async (
-    values: VendorDetailsData
-  ): Promise<VendorDetailsData> => {
-    console.log(values, "lolo");
+    values: EmployeeOnBoardForm
+  ): Promise<EmployeeOnBoardForm> => {
+    values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
+    console.log(values, "valll");
     const res = await axios({
       url: `${HRMS_URL.EMS.create}`,
       method: "POST",
@@ -88,8 +94,6 @@ export const EmployeeOnBoard = () => {
       }, 1000);
     },
   });
-
-  console.log(searchParam, "search");
 
   return (
     <>
@@ -123,6 +127,30 @@ export const EmployeeOnBoard = () => {
             <EmployeeOfficeDetails setData={getStateData} />
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
+          ) : searchParam === "3" ? (
+            <>
+              <EmpployeePersonalDetails setData={getStateData} />
+              {/* <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button> */}
+            </>
+          ) : // ) : searchParam === "4" ? (
+          //   <EmployeeServiceHistory setData={getStateData} />
+          searchParam === "4" ? (
+            <>
+              <EmployeeFamilyDetails setData={getStateData} />
+              <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button>
+            </>
           ) : (
             <></>
           )}

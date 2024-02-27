@@ -1,3 +1,9 @@
+/***
+ * Author: Krish
+ * Status: Closed
+ * Date: 21/02/2024
+ */
+
 "use client";
 
 import React from "react";
@@ -29,26 +35,26 @@ const EmployeeBasicDetails: React.FC<
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("officeDetails", values);
+        props.setData("emp_basic_details", values);
       }
-      router.push(`${pathName}?page=2`);
+      router.push(`${pathName}?page=3`);
     }
   };
 
   const initialValues =
     typeof window !== "undefined"
-      ? sessionStorage.getItem("emp_office_details")
-        ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
+      ? sessionStorage.getItem("emp_basic_details")
+        ? JSON.parse(sessionStorage.getItem("emp_basic_details") ?? "{}")
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
+      <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
       <Formik
         initialValues={initialValues}
         validationSchema={employeeValidationSchema}
@@ -113,7 +119,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Contact No.*"
                 name="contact_no"
                 placeholder={"Enter Contact No."}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -124,7 +129,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Emergency Contact No.*"
                 name="emg_contact_no"
                 placeholder={"Enter Emergency Contact Number"}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -135,7 +139,6 @@ const EmployeeBasicDetails: React.FC<
                 label="Aadhar Card No.*"
                 name="aadhar_no"
                 placeholder={"Enter Aadhar Card No."}
-                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -146,7 +149,6 @@ const EmployeeBasicDetails: React.FC<
                 label="EPIC No.*"
                 name="epic_no"
                 placeholder={"Enter EPIC Number"}
-                type="number"
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -177,7 +179,6 @@ const EmployeeBasicDetails: React.FC<
                 label="PRAN*"
                 name="pran"
                 placeholder={"Enter PRAN"}
-                type="number"
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -279,7 +280,7 @@ const EmployeeBasicDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>

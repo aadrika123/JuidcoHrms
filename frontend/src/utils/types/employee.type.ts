@@ -1,52 +1,17 @@
-// type Gender = "Male" | "Female" | "Other";
-// type RecruitmentMode = "Direct" | "Promotion" | "Contractual";
-// type EmployeeType = "Permanent" | "Temporary" | "Contractual";
-
-// export interface EmployeePesonalInfoType {
-//   id?: string;
-//   name: string;
-//   dob: Date;
-//   father_nm: string;
-//   mother_nm: string;
-//   spouse_nm?: string;
-//   gender: Gender;
-//   marital_status: string;
-//   identification_mark_status: string;
-//   height: number;
-//   weight: number;
-//   category: string;
-//   physically_handicapped: boolean;
-//   religion: string;
-//   mobile_number: string;
-//   email_id: string;
-//   blood_group: string;
-//   home_state: string;
-//   home_district: string;
-//   ltc_home_town: string;
-//   nearest_railway_station: string;
-//   health_status: string;
-//   ph_type: string;
-//   adhar_card_no: string;
-//   voter_id_card: string;
-//   mode_of_recruitment: RecruitmentMode;
-//   employee_type: EmployeeType;
-//   gpf_cps_pran_no: string;
-//   emergency_contact_number: string;
-//   emp_primary_skills: string;
-//   emp_secondary_skills: string;
-//   emp_employment_status: string;
-// }
-
-// Common
-
 export interface EmployeeOnBoardForm {
-  officeDetails: EmployeeOfficeDetaislType;
-  EmpPersonalDetails: EmployeeDetailsType;
+  emp_office_details: EmployeeOfficeDetaislType;
+  emp_basic_details: EmployeeDetailsType;
+  emp_personal_details: EmployeeDetailsType;
+  emp_service_history: EmployeeServiceHistoryType;
+  emp_family_details: EmployeeFamilyDetailsType;
 }
 
 export type EmployeeOnBoardAllTypes =
   | EmployeeOfficeDetaislType
-  | EmployeeDetailsType;
+  | EmployeeDetailsType
+  | EmployeePersonalDetailsType
+  | EmployeeServiceHistoryType
+  | EmployeeFamilyDetailsType;
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;
@@ -70,6 +35,7 @@ export interface EmployeeDetailsType {
   aadhar_no: number;
   epic_no: string;
   gender: string | number;
+  gender_name?: string | number;
   pran: string;
   emp_type: string | number;
   weight: number;
@@ -93,5 +59,68 @@ export interface EmployeePersonalDetailsType {
   emp_phy_health_type: string | number;
   emp_family: string | number;
   emp_lang: string | number;
-  emp_lang_do: "read" | "write" | "speak";
+  emp_lang_do: ("read" | "write" | "speak")[];
 }
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+type InnerInputBox = {
+  from: string;
+  to: string;
+};
+
+export type EmployeeIncDetails = {
+  scale: string;
+  inc_date: string;
+  inc_amount: number;
+  basic_pay_after_inc: number;
+  vide_order_no: string;
+  vide_order_date: string;
+};
+
+export type EmployeePromDetails = {
+  desigination: InnerInputBox;
+  scale: InnerInputBox;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer: "yes" | "no";
+};
+
+export type EmployeeTransDetails = {
+  desigination: InnerInputBox;
+  office: InnerInputBox;
+  joining_date: string;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer_after_prom: boolean;
+};
+
+export interface EmployeeServiceHistoryType {
+  emp_inc_details: EmployeeIncDetails[];
+  emp_prom_details: EmployeePromDetails[];
+  emp_trans_details: EmployeeTransDetails[];
+}
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+//------------------------- Employee Family Details Types -----------------------------//
+export type EmpFamilyDetailsType = {
+  name: string;
+  relation: string;
+  dob: string;
+  dependent: "yes" | "no";
+};
+
+export type EmpNomineeDetailsType = {
+  nominee_name: string;
+  relation: string;
+  percentage: number;
+  address: string;
+  minor: "yes" | "no";
+};
+
+export interface EmployeeFamilyDetailsType {
+  emp_family_details: EmpFamilyDetailsType;
+  emp_nominee_details: EmpNomineeDetailsType;
+}
+//------------------------- Employee Family Details Types -----------------------------//

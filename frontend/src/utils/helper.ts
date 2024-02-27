@@ -11,7 +11,7 @@ export default function goBack() {
 }
 
 export function DateFormatter(date: string) {
-  return new Date(date).toISOString().split("T")[0];
+  return new Date(date).toISOString();
 }
 
 /**
