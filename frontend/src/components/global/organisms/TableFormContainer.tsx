@@ -19,7 +19,7 @@ export interface COLUMNS {
   HEADER: string;
   ACCESSOR: string;
   isRequired: boolean;
-  type?: "radio" | "select" | "text";
+  type?: "radio" | "select" | "text" | "number";
   select_options?: OptionProps[];
   placeholder?: string;
   sl_no?: boolean;
@@ -68,10 +68,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   }
 
   useEffect(() => {
-    props.setData("emp_inc_details", tableData);
+    props.setData(`${props.session_key}`, tableData);
   }, [tableData]);
 
-  function onChangeTableDataHandler(id: number, value: string, key: string) {
+  function onChangeTableDataHandler(id: number, value: string | number, key: string) {
     setTableData((prev: any) => {
       const updatedData = [...prev];
       const row: any = { ...updatedData[id] };
@@ -155,7 +155,32 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                     col.ACCESSOR
                                   ] || ""
                             }
+                            readOnly={col.sl_no}
                             name={col.ACCESSOR}
+                            placeholder={"Enter " + col.HEADER}
+                            isRequired={col.isRequired}
+                          />
+                        ) : col.type === "number" ? (
+                          <InputField
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                              onChangeTableDataHandler(
+                                index,
+                                Number(e.target.value),
+                                col.ACCESSOR
+                              )
+                            }
+                            value={
+                              col.sl_no
+                                ? index + 1
+                                : (tableData[index] as Record<string, string>)[
+                                    col.ACCESSOR
+                                  ] || ""
+                            }
+                            readOnly={col.sl_no}
+                            name={col.ACCESSOR}
+                            type="number"
                             placeholder={"Enter " + col.HEADER}
                             isRequired={col.isRequired}
                           />
@@ -188,7 +213,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                   className="text-secondary text-sm"
                                   htmlFor={option.key}
                                 >
-                                  {option.key}
+                                  {option.value}
                                 </label>
                               </div>
                             ))}

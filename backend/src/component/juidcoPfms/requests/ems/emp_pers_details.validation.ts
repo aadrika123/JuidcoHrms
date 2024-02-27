@@ -134,7 +134,7 @@ const employeeFamilyDetails = Joi.object({
   name: Joi.string().required(),
   relation: Joi.string().required(),
   dob: Joi.string().required(),
-  dependent: Joi.string().valid("yes", "no").required(),
+  dependent: Joi.string().required(),
 });
 
 export const employeeNomineeDetailsRequestData = (
@@ -155,7 +155,7 @@ const employeeNomineeDetails = Joi.object({
   relation: Joi.string().required(),
   percentage: Joi.number().required(),
   address: Joi.string().required(),
-  minor: Joi.string().valid("yes", "no").required(),
+  minor: Joi.string().required(),
 });
 
 export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(

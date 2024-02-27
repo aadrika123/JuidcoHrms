@@ -25,7 +25,7 @@ import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
-import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+// import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
 // Imports // ----------------------------------------------------------------
 
@@ -63,7 +63,7 @@ export const EmployeeOnBoard = () => {
       JSON.stringify(employeeOnBoardDetails)
     );
   }, [employeeOnBoardDetails]);
-  console.log(employeeOnBoardDetails, "index");
+  // console.log(employeeOnBoardDetails, "index");
 
   // ------------------ Functions ------------------//
 
@@ -72,7 +72,7 @@ export const EmployeeOnBoard = () => {
     values: EmployeeOnBoardForm
   ): Promise<EmployeeOnBoardForm> => {
     values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
-
+    console.log(values, "valll");
     const res = await axios({
       url: `${HRMS_URL.EMS.create}`,
       method: "POST",
@@ -130,6 +130,19 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "3" ? (
             <>
               <EmpployeePersonalDetails setData={getStateData} />
+              {/* <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button> */}
+            </>
+          ) : // ) : searchParam === "4" ? (
+          //   <EmployeeServiceHistory setData={getStateData} />
+          searchParam === "4" ? (
+            <>
+              <EmployeeFamilyDetails setData={getStateData} />
               <Button
                 buttontype="button"
                 variant="primary"
@@ -138,10 +151,6 @@ export const EmployeeOnBoard = () => {
                 Save
               </Button>
             </>
-          ) : searchParam === "4" ? (
-            <EmployeeServiceHistory setData={getStateData} />
-          ) : searchParam === "5" ? (
-            <EmployeeFamilyDetails setData={getStateData} />
           ) : (
             <></>
           )}

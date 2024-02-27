@@ -135,19 +135,6 @@ class EmployeeOnBoardController {
       if (familyDetailsError) {
         return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res);
       }
-
-      // Validate Nominee details if available
-
-      // const { error: nomineeDetailsError } =
-      //   employeeFamilyDetailsSchema.validate(
-      //     req.body.emp_family_details.emp_nominee_details
-      //   );
-
-      // if (nomineeDetailsError) {
-      //   return CommonRes.VALIDATION_ERROR(nomineeDetailsError, resObj, res);
-      // }
-
-      // Continue with storing data if validation passes
       const data = await this.employeeOnBoardDao.store(req);
 
       return CommonRes.CREATED(

@@ -91,6 +91,7 @@ const EmployeeFamilyDetails: React.FC<
       HEADER: "Percentage",
       ACCESSOR: "percentage",
       isRequired: true,
+      type:"number"
     },
 
     {
