@@ -25,8 +25,11 @@ import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
-// import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
-import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
+import EmpPresentAddress from "./Forms/EmpPresentAddress";
+import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
+import EmpEducationDetails from "./Forms/EmpEducationDetails";
+import EmpLoanDetails from "./Forms/EmpLoanDetails";
+import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -128,21 +131,14 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
+            <EmpployeePersonalDetails setData={getStateData} />
+          ) : searchParam === "4" ? (
+            <EmpPresentAddress setData={getStateData} />
+          ) : searchParam === "5" ? (
+            <EmpEducationDetails />
+          ) : searchParam === "6" ? (
             <>
-              <EmpployeePersonalDetails setData={getStateData} />
-              {/* <Button
-                buttontype="button"
-                variant="primary"
-                onClick={() => mutate(employeeOnBoardDetails)}
-              >
-                Save
-              </Button> */}
-            </>
-          ) : // ) : searchParam === "4" ? (
-          //   <EmployeeServiceHistory setData={getStateData} />
-          searchParam === "4" ? (
-            <>
-              <EmployeeFamilyDetails setData={getStateData} />
+              <EmpInitialJoinDetails setData={getStateData} />
               <Button
                 buttontype="button"
                 variant="primary"
@@ -151,6 +147,10 @@ export const EmployeeOnBoard = () => {
                 Save
               </Button>
             </>
+          ) : searchParam === "7" ? (
+            <EmpLoanDetails setData={getStateData} />
+          ) : searchParam === "4" ? (
+            <EmployeeServiceHistory setData={getStateData} />
           ) : (
             <></>
           )}

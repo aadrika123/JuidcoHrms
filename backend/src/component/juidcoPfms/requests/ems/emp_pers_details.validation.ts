@@ -5,6 +5,7 @@ import type {
   EmployeeBasicDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
+  EmployeePresentAddressDetailsType,
 } from "../../../../util/types/employee_management/employee.type";
 
 //------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
@@ -164,3 +165,35 @@ export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
 );
 
 //------------------ EMPLOYEE FAMILY DETAILS ------------------------------//
+
+//------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
+export const employeePresentAddressDetailsSchema = Joi.object({
+  address_primary: Joi.string().required(),
+  address_secondary: Joi.string().required(),
+  village: Joi.string().required(),
+  post_office: Joi.string().required(),
+  state: Joi.string().required(),
+  district: Joi.string().required(),
+  block_ulb: Joi.string().required(),
+  pin_code: Joi.string().required(),
+  police_station: Joi.string().required(),
+  emp_address_same: Joi.string().valid("yes", "no").required(),
+});
+
+export const employeePresentAddressDetailsRequestData = (
+  empPresentAddress: EmployeePresentAddressDetailsType
+): EmployeePresentAddressDetailsType => {
+  return {
+    address_primary: empPresentAddress.address_primary,
+    address_secondary: empPresentAddress.address_secondary,
+    village: empPresentAddress.village,
+    post_office: empPresentAddress.post_office,
+    state: empPresentAddress.state,
+    district: empPresentAddress.district,
+    block_ulb: empPresentAddress.block_ulb,
+    pin_code: empPresentAddress.pin_code,
+    police_station: empPresentAddress.police_station,
+    emp_address_same: empPresentAddress.emp_address_same,
+  };
+};
+//------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//

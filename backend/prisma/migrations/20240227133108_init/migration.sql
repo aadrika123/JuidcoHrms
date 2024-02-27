@@ -5,6 +5,7 @@ CREATE TABLE "employees" (
     "emp_office_details_id" INTEGER NOT NULL,
     "emp_basic_details_id" INTEGER NOT NULL,
     "emp_personal_details_id" INTEGER NOT NULL,
+    "emp_present_address_id" INTEGER NOT NULL,
 
     CONSTRAINT "employees_pkey" PRIMARY KEY ("id")
 );
@@ -90,6 +91,23 @@ CREATE TABLE "employee_nominee_details" (
     CONSTRAINT "employee_nominee_details_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "employee_present_address" (
+    "id" SERIAL NOT NULL,
+    "address_primary" TEXT NOT NULL,
+    "address_secondary" TEXT NOT NULL,
+    "village" TEXT NOT NULL,
+    "post_office" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "district" TEXT NOT NULL,
+    "block_ulb" TEXT NOT NULL,
+    "pin_code" TEXT NOT NULL,
+    "police_station" TEXT NOT NULL,
+    "emp_address_same" TEXT NOT NULL,
+
+    CONSTRAINT "employee_present_address_pkey" PRIMARY KEY ("id")
+);
+
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -98,6 +116,9 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_basic_details_id_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_personal_details_id_fkey" FOREIGN KEY ("emp_personal_details_id") REFERENCES "employee_personal_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_present_address_id_fkey" FOREIGN KEY ("emp_present_address_id") REFERENCES "employee_present_address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

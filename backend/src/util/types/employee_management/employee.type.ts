@@ -112,3 +112,19 @@ export interface EmployeeFamilyDetailsType {
   emp_nominee_details: EmpNomineeDetailsType;
 }
 //------------------------- Employee Family Details Types -----------------------------//
+
+//------------------------- Employee Permanent Address Types -----------------------------//
+export interface EmployeePresentAddressDetailsType {
+  id?: string | number;
+  address_primary: string | number;
+  address_secondary: string | number;
+  village: string;
+  post_office: string;
+  state: string;
+  district: string;
+  block_ulb: string | number;
+  pin_code: string | number;
+  police_station: string;
+  emp_address_same: "yes" | "no";
+}
+//------------------------- Employee Permanent Address Types -----------------------------//

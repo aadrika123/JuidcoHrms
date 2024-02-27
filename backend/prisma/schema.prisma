@@ -21,6 +21,8 @@ model employees {
   emp_personal_details_id Int
   emp_family_details      employee_family_details[]
   emp_nominee_details     employee_nominee_details[]
+  emp_present_address     employee_present_address   @relation(fields: [emp_present_address_id], references: [id])
+  emp_present_address_id  Int
 }
 
 model employee_office_details {
@@ -92,6 +94,21 @@ model employee_nominee_details {
   minor        String
   employees    employees @relation(fields: [employees_id], references: [id])
   employees_id Int
+}
+
+model employee_present_address {
+  id                Int         @id @default(autoincrement())
+  address_primary   String
+  address_secondary String
+  village           String
+  post_office       String
+  state             String
+  district          String
+  block_ulb         String
+  pin_code          String
+  police_station    String
+  emp_address_same  String
+  employee          employees[]
 }
 
 //-----------------------------------------------------------------//

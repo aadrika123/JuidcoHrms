@@ -1,6 +1,6 @@
 "use client"
 
-import { SubHeading, InnerHeading } from '@/components/Helpers/Heading';
+import { SubHeading, InnerHeading, InnerTextHeading } from '@/components/Helpers/Heading';
 import ReactApexChart from 'react-apexcharts';
 
 
@@ -27,7 +27,7 @@ export const DashboardMain = () => {
             type: 'bar',
             toolbar: {
                 show: false
-              }
+            }
         },
 
         plotOptions: {
@@ -72,11 +72,9 @@ export const DashboardMain = () => {
                 download: false,
             },
         },
-       
+
 
     };
-
-
 
     return (
         <>
@@ -85,9 +83,9 @@ export const DashboardMain = () => {
             </SubHeading>
             <div className="w-full flex flex-col sm:flex-row justify-between">
 
-                <div className={`w-full md:w-[43.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
+                <div className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
 
-                    <InnerHeading className='text-red'>
+                    <InnerHeading className='text-xl'>
                         <i>
                             <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
                                 <rect width="39" height="39" rx="11.4169" fill="#12743B" />
@@ -113,17 +111,17 @@ export const DashboardMain = () => {
                             <div className="w-full flex flex-col sm:flex-row justify-between ">
 
                                 <div className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}>
-                                    <span className='text-[#12743B] text-3xl font-bold'>94</span>
-                                    <InnerHeading className="text-center">
+                                    <span className='text-[#12743B] text-3xl font-bold'>90</span>
+                                    <InnerTextHeading className="text-center">
                                         Total No. of Present Employee
-                                    </InnerHeading>
+                                    </InnerTextHeading>
                                 </div>
 
                                 <div className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative`}>
-                                    <span className='text-[#00E640] text-3xl font-bold'>34</span>
-                                    <InnerHeading className="text-center">
-                                        Total No. of Present Employee
-                                    </InnerHeading>
+                                    <span className='text-[#00E640] text-3xl font-bold'>10</span>
+                                    <InnerTextHeading className="text-center">
+                                        Total No. of Absent Employee
+                                    </InnerTextHeading>
                                 </div>
 
                             </div>
@@ -135,8 +133,8 @@ export const DashboardMain = () => {
 
                 </div>
 
-                <div className={`w-full md:w-[43.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
-                    <InnerHeading>
+                <div className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}>
+                    <InnerHeading className='text-xl'>
                         <i>
                             <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
                                 <rect width="39" height="39" rx="11.4169" fill="#12743B" />
@@ -154,38 +152,44 @@ export const DashboardMain = () => {
 
                 </div>
 
-                <div className={`w-full md:w-[13.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg  }`}>
-                    <i>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                            <rect width="27" height="27" rx="7.90404" fill="#12743B" />
-                            <path d="M16.8831 5.16626C20.1 5.16626 22.1171 7.16858 22.1171 10.4003V12.3437L22.1112 12.4306C22.0688 12.7432 21.8009 12.9841 21.4766 12.9841H21.4693L21.3681 12.976C21.2352 12.9546 21.1116 12.8911 21.0163 12.7935C20.8972 12.6716 20.8322 12.5068 20.8362 12.3363V10.4003C20.8362 7.8532 19.4301 6.44716 16.8831 6.44716H10.6111C8.05665 6.44716 6.65797 7.8532 6.65797 10.4003V16.6796C6.65797 19.2267 8.06401 20.6254 10.6111 20.6254H16.8831C19.4375 20.6254 20.8362 19.2193 20.8362 16.6796C20.8362 16.3259 21.1229 16.0392 21.4766 16.0392C21.8303 16.0392 22.1171 16.3259 22.1171 16.6796C22.1171 19.9039 20.1148 21.9063 16.8904 21.9063H10.6111C7.3794 21.9063 5.37708 19.9039 5.37708 16.6796V10.4003C5.37708 7.16858 7.3794 5.16626 10.6111 5.16626H16.8831ZM10.1915 11.4898C10.3614 11.4955 10.522 11.5686 10.638 11.6929C10.754 11.8171 10.8158 11.9824 10.8098 12.1523V17.5041C10.7976 17.8578 10.501 18.1347 10.1473 18.1225C9.7936 18.1103 9.51675 17.8136 9.52895 17.4599V12.1008L9.54036 12.0006C9.56604 11.8693 9.63288 11.7486 9.73248 11.6568C9.85698 11.5419 10.0223 11.4818 10.1915 11.4898ZM13.7765 8.97951C14.1302 8.97951 14.417 9.26624 14.417 9.61995V17.4673C14.417 17.821 14.1302 18.1077 13.7765 18.1077C13.4228 18.1077 13.1361 17.821 13.1361 17.4673V9.61995C13.1361 9.26624 13.4228 8.97951 13.7765 8.97951ZM17.3248 14.3166C17.6785 14.3166 17.9652 14.6033 17.9652 14.957V17.4599C17.9652 17.8136 17.6785 18.1004 17.3248 18.1004C16.971 18.1004 16.6843 17.8136 16.6843 17.4599V14.957C16.6843 14.6033 16.971 14.3166 17.3248 14.3166Z" fill="white" fill-opacity="0.92" />
-                        </svg>
-                        <div className="menu absolute top-0 right-0 mt-4 mx-3">
-                            <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
-                            <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
-                            <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
-                        </div>
-                    </i>
-                    <InnerHeading className='mt-5 text-center text-xl text-[#000]'>
-                        See the Log * Activity
-                    </InnerHeading>
+                <div className={`w-full md:w-[18.5%] h-auto mx-5 my-5 flex flex-col relative   }`}>
 
-                    <h2 className='text-[#00E640] mt-4' >21 Feb - 2024</h2>
-                    <InnerHeading><b className='text-[#12743B]'>admin - </b>  added a new record</InnerHeading>
+                    <div className='h-[11.5rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg'>
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                <rect width="27" height="27" rx="7.90404" fill="#12743B" />
+                                <path d="M16.8831 5.16626C20.1 5.16626 22.1171 7.16858 22.1171 10.4003V12.3437L22.1112 12.4306C22.0688 12.7432 21.8009 12.9841 21.4766 12.9841H21.4693L21.3681 12.976C21.2352 12.9546 21.1116 12.8911 21.0163 12.7935C20.8972 12.6716 20.8322 12.5068 20.8362 12.3363V10.4003C20.8362 7.8532 19.4301 6.44716 16.8831 6.44716H10.6111C8.05665 6.44716 6.65797 7.8532 6.65797 10.4003V16.6796C6.65797 19.2267 8.06401 20.6254 10.6111 20.6254H16.8831C19.4375 20.6254 20.8362 19.2193 20.8362 16.6796C20.8362 16.3259 21.1229 16.0392 21.4766 16.0392C21.8303 16.0392 22.1171 16.3259 22.1171 16.6796C22.1171 19.9039 20.1148 21.9063 16.8904 21.9063H10.6111C7.3794 21.9063 5.37708 19.9039 5.37708 16.6796V10.4003C5.37708 7.16858 7.3794 5.16626 10.6111 5.16626H16.8831ZM10.1915 11.4898C10.3614 11.4955 10.522 11.5686 10.638 11.6929C10.754 11.8171 10.8158 11.9824 10.8098 12.1523V17.5041C10.7976 17.8578 10.501 18.1347 10.1473 18.1225C9.7936 18.1103 9.51675 17.8136 9.52895 17.4599V12.1008L9.54036 12.0006C9.56604 11.8693 9.63288 11.7486 9.73248 11.6568C9.85698 11.5419 10.0223 11.4818 10.1915 11.4898ZM13.7765 8.97951C14.1302 8.97951 14.417 9.26624 14.417 9.61995V17.4673C14.417 17.821 14.1302 18.1077 13.7765 18.1077C13.4228 18.1077 13.1361 17.821 13.1361 17.4673V9.61995C13.1361 9.26624 13.4228 8.97951 13.7765 8.97951ZM17.3248 14.3166C17.6785 14.3166 17.9652 14.6033 17.9652 14.957V17.4599C17.9652 17.8136 17.6785 18.1004 17.3248 18.1004C16.971 18.1004 16.6843 17.8136 16.6843 17.4599V14.957C16.6843 14.6033 16.971 14.3166 17.3248 14.3166Z" fill="white" fill-opacity="0.92" />
+                            </svg>
+                            <div className="menu absolute top-0 right-0 mt-4 mx-3">
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
+                            </div>
+                        </i>
+                        <InnerHeading className='mt-5 text-center justify-center text-[22px]'>
+                            See the Log *<br /> Activity
+                        </InnerHeading>
+                    </div>
 
-                    <h2 className='text-[#00E640] mt-2'>21 Feb - 2024</h2>
-                    <InnerHeading><b className='text-[#12743B]'>admin - </b>  added a new record</InnerHeading>
+                    <div className='h-[11.5rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg mt-5'>
+                        <i className="relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                <rect width="27" height="27" rx="7.90404" fill="#12743B" />
+                                <path d="M16.8831 5.16626C20.1 5.16626 22.1171 7.16858 22.1171 10.4003V12.3437L22.1112 12.4306C22.0688 12.7432 21.8009 12.9841 21.4766 12.9841H21.4693L21.3681 12.976C21.2352 12.9546 21.1116 12.8911 21.0163 12.7935C20.8972 12.6716 20.8322 12.5068 20.8362 12.3363V10.4003C20.8362 7.8532 19.4301 6.44716 16.8831 6.44716H10.6111C8.05665 6.44716 6.65797 7.8532 6.65797 10.4003V16.6796C6.65797 19.2267 8.06401 20.6254 10.6111 20.6254H16.8831C19.4375 20.6254 20.8362 19.2193 20.8362 16.6796C20.8362 16.3259 21.1229 16.0392 21.4766 16.0392C21.8303 16.0392 22.1171 16.3259 22.1171 16.6796C22.1171 19.9039 20.1148 21.9063 16.8904 21.9063H10.6111C7.3794 21.9063 5.37708 19.9039 5.37708 16.6796V10.4003C5.37708 7.16858 7.3794 5.16626 10.6111 5.16626H16.8831ZM10.1915 11.4898C10.3614 11.4955 10.522 11.5686 10.638 11.6929C10.754 11.8171 10.8158 11.9824 10.8098 12.1523V17.5041C10.7976 17.8578 10.501 18.1347 10.1473 18.1225C9.7936 18.1103 9.51675 17.8136 9.52895 17.4599V12.1008L9.54036 12.0006C9.56604 11.8693 9.63288 11.7486 9.73248 11.6568C9.85698 11.5419 10.0223 11.4818 10.1915 11.4898ZM13.7765 8.97951C14.1302 8.97951 14.417 9.26624 14.417 9.61995V17.4673C14.417 17.821 14.1302 18.1077 13.7765 18.1077C13.4228 18.1077 13.1361 17.821 13.1361 17.4673V9.61995C13.1361 9.26624 13.4228 8.97951 13.7765 8.97951ZM17.3248 14.3166C17.6785 14.3166 17.9652 14.6033 17.9652 14.957V17.4599C17.9652 17.8136 17.6785 18.1004 17.3248 18.1004C16.971 18.1004 16.6843 17.8136 16.6843 17.4599V14.957C16.6843 14.6033 16.971 14.3166 17.3248 14.3166Z" fill="white" fill-opacity="0.92" />
+                            </svg>
+                            <div className="menu absolute top-0 right-0  mx-3">
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                                <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
+                            </div>
+                        </i>
+                        <InnerHeading className='mt-5 text-center justify-center text-[22px]'>
+                            List of <br /> Employees
+                        </InnerHeading>
+                    </div>
 
 
 
-
-                    {/* <div className='h-[12rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-2 py-2 mt-4'>
-                        <h2 className='text-[#00E640]'>21 Feb - 2024</h2>
-                        <InnerHeading><b className='text-[#12743B]'>admin</b>  added a new record</InnerHeading>
-
-                        <h2 className='text-[#00E640]'>21 Feb - 2024</h2>
-                        <InnerHeading><b className='text-[#12743B]'>admin</b>  added a new record</InnerHeading>
-                    </div> */}
                 </div>
 
             </div>
