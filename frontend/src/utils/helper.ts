@@ -1,9 +1,10 @@
 /**
- * | Author- Sanjiv Kumar
- * | Created On- 08-02-2024
+ * | Author- Krish
+ * | Created On- 25-02-2024
  * | Created for- Input Field
  * | Status- done
  */
+import { v4 as uuidv4 } from "uuid";
 
 export default function goBack() {
   // Use the history object to navigate back
@@ -25,6 +26,16 @@ export function formatString(input: string): string {
   const result = input?.replace(regex, (_, match) => ` ${match.toUpperCase()}`);
   return result;
 }
+
+
+
+export const generateUniquePaymentNo = (initialString?: string): string => {
+  const uniqueId = uuidv4();
+  // Extract the first 8 characters from the UUID
+  const unqId = uniqueId.substring(0, 6);
+  return initialString ? initialString + unqId : unqId;
+};
+
 
 export const filterValBefStoring = (values: any) => {
   function mapingObject(obj: any) {

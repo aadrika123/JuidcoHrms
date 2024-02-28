@@ -17,7 +17,7 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   initialEmployeeDetails,
   employeeValidationSchema,
@@ -29,6 +29,14 @@ const EmployeeBasicDetails: React.FC<
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
+  const empType = useSearchParams().get("emp");
+
+  const fileInputRef = React.useRef(null);
+
+  const handleDivClick = () => {
+    // Trigger click on the hidden file input
+    (fileInputRef.current as unknown as HTMLInputElement).click();
+  };
 
   const handleSubmitFormik = (
     values: EmployeeDetailsType,
@@ -41,7 +49,7 @@ const EmployeeBasicDetails: React.FC<
       if (props.setData) {
         props.setData("emp_basic_details", values);
       }
-      router.push(`${pathName}?page=3`);
+      router.push(`${pathName}?emp=${empType}&page=3`);
     }
   };
 
@@ -69,27 +77,69 @@ const EmployeeBasicDetails: React.FC<
           handleSubmit,
           handleReset,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="relative">
             <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.emp_id}
-                error={errors.emp_id}
-                touched={touched.emp_id}
-                label="Employment ID *"
-                name="emp_id"
-                placeholder={"Enter Employment ID"}
-              />
-              <InputBox
+              {empType === "old" && (
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.emp_id}
+                  error={errors.emp_id}
+                  touched={touched.emp_id}
+                  label="Employment ID *"
+                  name="emp_id"
+                  placeholder={"Enter Employment ID"}
+                />
+              )}
+
+              {/* <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_image}
                 error={errors.emp_image}
                 touched={touched.emp_image}
+                type="file"
                 label="image*"
                 name="emp_image"
-              />
+              /> */}
+
+              <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer">
+                <p className="text-zinc-600">Upload Employee Profile</p>
+                <div
+                  className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
+                  onClick={handleDivClick}
+                >
+                  <span>
+                    <svg
+                      stroke="currentColor"
+                      fill="none"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      height="2em"
+                      width="2em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline points="16 16 12 12 8 16"></polyline>
+                      <line x1="12" y1="12" x2="12" y2="21"></line>
+                      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                      <polyline points="16 16 12 12 8 16"></polyline>
+                    </svg>
+                  </span>
+                  <span>Upload Image</span>
+
+                  {/* Hidden file input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="emp_image"
+                  />
+                </div>
+              </div>
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
