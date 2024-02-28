@@ -99,7 +99,7 @@ export type EmployeeTransDetails = {
   joining_date: string;
   vide_order_no: string;
   vide_order_date: string;
-  transfer_after_prom: boolean;
+  transfer_after_prom: "yes" | "no";
 };
 
 export interface EmployeeServiceHistoryType {

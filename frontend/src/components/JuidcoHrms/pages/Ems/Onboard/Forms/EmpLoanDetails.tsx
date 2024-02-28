@@ -71,8 +71,6 @@ const EmpLoanDetails: React.FC<
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
           handleSubmit,

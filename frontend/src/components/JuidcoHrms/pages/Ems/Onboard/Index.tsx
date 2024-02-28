@@ -149,7 +149,7 @@ export const EmployeeOnBoard = () => {
             </>
           ) : searchParam === "7" ? (
             <EmpLoanDetails setData={getStateData} />
-          ) : searchParam === "4" ? (
+          ) : searchParam === "8" ? (
             <EmployeeServiceHistory setData={getStateData} />
           ) : (
             <></>
