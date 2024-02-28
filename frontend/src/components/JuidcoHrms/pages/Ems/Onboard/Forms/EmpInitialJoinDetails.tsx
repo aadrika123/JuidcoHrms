@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Joining details - Employee Initial Joining Information page
+ */
+
 "use client";
 
 import React, { useState } from 'react'

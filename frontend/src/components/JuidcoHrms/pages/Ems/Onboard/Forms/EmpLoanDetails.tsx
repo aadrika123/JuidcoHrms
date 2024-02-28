@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Loan details - Employee Loan & Advance Information page
+ */
+
 "use client";
 
 import React, { useState } from 'react'
@@ -48,11 +54,18 @@ const EmpLoanDetails: React.FC<
     const [additionalForms2, setAdditionalForms2] = useState<Array<number>>([1]);
 
     const handleAddMore = () => {
-        setAdditionalForms((prevForms) => [...prevForms, prevForms.length + 1]);
+        if(additionalForms.length < 6) {
+            setAdditionalForms((prevForms) => [...prevForms, prevForms.length + 1]);
+
+        }
     };
 
     const handleAddMoreRecovery = () => {
+        if(additionalForms.length < 6) {
         setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
+
+        }
+        // setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
     };
 
     return (

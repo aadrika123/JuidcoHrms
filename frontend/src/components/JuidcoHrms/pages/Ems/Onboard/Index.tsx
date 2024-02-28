@@ -30,6 +30,8 @@ import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
 import EmpEducationDetails from "./Forms/EmpEducationDetails";
 import EmpLoanDetails from "./Forms/EmpLoanDetails";
 import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+import Table from "@/components/global/molecules/Table";
+import { EmpTimeBound } from "./Forms/EmpTimeBound";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -131,10 +133,11 @@ export const EmployeeOnBoard = () => {
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
               <EmpployeePersonalDetails setData={getStateData} />
-          ) : searchParam === "4" ? (
+          ) : searchParam === "8" ? (
             <EmpPresentAddress setData={getStateData} />
           ) : searchParam === "5" ? (
-            <EmpEducationDetails />
+            <EmpEducationDetails setData={getStateData}/>
+            
           ): searchParam === "6" ? (
             <>
             <EmpInitialJoinDetails setData={getStateData} />
@@ -149,8 +152,20 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "7" ? (
             <EmpLoanDetails setData={getStateData} />
           ) : searchParam === "4" ? (
+            <>
             <EmployeeServiceHistory setData={getStateData} />
-          ) : (
+            <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button>
+            </>
+            // <EmployeeServiceHistory setData={getStateData} />
+          ) : searchParam === "9" ? (
+            <EmpTimeBound setData={getStateData}/>
+          ): (
             <></>
           )}
         </div>

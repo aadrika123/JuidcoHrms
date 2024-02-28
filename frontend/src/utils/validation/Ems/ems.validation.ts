@@ -4,7 +4,8 @@ import {
   EmployeePersonalDetailsType,
   EmployeePresentAddressDetailsType,
   EmployeeJoinDetailsType,
-  EmployeeLoanDetailsType
+  EmployeeLoanDetailsType,
+  EmployeeEducationDetailsType
 } from "@/utils/types/employee.type";
 import * as yup from "yup";
 
@@ -199,6 +200,15 @@ export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   last_paid_install: "",
   month_last_install: "",
   total_amnt: "",
- 
+  loan_name_recovery:"",
+  total_int_amount:"",
+  total_install_recovery: "",
+  monthly_install_recovery: "",
+  last_paid_install_recovery: "",
+  month_last_install_recovery: "",
+  total_amnt_recovery: "",
 };
+
+
+
 /// ------------- Employee personal Details ---------------------///

@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Address details - Employee Present Address page
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -28,7 +34,7 @@ const EmpPresentAddress: React.FC<
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      const formData = { ...values, emp_address_same: confirmationOrder};
+      const formData = { ...values, emp_address_same: confirmationOrder as "yes" | "no"};
 
       sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
       setSubmitting(false);
@@ -39,6 +45,9 @@ const EmpPresentAddress: React.FC<
       router.push(`${pathName}?page=5`);
   }
   };
+
+ 
+  
 
   const initialValues =
     typeof window !== "undefined"

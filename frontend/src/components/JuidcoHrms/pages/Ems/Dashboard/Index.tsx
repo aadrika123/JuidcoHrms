@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Dashboard details - Employee Management System page
+ */
+
 "use client"
 
 import { SubHeading, InnerHeading, InnerTextHeading } from '@/components/Helpers/Heading';
