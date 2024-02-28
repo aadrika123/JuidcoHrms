@@ -11,28 +11,32 @@ datasource db {
 // Author: Krish
 // status: Open
 model employees {
-  id                      Int                     @id @default(autoincrement())
+  id                      Int                        @id @default(autoincrement())
   emp_id                  String
-  emp_office_details      employee_office_details   @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details      employee_office_details    @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
-  emp_basic_details       employee_basic_details    @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details       employee_basic_details     @relation(fields: [emp_basic_details_id], references: [id])
   emp_basic_details_id    Int
-  emp_personal_details    employee_personal_details @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details    employee_personal_details  @relation(fields: [emp_personal_details_id], references: [id])
   emp_personal_details_id Int
+  emp_family_details      employee_family_details[]
+  emp_nominee_details     employee_nominee_details[]
+  emp_present_address     employee_present_address   @relation(fields: [emp_present_address_id], references: [id])
+  emp_present_address_id  Int
 }
 
 model employee_office_details {
-  id              Int        @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   office_name     String
   office_code     String
   ddo_designation String
   ddo_code        String
   district        String
-  Employee        employees[]
+  employee        employees[]
 }
 
 model employee_basic_details {
-  id                  Int        @id @default(autoincrement())
+  id                  Int         @id @default(autoincrement())
   emp_id              String
   emp_image           String
   emp_name            String
@@ -49,11 +53,11 @@ model employee_basic_details {
   cps                 BigInt
   gps                 BigInt
   dob                 DateTime
-  Employee            employees[]
+  employee            employees[]
 }
 
 model employee_personal_details {
-  id                          Int        @id @default(autoincrement())
+  id                          Int         @id @default(autoincrement())
   married_status              Int
   identification_marks        String
   religion                    Int
@@ -68,7 +72,43 @@ model employee_personal_details {
   emp_family                  Int
   emp_lang                    Int
   emp_lang_do                 String
-  Employee                    employees[]
+  employee                    employees[]
+}
+
+model employee_family_details {
+  id           Int       @id @default(autoincrement())
+  name         String
+  relation     String
+  dob          String
+  dependent    String
+  employees    employees @relation(fields: [employees_id], references: [id])
+  employees_id Int
+}
+
+model employee_nominee_details {
+  id           Int       @id @default(autoincrement())
+  nominee_name String
+  relation     String
+  percentage   Float
+  address      String
+  minor        String
+  employees    employees @relation(fields: [employees_id], references: [id])
+  employees_id Int
+}
+
+model employee_present_address {
+  id                Int         @id @default(autoincrement())
+  address_primary   String
+  address_secondary String
+  village           String
+  post_office       String
+  state             String
+  district          String
+  block_ulb         String
+  pin_code          String
+  police_station    String
+  emp_address_same  String
+  employee          employees[]
 }
 
 //-----------------------------------------------------------------//

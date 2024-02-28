@@ -1,6 +1,12 @@
+/***
+ * Author: Krish
+ * Status: Closed
+ * Date: 21/02/2024
+ */
+
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik } from "formik";
 import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
@@ -28,14 +34,27 @@ const EmployeeOfficeDetails: React.FC<
   ) => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_office_details", JSON.stringify(values));
+      sessionStorage.setItem("emp_type", JSON.stringify(tabIndex));
       setSubmitting(false);
 
       if (props.setData) {
         props.setData("emp_office_details", values, tabIndex);
       }
-      router.push(`${pathName}?page=2`);
+      if (tabIndex === 1) {
+        router.push(`${pathName}?emp=old&page=2`);
+      } else if (tabIndex === 2) {
+        router.push(`${pathName}?emp=new&page=2`);
+      }
     }
   };
+
+  useEffect(() => {
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("emp_type")
+        ? setTabIndex(JSON.parse(sessionStorage.getItem("emp_type") ?? ""))
+        : null
+      : "";
+  }, [pathName]);
 
   const initialValues =
     typeof window !== "undefined"
@@ -60,6 +79,7 @@ const EmployeeOfficeDetails: React.FC<
               name="radio-1"
               className="radio border border-zinc-600"
               defaultChecked
+              checked={tabIndex === 1}
             />
             <label htmlFor="accounting" className=" cursor-pointer">
               Old Employee
@@ -73,6 +93,7 @@ const EmployeeOfficeDetails: React.FC<
               type="radio"
               name="radio-1"
               className="radio  border-zinc-600"
+              checked={tabIndex === 2}
             />
             <label htmlFor="function" className=" cursor-pointer">
               New Employee

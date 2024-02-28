@@ -29,7 +29,7 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 
 /// ------------- Employee Basic Details ---------------------///
 export const employeeValidationSchema = yup.object({
-  emp_id: yup.string().required("Employee ID is required"),
+  // emp_id: yup.string().required("Employee ID is required"),
   emp_image: yup.string().required("Employee image is required"),
   emp_name: yup.string().required("Employee name is required"),
   mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
@@ -71,7 +71,7 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
 export const employeePersonalDetailsValidationSchema = yup.object({
   married_status: yup.mixed().required("Please Enter the Employee Category"),
   identification_marks: yup
-    .mixed()
+    .string()
     .required("Please Enter the Identification Marks"),
   religion: yup.mixed().required("Please Enter the Religion"),
   emp_categories: yup.mixed().required("Please Enter the Employee Category"),
@@ -88,10 +88,7 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
-  emp_lang_do: yup
-    .string()
-    .oneOf(["read", "write", "speak"])
-    .required("Please Enter the Language Proficiency"),
+  // emp_lang_do: yup.string().required("Please Enter the Language Proficiency"),
 });
 
 export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
@@ -108,9 +105,8 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_phy_health_type: "",
   emp_family: "",
   emp_lang: "",
-  emp_lang_do: "read",
+  // emp_lang_do: "",
 };
-
 
 export const employeePresentAddressValidationSchema = yup.object({
   address_primary: yup.string().required("Please Enter the Correct Address"),
@@ -118,36 +114,45 @@ export const employeePresentAddressValidationSchema = yup.object({
   state: yup.string().required("Please Enter the Correct State"),
   district: yup.string().required("Please Enter the Correct District"),
   pin_code: yup.string().required("Please Enter the Correct Pin Code"),
-  police_station: yup.string().required("Please Enter the Correct Police Station"),
-  emp_address_same:yup.string().required("Please Choose Correct Option")
+  police_station: yup
+    .string()
+    .required("Please Enter the Correct Police Station"),
+  emp_address_same: yup.string().required("Please Choose Correct Option"),
 });
 
-export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType = {
-  address_primary: "",
-  address_secondary: "",
-  village: "",
-  post_office: "",
-  state: "",
-  district: "",
-  block_ulb: "",
-  pin_code: "",
-  police_station: "",
-  emp_address_same: "yes",
-};
-
+export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
+  {
+    address_primary: "",
+    address_secondary: "",
+    village: "",
+    post_office: "",
+    state: "",
+    district: "",
+    block_ulb: "",
+    pin_code: "",
+    police_station: "",
+    emp_address_same: "yes",
+  };
 
 export const employeeJoinValidationSchema = yup.object({
   department: yup.string().required("Please Enter the Correct Department"),
   designation: yup.string().required("Please Enter the Correct Designation"),
   task: yup.string().required("Please Choose Correct Task"),
   doj: yup.string().required("Please Enter the Correct Date Of Joining"),
-  effective_pay_commision: yup.string().required("Please Choose the Correct Pay Commission"),
+  effective_pay_commision: yup
+    .string()
+    .required("Please Choose the Correct Pay Commission"),
   pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
   pay_band: yup.string().required("Please Enter the Correct Pay Band"),
   grade_pay: yup.string().required("Please Enter the Correct Grade Pay"),
   basic_pay: yup.string().required("Please Enter the Correct Basic Pay"),
-  deduction_type:yup.string().required("Please Enter the Correct Deduction Type (GPF/CPS)"), 
-  confirmation_order: yup.string().oneOf(["yes", "no"]).required("Please Choose the Correct Option"),
+  deduction_type: yup
+    .string()
+    .required("Please Enter the Correct Deduction Type (GPF/CPS)"),
+  confirmation_order: yup
+    .string()
+    .oneOf(["yes", "no"])
+    .required("Please Choose the Correct Option"),
 });
 
 export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
@@ -157,31 +162,32 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   class: "",
   doj: "",
   effective_pay_commision: "",
-  confirmation_order: "",
-  pay_scale:"",
-  pay_band:"",
-  grade_pay:"",
-  doc:"",
-  basic_pay:"",
-  conf_order_number:"",
-  deduction_type:"",
-  conf_order_date:"",
-  member_gis: "yes",
-  appoint_authority:"",
-  gis_account:"",
-  ulb:"",
-  last_inc_order:"",
-  name_of_service:"",
-  last_inc_order_date:"",
-  bank_name:"",
-  wef_date:"",
-  branch_name:"",
-  pf_category:"",
-  acc_number:"",
-  ifsc:"",
+  // confirmation_order: "",
+  pay_scale: "",
+  pay_band: "",
+  grade_pay: "",
+  doc: "",
+  basic_pay: "",
+  conf_order_number: "",
+  deduction_type: "",
+  conf_order_date: "",
+  // member_gis: "yes",
+  appoint_authority: "",
+  gis_account: "",
+  ulb: "",
+  last_inc_order: "",
+  name_of_service: "",
+  last_inc_order_date: "",
+  bank_name: "",
+  wef_date: "",
+  branch_name: "",
+  pf_category: "",
+  acc_number: "",
+  ifsc: "",
   sen_grade_list: "",
+  confirmation_order: "yes",
+  member_gis: []
 };
-
 
 export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   loan_name: "",
@@ -193,21 +199,22 @@ export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   dis_treasury_name: "",
   voucher_date: "",
   treasury_voc_num: "",
-  loan_name_principal:"",
-  tot_amt_released:"",
+  loan_name_principal: "",
+  tot_amt_released: "",
   total_install: "",
   monthly_install: "",
   last_paid_install: "",
   month_last_install: "",
   total_amnt: "",
-  loan_name_recovery:"",
-  total_int_amount:"",
+  loan_name_recovery: "",
+  total_int_amount: "",
   total_install_recovery: "",
   monthly_install_recovery: "",
   last_paid_install_recovery: "",
   month_last_install_recovery: "",
   total_amnt_recovery: "",
 };
+
 
 
 

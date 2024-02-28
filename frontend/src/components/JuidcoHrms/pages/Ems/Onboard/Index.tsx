@@ -32,6 +32,8 @@ import EmpLoanDetails from "./Forms/EmpLoanDetails";
 import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 import Table from "@/components/global/molecules/Table";
 import { EmpTimeBound } from "./Forms/EmpTimeBound";
+import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
+import EmpSalaryDetails from "./Forms/EmpSalaryDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -68,6 +70,7 @@ export const EmployeeOnBoard = () => {
       JSON.stringify(employeeOnBoardDetails)
     );
   }, [employeeOnBoardDetails]);
+  // console.log(employeeOnBoardDetails, "index");
 
   // ------------------ Functions ------------------//
 
@@ -76,7 +79,7 @@ export const EmployeeOnBoard = () => {
     values: EmployeeOnBoardForm
   ): Promise<EmployeeOnBoardForm> => {
     values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
-
+    console.log(values, "valll");
     const res = await axios({
       url: `${HRMS_URL.EMS.create}`,
       method: "POST",
@@ -132,16 +135,16 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
-              <EmpployeePersonalDetails setData={getStateData} />
-          ) : searchParam === "8" ? (
+            <EmpployeePersonalDetails setData={getStateData} />
+          ) : searchParam === "4" ? (
             <EmpPresentAddress setData={getStateData} />
           ) : searchParam === "5" ? (
             <EmpEducationDetails setData={getStateData}/>
             
           ): searchParam === "6" ? (
             <>
-            <EmpInitialJoinDetails setData={getStateData} />
-            <Button
+              <EmpInitialJoinDetails setData={getStateData} />
+              <Button
                 buttontype="button"
                 variant="primary"
                 onClick={() => mutate(employeeOnBoardDetails)}
@@ -151,9 +154,9 @@ export const EmployeeOnBoard = () => {
             </>
           ) : searchParam === "7" ? (
             <EmpLoanDetails setData={getStateData} />
-          ) : searchParam === "4" ? (
+          ) : searchParam === "8" ? (
             <>
-            <EmployeeServiceHistory setData={getStateData} />
+            <EmployeeFamilyDetails setData={getStateData} />
             <Button
                 buttontype="button"
                 variant="primary"
@@ -165,6 +168,8 @@ export const EmployeeOnBoard = () => {
             // <EmployeeServiceHistory setData={getStateData} />
           ) : searchParam === "9" ? (
             <EmpTimeBound setData={getStateData}/>
+          ): searchParam === "10" ? (
+            <EmpSalaryDetails setData={getStateData}/>
           ): (
             <></>
           )}

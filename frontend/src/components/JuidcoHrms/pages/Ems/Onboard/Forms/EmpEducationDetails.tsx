@@ -15,15 +15,15 @@ import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { EmployeeDetailsProps, EmployeeEducationDetailsType } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import Button from "@/components/global/atoms/Button";
-import EmpEducationTrainingDetails from "./EmpEducationTrainingDetails";
 
 
 const EmpEducationDetails: React.FC<
   EmployeeDetailsProps<EmployeeEducationDetailsType>
 > = (props) => {
 
-  
+
   const [tabIndex, setTabIndex] = useState<number>(1);
+  const [employeeTrainingDetails, setEmployeeTrainingDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
 
@@ -55,28 +55,40 @@ const EmpEducationDetails: React.FC<
     },
   ];
 
-  const COLUMNS_FOR_EMP_TRNG_INFRM = [
+  const COLUMNS_FOR_EMP_TRNG_INFRM:COLUMNS[] = [
     {
       HEADER: "Name of Training",
+      ACCESSOR:"name_of_training",
+      isRequired:true
     },
     {
       HEADER: "Training Type",
+      ACCESSOR:"training_type",
+      isRequired:true
     },
 
     {
       HEADER: "Name of Institution",
+      ACCESSOR:"name_of_institution",
+      isRequired:true
     },
 
     {
       HEADER: "Starting From",
+      ACCESSOR:"starting_from",
+      isRequired:true
     },
 
     {
       HEADER: "End To",
+      ACCESSOR:"end_to",
+      isRequired:true
     },
 
     {
       HEADER: "Total Days of Training",
+      ACCESSOR:"total_days_of_train",
+      isRequired:true
     },
   ];
 
@@ -117,14 +129,6 @@ const EmpEducationDetails: React.FC<
 
   });
 
-  const [empTrainInf, setEmpTrainInf] = useState({
-    name_of_training: "",
-    training_type: "",
-    name_of_inst: "",
-    starting_from: "",
-    end_to: "",
-    tot_day_training: "",
-  })
 
   const handleInputChange = (fieldName: string, value: string) => {
     setFormData((prevFormData) => ({
@@ -155,12 +159,6 @@ const EmpEducationDetails: React.FC<
   };
 
 
-  const handleEmpTrainChange = (fieldName: string, value: string) => {
-    setEmpTrainInf((prevEmpTrainData) => ({
-      ...prevEmpTrainData,
-      [fieldName]: value,
-    }));
-  };
 
   const saveDataToSessionStorage = () => {
     if (typeof window !== "undefined") {
@@ -190,7 +188,7 @@ const EmpEducationDetails: React.FC<
         post_grad_grade: pgradData.post_grad_grade,
       };
 
-     
+
 
       const updatedEducationData = [...existingEducationData, newEducationDetailsData];
 
@@ -198,8 +196,7 @@ const EmpEducationDetails: React.FC<
 
       if (props.setData) {
         props.setData("emp_education_details", updatedEducationData as any);
-        props.setData("emp_training_infrm", EmpEducationTrainingDetails as any);
-        
+
       }
       router.push(`${pathName}?page=5`);
     }
@@ -293,7 +290,10 @@ const EmpEducationDetails: React.FC<
       sessionStorage.setItem("emp_education_details", JSON.stringify(updatedTableData));
     }
   };
-
+  function getStateData(key: string, values: any, index?: number) {
+    setEmployeeTrainingDetails((prev: any) => ({ ...prev, [key]: values }));
+    setTabIndex(index || tabIndex);
+  }
   return (
     <>
       <SubHeading className="text-[20px] pt-4">
@@ -551,7 +551,7 @@ const EmpEducationDetails: React.FC<
 
         </table>
 
-        
+
         <div className="w-full flex items-center justify-end mt-3">
           <Button onClick={addData} buttontype="button" variant="primary_rounded">
             + Add More
@@ -560,7 +560,12 @@ const EmpEducationDetails: React.FC<
         </div>
 
         <div>
-        <EmpEducationTrainingDetails setData={props.setData} />
+          <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM} 
+          getData={[]} 
+          subHeading={"Employee Training Information "} 
+          setData={getStateData} 
+          session_key="emp_training_details"
+          />
         </div>
       </div>
 

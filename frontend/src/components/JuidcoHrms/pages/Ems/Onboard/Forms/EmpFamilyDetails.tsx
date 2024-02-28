@@ -13,104 +13,128 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import { usePathname, useRouter } from "next/navigation";
-
+import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
-import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
-import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
 
-const EmployeeServiceHistory: React.FC<
+const EmployeeFamilyDetails: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
-  const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
+  const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
 
-  const handleSubmitForm = (
-    values: EmployeeOfficeDetaislType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+  const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
-      setSubmitting(false);
+      sessionStorage.setItem("emp_family_details", JSON.stringify(values));
 
       if (props.setData) {
-        props.setData("emp_office_details", values, tabIndex);
+        props.setData("emp_family_details", values, tabIndex);
       }
-      router.push(`${pathName}?page=2`);
+      router.push(`${pathName}?page=6`);
     }
   };
 
   // ----------------------- TABLE COLUMNS --------------------------------//
+  const COLUMS_EMP_FAMILY_DETAILS: COLUMNS[] = [
+    {
+      HEADER: "SL. No.",
+      ACCESSOR: "sl_no",
+      isRequired: false,
+      sl_no: true,
+    },
+    {
+      HEADER: "Name",
+      ACCESSOR: "name",
+      isRequired: true,
+    },
+    {
+      HEADER: "Relation",
+      ACCESSOR: "relation",
+      isRequired: true,
+    },
 
-  // const COLUMNS_FOR_EMP_INCR_DET = [
-  //   {
-  //     HEADER: "SL. No.",
-  //     ACCESSOR: "sl_no",
-  //     isRequired: false,
-  //     sl_no: true,
-  //   },
-  //   // {
-  //   //   HEADER: "Scale",
-  //   //   ACCESSOR: "scale",
-  //   //   // isRequired: true,
-  //   //   type: "radio",
-  //   // },
+    {
+      HEADER: "D.O.B",
+      ACCESSOR: "dob",
+      isRequired: true,
+    },
 
-  //   {
-  //     HEADER: "Increment Date",
-  //     ACCESSOR: "increment_date",
-  //     isRequired: true,
-  //   },
+    {
+      HEADER: "Dependent",
+      ACCESSOR: "dependent",
+      type: "radio",
+      isRequired: true,
+    },
+  ];
 
-  //   {
-  //     HEADER: "Increment Amount",
-  //     ACCESSOR: "increment_amount",
-  //     isRequired: true,
-  //   },
+  const COLUMS_EMP_NOMINEE_DETAILS: COLUMNS[] = [
+    {
+      HEADER: "SL. No.",
+      ACCESSOR: "sl_no",
+      isRequired: false,
+      sl_no: true,
+    },
+    {
+      HEADER: "Nominee Name ",
+      ACCESSOR: "nominee_name",
+      isRequired: true,
+    },
+    {
+      HEADER: "Relation",
+      ACCESSOR: "relation",
+      isRequired: true,
+    },
 
-  //   {
-  //     HEADER: "Basic Pay After Increment",
-  //     ACCESSOR: "basic_pay_increment",
-  //     isRequired: true,
-  //   },
+    {
+      HEADER: "Percentage",
+      ACCESSOR: "percentage",
+      isRequired: true,
+      type:"number"
+    },
 
-  //   {
-  //     HEADER: "Vide Order No.",
-  //     ACCESSOR: "vide_order_no",
-  //     isRequired: true,
-  //   },
-  //   {
-  //     HEADER: "Vide Order Date",
-  //     ACCESSOR: "vide_order_date",
-  //     isRequired: true,
-  //   },
-  // ];
-
+    {
+      HEADER: "Address",
+      ACCESSOR: "address",
+      isRequired: true,
+    },
+    {
+      HEADER: "Minor",
+      ACCESSOR: "minor",
+      isRequired: true,
+      type: "radio",
+    },
+  ];
   // ----------------------- TABLE COLUMNS --------------------------------//
+
   function getStateData(key: string, values: any, index?: number) {
-    setEmloyeeServiceHistory((prev: any) => ({ ...prev, [key]: values }));
+    setEmployeeFamilyDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
 
   return (
     <>
       <SubHeading className="text-[20px] pt-4">
-        Employee Service History{" "}
+        Employee Family Details
       </SubHeading>
+      
       <div className="mt-4">
         <TableFormContainer
           setData={getStateData}
-          columns={COLUMNS_FOR_EMP_INCR_DET}
+          columns={COLUMS_EMP_FAMILY_DETAILS}
           getData={[]}
-          subHeading={"Employee Increment Details "}
+          subHeading={""}
+          session_key={"emp_fam_details"}
         />
-      </div>
 
-      <div className="">
-        <EmployeePromotionDetailsTable setData={getStateData} />
-        <EmployeeTransferDetailsTable setData={getStateData} />
+        <TableFormContainer
+          setData={getStateData}
+          columns={COLUMS_EMP_NOMINEE_DETAILS}
+          getData={[]}
+          subHeading={"Employee Nominee Details  "}
+          session_key={"emp_nominee_details"}
+        />
       </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">
@@ -122,7 +146,11 @@ const EmployeeServiceHistory: React.FC<
           Reset
         </PrimaryButton>
 
-        <PrimaryButton buttonType="submit" variant="primary">
+        <PrimaryButton
+          onClick={() => handleSubmitForm(employeeFamilyDetails)}
+          buttonType="submit"
+          variant="primary"
+        >
           Next
         </PrimaryButton>
       </div>
@@ -130,4 +158,4 @@ const EmployeeServiceHistory: React.FC<
   );
 };
 
-export default EmployeeServiceHistory;
+export default EmployeeFamilyDetails;

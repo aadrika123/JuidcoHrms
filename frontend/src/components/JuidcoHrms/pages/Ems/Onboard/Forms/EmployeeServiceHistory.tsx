@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 
-import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
+import type { EmployeeServiceHistoryType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -20,29 +20,23 @@ import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onb
 import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
 
 const EmployeeServiceHistory: React.FC<
-  EmployeeDetailsProps<EmployeeOfficeDetaislType>
+  EmployeeDetailsProps<EmployeeServiceHistoryType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
 
-  const handleSubmitForm = (
-    values: EmployeeOfficeDetaislType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+  const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_office_details", JSON.stringify(values));
-      setSubmitting(false);
+      sessionStorage.setItem("emp_service_history", JSON.stringify(values));
 
       if (props.setData) {
-        props.setData("emp_office_details", values, tabIndex);
+        props.setData("emp_service_history", values, tabIndex);
       }
-      router.push(`${pathName}?page=2`);
+      router.push(`${pathName}?page=5`);
     }
   };
-
-  console.log(employeeServiceHistory, "yess");
 
   // ----------------------- TABLE COLUMNS --------------------------------//
 
@@ -105,6 +99,7 @@ const EmployeeServiceHistory: React.FC<
         <TableFormContainer
           setData={getStateData}
           columns={COLUMNS_FOR_EMP_INCR_DET}
+          session_key={"emp_inc_details"}
           getData={[]}
           subHeading={"Employee Increment Details "}
         />
@@ -124,7 +119,11 @@ const EmployeeServiceHistory: React.FC<
           Reset
         </PrimaryButton>
 
-        <PrimaryButton buttonType="submit" variant="primary">
+        <PrimaryButton
+          onClick={() => handleSubmitForm(employeeServiceHistory)}
+          buttonType="submit"
+          variant="primary"
+        >
           Next
         </PrimaryButton>
       </div>

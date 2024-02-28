@@ -45,7 +45,6 @@ const SelectForNoApi: React.FC<SelectProps> = (props) => {
     // setValue1(selectedOption.name);
   };
 
-  console.log(props.value, "val");
 
   return (
     <>

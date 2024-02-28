@@ -1,21 +1,23 @@
-import { Request } from "express";
 import Joi from "joi";
 import type {
+  EmpFamilyDetailsType,
+  EmpNomineeDetailsType,
   EmployeeBasicDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
+  EmployeePresentAddressDetailsType,
 } from "../../../../util/types/employee_management/employee.type";
 
 //------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
 export const employeeOfficeDetailRequestData = (
-  req: Request
+  empOfficeDetails: EmployeeOfficeDetaislType
 ): EmployeeOfficeDetaislType => {
   return {
-    office_name: req.body.office_code,
-    office_code: req.body.office_code,
-    ddo_code: req.body.ddo_code,
-    ddo_designation: req.body.ddo_designation,
-    district: req.body.district,
+    office_name: empOfficeDetails.office_code,
+    office_code: empOfficeDetails.office_code,
+    ddo_code: empOfficeDetails.ddo_code,
+    ddo_designation: empOfficeDetails.ddo_designation,
+    district: empOfficeDetails.district,
   };
 };
 
@@ -30,29 +32,29 @@ export const employeeOfficeDetailsSchema = Joi.object({
 
 //------------------ EMPLOYEE BASIC DETAILS ------------------------------//
 export const employeeBasicDetailRequestData = (
-  req: Request
+  empBasicDetails: EmployeeBasicDetailsType
 ): EmployeeBasicDetailsType => {
   return {
-    emp_id: req.body.emp_id,
-    emp_image: req.body.emp_image,
-    emp_name: req.body.emp_name,
-    mode_of_recruitment: req.body.mode_of_recruitment,
-    contact_no: req.body.contact_no,
-    emg_contact_no: req.body.emg_contact_no,
-    aadhar_no: req.body.aadhar_no,
-    epic_no: req.body.epic_no,
-    gender: req.body.gender,
-    pran: req.body.pran,
-    emp_type: req.body.emp_type,
-    weight: req.body.weight,
-    height: req.body.height,
-    cps: req.body.cps,
-    gps: req.body.gps,
-    dob: req.body.dob,
+    emp_id: empBasicDetails.emp_id,
+    emp_image: empBasicDetails.emp_image,
+    emp_name: empBasicDetails.emp_name,
+    mode_of_recruitment: empBasicDetails.mode_of_recruitment,
+    contact_no: empBasicDetails.contact_no,
+    emg_contact_no: empBasicDetails.emg_contact_no,
+    aadhar_no: empBasicDetails.aadhar_no,
+    epic_no: empBasicDetails.epic_no,
+    gender: empBasicDetails.gender,
+    pran: empBasicDetails.pran,
+    emp_type: empBasicDetails.emp_type,
+    weight: empBasicDetails.weight,
+    height: empBasicDetails.height,
+    cps: empBasicDetails.cps,
+    gps: empBasicDetails.gps,
+    dob: empBasicDetails.dob,
   };
 };
 
-export const employeeDetailsSchema = Joi.object({
+export const employeeBasicDetailsSchema = Joi.object({
   emp_id: Joi.string().required(),
   emp_image: Joi.string().required(),
   emp_name: Joi.string().required(),
@@ -77,23 +79,23 @@ export const employeeDetailsSchema = Joi.object({
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
 
 export const employeePersonalDetailsRequestData = (
-  req: Request
+  empPersonalDetails: EmployeePersonalDetailsType
 ): EmployeePersonalDetailsType => {
   return {
-    married_status: req.body.married_status,
-    identification_marks: req.body.identification_marks,
-    religion: req.body.religion,
-    emp_categories: req.body.emp_categories,
-    emp_home_state: req.body.emp_home_state,
-    emp_district: req.body.emp_district,
-    emp_blood_group: req.body.emp_blood_group,
-    emp_health_status: req.body.emp_health_status,
-    emp_ltc_home_town: req.body.emp_ltc_home_town,
-    emp_nearest_railway_station: req.body.emp_nearest_railway_station,
-    emp_phy_health_type: req.body.emp_phy_health_type,
-    emp_family: req.body.emp_family,
-    emp_lang: req.body.emp_lang,
-    emp_lang_do: req.body.emp_lang_do,
+    married_status: empPersonalDetails.married_status,
+    identification_marks: empPersonalDetails.identification_marks,
+    religion: empPersonalDetails.religion,
+    emp_categories: empPersonalDetails.emp_categories,
+    emp_home_state: empPersonalDetails.emp_home_state,
+    emp_district: empPersonalDetails.emp_district,
+    emp_blood_group: empPersonalDetails.emp_blood_group,
+    emp_health_status: empPersonalDetails.emp_health_status,
+    emp_ltc_home_town: empPersonalDetails.emp_ltc_home_town,
+    emp_nearest_railway_station: empPersonalDetails.emp_nearest_railway_station,
+    emp_phy_health_type: empPersonalDetails.emp_phy_health_type,
+    emp_family: empPersonalDetails.emp_family,
+    emp_lang: empPersonalDetails.emp_lang,
+    emp_lang_do: empPersonalDetails.emp_lang_do,
   };
 };
 
@@ -114,3 +116,84 @@ export const employeePersonalDetailsSchema = Joi.object({
   emp_lang_do: Joi.string().valid("read", "write", "speak").required(),
 });
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
+
+//------------------ EMPLOYEE FAMILY DETAILS ------------------------------//
+
+export const employeeFamilyDetailsRequestData = (
+  empFamilyDetails: EmpFamilyDetailsType[]
+) => {
+  return empFamilyDetails?.map((item) => {
+    return {
+      name: item.name,
+      relation: item.relation,
+      dob: item.dob,
+      dependent: item.dependent,
+    };
+  });
+};
+const employeeFamilyDetails = Joi.object({
+  name: Joi.string().required(),
+  relation: Joi.string().required(),
+  dob: Joi.string().required(),
+  dependent: Joi.string().required(),
+});
+
+export const employeeNomineeDetailsRequestData = (
+  empNomineeDetails: EmpNomineeDetailsType[]
+) => {
+  empNomineeDetails?.map((item) => {
+    return {
+      nominee_name: item.nominee_name,
+      relation: item.relation,
+      percentage: item.percentage,
+      address: item.address,
+      minor: item.minor,
+    };
+  });
+};
+const employeeNomineeDetails = Joi.object({
+  nominee_name: Joi.string().required(),
+  relation: Joi.string().required(),
+  percentage: Joi.number().required(),
+  address: Joi.string().required(),
+  minor: Joi.string().required(),
+});
+
+export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
+  employeeFamilyDetails,
+  employeeNomineeDetails
+);
+
+//------------------ EMPLOYEE FAMILY DETAILS ------------------------------//
+
+//------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
+export const employeePresentAddressDetailsSchema = Joi.object({
+  address_primary: Joi.string().required(),
+  address_secondary: Joi.string().required(),
+  village: Joi.string().required(),
+  post_office: Joi.string().required(),
+  state: Joi.string().required(),
+  district: Joi.string().required(),
+  block_ulb: Joi.string().required(),
+  pin_code: Joi.string().required(),
+  police_station: Joi.string().required(),
+  emp_address_same: Joi.string().valid("yes", "no").required(),
+});
+
+export const employeePresentAddressDetailsRequestData = (
+  empPresentAddress: EmployeePresentAddressDetailsType
+): EmployeePresentAddressDetailsType => {
+  return {
+    address_primary: empPresentAddress.address_primary,
+    address_secondary: empPresentAddress.address_secondary,
+    village: empPresentAddress.village,
+    post_office: empPresentAddress.post_office,
+    state: empPresentAddress.state,
+    district: empPresentAddress.district,
+    block_ulb: empPresentAddress.block_ulb,
+    pin_code: empPresentAddress.pin_code,
+    police_station: empPresentAddress.police_station,
+    emp_address_same: empPresentAddress.emp_address_same,
+  };
+};
+//------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//

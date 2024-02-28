@@ -7,6 +7,7 @@
 import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
+import { EmployeePromDetails } from "@/utils/types/employee.type";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -29,33 +30,34 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
-  const [tableData, setTableData] = useState([
+  const [tableData, setTableData] = useState<EmployeePromDetails[]>([
     {
-      designation: {
+      desigination: {
         from: "",
         to: "",
       },
-
       scale: {
         from: "",
         to: "",
       },
-
-      vide_order_no: {
-        from: "",
-        to: "",
-      },
-
-      vide_order_date: {
-        from: "",
-        to: "",
-      },
-
-      transfer: {
-        isTrue: "",
-      },
+      vide_order_no: "",
+      vide_order_date: "",
+      transfer: "no",
     },
   ]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedData = sessionStorage.getItem("emp_prom_details");
+      setTableData(storedData ? JSON.parse(storedData) : [{}]);
+    }
+  }, []);
+
+  function setDataSesson() {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("emp_prom_details", JSON.stringify(tableData));
+    }
+  }
 
   const columns = [
     {
@@ -80,7 +82,6 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       header: "Transfer",
     },
   ];
-
   function onChangeTableDataHandler(
     id: number,
     value: string,
@@ -89,15 +90,25 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   ) {
     setTableData((prev) => {
       const updatedData = [...prev];
-      const row = { ...updatedData[id] };
-      const d: { [key: string]: string } = row[key as keyof typeof row];
-      d[innerKey as keyof typeof d] = value;
-      updatedData[id] = row;
+      const row: Record<string, any> = { ...updatedData[id] };
+
+      if (innerKey) {
+        if (!row[key]) {
+          row[key] = {};
+        }
+        const nestedObject: Record<string, string | boolean> = row[key];
+        nestedObject[innerKey] = value;
+      } else {
+        row[key] = value;
+      }
+
+      updatedData[id] = { ...row } as EmployeePromDetails;
       return updatedData;
     });
   }
 
   function addRow() {
+    setDataSesson();
     const lastRow = tableData[tableData.length - 1];
     const isLastRowEmpty = Object.values(lastRow).every((row) =>
       Object.values(row).every((val) => val !== "")
@@ -117,19 +128,11 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
             to: "",
           },
 
-          vide_order_no: {
-            from: "",
-            to: "",
-          },
+          vide_order_no: "",
 
-          vide_order_date: {
-            from: "",
-            to: "",
-          },
+          vide_order_date: "",
 
-          transfer: {
-            isTrue: "",
-          },
+          transfer: "",
         },
       ]);
     }
@@ -137,12 +140,12 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   const options = [
     {
-      key: "yes",
-      value: "Yes",
+      key: "Yes",
+      value: "yes",
     },
     {
-      key: "no",
-      value: "No",
+      key: "No",
+      value: "no",
     },
   ];
 
@@ -152,9 +155,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     }
   }, [tableData]);
 
-  const header = (
-    <InnerHeading>Employee Promotion Details </InnerHeading>
-  );
+  const header = <InnerHeading>Employee Promotion Details </InnerHeading>;
   return (
     <>
       {header}
@@ -198,11 +199,11 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "designation",
+                          "desigination",
                           "from"
                         )
                       }
-                      value={row?.designation.from}
+                      value={row?.desigination?.from}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -213,11 +214,11 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "designation",
+                          "desigination",
                           "to"
                         )
                       }
-                      value={row.designation?.to}
+                      value={row.desigination?.to}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -238,7 +239,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "from"
                         )
                       }
-                      value={row?.scale.from}
+                      value={row?.scale?.from}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -253,7 +254,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "to"
                         )
                       }
-                      value={row.scale?.to}
+                      value={row?.scale?.to}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -264,32 +265,15 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------VIDE ORDER NO----------------------------------- */}
                 <td className="border border-zinc-400 ">
                   <React.Fragment>
-                    <p>From:</p>
                     <InputField
                       onChange={(e) =>
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "vide_order_no",
-                          "from"
+                          "vide_order_no"
                         )
                       }
-                      value={row?.vide_order_no.from}
-                      placeholder={"Enter "}
-                      isRequired={true}
-                    />
-
-                    <p>To:</p>
-                    <InputField
-                      onChange={(e) =>
-                        onChangeTableDataHandler(
-                          index,
-                          e.target.value,
-                          "vide_order_no",
-                          "to"
-                        )
-                      }
-                      value={row.vide_order_no?.to}
+                      value={row?.vide_order_no}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -299,60 +283,25 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
                 {/* ---------------------------VIDE ORDER DATE----------------------------------- */}
                 <td className="border border-zinc-400 ">
-                  <React.Fragment>
-                    <p>From:</p>
-                    <InputField
-                      onChange={(e) =>
-                        onChangeTableDataHandler(
-                          index,
-                          e.target.value,
-                          "vide_order_date",
-                          "from"
-                        )
-                      }
-                      value={row?.vide_order_date.from}
-                      placeholder={"Enter "}
-                      isRequired={true}
-                    />
-
-                    <p>To:</p>
-                    <InputField
-                      onChange={(e) =>
-                        onChangeTableDataHandler(
-                          index,
-                          e.target.value,
-                          "vide_order_date",
-                          "to"
-                        )
-                      }
-                      value={row.vide_order_date?.to}
-                      placeholder={"Enter "}
-                      isRequired={true}
-                    />
-                  </React.Fragment>
+                  <InputField
+                    onChange={(e) =>
+                      onChangeTableDataHandler(
+                        index,
+                        e.target.value,
+                        "vide_order_date"
+                      )
+                    }
+                    type="date"
+                    value={row?.vide_order_date}
+                    placeholder={"Enter "}
+                    isRequired={true}
+                  />
                 </td>
                 {/* ---------------------------VIDE ORDER DATE----------------------------------- */}
 
                 {/* ---------------------------TRANSFER----------------------------------- */}
                 <td className="border border-zinc-400 ">
                   <div className="flex flex-col items-start justify-center gap-4">
-                    {/* <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        className="checkbox border border-zinc-500"
-                        id="yes"
-                      />
-                      <label htmlFor="yes">Yes</label>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        className="checkbox border border-zinc-500"
-                        id="no"
-                      />
-                      <label htmlFor="no">No</label>
-                    </div> */}
                     <div>
                       <div className="flex flex-col gap-3 pl-5 items-start">
                         {options.map((option) => (
@@ -369,18 +318,16 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                                 onChangeTableDataHandler(
                                   index,
                                   option.value,
-                                  "transfer",
-                                  "isTrue"
+                                  "transfer"
                                 )
                               }
                               checked={
-                                tableData[index].transfer.isTrue ===
-                                option.value
+                                tableData[index]?.transfer === option.value
                               }
                             />
                             <label
                               className="text-secondary text-sm"
-                              htmlFor={option.value}
+                              htmlFor={option.key}
                             >
                               {option.key}
                             </label>

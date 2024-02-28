@@ -47,3 +47,84 @@ export interface EmployeePersonalDetailsType {
   emp_lang: string | number;
   emp_lang_do: "read" | "write" | "speak";
 }
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+type InnerInputBox = {
+  from: string;
+  to: string;
+};
+
+export type EmployeeIncDetails = {
+  scale: string;
+  inc_date: string;
+  inc_amount: number;
+  basic_pay_after_inc: number;
+  vide_order_no: string;
+  vide_order_date: string;
+};
+
+export type EmployeePromDetails = {
+  desigination: InnerInputBox;
+  scale: InnerInputBox;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer: "yes" | "no";
+};
+
+export type EmployeeTransDetails = {
+  desigination: InnerInputBox;
+  office: InnerInputBox;
+  joining_date: string;
+  vide_order_no: string;
+  vide_order_date: string;
+  transfer_after_prom: boolean;
+};
+
+export interface EmployeeServiceHistoryType {
+  emp_inc_details: EmployeeIncDetails[];
+  emp_prom_details: EmployeePromDetails[];
+  emp_trans_details: EmployeeTransDetails[];
+}
+
+//------------------------- EmployeeServiceHistory Types -----------------------------//
+
+//------------------------- Employee Family Details Types -----------------------------//
+export type EmpFamilyDetailsType = {
+  id?: string | number;
+  name: string;
+  relation: string;
+  dob: string;
+  dependent: "yes" | "no";
+};
+
+export type EmpNomineeDetailsType = {
+  id?: string | number;
+  nominee_name: string;
+  relation: string;
+  percentage: number;
+  address: string;
+  minor: "yes" | "no";
+};
+
+export interface EmployeeFamilyDetailsType {
+  emp_family_details: EmpFamilyDetailsType;
+  emp_nominee_details: EmpNomineeDetailsType;
+}
+//------------------------- Employee Family Details Types -----------------------------//
+
+//------------------------- Employee Permanent Address Types -----------------------------//
+export interface EmployeePresentAddressDetailsType {
+  id?: string | number;
+  address_primary: string | number;
+  address_secondary: string | number;
+  village: string;
+  post_office: string;
+  state: string;
+  district: string;
+  block_ulb: string | number;
+  pin_code: string | number;
+  police_station: string;
+  emp_address_same: "yes" | "no";
+}
+//------------------------- Employee Permanent Address Types -----------------------------//
