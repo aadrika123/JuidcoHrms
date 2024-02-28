@@ -25,8 +25,14 @@ import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
-// import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+import EmpPresentAddress from "./Forms/EmpPresentAddress";
+import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
+import EmpEducationDetails from "./Forms/EmpEducationDetails";
+import EmpLoanDetails from "./Forms/EmpLoanDetails";
+import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
+import { EmpTimeBound } from "./Forms/EmpTimeBound";
 import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
+import EmpSalaryDetails from "./Forms/EmpSalaryDetails";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -128,21 +134,32 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
+            <EmpployeePersonalDetails setData={getStateData} />
+          ) : searchParam === "4" ? (
+            <EmpPresentAddress setData={getStateData} />
+          ) : searchParam === "5" ? (
+            <EmpEducationDetails setData={getStateData} />
+          ) : searchParam === "6" ? (
             <>
-              <EmpployeePersonalDetails setData={getStateData} />
-              {/* <Button
-                buttontype="button"
-                variant="primary"
-                onClick={() => mutate(employeeOnBoardDetails)}
-              >
-                Save
-              </Button> */}
+              <EmpInitialJoinDetails setData={getStateData} />
             </>
-          ) : // ) : searchParam === "4" ? (
-          //   <EmployeeServiceHistory setData={getStateData} />
-          searchParam === "4" ? (
+          ) : searchParam === "7" ? (
+            //
+            <EmployeeServiceHistory setData={getStateData} />
+          ) : searchParam === "8" ? (
             <>
               <EmployeeFamilyDetails setData={getStateData} />
+            </>
+          ) : //
+          searchParam === "9" ? (
+            //
+            <EmpSalaryDetails setData={getStateData} />
+          ) : searchParam === "10" ? (
+            <EmpLoanDetails setData={getStateData} />
+          ) : searchParam === "11" ? (
+            <>
+              <EmpTimeBound setData={getStateData} />
+
               <Button
                 buttontype="button"
                 variant="primary"

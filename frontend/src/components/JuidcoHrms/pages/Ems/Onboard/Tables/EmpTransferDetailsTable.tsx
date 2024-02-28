@@ -7,7 +7,9 @@
 import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
-import { EmployeePromDetails } from "@/utils/types/employee.type";
+import {
+  EmployeeTransDetails,
+} from "@/utils/types/employee.type";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -30,19 +32,20 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
-  const [tableData, setTableData] = useState<EmployeePromDetails[]>([
+  const [tableData, setTableData] = useState<EmployeeTransDetails[]>([
     {
       desigination: {
         from: "",
         to: "",
       },
-      scale: {
+      office: {
         from: "",
         to: "",
       },
+      joining_date: "",
       vide_order_no: "",
       vide_order_date: "",
-      transfer: "no",
+      transfer_after_prom: "no",
     },
   ]);
 
@@ -67,7 +70,11 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
       header: "Designation ",
     },
     {
-      header: "Scale",
+      header: "Office",
+    },
+
+    {
+      header: "Joining Date",
     },
 
     {
@@ -77,9 +84,8 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
     {
       header: "Vide Order Date",
     },
-
     {
-      header: "Transfer",
+      header: "Transfer after Promotion",
     },
   ];
   function onChangeTableDataHandler(
@@ -102,7 +108,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
         row[key] = value;
       }
 
-      updatedData[id] = { ...row } as EmployeePromDetails;
+      updatedData[id] = { ...row } as EmployeeTransDetails;
       return updatedData;
     });
   }
@@ -118,21 +124,18 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
       setTableData((prev: any) => [
         ...prev,
         {
-          designation: {
+          desigination: {
             from: "",
             to: "",
           },
-
-          scale: {
+          office: {
             from: "",
             to: "",
           },
-
+          joining_date: "",
           vide_order_no: "",
-
           vide_order_date: "",
-
-          transfer: "",
+          transfer_after_prom: "no",
         },
       ]);
     }
@@ -226,7 +229,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                 </td>
                 {/* -----------------------DESIGINATION----------------------------------- */}
 
-                {/* ---------------------------SCALE----------------------------------- */}
+                {/* ---------------------------OFFICE----------------------------------- */}
                 <td className="border border-zinc-400 ">
                   <React.Fragment>
                     <p>From:</p>
@@ -235,11 +238,11 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "scale",
+                          "office",
                           "from"
                         )
                       }
-                      value={row?.scale?.from}
+                      value={row?.office?.from}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -250,17 +253,36 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "scale",
+                          "office",
                           "to"
                         )
                       }
-                      value={row?.scale?.to}
+                      value={row?.office?.to}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
                   </React.Fragment>
                 </td>
-                {/* ---------------------------SCALE----------------------------------- */}
+                {/* ---------------------------OFFICE----------------------------------- */}
+
+                {/* ---------------------------JOINING DATE----------------------------------- */}
+                <td className="border border-zinc-400 ">
+                  <React.Fragment>
+                    <InputField
+                      onChange={(e) =>
+                        onChangeTableDataHandler(
+                          index,
+                          e.target.value,
+                          "joining_date"
+                        )
+                      }
+                      value={row?.joining_date}
+                      type="date"
+                      isRequired={true}
+                    />
+                  </React.Fragment>
+                </td>
+                {/* ---------------------------JOINING DATE----------------------------------- */}
 
                 {/* ---------------------------VIDE ORDER NO----------------------------------- */}
                 <td className="border border-zinc-400 ">
@@ -318,11 +340,11 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                                 onChangeTableDataHandler(
                                   index,
                                   option.value,
-                                  "transfer"
+                                  "transfer_after_prom"
                                 )
                               }
                               checked={
-                                tableData[index]?.transfer === option.value
+                                tableData[index]?.transfer_after_prom === option.value
                               }
                             />
                             <label

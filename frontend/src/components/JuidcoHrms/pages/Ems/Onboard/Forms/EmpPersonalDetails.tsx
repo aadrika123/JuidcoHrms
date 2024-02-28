@@ -17,7 +17,7 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   initialEmployeePersonalDetails,
   employeePersonalDetailsValidationSchema,
@@ -29,7 +29,7 @@ const EmpployeePersonalDetails: React.FC<
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
-
+  const empType = useSearchParams().get("emp");
   const [empLangTypes, setEmpLangTypes] = useState<
     ("read" | "write" | "speak")[]
   >([]);
@@ -51,11 +51,13 @@ const EmpployeePersonalDetails: React.FC<
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
       setSubmitting(false);
-
+      values.emp_lang_do = empLangTypes;
+      // const new_val = { ...values, emp_lang_do: empLangTypes };
+      console.log(values);
       if (props.setData) {
         props.setData("emp_personal_details", values);
       }
-      router.push(`${pathName}?page=4`);
+      router.push(`${pathName}?emp=${empType}&page=4`);
     }
   };
 

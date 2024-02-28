@@ -19,7 +19,7 @@ export interface COLUMNS {
   HEADER: string;
   ACCESSOR: string;
   isRequired: boolean;
-  type?: "radio" | "select" | "text" | "number";
+  type?: "radio" | "select" | "text" | "number" | "date";
   select_options?: OptionProps[];
   placeholder?: string;
   sl_no?: boolean;
@@ -246,6 +246,29 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               </option>
                             ))}
                           </select>
+                        ) : col.type === "date" ? (
+                          <InputField
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                              onChangeTableDataHandler(
+                                index,
+                                Number(e.target.value),
+                                col.ACCESSOR
+                              )
+                            }
+                            value={
+                              col.sl_no
+                                ? index + 1
+                                : (tableData[index] as Record<string, string>)[
+                                    col.ACCESSOR
+                                  ] || ""
+                            }
+                            readOnly={col.sl_no}
+                            name={col.ACCESSOR}
+                            type="date"
+                            isRequired={col.isRequired}
+                          />
                         ) : (
                           <></>
                         )}

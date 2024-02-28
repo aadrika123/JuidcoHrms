@@ -12,6 +12,7 @@ import {
   employeeFamilyAndNomineeeDetailsSchema,
   employeeOfficeDetailsSchema,
   employeePersonalDetailsSchema,
+  employeePresentAddressDetailsSchema,
 } from "../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
@@ -124,8 +125,17 @@ class EmployeeOnBoardController {
         return CommonRes.VALIDATION_ERROR(personalDetailsError, resObj, res);
       }
 
-      // Validate family details if available
+      // Validate address details
+      const { error: addressDetailsError } =
+        employeePresentAddressDetailsSchema.validate(
+          req.body.emp_address_details
+        );
 
+      if (addressDetailsError) {
+        return CommonRes.VALIDATION_ERROR(addressDetailsError, resObj, res);
+      }
+
+      // Validate family details if available
       const { error: familyDetailsError } =
         employeeFamilyAndNomineeeDetailsSchema.validate(
           req.body.emp_family_details.emp_fam_details,

@@ -10,6 +10,7 @@ import {
   employeeBasicDetailRequestData,
   employeeOfficeDetailRequestData,
   employeePersonalDetailsRequestData,
+  employeePresentAddressDetailsRequestData,
 } from "../requests/ems/emp_pers_details.validation";
 
 const prisma = new PrismaClient();
@@ -123,6 +124,7 @@ class EmployeeOnBoardDao {
       emp_basic_details,
       emp_personal_details,
       emp_family_details,
+      emp_address_details,
     } = req.body;
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
@@ -147,11 +149,18 @@ class EmployeeOnBoardDao {
         employeePersonalDetailsRequestData(emp_personal_details)
       );
 
+      const empAddress = await this.createEmployeeDetails(
+        tx,
+        "employee_address_details",
+        employeePresentAddressDetailsRequestData(emp_address_details)
+      );
+
       return {
         emp_id: emp_basic_details.emp_id,
         emp_basic_details_id: empBasic.id,
         emp_office_details_id: empOffice.id,
         emp_personal_details_id: empPersonal.id,
+        emp_address_details_id: empAddress,
         emp_family_details: {
           create: empFamilyDetails,
         },
