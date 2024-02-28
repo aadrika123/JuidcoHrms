@@ -81,9 +81,11 @@ export const DashboardMain = () => {
         Employee Management System
       </SubHeading>
       <div className="w-full flex flex-col sm:flex-row justify-between">
-        <div
+        {/* <div
           className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}
-        >
+        > */}
+          <div className={`w-full md:w-2/5 sm:w-full h-[12%] mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg`}>
+
           <InnerHeading className="text-xl">
             <i>
               <svg
@@ -111,30 +113,30 @@ export const DashboardMain = () => {
 
           <div className="w-full flex flex-col sm:flex-row justify-between">
             <div
-              className={`w-full md:w-[44.3%] h-auto m-1 flex flex-col relative  p-5 `}
+              className={`w-full md:w-[44.3%] m-1 flex flex-col relative  p-5 `}
             >
               <ReactApexChart
                 options={chartOptions}
                 series={chartOptions.series}
                 type="donut"
-                height={220}
-                width={220}
+                height={240}
+                width={200}
               />
             </div>
 
             <div className={`w-full md:w-[56.3%] self-end`}>
               <div className="w-full flex flex-col sm:flex-row justify-between ">
                 <div
-                  className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
+                  className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                 >
                   <span className="text-[#12743B] text-3xl font-bold">90</span>
                   <InnerTextHeading className="text-center">
-                    Total No. of Present Employee
+                    Total  Present Employee
                   </InnerTextHeading>
                 </div>
 
                 <div
-                  className={`w-full md:w-[48.5%] h-auto flex flex-col items-center justify-center relative`}
+                  className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                 >
                   <span className="text-[#00E640] text-3xl font-bold">10</span>
                   <InnerTextHeading className="text-center">
@@ -146,9 +148,11 @@ export const DashboardMain = () => {
           </div>
         </div>
 
-        <div
+        {/* <div
           className={`w-full md:w-[40.1%] h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg px-10 py-10 `}
-        >
+        > */}
+          <div className={`w-full md:w-2/5 sm:w-full h-[10%] mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg`}>
+
           <InnerHeading className="text-xl">
             <i>
               <svg
@@ -178,14 +182,16 @@ export const DashboardMain = () => {
             series={barchartOptions.series}
             type="bar"
             height={250}
-            width={600}
+            width={420}
           />
         </div>
 
-        <div
+        {/* <div
           className={`w-full md:w-[18.5%] h-auto mx-5 my-5 flex flex-col relative   }`}
-        >
-          <div className="h-[11.5rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg">
+        > */}
+          <div className={`w-full md:w-1/5 h-[10%] sm:w-full  mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg`}>
+
+          <div className=" bg-[#ffffff] p-5 rounded-[19.516px] ">
             <i>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +207,7 @@ export const DashboardMain = () => {
                   fillOpacity="0.92"
                 />
               </svg>
-              <div className="menu absolute top-0 right-0 mt-4 mx-3">
+              <div className="menu absolute top-0 right-0 mt-9 mx-3">
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
@@ -212,7 +218,7 @@ export const DashboardMain = () => {
             </InnerHeading>
           </div>
 
-          <div className="h-[11.5rem] bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg mt-5">
+          {/* <div className=" bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg mt-5">
             <i className="relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +243,7 @@ export const DashboardMain = () => {
             <InnerHeading className="mt-5 text-center justify-center text-[22px]">
               List of <br /> Employees
             </InnerHeading>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

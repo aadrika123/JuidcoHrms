@@ -8,7 +8,6 @@ import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
 import {
-  EmployeePromDetails,
   EmployeeTransDetails,
 } from "@/utils/types/employee.type";
 

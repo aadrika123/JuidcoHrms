@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Joining details - Employee Initial Joining Information page
+ */
+
 "use client";
 
 import React, { useState } from 'react'
@@ -8,7 +14,7 @@ import { initialEmployeeJoinDetails, employeeJoinValidationSchema } from '@/util
 import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 
 const EmpInitialJoinDetails: React.FC<
@@ -18,7 +24,7 @@ const EmpInitialJoinDetails: React.FC<
     const router = useRouter();
     const [confirmationOrder, setConfirmationOrder] = useState('');
     const [gisOrder, setGisOrder] = useState('');
-
+    const empType = useSearchParams().get("emp");
     const updateConfirmationOrder = (value: string) => {
         setConfirmationOrder(value);
     };
@@ -39,9 +45,9 @@ const EmpInitialJoinDetails: React.FC<
             setSubmitting(false);
 
             if (props.setData) {
-                props.setData("emp_join_details", formData);
+                props.setData("emp_join_details", formData as any);
             }
-            router.push(`${pathName}?page=7`);
+            router.push(`${pathName}?emp=${empType}&page=7`);
         }
     };
 

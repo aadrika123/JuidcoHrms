@@ -1,43 +1,57 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Address details - Employee Present Address page
+ */
+
 "use client";
 
 import React, { useState } from "react";
-import { SubHeading } from '@/components/Helpers/Heading';
-import { Formik } from 'formik';
-import { EmployeePresentAddressDetailsType , EmployeeDetailsProps} from '@/utils/types/employee.type';
+import { SubHeading } from "@/components/Helpers/Heading";
+import { Formik } from "formik";
+import {
+  EmployeePresentAddressDetailsType,
+  EmployeeDetailsProps,
+} from "@/utils/types/employee.type";
 import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
-import { initialEmployeeAddressDetails, employeePresentAddressValidationSchema } from '@/utils/validation/Ems/ems.validation';
-
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  initialEmployeeAddressDetails,
+  employeePresentAddressValidationSchema,
+} from "@/utils/validation/Ems/ems.validation";
 
 const EmpPresentAddress: React.FC<
   EmployeeDetailsProps<EmployeePresentAddressDetailsType>
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
-
-  const [confirmationOrder, setConfirmationOrder] = useState('');
+  const empType = useSearchParams().get("emp");
+  const [confirmationOrder, setConfirmationOrder] = useState("");
 
   const updateConfirmationOrder = (value: string) => {
-      setConfirmationOrder(value);
-    };
+    setConfirmationOrder(value);
+  };
 
   const handleSubmitFormik = (
     values: EmployeePresentAddressDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      const formData = { ...values, emp_address_same: confirmationOrder};
+      const formData = {
+        ...values,
+        emp_address_same: confirmationOrder as "yes" | "no",
+      };
 
       sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
       setSubmitting(false);
 
       if (props.setData) {
-          props.setData("emp_address_details", formData);
+        props.setData("emp_address_details", formData);
       }
-      router.push(`${pathName}?page=5`);
-  }
+      router.push(`${pathName}?emp=${empType}&page=5`);
+    }
   };
 
   const initialValues =
@@ -50,7 +64,7 @@ const EmpPresentAddress: React.FC<
   return (
     <>
       <SubHeading className="text-[20px] py-4">
-        Employee Personal Details
+        Employee Present Address
       </SubHeading>
       <Formik
         initialValues={initialValues}
@@ -68,7 +82,6 @@ const EmpPresentAddress: React.FC<
         }) => (
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-              
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -79,8 +92,8 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Present Address"
                 name="address_primary"
               />
-             
-               <InputBox
+
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.address_secondary}
@@ -88,7 +101,7 @@ const EmpPresentAddress: React.FC<
                 name="address_secondary"
                 placeholder={"Enter Present Address"}
               />
-               <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.village}
@@ -98,7 +111,7 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Your Village/Town/City"
                 name="village"
               />
-               <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.post_office}
@@ -106,7 +119,7 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Your Post Office"
                 name="post_office"
               />
-                <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.state}
@@ -116,7 +129,7 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Your State"
                 name="state"
               />
-                <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.district}
@@ -126,7 +139,7 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Your District"
                 name="district"
               />
-                <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.block_ulb}
@@ -134,7 +147,7 @@ const EmpPresentAddress: React.FC<
                 placeholder="Block ULB"
                 name="block_ulb"
               />
-               <InputBox
+              <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.pin_code}
@@ -157,14 +170,16 @@ const EmpPresentAddress: React.FC<
               <div className="flex items-center gap-5">
                 <div className="flex items-center">
                   <input
-                    onChange={() => updateConfirmationOrder('yes')}
-                    checked={confirmationOrder === 'yes'}
+                    onChange={() => updateConfirmationOrder("yes")}
+                    checked={confirmationOrder === "yes"}
                     className={`mr-1 bg-white checkbox border border-zinc-500`}
                     id="yes"
                     name="emp_address_same"
                     type="checkbox"
                   />
-                  <label htmlFor="">If Present & Permanent Address are not same</label>
+                  <label htmlFor="">
+                    If Present & Permanent Address are not same
+                  </label>
                 </div>
                 {/* {touched.emp_address_same && errors.emp_address_same && (
                  <div className="text-red-500 text-md block">{errors.emp_address_same}</div>

@@ -48,7 +48,6 @@ const EmpployeePersonalDetails: React.FC<
     values: EmployeePersonalDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    console.log(values, "valuess");
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
       setSubmitting(false);

@@ -12,7 +12,7 @@ import type { EmployeeServiceHistoryType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
@@ -26,6 +26,7 @@ const EmployeeServiceHistory: React.FC<
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
+  const empType = useSearchParams().get("emp");
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
@@ -34,7 +35,7 @@ const EmployeeServiceHistory: React.FC<
       if (props.setData) {
         props.setData("emp_service_history", values, tabIndex);
       }
-      router.push(`${pathName}?page=5`);
+      router.push(`${pathName}?emp=${empType}&page=8`);
     }
   };
 

@@ -12,7 +12,7 @@ import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
@@ -24,7 +24,7 @@ const EmployeeFamilyDetails: React.FC<
   const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
-
+  const empType = useSearchParams().get("emp");
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_family_details", JSON.stringify(values));
@@ -32,7 +32,7 @@ const EmployeeFamilyDetails: React.FC<
       if (props.setData) {
         props.setData("emp_family_details", values, tabIndex);
       }
-      router.push(`${pathName}?page=6`);
+      router.push(`${pathName}?emp=${empType}&page=9`);
     }
   };
 
@@ -118,6 +118,7 @@ const EmployeeFamilyDetails: React.FC<
       <SubHeading className="text-[20px] pt-4">
         Employee Family Details
       </SubHeading>
+      
       <div className="mt-4">
         <TableFormContainer
           setData={getStateData}

@@ -104,7 +104,7 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_phy_health_type: "",
   emp_family: "",
   emp_lang: "",
-  emp_lang_do: "",
+  // emp_lang_do: "",
 };
 
 export const employeePresentAddressValidationSchema = yup.object({
@@ -116,7 +116,7 @@ export const employeePresentAddressValidationSchema = yup.object({
   police_station: yup
     .string()
     .required("Please Enter the Correct Police Station"),
-  emp_address_same: yup.string().required("Please Choose Correct Option"),
+  // emp_address_same: yup.string().required("Please Choose Correct Option"),
 });
 
 export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
@@ -148,10 +148,6 @@ export const employeeJoinValidationSchema = yup.object({
   deduction_type: yup
     .string()
     .required("Please Enter the Correct Deduction Type (GPF/CPS)"),
-  confirmation_order: yup
-    .string()
-    .oneOf(["yes", "no"])
-    .required("Please Choose the Correct Option"),
 });
 
 export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
@@ -161,7 +157,6 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   class: "",
   doj: "",
   effective_pay_commision: "",
-  confirmation_order: "",
   pay_scale: "",
   pay_band: "",
   grade_pay: "",
@@ -170,7 +165,7 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   conf_order_number: "",
   deduction_type: "",
   conf_order_date: "",
-  member_gis: "yes",
+  // member_gis: "yes",
   appoint_authority: "",
   gis_account: "",
   ulb: "",
@@ -184,6 +179,8 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   acc_number: "",
   ifsc: "",
   sen_grade_list: "",
+  member_gis: [],
+  confirmation_order: "yes"
 };
 
 export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
@@ -211,4 +208,8 @@ export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   month_last_install_recovery: "",
   total_amnt_recovery: "",
 };
+
+
+
+
 /// ------------- Employee personal Details ---------------------///

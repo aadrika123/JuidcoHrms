@@ -1,3 +1,9 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Loan details - Employee Loan & Advance Information page
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -11,7 +17,7 @@ import { Formik } from "formik";
 import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 
 const EmpLoanDetails: React.FC<
@@ -19,7 +25,7 @@ const EmpLoanDetails: React.FC<
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
-
+  const empType = useSearchParams().get("emp");
   const handleSubmitFormik = (
     values: EmployeeLoanDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -33,7 +39,7 @@ const EmpLoanDetails: React.FC<
       if (props.setData) {
         props.setData("emp_join_details", formData);
       }
-      router.push(`${pathName}?page=7`);
+      router.push(`${pathName}?emp=${empType}&page=11`);
     }
   };
 
@@ -50,13 +56,20 @@ const EmpLoanDetails: React.FC<
   const [additionalForms, setAdditionalForms] = useState<Array<number>>([1]);
   const [additionalForms2, setAdditionalForms2] = useState<Array<number>>([1]);
 
-  const handleAddMore = () => {
-    setAdditionalForms((prevForms) => [...prevForms, prevForms.length + 1]);
-  };
+    const handleAddMore = () => {
+        if(additionalForms.length < 6) {
+            setAdditionalForms((prevForms) => [...prevForms, prevForms.length + 1]);
 
-  const handleAddMoreRecovery = () => {
-    setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
-  };
+        }
+    };
+
+    const handleAddMoreRecovery = () => {
+        if(additionalForms.length < 6) {
+        setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
+
+        }
+        // setAdditionalForms2((prevForms) => [...prevForms, prevForms.length + 1]);
+    };
 
   return (
     <>
