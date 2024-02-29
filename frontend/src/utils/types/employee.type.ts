@@ -93,7 +93,7 @@ export type EmployeeIncDetails = {
 };
 
 export type EmployeePromDetails = {
-  desigination: InnerInputBox;
+  designation: InnerInputBox;
   scale: InnerInputBox;
   vide_order_no: string;
   vide_order_date: string;
@@ -101,7 +101,7 @@ export type EmployeePromDetails = {
 };
 
 export type EmployeeTransDetails = {
-  desigination: InnerInputBox;
+  designation: InnerInputBox;
   office: InnerInputBox;
   joining_date: string;
   vide_order_no: string;

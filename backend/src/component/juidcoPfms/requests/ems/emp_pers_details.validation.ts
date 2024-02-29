@@ -1,7 +1,9 @@
 import Joi from "joi";
 import type {
   EmpFamilyDetailsType,
+  EmpIncDetails,
   EmpNomineeDetailsType,
+  EmpPromDetails,
   EmployeeBasicDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
@@ -197,3 +199,55 @@ export const employeePresentAddressDetailsRequestData = (
   };
 };
 //------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
+
+//------------------ EMPLOYEE SERVICE HISTORY DETAILS ------------------------------//
+export const employeeIncrementDetailsRequestData = (
+  empFamilyDetails: EmpIncDetails[]
+) => {
+  return empFamilyDetails?.map((item): EmpIncDetails => {
+    return {
+      scale: item.scale,
+      inc_date: item.inc_date,
+      inc_amount: item.inc_amount,
+      basic_pay_after_inc: item.basic_pay_after_inc,
+      vide_order_no: item.vide_order_no,
+      vide_order_date: item.vide_order_date,
+    };
+  });
+};
+const employeeIncrementDetails = Joi.object({
+  scale: Joi.string().required(),
+  inc_date: Joi.string().isoDate().required(),
+  inc_amount: Joi.number().required(),
+  basic_pay_after_inc: Joi.number().required(),
+  vide_order_no: Joi.string().required(),
+  vide_order_date: Joi.string().isoDate().required(),
+});
+
+export const employeePromDetailsRequestData = (
+  empFamilyDetails: EmpPromDetails[]
+) => {
+  return empFamilyDetails?.map((item): EmpPromDetails => {
+    return {
+      designation: item.designation,
+      scale: item.scale,
+      vide_order_no: item.vide_order_no,
+      vide_order_date: item.vide_order_date,
+      transfer: item.transfer,
+    };
+  });
+};
+const employeePromDetails = Joi.object({
+  designation: Joi.object().required(),
+  scale: Joi.object().required(),
+  vide_order_no: Joi.string().required(),
+  vide_order_date: Joi.string().isoDate().required(),
+  transfer: Joi.string().required(),
+});
+
+export const employeeServiceHistrorySchema = Joi.array().items(
+  employeeIncrementDetails,
+  employeePromDetails
+);
+
+//------------------ EMPLOYEE SERVICE HISTORY DETAILS ------------------------------//

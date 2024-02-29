@@ -49,13 +49,12 @@ export interface EmployeePersonalDetailsType {
 }
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//
-
 type InnerInputBox = {
   from: string;
   to: string;
 };
 
-export type EmployeeIncDetails = {
+export type EmpIncDetails = {
   scale: string;
   inc_date: string;
   inc_amount: number;
@@ -64,29 +63,28 @@ export type EmployeeIncDetails = {
   vide_order_date: string;
 };
 
-export type EmployeePromDetails = {
-  desigination: InnerInputBox;
+export type EmpPromDetails = {
+  designation: InnerInputBox;
   scale: InnerInputBox;
   vide_order_no: string;
   vide_order_date: string;
   transfer: "yes" | "no";
 };
 
-export type EmployeeTransDetails = {
-  desigination: InnerInputBox;
+export type EmpTransDetails = {
+  designation: InnerInputBox;
   office: InnerInputBox;
   joining_date: string;
   vide_order_no: string;
   vide_order_date: string;
-  transfer_after_prom: boolean;
+  transfer_after_prom: "yes" | "no";
 };
 
 export interface EmployeeServiceHistoryType {
-  emp_inc_details: EmployeeIncDetails[];
-  emp_prom_details: EmployeePromDetails[];
-  emp_trans_details: EmployeeTransDetails[];
+  emp_inc_details: EmpIncDetails[];
+  emp_prom_details: EmpPromDetails[];
+  emp_trans_details: EmpTransDetails[];
 }
-
 //------------------------- EmployeeServiceHistory Types -----------------------------//
 
 //------------------------- Employee Family Details Types -----------------------------//

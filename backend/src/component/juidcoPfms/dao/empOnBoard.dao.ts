@@ -125,12 +125,17 @@ class EmployeeOnBoardDao {
       emp_personal_details,
       emp_family_details,
       emp_address_details,
+      emp_service_history,
     } = req.body;
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
+    const { emp_inc_details, emp_prom_details } = emp_service_history;
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
     const empNomineeDetails = this.filterReqBody(emp_nominee_details);
+
+    const empIncDetails = this.filterReqBody(emp_inc_details);
+    const empPromDetails = this.filterReqBody(emp_prom_details);
 
     const employeeData = await prisma.$transaction(async (tx) => {
       const empBasic = await this.createEmployeeDetails(
@@ -166,6 +171,12 @@ class EmployeeOnBoardDao {
         },
         emp_nominee_details: {
           create: empNomineeDetails,
+        },
+        emp_increment_details: {
+          create: empIncDetails,
+        },
+        emp_promotion_details: {
+          create: empPromDetails,
         },
       };
     });

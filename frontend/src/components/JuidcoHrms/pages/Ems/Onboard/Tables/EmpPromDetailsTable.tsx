@@ -32,7 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState<EmployeePromDetails[]>([
     {
-      desigination: {
+      designation: {
         from: "",
         to: "",
       },
@@ -203,7 +203,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "from"
                         )
                       }
-                      value={row?.desigination?.from}
+                      value={row?.designation?.from}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -218,7 +218,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "to"
                         )
                       }
-                      value={row.desigination?.to}
+                      value={row.designation?.to}
                       placeholder={"Enter "}
                       isRequired={true}
                     />

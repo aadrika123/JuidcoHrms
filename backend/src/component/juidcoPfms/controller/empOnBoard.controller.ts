@@ -13,6 +13,7 @@ import {
   employeeOfficeDetailsSchema,
   employeePersonalDetailsSchema,
   employeePresentAddressDetailsSchema,
+  employeeServiceHistrorySchema,
 } from "../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
@@ -145,6 +146,18 @@ class EmployeeOnBoardController {
       if (familyDetailsError) {
         return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res);
       }
+
+      // validate employee service history
+      const { error: serviceHistoryError } =
+        employeeServiceHistrorySchema.validate(
+          req.body.emp_service_history.emp_inc_details,
+          req.body.emp_service_history.emp_prom_details
+        );
+
+      if (serviceHistoryError) {
+        return CommonRes.VALIDATION_ERROR(serviceHistoryError, resObj, res);
+      }
+
       const data = await this.employeeOnBoardDao.store(req);
 
       return CommonRes.CREATED(

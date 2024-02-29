@@ -11,18 +11,21 @@ datasource db {
 // Author: Krish
 // status: Open
 model employees {
-  id                      Int                        @id @default(autoincrement())
-  emp_id                  String
-  emp_office_details      employee_office_details    @relation(fields: [emp_office_details_id], references: [id])
-  emp_office_details_id   Int
-  emp_basic_details       employee_basic_details     @relation(fields: [emp_basic_details_id], references: [id])
-  emp_basic_details_id    Int
-  emp_personal_details    employee_personal_details  @relation(fields: [emp_personal_details_id], references: [id])
-  emp_personal_details_id Int
-  emp_family_details      employee_family_details[]
-  emp_nominee_details     employee_nominee_details[]
-  emp_present_address     employee_present_address   @relation(fields: [emp_present_address_id], references: [id])
-  emp_present_address_id  Int
+  id                         Int                          @id @default(autoincrement())
+  emp_id                     String
+  emp_office_details         employee_office_details      @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details_id      Int
+  emp_basic_details          employee_basic_details       @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details_id       Int
+  emp_personal_details       employee_personal_details    @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details_id    Int
+  emp_family_details         employee_family_details[]
+  emp_nominee_details        employee_nominee_details[]
+  emp_present_address        employee_present_address     @relation(fields: [emp_present_address_id], references: [id])
+  emp_present_address_id     Int
+  emp_increment_details employee_increment_details[]
+  emp_promotion_details employee_promotion_details[]
+  emp_transfer_details  employee_transfer_details[]
 }
 
 model employee_office_details {
@@ -110,5 +113,42 @@ model employee_present_address {
   emp_address_same  String
   employee          employees[]
 }
+
+// -------------Employee Service History-----------------//
+model employee_increment_details {
+  id                  Int       @id @default(autoincrement())
+  scale               String
+  inc_date            String
+  inc_amount          Float
+  basic_pay_after_inc Float
+  vide_order_no       String
+  vide_order_date     String
+  employees           employees @relation(fields: [employees_id], references: [id])
+  employees_id        Int
+}
+
+model employee_promotion_details {
+  id              Int       @id @default(autoincrement())
+  designation     Json
+  scale           Json
+  vide_order_no   String
+  vide_order_date String
+  transfer        String
+  employees       employees @relation(fields: [employees_id], references: [id])
+  employees_id    Int
+}
+
+model employee_transfer_details {
+  id                  Int       @id @default(autoincrement())
+  designation         Json
+  office              Json
+  joining_date        String
+  vide_order_no       String
+  vide_order_date     String
+  transfer_after_prom String
+  employees           employees @relation(fields: [employees_id], references: [id])
+  employees_id        Int
+}
+//-------------- Employee Service History---------------------//
 
 //-----------------------------------------------------------------//
