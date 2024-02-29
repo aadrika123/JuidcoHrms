@@ -11,6 +11,7 @@ import {
   employeeOfficeDetailRequestData,
   employeePersonalDetailsRequestData,
   employeePresentAddressDetailsRequestData,
+  employeeTimeBoundRequestData,
 } from "../requests/ems/emp_pers_details.validation";
 
 const prisma = new PrismaClient();
@@ -94,6 +95,7 @@ const prisma = new PrismaClient();
 class EmployeeOnBoardDao {
   private filterReqBody(body: any[]) {
     if (body.length === 0) {
+      ``;
       return body;
     }
     const lastObj = body[body.length - 1];
@@ -126,16 +128,25 @@ class EmployeeOnBoardDao {
       emp_family_details,
       emp_address_details,
       emp_service_history,
+      emp_time_bound,
+      emp_salary_details,
     } = req.body;
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
     const { emp_inc_details, emp_prom_details } = emp_service_history;
+    const { emp_salary_allow, emp_salary_deduction } =
+      emp_salary_details;
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
     const empNomineeDetails = this.filterReqBody(emp_nominee_details);
 
     const empIncDetails = this.filterReqBody(emp_inc_details);
     const empPromDetails = this.filterReqBody(emp_prom_details);
+
+    const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow);
+    const empSalaryDeductionDetails = this.filterReqBody(
+      emp_salary_deduction
+    );
 
     const employeeData = await prisma.$transaction(async (tx) => {
       const empBasic = await this.createEmployeeDetails(
@@ -160,12 +171,19 @@ class EmployeeOnBoardDao {
         employeePresentAddressDetailsRequestData(emp_address_details)
       );
 
-      return {
+      const empTimeBound = await this.createEmployeeDetails(
+        tx,
+        "employee_time_bound",
+        employeeTimeBoundRequestData(emp_time_bound)
+      );
+
+      const employeeDatas = {
         emp_id: emp_basic_details.emp_id,
         emp_basic_details_id: empBasic.id,
         emp_office_details_id: empOffice.id,
         emp_personal_details_id: empPersonal.id,
-        emp_address_details_id: empAddress,
+        emp_address_details_id: empAddress.id,
+        emp_time_bound_id: empTimeBound.id,
         emp_family_details: {
           create: empFamilyDetails,
         },
@@ -178,10 +196,18 @@ class EmployeeOnBoardDao {
         emp_promotion_details: {
           create: empPromDetails,
         },
+        emp_salary_allow: {
+          create: empSalaryAllowDetails,
+        },
+        emp_salary_deduction: {
+          create: empSalaryDeductionDetails,
+        },
       };
+
+      return await this.createEmployeeDetails(tx, "employees", employeeDatas);
     });
 
-    return await prisma.employees.create({ data: employeeData } as any);
+    return employeeData;
   };
 }
 

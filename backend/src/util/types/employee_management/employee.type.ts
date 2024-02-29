@@ -126,3 +126,33 @@ export interface EmployeePresentAddressDetailsType {
   emp_address_same: "yes" | "no";
 }
 //------------------------- Employee Permanent Address Types -----------------------------//
+
+//------------------------- Employee TIME BOUND -----------------------------//
+export interface EmpTimeBoundDetailType {
+  pay_scale: string | number;
+  inc_amount: string | number;
+  bpay_aft_inc: string | number;
+  vide_ord_no: string | number;
+  remarks: string | number;
+}
+//------------------------- Employee TIME BOUND -----------------------------//
+
+//------------------------- Employee SALARY DETAILS -----------------------------//
+export interface EmployeeSalaryDetailType {
+  emp_salary_allow_details: EmployeeSalaryAllowType;
+  emp_salary_deduction_details: EmployeeSalaryDeductionType;
+}
+
+export interface EmployeeSalaryAllowType {
+  name: string | number;
+  wfe_date: string | number;
+  amount_in: string | number;
+}
+export interface EmployeeSalaryDeductionType {
+  name: string | number;
+  wfe_date: string | number;
+  acnt_no: string | number;
+  amount_in: string | number;
+}
+
+//------------------------- Employee SALARY DETAILS -----------------------------//

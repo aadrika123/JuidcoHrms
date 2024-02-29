@@ -13,7 +13,9 @@ import {
   employeeOfficeDetailsSchema,
   employeePersonalDetailsSchema,
   employeePresentAddressDetailsSchema,
+  employeeSalaryDetailsSchema,
   employeeServiceHistrorySchema,
+  employeeTimeBoundSchema,
 } from "../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
@@ -156,6 +158,26 @@ class EmployeeOnBoardController {
 
       if (serviceHistoryError) {
         return CommonRes.VALIDATION_ERROR(serviceHistoryError, resObj, res);
+      }
+
+      // validate employee Salary details
+      const { error: salaryDetailsError } =
+        employeeSalaryDetailsSchema.validate(
+          req.body.emp_service_history.emp_salary_allow,
+          req.body.emp_service_history.emp_salary_deduction
+        );
+
+      if (salaryDetailsError) {
+        return CommonRes.VALIDATION_ERROR(salaryDetailsError, resObj, res);
+      }
+
+      // validate employee Time Bound Details
+      const { error: timeBoundError } = employeeTimeBoundSchema.validate(
+        req.body.emp_time_bound
+      );
+
+      if (timeBoundError) {
+        return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
       }
 
       const data = await this.employeeOnBoardDao.store(req);

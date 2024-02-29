@@ -4,13 +4,18 @@ import type {
   EmpIncDetails,
   EmpNomineeDetailsType,
   EmpPromDetails,
+  EmpTimeBoundDetailType,
+  EmpTransDetails,
   EmployeeBasicDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
   EmployeePresentAddressDetailsType,
+  EmployeeSalaryAllowType,
+  EmployeeSalaryDeductionType,
 } from "../../../../util/types/employee_management/employee.type";
 
 //------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
+
 export const employeeOfficeDetailRequestData = (
   empOfficeDetails: EmployeeOfficeDetaislType
 ): EmployeeOfficeDetaislType => {
@@ -245,9 +250,99 @@ const employeePromDetails = Joi.object({
   transfer: Joi.string().required(),
 });
 
+export const employeeTransDetailsRequestData = (
+  empFamilyDetails: EmpTransDetails[]
+) => {
+  return empFamilyDetails?.map((item): EmpTransDetails => {
+    return {
+      designation: item.designation,
+      office: item.office,
+      joining_date: item.joining_date,
+      vide_order_no: item.vide_order_no,
+      vide_order_date: item.vide_order_date,
+      transfer_after_prom: item.transfer_after_prom,
+    };
+  });
+};
+const employeeTransDetails = Joi.object({
+  designation: Joi.object().required(),
+  office: Joi.object().required(),
+  joining_date: Joi.string().isoDate().required(),
+  vide_order_no: Joi.string().required(),
+  vide_order_date: Joi.string().isoDate().required(),
+  transfer_after_prom: Joi.string().required(),
+});
+
 export const employeeServiceHistrorySchema = Joi.array().items(
   employeeIncrementDetails,
-  employeePromDetails
+  employeePromDetails,
+  employeeTransDetails
 );
 
 //------------------ EMPLOYEE SERVICE HISTORY DETAILS ------------------------------//
+
+//------------------ EMPLOYEE SALARY DETAILS ------------------------------//
+
+export const employeeSalaryAllowRequestData = (
+  empFamilyDetails: EmployeeSalaryAllowType[]
+) => {
+  return empFamilyDetails?.map((item): EmployeeSalaryAllowType => {
+    return {
+      name: item.name,
+      wfe_date: item.wfe_date,
+      amount_in: item.amount_in,
+    };
+  });
+};
+const employeeSalaryAllowSchema = Joi.object({
+  name: Joi.string().required(),
+  wfe_date: Joi.string().required(),
+  amount_in: Joi.string().required(),
+});
+
+export const employeeSalaryDeductionRequestData = (
+  empFamilyDetails: EmployeeSalaryDeductionType[]
+) => {
+  return empFamilyDetails?.map((item): EmployeeSalaryDeductionType => {
+    return {
+      name: item.name,
+      wfe_date: item.wfe_date,
+      acnt_no: item.acnt_no,
+      amount_in: item.amount_in,
+    };
+  });
+};
+const employeeSalaryDeductionSchema = Joi.object({
+  name: Joi.string().required(),
+  wfe_date: Joi.string().required(),
+  acnt_no: Joi.string().required(),
+  amount_in: Joi.string().required(),
+});
+
+export const employeeSalaryDetailsSchema = Joi.array().items(
+  employeeSalaryAllowSchema,
+  employeeSalaryDeductionSchema
+);
+//------------------ EMPLOYEE SALARY DETAILS ------------------------------//
+
+//------------------ EMPLOYEE TIME BOUND ------------------------------//
+export const employeeTimeBoundSchema = Joi.object({
+  pay_scale: Joi.string().required(),
+  inc_amount: Joi.string().required(),
+  bpay_aft_inc: Joi.string().required(),
+  vide_ord_no: Joi.string().required(),
+  remarks: Joi.string().required(),
+});
+
+export const employeeTimeBoundRequestData = (
+  item: EmpTimeBoundDetailType
+): EmpTimeBoundDetailType => {
+  return {
+    pay_scale: item.pay_scale,
+    inc_amount: item.inc_amount,
+    bpay_aft_inc: item.bpay_aft_inc,
+    vide_ord_no: item.vide_ord_no,
+    remarks: item.remarks,
+  };
+};
+//------------------ EMPLOYEE TIME BOUND ------------------------------//
