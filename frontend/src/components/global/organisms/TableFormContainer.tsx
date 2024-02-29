@@ -235,7 +235,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               ]
                             }
                             name={col.ACCESSOR}
-                            className={`text-primary h-[40px] pl-3 rounded-lg border bg-transparent border-zinc-400`}
+                            className={`text-primary h-[40px] pl-3 rounded-lg border bg-transparent border-zinc-400 w-full`}
                           >
                             <option selected value="">
                               {col.placeholder}

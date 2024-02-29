@@ -110,40 +110,40 @@ export const EmpTimeBound: React.FC<
         }
     };
 
-    const [employeeTrainig, setEmployeeTrainig] = useState<EmployeeTimeBoundDetailType[]>([]);
+    // const [employeeTrainig, setEmployeeTrainig] = useState<EmployeeTimeBoundDetailType[]>([]);
 
-    const defaultRowValuesEmployees = {
-        pay_scale: {
-            from: "",
-            to: "",
-        },
-        inc_amt: "",
-        b_after_pay: "",
-        vide_order_no: "",
-        vide_order_date: "",
-        remarks: ""
-    };
+    // const defaultRowValuesEmployees = {
+    //     pay_scale: {
+    //         from: "",
+    //         to: "",
+    //     },
+    //     inc_amt: "",
+    //     b_after_pay: "",
+    //     vide_order_no: "",
+    //     vide_order_date: "",
+    //     remarks: ""
+    // };
 
-    const handleRowChanges = (rowIndex: number, key: keyof typeof defaultRowValuesEmployees, value: string) => {
-        setEmployeeTrainig((prevTrainig) => {
-            const updatedEmployeeTrainig = [...prevTrainig];
-            updatedEmployeeTrainig[rowIndex][key as keyof EmployeeTimeBoundDetailType] = value;
-            return updatedEmployeeTrainig;
-        });
-    };
+    // const handleRowChanges = (rowIndex: number, key: keyof typeof defaultRowValuesEmployees, value: string) => {
+    //     setEmployeeTrainig((prevTrainig) => {
+    //         const updatedEmployeeTrainig = [...prevTrainig];
+    //         updatedEmployeeTrainig[rowIndex][key as keyof EmployeeTimeBoundDetailType] = value;
+    //         return updatedEmployeeTrainig;
+    //     });
+    // };
     
 
 
-    const addDatas = () => {
-        if (employeeTrainig.length < 2) {
-            const newRow = COLUMNS_FOR_EMP_TRNG_INFRM.reduce((acc, column, index) => {
-                const stateKey = Object.keys(defaultRowValuesEmployees)[index];
-                return { ...acc, [stateKey]: '' };
-            }, {} as EmployeeTimeBoundDetailType);
+    // const addDatas = () => {
+    //     if (employeeTrainig.length < 2) {
+    //         const newRow = COLUMNS_FOR_EMP_TRNG_INFRM.reduce((acc, column, index) => {
+    //             const stateKey = Object.keys(defaultRowValuesEmployees)[index];
+    //             return { ...acc, [stateKey]: '' };
+    //         }, {} as EmployeeTimeBoundDetailType);
     
-            setEmployeeTrainig((prev: EmployeeTimeBoundDetailType[]) => [...prev, newRow]);
-        }
-    };
+    //         setEmployeeTrainig((prev: EmployeeTimeBoundDetailType[]) => [...prev, newRow]);
+    //     }
+    // };
     
     
     return (
@@ -251,7 +251,7 @@ export const EmpTimeBound: React.FC<
                         </tr>
                     </tbody>
                     
-                    <tbody>
+                    {/* <tbody>
                         {employeeTrainig.map((rowData: any, rowIndex) => (
                             <tr key={rowIndex} className="border py-2 px-4 ">
                                 <td className="border py-2 px-4 text-center ">
@@ -299,17 +299,17 @@ export const EmpTimeBound: React.FC<
                                 })}
                             </tr>
                         ))}
-                    </tbody>
+                    </tbody> */}
 
                 </table>
 
-           
+{/*            
                 <div className="w-full flex items-center justify-end mt-3">
                     <Button onClick={addDatas} buttontype="button" variant="primary_rounded">
                         + Add More
                     </Button>
 
-                </div>
+                </div> */}
             </div>
 
             <div className="flex items-center justify-end mt-5 gap-5">

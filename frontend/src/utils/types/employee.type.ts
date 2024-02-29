@@ -11,6 +11,7 @@ export interface EmployeeOnBoardForm {
   emp_timebound_details: EmployeeTimeBoundDetailType
   emp_training_infrm: EmployeeEducationTrainingType
   emp_salary_details : EmployeeSalaryDetailType
+  emp_edu_det: EmployeeEducation
 }
 
 export type EmployeeOnBoardAllTypes =
@@ -26,6 +27,8 @@ export type EmployeeOnBoardAllTypes =
   | EmployeeEducationDetailsType
   | EmployeeTimeBoundDetailType
   | EmployeeEducationTrainingType
+  | EmployeeSalaryDeductionType
+  | EmployeeEducation
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;
@@ -139,6 +142,7 @@ export interface EmployeeFamilyDetailsType {
 }
 //------------------------- Employee Family Details Types -----------------------------//
 
+
 export interface EmployeePresentAddressDetailsType {
   address_primary: string | number;
   address_secondary: string | number;
@@ -208,21 +212,6 @@ export interface EmployeeLoanDetailsType {
   voucher_date: string;
   treasury_voc_num: string;
 
-  loan_name_principal: string;
-  tot_amt_released: string | number;
-  total_install: string | number;
-  monthly_install: string | number;
-  last_paid_install: string | number;
-  month_last_install: string | number;
-  total_amnt: string | number;
-
-  loan_name_recovery: string;
-  total_int_amount: string | number;
-  total_install_recovery: string | number;
-  monthly_install_recovery: string | number;
-  last_paid_install_recovery: string | number;
-  month_last_install_recovery: string | number;
-  total_amnt_recovery: string | number;
 }
 
 export interface EmployeeLoanDetailsPrincipalType {
@@ -282,6 +271,41 @@ export interface EmployeeEducationDetailsType {
 
 }
 
+
+export interface EmployeeTimeBoundDetailType {
+  pay_scale: string | number;
+  inc_amount : string | number;
+  bpay_aft_inc: string | number;
+  vide_ord_no: string | number;
+  remarks : string | number;
+}
+
+export interface EmployeeSalaryDetailType {
+  emp_salary_allow_details: EmployeeSalaryAllowType;
+  emp_salary_deduction_details: EmployeeSalaryDeductionType;
+}
+
+export interface EmployeeSalaryAllowType {
+  name: string | number;
+  wfe_date : string | number;
+  amount_in: string | number;
+}
+export interface EmployeeSalaryDeductionType {
+  name: string | number;
+  wfe_date : string | number;
+  acnt_no : string | number;
+  amount_in: string | number;
+}
+
+export interface EmployeeEducation {
+  subject:string | number;
+  board: string| number;
+  passing_year: string | number;
+  marks: string | number;
+  gradde: string | number;
+}
+
+
 export interface EmployeeEducationTrainingType {
   name_of_training: string | number,
   training_type: string | number,
@@ -291,20 +315,3 @@ export interface EmployeeEducationTrainingType {
   tot_day_training: string | number,
 }
 
-export interface EmployeeTimeBoundDetailType {
-  sl_no : string | number;
-  pay_scale: string | number;
-  inc_amount : string | number;
-  bpay_aft_inc: string | number;
-  vide_ord_no: string | number;
-  remarks : string | number;
-}
-
-export interface EmployeeSalaryDetailType {
-  sl_no : string | number;
-  name: string | number;
-  wfe_date : string | number;
-  amount_in: string | number;
-  // vide_ord_no: string | number;
-  // remarks : string | number;
-}

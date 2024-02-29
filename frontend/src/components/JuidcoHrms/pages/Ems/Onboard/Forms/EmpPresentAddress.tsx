@@ -29,50 +29,50 @@ const EmpPresentAddress: React.FC<
       setConfirmationOrder(value);
     };
 
-  const handleSubmitFormik = (
-    values: EmployeePresentAddressDetailsType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    if (typeof window !== "undefined") {
-      const formData = { ...values, emp_address_same: confirmationOrder as "yes" | "no"};
-
-      sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
-      setSubmitting(false);
-
-      if (props.setData) {
-          props.setData("emp_address_details", formData);
-      }
-      router.push(`${pathName}?page=5`);
-  }
-  };
-
-
-
   // const handleSubmitFormik = (
   //   values: EmployeePresentAddressDetailsType,
   //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   // ) => {
   //   if (typeof window !== "undefined") {
-  //     let formData;
-
-  //     if (confirmationOrder === 'yes') {
-  //       formData = [
-  //         { type: 'present', ...values },
-  //         { type: 'permanent', ...values }, 
-  //       ];
-  //     } else {
-  //       formData = [{ type: 'present', ...values }];
-  //     }
+  //     const formData = { ...values, emp_address_same: confirmationOrder as "yes" | "no"};
 
   //     sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
   //     setSubmitting(false);
 
   //     if (props.setData) {
-  //       props.setData("emp_address_details", formData as any);
+  //         props.setData("emp_address_details", formData);
   //     }
   //     router.push(`${pathName}?page=5`);
-  //   }
+  // }
   // };
+
+
+
+  const handleSubmitFormik = (
+    values: EmployeePresentAddressDetailsType,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    if (typeof window !== "undefined") {
+      let formData;
+
+      if (confirmationOrder === 'yes') {
+        formData = [
+          { type: 'present', ...values },
+          { type: 'permanent', ...values }, 
+        ];
+      } else {
+        formData = [{ type: 'present', ...values }];
+      }
+
+      sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
+      setSubmitting(false);
+
+      if (props.setData) {
+        props.setData("emp_address_details", formData as any);
+      }
+      router.push(`${pathName}?page=5`);
+    }
+  };
 
   const initialValues =
     typeof window !== "undefined"
