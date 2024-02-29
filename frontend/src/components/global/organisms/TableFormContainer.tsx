@@ -253,7 +253,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             ) =>
                               onChangeTableDataHandler(
                                 index,
-                                Number(e.target.value),
+                                e.target.value,
                                 col.ACCESSOR
                               )
                             }

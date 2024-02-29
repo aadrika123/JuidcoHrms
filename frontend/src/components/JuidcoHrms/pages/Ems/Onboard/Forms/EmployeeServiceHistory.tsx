@@ -34,7 +34,7 @@ const EmployeeServiceHistory: React.FC<
       if (props.setData) {
         props.setData("emp_service_history", values, tabIndex);
       }
-      router.push(`${pathName}?page=5`);
+      router.push(`${pathName}?page=8`);
     }
   };
 

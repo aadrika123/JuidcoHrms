@@ -55,40 +55,40 @@ const EmpEducationDetails: React.FC<
     },
   ];
 
-  const COLUMNS_FOR_EMP_TRNG_INFRM:COLUMNS[] = [
+  const COLUMNS_FOR_EMP_TRNG_INFRM: COLUMNS[] = [
     {
       HEADER: "Name of Training",
-      ACCESSOR:"name_of_training",
-      isRequired:true
+      ACCESSOR: "name_of_training",
+      isRequired: true
     },
     {
       HEADER: "Training Type",
-      ACCESSOR:"training_type",
-      isRequired:true
+      ACCESSOR: "training_type",
+      isRequired: true
     },
 
     {
       HEADER: "Name of Institution",
-      ACCESSOR:"name_of_institution",
-      isRequired:true
+      ACCESSOR: "name_of_institution",
+      isRequired: true
     },
 
     {
       HEADER: "Starting From",
-      ACCESSOR:"starting_from",
-      isRequired:true
+      ACCESSOR: "starting_from",
+      isRequired: true
     },
 
     {
       HEADER: "End To",
-      ACCESSOR:"end_to",
-      isRequired:true
+      ACCESSOR: "end_to",
+      isRequired: true
     },
 
     {
       HEADER: "Total Days of Training",
-      ACCESSOR:"total_days_of_train",
-      isRequired:true
+      ACCESSOR: "total_days_of_train",
+      isRequired: true
     },
   ];
 
@@ -198,7 +198,7 @@ const EmpEducationDetails: React.FC<
         props.setData("emp_education_details", updatedEducationData as any);
 
       }
-      router.push(`${pathName}?page=5`);
+      router.push(`${pathName}?page=6`);
     }
   };
 
@@ -560,11 +560,14 @@ const EmpEducationDetails: React.FC<
         </div>
 
         <div>
-          <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM} 
-          getData={[]} 
-          subHeading={"Employee Training Information "} 
-          setData={getStateData} 
-          session_key="emp_training_details"
+          <SubHeading className="text-[20px] pt-4 mb-4">
+            Employee Training Information
+          </SubHeading>
+          <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
+            getData={[]}
+            subHeading={" "}
+            setData={getStateData}
+            session_key="emp_training_details"
           />
         </div>
       </div>
@@ -580,7 +583,7 @@ const EmpEducationDetails: React.FC<
         </PrimaryButton>
 
         <PrimaryButton buttonType="submit" variant="primary" onClick={saveDataToSessionStorage}>
-          Save
+          Next
         </PrimaryButton>
       </div>
     </>

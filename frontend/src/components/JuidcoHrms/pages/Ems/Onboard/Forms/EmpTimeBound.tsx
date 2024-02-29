@@ -1,3 +1,10 @@
+/***
+ * Author: Jaideep
+ * Status: Done
+ * Uses: Employee Time Bound details - Employee Time Bound Promotion/ACP/MACP details page
+ */
+
+
 "use client"
 
 import React, { useState } from 'react'
@@ -99,7 +106,7 @@ export const EmpTimeBound: React.FC<
                 props.setData("emp_timebound_details", updatedFormData);
             }
 
-            router.push(`${pathName}?page=9`);
+            // router.push(`${pathName}?page=9`);
         }
     };
 
@@ -295,6 +302,8 @@ export const EmpTimeBound: React.FC<
                     </tbody>
 
                 </table>
+
+           
                 <div className="w-full flex items-center justify-end mt-3">
                     <Button onClick={addDatas} buttontype="button" variant="primary_rounded">
                         + Add More

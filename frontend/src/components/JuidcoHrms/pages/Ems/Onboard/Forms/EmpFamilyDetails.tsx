@@ -32,7 +32,7 @@ const EmployeeFamilyDetails: React.FC<
       if (props.setData) {
         props.setData("emp_family_details", values, tabIndex);
       }
-      router.push(`${pathName}?page=6`);
+      router.push(`${pathName}?page=9`);
     }
   };
 

@@ -10,6 +10,7 @@ export interface EmployeeOnBoardForm {
   emp_education_details:EmployeeEducationDetailsType
   emp_timebound_details: EmployeeTimeBoundDetailType
   emp_training_infrm: EmployeeEducationTrainingType
+  emp_salary_details : EmployeeSalaryDetailType
 }
 
 export type EmployeeOnBoardAllTypes =
@@ -149,6 +150,17 @@ export interface EmployeePresentAddressDetailsType {
   pin_code: string | number;
   police_station: string;
   emp_address_same: "yes" | "no";
+
+  address_primary_permanent: string | number;
+  address_secondary_permanent: string | number;
+  village_permanent: string;
+  post_office_permanent: string;
+  state_permanent: string;
+  district_permanent: string;
+  block_ulb_permanent: string | number;
+  pin_code_permanent: string | number;
+  police_station_permanent: string;
+  emp_address_same_permanent: "yes" | "no";
 }
 
 export interface EmployeeJoinDetailsType {
@@ -213,6 +225,27 @@ export interface EmployeeLoanDetailsType {
   total_amnt_recovery: string | number;
 }
 
+export interface EmployeeLoanDetailsPrincipalType {
+  loan_name_principal: string;
+  tot_amt_released: string | number;
+  total_install: string | number;
+  monthly_install: string | number;
+  last_paid_install: string | number;
+  month_last_install: string | number;
+  total_amnt: string | number;
+}
+
+export interface EmployeeLoanDetailsRecoveryType {
+  loan_name_recovery: string;
+  total_int_amount: string | number;
+  total_install_recovery: string | number;
+  monthly_install_recovery: string | number;
+  last_paid_install_recovery: string | number;
+  month_last_install_recovery: string | number;
+  total_amnt_recovery: string | number;
+}
+
+
 
 
 export interface EmployeeEducationDetailsType {
@@ -265,4 +298,13 @@ export interface EmployeeTimeBoundDetailType {
   bpay_aft_inc: string | number;
   vide_ord_no: string | number;
   remarks : string | number;
+}
+
+export interface EmployeeSalaryDetailType {
+  sl_no : string | number;
+  name: string | number;
+  wfe_date : string | number;
+  amount_in: string | number;
+  // vide_ord_no: string | number;
+  // remarks : string | number;
 }
