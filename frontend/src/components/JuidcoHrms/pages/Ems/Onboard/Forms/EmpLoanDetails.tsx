@@ -606,6 +606,7 @@ const EmpLoanDetails: React.FC<
     {
       key: "1"
     }
+    
   ])
 
   const [state, setState] = useState([])
@@ -648,8 +649,9 @@ const EmpLoanDetails: React.FC<
         </div>
       </div>
 
-      {data.map((item, index) => <Formik
-      
+      {data.map((item, index) => 
+      <Formik
+
         initialValues={initialValues}
         onSubmit={(values: any) => {
           setState((prev: any) => [...prev, { ...values }])
@@ -657,6 +659,8 @@ const EmpLoanDetails: React.FC<
 
           setIdx(idx+1);
         }}
+
+        
       >
         {({
           values,
@@ -936,6 +940,7 @@ const EmpLoanDetails: React.FC<
           </form>
         )}
       </Formik>)}
+
       <div className="flex items-center justify-end mt-5 gap-5">
         <button form={`xyz${idx}`} type="submit" 
         onClick={() => setData((prev) => [...prev, {key: "2"}])}

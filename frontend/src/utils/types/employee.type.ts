@@ -11,7 +11,6 @@ export interface EmployeeOnBoardForm {
   emp_timebound_details: EmployeeTimeBoundDetailType
   emp_training_infrm: EmployeeEducationTrainingType
   emp_salary_details : EmployeeSalaryDetailType
-  emp_edu_det: EmployeeEducation
 }
 
 export type EmployeeOnBoardAllTypes =
@@ -28,7 +27,6 @@ export type EmployeeOnBoardAllTypes =
   | EmployeeTimeBoundDetailType
   | EmployeeEducationTrainingType
   | EmployeeSalaryDeductionType
-  | EmployeeEducation
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;
@@ -102,6 +100,7 @@ export type EmployeePromDetails = {
   vide_order_date: string;
   transfer: "yes" | "no";
 };
+
 
 export type EmployeeTransDetails = {
   desigination: InnerInputBox;
@@ -237,43 +236,43 @@ export interface EmployeeLoanDetailsRecoveryType {
 
 
 
-export interface EmployeeEducationDetailsType {
-  metric_subject: string | number;
-  metric_board: string | number;
-  metric_passing_yr: string | number;
-  metric_marks: string | number;
-  metric_grade: string | number;
+// export interface EmployeeEducationDetailsType {
+//   metric_subject: string | number;
+//   metric_board: string | number;
+//   metric_passing_yr: string | number;
+//   metric_marks: string | number;
+//   metric_grade: string | number;
 
-  inter_subject: string | number;
-  inter_board: string | number;
-  inter_passing_yr: string | number;
-  inter_marks: string | number;
-  inter_grade: string | number;
+//   inter_subject: string | number;
+//   inter_board: string | number;
+//   inter_passing_yr: string | number;
+//   inter_marks: string | number;
+//   inter_grade: string | number;
   
-  grad_subject: string | number;
-  grad_board: string | number;
-  grad_passing_yr: string | number;
-  grad_marks: string | number;
-  grad_grade: string | number;
+//   grad_subject: string | number;
+//   grad_board: string | number;
+//   grad_passing_yr: string | number;
+//   grad_marks: string | number;
+//   grad_grade: string | number;
 
-  post_grad_subject: string | number;
-  post_grad_board: string | number;
-  post_grad_passing_yr: string | number;
-  post_grad_marks: string | number;
-  post_grad_grade: string | number;
+//   post_grad_subject: string | number;
+//   post_grad_board: string | number;
+//   post_grad_passing_yr: string | number;
+//   post_grad_marks: string | number;
+//   post_grad_grade: string | number;
 
-  educationLevel: string | number,
-  subjectStream: string | number,
-  boardUniversity: string | number,
-  passingYear: string | number,
-  marksPercentage: string | number,
-  gradeDivision: string | number,
+//   educationLevel: string | number,
+//   subjectStream: string | number,
+//   boardUniversity: string | number,
+//   passingYear: string | number,
+//   marksPercentage: string | number,
+//   gradeDivision: string | number,
 
-}
+// }
 
 
 export interface EmployeeTimeBoundDetailType {
-  pay_scale: string | number;
+  pay_scale: string ;
   inc_amount : string | number;
   bpay_aft_inc: string | number;
   vide_ord_no: string | number;
@@ -285,19 +284,25 @@ export interface EmployeeSalaryDetailType {
   emp_salary_deduction_details: EmployeeSalaryDeductionType;
 }
 
-export interface EmployeeSalaryAllowType {
+export type EmployeeSalaryAllowType = {
   name: string | number;
   wfe_date : string | number;
   amount_in: string | number;
 }
-export interface EmployeeSalaryDeductionType {
+export type EmployeeSalaryDeductionType = {
   name: string | number;
   wfe_date : string | number;
   acnt_no : string | number;
   amount_in: string | number;
+
 }
 
-export interface EmployeeEducation {
+
+export interface EmployeeEducationDetailsType {
+  emp_education_details: EmployeeEducation;
+  emp_eduaction_train_details: EmployeeEducationTrainingType;
+}
+export type EmployeeEducation = {
   subject:string | number;
   board: string| number;
   passing_year: string | number;
@@ -306,7 +311,7 @@ export interface EmployeeEducation {
 }
 
 
-export interface EmployeeEducationTrainingType {
+export type  EmployeeEducationTrainingType ={
   name_of_training: string | number,
   training_type: string | number,
   name_of_inst: string | number,

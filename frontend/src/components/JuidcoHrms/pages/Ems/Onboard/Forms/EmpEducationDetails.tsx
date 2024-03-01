@@ -559,17 +559,17 @@
 
 //         </div>
 
-        // <div>
-        //   <SubHeading className="text-[20px] pt-4 mb-4">
-        //     Employee Training Information
-        //   </SubHeading>
-        //   <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
-        //     getData={[]}
-        //     subHeading={" "}
-        //     setData={getStateData}
-        //     session_key="emp_training_details"
-        //   />
-        // </div>
+// <div>
+//   <SubHeading className="text-[20px] pt-4 mb-4">
+//     Employee Training Information
+//   </SubHeading>
+//   <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
+//     getData={[]}
+//     subHeading={" "}
+//     setData={getStateData}
+//     session_key="emp_training_details"
+//   />
+// </div>
 //       </div>
 
 
@@ -606,7 +606,7 @@
 
 "use client";
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
@@ -616,41 +616,64 @@ import TableFormContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableFormContainer";
 import Button from "@/components/global/atoms/Button";
-import { EmployeeDetailsProps, EmployeeEducation } from "@/utils/types/employee.type";
+import { EmployeeDetailsProps, EmployeeEducationDetailsType } from "@/utils/types/employee.type";
 
-// const EmpEducationDetails: React.FC = () => {
-  const EmpEducationDetails: React.FC<
-  EmployeeDetailsProps<EmployeeEducation>
+const EmpEducationDetails: React.FC<
+  EmployeeDetailsProps<EmployeeEducationDetailsType>
 > = (props) => {
+  const [tabIndex, setTabIndex] = useState<number>(1);
+  const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
-  const [tabIndex, setTabIndex] = useState<number>(1);
-  const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
 
-  const COLUMNS_FOR_EDUCATION = [
-    {
-      HEADER: "Education Level*",
-      ACCESSOR: "edu_level",
-    },
+
+  const handleSubmitForm = (values: any) => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("emp_education_details", JSON.stringify(values));
+
+      if (props.setData) {
+        props.setData("emp_education_details", values, tabIndex);
+      }
+      router.push(`${pathName}?page=6`);
+    }
+  };
+
+
+  const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
+    // {
+    //   HEADER: "Education Level*",
+    //   ACCESSOR: "edu_level",
+    //   isRequired: true
+
+    // },
     {
       HEADER: "Subject/Stream*",
       ACCESSOR: "stream",
+      isRequired: true
+
     },
     {
       HEADER: "Board/University*",
       ACCESSOR: "board",
+      isRequired: true
+
     },
     {
       HEADER: "Passing Year*",
       ACCESSOR: "passing_year",
+      isRequired: true
+
     },
     {
       HEADER: "Marks in %*",
       ACCESSOR: "marks",
+      isRequired: true
     },
     {
       HEADER: "Grade/Division*",
       ACCESSOR: "grade",
+      isRequired: true
+
 
     },
   ];
@@ -693,51 +716,18 @@ import { EmployeeDetailsProps, EmployeeEducation } from "@/utils/types/employee.
   ];
 
 
-
-  const saveDataToSessionStorage = (values: any) => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_edu_det", JSON.stringify(values));
-
-      if (props.setData) {
-        props.setData("emp_edu_det", values);
-      }
-      router.push(`${pathName}?page=6`);
-    }
-  };
-  
-
-  // const saveDataToSessionStorage = (values: any) => {
-  //   if (typeof window !== "undefined") {
-  //     const structuredData: EmployeeEducation = {
-  //       subject: values.education[0]?.stream || "",
-  //       board: values.education[0]?.board || "",
-  //       passing_year: values.education[0]?.passing_year || "",
-  //       marks: values.education[0]?.marks || "",
-  //       gradde: values.education[0]?.grade || "",
-  //     };
-  
-  //     sessionStorage.setItem("emp_edu_det", JSON.stringify(structuredData));
-  
-  //     if (props.setData) {
-  //       props.setData("emp_edu_det", structuredData);
-  //     }
-  
-  //     router.push(`${pathName}?page=`);
-  //   }
-  // };
-  
-  
   function getStateData(key: string, values: any, index?: number) {
-    setEmployeeFamilyDetails((prev: any) => ({ ...prev, [key]: values }));
+    setEmployeeEducationDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
 
+  const labels: string[] = ['Metric', 'Inter', 'Grad', 'Post Grad'];
 
   return (
     <div>
       <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
 
-      <Formik
+      {/* <Formik
         initialValues={{
           education: [
             { edu_level: "Metric" },
@@ -817,19 +807,49 @@ import { EmployeeDetailsProps, EmployeeEducation } from "@/utils/types/employee.
             </div>
           </Form>
         )}
-      </Formik>
+      </Formik> */}
+
+
+      <TableFormContainer 
+       columns={COLUMNS_FOR_EDUCATION}
+        getData={[]}
+        subHeading={" "}
+        setData={getStateData}
+        session_key="emp_education_data_details"
+        labels={labels}
+
+      />
+
 
       <div>
-          <SubHeading className="text-[20px] pt-4 mb-4">
-            Employee Training Information
-          </SubHeading>
-          <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
-            getData={[]}
-            subHeading={" "}
-            setData={getStateData}
-            session_key="emp_training_details"
-          />
-        </div>
+        <SubHeading className="text-[20px] pt-4 mb-4">
+          Employee Training Information
+        </SubHeading>
+        <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
+          getData={[]}
+          subHeading={" "}
+          setData={getStateData}
+          session_key="emp_eduaction_training_details"
+        />
+      </div>
+
+      <div className="flex items-center justify-end mt-5 gap-5">
+        <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
+          Back
+        </PrimaryButton>
+
+        <PrimaryButton buttonType="button" variant={"cancel"}>
+          Reset
+        </PrimaryButton>
+
+        <PrimaryButton
+          onClick={() => handleSubmitForm(employeeEducationDetails)}
+          buttonType="submit"
+          variant="primary"
+        >
+          Next
+        </PrimaryButton>
+      </div>
 
 
 
@@ -839,3 +859,328 @@ import { EmployeeDetailsProps, EmployeeEducation } from "@/utils/types/employee.
 };
 
 export default EmpEducationDetails;
+
+
+
+
+// "use client";
+
+// /***
+//  * Author: Krish
+//  * Status: Open
+//  * Date: 23/02/2024
+//  */
+
+// import { InnerHeading } from "@/components/Helpers/Heading";
+// import React, { useEffect, useMemo, useState } from "react";
+// import Button from "../atoms/Button";
+
+// type OptionProps = {
+//   id: number;
+//   name: string;
+// };
+
+// export interface COLUMNS {
+//   HEADER: string;
+//   ACCESSOR: string;
+//   isRequired: boolean;
+//   type?: "radio" | "select" | "text" | "number" | "date";
+//   select_options?: OptionProps[];
+//   placeholder?: string;
+//   sl_no?: boolean;
+// }
+
+// interface TableFormProps {
+//   columns: COLUMNS[];
+//   getData: [];
+//   addRows?: () => void;
+//   session_key: string;
+//   subHeading: string;
+//   isRequired?: boolean;
+//   setData: (key: string, values: any, index?: number | undefined) => void;
+//   labels?: string[];
+
+// }
+
+// interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+//   isRequired?: boolean;
+// }
+
+// const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
+//   return (
+//     <>
+//       <input
+//         className={`w-full h-full p-2 bg-transparent outline-none ${isRequired && "placeholder-zinc-400"}`}
+//         type="text"
+//         {...props}
+//       />
+//     </>
+//   );
+// };
+
+// const TableFormContainer: React.FC<TableFormProps> = (props) => {
+//   const [tableData, setTableData] = useState([{}]);
+//   const [tableLabels, setTableLabels] = useState(props.labels || []);
+
+//    useEffect(() => {
+//     if (typeof window !== "undefined") {
+//       const storedData = sessionStorage.getItem(`${props.session_key}`);
+//       setTableData(
+//         storedData
+//           ? JSON.parse(storedData)
+//           : Array.from({ length: tableLabels?.length || 1 }, () => ({}))
+//       );
+//     }
+//   }, [props.session_key, tableLabels]);
+
+
+//   function setDataSesson() {
+//     if (typeof window !== "undefined") {
+//       sessionStorage.setItem(`${props.session_key}`, JSON.stringify(tableData));
+//     }
+//   }
+
+//   useEffect(() => {
+//     props.setData(`${props.session_key}`, tableData, tableLabels);
+//   }, [tableData, tableLabels]);
+
+//   function onChangeTableDataHandler(id: number, value: string | number, key: string) {
+//     setTableData((prev: any) => {
+//       const updatedData = [...prev];
+//       const row: any = { ...updatedData[id] };
+//       row[key as keyof typeof row] = value;
+//       updatedData[id] = row;
+//       return updatedData;
+//     });
+//   }
+
+//   function addRow() {
+//     setDataSesson();
+//     const lastRow = tableData[tableData.length - 1];
+//     const isLastRowEmpty =
+//       Object.keys(lastRow).length === 0 ||
+//       props.columns.some(
+//         (col) =>
+//           col.isRequired && !lastRow[col.ACCESSOR as keyof typeof lastRow]
+//       );
+
+//     if (!isLastRowEmpty) {
+//       const newRow = props.columns.reduce((acc, col) => {
+//         acc[col.ACCESSOR] = "";
+//         return acc;
+//       }, {});
+
+//       setTableData((prev: any) => [...prev, newRow]);
+//       setTableLabels((prevLabels) => [...prevLabels, ""]);
+//     }
+//   }
+
+//   const options = [
+//     {
+//       key: "yes",
+//       value: "Yes",
+//     },
+//     {
+//       key: "no",
+//       value: "No",
+//     },
+//   ];
+
+//   const header = <InnerHeading>{props.subHeading}</InnerHeading>;
+//   return (
+//     <>
+//       {header}
+//       <table className="table table-md">
+
+//         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
+//           <tr>
+//             {props.labels && props.labels.length > 0 && (
+//               <th className="border border-zinc-400 font-medium w-[5%]">
+//                 <div className="flex gap-2">
+//                   <span>Education Level</span>
+//                 </div>
+//               </th>
+//             )}
+
+//             {props.columns?.map((cols, index: number) => (
+//               <>
+//                 <th
+//                   key={index}
+//                   className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+//                 >
+//                   <div className="flex gap-2">
+//                     <span>{cols.HEADER}</span>
+//                   </div>
+//                 </th>
+//               </>
+//             ))}
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {tableData?.map((row: any, index: number) => {
+//             return (
+//               <tr key={index} className="border border-zinc-400 text-secondary">
+
+//                 {props.labels && props.labels.length > 0 && (
+//                   <td className="border border-zinc-400">
+//                     {props.labels[index] || `Label ${index + 1}`}
+//                   </td>
+//                 )}
+//                 {props.columns?.map((col) => {
+//                   return (
+//                     <React.Fragment key={col.ACCESSOR}>
+//                       <td className="border border-zinc-400">
+//                         {!col.type ? (
+//                           <InputField
+//                             onChange={(
+//                               e: React.ChangeEvent<HTMLInputElement>
+//                             ) =>
+//                               onChangeTableDataHandler(
+//                                 index,
+//                                 e.target.value,
+//                                 col.ACCESSOR
+//                               )
+//                             }
+//                             value={
+//                               col.sl_no
+//                                 ? index + 1
+//                                 : (tableData[index] as Record<string, string>)[
+//                                 col.ACCESSOR
+//                                 ] || ""
+//                             }
+//                             readOnly={col.sl_no}
+//                             name={col.ACCESSOR}
+//                             placeholder={"Enter " + col.HEADER}
+//                             isRequired={col.isRequired}
+//                           />
+//                         ) : col.type === "number" ? (
+//                           <InputField
+//                             onChange={(
+//                               e: React.ChangeEvent<HTMLInputElement>
+//                             ) =>
+//                               onChangeTableDataHandler(
+//                                 index,
+//                                 Number(e.target.value),
+//                                 col.ACCESSOR
+//                               )
+//                             }
+//                             value={
+//                               col.sl_no
+//                                 ? index + 1
+//                                 : (tableData[index] as Record<string, string>)[
+//                                 col.ACCESSOR
+//                                 ] || ""
+//                             }
+//                             readOnly={col.sl_no}
+//                             name={col.ACCESSOR}
+//                             type="number"
+//                             placeholder={"Enter " + col.HEADER}
+//                             isRequired={col.isRequired}
+//                           />
+//                         ) : col.type === "radio" ? (
+//                           <div className="flex flex-col gap-3 pl-5 items-start">
+//                             {options.map((option) => (
+//                               <div
+//                                 className="flex items-center mr-3 gap-2"
+//                                 key={option.key}
+//                               >
+//                                 <input
+//                                   className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
+//                                   type="radio"
+//                                   id={option.value}
+//                                   value={option.value}
+//                                   onChange={() =>
+//                                     onChangeTableDataHandler(
+//                                       index,
+//                                       option.value,
+//                                       col.ACCESSOR
+//                                     )
+//                                   }
+//                                   checked={
+//                                     (
+//                                       tableData[index] as Record<string, string>
+//                                     )?.[col.ACCESSOR] === option.value
+//                                   }
+//                                 />
+//                                 <label
+//                                   className="text-secondary text-sm"
+//                                   htmlFor={option.key}
+//                                 >
+//                                   {option.value}
+//                                 </label>
+//                               </div>
+//                             ))}
+//                           </div>
+//                         ) : col.type === "select" ? (
+//                           <select
+//                             onChange={(
+//                               e: React.ChangeEvent<HTMLSelectElement>
+//                             ) =>
+//                               onChangeTableDataHandler(
+//                                 index,
+//                                 e.target.value,
+//                                 col.ACCESSOR
+//                               )
+//                             }
+//                             value={
+//                               (tableData[index] as Record<string, string>)?.[
+//                               col.ACCESSOR
+//                               ]
+//                             }
+//                             name={col.ACCESSOR}
+//                             className={`text-primary h-[40px] pl-3 rounded-lg border bg-transparent border-zinc-400 w-full`}
+//                           >
+//                             <option selected value="">
+//                               {col.placeholder}
+//                             </option>
+//                             {col?.select_options?.map((d: OptionProps) => (
+//                               <option key={d?.id} value={d?.id}>
+//                                 {d?.name}
+//                               </option>
+//                             ))}
+//                           </select>
+//                         ) : col.type === "date" ? (
+//                           <InputField
+//                             onChange={(
+//                               e: React.ChangeEvent<HTMLInputElement>
+//                             ) =>
+//                               onChangeTableDataHandler(
+//                                 index,
+//                                 e.target.value,
+//                                 col.ACCESSOR
+//                               )
+//                             }
+//                             value={
+//                               col.sl_no
+//                                 ? index + 1
+//                                 : (tableData[index] as Record<string, string>)[
+//                                 col.ACCESSOR
+//                                 ] || ""
+//                             }
+//                             readOnly={col.sl_no}
+//                             name={col.ACCESSOR}
+//                             type="date"
+//                             isRequired={col.isRequired}
+//                           />
+//                         ) : (
+//                           <></>
+//                         )}
+//                       </td>
+//                     </React.Fragment>
+//                   );
+//                 })}
+//               </tr>
+//             );
+//           })}
+//         </tbody>
+//       </table>
+//       <div className="w-full flex items-center justify-end mt-3">
+//         <Button onClick={addRow} buttontype="button" variant="primary_rounded">
+//           Add
+//         </Button>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default TableFormContainer;

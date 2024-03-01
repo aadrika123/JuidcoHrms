@@ -95,9 +95,9 @@ export const EmployeeOnBoard = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries("vendor-list");
-      setTimeout(() => {
-        goBack();
-      }, 1000);
+      // setTimeout(() => {
+      //   goBack();
+      // }, 1000);
     },
   });
 
@@ -150,9 +150,9 @@ export const EmployeeOnBoard = () => {
             <>
               <EmployeeFamilyDetails setData={getStateData} />
             </>
-          ) : //
+          ) : 
           searchParam === "9" ? (
-            //
+          
             <EmpSalaryDetails setData={getStateData} />
           ) : searchParam === "10" ? (
             <EmpLoanDetails setData={getStateData} />
