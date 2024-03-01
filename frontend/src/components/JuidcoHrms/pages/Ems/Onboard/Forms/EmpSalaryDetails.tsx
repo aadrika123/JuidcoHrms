@@ -132,7 +132,7 @@ const EmpSalaryDetails: React.FC<
           getData={[]}
           subHeading={"Employee Salary Information "}
           setData={getStateData}
-          session_key="emp_salary_details"
+          session_key="emp_salary_allow"
         />
       )}
 
@@ -142,7 +142,7 @@ const EmpSalaryDetails: React.FC<
           getData={[]}
           subHeading={"Employee  Information "}
           setData={getStateData}
-          session_key="emp_salary_details"
+          session_key="emp_salary_deduction"
         />
       )}
       <div className="flex items-center justify-end mt-5 gap-5">

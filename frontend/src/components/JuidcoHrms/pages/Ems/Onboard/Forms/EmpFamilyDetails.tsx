@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 
-import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
+import type { EmployeeFamilyDetailsType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -18,7 +18,7 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 
 const EmployeeFamilyDetails: React.FC<
-  EmployeeDetailsProps<EmployeeOfficeDetaislType>
+  EmployeeDetailsProps<EmployeeFamilyDetailsType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
@@ -91,7 +91,7 @@ const EmployeeFamilyDetails: React.FC<
       HEADER: "Percentage",
       ACCESSOR: "percentage",
       isRequired: true,
-      type:"number"
+      type: "number",
     },
 
     {
@@ -118,7 +118,7 @@ const EmployeeFamilyDetails: React.FC<
       <SubHeading className="text-[20px] pt-4">
         Employee Family Details
       </SubHeading>
-      
+
       <div className="mt-4">
         <TableFormContainer
           setData={getStateData}

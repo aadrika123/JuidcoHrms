@@ -71,7 +71,11 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     props.setData(`${props.session_key}`, tableData);
   }, [tableData]);
 
-  function onChangeTableDataHandler(id: number, value: string | number, key: string) {
+  function onChangeTableDataHandler(
+    id: number,
+    value: string | number,
+    key: string
+  ) {
     setTableData((prev: any) => {
       const updatedData = [...prev];
       const row: any = { ...updatedData[id] };
@@ -253,7 +257,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             ) =>
                               onChangeTableDataHandler(
                                 index,
-                                Number(e.target.value),
+                                e.target.value,
                                 col.ACCESSOR
                               )
                             }

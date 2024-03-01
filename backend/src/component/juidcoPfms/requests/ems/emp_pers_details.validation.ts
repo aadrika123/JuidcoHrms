@@ -7,6 +7,7 @@ import type {
   EmpTimeBoundDetailType,
   EmpTransDetails,
   EmployeeBasicDetailsType,
+  EmployeeJoinDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
   EmployeePresentAddressDetailsType,
@@ -120,7 +121,9 @@ export const employeePersonalDetailsSchema = Joi.object({
   emp_phy_health_type: Joi.alternatives(Joi.string(), Joi.number()).required(),
   emp_family: Joi.alternatives(Joi.string(), Joi.number()).required(),
   emp_lang: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_lang_do: Joi.string().valid("read", "write", "speak").required(),
+  emp_lang_do: Joi.array()
+    .items(Joi.string().valid("read", "write", "speak"))
+    .required(),
 });
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
 
@@ -325,9 +328,80 @@ export const employeeSalaryDetailsSchema = Joi.array().items(
 );
 //------------------ EMPLOYEE SALARY DETAILS ------------------------------//
 
+//------------------ EMPLOYEE JOIN VALIDATION ------------------------------//
+export const employeeJoinDetailsRequestData = (
+  empJoinDetails: EmployeeJoinDetailsType
+): EmployeeJoinDetailsType => {
+  return {
+    department: empJoinDetails.department,
+    designation: empJoinDetails.designation,
+    task: empJoinDetails.task,
+    class: empJoinDetails.class,
+    doj: empJoinDetails.doj,
+    effective_pay_commision: empJoinDetails.effective_pay_commision,
+    confirmation_order: empJoinDetails.confirmation_order,
+    pay_scale: empJoinDetails.pay_scale,
+    pay_band: empJoinDetails.pay_band,
+    grade_pay: empJoinDetails.grade_pay,
+    doc: empJoinDetails.doc,
+    basic_pay: empJoinDetails.basic_pay,
+    conf_order_number: empJoinDetails.conf_order_number,
+    deduction_type: empJoinDetails.deduction_type,
+    conf_order_date: empJoinDetails.conf_order_date,
+    member_gis: empJoinDetails.member_gis,
+    appoint_authority: empJoinDetails.appoint_authority,
+    gis_account: empJoinDetails.gis_account,
+    ulb: empJoinDetails.ulb,
+    last_inc_order: empJoinDetails.last_inc_order,
+    name_of_service: empJoinDetails.name_of_service,
+    last_inc_order_date: empJoinDetails.last_inc_order_date,
+    bank_name: empJoinDetails.bank_name,
+    wef_date: empJoinDetails.wef_date,
+    branch_name: empJoinDetails.branch_name,
+    pf_category: empJoinDetails.pf_category,
+    acc_number: empJoinDetails.acc_number,
+    ifsc: empJoinDetails.ifsc,
+    sen_grade_list: empJoinDetails.sen_grade_list,
+  };
+};
+export const employeeJoinValidationSchema = Joi.object({
+  department: Joi.number().required(),
+  designation: Joi.string().required(),
+  task: Joi.string().required(),
+  doj: Joi.string().required(),
+  effective_pay_commision: Joi.number().required(),
+  pay_scale: Joi.string().required(),
+  pay_band: Joi.string().required(),
+  grade_pay: Joi.string().required(),
+  basic_pay: Joi.string().required(),
+  deduction_type: Joi.number().required(),
+
+  // Make these fields optional
+  class: Joi.number().allow("", null),
+  doc: Joi.string().allow("", null),
+  conf_order_number: Joi.string().allow("", null),
+  conf_order_date: Joi.string().allow("", null),
+  appoint_authority: Joi.number().allow("", null),
+  gis_account: Joi.string().allow("", null),
+  ulb: Joi.number().allow("", null),
+  last_inc_order: Joi.string().allow("", null),
+  name_of_service: Joi.string().allow("", null),
+  last_inc_order_date: Joi.string().allow("", null),
+  bank_name: Joi.string().allow("", null),
+  wef_date: Joi.string().allow("", null),
+  branch_name: Joi.string().allow("", null),
+  pf_category: Joi.number().allow("", null),
+  acc_number: Joi.string().allow("", null),
+  ifsc: Joi.string().allow("", null),
+  sen_grade_list: Joi.string().allow("", null),
+  member_gis: Joi.string().allow("", null),
+  confirmation_order: Joi.string().allow("", null),
+});
+//------------------ EMPLOYEE JOIN VALIDATION ------------------------------//
+
 //------------------ EMPLOYEE TIME BOUND ------------------------------//
 export const employeeTimeBoundSchema = Joi.object({
-  pay_scale: Joi.string().required(),
+  pay_scale: Joi.object().required(),
   inc_amount: Joi.string().required(),
   bpay_aft_inc: Joi.string().required(),
   vide_ord_no: Joi.string().required(),

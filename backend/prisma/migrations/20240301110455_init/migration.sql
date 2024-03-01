@@ -7,6 +7,7 @@ CREATE TABLE "employees" (
     "emp_personal_details_id" INTEGER NOT NULL,
     "emp_address_details_id" INTEGER NOT NULL,
     "emp_time_bound_id" INTEGER NOT NULL,
+    "employee_join_details_id" INTEGER NOT NULL,
 
     CONSTRAINT "employees_pkey" PRIMARY KEY ("id")
 );
@@ -62,7 +63,7 @@ CREATE TABLE "employee_personal_details" (
     "emp_phy_health_type" INTEGER NOT NULL,
     "emp_family" INTEGER NOT NULL,
     "emp_lang" INTEGER NOT NULL,
-    "emp_lang_do" TEXT NOT NULL,
+    "emp_lang_do" TEXT[],
 
     CONSTRAINT "employee_personal_details_pkey" PRIMARY KEY ("id")
 );
@@ -151,9 +152,68 @@ CREATE TABLE "employee_transfer_details" (
 );
 
 -- CreateTable
+CREATE TABLE "employee_salary_allow" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "wfe_date" TEXT NOT NULL,
+    "amount_in" TEXT NOT NULL,
+    "employees_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_salary_allow_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_salary_deduction" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "wfe_date" TEXT NOT NULL,
+    "acnt_no" TEXT NOT NULL,
+    "amount_in" TEXT NOT NULL,
+    "employees_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_salary_deduction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_join_details" (
+    "id" SERIAL NOT NULL,
+    "department" INTEGER NOT NULL,
+    "designation" TEXT NOT NULL,
+    "task" TEXT NOT NULL,
+    "class" INTEGER,
+    "doj" TEXT NOT NULL,
+    "effective_pay_commision" INTEGER NOT NULL,
+    "confirmation_order" TEXT,
+    "pay_scale" TEXT NOT NULL,
+    "pay_band" TEXT NOT NULL,
+    "grade_pay" TEXT NOT NULL,
+    "doc" TEXT,
+    "basic_pay" TEXT NOT NULL,
+    "conf_order_number" TEXT,
+    "deduction_type" INTEGER NOT NULL,
+    "conf_order_date" TEXT,
+    "member_gis" TEXT,
+    "appoint_authority" INTEGER,
+    "gis_account" TEXT,
+    "ulb" INTEGER,
+    "last_inc_order" TEXT,
+    "name_of_service" TEXT,
+    "last_inc_order_date" TEXT,
+    "bank_name" TEXT,
+    "wef_date" TEXT,
+    "branch_name" TEXT,
+    "pf_category" INTEGER,
+    "acc_number" TEXT,
+    "ifsc" TEXT,
+    "sen_grade_list" TEXT,
+
+    CONSTRAINT "employee_join_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "employee_time_bound" (
     "id" SERIAL NOT NULL,
-    "pay_scale" TEXT NOT NULL,
+    "pay_scale" JSONB NOT NULL,
     "inc_amount" TEXT NOT NULL,
     "bpay_aft_inc" TEXT NOT NULL,
     "vide_ord_no" TEXT NOT NULL,
@@ -178,6 +238,9 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_address_details_id_fkey" F
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_time_bound_id_fkey" FOREIGN KEY ("emp_time_bound_id") REFERENCES "employee_time_bound"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "employees" ADD CONSTRAINT "employees_employee_join_details_id_fkey" FOREIGN KEY ("employee_join_details_id") REFERENCES "employee_join_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -191,3 +254,9 @@ ALTER TABLE "employee_promotion_details" ADD CONSTRAINT "employee_promotion_deta
 
 -- AddForeignKey
 ALTER TABLE "employee_transfer_details" ADD CONSTRAINT "employee_transfer_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_salary_deduction" ADD CONSTRAINT "employee_salary_deduction_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

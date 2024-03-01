@@ -56,19 +56,19 @@ const EmployeeServiceHistory: React.FC<
 
     {
       HEADER: "Increment Date",
-      ACCESSOR: "increment_date",
+      ACCESSOR: "inc_date",
       isRequired: true,
     },
 
     {
       HEADER: "Increment Amount",
-      ACCESSOR: "increment_amount",
+      ACCESSOR: "inc_amount",
       isRequired: true,
     },
 
     {
       HEADER: "Basic Pay After Increment",
-      ACCESSOR: "basic_pay_increment",
+      ACCESSOR: "basic_pay_after_inc",
       isRequired: true,
     },
 

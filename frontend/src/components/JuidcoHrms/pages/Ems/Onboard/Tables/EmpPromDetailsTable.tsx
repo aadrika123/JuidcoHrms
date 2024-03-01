@@ -199,7 +199,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "desigination",
+                          "designation",
                           "from"
                         )
                       }
@@ -214,7 +214,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "desigination",
+                          "designation",
                           "to"
                         )
                       }

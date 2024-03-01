@@ -95,9 +95,9 @@ export const EmployeeOnBoard = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries("vendor-list");
-      setTimeout(() => {
-        goBack();
-      }, 1000);
+      // setTimeout(() => {
+      //   goBack();
+      // }, 1000);
     },
   });
 
@@ -138,10 +138,11 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "4" ? (
             <EmpPresentAddress setData={getStateData} />
           ) : searchParam === "5" ? (
-            <EmpEducationDetails setData={getStateData} />
+            // <EmpEducationDetails setData={getStateData} />
+            <></>
           ) : searchParam === "6" ? (
             <>
-              <EmpInitialJoinDetails setData={getStateData} />
+            <EmpInitialJoinDetails setData={getStateData} />
             </>
           ) : searchParam === "7" ? (
             //
@@ -149,16 +150,25 @@ export const EmployeeOnBoard = () => {
           ) : searchParam === "8" ? (
             <>
               <EmployeeFamilyDetails setData={getStateData} />
+              <Button
+                buttontype="button"
+                variant="primary"
+                onClick={() => mutate(employeeOnBoardDetails)}
+              >
+                Save
+              </Button>
             </>
           ) : //
           searchParam === "9" ? (
             //
-            <EmpSalaryDetails setData={getStateData} />
+            // <EmpSalaryDetails setData={getStateData} />
+            <></>
           ) : searchParam === "10" ? (
-            <EmpLoanDetails setData={getStateData} />
+            // <EmpLoanDetails setData={getStateData} />
+            <></>
           ) : searchParam === "11" ? (
             <>
-              <EmpTimeBound setData={getStateData} />
+              {/* <EmpTimeBound setData={getStateData} /> */}
 
               <Button
                 buttontype="button"

@@ -10,6 +10,7 @@ import { resObj } from "../../../util/types";
 import {
   employeeBasicDetailsSchema,
   employeeFamilyAndNomineeeDetailsSchema,
+  employeeJoinValidationSchema,
   employeeOfficeDetailsSchema,
   employeePersonalDetailsSchema,
   employeePresentAddressDetailsSchema,
@@ -78,6 +79,16 @@ import { resMessage } from "../../../util/common";
 class EmployeeOnBoardController {
   private employeeOnBoardDao: EmployeeOnBoardDao;
   private initMesg: string;
+  private filterReqBody(body: any[]) {
+    if (body.length === 0) {
+      return body;
+    }
+    const lastObj = body[body.length - 1];
+    if (Object.keys(lastObj).length === 0 && lastObj.constructor === Object) {
+      body.pop();
+    }
+    return body;
+  }
 
   constructor() {
     this.employeeOnBoardDao = new EmployeeOnBoardDao();
@@ -141,50 +152,72 @@ class EmployeeOnBoardController {
       // Validate family details if available
       const { error: familyDetailsError } =
         employeeFamilyAndNomineeeDetailsSchema.validate(
-          req.body.emp_family_details.emp_fam_details,
-          req.body.emp_family_details.emp_nominee_details
+          this.filterReqBody(
+            req.body.emp_family_details.emp_fam_details
+          ) as any,
+          this.filterReqBody(
+            req.body.emp_family_details.emp_nominee_details
+          ) as any
         );
 
       if (familyDetailsError) {
         return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res);
       }
 
+      // const da1: any = this.filterReqBody(
+      //   req.body.emp_service_history.emp_prom_details
+      // );
+
+      // const empIncDetails = this.filterReqBody(
+      //   req.body.emp_service_history.emp_inc_details
+      // );
+
+      const empPromDetails = this.filterReqBody(
+        req.body.emp_service_history.emp_prom_details
+      ) as any;
+
       // validate employee service history
       const { error: serviceHistoryError } =
-        employeeServiceHistrorySchema.validate(
-          req.body.emp_service_history.emp_inc_details,
-          req.body.emp_service_history.emp_prom_details
-        );
+        employeeServiceHistrorySchema.validate(empPromDetails);
 
       if (serviceHistoryError) {
         return CommonRes.VALIDATION_ERROR(serviceHistoryError, resObj, res);
       }
 
-      // validate employee Salary details
-      const { error: salaryDetailsError } =
-        employeeSalaryDetailsSchema.validate(
-          req.body.emp_service_history.emp_salary_allow,
-          req.body.emp_service_history.emp_salary_deduction
-        );
+      // // validate employee Salary details
+      // const { error: salaryDetailsError } =
+      //   employeeSalaryDetailsSchema.validate(
+      //     req.body.emp_service_history.emp_salary_allow,
+      //     req.body.emp_service_history.emp_salary_deduction
+      //   );
 
-      if (salaryDetailsError) {
-        return CommonRes.VALIDATION_ERROR(salaryDetailsError, resObj, res);
+      // if (salaryDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(salaryDetailsError, resObj, res);
+      // }
+
+      // Validate address details
+      const { error: joinDetailsError } = employeeJoinValidationSchema.validate(
+        req.body.emp_join_details
+      );
+
+      if (joinDetailsError) {
+        return CommonRes.VALIDATION_ERROR(joinDetailsError, resObj, res);
       }
 
       // validate employee Time Bound Details
-      const { error: timeBoundError } = employeeTimeBoundSchema.validate(
-        req.body.emp_time_bound
-      );
+      // const { error: timeBoundError } = employeeTimeBoundSchema.validate(
+      //   req.body.emp_time_bound
+      // );
 
-      if (timeBoundError) {
-        return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
-      }
+      // if (timeBoundError) {
+      //   return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
+      // }
 
-      const data = await this.employeeOnBoardDao.store(req);
+      // const data = await this.employeeOnBoardDao.store(req);
 
       return CommonRes.CREATED(
         resMessage(this.initMesg).CREATED,
-        data,
+        null,
         resObj,
         res
       );

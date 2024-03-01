@@ -156,3 +156,37 @@ export interface EmployeeSalaryDeductionType {
 }
 
 //------------------------- Employee SALARY DETAILS -----------------------------//
+
+//------------------------- Employee JOINING DETAILS -----------------------------//
+export interface EmployeeJoinDetailsType {
+  department: string;
+  designation: string;
+  task: string;
+  class: string;
+  doj: string;
+  effective_pay_commision: string;
+  confirmation_order?: "yes" | "no";
+  pay_scale: string | number;
+  pay_band: string | number;
+  grade_pay: string | number;
+  doc: string;
+  basic_pay: string | number;
+  conf_order_number: string | number;
+  deduction_type: string;
+  conf_order_date: string;
+  member_gis: "yes" | "no";
+  appoint_authority: string;
+  gis_account: string | number;
+  ulb: string;
+  last_inc_order: string | number;
+  name_of_service: string;
+  last_inc_order_date: string | number;
+  bank_name: string;
+  wef_date: string;
+  branch_name: string | number;
+  pf_category: string | number;
+  acc_number: string | number;
+  ifsc: string | number;
+  sen_grade_list: string | number;
+}
+//------------------------- Employee JOINING DETAILS -----------------------------//

@@ -165,7 +165,6 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   conf_order_number: "",
   deduction_type: "",
   conf_order_date: "",
-  // member_gis: "yes",
   appoint_authority: "",
   gis_account: "",
   ulb: "",
@@ -179,8 +178,8 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   acc_number: "",
   ifsc: "",
   sen_grade_list: "",
-  member_gis: [],
-  confirmation_order: "yes"
+  member_gis: "no",
+  confirmation_order: "yes",
 };
 
 export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
@@ -208,8 +207,5 @@ export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   month_last_install_recovery: "",
   total_amnt_recovery: "",
 };
-
-
-
 
 /// ------------- Employee personal Details ---------------------///

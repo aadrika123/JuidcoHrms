@@ -8,6 +8,7 @@ import { Request } from "express";
 import { PrismaClient } from "@prisma/client";
 import {
   employeeBasicDetailRequestData,
+  employeeJoinDetailsRequestData,
   employeeOfficeDetailRequestData,
   employeePersonalDetailsRequestData,
   employeePresentAddressDetailsRequestData,
@@ -95,7 +96,6 @@ const prisma = new PrismaClient();
 class EmployeeOnBoardDao {
   private filterReqBody(body: any[]) {
     if (body.length === 0) {
-      ``;
       return body;
     }
     const lastObj = body[body.length - 1];
@@ -130,12 +130,12 @@ class EmployeeOnBoardDao {
       emp_service_history,
       emp_time_bound,
       emp_salary_details,
+      emp_join_details,
     } = req.body;
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
     const { emp_inc_details, emp_prom_details } = emp_service_history;
-    const { emp_salary_allow, emp_salary_deduction } =
-      emp_salary_details;
+    const { emp_salary_allow, emp_salary_deduction } = emp_salary_details;
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
     const empNomineeDetails = this.filterReqBody(emp_nominee_details);
@@ -144,9 +144,7 @@ class EmployeeOnBoardDao {
     const empPromDetails = this.filterReqBody(emp_prom_details);
 
     const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow);
-    const empSalaryDeductionDetails = this.filterReqBody(
-      emp_salary_deduction
-    );
+    const empSalaryDeductionDetails = this.filterReqBody(emp_salary_deduction);
 
     const employeeData = await prisma.$transaction(async (tx) => {
       const empBasic = await this.createEmployeeDetails(
@@ -171,6 +169,12 @@ class EmployeeOnBoardDao {
         employeePresentAddressDetailsRequestData(emp_address_details)
       );
 
+      const empJoining = await this.createEmployeeDetails(
+        tx,
+        "employee_join_details",
+        employeeJoinDetailsRequestData(emp_join_details)
+      );
+
       const empTimeBound = await this.createEmployeeDetails(
         tx,
         "employee_time_bound",
@@ -183,6 +187,7 @@ class EmployeeOnBoardDao {
         emp_office_details_id: empOffice.id,
         emp_personal_details_id: empPersonal.id,
         emp_address_details_id: empAddress.id,
+        emp_join_details_id: empJoining.id,
         emp_time_bound_id: empTimeBound.id,
         emp_family_details: {
           create: empFamilyDetails,

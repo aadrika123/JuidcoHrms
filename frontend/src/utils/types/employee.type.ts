@@ -151,7 +151,7 @@ export interface EmployeePresentAddressDetailsType {
   police_station: string;
   emp_address_same: "yes" | "no";
 }
-
+ 
 export interface EmployeeJoinDetailsType {
   department: string;
   designation: string;
@@ -160,7 +160,6 @@ export interface EmployeeJoinDetailsType {
   doj: string;
   effective_pay_commision: string;
   confirmation_order?: "yes" | "no";
-  // confirmation_order: ("yes" | "no")[];
   pay_scale: string | number;
   pay_band: string | number;
   grade_pay: string | number;
@@ -169,8 +168,7 @@ export interface EmployeeJoinDetailsType {
   conf_order_number: string | number;
   deduction_type: string;
   conf_order_date: string;
-  // member_gis: "yes" | "no";
-  member_gis: ("yes" | "no")[];
+  member_gis: "yes" | "no";
   appoint_authority: string;
   gis_account: string | number;
   ulb: string;

@@ -88,12 +88,12 @@ export const EmpTimeBound: React.FC<
         ...tableData,
       };
       sessionStorage.setItem(
-        "emp_timebound_details",
+        "emp_time_bound",
         JSON.stringify(updatedFormData)
       );
 
       if (props.setData) {
-        props.setData("emp_timebound_details", updatedFormData);
+        props.setData("emp_time_bound", updatedFormData);
       }
 
       // router.push(`${pathName}?page=9`);
