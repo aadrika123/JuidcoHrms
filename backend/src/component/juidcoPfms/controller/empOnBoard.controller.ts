@@ -184,11 +184,11 @@ class EmployeeOnBoardController {
         return CommonRes.VALIDATION_ERROR(serviceHistoryError, resObj, res);
       }
 
-      // // validate employee Salary details
+      // validate employee Salary details
       // const { error: salaryDetailsError } =
       //   employeeSalaryDetailsSchema.validate(
-      //     req.body.emp_service_history.emp_salary_allow,
-      //     req.body.emp_service_history.emp_salary_deduction
+      //     req.body.emp_service_history.emp_salary_allow_details,
+      //     req.body.emp_service_history.emp_salary_deduction_details
       //   );
 
       // if (salaryDetailsError) {
@@ -213,11 +213,11 @@ class EmployeeOnBoardController {
       //   return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
       // }
 
-      // const data = await this.employeeOnBoardDao.store(req);
+      const data = await this.employeeOnBoardDao.store(req);
 
       return CommonRes.CREATED(
         resMessage(this.initMesg).CREATED,
-        null,
+        data,
         resObj,
         res
       );

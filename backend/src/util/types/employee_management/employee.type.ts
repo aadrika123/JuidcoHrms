@@ -133,6 +133,7 @@ export interface EmpTimeBoundDetailType {
   inc_amount: string | number;
   bpay_aft_inc: string | number;
   vide_ord_no: string | number;
+  vide_ord_date: string;
   remarks: string | number;
 }
 //------------------------- Employee TIME BOUND -----------------------------//

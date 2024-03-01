@@ -400,23 +400,27 @@ export const employeeJoinValidationSchema = Joi.object({
 //------------------ EMPLOYEE JOIN VALIDATION ------------------------------//
 
 //------------------ EMPLOYEE TIME BOUND ------------------------------//
-export const employeeTimeBoundSchema = Joi.object({
+export const employeeTimeBound = Joi.object({
   pay_scale: Joi.object().required(),
   inc_amount: Joi.string().required(),
   bpay_aft_inc: Joi.string().required(),
   vide_ord_no: Joi.string().required(),
+  vide_order_date: Joi.string().required(),
   remarks: Joi.string().required(),
 });
-
+export const employeeTimeBoundSchema = Joi.array().items(employeeTimeBound);
 export const employeeTimeBoundRequestData = (
-  item: EmpTimeBoundDetailType
-): EmpTimeBoundDetailType => {
-  return {
-    pay_scale: item.pay_scale,
-    inc_amount: item.inc_amount,
-    bpay_aft_inc: item.bpay_aft_inc,
-    vide_ord_no: item.vide_ord_no,
-    remarks: item.remarks,
-  };
+  item: EmpTimeBoundDetailType[]
+) => {
+  return item?.map((i): EmpTimeBoundDetailType => {
+    return {
+      pay_scale: i.pay_scale,
+      inc_amount: i.inc_amount,
+      bpay_aft_inc: i.bpay_aft_inc,
+      vide_ord_no: i.vide_ord_no,
+      vide_ord_date: i.vide_ord_date,
+      remarks: i.remarks,
+    };
+  });
 };
 //------------------ EMPLOYEE TIME BOUND ------------------------------//

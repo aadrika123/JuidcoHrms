@@ -39,7 +39,8 @@ const EmpInitialJoinDetails: React.FC<
         { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
     ) => {
         if (typeof window !== "undefined") {
-            const formData = { ...values, confirmation_order: confirmationOrder, member_gis: gisOrder };
+            // const formData = { ...values, confirmation_order: confirmationOrder, member_gis: gisOrder };
+            const formData = { ...values};
 
             sessionStorage.setItem("emp_join_details", JSON.stringify(formData));
             setSubmitting(false);

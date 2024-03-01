@@ -43,6 +43,7 @@ const EmployeeFamilyDetails: React.FC<
       ACCESSOR: "sl_no",
       isRequired: false,
       sl_no: true,
+      
     },
     {
       HEADER: "Name",
