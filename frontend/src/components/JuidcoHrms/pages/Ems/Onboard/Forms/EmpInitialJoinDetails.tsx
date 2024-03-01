@@ -230,6 +230,7 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Pay Scale*"
                                     name="pay_scale"
                                     placeholder={"Enter Pay Scale"}
+                                    type="number"
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -240,6 +241,8 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Pay Band*"
                                     name="pay_band"
                                     placeholder={"Enter Pay Band"}
+                                    type="number"
+
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -250,6 +253,8 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Grade Pay*"
                                     name="grade_pay"
                                     placeholder={"Enter Grade Pay"}
+                                    type="number"
+
                                 />
                             </div>
 
@@ -270,6 +275,8 @@ const EmpInitialJoinDetails: React.FC<
                                 label="Basic Pay*"
                                 name="basic_pay"
                                 placeholder={"Enter Basic Pay"}
+                                type="number"
+
                             />
                             <InputBox
                                 onChange={handleChange}
@@ -300,6 +307,8 @@ const EmpInitialJoinDetails: React.FC<
                                 label="Confirmation Order Date"
                                 name="conf_order_date"
                                 placeholder={"Enter Confirmation Order Date"}
+                                type="number"
+
                             />
 
                             <div className="flex flex-col gap-2">
@@ -355,6 +364,8 @@ const EmpInitialJoinDetails: React.FC<
                                 label="GIS Account No"
                                 name="gis_account"
                                 placeholder={"Enter GIS Account No."}
+                                type="number"
+
                             />
                             <SelectForNoApi
                                 onChange={handleChange}

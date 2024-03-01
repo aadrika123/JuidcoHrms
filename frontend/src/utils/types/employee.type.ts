@@ -233,9 +233,6 @@ export interface EmployeeLoanDetailsRecoveryType {
   total_amnt_recovery: string | number;
 }
 
-
-
-
 // export interface EmployeeEducationDetailsType {
 //   metric_subject: string | number;
 //   metric_board: string | number;

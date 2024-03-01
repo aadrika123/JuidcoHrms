@@ -177,6 +177,7 @@ const EmpPresentAddress: React.FC<
                 label="Pin Code*"
                 placeholder="Pin Code"
                 name="pin_code"
+                type="number"
               />
               <InputBox
                 onChange={handleChange}
