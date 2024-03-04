@@ -107,7 +107,7 @@ class EmployeeOnBoardDao {
   private createEmployeeDetails = async (
     tx: any,
     tableName: string,
-    data: any[] | any,
+    data: any[] | any,  
     isMany = false
   ) => {
     if (isMany) {
@@ -142,14 +142,6 @@ class EmployeeOnBoardDao {
 
     const { emp_loan, emp_loan_Principal, emp_loan_recovery } =
       emp_loan_details;
-
-    // if (!emp_salary_deduction_details) {
-    //   ///
-    // }
-
-    // if (!emp_salary_allow_details) {
-    //   ///
-    // }
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
     const empNomineeDetails = this.filterReqBody(emp_nominee_details);

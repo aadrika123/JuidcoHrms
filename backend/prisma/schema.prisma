@@ -57,12 +57,12 @@ model employee_basic_details {
   emp_image           String
   emp_name            String
   mode_of_recruitment String // Assuming you want to store it as a string, adjust as needed
-  contact_no          String
-  emg_contact_no      String
+  contact_no          BigInt
+  emg_contact_no      BigInt
   aadhar_no           BigInt
-  epic_no             String
+  epic_no             BigInt
   gender              Int // Assuming you want to store it as a string, adjust as needed
-  pran                String
+  pran                BigInt
   emp_type            Int // Assuming you want to store it as a string, adjust as needed
   weight              Float
   height              Float
@@ -88,6 +88,9 @@ model employee_personal_details {
   emp_nearest_railway_station String
   emp_phy_health_type         Int
   emp_family                  Int
+  emp_family_name             String
+  emp_office_name             String?
+  emp_org_name                String?
   emp_lang                    Int
   emp_lang_do                 String[]
   employee                    employees[]
@@ -122,6 +125,7 @@ model employee_nominee_details {
 
 model employee_address_details {
   id                Int         @id @default(autoincrement())
+  type              String
   address_primary   String
   address_secondary String
   village           String
@@ -129,7 +133,7 @@ model employee_address_details {
   state             String
   district          String
   block_ulb         String
-  pin_code          String
+  pin_code          Int
   police_station    String
   emp_address_same  String
   employee          employees[]

@@ -72,12 +72,12 @@ export const employeeBasicDetailsSchema = Joi.object({
   mode_of_recruitment: Joi.alternatives()
     .try(Joi.number(), Joi.string())
     .required(),
-  contact_no: Joi.string().required(),
-  emg_contact_no: Joi.string().required(),
+  contact_no: Joi.number().required(),
+  emg_contact_no: Joi.number().required(),
   aadhar_no: Joi.number().required(),
-  epic_no: Joi.string().required(),
+  epic_no: Joi.number().required(),
   gender: Joi.number().required(),
-  pran: Joi.string().required(),
+  pran: Joi.number().required(),
   emp_type: Joi.number().required(),
   weight: Joi.number().required(),
   height: Joi.number().required(),
@@ -124,9 +124,7 @@ export const employeePersonalDetailsSchema = Joi.object({
   emp_phy_health_type: Joi.alternatives(Joi.string(), Joi.number()).required(),
   emp_family: Joi.alternatives(Joi.string(), Joi.number()).required(),
   emp_lang: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_lang_do: Joi.array()
-    .items(Joi.string().valid("read", "write", "speak"))
-    .required(),
+  emp_lang_do: Joi.array().items(Joi.string()).required(),
 });
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
 
@@ -181,6 +179,7 @@ export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
 
 //------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
 export const employeePresentAddressDetailsSchema = Joi.object({
+  type: Joi.string().required(),
   address_primary: Joi.string().required(),
   address_secondary: Joi.string().required(),
   village: Joi.string().required(),
@@ -188,7 +187,7 @@ export const employeePresentAddressDetailsSchema = Joi.object({
   state: Joi.string().required(),
   district: Joi.string().required(),
   block_ulb: Joi.string().required(),
-  pin_code: Joi.string().required(),
+  pin_code: Joi.number().required(),
   police_station: Joi.string().required(),
   emp_address_same: Joi.string().valid("yes", "no").required(),
 });
@@ -197,6 +196,7 @@ export const employeePresentAddressDetailsRequestData = (
   empPresentAddress: EmployeePresentAddressDetailsType
 ): EmployeePresentAddressDetailsType => {
   return {
+    type: empPresentAddress.type,
     address_primary: empPresentAddress.address_primary,
     address_secondary: empPresentAddress.address_secondary,
     village: empPresentAddress.village,
@@ -537,7 +537,7 @@ export const employeeLoanDetailsSchema = Joi.array().items(
   Joi.alternatives().try(
     employeeLoanSchema,
     employeeLoanPrincipalTypeSchema,
-    employeeLoanRecoveryTypeSchema,
+    employeeLoanRecoveryTypeSchema
   )
 );
 

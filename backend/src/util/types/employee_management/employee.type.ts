@@ -17,12 +17,13 @@ export interface EmployeeBasicDetailsType {
   emp_image: string;
   emp_name: string;
   mode_of_recruitment: number | string;
-  contact_no: string;
-  emg_contact_no: string;
+  contact_no: number;
+  emg_contact_no: number;
   aadhar_no: number;
-  epic_no: string;
+  epic_no: number;
   gender: string | number;
-  pran: string;
+  gender_name?: string | number;
+  pran: number;
   emp_type: string | number;
   weight: number;
   height: number;
@@ -114,6 +115,7 @@ export interface EmployeeFamilyDetailsType {
 //------------------------- Employee Permanent Address Types -----------------------------//
 export interface EmployeePresentAddressDetailsType {
   id?: string | number;
+  type: string;
   address_primary: string | number;
   address_secondary: string | number;
   village: string;
@@ -121,7 +123,7 @@ export interface EmployeePresentAddressDetailsType {
   state: string;
   district: string;
   block_ulb: string | number;
-  pin_code: string | number;
+  pin_code: number;
   police_station: string;
   emp_address_same: "yes" | "no";
 }

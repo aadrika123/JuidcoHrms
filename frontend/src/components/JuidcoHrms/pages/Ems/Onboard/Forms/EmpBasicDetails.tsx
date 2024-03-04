@@ -104,7 +104,7 @@ const EmployeeBasicDetails: React.FC<
               /> */}
 
               <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer">
-                <p className="text-zinc-600">Upload Employee Profile</p>
+                <p className="text-zinc-600">Upload Employee Profile*</p>
                 <div
                   className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                   onClick={handleDivClick}
@@ -146,11 +146,11 @@ const EmployeeBasicDetails: React.FC<
                 value={values.emp_name}
                 error={errors.emp_name}
                 touched={touched.emp_name}
-                label="Name**"
+                label="Name*"
                 name="emp_name"
                 placeholder={"Enter Name"}
               />
-              <InputBox
+              <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.mode_of_recruitment}
@@ -159,6 +159,20 @@ const EmployeeBasicDetails: React.FC<
                 label="Mode of Recruitment*"
                 name="mode_of_recruitment"
                 placeholder={"Enter Mode of Recruitment"}
+                options={[
+                  {
+                    id: 1,
+                    name: "Online",
+                  },
+                  {
+                    id: 2,
+                    name: "Offline",
+                  },
+                  {
+                    id: 3,
+                    name: "Consultant- Third Agent",
+                  },
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -169,6 +183,7 @@ const EmployeeBasicDetails: React.FC<
                 label="Contact No.*"
                 name="contact_no"
                 placeholder={"Enter Contact No."}
+                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -179,6 +194,8 @@ const EmployeeBasicDetails: React.FC<
                 label="Emergency Contact No.*"
                 name="emg_contact_no"
                 placeholder={"Enter Emergency Contact Number"}
+                type="number"
+
               />
               <InputBox
                 onChange={handleChange}
@@ -189,6 +206,8 @@ const EmployeeBasicDetails: React.FC<
                 label="Aadhar Card No.*"
                 name="aadhar_no"
                 placeholder={"Enter Aadhar Card No."}
+                type="number"
+
               />
               <InputBox
                 onChange={handleChange}
@@ -199,6 +218,8 @@ const EmployeeBasicDetails: React.FC<
                 label="EPIC No.*"
                 name="epic_no"
                 placeholder={"Enter EPIC Number"}
+                type="number"
+
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -212,11 +233,11 @@ const EmployeeBasicDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "male",
+                    name: "Male",
                   },
                   {
                     id: 2,
-                    name: "female",
+                    name: "Female",
                   },
                 ]}
               />
@@ -229,6 +250,8 @@ const EmployeeBasicDetails: React.FC<
                 label="PRAN*"
                 name="pran"
                 placeholder={"Enter PRAN"}
+                type="number"
+
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -242,15 +265,23 @@ const EmployeeBasicDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Permanent",
+                    name: "Sanctioned Post",
                   },
                   {
                     id: 2,
-                    name: "Temporary",
+                    name: "Contractual Appointment",
                   },
                   {
                     id: 3,
-                    name: "Contractual",
+                    name: "Outsourced Employees",
+                  },
+                  {
+                    id: 4,
+                    name: "Daily Wages",
+                  },
+                  {
+                    id: 5,
+                    name: "Deputation Post",
                   },
                 ]}
               />
@@ -263,7 +294,7 @@ const EmployeeBasicDetails: React.FC<
                 touched={touched.weight}
                 label="Weight*"
                 name="weight"
-                placeholder={"Enter Weight"}
+                placeholder={"Enter Weight in KG"}
                 type="number"
               />
               <InputBox
@@ -296,7 +327,7 @@ const EmployeeBasicDetails: React.FC<
                 touched={touched.gps}
                 label="GPS*"
                 name="gps"
-                placeholder={"Enter GPS"}
+                placeholder={"Enter GPF"}
                 type="number"
               />
               <InputBox

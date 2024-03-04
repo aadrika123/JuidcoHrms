@@ -200,6 +200,7 @@ const EmpPresentAddress: React.FC<
                 label="Pin Code*"
                 placeholder="Pin Code"
                 name="pin_code"
+                type="number"
               />
               <InputBox
                 onChange={handleChange}
@@ -229,100 +230,10 @@ const EmpPresentAddress: React.FC<
                  <div className="text-red-500 text-md block">{errors.emp_address_same}</div>
                  )}    */}
               </div>
-
-              {/* {confirmationOrder === 'yes' && (
-                <>
-                  <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_primary}
-                error={errors.address_primary}
-                touched={touched.address_primary}
-                label="Address-1*"
-                placeholder="Enter Present Address"
-                name="address_primary_permanent"
-              />
-             
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_secondary}
-                label="Address-2"
-                name="address_secondary_permanent"
-                placeholder={"Enter Present Address"}
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.village}
-                error={errors.village}
-                touched={touched.village}
-                label="Village/Town/City*"
-                placeholder="Enter Your Village/Town/City"
-                name="village_permanent"
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.post_office}
-                label="Post Office"
-                placeholder="Enter Your Post Office"
-                name="post_office_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.state}
-                error={errors.state}
-                touched={touched.state}
-                label="State*"
-                placeholder="Enter Your State"
-                name="state_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.district}
-                error={errors.district}
-                touched={touched.district}
-                label="District*"
-                placeholder="Enter Your District"
-                name="district_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.block_ulb}
-                label="Block ULB"
-                placeholder="Block ULB"
-                name="block_ulb_permanent"
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.pin_code}
-                error={errors.pin_code}
-                touched={touched.pin_code}
-                label="Pin Code*"
-                placeholder="Pin Code"
-                name="pin_code_permanent"
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.police_station}
-                error={errors.police_station}
-                touched={touched.police_station}
-                label="Police Station*"
-                placeholder="Police Station"
-                name="police_station_permanent"
-              />
-                </>
-              )} */}
-
+              
               {confirmationOrder === 'yes' && (
                 <>
-                  <InputBox
+                <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.address_primary_permanent}
