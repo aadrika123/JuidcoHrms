@@ -95,7 +95,6 @@
 //   // useEffect(() => {
 //   //   props.setData(`${props.session_key}`, tableData);
 //   // }, [tableData]);
-  
 
 //   function onChangeTableDataHandler(id: number, value: string | number, key: string) {
 //     setTableData((prev: any) => {
@@ -332,8 +331,6 @@
 
 // export default TableFormContainer;
 
-
-
 "use client";
 
 /***
@@ -345,6 +342,7 @@
 import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../atoms/Button";
+import { removeObj } from "@/utils/helper";
 
 type OptionProps = {
   id: number;
@@ -370,7 +368,6 @@ interface TableFormProps {
   isRequired?: boolean;
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];
-
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -393,7 +390,9 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState([{}]);
   const [tableLabels, setTableLabels] = useState(props.labels || []);
 
-   useEffect(() => {
+  const filterData = removeObj(tableData);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = sessionStorage.getItem(`${props.session_key}`);
       setTableData(
@@ -424,16 +423,19 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem(`${props.session_key}`, JSON.stringify(tableData));
+      sessionStorage.setItem(
+        `${props.session_key}`,
+        JSON.stringify(filterData)
+      );
     }
   }
 
   // useEffect(() => {
-  //   props.setData(`${props.session_key}`, tableData);
-  // }, [tableData]);
+  //   props.setData(`${props.session_key}`, filterData);
+  // }, [filterData]);
 
   useEffect(() => {
-    props.setData(`${props.session_key}`, tableData, tableLabels as any);
+    props.setData(`${props.session_key}`, filterData, tableLabels as any);
   }, [tableData, tableLabels]);
 
   function onChangeTableDataHandler(
@@ -464,25 +466,28 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   //     setTableData((prev: any) => [...prev, {}]);
   //   }
   // }
-
   function addRow() {
     setDataSesson();
-    const lastRow = tableData[tableData.length - 1];
-    const isLastRowEmpty =
-      Object.keys(lastRow).length === 0 ||
-      props.columns.some(
-        (col) =>
-          col.isRequired && !lastRow[col.ACCESSOR as keyof typeof lastRow]
-      );
 
-    if (!isLastRowEmpty) {
-      const newRow = props.columns.reduce((acc, col) => {
-        acc[col.ACCESSOR] = "";
-        return acc;
-      }, {});
+    // Check if filterData exists and has at least one element
+    if (tableData && tableData.length > 0) {
+      const lastRow = tableData[tableData.length - 1];
+      const isLastRowEmpty =
+        Object.keys(lastRow).length === 0 ||
+        props.columns.some(
+          (col) =>
+            col.isRequired && !lastRow[col.ACCESSOR as keyof typeof lastRow]
+        );
 
-      setTableData((prev: any) => [...prev, newRow]);
-      // setTableLabels((prevLabels) => [...prevLabels, ""]);
+      if (!isLastRowEmpty) {
+        const newRow = props.columns.reduce((acc, col) => {
+          acc[col.ACCESSOR] = "";
+          return acc;
+        }, {});
+
+        setTableData((prev: any) => [...prev, newRow]);
+        // setTableLabels((prevLabels) => [...prevLabels, ""]);
+      }
     }
   }
 
@@ -502,7 +507,6 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     <>
       {header}
       <table className="table table-md">
-
         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
           <tr>
             {props.labels && props.labels.length > 0 && (
@@ -531,7 +535,6 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
           {tableData?.map((row: any, index: number) => {
             return (
               <tr key={index} className="border border-zinc-400 text-secondary">
-
                 {props.labels && props.labels.length > 0 && (
                   <td className="border border-zinc-400">
                     {props.labels[index] || `Label ${index + 1}`}
@@ -556,8 +559,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               col.sl_no
                                 ? index + 1
                                 : (tableData[index] as Record<string, string>)[
-                                col.ACCESSOR
-                                ] || ""
+                                    col.ACCESSOR
+                                  ] || ""
                             }
                             readOnly={col.sl_no}
                             name={col.ACCESSOR}
@@ -579,8 +582,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               col.sl_no
                                 ? index + 1
                                 : (tableData[index] as Record<string, string>)[
-                                col.ACCESSOR
-                                ] || ""
+                                    col.ACCESSOR
+                                  ] || ""
                             }
                             readOnly={col.sl_no}
                             name={col.ACCESSOR}
@@ -635,7 +638,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             }
                             value={
                               (tableData[index] as Record<string, string>)?.[
-                              col.ACCESSOR
+                                col.ACCESSOR
                               ]
                             }
                             name={col.ACCESSOR}
@@ -665,8 +668,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               col.sl_no
                                 ? index + 1
                                 : (tableData[index] as Record<string, string>)[
-                                col.ACCESSOR
-                                ] || ""
+                                    col.ACCESSOR
+                                  ] || ""
                             }
                             readOnly={col.sl_no}
                             name={col.ACCESSOR}
@@ -695,8 +698,6 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
 };
 
 export default TableFormContainer;
-
-
 
 // "use client";
 

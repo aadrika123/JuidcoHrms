@@ -673,8 +673,6 @@ const EmpEducationDetails: React.FC<
       HEADER: "Grade/Division*",
       ACCESSOR: "grade",
       isRequired: true
-
-
     },
   ];
 

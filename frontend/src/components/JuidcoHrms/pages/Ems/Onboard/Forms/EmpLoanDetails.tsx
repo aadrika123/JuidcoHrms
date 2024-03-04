@@ -1265,7 +1265,7 @@ const EmpLoanDetails: React.FC<
               <>
                 {
                   formFields.map((fields, index) => (
-                    <div>
+                    <div key={index}>
                       <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
                         <div className="flex-all-center">
                           <input
