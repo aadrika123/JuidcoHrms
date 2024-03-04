@@ -292,11 +292,11 @@ export interface EmployeeEducationDetailsType {
   emp_eduaction_train_details: EmployeeEducationTrainingType;
 }
 export type EmployeeEducation = {
-  subject: string | number;
+  stream: string | number;
   board: string | number;
   passing_year: string | number;
   marks: string | number;
-  gradde: string | number;
+  grade: string | number;
 };
 
 export type EmployeeEducationTrainingType = {

@@ -343,7 +343,7 @@
  */
 
 import { InnerHeading } from "@/components/Helpers/Heading";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 
 type OptionProps = {
