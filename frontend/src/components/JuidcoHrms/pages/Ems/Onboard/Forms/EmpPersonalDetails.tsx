@@ -100,8 +100,9 @@ const EmpployeePersonalDetails: React.FC<
                 name="married_status"
                 placeholder={"Select Married Status"}
                 options={[
-                  { id: 1, name: "married" },
-                  { id: 2, name: "not married" },
+                  { id: 1, name: "Single" },
+                  { id: 2, name: "Married" },
+                  { id: 3, name: "Widowed" },
                 ]}
               />
               <InputBox
@@ -123,7 +124,15 @@ const EmpployeePersonalDetails: React.FC<
                 label="Religion*"
                 name="religion"
                 placeholder={"Select Religion"}
-                options={[{ id: 1, name: "hindu" }]}
+                options={
+                  [
+                    { id: 1, name: "Hindu" },
+                    { id: 2, name: "Muslim" },
+                    { id: 3, name: "Sikh" },
+                    { id: 4, name: "Christian" }
+                  ]
+
+                }
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -134,7 +143,13 @@ const EmpployeePersonalDetails: React.FC<
                 label="Categories*"
                 name="emp_categories"
                 placeholder={"Select Categories"}
-                options={[{ id: 1, name: "option 1" }]}
+                options={[
+                  { id: 1, name: "SC" },
+                  { id: 2, name: "ST" },
+                  { id: 3, name: "OBC" },
+                  { id: 4, name: "General" },
+
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -147,7 +162,7 @@ const EmpployeePersonalDetails: React.FC<
                 placeholder={"Enter Home State"}
               />
 
-              <InputBox
+              <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_district}
@@ -156,6 +171,32 @@ const EmpployeePersonalDetails: React.FC<
                 label="District*"
                 name="emp_district"
                 placeholder={"Enter District"}
+                options={[
+                  { id: 1, name: "Deoghar" },
+                  { id: 2, name: "Dumka" },
+                  { id: 3, name: "Bokaro" },
+                  { id: 4, name: "Giridih" },
+                  { id: 5, name: "Koderma" },
+                  { id: 6, name: "Godda" },
+                  { id: 7, name: "Chatra" },
+                  { id: 8, name: "Dhanbad" },
+                  { id: 9, name: "Gharwha" },
+                  { id: 10, name: "East-Singhbhum" },
+                  { id: 11, name: "Jamtara" },
+                  { id: 12, name: "Saraikela-Kharsawan" },
+                  { id: 13, name: "Ranchi" },
+                  { id: 14, name: "Pakur" },
+                  { id: 15, name: "Latehar" },
+                  { id: 16, name: "Hazaribagh" },
+                  { id: 17, name: "Lohardaga" },
+                  { id: 18, name: "Palamu" },
+                  { id: 19, name: "Ramghar" },
+                  { id: 20, name: "Simdega" },
+                  { id: 21, name: "West-Singhbhum" },
+                  { id: 22, name: "Sahebganj" },
+                  { id: 23, name: "Gumla" },
+                  { id: 24, name: "Khunti" },
+                ]}
               />
 
               <SelectForNoApi
@@ -169,7 +210,13 @@ const EmpployeePersonalDetails: React.FC<
                 placeholder={"Enter Blood Group"}
                 options={[
                   { id: 1, name: "A+" },
-                  { id: 1, name: "B+" },
+                  { id: 2, name: "A-" },
+                  { id: 3, name: "B+" },
+                  { id: 4, name: "B-" },
+                  { id: 5, name: "AB+" },
+                  { id: 6, name: "AB-" },
+                  { id: 7, name: "O+" },
+                  { id: 8, name: "O-" },
                 ]}
               />
 
@@ -183,8 +230,8 @@ const EmpployeePersonalDetails: React.FC<
                 name="emp_health_status"
                 placeholder={"Enter Health Status"}
                 options={[
-                  { id: 1, name: "Good" },
-                  { id: 1, name: "Bad" },
+                  { id: 1, name: "Fit" },
+                  { id: 1, name: "UnFit" },
                 ]}
               />
               <InputBox
@@ -220,16 +267,16 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Good",
+                    name: "Handicap",
                   },
                   {
                     id: 2,
-                    name: "Bad",
+                    name: "Normal",
                   },
                 ]}
               />
 
-              <SelectForNoApi
+              {/* <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_family}
@@ -241,14 +288,101 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Good",
+                    name: "Father",
                   },
                   {
                     id: 2,
-                    name: "Bad",
+                    name: "Mother",
+                  },
+                  {
+                    id: 3,
+                    name: "Husband",
+                  },
+                  {
+                    id: 4,
+                    name: "Spouse",
                   },
                 ]}
-              />
+              />  */}
+
+
+              <div>
+                {/* <div className="inline-flex gap-2"> */}
+                <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
+
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family}
+                    error={errors.emp_family}
+                    touched={touched.emp_family}
+                    label="Family/Guardian*"
+                    name="emp_family"
+                    placeholder={"Select Family/Guardian"}
+                    options={[
+                      {
+                        id: 1,
+                        name: "Father",
+                      },
+                      {
+                        id: 2,
+                        name: "Mother",
+                      },
+                      {
+                        id: 3,
+                        name: "Husband",
+                      },
+                      {
+                        id: 4,
+                        name: "Spouse",
+                      },
+                    ]}
+                  />
+
+
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family_name}
+                    error={errors.emp_family_name}
+                    touched={touched.emp_family_name}
+                    label="Name*"
+                    name="emp_family_name"
+                    placeholder={"Enter Name"}
+                  />
+                </div>
+
+                {values.emp_family === 4 && (
+                  <div className="mt-5">
+                    <div>
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.emp_org_name}
+                        error={errors.emp_org_name}
+                        touched={touched.emp_org_name}
+                        label="Organisation"
+                        name="emp_org_name"
+                        placeholder={"Enter Organisation Name"}
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.emp_office_name}
+                        error={errors.emp_office_name}
+                        touched={touched.emp_office_name}
+                        label="Office Name"
+                        name="emp_office_name"
+                        placeholder={"Enter Office Name"}
+                      />
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
 
               <SelectForNoApi
                 onChange={handleChange}
@@ -262,11 +396,11 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "hindi",
+                    name: "Hindi",
                   },
                   {
                     id: 2,
-                    name: "english",
+                    name: "English",
                   },
                 ]}
               />

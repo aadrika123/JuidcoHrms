@@ -79,7 +79,7 @@ const EmpSalaryDetails: React.FC<
     },
 
     {
-      HEADER: "Amount in %",
+      HEADER: "Amount",
       ACCESSOR: "amount_in",
       isRequired: true,
     },
@@ -132,7 +132,7 @@ const EmpSalaryDetails: React.FC<
       isRequired: true,
     },
     {
-      HEADER: "Amount in %",
+      HEADER: "Amount",
       ACCESSOR: "amount_in",
       isRequired: true,
     },

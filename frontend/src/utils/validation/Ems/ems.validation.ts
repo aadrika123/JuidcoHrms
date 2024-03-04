@@ -88,6 +88,9 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
+  emp_family_name: yup.string().required("Please Enter the Name"),
+  emp_org_name: yup.string().required("Please Enter the Organisation Name"),
+  emp_office_name: yup.string().required("Please Enter the Office Name"),
   // emp_lang_do: yup.string().required("Please Enter the Language Proficiency"),
 });
 
@@ -105,6 +108,9 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_phy_health_type: "",
   emp_family: "",
   emp_lang: "",
+  emp_family_name:"",
+  emp_org_name:"",
+  emp_office_name:"",
   // emp_lang_do: "",
 };
 
@@ -118,6 +124,13 @@ export const employeePresentAddressValidationSchema = yup.object({
     .string()
     .required("Please Enter the Correct Police Station"),
   emp_address_same: yup.string().required("Please Choose Correct Option"),
+  address_primary_permanent: yup.string().required("Please Enter the Correct Permanent Address"),
+  village_permanent: yup.string().required("Please Enter the Correct Permanent Village"),
+  state_permanent: yup.string().required("Please Enter the Correct Permanent State"),
+  district_permanent: yup.string().required("Please Enter the Correct Permanent District"),
+  pin_code_permanent: yup.string().required("Please Enter the Correct Permanent Pin Code"),
+  police_station_permanent: yup.string().required("Please Enter the Correct Permanent Police Station"),
+
 });
 
 export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =

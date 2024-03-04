@@ -73,6 +73,11 @@ export interface EmployeePersonalDetailsType {
   emp_nearest_railway_station: string;
   emp_phy_health_type: string | number;
   emp_family: string | number;
+  emp_family_name: string | number;
+  emp_org_name: string | number;
+  emp_office_name: string | number;
+
+
   emp_lang: string | number;
   // emp_lang_do: ("read" | "write" | "speak")[];
 }
