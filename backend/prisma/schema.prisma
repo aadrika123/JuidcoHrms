@@ -27,10 +27,16 @@ model employees {
   emp_promotion_details   employee_promotion_details[]
   emp_transfer_details    employee_transfer_details[]
   emp_timebound_details   employee_timebound_details[]
-  emp_salary_allow        employee_salary_allow[]
-  emp_salary_deduction    employee_salary_deduction[]
   emp_join_details        employee_join_details        @relation(fields: [emp_join_details_id], references: [id])
   emp_join_details_id     Int
+  emp_education_details   employee_education_details[]
+  emp_training_details    employee_training_details[]
+  emp_loan_details        employee_loan_details        @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id     Int
+  emp_salary_details      employee_salary_details      @relation(fields: [emp_salary_details_id], references: [id])
+  emp_salary_details_id   Int
+  created_at              DateTime                     @default(now()) @map("created_at")
+  updated_at              DateTime                     @updatedAt @map("updated_at")
 }
 
 model employee_office_details {
@@ -41,6 +47,8 @@ model employee_office_details {
   ddo_code        String
   district        String
   employee        employees[]
+  created_at      DateTime    @default(now()) @map("created_at")
+  updated_at      DateTime    @updatedAt @map("updated_at")
 }
 
 model employee_basic_details {
@@ -62,6 +70,8 @@ model employee_basic_details {
   gps                 BigInt
   dob                 DateTime
   employee            employees[]
+  created_at          DateTime    @default(now()) @map("created_at")
+  updated_at          DateTime    @updatedAt @map("updated_at")
 }
 
 model employee_personal_details {
@@ -81,6 +91,8 @@ model employee_personal_details {
   emp_lang                    Int
   emp_lang_do                 String[]
   employee                    employees[]
+  created_at                  DateTime    @default(now()) @map("created_at")
+  updated_at                  DateTime    @updatedAt @map("updated_at")
 }
 
 model employee_family_details {
@@ -91,6 +103,8 @@ model employee_family_details {
   dependent    String
   employees    employees @relation(fields: [employees_id], references: [id])
   employees_id Int
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_nominee_details {
@@ -102,6 +116,8 @@ model employee_nominee_details {
   minor        String
   employees    employees @relation(fields: [employees_id], references: [id])
   employees_id Int
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_address_details {
@@ -117,6 +133,8 @@ model employee_address_details {
   police_station    String
   emp_address_same  String
   employee          employees[]
+  created_at        DateTime    @default(now()) @map("created_at")
+  updated_at        DateTime    @updatedAt @map("updated_at")
 }
 
 // -------------Employee Service History-----------------//
@@ -130,6 +148,8 @@ model employee_increment_details {
   vide_order_date     String
   employees           employees @relation(fields: [employees_id], references: [id])
   employees_id        Int
+  created_at          DateTime  @default(now()) @map("created_at")
+  updated_at          DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_promotion_details {
@@ -141,6 +161,8 @@ model employee_promotion_details {
   transfer        String
   employees       employees @relation(fields: [employees_id], references: [id])
   employees_id    Int
+  created_at      DateTime  @default(now()) @map("created_at")
+  updated_at      DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_transfer_details {
@@ -153,28 +175,44 @@ model employee_transfer_details {
   transfer_after_prom String
   employees           employees @relation(fields: [employees_id], references: [id])
   employees_id        Int
+  created_at          DateTime  @default(now()) @map("created_at")
+  updated_at          DateTime  @updatedAt @map("updated_at")
 }
 
 //-------------- Employee Service History---------------------//
 
 //-------------- Employee SALARY DETAILS ---------------------//
+
+model employee_salary_details {
+  id                   Int                         @id @default(autoincrement())
+  emp_salary_allow     employee_salary_allow[]
+  emp_salary_deduction employee_salary_deduction[]
+  employee             employees[]
+  created_at           DateTime                    @default(now()) @map("created_at")
+  updated_at           DateTime                    @updatedAt @map("updated_at")
+}
+
 model employee_salary_allow {
-  id           Int       @id @default(autoincrement())
-  name         String
-  wfe_date     String
-  amount_in    String
-  employees    employees @relation(fields: [employees_id], references: [id])
-  employees_id Int
+  id                         Int                     @id @default(autoincrement())
+  name                       String
+  wfe_date                   String
+  amount_in                  String
+  employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
+  employee_salary_details_id Int
+  created_at                 DateTime                @default(now()) @map("created_at")
+  updated_at                 DateTime                @updatedAt @map("updated_at")
 }
 
 model employee_salary_deduction {
-  id           Int       @id @default(autoincrement())
-  name         String
-  wfe_date     String
-  acnt_no      String
-  amount_in    String
-  employees    employees @relation(fields: [employees_id], references: [id])
-  employees_id Int
+  id                         Int                     @id @default(autoincrement())
+  name                       String
+  wfe_date                   String
+  acnt_no                    String
+  amount_in                  String
+  employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
+  employee_salary_details_id Int
+  created_at                 DateTime                @default(now()) @map("created_at")
+  updated_at                 DateTime                @updatedAt @map("updated_at")
 }
 
 //-------------- Employee SALARY DETAILS ---------------------//
@@ -212,9 +250,42 @@ model employee_join_details {
   ifsc                    String?
   sen_grade_list          String?
   employee                employees[]
+  created_at              DateTime    @default(now()) @map("created_at")
+  updated_at              DateTime    @updatedAt @map("updated_at")
 }
 
 //-------------- Employee Join Details ---------------------//
+
+//-------------- Employee Education & TRAINING Details ---------------------//
+
+model employee_education_details {
+  id           Int       @id @default(autoincrement())
+  stream       String
+  board        String
+  passing_year String
+  marks        String
+  grade        String
+  employee     employees @relation(fields: [employee_id], references: [id])
+  employee_id  Int
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt @map("updated_at")
+}
+
+model employee_training_details {
+  id               Int       @id @default(autoincrement())
+  name_of_training String
+  training_type    String
+  name_of_inst     String
+  starting_from    String
+  end_to           String
+  tot_day_training String
+  employee         employees @relation(fields: [employee_id], references: [id])
+  employee_id      Int
+  created_at       DateTime  @default(now()) @map("created_at")
+  updated_at       DateTime  @updatedAt @map("updated_at")
+}
+
+//-------------- Employee Education & TRAINING Details ---------------------//
 
 model employee_timebound_details {
   id            Int       @id @default(autoincrement())
@@ -226,6 +297,69 @@ model employee_timebound_details {
   remarks       String
   employees     employees @relation(fields: [employees_id], references: [id])
   employees_id  Int
+  created_at    DateTime  @default(now()) @map("created_at")
+  updated_at    DateTime  @updatedAt @map("updated_at")
 }
+
+//-------------- Employee LOAN Details ---------------------//
+
+model employee_loan_details {
+  id                 Int                       @id @default(autoincrement())
+  emp_loan           employee_loan[]
+  emp_loan_Principal employee_loan_Principal[]
+  emp_loan_recovery  employee_loan_recovery[]
+  employee           employees[]
+  created_at         DateTime                  @default(now()) @map("created_at")
+  updated_at         DateTime                  @updatedAt @map("updated_at")
+}
+
+model employee_loan {
+  id                  Int                   @id @default(autoincrement())
+  loan_name           String
+  loan_account_num    String
+  sanc_order_num      String
+  dos                 String
+  san_authority       String
+  dod                 String
+  dis_treasury_name   String
+  voucher_date        String
+  treasury_voc_num    String
+  emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id Int
+  created_at          DateTime              @default(now()) @map("created_at")
+  updated_at          DateTime              @updatedAt @map("updated_at")
+}
+
+model employee_loan_Principal {
+  id                  Int                   @id @default(autoincrement())
+  loan_name_principal String
+  tot_amt_released    String
+  total_install       String
+  monthly_install     String
+  last_paid_install   String
+  month_last_install  String
+  total_amnt          String
+  emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id Int
+  created_at          DateTime              @default(now()) @map("created_at")
+  updated_at          DateTime              @updatedAt @map("updated_at")
+}
+
+model employee_loan_recovery {
+  id                          Int                   @id @default(autoincrement())
+  loan_name_recovery          String
+  total_int_amount            String
+  total_install_recovery      String
+  monthly_install_recovery    String
+  last_paid_install_recovery  String
+  month_last_install_recovery String
+  total_amnt_recovery         String
+  emp_loan_details            employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id         Int
+  created_at                  DateTime              @default(now()) @map("created_at")
+  updated_at                  DateTime              @updatedAt @map("updated_at")
+}
+
+//-------------- Employee LOAN Details ---------------------//
 
 //-----------------------------------------------------------------//

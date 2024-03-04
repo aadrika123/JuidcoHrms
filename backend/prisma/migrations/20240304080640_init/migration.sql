@@ -6,8 +6,8 @@ CREATE TABLE "employees" (
     "emp_basic_details_id" INTEGER NOT NULL,
     "emp_personal_details_id" INTEGER NOT NULL,
     "emp_address_details_id" INTEGER NOT NULL,
-    "emp_time_bound_id" INTEGER NOT NULL,
-    "employee_join_details_id" INTEGER NOT NULL,
+    "emp_join_details_id" INTEGER NOT NULL,
+    "emp_salary_details_id" INTEGER NOT NULL,
 
     CONSTRAINT "employees_pkey" PRIMARY KEY ("id")
 );
@@ -152,12 +152,19 @@ CREATE TABLE "employee_transfer_details" (
 );
 
 -- CreateTable
+CREATE TABLE "employee_salary_details" (
+    "id" SERIAL NOT NULL,
+
+    CONSTRAINT "employee_salary_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "employee_salary_allow" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "wfe_date" TEXT NOT NULL,
     "amount_in" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employee_salary_details_id" INTEGER NOT NULL,
 
     CONSTRAINT "employee_salary_allow_pkey" PRIMARY KEY ("id")
 );
@@ -169,7 +176,7 @@ CREATE TABLE "employee_salary_deduction" (
     "wfe_date" TEXT NOT NULL,
     "acnt_no" TEXT NOT NULL,
     "amount_in" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employee_salary_details_id" INTEGER NOT NULL,
 
     CONSTRAINT "employee_salary_deduction_pkey" PRIMARY KEY ("id")
 );
@@ -211,15 +218,99 @@ CREATE TABLE "employee_join_details" (
 );
 
 -- CreateTable
-CREATE TABLE "employee_time_bound" (
+CREATE TABLE "employee_education_details" (
+    "id" SERIAL NOT NULL,
+    "stream" TEXT NOT NULL,
+    "board" TEXT NOT NULL,
+    "passing_year" TEXT NOT NULL,
+    "marks" TEXT NOT NULL,
+    "grade" TEXT NOT NULL,
+    "employee_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_education_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_training_details" (
+    "id" SERIAL NOT NULL,
+    "name_of_training" TEXT NOT NULL,
+    "training_type" TEXT NOT NULL,
+    "name_of_inst" TEXT NOT NULL,
+    "starting_from" TEXT NOT NULL,
+    "end_to" TEXT NOT NULL,
+    "tot_day_training" TEXT NOT NULL,
+    "employee_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_training_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_timebound_details" (
     "id" SERIAL NOT NULL,
     "pay_scale" JSONB NOT NULL,
     "inc_amount" TEXT NOT NULL,
     "bpay_aft_inc" TEXT NOT NULL,
     "vide_ord_no" TEXT NOT NULL,
+    "vide_ord_date" TEXT NOT NULL,
     "remarks" TEXT NOT NULL,
+    "employees_id" INTEGER NOT NULL,
 
-    CONSTRAINT "employee_time_bound_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "employee_timebound_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_loan_details" (
+    "id" SERIAL NOT NULL,
+    "employees_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_loan_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_loan" (
+    "id" SERIAL NOT NULL,
+    "loan_name" TEXT NOT NULL,
+    "loan_account_num" TEXT NOT NULL,
+    "sanc_order_num" TEXT NOT NULL,
+    "dos" TEXT NOT NULL,
+    "san_authority" TEXT NOT NULL,
+    "dod" TEXT NOT NULL,
+    "dis_treasury_name" TEXT NOT NULL,
+    "voucher_date" TEXT NOT NULL,
+    "treasury_voc_num" TEXT NOT NULL,
+    "emp_loan_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_loan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_loan_Principal" (
+    "id" SERIAL NOT NULL,
+    "loan_name_principal" TEXT NOT NULL,
+    "tot_amt_released" TEXT NOT NULL,
+    "total_install" TEXT NOT NULL,
+    "monthly_install" TEXT NOT NULL,
+    "last_paid_install" TEXT NOT NULL,
+    "month_last_install" TEXT NOT NULL,
+    "total_amnt" TEXT NOT NULL,
+    "emp_loan_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_loan_Principal_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_loan_recovery" (
+    "id" SERIAL NOT NULL,
+    "loan_name_recovery" TEXT NOT NULL,
+    "total_int_amount" TEXT NOT NULL,
+    "total_install_recovery" TEXT NOT NULL,
+    "monthly_install_recovery" TEXT NOT NULL,
+    "last_paid_install_recovery" TEXT NOT NULL,
+    "month_last_install_recovery" TEXT NOT NULL,
+    "total_amnt_recovery" TEXT NOT NULL,
+    "emp_loan_id" INTEGER NOT NULL,
+
+    CONSTRAINT "employee_loan_recovery_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
@@ -235,10 +326,10 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_personal_details_id_fkey" 
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_address_details_id_fkey" FOREIGN KEY ("emp_address_details_id") REFERENCES "employee_address_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_time_bound_id_fkey" FOREIGN KEY ("emp_time_bound_id") REFERENCES "employee_time_bound"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_join_details_id_fkey" FOREIGN KEY ("emp_join_details_id") REFERENCES "employee_join_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employees" ADD CONSTRAINT "employees_employee_join_details_id_fkey" FOREIGN KEY ("employee_join_details_id") REFERENCES "employee_join_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_salary_details_id_fkey" FOREIGN KEY ("emp_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -256,7 +347,28 @@ ALTER TABLE "employee_promotion_details" ADD CONSTRAINT "employee_promotion_deta
 ALTER TABLE "employee_transfer_details" ADD CONSTRAINT "employee_transfer_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_salary_deduction" ADD CONSTRAINT "employee_salary_deduction_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_salary_deduction" ADD CONSTRAINT "employee_salary_deduction_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_education_details" ADD CONSTRAINT "employee_education_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_training_details" ADD CONSTRAINT "employee_training_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_timebound_details" ADD CONSTRAINT "employee_timebound_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_loan_details" ADD CONSTRAINT "employee_loan_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_loan" ADD CONSTRAINT "employee_loan_emp_loan_id_fkey" FOREIGN KEY ("emp_loan_id") REFERENCES "employee_loan_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_loan_Principal" ADD CONSTRAINT "employee_loan_Principal_emp_loan_id_fkey" FOREIGN KEY ("emp_loan_id") REFERENCES "employee_loan_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_loan_recovery" ADD CONSTRAINT "employee_loan_recovery_emp_loan_id_fkey" FOREIGN KEY ("emp_loan_id") REFERENCES "employee_loan_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

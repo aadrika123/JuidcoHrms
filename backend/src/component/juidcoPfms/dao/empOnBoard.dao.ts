@@ -128,25 +128,44 @@ class EmployeeOnBoardDao {
       emp_address_details,
       emp_service_history,
       emp_timebound_details,
-      // emp_salary_details,
+      emp_salary_details,
+      emp_education_details,
       emp_join_details,
+      emp_loan_details,
     } = req.body;
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
     const { emp_inc_details, emp_prom_details } = emp_service_history;
-    // const { emp_salary_deduction_details, emp_salary_allow_details } =
-    //   emp_salary_details;
+    const { emp_education_data_details, emp_eduaction_training_details } =
+      emp_education_details;
+    const { emp_salary_allow, emp_salary_deduction } = emp_salary_details;
+
+    const { emp_loan, emp_loan_Principal, emp_loan_recovery } =
+      emp_loan_details;
+
+    // if (!emp_salary_deduction_details) {
+    //   ///
+    // }
+
+    // if (!emp_salary_allow_details) {
+    //   ///
+    // }
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
     const empNomineeDetails = this.filterReqBody(emp_nominee_details);
 
     const empIncDetails = this.filterReqBody(emp_inc_details);
     const empPromDetails = this.filterReqBody(emp_prom_details);
+    const empEducationData = this.filterReqBody(emp_education_data_details);
+    const empTrainData = this.filterReqBody(emp_eduaction_training_details);
 
-    // const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
-    // const empSalaryDeductionDetails = this.filterReqBody(
-    //   emp_salary_deduction_details
-    // );
+    const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow);
+    const empSalaryDeductionDetails = this.filterReqBody(emp_salary_deduction);
+
+    const empLoan = this.filterReqBody(emp_loan);
+    const empLoanPrincipal = this.filterReqBody(emp_loan_Principal);
+    const empLoanRecovery = this.filterReqBody(emp_loan_recovery);
+
     const empTimeBound = this.filterReqBody(emp_timebound_details);
 
     const employeeData = await prisma.$transaction(async (tx) => {
@@ -177,6 +196,40 @@ class EmployeeOnBoardDao {
         "employee_join_details",
         employeeJoinDetailsRequestData(emp_join_details)
       );
+
+      const empSalaryData = {
+        emp_salary_allow: {
+          create: empSalaryAllowDetails,
+        },
+        emp_salary_deduction: {
+          create: empSalaryDeductionDetails,
+        },
+      };
+
+      const empLoanData = {
+        emp_loan: {
+          create: empLoan,
+        },
+        emp_loan_Principal: {
+          create: empLoanPrincipal,
+        },
+        emp_loan_recovery: {
+          create: empLoanRecovery,
+        },
+      };
+
+      const empSalaryDetails = await this.createEmployeeDetails(
+        tx,
+        "employee_salary_details",
+        empSalaryData
+      );
+
+      const empLoanDetails = await this.createEmployeeDetails(
+        tx,
+        "employee_loan_details",
+        empLoanData
+      );
+
       const employeeDatas = {
         emp_id: emp_basic_details.emp_id,
         emp_basic_details_id: empBasic.id,
@@ -184,6 +237,8 @@ class EmployeeOnBoardDao {
         emp_personal_details_id: empPersonal.id,
         emp_address_details_id: empAddress.id,
         emp_join_details_id: empJoining.id,
+        emp_salary_details_id: empSalaryDetails.id,
+        emp_loan_details_id: empLoanDetails.id,
         emp_family_details: {
           create: empFamilyDetails,
         },
@@ -199,12 +254,12 @@ class EmployeeOnBoardDao {
         emp_timebound_details: {
           create: empTimeBound,
         },
-        // emp_salary_allow: {
-        //   create: empSalaryAllowDetails,
-        // },
-        // emp_salary_deduction: {
-        //   create: empSalaryDeductionDetails,
-        // },
+        emp_education_details: {
+          create: empEducationData,
+        },
+        emp_training_details: {
+          create: empTrainData,
+        },
       };
 
       return await this.createEmployeeDetails(tx, "employees", employeeDatas);

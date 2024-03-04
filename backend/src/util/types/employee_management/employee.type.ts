@@ -191,3 +191,56 @@ export interface EmployeeJoinDetailsType {
   sen_grade_list: string | number;
 }
 //------------------------- Employee JOINING DETAILS -----------------------------//
+
+//------------------------- Employee EDUCATION & TRAINING DETAILS -----------------------------//
+export type EmployeeEducation = {
+  stream: string | number;
+  board: string | number;
+  passing_year: string | number;
+  marks: string | number;
+  grade: string | number;
+};
+
+export type EmployeeEducationTrainingType = {
+  name_of_training: string | number;
+  training_type: string | number;
+  name_of_inst: string | number;
+  starting_from: string | number;
+  end_to: string | number;
+  tot_day_training: string | number;
+};
+//------------------------- Employee EDUCATION & TRAINING DETAILS -----------------------------//
+
+//------------------------- Employee LOAN DETAILS -----------------------------//
+export interface EmployeeLoanDetailsType {
+  loan_name: string;
+  loan_account_num: string | number;
+  sanc_order_num: string | number;
+  dos: string;
+  san_authority: string | number;
+  dod: string;
+  dis_treasury_name: string | number;
+  voucher_date: string;
+  treasury_voc_num: string;
+}
+
+export interface EmployeeLoanDetailsPrincipalType {
+  loan_name_principal: string;
+  tot_amt_released: string | number;
+  total_install: string | number;
+  monthly_install: string | number;
+  last_paid_install: string | number;
+  month_last_install: string | number;
+  total_amnt: string | number;
+}
+
+export interface EmployeeLoanDetailsRecoveryType {
+  loan_name_recovery: string;
+  total_int_amount: string | number;
+  total_install_recovery: string | number;
+  monthly_install_recovery: string | number;
+  last_paid_install_recovery: string | number;
+  month_last_install_recovery: string | number;
+  total_amnt_recovery: string | number;
+}
+//------------------------- Employee LOAN DETAILS -----------------------------//

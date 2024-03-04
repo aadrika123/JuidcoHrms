@@ -7,7 +7,10 @@ import type {
   EmpTimeBoundDetailType,
   EmpTransDetails,
   EmployeeBasicDetailsType,
+  EmployeeEducation,
+  EmployeeEducationTrainingType,
   EmployeeJoinDetailsType,
+  EmployeeLoanDetailsType,
   EmployeeOfficeDetaislType,
   EmployeePersonalDetailsType,
   EmployeePresentAddressDetailsType,
@@ -323,8 +326,10 @@ const employeeSalaryDeductionSchema = Joi.object({
 });
 
 export const employeeSalaryDetailsSchema = Joi.array().items(
-  employeeSalaryAllowSchema,
-  employeeSalaryDeductionSchema
+  Joi.alternatives().try(
+    employeeSalaryAllowSchema,
+    employeeSalaryDeductionSchema
+  )
 );
 //------------------ EMPLOYEE SALARY DETAILS ------------------------------//
 
@@ -424,3 +429,116 @@ export const employeeTimeBoundRequestData = (
   });
 };
 //------------------ EMPLOYEE TIME BOUND ------------------------------//
+
+//------------------ EMPLOYEE Education Schema ------------------------------//
+const employeeEducationSchema = Joi.object({
+  stream: Joi.string().required(),
+  board: Joi.string().required(),
+  passing_year: Joi.string().required(),
+  marks: Joi.string().required(),
+  grade: Joi.string().required(),
+});
+
+export const employeeEducaitonRequestData = (item: EmployeeEducation[]) => {
+  return item?.map((i): EmployeeEducation => {
+    return {
+      stream: i.stream,
+      board: i.board,
+      passing_year: i.passing_year,
+      marks: i.marks,
+      grade: i.grade,
+    };
+  });
+};
+
+const employeeEducationTrainingTypeSchema = Joi.object({
+  name_of_training: Joi.string().required(),
+  training_type: Joi.string().required(),
+  name_of_inst: Joi.string().required(),
+  starting_from: Joi.string().required(),
+  end_to: Joi.string().required(),
+  tot_day_training: Joi.string().required(),
+});
+
+export const employeeTrainingRequestData = (
+  item: EmployeeEducationTrainingType[]
+) => {
+  return item?.map((i): EmployeeEducationTrainingType => {
+    return {
+      name_of_training: i.name_of_training,
+      training_type: i.training_type,
+      name_of_inst: i.name_of_inst,
+      starting_from: i.starting_from,
+      end_to: i.end_to,
+      tot_day_training: i.tot_day_training,
+    };
+  });
+};
+
+export const employeeEducationAndTrainingSchema = Joi.array().items(
+  employeeEducationSchema,
+  employeeEducationTrainingTypeSchema
+);
+//------------------ EMPLOYEE Education Schema ------------------------------//
+
+//------------------ EMPLOYEE LOAN DETAILS ------------------------------//
+
+export const employeeLoanRequestData = (item: EmployeeLoanDetailsType[]) => {
+  return item?.map((i): EmployeeLoanDetailsType => {
+    return {
+      loan_name: i.loan_name,
+      loan_account_num: i.loan_account_num,
+      sanc_order_num: i.sanc_order_num,
+      dos: i.dos,
+      san_authority: i.san_authority,
+      dod: i.dod,
+      dis_treasury_name: i.dis_treasury_name,
+      voucher_date: i.voucher_date,
+      treasury_voc_num: i.treasury_voc_num,
+    };
+  });
+};
+
+const employeeLoanSchema = Joi.object({
+  loan_name: Joi.string().required(),
+  loan_account_num: Joi.string().required(),
+  sanc_order_num: Joi.string().required(),
+  dos: Joi.string().required(),
+  san_authority: Joi.string().required(),
+  dod: Joi.string().required(),
+  dis_treasury_name: Joi.string().required(),
+  voucher_date: Joi.string().required(),
+  treasury_voc_num: Joi.string().required(),
+});
+
+// Joi Validation for EmployeeLoanDetailsPrincipalType
+const employeeLoanPrincipalTypeSchema = Joi.object({
+  loan_name_principal: Joi.string().required(),
+  tot_amt_released: Joi.string().required(),
+  total_install: Joi.string().required(),
+  monthly_install: Joi.string().required(),
+  last_paid_install: Joi.string().required(),
+  month_last_install: Joi.string().required(),
+  total_amnt: Joi.string().required(),
+});
+
+// Joi Validation for EmployeeLoanDetailsRecoveryType
+const employeeLoanRecoveryTypeSchema = Joi.object({
+  loan_name_recovery: Joi.string().required(),
+  total_int_amount: Joi.string().required(),
+  total_install_recovery: Joi.string().required(),
+  monthly_install_recovery: Joi.string().required(),
+  last_paid_install_recovery: Joi.string().required(),
+  month_last_install_recovery: Joi.string().required(),
+  total_amnt_recovery: Joi.string().required(),
+});
+
+export const employeeLoanDetailsSchema = Joi.array().items(
+  Joi.alternatives().try(
+    employeeLoanSchema,
+    employeeLoanPrincipalTypeSchema,
+    employeeLoanRecoveryTypeSchema,
+  )
+);
+
+//------------------ EMPLOYEE LOAN DETAILS ------------------------------//
