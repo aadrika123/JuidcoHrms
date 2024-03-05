@@ -160,13 +160,13 @@ export const EmployeeOnBoard = () => {
             <>
               <EmpTimeBound setData={getStateData} />
 
-              <Button
+              {/* <Button
                 buttontype="button"
                 variant="primary"
                 onClick={() => mutate(employeeOnBoardDetails)}
               >
                 Save
-              </Button>
+              </Button> */}
             </>
           ) : (
             <></>

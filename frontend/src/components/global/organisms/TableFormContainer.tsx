@@ -481,9 +481,9 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
 
       if (!isLastRowEmpty) {
         const newRow = props.columns.reduce((acc, col) => {
-          if(col.ACCESSOR !== "sl_no"){
-          acc[col.ACCESSOR] = "";
-        }
+          if (col.ACCESSOR !== "sl_no") {
+            acc[col.ACCESSOR] = "";
+          }
 
           return acc;
         }, {});

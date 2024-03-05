@@ -11,7 +11,7 @@ import TableFormContainer from "@/components/global/organisms/TableFormContainer
 import { SubHeading } from "@/components/Helpers/Heading";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import PrimaryButton from "@/components/Helpers/Button";
-import goBack from "@/utils/helper";
+import goBack, { removeObj } from "@/utils/helper";
 import Button from "@/components/global/atoms/Button";
 import {
   EmployeeTimeBoundDetailType,
@@ -25,54 +25,40 @@ export const EmpTimeBound: React.FC<
   const pathName = usePathname();
   const router = useRouter();
 
-    const COLUMNS_FOR_EMP_TRNG_INFRM = [
-        {
-            HEADER: "Sl. No.",
+  const COLUMNS_FOR_EMP_TRNG_INFRM = [
+    {
+      HEADER: "Sl. No.",
+    },
+    {
+      HEADER: "Pay Scale",
+      placeholder: "Increment Amount",
+    },
 
-        },
-        {
-            HEADER: "Pay Scale",
-            placeholder:"Increment Amount",
+    {
+      HEADER: "Increment Amount",
+      placeholder: "B.Pay After Increment",
+      type: "number",
+    },
 
+    {
+      HEADER: "B.Pay After Increment",
+      type: "number",
+      placeholder: "Vide Order No",
+    },
 
-        },
+    {
+      HEADER: "Vide Order No",
+      placeholder: "Vide Order Date",
+    },
 
-        {
-            HEADER: "Increment Amount",
-            placeholder:"B.Pay After Increment",
-
-            type:'number'
-
-        },
-
-        {
-            HEADER: "B.Pay After Increment",
-            type:'number',
-            placeholder:"Vide Order No",
-
-
-
-
-        },
-
-        {
-            HEADER: "Vide Order No",
-            placeholder:"Vide Order Date",
-
-        },
-
-        {
-            HEADER: "Vide Order Date",
-            placeholder:"Remarks",
-
-
-
-        },
-        {
-            HEADER: "Remarks",
-
-        },
-    ];
+    {
+      HEADER: "Vide Order Date",
+      placeholder: "Remarks",
+    },
+    {
+      HEADER: "Remarks",
+    },
+  ];
 
   const getInitialFormData: any = () => ({
     pay_scale: {
@@ -90,21 +76,26 @@ export const EmpTimeBound: React.FC<
     getInitialFormData(),
   ]);
 
-    const handleInputChange = (fieldName: string, value: string | number, nestedKey?: string, rowIndex?: number | string) => {
-        setTableData((prevFormData) => {
-            const updatedData = [...prevFormData];
-            if (nestedKey !== undefined && rowIndex !== undefined) {
-                if (typeof updatedData[rowIndex][fieldName] !== 'object') {
-                    updatedData[rowIndex][fieldName] = { [nestedKey]: value };
-                } else {
-                    updatedData[rowIndex][fieldName][nestedKey] = value;
-                }
-            } else {
-                updatedData[rowIndex][fieldName] = value;
-            }
-            return updatedData;
-        });
-    };
+  const handleInputChange = (
+    fieldName: string,
+    value: string | number,
+    nestedKey?: string,
+    rowIndex?: number | string
+  ) => {
+    setTableData((prevFormData) => {
+      const updatedData = [...prevFormData];
+      if (nestedKey !== undefined && rowIndex !== undefined) {
+        if (typeof updatedData[rowIndex][fieldName] !== "object") {
+          updatedData[rowIndex][fieldName] = { [nestedKey]: value };
+        } else {
+          updatedData[rowIndex][fieldName][nestedKey] = value;
+        }
+      } else {
+        updatedData[rowIndex][fieldName] = value;
+      }
+      return updatedData;
+    });
+  };
 
   const saveDataToSessionStorage = () => {
     if (typeof window !== "undefined") {
@@ -114,86 +105,110 @@ export const EmpTimeBound: React.FC<
       );
 
       if (props.setData) {
-        props.setData("emp_timebound_details", tableData as any);
+        const filterTableData = removeObj(tableData);
+        props.setData("emp_timebound_details", filterTableData as any);
       }
     }
   };
 
-    const addRow = () => {
-        saveDataToSessionStorage();
-        setTableData((prevData) => [...prevData, getInitialFormData()]);
-    };
+  const addRow = () => {
+    saveDataToSessionStorage();
+    setTableData((prevData) => [...prevData, getInitialFormData()]);
+  };
 
-    return (
-        <>
-            <SubHeading className="text-[20px] pt-4 mt-10 mb-4">
-                Time Bound Promotion/ACP/MACP details
-            </SubHeading>
-            <div>
-                <table>
-                    <thead className="text-[1rem] bg-primary_green text-white ">
-                        <tr>
-                            {COLUMNS_FOR_EMP_TRNG_INFRM?.map((cols, index: number) => (
-                                <>
-                                    <th
-                                        key={index}
-                                        className={`border  border-zinc-400 p-3 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
-                                    >
-                                        <div className="flex gap-2">
-                                            <span>{cols.HEADER}</span>
-                                        </div>
-                                    </th>
-                                </>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map((rowData: any, rowIndex) => (
-                            <tr key={rowIndex} className="border py-2 px-4 ">
-                                <td className="border py-3 px-10 text-center ">
-                                    <span>{rowIndex + 1}</span>
-                                </td>
-                                {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
-                                    const stateKey: any = Object.keys(getInitialFormData())[colIndex];
-                                    return (
-                                        <td key={colIndex} className="border">
-                                            {colIndex === 0 ? (
-                                                <div className=' inline-flex items-center pt-1 pb-1 mx-2 my-2'>
-                                                    <React.Fragment>
-                                                        <p className="mr-2">From:</p>
-                                                        <input
-                                                            type="text"
-                                                            className="w-full h-full p-2 bg-transparent border border-gray-300"
-                                                            placeholder="Enter Increment Amount"
-                                                            onChange={(e) => handleInputChange(stateKey, e.target.value, "from", rowIndex)}
-                                                            value={rowData[stateKey]?.from || ''}
-                                                        />
-                                                        <p className="ml-2 mr-2">To:</p>
-                                                        <input
-                                                            type="text"
-                                                            className="w-full h-full p-2 bg-transparent border border-gray-300"
-                                                            placeholder="Enter Increment Amount"
-                                                            onChange={(e) => handleInputChange(stateKey, e.target.value, "to", rowIndex)}
-                                                            value={rowData[stateKey]?.to || ''}
-                                                        />
-                                                    </React.Fragment>
-                                                </div>
-                                            ) : (
-                                                <input
-                                                    type="text"
-                                                    className="w-full h-full bg-transparent outline-none"
-                                                    placeholder={`Enter ${column.placeholder}`}
-                                                    value={colIndex === 0 ? rowIndex + 1 : rowData[stateKey]}
-                                                    onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
-                                                />
-                                             
-                                            )}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        ))}
-                    </tbody>
+  return (
+    <>
+      <SubHeading className="text-[20px] pt-4 mt-10 mb-4">
+        Time Bound Promotion/ACP/MACP details
+      </SubHeading>
+      <div>
+        <table>
+          <thead className="text-[1rem] bg-primary_green text-white ">
+            <tr>
+              {COLUMNS_FOR_EMP_TRNG_INFRM?.map((cols, index: number) => (
+                <>
+                  <th
+                    key={index}
+                    className={`border  border-zinc-400 p-3 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                  >
+                    <div className="flex gap-2">
+                      <span>{cols.HEADER}</span>
+                    </div>
+                  </th>
+                </>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map((rowData: any, rowIndex) => (
+              <tr key={rowIndex} className="border py-2 px-4 ">
+                <td className="border py-3 px-10 text-center ">
+                  <span>{rowIndex + 1}</span>
+                </td>
+                {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
+                  const stateKey: any =
+                    Object.keys(getInitialFormData())[colIndex];
+                  return (
+                    <td key={colIndex} className="border">
+                      {colIndex === 0 ? (
+                        <div className=" inline-flex items-center pt-1 pb-1 mx-2 my-2">
+                          <React.Fragment>
+                            <p className="mr-2">From:</p>
+                            <input
+                              type="text"
+                              className="w-full h-full p-2 bg-transparent border border-gray-300"
+                              placeholder="Enter Increment Amount"
+                              onChange={(e) =>
+                                handleInputChange(
+                                  stateKey,
+                                  e.target.value,
+                                  "from",
+                                  rowIndex
+                                )
+                              }
+                              value={rowData[stateKey]?.from || ""}
+                            />
+                            <p className="ml-2 mr-2">To:</p>
+                            <input
+                              type="text"
+                              className="w-full h-full p-2 bg-transparent border border-gray-300"
+                              placeholder="Enter Increment Amount"
+                              onChange={(e) =>
+                                handleInputChange(
+                                  stateKey,
+                                  e.target.value,
+                                  "to",
+                                  rowIndex
+                                )
+                              }
+                              value={rowData[stateKey]?.to || ""}
+                            />
+                          </React.Fragment>
+                        </div>
+                      ) : (
+                        <input
+                          type="text"
+                          className="w-full h-full bg-transparent outline-none"
+                          placeholder={`Enter ${column.placeholder}`}
+                          value={
+                            colIndex === 0 ? rowIndex + 1 : rowData[stateKey]
+                          }
+                          onChange={(e) =>
+                            handleInputChange(
+                              stateKey,
+                              e.target.value,
+                              undefined,
+                              rowIndex
+                            )
+                          }
+                        />
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
 
           {/* <tbody>
                         {employeeTrainig.map((rowData: any, rowIndex) => (
@@ -255,8 +270,7 @@ export const EmpTimeBound: React.FC<
             Add
           </Button>
         </div>
-
-            </div>
+      </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">
         <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
