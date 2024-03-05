@@ -34,26 +34,39 @@ export const EmpTimeBound: React.FC<
         },
         {
             HEADER: "Pay Scale",
+            placeholder:"Increment Amount",
+
 
         },
 
         {
             HEADER: "Increment Amount",
+            placeholder:"B.Pay After Increment",
+
+            type:'number'
 
         },
 
         {
             HEADER: "B.Pay After Increment",
+            type:'number',
+            placeholder:"Vide Order No",
+
+
+
 
         },
 
         {
             HEADER: "Vide Order No",
+            placeholder:"Vide Order Date",
 
         },
 
         {
             HEADER: "Vide Order Date",
+            placeholder:"Remarks",
+
 
 
         },
@@ -134,7 +147,7 @@ export const EmpTimeBound: React.FC<
                     <tbody>
                         {tableData.map((rowData: any, rowIndex) => (
                             <tr key={rowIndex} className="border py-2 px-4 ">
-                                <td className="border py-2 px-4 text-center ">
+                                <td className="border py-3 px-10 text-center ">
                                     <span>{rowIndex + 1}</span>
                                 </td>
                                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
@@ -166,7 +179,7 @@ export const EmpTimeBound: React.FC<
                                                 <input
                                                     type="text"
                                                     className="w-full h-full bg-transparent outline-none"
-                                                    placeholder={`Enter ${column.HEADER}`}
+                                                    placeholder={`Enter ${column.placeholder}`}
                                                     value={colIndex === 0 ? rowIndex + 1 : rowData[stateKey]}
                                                     onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                                                 />

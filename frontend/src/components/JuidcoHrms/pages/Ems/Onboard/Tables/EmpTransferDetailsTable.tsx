@@ -40,6 +40,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
         from: "",
         to: "",
       },
+      join_date:"",
       vide_order_no: "",
       vide_order_date: "",
       transfer: "no",
@@ -61,25 +62,25 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
 
   const columns = [
     {
-      header: "SL_NO",
+      header: "Sl.No.",
     },
     {
       header: "Designation ",
     },
     {
-      header: "Scale",
+      header: "Office",
     },
-
+    {
+      header: "Joining Date",
+    },
     {
       header: "Vide Order No.",
     },
-
     {
       header: "Vide Order Date",
     },
-
     {
-      header: "Transfer",
+      header: "Transfer and Promotion",
     },
   ];
   function onChangeTableDataHandler(
@@ -128,6 +129,8 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
             to: "",
           },
 
+          join_date: "",
+
           vide_order_no: "",
 
           vide_order_date: "",
@@ -155,7 +158,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
     }
   }, [tableData]);
 
-  const header = <InnerHeading>Employee Promotion Details </InnerHeading>;
+  const header = <InnerHeading>Employee Transfer Details  </InnerHeading>;
   return (
     <>
       {header}
@@ -261,6 +264,25 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                   </React.Fragment>
                 </td>
                 {/* ---------------------------SCALE----------------------------------- */}
+
+                {/* join_date */}
+
+                <td className="border border-zinc-400 ">
+                  <InputField
+                    onChange={(e) =>
+                      onChangeTableDataHandler(
+                        index,
+                        e.target.value,
+                        "join_date"
+                      )
+                    }
+                    type="date"
+                    value={row?.join_date}
+                    placeholder={"Enter "}
+                    isRequired={true}
+                  />
+                </td>
+
 
                 {/* ---------------------------VIDE ORDER NO----------------------------------- */}
                 <td className="border border-zinc-400 ">

@@ -59,6 +59,7 @@ const EmployeeFamilyDetails: React.FC<
       HEADER: "D.O.B",
       ACCESSOR: "dob",
       isRequired: true,
+      type:'date'
     },
 
     {

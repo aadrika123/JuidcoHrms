@@ -104,6 +104,7 @@ export type EmployeePromDetails = {
   vide_order_no: string;
   vide_order_date: string;
   transfer: "yes" | "no";
+  join_date:string;
 };
 
 
@@ -206,7 +207,7 @@ export interface EmployeeJoinDetailsType {
 }
 
 export interface EmployeeLoanDetailsType {
-  loan_name: string;
+  loan_name_det: string | number;
   loan_account_num: string | number;
   sanc_order_num: string | number;
   dos: string;
