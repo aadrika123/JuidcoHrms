@@ -16,11 +16,9 @@
 // import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 // import Button from "@/components/global/atoms/Button";
 
-
 // const EmpEducationDetails: React.FC<
 //   EmployeeDetailsProps<EmployeeEducationDetailsType>
 // > = (props) => {
-
 
 //   const [tabIndex, setTabIndex] = useState<number>(1);
 //   const [employeeTrainingDetails, setEmployeeTrainingDetails] = useState([]);
@@ -28,7 +26,6 @@
 //   const router = useRouter();
 
 //   // ----------------------- TABLE COLUMNS --------------------------------//
-
 
 //   const COLUMNS_FOR_EDUCATION = [
 //     {
@@ -119,7 +116,6 @@
 
 //   });
 
-
 //   const [pgradData, setPGradData] = useState({
 //     post_grad_subject: "",
 //     post_grad_board: "",
@@ -128,7 +124,6 @@
 //     post_grad_grade: "",
 
 //   });
-
 
 //   const handleInputChange = (fieldName: string, value: string) => {
 //     setFormData((prevFormData) => ({
@@ -158,8 +153,6 @@
 //     }));
 //   };
 
-
-
 //   const saveDataToSessionStorage = () => {
 //     if (typeof window !== "undefined") {
 //       const existingEducationDataString = sessionStorage.getItem("emp_education_details");
@@ -187,8 +180,6 @@
 //         post_grad_marks: pgradData.post_grad_marks,
 //         post_grad_grade: pgradData.post_grad_grade,
 //       };
-
-
 
 //       const updatedEducationData = [...existingEducationData, newEducationDetailsData];
 
@@ -548,9 +539,7 @@
 //             ))}
 //           </tbody>
 
-
 //         </table>
-
 
 //         <div className="w-full flex items-center justify-end mt-3">
 //           <Button onClick={addData} buttontype="button" variant="primary_rounded">
@@ -572,7 +561,6 @@
 // </div>
 //       </div>
 
-
 //       <div className="flex items-center justify-end mt-5 gap-5">
 //         <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
 //           Back
@@ -592,12 +580,6 @@
 
 // export default EmpEducationDetails;
 
-
-
-
-
-
-
 /***
  * Author: Jaideep
  * Status: Open
@@ -616,7 +598,11 @@ import TableFormContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableFormContainer";
 import Button from "@/components/global/atoms/Button";
-import { EmployeeDetailsProps, EmployeeEducationDetailsType } from "@/utils/types/employee.type";
+import {
+  EmployeeDetailsProps,
+  EmployeeEducationDetailsType,
+} from "@/utils/types/employee.type";
+import EmpEducationTable from "../Tables/EmpEducationTable";
 
 const EmpEducationDetails: React.FC<
   EmployeeDetailsProps<EmployeeEducationDetailsType>
@@ -625,7 +611,6 @@ const EmpEducationDetails: React.FC<
   const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
-
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
@@ -638,88 +623,47 @@ const EmpEducationDetails: React.FC<
     }
   };
 
-
-  const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
-    // {
-    //   HEADER: "Education Level*",
-    //   ACCESSOR: "edu_level",
-    //   isRequired: true
-
-    // },
-    {
-      HEADER: "Subject/Stream*",
-      ACCESSOR: "stream",
-      isRequired: true
-
-    },
-    {
-      HEADER: "Board/University*",
-      ACCESSOR: "board",
-      isRequired: true
-
-    },
-    {
-      HEADER: "Passing Year*",
-      ACCESSOR: "passing_year",
-      isRequired: true
-
-    },
-    {
-      HEADER: "Marks in %*",
-      ACCESSOR: "marks",
-      isRequired: true
-    },
-    {
-      HEADER: "Grade/Division*",
-      ACCESSOR: "grade",
-      isRequired: true
-    },
-  ];
-
   const COLUMNS_FOR_EMP_TRNG_INFRM: COLUMNS[] = [
     {
       HEADER: "Name of Training",
       ACCESSOR: "name_of_training",
-      isRequired: true
+      isRequired: true,
     },
     {
       HEADER: "Training Type",
       ACCESSOR: "training_type",
-      isRequired: true
+      isRequired: true,
     },
 
     {
       HEADER: "Name of Institution",
       ACCESSOR: "name_of_institution",
-      isRequired: true
+      isRequired: true,
     },
 
     {
       HEADER: "Starting From",
       ACCESSOR: "starting_from",
-      isRequired: true
+      isRequired: true,
     },
 
     {
       HEADER: "End To",
       ACCESSOR: "end_to",
-      isRequired: true
+      isRequired: true,
     },
 
     {
       HEADER: "Total Days of Training",
       ACCESSOR: "total_days_of_train",
-      isRequired: true
+      isRequired: true,
     },
   ];
-
 
   function getStateData(key: string, values: any, index?: number) {
     setEmployeeEducationDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
-
-  const labels: string[] = ['Metric', 'Inter', 'Grad', 'Post Grad'];
 
   return (
     <div>
@@ -807,27 +751,26 @@ const EmpEducationDetails: React.FC<
         )}
       </Formik> */}
 
-
-      <TableFormContainer 
-       columns={COLUMNS_FOR_EDUCATION}
+      {/* <TableFormContainer
+        columns={COLUMNS_FOR_EDUCATION}
         getData={[]}
         subHeading={" "}
         setData={getStateData}
         session_key="emp_education_data_details"
         labels={labels}
-
-      />
-
+      /> */}
+      <EmpEducationTable setData={getStateData} />
 
       <div>
         <SubHeading className="text-[20px] pt-4 mb-4">
           Employee Training Information
         </SubHeading>
-        <TableFormContainer columns={COLUMNS_FOR_EMP_TRNG_INFRM}
+        <TableFormContainer
+          columns={COLUMNS_FOR_EMP_TRNG_INFRM}
           getData={[]}
-          subHeading={" "}
+          subHeading={""}
           setData={getStateData}
-          session_key="emp_eduaction_training_details"
+          session_key="emp_training"
         />
       </div>
 
@@ -848,18 +791,11 @@ const EmpEducationDetails: React.FC<
           Next
         </PrimaryButton>
       </div>
-
-
-
-
     </div>
   );
 };
 
 export default EmpEducationDetails;
-
-
-
 
 // "use client";
 
@@ -930,7 +866,6 @@ export default EmpEducationDetails;
 //       );
 //     }
 //   }, [props.session_key, tableLabels]);
-
 
 //   function setDataSesson() {
 //     if (typeof window !== "undefined") {

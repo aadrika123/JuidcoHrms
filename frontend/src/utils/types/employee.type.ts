@@ -76,8 +76,6 @@ export interface EmployeePersonalDetailsType {
   emp_family_name: string | number;
   emp_org_name: string | number;
   emp_office_name: string | number;
-
-
   emp_lang: string | number;
   emp_lang_do?: ("read" | "write" | "speak")[];
 }
@@ -297,6 +295,7 @@ export interface EmployeeEducationDetailsType {
   emp_eduaction_train_details: EmployeeEducationTrainingType;
 }
 export type EmployeeEducation = {
+  edu_level: string;
   stream: string | number;
   board: string | number;
   passing_year: string | number;
