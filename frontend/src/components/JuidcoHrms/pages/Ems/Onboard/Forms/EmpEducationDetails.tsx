@@ -214,14 +214,14 @@ const EmpEducationDetails: React.FC<
         Employee Training Information
       </SubHeading>
       <div>
-        <table>
-          <thead className="text-[1rem] bg-primary_green text-white ">
+        <table className="w-full">
+          <thead className="text-[1rem] bg-primary_green text-white  ">
             <tr>
               {COLUMNS_FOR_EMP_TRNG_INFRM?.map((cols, index: number) => (
                 <>
                   <th
                     key={index}
-                    className={`border  border-zinc-400 p-3 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                    className={`border  border-zinc-400 p-3 font-medium w-auto`}
                   >
                     <div className="flex gap-2">
                       <span>{cols.HEADER}</span>
