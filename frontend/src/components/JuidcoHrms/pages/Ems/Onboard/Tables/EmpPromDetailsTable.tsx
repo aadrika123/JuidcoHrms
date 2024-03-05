@@ -8,6 +8,7 @@ import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
 import { EmployeePromDetails } from "@/utils/types/employee.type";
+import { removeObj } from "@/utils/helper";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -151,7 +152,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   useEffect(() => {
     if (props.setData) {
-      props.setData("emp_prom_details", tableData);
+      const filterTableData = removeObj(tableData);
+      props.setData("emp_prom_details", filterTableData);
     }
   }, [tableData]);
 
@@ -159,7 +161,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   return (
     <>
       {header}
-      <table className="table table-md">
+      <table className="table table-md mt-4">
         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
           <tr>
             {columns?.map((cols, index: number) => (

@@ -7,9 +7,7 @@
 import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
-import {
-  EmployeeTransDetails,
-} from "@/utils/types/employee.type";
+import { EmployeeTransDetails } from "@/utils/types/employee.type";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -158,11 +156,11 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
     }
   }, [tableData]);
 
-  const header = <InnerHeading>Employee Promotion Details </InnerHeading>;
+  const header = <InnerHeading>Employee Transfer Details </InnerHeading>;
   return (
     <>
       {header}
-      <table className="table table-md">
+      <table className="table table-md mt-4">
         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
           <tr>
             {columns?.map((cols, index: number) => (
@@ -344,7 +342,8 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                                 )
                               }
                               checked={
-                                tableData[index]?.transfer_after_prom === option.value
+                                tableData[index]?.transfer_after_prom ===
+                                option.value
                               }
                             />
                             <label

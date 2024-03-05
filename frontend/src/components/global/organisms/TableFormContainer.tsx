@@ -506,7 +506,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   return (
     <>
       {header}
-      <table className="table table-md">
+      <table className="table table-md mt-4">
         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
           <tr>
             {props.labels && props.labels.length > 0 && (
