@@ -56,7 +56,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] =
     useState<EmployeeEducation[]>(initialTableData);
 
-  console.log(tableData, "table data");
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = sessionStorage.getItem("emp_education");

@@ -44,6 +44,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       vide_order_no: "",
       vide_order_date: "",
       transfer: "no",
+      join_date:"",
+
     },
   ]);
 
@@ -62,7 +64,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   const columns = [
     {
-      header: "SL_NO",
+      header: "Sl.No.",
     },
     {
       header: "Designation ",

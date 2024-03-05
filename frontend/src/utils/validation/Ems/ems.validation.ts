@@ -157,8 +157,8 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
   };
 
 export const employeeJoinValidationSchema = yup.object({
-  department: yup.string().required("Please Enter the Correct Department"),
-  designation: yup.string().required("Please Enter the Correct Designation"),
+  department: yup.string().required("Please Choose the Correct Department"),
+  designation: yup.string().required("Please Choose the Correct Designation"),
   task: yup.string().required("Please Choose Correct Task"),
   doj: yup.string().required("Please Enter the Correct Date Of Joining"),
   effective_pay_commision: yup
@@ -206,7 +206,7 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
 };
 
 export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
-  loan_name: "",
+  loan_name_det: "",
   loan_account_num: "",
   sanc_order_num: "",
   dos: "",

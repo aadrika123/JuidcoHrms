@@ -25,33 +25,54 @@ export const EmpTimeBound: React.FC<
   const pathName = usePathname();
   const router = useRouter();
 
-  const COLUMNS_FOR_EMP_TRNG_INFRM = [
-    {
-      HEADER: "Sl. No.",
-    },
-    {
-      HEADER: "Pay Scale",
-    },
+    const COLUMNS_FOR_EMP_TRNG_INFRM = [
+        {
+            HEADER: "Sl. No.",
 
-    {
-      HEADER: "Increment Amount",
-    },
+        },
+        {
+            HEADER: "Pay Scale",
+            placeholder:"Increment Amount",
 
-    {
-      HEADER: "B.Pay After Increment",
-    },
 
-    {
-      HEADER: "Vide Order No",
-    },
+        },
 
-    {
-      HEADER: "Vide Order Date",
-    },
-    {
-      HEADER: "Remarks",
-    },
-  ];
+        {
+            HEADER: "Increment Amount",
+            placeholder:"B.Pay After Increment",
+
+            type:'number'
+
+        },
+
+        {
+            HEADER: "B.Pay After Increment",
+            type:'number',
+            placeholder:"Vide Order No",
+
+
+
+
+        },
+
+        {
+            HEADER: "Vide Order No",
+            placeholder:"Vide Order Date",
+
+        },
+
+        {
+            HEADER: "Vide Order Date",
+            placeholder:"Remarks",
+
+
+
+        },
+        {
+            HEADER: "Remarks",
+
+        },
+    ];
 
   const getInitialFormData: any = () => ({
     pay_scale: {
@@ -129,7 +150,7 @@ export const EmpTimeBound: React.FC<
                     <tbody>
                         {tableData.map((rowData: any, rowIndex) => (
                             <tr key={rowIndex} className="border py-2 px-4 ">
-                                <td className="border py-2 px-4 text-center ">
+                                <td className="border py-3 px-10 text-center ">
                                     <span>{rowIndex + 1}</span>
                                 </td>
                                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
@@ -161,7 +182,7 @@ export const EmpTimeBound: React.FC<
                                                 <input
                                                     type="text"
                                                     className="w-full h-full bg-transparent outline-none"
-                                                    placeholder={`Enter ${column.HEADER}`}
+                                                    placeholder={`Enter ${column.placeholder}`}
                                                     value={colIndex === 0 ? rowIndex + 1 : rowData[stateKey]}
                                                     onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                                                 />

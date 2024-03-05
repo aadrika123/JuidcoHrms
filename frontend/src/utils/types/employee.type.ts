@@ -102,14 +102,15 @@ export type EmployeePromDetails = {
   vide_order_no: string;
   vide_order_date: string;
   transfer: "yes" | "no";
+  join_date: string;
 };
 
 export type EmployeeTransDetails = {
   designation: InnerInputBox;
   office: InnerInputBox;
-  joining_date: string;
   vide_order_no: string;
   vide_order_date: string;
+  join_date: string;
   transfer_after_prom: "yes" | "no";
 };
 
@@ -200,7 +201,7 @@ export interface EmployeeJoinDetailsType {
 }
 
 export interface EmployeeLoanDetailsType {
-  loan_name: string;
+  loan_name_det: string | number;
   loan_account_num: string | number;
   sanc_order_num: string | number;
   dos: string;
