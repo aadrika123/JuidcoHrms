@@ -26,6 +26,9 @@ const EmpEducationDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
 
+  const [addedRows, setAddedRows] = useState<number>(0);
+
+
   const getInitialFormData: any = () => ({
     name_of_training: "",
     training_type: "",
@@ -81,6 +84,7 @@ const EmpEducationDetails: React.FC<
       router.push(`${pathName}?page=6`);
     }
   };
+  
   
 
 
@@ -175,9 +179,16 @@ const EmpEducationDetails: React.FC<
     setTabIndex(index || tabIndex);
   }
 
+  // const addRow = () => {
+  //   // saveDataToSessionStorage();
+  //   setTableData((prevData) => [...prevData, getInitialFormData()]);
+  // };
+
   const addRow = () => {
-    // saveDataToSessionStorage();
-    setTableData((prevData) => [...prevData, getInitialFormData()]);
+    if (addedRows < 6) {
+      setTableData((prevData) => [...prevData, getInitialFormData()]);
+      setAddedRows((prevRows) => prevRows + 1);
+    }
   };
 
 
