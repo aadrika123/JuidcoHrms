@@ -481,7 +481,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
 
       if (!isLastRowEmpty) {
         const newRow = props.columns.reduce((acc, col) => {
+          if(col.ACCESSOR !== "sl_no"){
           acc[col.ACCESSOR] = "";
+        }
+
           return acc;
         }, {});
 
@@ -540,33 +543,34 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                     {props.labels[index] || `Label ${index + 1}`}
                   </td>
                 )}
-                {props.columns?.map((col) => {
+                {props.columns?.map((col, i: number) => {
                   return (
                     <React.Fragment key={col.ACCESSOR}>
                       <td className="border border-zinc-400">
                         {!col.type ? (
-                          <InputField
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                              onChangeTableDataHandler(
-                                index,
-                                e.target.value,
-                                col.ACCESSOR
-                              )
-                            }
-                            value={
-                              col.sl_no
-                                ? index + 1
-                                : (tableData[index] as Record<string, string>)[
-                                    col.ACCESSOR
-                                  ] || ""
-                            }
-                            readOnly={col.sl_no}
-                            name={col.ACCESSOR}
-                            placeholder={"Enter " + col.HEADER}
-                            isRequired={col.isRequired}
-                          />
+                          col.sl_no && i === 0 ? (
+                            <span>{index + 1}</span>
+                          ) : (
+                            <InputField
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) =>
+                                onChangeTableDataHandler(
+                                  index,
+                                  e.target.value,
+                                  col.ACCESSOR
+                                )
+                              }
+                              value={
+                                (tableData[index] as Record<string, string>)[
+                                  col.ACCESSOR
+                                ] || ""
+                              }
+                              name={col.ACCESSOR}
+                              placeholder={"Enter " + col.HEADER}
+                              isRequired={col.isRequired}
+                            />
+                          )
                         ) : col.type === "number" ? (
                           <InputField
                             onChange={(
@@ -579,13 +583,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               )
                             }
                             value={
-                              col.sl_no
-                                ? index + 1
-                                : (tableData[index] as Record<string, string>)[
-                                    col.ACCESSOR
-                                  ] || ""
+                              (tableData[index] as Record<string, string>)[
+                                col.ACCESSOR
+                              ] || ""
                             }
-                            readOnly={col.sl_no}
                             name={col.ACCESSOR}
                             type="number"
                             placeholder={"Enter " + col.HEADER}
@@ -665,13 +666,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               )
                             }
                             value={
-                              col.sl_no
-                                ? index + 1
-                                : (tableData[index] as Record<string, string>)[
-                                    col.ACCESSOR
-                                  ] || ""
+                              (tableData[index] as Record<string, string>)[
+                                col.ACCESSOR
+                              ] || ""
                             }
-                            readOnly={col.sl_no}
                             name={col.ACCESSOR}
                             type="date"
                             isRequired={col.isRequired}

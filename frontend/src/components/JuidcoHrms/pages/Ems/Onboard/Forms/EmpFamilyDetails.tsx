@@ -36,6 +36,8 @@ const EmployeeFamilyDetails: React.FC<
     }
   };
 
+  console.log(employeeFamilyDetails, "fami")
+
   // ----------------------- TABLE COLUMNS --------------------------------//
   const COLUMS_EMP_FAMILY_DETAILS: COLUMNS[] = [
     {
