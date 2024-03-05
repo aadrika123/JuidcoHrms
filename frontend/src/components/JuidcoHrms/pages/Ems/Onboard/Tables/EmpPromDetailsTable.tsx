@@ -111,10 +111,10 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     setDataSesson();
     const lastRow = tableData[tableData.length - 1];
     const isLastRowEmpty = Object.values(lastRow).every((row) =>
-      Object.values(row).every((val) => val !== "")
+      Object.values(row).every((val) => val === "")
     );
     console.log(isLastRowEmpty);
-    if (isLastRowEmpty) {
+    if (!isLastRowEmpty) {
       setTableData((prev: any) => [
         ...prev,
         {
