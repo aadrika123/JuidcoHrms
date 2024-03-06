@@ -11,8 +11,9 @@ import {
   employeeJoinDetailsRequestData,
   employeeOfficeDetailRequestData,
   employeePersonalDetailsRequestData,
-  employeePresentAddressDetailsRequestData,
+  // employeePresentAddressDetailsRequestData,
 } from "../requests/ems/emp_pers_details.validation";
+import { generateUnique } from "../../../util/helper/generateUniqueNo";
 
 const prisma = new PrismaClient();
 
@@ -107,7 +108,7 @@ class EmployeeOnBoardDao {
   private createEmployeeDetails = async (
     tx: any,
     tableName: string,
-    data: any[] | any,  
+    data: any[] | any,
     isMany = false
   ) => {
     if (isMany) {
@@ -136,11 +137,11 @@ class EmployeeOnBoardDao {
 
     const { emp_fam_details, emp_nominee_details } = emp_family_details;
     const { emp_inc_details, emp_prom_details } = emp_service_history;
-    const { emp_education_data_details, emp_eduaction_training_details } =
-      emp_education_details;
-    const { emp_salary_allow, emp_salary_deduction } = emp_salary_details;
+    const { emp_education, emp_training } = emp_education_details;
+    const { emp_salary_allow_details, emp_salary_deduction_details } =
+      emp_salary_details;
 
-    const { emp_loan, emp_loan_Principal, emp_loan_recovery } =
+    const { emp_loan_inform, emp_principal_inform, emp_recovery_inform } =
       emp_loan_details;
 
     const empFamilyDetails = this.filterReqBody(emp_fam_details);
@@ -148,40 +149,48 @@ class EmployeeOnBoardDao {
 
     const empIncDetails = this.filterReqBody(emp_inc_details);
     const empPromDetails = this.filterReqBody(emp_prom_details);
-    const empEducationData = this.filterReqBody(emp_education_data_details);
-    const empTrainData = this.filterReqBody(emp_eduaction_training_details);
+    // const empTransDetails = this.filterReqBody(emp_trans_details);
 
-    const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow);
-    const empSalaryDeductionDetails = this.filterReqBody(emp_salary_deduction);
+    const empEducationData = this.filterReqBody(emp_education);
+    const empTrainData = this.filterReqBody(emp_training);
 
-    const empLoan = this.filterReqBody(emp_loan);
-    const empLoanPrincipal = this.filterReqBody(emp_loan_Principal);
-    const empLoanRecovery = this.filterReqBody(emp_loan_recovery);
+    const empAddress = this.filterReqBody(emp_address_details);
+
+    const empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
+    const empSalaryDeductionDetails = this.filterReqBody(
+      emp_salary_deduction_details
+    );
+
+    const empLoan = this.filterReqBody(emp_loan_inform);
+    const empLoanPrincipal = this.filterReqBody(emp_principal_inform);
+    const empLoanRecovery = this.filterReqBody(emp_recovery_inform);
 
     const empTimeBound = this.filterReqBody(emp_timebound_details);
 
     const employeeData = await prisma.$transaction(async (tx) => {
-      const empBasic = await this.createEmployeeDetails(
-        tx,
-        "employee_basic_details",
-        employeeBasicDetailRequestData(emp_basic_details)
-      );
       const empOffice = await this.createEmployeeDetails(
         tx,
         "employee_office_details",
         employeeOfficeDetailRequestData(emp_office_details)
       );
+
+      const empBasic = await this.createEmployeeDetails(
+        tx,
+        "employee_basic_details",
+        employeeBasicDetailRequestData(emp_basic_details)
+      );
+
       const empPersonal = await this.createEmployeeDetails(
         tx,
         "employee_personal_details",
         employeePersonalDetailsRequestData(emp_personal_details)
       );
 
-      const empAddress = await this.createEmployeeDetails(
-        tx,
-        "employee_address_details",
-        employeePresentAddressDetailsRequestData(emp_address_details)
-      );
+      // const empAddress = await this.createEmployeeDetails(
+      //   tx,
+      //   "employee_address_details",
+      //   employeePresentAddressDetailsRequestData(emp_address_details)
+      // );
 
       const empJoining = await this.createEmployeeDetails(
         tx,
@@ -223,11 +232,11 @@ class EmployeeOnBoardDao {
       );
 
       const employeeDatas = {
-        emp_id: emp_basic_details.emp_id,
-        emp_basic_details_id: empBasic.id,
         emp_office_details_id: empOffice.id,
+        emp_basic_details_id: empBasic.id,
+        emp_id:(emp_basic_details.emp_id && emp_basic_details.emp_id !== "") ? emp_basic_details.emp_id : generateUnique("EMP"),
         emp_personal_details_id: empPersonal.id,
-        emp_address_details_id: empAddress.id,
+        // emp_address_details_id: empAddress.id,
         emp_join_details_id: empJoining.id,
         emp_salary_details_id: empSalaryDetails.id,
         emp_loan_details_id: empLoanDetails.id,
@@ -243,6 +252,12 @@ class EmployeeOnBoardDao {
         emp_promotion_details: {
           create: empPromDetails,
         },
+        emp_address_details: {
+          create: empAddress,
+        },
+        // emp_transfer_details: {
+        //   create: empTransDetails,
+        // },
         emp_timebound_details: {
           create: empTimeBound,
         },

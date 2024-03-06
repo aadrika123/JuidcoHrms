@@ -45,6 +45,9 @@ export interface EmployeePersonalDetailsType {
   emp_nearest_railway_station: string;
   emp_phy_health_type: string | number;
   emp_family: string | number;
+  emp_family_name: string;
+  emp_office_name: string;
+  emp_org_name: string;
   emp_lang: string | number;
   emp_lang_do: "read" | "write" | "speak";
 }
@@ -188,7 +191,7 @@ export interface EmployeeJoinDetailsType {
   wef_date: string;
   branch_name: string | number;
   pf_category: string | number;
-  acc_number: string | number;
+  acc_no: string | number;
   ifsc: string | number;
   sen_grade_list: string | number;
 }
@@ -196,6 +199,7 @@ export interface EmployeeJoinDetailsType {
 
 //------------------------- Employee EDUCATION & TRAINING DETAILS -----------------------------//
 export type EmployeeEducation = {
+  edu_level: string;
   stream: string | number;
   board: string | number;
   passing_year: string | number;

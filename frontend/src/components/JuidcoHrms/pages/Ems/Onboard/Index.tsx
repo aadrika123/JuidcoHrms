@@ -33,6 +33,7 @@ import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 import { EmpTimeBound } from "./Forms/EmpTimeBound";
 import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
 import EmpSalaryDetails from "./Forms/EmpSalaryDetails";
+import Popup from "@/components/global/molecules/Popup";
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -43,6 +44,7 @@ import EmpSalaryDetails from "./Forms/EmpSalaryDetails";
 export const EmployeeOnBoard = () => {
   const queryClient = useQueryClient();
   const searchParam = useSearchParams().get("page");
+  const [empId, setEmpId] = useState();
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
@@ -84,11 +86,12 @@ export const EmployeeOnBoard = () => {
       method: "POST",
       data: values,
     });
+    setEmpId(res.data.data.emp_id);
     return res.data;
   };
   const { mutate } = useMutation(createVendorDetails, {
     onSuccess: () => {
-      toast.success("Successfully Added Vendor Details!");
+      toast.success(`Employee Added Successfully!`);
     },
     onError: () => {
       alert("there was an error");
@@ -100,6 +103,8 @@ export const EmployeeOnBoard = () => {
       // }, 1000);
     },
   });
+
+  console.log("first", empId);
 
   return (
     <>
@@ -160,13 +165,13 @@ export const EmployeeOnBoard = () => {
             <>
               <EmpTimeBound setData={getStateData} />
 
-              {/* <Button
+              <Button
                 buttontype="button"
                 variant="primary"
                 onClick={() => mutate(employeeOnBoardDetails)}
               >
                 Save
-              </Button> */}
+              </Button>
             </>
           ) : (
             <></>

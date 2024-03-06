@@ -76,6 +76,7 @@ const EmpSalaryDetails: React.FC<
       HEADER: "Amount",
       ACCESSOR: "amount_in",
       isRequired: true,
+      type: "number",
     },
   ];
 
@@ -123,11 +124,13 @@ const EmpSalaryDetails: React.FC<
       HEADER: "A/C No.",
       ACCESSOR: "acnt_no",
       isRequired: true,
+      type: "number",
     },
     {
       HEADER: "Amount",
       ACCESSOR: "amount_in",
       isRequired: true,
+      type: "number",
     },
   ];
 
@@ -139,6 +142,7 @@ const EmpSalaryDetails: React.FC<
   return (
     <div>
       <SubHeading className="text-[20px] pt-4">Salary Information</SubHeading>
+      {/* -----------------------Radio option for salary ----------------------------------- */}
 
       <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
         <div className="flex-all-center ">
@@ -169,6 +173,8 @@ const EmpSalaryDetails: React.FC<
         </div>
       </div>
 
+      {/* -----------------------Radio option based form fiels----------------------------------- */}
+
       {tabIndex === 2 && (
         <>
           <TableFormContainer
@@ -176,7 +182,7 @@ const EmpSalaryDetails: React.FC<
             getData={[]}
             subHeading={" "}
             setData={getStateData}
-            session_key="emp_salary_deduction_details "
+            session_key="emp_salary_deduction_details"
           />
         </>
       )}
@@ -192,6 +198,9 @@ const EmpSalaryDetails: React.FC<
           />
         </>
       )}
+
+      {/* -----------------------Radio option based form fiels----------------------------------- */}
+
       <div className="flex items-center justify-end mt-5 gap-5">
         <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
           Back

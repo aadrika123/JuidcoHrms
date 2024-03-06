@@ -88,7 +88,6 @@ export const employeeBasicDetailsSchema = Joi.object({
 //------------------ EMPLOYEE BASIC DETAILS ------------------------------//
 
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
-
 export const employeePersonalDetailsRequestData = (
   empPersonalDetails: EmployeePersonalDetailsType
 ): EmployeePersonalDetailsType => {
@@ -105,26 +104,32 @@ export const employeePersonalDetailsRequestData = (
     emp_nearest_railway_station: empPersonalDetails.emp_nearest_railway_station,
     emp_phy_health_type: empPersonalDetails.emp_phy_health_type,
     emp_family: empPersonalDetails.emp_family,
+    emp_family_name: empPersonalDetails.emp_family_name,
+    emp_office_name: empPersonalDetails.emp_office_name,
+    emp_org_name: empPersonalDetails.emp_org_name,
     emp_lang: empPersonalDetails.emp_lang,
     emp_lang_do: empPersonalDetails.emp_lang_do,
   };
 };
 
 export const employeePersonalDetailsSchema = Joi.object({
-  married_status: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  identification_marks: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  religion: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_categories: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  married_status: Joi.number().integer().required(),
+  identification_marks: Joi.string().required(),
+  religion: Joi.number().integer().required(),
+  emp_categories: Joi.number().integer().required(),
   emp_home_state: Joi.string().required(),
-  emp_district: Joi.string().required(),
-  emp_blood_group: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_health_status: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  emp_district: Joi.number().required(),
+  emp_blood_group: Joi.number().integer().required(),
+  emp_health_status: Joi.number().integer().required(),
   emp_ltc_home_town: Joi.string().required(),
   emp_nearest_railway_station: Joi.string().required(),
-  emp_phy_health_type: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_family: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_lang: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  emp_lang_do: Joi.array().items(Joi.string()).required(),
+  emp_phy_health_type: Joi.number().integer().required(),
+  emp_family: Joi.number().integer().required(),
+  emp_family_name: Joi.string().required(),
+  emp_office_name: Joi.string().allow("", null),
+  emp_org_name: Joi.string().allow("", null),
+  emp_lang: Joi.number().integer().required(),
+  emp_lang_do: Joi.array().items().required(),
 });
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
 
@@ -364,7 +369,7 @@ export const employeeJoinDetailsRequestData = (
     wef_date: empJoinDetails.wef_date,
     branch_name: empJoinDetails.branch_name,
     pf_category: empJoinDetails.pf_category,
-    acc_number: empJoinDetails.acc_number,
+    acc_no: empJoinDetails.acc_no,
     ifsc: empJoinDetails.ifsc,
     sen_grade_list: empJoinDetails.sen_grade_list,
   };
@@ -375,19 +380,20 @@ export const employeeJoinValidationSchema = Joi.object({
   task: Joi.string().required(),
   doj: Joi.string().required(),
   effective_pay_commision: Joi.number().required(),
-  pay_scale: Joi.string().required(),
-  pay_band: Joi.string().required(),
-  grade_pay: Joi.string().required(),
-  basic_pay: Joi.string().required(),
+  pay_scale: Joi.number().required(),
+  pay_band: Joi.number().required(),
+  grade_pay: Joi.number().required(),
+  basic_pay: Joi.number().required(),
+  acc_no: Joi.number().required(),
   deduction_type: Joi.number().required(),
 
   // Make these fields optional
   class: Joi.number().allow("", null),
   doc: Joi.string().allow("", null),
-  conf_order_number: Joi.string().allow("", null),
+  conf_order_number: Joi.number().allow("", null),
   conf_order_date: Joi.string().allow("", null),
   appoint_authority: Joi.number().allow("", null),
-  gis_account: Joi.string().allow("", null),
+  gis_account: Joi.number().allow("", null),
   ulb: Joi.number().allow("", null),
   last_inc_order: Joi.string().allow("", null),
   name_of_service: Joi.string().allow("", null),
@@ -396,7 +402,6 @@ export const employeeJoinValidationSchema = Joi.object({
   wef_date: Joi.string().allow("", null),
   branch_name: Joi.string().allow("", null),
   pf_category: Joi.number().allow("", null),
-  acc_number: Joi.string().allow("", null),
   ifsc: Joi.string().allow("", null),
   sen_grade_list: Joi.string().allow("", null),
   member_gis: Joi.string().allow("", null),
@@ -407,7 +412,7 @@ export const employeeJoinValidationSchema = Joi.object({
 //------------------ EMPLOYEE TIME BOUND ------------------------------//
 export const employeeTimeBound = Joi.object({
   pay_scale: Joi.object().required(),
-  inc_amount: Joi.string().required(),
+  inc_amount: Joi.number().required(),
   bpay_aft_inc: Joi.string().required(),
   vide_ord_no: Joi.string().required(),
   vide_order_date: Joi.string().required(),
@@ -432,6 +437,7 @@ export const employeeTimeBoundRequestData = (
 
 //------------------ EMPLOYEE Education Schema ------------------------------//
 const employeeEducationSchema = Joi.object({
+  edu_level: Joi.string().required(),
   stream: Joi.string().required(),
   board: Joi.string().required(),
   passing_year: Joi.string().required(),
@@ -442,6 +448,7 @@ const employeeEducationSchema = Joi.object({
 export const employeeEducaitonRequestData = (item: EmployeeEducation[]) => {
   return item?.map((i): EmployeeEducation => {
     return {
+      edu_level: i.edu_level,
       stream: i.stream,
       board: i.board,
       passing_year: i.passing_year,

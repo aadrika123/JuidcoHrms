@@ -20,6 +20,7 @@ import {
   officeDetailsValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
+import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 
 const EmployeeOfficeDetails: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
@@ -82,7 +83,7 @@ const EmployeeOfficeDetails: React.FC<
               checked={tabIndex === 1}
             />
             <label htmlFor="accounting" className=" cursor-pointer">
-              Old Employee
+              Existing Employee
             </label>
           </div>
 
@@ -124,8 +125,9 @@ const EmployeeOfficeDetails: React.FC<
                 value={values.office_name}
                 error={errors.office_name}
                 touched={touched.office_name}
-                label="Office Name*"
+                label="Office Name"
                 name="office_name"
+                required={true}
                 placeholder={"Select Office Name"}
               />
               <InputBox
@@ -134,8 +136,9 @@ const EmployeeOfficeDetails: React.FC<
                 value={values.office_code}
                 error={errors.office_code}
                 touched={touched.office_code}
-                label="Office Code*"
+                label="Office Code"
                 name="office_code"
+                required={true}
                 placeholder="Enter Office Code"
               />
 
@@ -145,7 +148,8 @@ const EmployeeOfficeDetails: React.FC<
                 value={values.ddo_designation}
                 error={errors.ddo_designation}
                 touched={touched.ddo_designation}
-                label="DDO Designation*"
+                label="DDO Designation"
+                required={true}
                 name="ddo_designation"
                 placeholder={"Enter DDO Designation"}
               />
@@ -156,12 +160,13 @@ const EmployeeOfficeDetails: React.FC<
                 value={values.ddo_code}
                 error={errors.ddo_code}
                 touched={touched.ddo_code}
-                label="DDO Code*"
+                label="DDO Code"
+                required={true}
                 name="ddo_code"
                 placeholder={"Enter DDO Code"}
               />
 
-              <InputBox
+              {/* <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.district}
@@ -170,6 +175,44 @@ const EmployeeOfficeDetails: React.FC<
                 label="District*"
                 name="district"
                 placeholder={"Enter District"}
+              /> */}
+
+              <SelectForNoApi
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.district}
+                error={errors.district}
+                touched={touched.district}
+                label="District"
+                required={true}
+                name="district"
+                placeholder={"Choose District"}
+                options={[
+                  { id: 1, name: "Deoghar" },
+                  { id: 2, name: "Dumka" },
+                  { id: 3, name: "Bokaro" },
+                  { id: 4, name: "Giridih" },
+                  { id: 5, name: "Koderma" },
+                  { id: 6, name: "Godda" },
+                  { id: 7, name: "Chatra" },
+                  { id: 8, name: "Dhanbad" },
+                  { id: 9, name: "Gharwha" },
+                  { id: 10, name: "East-Singhbhum" },
+                  { id: 11, name: "Jamtara" },
+                  { id: 12, name: "Saraikela-Kharsawan" },
+                  { id: 13, name: "Ranchi" },
+                  { id: 14, name: "Pakur" },
+                  { id: 15, name: "Latehar" },
+                  { id: 16, name: "Hazaribagh" },
+                  { id: 17, name: "Lohardaga" },
+                  { id: 18, name: "Palamu" },
+                  { id: 19, name: "Ramghar" },
+                  { id: 20, name: "Simdega" },
+                  { id: 21, name: "West-Singhbhum" },
+                  { id: 22, name: "Sahebganj" },
+                  { id: 23, name: "Gumla" },
+                  { id: 24, name: "Khunti" },
+                ]}
               />
             </div>
 

@@ -21,6 +21,7 @@ import {
   initialEmployeeAddressDetails,
   employeePresentAddressValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
+import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 
 const EmpPresentAddress: React.FC<
   EmployeeDetailsProps<EmployeePresentAddressDetailsType>
@@ -34,44 +35,6 @@ const EmpPresentAddress: React.FC<
     setConfirmationOrder(value);
   };
 
-  // const handleSubmitFormik = (
-  //   values: EmployeePresentAddressDetailsType,
-  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  // ) => {
-  //   if (typeof window !== "undefined") {
-  //     const formData = { ...values, emp_address_same: confirmationOrder as "yes" | "no"};
-
-  //     sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
-  //     setSubmitting(false);
-
-  //     if (props.setData) {
-  //         props.setData("emp_address_details", formData);
-  //     }
-  //     router.push(`${pathName}?page=5`);
-  // }
-  // };
-
-
-
-  // const handleSubmitFormik = (
-  //   values: EmployeePresentAddressDetailsType,
-  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  // ) => {
-  //   if (typeof window !== "undefined") {
-  //     const formData = { ...values, emp_address_same: confirmationOrder as "yes" | "no"};
-
-  //     sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
-  //     setSubmitting(false);
-
-  //     if (props.setData) {
-  //         props.setData("emp_address_details", formData);
-  //     }
-  //     router.push(`${pathName}?page=5`);
-  // }
-  // };
-
-
-
   const handleSubmitFormik = (
     values: EmployeePresentAddressDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -79,13 +42,13 @@ const EmpPresentAddress: React.FC<
     if (typeof window !== "undefined") {
       let formData;
 
-      if (confirmationOrder === 'yes') {
+      if (confirmationOrder === "yes") {
         formData = [
-          { type: 'present', ...values },
-          { type: 'permanent', ...values }, 
+          { type: "present", ...values },
+          { type: "permanent", ...values },
         ];
       } else {
-        formData = [{ type: 'present', ...values }];
+        formData = [{ type: "present", ...values }];
       }
 
       sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
@@ -126,13 +89,16 @@ const EmpPresentAddress: React.FC<
         }) => (
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
+              {/* -----------------------Present Address fields----------------------------------- */}
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.address_primary}
                 error={errors.address_primary}
                 touched={touched.address_primary}
-                label="Address-1*"
+                label="Address-1"
+                required={true}
                 placeholder="Enter Present Address"
                 name="address_primary"
               />
@@ -151,7 +117,8 @@ const EmpPresentAddress: React.FC<
                 value={values.village}
                 error={errors.village}
                 touched={touched.village}
-                label="Village/Town/City*"
+                label="Village/Town/City"
+                required={true}
                 placeholder="Enter Your Village/Town/City"
                 name="village"
               />
@@ -169,19 +136,60 @@ const EmpPresentAddress: React.FC<
                 value={values.state}
                 error={errors.state}
                 touched={touched.state}
-                label="State*"
+                label="State"
+                required={true}
                 placeholder="Enter Your State"
                 name="state"
               />
-              <InputBox
+              {/* <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.district}
                 error={errors.district}
                 touched={touched.district}
-                label="District*"
+                label="District"
+                required={true}
                 placeholder="Enter Your District"
                 name="district"
+
+              /> */}
+
+              <SelectForNoApi
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.district}
+                error={errors.district}
+                touched={touched.district}
+                label="District"
+                required={true}
+                name="district"
+                placeholder={"Choose District"}
+                options={[
+                  { id: 1, name: "Deoghar" },
+                  { id: 2, name: "Dumka" },
+                  { id: 3, name: "Bokaro" },
+                  { id: 4, name: "Giridih" },
+                  { id: 5, name: "Koderma" },
+                  { id: 6, name: "Godda" },
+                  { id: 7, name: "Chatra" },
+                  { id: 8, name: "Dhanbad" },
+                  { id: 9, name: "Gharwha" },
+                  { id: 10, name: "East-Singhbhum" },
+                  { id: 11, name: "Jamtara" },
+                  { id: 12, name: "Saraikela-Kharsawan" },
+                  { id: 13, name: "Ranchi" },
+                  { id: 14, name: "Pakur" },
+                  { id: 15, name: "Latehar" },
+                  { id: 16, name: "Hazaribagh" },
+                  { id: 17, name: "Lohardaga" },
+                  { id: 18, name: "Palamu" },
+                  { id: 19, name: "Ramghar" },
+                  { id: 20, name: "Simdega" },
+                  { id: 21, name: "West-Singhbhum" },
+                  { id: 22, name: "Sahebganj" },
+                  { id: 23, name: "Gumla" },
+                  { id: 24, name: "Khunti" },
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -197,7 +205,8 @@ const EmpPresentAddress: React.FC<
                 value={values.pin_code}
                 error={errors.pin_code}
                 touched={touched.pin_code}
-                label="Pin Code*"
+                label="Pin Code"
+                required={true}
                 placeholder="Pin Code"
                 name="pin_code"
                 type="number"
@@ -208,15 +217,18 @@ const EmpPresentAddress: React.FC<
                 value={values.police_station}
                 error={errors.police_station}
                 touched={touched.police_station}
-                label="Police Station*"
+                label="Police Station"
+                required={true}
                 placeholder="Police Station"
                 name="police_station"
               />
               <div className="flex items-center gap-5">
                 <div className="flex items-center">
                   <input
-                    onChange={(e) => updateConfirmationOrder(e.target.checked ? 'yes' : 'no')}
-                    checked={confirmationOrder === 'yes'}
+                    onChange={(e) =>
+                      updateConfirmationOrder(e.target.checked ? "yes" : "no")
+                    }
+                    checked={confirmationOrder === "yes"}
                     className={`mr-1 bg-white checkbox border border-zinc-500`}
                     id="yes"
                     name="emp_address_same"
@@ -226,100 +238,140 @@ const EmpPresentAddress: React.FC<
                     If Present & Permanent Address are not same
                   </label>
                 </div>
-                {/* {touched.emp_address_same && errors.emp_address_same && (
-                 <div className="text-red-500 text-md block">{errors.emp_address_same}</div>
-                 )}    */}
               </div>
-              
-              {confirmationOrder === 'yes' && (
+              {/* -----------------------Present Address fields ends----------------------------------- */}
+
+              {/* -----------------------Present Address fields if confirmationOrder === yes ----------------------------------- */}
+
+              {confirmationOrder === "yes" && (
                 <>
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_primary_permanent}
-                error={errors.address_primary_permanent}
-                touched={touched.address_primary_permanent}
-                label="Address-1*"
-                placeholder="Enter Present Address"
-                name="address_primary_permanent"
-              />
-             
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_secondary_permanent}
-                label="Address-2"
-                name="address_secondary_permanent"
-                placeholder={"Enter Present Address"}
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.village_permanent}
-                error={errors.village_permanent}
-                touched={touched.village_permanent}
-                label="Village/Town/City*"
-                placeholder="Enter Your Village/Town/City"
-                name="village_permanent"
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.post_office_permanent}
-                label="Post Office"
-                placeholder="Enter Your Post Office"
-                name="post_office_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.state_permanent}
-                error={errors.state_permanent}
-                touched={touched.state_permanent}
-                label="State*"
-                placeholder="Enter Your State"
-                name="state_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.district_permanent}
-                error={errors.district_permanent}
-                touched={touched.district_permanent}
-                label="District*"
-                placeholder="Enter Your District"
-                name="district_permanent"
-              />
-                <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.block_ulb_permanent}
-                label="Block ULB"
-                placeholder="Block ULB"
-                name="block_ulb_permanent"
-              />
-               <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.pin_code_permanent}
-                error={errors.pin_code_permanent}
-                touched={touched.pin_code_permanent}
-                label="Pin Code*"
-                placeholder="Pin Code"
-                name="pin_code_permanent"
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.police_station_permanent}
-                error={errors.police_station_permanent}
-                touched={touched.police_station_permanent}
-                label="Police Station*"
-                placeholder="Police Station"
-                name="police_station_permanent"
-              />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.address_primary_permanent}
+                    error={errors.address_primary_permanent}
+                    touched={touched.address_primary_permanent}
+                    label="Address-1"
+                    placeholder="Enter Permanent Address"
+                    name="address_primary_permanent"
+                  />
+
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.address_secondary_permanent}
+                    label="Address-2"
+                    name="address_secondary_permanent"
+                    placeholder={"Enter Permanent Address"}
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.village_permanent}
+                    error={errors.village_permanent}
+                    touched={touched.village_permanent}
+                    label="Village/Town/City"
+                    placeholder="Enter Your Permanent Village/Town/City"
+                    name="village_permanent"
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.post_office_permanent}
+                    label="Post Office"
+                    placeholder="Enter Your Permanent Post Office"
+                    name="post_office_permanent"
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.state_permanent}
+                    error={errors.state_permanent}
+                    touched={touched.state_permanent}
+                    label="State"
+                    placeholder="Enter Your Permanent State"
+                    name="state_permanent"
+                  />
+                  {/* <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.district_permanent}
+                    error={errors.district_permanent}
+                    touched={touched.district_permanent}
+                    label="District"
+                    placeholder="Enter Your Permanent District"
+                    name="district_permanent"
+                  /> */}
+
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.district_permanent}
+                    error={errors.district_permanent}
+                    touched={touched.district_permanent}
+                    label="District"
+                    name="district_permanent"
+                    placeholder={"Choose District"}
+                    options={[
+                      { id: 1, name: "Deoghar" },
+                      { id: 2, name: "Dumka" },
+                      { id: 3, name: "Bokaro" },
+                      { id: 4, name: "Giridih" },
+                      { id: 5, name: "Koderma" },
+                      { id: 6, name: "Godda" },
+                      { id: 7, name: "Chatra" },
+                      { id: 8, name: "Dhanbad" },
+                      { id: 9, name: "Gharwha" },
+                      { id: 10, name: "East-Singhbhum" },
+                      { id: 11, name: "Jamtara" },
+                      { id: 12, name: "Saraikela-Kharsawan" },
+                      { id: 13, name: "Ranchi" },
+                      { id: 14, name: "Pakur" },
+                      { id: 15, name: "Latehar" },
+                      { id: 16, name: "Hazaribagh" },
+                      { id: 17, name: "Lohardaga" },
+                      { id: 18, name: "Palamu" },
+                      { id: 19, name: "Ramghar" },
+                      { id: 20, name: "Simdega" },
+                      { id: 21, name: "West-Singhbhum" },
+                      { id: 22, name: "Sahebganj" },
+                      { id: 23, name: "Gumla" },
+                      { id: 24, name: "Khunti" },
+                    ]}
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.block_ulb_permanent}
+                    label="Block ULB"
+                    placeholder="Enter Your Permanent Block ULB"
+                    name="block_ulb_permanent"
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.pin_code_permanent}
+                    error={errors.pin_code_permanent}
+                    touched={touched.pin_code_permanent}
+                    label="Pin Code"
+                    placeholder="Enter Your Permanent Pin Code"
+                    name="pin_code_permanent"
+                    type="number"
+                  />
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.police_station_permanent}
+                    error={errors.police_station_permanent}
+                    touched={touched.police_station_permanent}
+                    label="Police Station"
+                    placeholder="Enter Your Permanent Police Station"
+                    name="police_station_permanent"
+                  />
                 </>
               )}
+
+              {/* -----------------------Present Address fields if confirmationOrder === yes ends ----------------------------------- */}
             </div>
 
             <div className="flex items-center justify-end mt-5 gap-5">

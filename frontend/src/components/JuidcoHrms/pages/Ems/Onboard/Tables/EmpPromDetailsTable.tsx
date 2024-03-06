@@ -44,8 +44,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       vide_order_no: "",
       vide_order_date: "",
       transfer: "no",
-      join_date:"",
-
+      join_date: "",
     },
   ]);
 

@@ -8,16 +8,16 @@ import { Request, Response } from "express";
 import EmployeeOnBoardDao from "../dao/empOnBoard.dao";
 import { resObj } from "../../../util/types";
 import {
-  employeeBasicDetailsSchema,
-  employeeFamilyAndNomineeeDetailsSchema,
-  employeeJoinValidationSchema,
-  // employeeLoanDetailsSchema,
-  employeeOfficeDetailsSchema,
-  employeePersonalDetailsSchema,
-  employeePresentAddressDetailsSchema,
-  employeeSalaryDetailsSchema,
-  // employeeServiceHistrorySchema,
-  employeeTimeBoundSchema,
+  // employeeBasicDetailsSchema,
+  // employeeFamilyAndNomineeeDetailsSchema,
+  // employeeJoinValidationSchema,
+  // // employeeLoanDetailsSchema,
+  // employeeOfficeDetailsSchema,
+  // employeePersonalDetailsSchema,
+  // employeePresentAddressDetailsSchema,
+  // employeeSalaryDetailsSchema,
+  // // employeeServiceHistrorySchema,
+  // employeeTimeBoundSchema,
 } from "../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
@@ -116,54 +116,54 @@ class EmployeeOnBoardController {
 
     try {
       // Validate employee office details
-      const { error: officeDetailsError } =
-        employeeOfficeDetailsSchema.validate(req.body.emp_office_details);
+      // const { error: officeDetailsError } =
+      //   employeeOfficeDetailsSchema.validate(req.body.emp_office_details);
 
-      if (officeDetailsError) {
-        return CommonRes.VALIDATION_ERROR(officeDetailsError, resObj, res);
-      }
+      // if (officeDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(officeDetailsError, resObj, res);
+      // }
 
       // Validate employee basic details
-      const { error: basicDetailsError } = employeeBasicDetailsSchema.validate(
-        req.body.emp_basic_details
-      );
+      // const { error: basicDetailsError } = employeeBasicDetailsSchema.validate(
+      //   req.body.emp_basic_details
+      // );
 
-      if (basicDetailsError) {
-        return CommonRes.VALIDATION_ERROR(basicDetailsError, resObj, res);
-      }
+      // if (basicDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(basicDetailsError, resObj, res);
+      // }
 
       // Validate personal details
-      const { error: personalDetailsError } =
-        employeePersonalDetailsSchema.validate(req.body.emp_personal_details);
+      // const { error: personalDetailsError } =
+      //   employeePersonalDetailsSchema.validate(req.body.emp_personal_details);
 
-      if (personalDetailsError) {
-        return CommonRes.VALIDATION_ERROR(personalDetailsError, resObj, res);
-      }
+      // if (personalDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(personalDetailsError, resObj, res);
+      // }
 
       // Validate address details
-      const { error: addressDetailsError } =
-        employeePresentAddressDetailsSchema.validate(
-          req.body.emp_address_details
-        );
+      // const { error: addressDetailsError } =
+      //   employeePresentAddressDetailsSchema.validate(
+      //     req.body.emp_address_details
+      //   );
 
-      if (addressDetailsError) {
-        return CommonRes.VALIDATION_ERROR(addressDetailsError, resObj, res);
-      }
+      // if (addressDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(addressDetailsError, resObj, res);
+      // }
 
       // Validate family details if available
-      const { error: familyDetailsError } =
-        employeeFamilyAndNomineeeDetailsSchema.validate(
-          this.filterReqBody(
-            req.body.emp_family_details.emp_fam_details
-          ) as any,
-          this.filterReqBody(
-            req.body.emp_family_details.emp_nominee_details
-          ) as any
-        );
+      // const { error: familyDetailsError } =
+      //   employeeFamilyAndNomineeeDetailsSchema.validate(
+      //     this.filterReqBody(
+      //       req.body.emp_family_details.emp_fam_details
+      //     ) as any,
+      //     this.filterReqBody(
+      //       req.body.emp_family_details.emp_nominee_details
+      //     ) as any
+      //   );
 
-      if (familyDetailsError) {
-        return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res);
-      }
+      // if (familyDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res);
+      // }
 
       // const da1: any = this.filterReqBody(
       //   req.body.emp_service_history.emp_prom_details
@@ -186,15 +186,15 @@ class EmployeeOnBoardController {
       // }
 
       // validate employee Salary details
-      const { error: salaryDetailsError } =
-        employeeSalaryDetailsSchema.validate(
-          req.body.emp_salary_details.emp_salary_allow,
-          req.body.emp_salary_details.emp_salary_deduction
-        );
+      // const { error: salaryDetailsError } =
+      //   employeeSalaryDetailsSchema.validate(
+      //     req.body.emp_salary_details.emp_salary_allow,
+      //     req.body.emp_salary_details.emp_salary_deduction
+      //   );
 
-      if (salaryDetailsError) {
-        return CommonRes.VALIDATION_ERROR(salaryDetailsError, resObj, res);
-      }
+      // if (salaryDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(salaryDetailsError, resObj, res);
+      // }
 
       // validate employee Loan details
       // const { error: loanDetailsError } = employeeLoanDetailsSchema.validate(
@@ -208,22 +208,22 @@ class EmployeeOnBoardController {
       // }
 
       // Validate address details
-      const { error: joinDetailsError } = employeeJoinValidationSchema.validate(
-        req.body.emp_join_details
-      );
+      // const { error: joinDetailsError } = employeeJoinValidationSchema.validate(
+      //   req.body.emp_join_details
+      // );
 
-      if (joinDetailsError) {
-        return CommonRes.VALIDATION_ERROR(joinDetailsError, resObj, res);
-      }
+      // if (joinDetailsError) {
+      //   return CommonRes.VALIDATION_ERROR(joinDetailsError, resObj, res);
+      // }
 
-      // validate employee Time Bound Details
-      const { error: timeBoundError } = employeeTimeBoundSchema.validate(
-        req.body.emp_time_bound
-      );
+      // // validate employee Time Bound Details
+      // const { error: timeBoundError } = employeeTimeBoundSchema.validate(
+      //   req.body.emp_time_bound
+      // );
 
-      if (timeBoundError) {
-        return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
-      }
+      // if (timeBoundError) {
+      //   return CommonRes.VALIDATION_ERROR(timeBoundError, resObj, res);
+      // }
 
       const data = await this.employeeOnBoardDao.store(req);
 

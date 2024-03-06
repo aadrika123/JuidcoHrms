@@ -58,21 +58,21 @@ const EmployeeServiceHistory: React.FC<
       HEADER: "Increment Date",
       ACCESSOR: "inc_date",
       isRequired: true,
-      type: "date"
+      type: "date",
     },
 
     {
       HEADER: "Increment Amount",
       ACCESSOR: "inc_amount",
       isRequired: true,
-      type:"number"
+      type: "number",
     },
 
     {
       HEADER: "Basic Pay After Increment",
       ACCESSOR: "basic_pay_after_inc",
       isRequired: true,
-      type:'number'
+      type: "number",
     },
 
     {
@@ -84,7 +84,7 @@ const EmployeeServiceHistory: React.FC<
       HEADER: "Vide Order Date",
       ACCESSOR: "vide_order_date",
       isRequired: true,
-      type:"date"
+      type: "date",
     },
   ];
 
@@ -107,13 +107,12 @@ const EmployeeServiceHistory: React.FC<
           session_key={"emp_inc_details"}
           getData={[]}
           subHeading={"Employee Increment Details "}
-          
         />
       </div>
 
       <div className="">
         <EmployeePromotionDetailsTable setData={getStateData} />
-        <EmployeeTransferDetailsTable setData={getStateData} />
+        <EmployeeTransferDetailsTable />
       </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">
