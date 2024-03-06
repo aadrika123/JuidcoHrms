@@ -1,5 +1,6 @@
 import React from "react";
 import { useField } from "formik";
+import { boolean } from "joi";
 
 /**
  * | Author- Sanjiv Kumar
@@ -28,6 +29,7 @@ interface SelectProps {
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void;
+  required?:boolean;
 }
 
 const SelectForNoApi: React.FC<SelectProps> = (props) => {
@@ -51,6 +53,7 @@ const SelectForNoApi: React.FC<SelectProps> = (props) => {
       <div className="flex flex-col gap-1">
         <label className="text-secondary text-sm" htmlFor={fieldId}>
           {props.label}
+          {props.required && <span className="text-red-500">*</span>}
         </label>
         <select
           disabled={props.readonly}
