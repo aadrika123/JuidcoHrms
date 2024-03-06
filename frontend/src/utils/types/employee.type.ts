@@ -82,7 +82,7 @@ export interface EmployeePersonalDetailsType {
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//
 
-type InnerInputBox = {
+export type InnerInputBox = {
   from: string;
   to: string;
 };

@@ -388,7 +388,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 
 const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState([{}]);
-  const [tableLabels, setTableLabels] = useState(props.labels || []);
+  const [tableLabels] = useState(props.labels || []);
 
   const filterData = removeObj(tableData);
 
@@ -422,7 +422,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   // }, [props.session_key]);
 
   function setDataSesson() {
-    if (typeof window !== "undefined") {
+    if (global?.window && typeof window !== "undefined") {
       sessionStorage.setItem(
         `${props.session_key}`,
         JSON.stringify(filterData)
@@ -480,13 +480,16 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
         );
 
       if (!isLastRowEmpty) {
-        const newRow = props.columns.reduce((acc, col) => {
-          if (col.ACCESSOR !== "sl_no") {
-            acc[col.ACCESSOR] = "";
-          }
+        const newRow = props.columns.reduce(
+          (acc: { [key: string]: string }, col) => {
+            if (col.ACCESSOR !== "sl_no") {
+              acc[col.ACCESSOR] = "";
+            }
 
-          return acc;
-        }, {});
+            return acc;
+          },
+          {}
+        );
 
         setTableData((prev: any) => [...prev, newRow]);
         // setTableLabels((prevLabels) => [...prevLabels, ""]);
@@ -649,7 +652,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               {col.placeholder}
                             </option>
                             {col?.select_options?.map((d: OptionProps) => (
-                              <option key={d?.id} value={d?.id}>
+                              <option key={d?.id} value={d?.name}>
                                 {d?.name}
                               </option>
                             ))}

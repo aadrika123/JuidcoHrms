@@ -112,7 +112,7 @@ const EmployeeServiceHistory: React.FC<
 
       <div className="">
         <EmployeePromotionDetailsTable setData={getStateData} />
-        <EmployeeTransferDetailsTable />
+        <EmployeeTransferDetailsTable setData={() => {}} />
       </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">

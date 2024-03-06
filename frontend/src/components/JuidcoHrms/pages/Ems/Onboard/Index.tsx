@@ -14,14 +14,14 @@ import { useMutation, useQueryClient } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { HRMS_URL } from "@/utils/api/urls";
-import goBack, { DateFormatter } from "@/utils/helper";
+import { DateFormatter } from "@/utils/helper";
 import { HeaderWidget } from "@/components/Helpers/Widgets/HeaderWidget";
 import EmployeeOfficeDetails from "./Forms/EmpOfficeDetails";
 import {
   EmployeeOnBoardAllTypes,
   EmployeeOnBoardForm,
 } from "@/utils/types/employee.type";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
@@ -33,7 +33,9 @@ import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 import { EmpTimeBound } from "./Forms/EmpTimeBound";
 import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
 import EmpSalaryDetails from "./Forms/EmpSalaryDetails";
-import Popup from "@/components/global/molecules/Popup";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 // Imports // ----------------------------------------------------------------
 
 // ----------------Types---------------------//
@@ -47,12 +49,15 @@ export const EmployeeOnBoard = () => {
   const [empId, setEmpId] = useState();
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
+  const [showCongratulations, setShowCongratulations] = useState(false);
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
     () =>
       typeof window !== "undefined"
-        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}
+        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}``
         : {}
   );
+
+  const router = useRouter();
   // ----------Employee All Detail states------------ //
 
   // ------------------ Functions ------------------//
@@ -92,15 +97,16 @@ export const EmployeeOnBoard = () => {
   const { mutate } = useMutation(createVendorDetails, {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
+      setShowCongratulations(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
     },
     onError: () => {
       alert("there was an error");
     },
     onSettled: () => {
-      queryClient.invalidateQueries("vendor-list");
-      // setTimeout(() => {
-      //   goBack();
-      // }, 1000);
+      queryClient.invalidateQueries("employee-onboard");
     },
   });
 
@@ -109,6 +115,27 @@ export const EmployeeOnBoard = () => {
   return (
     <>
       <Toaster />
+
+      {showCongratulations && (
+        <div className="fixed top-1/2 left-1/2 transform border border-green-800 -translate-x-1/2 -translate-y-1/2 bg-[#F8FFF7] p-8 rounded-md text-black text-center justify-center w-[50%] h-[40%] flex flex-col items-center">
+          {/* <div className='mb-4'>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="100" height="100">
+                                <circle cx="50%" cy="50%" r="50%" fill="#12743B" />
+                                <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" fill="#fff" />
+                            </svg>
+                        </div> */}
+          <Image
+            src="/icons/correct.jpeg"
+            alt="Correct Icon"
+            width={200}
+            height={200}
+          />
+          <h2 className="text-lg mb-4">
+            For new employee ID #{empId || ""} has been generated successfully.
+          </h2>
+        </div>
+      )}
+
       <section>
         <HeaderWidget title="Employee Management System" variant={"view"} />
       </section>
@@ -165,13 +192,15 @@ export const EmployeeOnBoard = () => {
             <>
               <EmpTimeBound setData={getStateData} />
 
-              <Button
-                buttontype="button"
-                variant="primary"
-                onClick={() => mutate(employeeOnBoardDetails)}
-              >
-                Save
-              </Button>
+              <aside className="flex w-full items-center justify-end mt-3">
+                <Button
+                  buttontype="button"
+                  variant="primary"
+                  onClick={() => mutate(employeeOnBoardDetails)}
+                >
+                  Save
+                </Button>
+              </aside>
             </>
           ) : (
             <></>

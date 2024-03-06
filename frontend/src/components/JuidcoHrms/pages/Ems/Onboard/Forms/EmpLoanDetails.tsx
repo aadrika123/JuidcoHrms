@@ -18,7 +18,7 @@ import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+// import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import Button from "@/components/global/atoms/Button";
 
 const EmpLoanDetails: React.FC<
@@ -70,7 +70,11 @@ const EmpLoanDetails: React.FC<
     getInitialRecoveryFormData(),
   ]);
 
-  const handleInputChange = (fieldName: any, value: any, index: any) => {
+  const handleInputChange = (
+    fieldName: keyof (typeof formFields)[0],
+    value: any,
+    index: number
+  ) => {
     setFormFields((prevFields) => {
       const updatedFields = [...prevFields];
       updatedFields[index][fieldName] = value;
@@ -79,7 +83,7 @@ const EmpLoanDetails: React.FC<
   };
 
   const handleInputPrincipalChange = (
-    fieldName: any,
+    fieldName: keyof (typeof formPrincipalFields)[0],
     value: any,
     index: any
   ) => {
@@ -91,12 +95,12 @@ const EmpLoanDetails: React.FC<
   };
 
   const handleInputRecoveryChange = (
-    fieldName: any,
+    fieldName: keyof (typeof formRecoveryFields)[0],
     value: any,
-    index: any
+    index: number
   ) => {
     setFormRecoveryFields((prevFields) => {
-      const updatedFields = [...prevFields];
+      const updatedFields: typeof formRecoveryFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
     });
@@ -170,7 +174,7 @@ const EmpLoanDetails: React.FC<
         initialValues={getInitialFormData()}
         onSubmit={handleSubmitFormik}
       >
-        {({ values, handleChange, handleBlur, handleSubmit, handleReset }) => (
+        {({ handleBlur, handleSubmit, handleReset }) => (
           <form onSubmit={handleSubmit}>
             {/* -----------------------Employee Loan details for tabIndex === 1 ----------------------------------- */}
 
@@ -202,7 +206,7 @@ const EmpLoanDetails: React.FC<
                     <div>
                       <span className="text-sm">Loan Name</span>
                       <br />
-                      <div className="border w-full p-2 rounded border-black ">
+                      <div className="border w-full p-2 rounded border-black">
                         <select
                           value={field.loan_name_det}
                           name="loan_name_det"
@@ -213,15 +217,21 @@ const EmpLoanDetails: React.FC<
                               index
                             )
                           }
-                          className="w-full border-none outline-none bg-white border "
+                          className="w-full border-none outline-none"
                         >
                           <option value="">Please Select</option>
-                          <option value="1">Festival Adv.</option>
-                          <option value="2">Motor Cycle Adv.</option>
-                          <option value="3">Moped Adv.</option>
-                          <option value="4">House Building Adv..</option>
-                          <option value="5">Spl House Building Adv.</option>
-                          <option value="6">GPF Adv.</option>
+                          <option value="Festival Adv.">Festival Adv.</option>
+                          <option value="Motor Cycle Adv.">
+                            Motor Cycle Adv.
+                          </option>
+                          <option value="Moped Adv.">Moped Adv.</option>
+                          <option value="House Building Adv.">
+                            House Building Adv.
+                          </option>
+                          <option value="Spl House Building Adv.">
+                            Spl House Building Adv.
+                          </option>
+                          <option value="GPF Adv.">GPF Adv.</option>
                         </select>
                       </div>
                     </div>
@@ -390,7 +400,6 @@ const EmpLoanDetails: React.FC<
                                 { id: 7, name: "GIS Adv." },
                               ]}
                             /> */}
-
                           <div>
                             <span className="text-sm">Loan Name</span>
                             <br />
@@ -405,21 +414,28 @@ const EmpLoanDetails: React.FC<
                                     index
                                   )
                                 }
-                                className="w-full border-none outline-none bg-white border"
+                                className="w-full border-none outline-none"
                               >
                                 <option value="">Please Select</option>
-                                <option value="1">Festival Adv.</option>
-                                <option value="2">Motor Cycle Adv.</option>
-                                <option value="3">Moped Adv.</option>
-                                <option value="4">House Building Adv..</option>
-                                <option value="5">
+                                <option value="Festival Adv.">
+                                  Festival Adv.
+                                </option>
+                                <option value="Motor Cycle Adv.">
+                                  Motor Cycle Adv.
+                                </option>
+                                <option value="Moped Adv.">Moped Adv.</option>
+                                <option value="House Building Adv.">
+                                  House Building Adv.
+                                </option>
+                                <option value="Spl House Building Adv.">
                                   Spl House Building Adv.
                                 </option>
-                                <option value="6">GPF Adv.</option>
-                                <option value="7">GIS Adv.</option>
+                                <option value="GPF Adv.">GPF Adv.</option>
+                                <option value="GIS Adv.">GIS Adv.</option>
                               </select>
                             </div>
                           </div>
+                          
                           <InputBox
                             value={(fields as any).tot_amt_released}
                             onChange={(e: any) =>
@@ -544,18 +560,24 @@ const EmpLoanDetails: React.FC<
                                     index
                                   )
                                 }
-                                className="w-full border-none outline-none bg-white border"
+                                className="w-full border-none outline-none"
                               >
                                 <option value="">Please Select</option>
-                                <option value="1">Festival Adv.</option>
-                                <option value="2">Motor Cycle Adv.</option>
-                                <option value="3">Moped Adv.</option>
-                                <option value="4">House Building Adv..</option>
-                                <option value="5">
+                                <option value="Festival Adv.">
+                                  Festival Adv.
+                                </option>
+                                <option value="Motor Cycle Adv.">
+                                  Motor Cycle Adv.
+                                </option>
+                                <option value="Moped Adv.">Moped Adv.</option>
+                                <option value="House Building Adv.">
+                                  House Building Adv.
+                                </option>
+                                <option value="Spl House Building Adv.">
                                   Spl House Building Adv.
                                 </option>
-                                <option value="6">GPF Adv.</option>
-                                <option value="7">GIS Adv.</option>
+                                <option value="GPF Adv.">GPF Adv.</option>
+                                <option value="GIS Adv.">GIS Adv.</option>
                               </select>
                             </div>
                           </div>

@@ -39,8 +39,8 @@ export const employeeValidationSchema = yup.object({
   gender: yup.mixed().required("Gender is required"),
   pran: yup.string().required("PRAN is required"),
   emp_type: yup.mixed().required("Employee type is required"),
-  weight: yup.number().required("Weight is required").positive(),
-  height: yup.number().required("Height is required").positive(),
+  // weight: yup.number().required("Weight is required").positive(),
+  // height: yup.number().required("Height is required").positive(),
   cps: yup.string().required("CPS is required"),
   gps: yup.string().required("GPS is required"),
   dob: yup.string().required("Date of Birth is required"),
@@ -107,9 +107,9 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_phy_health_type: "",
   emp_family: "",
   emp_lang: "",
-  emp_family_name:"",
-  emp_org_name:"",
-  emp_office_name:"",
+  emp_family_name: "",
+  emp_org_name: "",
+  emp_office_name: "",
   // emp_lang_do: "",
 };
 
@@ -129,7 +129,6 @@ export const employeePresentAddressValidationSchema = yup.object({
   // district_permanent: yup.string().required("Please Enter the Correct Permanent District"),
   // pin_code_permanent: yup.string().required("Please Enter the Correct Permanent Pin Code"),
   // police_station_permanent: yup.string().required("Please Enter the Correct Permanent Police Station"),
-
 });
 
 export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =

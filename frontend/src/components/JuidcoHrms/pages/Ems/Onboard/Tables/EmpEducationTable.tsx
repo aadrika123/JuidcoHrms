@@ -72,32 +72,32 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
 
   const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
     {
-      HEADER: "Education Level*",
+      HEADER: "Education Level",
       ACCESSOR: "edu_level",
       isRequired: true,
     },
     {
-      HEADER: "Subject/Stream*",
+      HEADER: "Subject/Stream",
       ACCESSOR: "stream",
       isRequired: true,
     },
     {
-      HEADER: "Board/University*",
+      HEADER: "Board/University",
       ACCESSOR: "board",
       isRequired: true,
     },
     {
-      HEADER: "Passing Year*",
+      HEADER: "Passing Year",
       ACCESSOR: "passing_year",
       isRequired: true,
     },
     {
-      HEADER: "Marks in %*",
+      HEADER: "Marks in %",
       ACCESSOR: "marks",
       isRequired: true,
     },
     {
-      HEADER: "Grade/Division*",
+      HEADER: "Grade/Division",
       ACCESSOR: "grade",
       isRequired: true,
     },
@@ -173,7 +173,10 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
                 >
                   <div className="flex gap-2">
-                    <span>{cols.HEADER}</span>
+                    <span>
+                      {cols.HEADER}
+                      <span className="text-red-500">*</span>
+                    </span>
                   </div>
                 </th>
               </>

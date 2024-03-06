@@ -86,9 +86,10 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.department}
                                 error={errors.department}
                                 touched={touched.department}
-                                label="Department*"
+                                label="Department"
                                 name="department"
                                 placeholder={"Please Select"}
+                                required={true}
                                 options={[
                                     { id: 1, name: "Agriculture Animal Husbandry and Co-operative Department" },
                                     { id: 2, name: "Building Construction Department" },
@@ -136,8 +137,9 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.designation}
                                 error={errors.designation}
                                 touched={touched.designation}
-                                label="Designation*"
+                                label="Designation"
                                 placeholder="Please Select"
+                                required={true}
                                 name="designation"
                                 options={[
                                     { id: 1, name: "Assistant Municipal Commissioner" },
@@ -275,14 +277,15 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.task}
                                 error={errors.task}
                                 touched={touched.task}
-                                label="Task*"
+                                label="Task"
                                 placeholder="Enter Task"
                                 name="task"
+                                required={true}
                             />
                             <SelectForNoApi
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.department}
+                                value={values.class}
                                 label="Class(1,2,3,4)"
                                 name="class"
                                 placeholder={"Please Select"}
@@ -297,10 +300,11 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.doj}
                                 error={errors.doj}
                                 touched={touched.doj}
-                                label="Date Of Joining*"
+                                label="Date Of Joining"
                                 name="doj"
                                 placeholder={"Enter Date Of Joining"}
                                 type="date"
+                                required={true}
                             />
                             <SelectForNoApi
                                 onChange={handleChange}
@@ -308,7 +312,7 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.effective_pay_commision}
                                 error={errors.effective_pay_commision}
                                 touched={touched.effective_pay_commision}
-                                label="Effective Pay Commission* (At the time of Joining)"
+                                label="Effective Pay Commission (At the time of Joining)"
                                 name="effective_pay_commision"
                                 placeholder={"Please Select"}
                                 options={[
@@ -320,6 +324,7 @@ const EmpInitialJoinDetails: React.FC<
                                     { id: 6, name: "6" },
                                     { id: 7, name: "7" },
                                 ]}
+                                required={true}
                             />
 
 
@@ -397,10 +402,11 @@ const EmpInitialJoinDetails: React.FC<
                                     value={values.pay_scale}
                                     error={errors.pay_scale}
                                     touched={touched.pay_scale}
-                                    label="Pay Scale*"
+                                    label="Pay Scale"
                                     name="pay_scale"
                                     placeholder={"Enter Pay Scale"}
                                     type="number"
+                                    required={true}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -408,10 +414,11 @@ const EmpInitialJoinDetails: React.FC<
                                     value={values.pay_band}
                                     error={errors.pay_band}
                                     touched={touched.pay_band}
-                                    label="Pay Band*"
+                                    label="Pay Band"
                                     name="pay_band"
                                     placeholder={"Enter Pay Band"}
                                     type="number"
+                                    required={true}
 
                                 />
                                 <InputBox
@@ -420,11 +427,11 @@ const EmpInitialJoinDetails: React.FC<
                                     value={values.grade_pay}
                                     error={errors.grade_pay}
                                     touched={touched.grade_pay}
-                                    label="Grade Pay*"
+                                    label="Grade Pay"
                                     name="grade_pay"
                                     placeholder={"Enter Grade Pay"}
                                     type="number"
-
+                                    required={true}
                                 />
                             </div>
 
@@ -443,11 +450,11 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.basic_pay}
                                 error={errors.basic_pay}
                                 touched={touched.basic_pay}
-                                label="Basic Pay*"
+                                label="Basic Pay"
                                 name="basic_pay"
                                 placeholder={"Enter Basic Pay"}
                                 type='number'
-
+                                required={true}
                             />
                             <InputBox
                                 onChange={handleChange}
@@ -465,13 +472,14 @@ const EmpInitialJoinDetails: React.FC<
                                 value={values.deduction_type}
                                 error={errors.deduction_type}
                                 touched={touched.deduction_type}
-                                label="Deduction Type*"
+                                label="Deduction Type"
                                 name="deduction_type"
                                 placeholder={"Please Select"}
                                 options={[
                                     { id: 1, name: "GPF" },
                                     { id: 2, name: "CPS" },
                                 ]}
+                                required={true}
                             />
                             <InputBox
                                 onChange={handleChange}

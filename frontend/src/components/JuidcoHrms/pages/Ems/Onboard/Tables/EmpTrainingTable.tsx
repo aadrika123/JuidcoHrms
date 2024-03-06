@@ -6,12 +6,9 @@
 
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
-import {
-  EmployeeEducation,
-  EmployeeEducationDetailsType,
-} from "@/utils/types/employee.type";
+
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { removeObj } from "@/utils/helper";
 import { SubHeading } from "@/components/Helpers/Heading";
 
@@ -19,21 +16,21 @@ interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
 }
 
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  isRequired?: boolean;
-}
+// interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+//   isRequired?: boolean;
+// }
 
-const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
-  return (
-    <>
-      <input
-        className={`w-full h-full p-2 bg-transparent outline-none rounded-xl ${isRequired && "placeholder-zinc-400"}`}
-        type="text"
-        {...props}
-      />
-    </>
-  );
-};
+// const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
+//   return (
+//     <>
+//       <input
+//         className={`w-full h-full p-2 bg-transparent outline-none rounded-xl ${isRequired && "placeholder-zinc-400"}`}
+//         type="text"
+//         {...props}
+//       />
+//     </>
+//   );
+// };
 
 const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   const getInitialFormData: any = () => ({
@@ -45,9 +42,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     tot_day_training: "",
   });
   const [addedRows, setAddedRows] = useState<number>(0);
-  const [tableData, setTableData] = useState<EmployeeEducationDetailsType[]>([
-    getInitialFormData(),
-  ]);
+  const [tableData, setTableData] = useState<any[]>([getInitialFormData()]);
 
   console.log(tableData, "tdata");
   console.log(tableData, "table data");
@@ -106,7 +101,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     fieldName: string,
     value: string | number,
     nestedKey?: string,
-    rowIndex?: number | string
+    rowIndex?: number
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
@@ -117,7 +112,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
           updatedData[rowIndex][fieldName][nestedKey] = value;
         }
       } else {
-        updatedData[rowIndex][fieldName] = value;
+        updatedData[rowIndex as any][fieldName] = value;
       }
       return updatedData;
     });

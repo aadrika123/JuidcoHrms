@@ -7,9 +7,9 @@
 "use client";
 
 import React, { useState } from "react";
-import TableFormContainer from "@/components/global/organisms/TableFormContainer";
+// import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import { SubHeading } from "@/components/Helpers/Heading";
-import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
+// import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import Button from "@/components/global/atoms/Button";
@@ -17,15 +17,14 @@ import {
   EmployeeTimeBoundDetailType,
   EmployeeDetailsProps,
 } from "@/utils/types/employee.type";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const EmpTimeBound: React.FC<
   EmployeeDetailsProps<EmployeeTimeBoundDetailType>
 > = (props) => {
-  const pathName = usePathname();
+  // const pathName = usePathname();
   const router = useRouter();
   const [addedRows, setAddedRows] = useState<number>(0);
-  const [showCongratulations, setShowCongratulations] = useState(false);
 
   const COLUMNS_FOR_EMP_TRNG_INFRM = [
     {
@@ -71,15 +70,13 @@ export const EmpTimeBound: React.FC<
     remarks: "",
   });
 
-  const [tableData, setTableData] = useState<EmployeeTimeBoundDetailType[]>([
-    getInitialFormData(),
-  ]);
+  const [tableData, setTableData] = useState<any[]>([getInitialFormData()]);
 
   const handleInputChange = (
-    fieldName: string,
-    value: string | number,
-    nestedKey?: string,
-    rowIndex?: number | string
+    fieldName: any,
+    value: any,
+    nestedKey?: any,
+    rowIndex?: number
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
@@ -90,7 +87,7 @@ export const EmpTimeBound: React.FC<
           updatedData[rowIndex][fieldName][nestedKey] = value;
         }
       } else {
-        updatedData[rowIndex][fieldName] = value;
+        updatedData[rowIndex as any][fieldName] = value;
       }
       return updatedData;
     });
@@ -106,7 +103,6 @@ export const EmpTimeBound: React.FC<
       if (props.setData) {
         props.setData("emp_timebound_details", tableData as any);
       }
-      setShowCongratulations(true);
 
       setTimeout(() => {
         router.push("/hrms/ems/onboard");
@@ -303,26 +299,13 @@ export const EmpTimeBound: React.FC<
           Reset
         </PrimaryButton>
 
-        <PrimaryButton
+        {/* <PrimaryButton
           onClick={saveDataToSessionStorage}
           buttonType="submit"
           variant="primary"
         >
           Save
-        </PrimaryButton>
-
-        {showCongratulations && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#F8FFF7] p-8 rounded-md text-black text-center justify-center w-[50%] h-[40%] flex flex-col items-center">
-            {/* <div className='mb-4'>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="100" height="100">
-                                <circle cx="50%" cy="50%" r="50%" fill="#12743B" />
-                                <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" fill="#fff" />
-                            </svg>
-                        </div> */}
-            {/* <Image src={correctImage} alt="Correct Icon" width={200} /> */}
-            <h2 className="text-lg mb-4">Successfully Added.</h2>
-          </div>
-        )}
+        </PrimaryButton> */}
       </div>
     </>
   );
