@@ -57,6 +57,12 @@ export const EmployeeOnBoard = () => {
         : {}
   );
 
+  function removeSessionsAfterSubmit() {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("emp_onboard");
+    }
+  }
+
   const router = useRouter();
   // ----------Employee All Detail states------------ //
 
@@ -99,6 +105,7 @@ export const EmployeeOnBoard = () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
       setTimeout(() => {
+        removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },

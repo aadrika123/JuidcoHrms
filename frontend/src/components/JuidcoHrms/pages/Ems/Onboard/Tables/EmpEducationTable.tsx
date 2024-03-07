@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { removeObj } from "@/utils/helper";
 
 interface TableFormProps {
+  validate: (value: boolean) => void;
   setData: (key: string, values: any, index?: number | undefined) => void;
 }
 
@@ -48,7 +49,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       stream: "",
       board: "",
       passing_year: "",
-      marks: "",
+      marks: undefined,
       grade: "",
     })
   );
@@ -104,7 +105,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   ];
   function onChangeTableDataHandler(
     id: number,
-    value: string,
+    value: string | number,
     key: string,
     innerKey?: string
   ) {
@@ -112,14 +113,39 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       const updatedData = [...prev];
       const row: Record<string, any> = { ...updatedData[id] };
 
+      if (key === "marks") {
+        if (!row[key]) {
+          row[key] = {};
+        }
+
+        row["grade"] =
+          (value as number) >= 60
+            ? "1st"
+            : (value as number) >= 49
+              ? "2nd"
+              : (value as number) >= 34
+                ? "3rd"
+                : (value as number) < 34 && (value as number) > 0
+                  ? "FAIL"
+                  : (value as number) === 0
+                    ? ""
+                    : "";
+      }
       if (innerKey) {
         if (!row[key]) {
           row[key] = {};
         }
-        const nestedObject: Record<string, string | boolean> = row[key];
+        const nestedObject: Record<string, string | boolean | number> =
+          row[key];
         nestedObject[innerKey] = value;
       } else {
         row[key] = value;
+      }
+
+      if (row["grade"] !== "") {
+        props.validate(true);
+      } else {
+        props.validate(false);
       }
 
       updatedData[id] = { ...row } as EmployeeEducation;
@@ -130,8 +156,9 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   function addRow() {
     setDataSesson();
     const lastRow = tableData[tableData.length - 1];
-    const isLastRowEmpty = Object.values(lastRow).every((row) =>
-      Object.values(row).every((val) => val !== "")
+    const isLastRowEmpty = Object.values(lastRow).every(
+      (row) =>
+        row !== undefined && Object?.values(row).every((val) => val !== "")
     );
 
     if (tableData.length < 6) {
@@ -143,7 +170,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
             stream: "",
             board: "",
             passing_year: "",
-            marks: "",
+            marks: undefined,
             grade: "",
           },
         ]);
@@ -247,6 +274,9 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       )
                     }
                     value={row?.passing_year}
+                    type="number"
+                    min={1111}
+                    max={9999}
                     placeholder={"Enter "}
                     isRequired={true}
                   />
@@ -257,7 +287,11 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 <td className="border border-zinc-400 ">
                   <InputField
                     onChange={(e) =>
-                      onChangeTableDataHandler(index, e.target.value, "marks")
+                      onChangeTableDataHandler(
+                        index,
+                        Number(e.target.value),
+                        "marks"
+                      )
                     }
                     type="number"
                     value={row?.marks}
@@ -273,7 +307,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     onChange={(e) =>
                       onChangeTableDataHandler(index, e.target.value, "grade")
                     }
-                    type="number"
                     value={row?.grade}
                     placeholder={"Enter "}
                     isRequired={true}

@@ -300,7 +300,7 @@ export type EmployeeEducation = {
   stream: string | number;
   board: string | number;
   passing_year: string | number;
-  marks: string | number;
+  marks?: number;
   grade: string | number;
 };
 

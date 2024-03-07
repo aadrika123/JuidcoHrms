@@ -604,6 +604,7 @@ const EmpEducationDetails: React.FC<
   EmployeeDetailsProps<EmployeeEducationDetailsType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
   const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
@@ -627,7 +628,7 @@ const EmpEducationDetails: React.FC<
   return (
     <div>
       <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
-      <EmpEducationTable setData={getStateData} />
+      <EmpEducationTable setData={getStateData} validate={setIsValidate} />
 
       <EmployeeTrainingTable setData={getStateData} />
       <div className="flex items-center justify-end mt-5 gap-5">
@@ -639,13 +640,15 @@ const EmpEducationDetails: React.FC<
           Reset
         </PrimaryButton>
 
-        <PrimaryButton
-          onClick={() => handleSubmitForm(employeeEducationDetails)}
-          buttonType="submit"
-          variant="primary"
-        >
-          Next
-        </PrimaryButton>
+        {isValidate && (
+          <PrimaryButton
+            onClick={() => handleSubmitForm(employeeEducationDetails)}
+            buttonType="submit"
+            variant="primary"
+          >
+            Next
+          </PrimaryButton>
+        )}
       </div>
     </div>
   );
