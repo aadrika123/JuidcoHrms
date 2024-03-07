@@ -150,7 +150,7 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
     state_permanent: "",
     district_permanent: "",
     block_ulb_permanent: "",
-    pin_code_permanent: "",
+    pin_code_permanent: undefined,
     police_station_permanent: "",
     emp_address_same_permanent: "yes",
   };

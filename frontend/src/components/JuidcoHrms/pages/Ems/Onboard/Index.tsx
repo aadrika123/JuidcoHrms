@@ -21,7 +21,7 @@ import {
   EmployeeOnBoardAllTypes,
   EmployeeOnBoardForm,
 } from "@/utils/types/employee.type";
-import { redirect, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
@@ -53,7 +53,7 @@ export const EmployeeOnBoard = () => {
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
     () =>
       typeof window !== "undefined"
-        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || {}``
+        ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || ``
         : {}
   );
 

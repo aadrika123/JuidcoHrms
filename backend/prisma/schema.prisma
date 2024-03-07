@@ -142,7 +142,7 @@ model employee_address_details {
   state_permanent             String?
   district_permanent          String?
   block_ulb_permanent         String? // Optional
-  pin_code_permanent          Int? // Optional
+  pin_code_permanent          Int?      // Optional
   police_station_permanent    String?
   emp_address_same_permanent  String? // Optional
   employees                   employees @relation(fields: [employees_id], references: [id])
@@ -246,7 +246,7 @@ model employee_join_details {
   grade_pay               BigInt
   doc                     String?
   basic_pay               BigInt
-  conf_order_number       Int?
+  conf_order_number       BigInt?
   deduction_type          String
   conf_order_date         String?
   member_gis              String?

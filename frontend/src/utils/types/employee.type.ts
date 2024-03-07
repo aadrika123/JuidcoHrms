@@ -163,7 +163,7 @@ export interface EmployeePresentAddressDetailsType {
   state_permanent: string;
   district_permanent: string;
   block_ulb_permanent: string | number;
-  pin_code_permanent: string | number;
+  pin_code_permanent?: string | number;
   police_station_permanent: string;
   emp_address_same_permanent: "yes" | "no";
 }

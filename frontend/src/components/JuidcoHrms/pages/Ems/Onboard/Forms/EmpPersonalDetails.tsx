@@ -310,7 +310,7 @@ const EmpployeePersonalDetails: React.FC<
                 ]}
               />  */}
 
-              <div>
+<div>
                 {/* <div className="inline-flex gap-2"> */}
                 <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
                   <SelectForNoApi
@@ -339,6 +339,7 @@ const EmpployeePersonalDetails: React.FC<
                       {
                         id: 4,
                         name: "Spouse",
+
                       },
                     ]}
                   />
@@ -356,7 +357,7 @@ const EmpployeePersonalDetails: React.FC<
                   />
                 </div>
 
-                {values.emp_family === 4 && (
+                {values.emp_family === "Spouse" && (
                   <div className="mt-5">
                     <div>
                       <InputBox
