@@ -53,8 +53,8 @@ export interface EmployeeDetailsType {
   gender_name?: string | number;
   pran: string;
   emp_type: string | number;
-  weight: number;
-  height: number;
+  weight: string;
+  height: string;
   cps: string;
   gps: string;
   dob: string;
@@ -76,8 +76,8 @@ export interface EmployeePersonalDetailsType {
   emp_family_name: string | number;
   emp_org_name: string | number;
   emp_office_name: string | number;
-  emp_lang: string | number;
-  emp_lang_do?: ("read" | "write" | "speak")[];
+  emp_lang: any[];
+  // emp_lang_do?: ("read" | "write" | "speak")[];
 }
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//

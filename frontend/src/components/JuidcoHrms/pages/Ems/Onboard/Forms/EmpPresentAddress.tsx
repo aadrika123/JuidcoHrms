@@ -39,6 +39,17 @@ const EmpPresentAddress: React.FC<
     values: EmployeePresentAddressDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
+    Object.keys(values).forEach((key) => {
+      const val = values[key as keyof typeof values];
+      if (
+        val ==
+        initialEmployeeAddressDetails[
+          key as keyof typeof initialEmployeeAddressDetails
+        ]
+      ) {
+        delete values[key as keyof typeof values];
+      }
+    });
     if (typeof window !== "undefined") {
       let formData;
 

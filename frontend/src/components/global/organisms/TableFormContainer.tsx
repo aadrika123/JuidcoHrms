@@ -389,7 +389,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState([{}]);
   const [tableLabels] = useState(props.labels || []);
-
+  // const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const filterData = removeObj(tableData);
 
   useEffect(() => {
@@ -466,10 +466,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   //     setTableData((prev: any) => [...prev, {}]);
   //   }
   // }
+
   function addRow() {
     setDataSesson();
 
-    // Check if filterData exists and has at least one element
     if (tableData && tableData.length > 0) {
       const lastRow = tableData[tableData.length - 1];
       const isLastRowEmpty =
@@ -651,6 +651,17 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             <option selected value="">
                               {col.placeholder}
                             </option>
+                            {/* tableData[0]?.name ? col?.select_options?.filter((item) => tableData[0]?.name !== item.name) */}
+                            {/* {col?.select_options?.map((d: OptionProps) => (
+                              <option key={d?.id} value={d?.name}>
+                                {d?.name}
+                              </option>
+                            )): col?.select_options?.map((d: OptionProps) => (
+                              <option key={d?.id} value={d?.name}>
+                                {d?.name}
+                              </option>
+                            ))} */}
+
                             {col?.select_options?.map((d: OptionProps) => (
                               <option key={d?.id} value={d?.name}>
                                 {d?.name}

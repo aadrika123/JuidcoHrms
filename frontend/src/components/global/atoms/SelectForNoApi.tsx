@@ -41,6 +41,7 @@ const SelectForNoApi: React.FC<SelectProps> = (props) => {
   const fieldId = "id_" + props.name;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.onChange && props.onChange(e);
     setValue(e.target.value);
     // const selectedOption = e.target.options[e.target.selectedIndex].dataset;
     // setValue1(selectedOption.name);

@@ -58,8 +58,8 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
   gender: "",
   pran: "",
   emp_type: "",
-  weight: 0,
-  height: 0,
+  weight: "",
+  height: "",
   cps: "",
   gps: "",
   dob: "",
@@ -82,9 +82,9 @@ export const employeePersonalDetailsValidationSchema = yup.object({
   emp_nearest_railway_station: yup
     .string()
     .required("Please Enter the Nearest Railway Station"),
-  emp_phy_health_type: yup
-    .mixed()
-    .required("Please Enter the Physical Health Type"),
+  // emp_phy_health_type: yup
+  //   .mixed()
+  //   .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
   emp_family_name: yup.string().required("Please Enter the Name"),
@@ -106,7 +106,7 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_nearest_railway_station: "",
   emp_phy_health_type: "",
   emp_family: "",
-  emp_lang: "",
+  emp_lang: [],
   emp_family_name: "",
   emp_org_name: "",
   emp_office_name: "",

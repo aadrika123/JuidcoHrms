@@ -45,7 +45,17 @@ const EmployeeBasicDetails: React.FC<
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
-
+      Object.keys(values).forEach((key) => {
+        const val = values[key as keyof typeof values];
+        if (
+          val ==
+          initialEmployeeDetails[
+            key as keyof typeof initialEmployeeDetails
+          ]
+        ) {
+          delete values[key as keyof typeof values];
+        }
+      });
       if (props.setData) {
         props.setData("emp_basic_details", values);
       }
@@ -304,7 +314,7 @@ const EmployeeBasicDetails: React.FC<
                 label="Weight"
                 name="weight"
                 placeholder={"Enter Weight in KG"}
-                type="number"
+                type="text"
               />
               <InputBox
                 onChange={handleChange}
@@ -313,7 +323,7 @@ const EmployeeBasicDetails: React.FC<
                 label="Height"
                 name="height"
                 placeholder={"Enter Height"}
-                type="number"
+                type="text"
               />
               <InputBox
                 onChange={handleChange}
