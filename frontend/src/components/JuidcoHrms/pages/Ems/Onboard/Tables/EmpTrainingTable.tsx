@@ -135,7 +135,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   return (
     <>
       <Toaster />
-      <SubHeading className="text-[20px] pt-4 mt-10 mb-4">
+      <SubHeading className="text-[20px] pt-4  mb-4">
         Employee Training Information
       </SubHeading>
 

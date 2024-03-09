@@ -10,7 +10,7 @@ import * as yup from "yup";
 
 /// ------------- Employee Office Details ---------------------///
 export const officeDetailsValidationSchema = yup.object({
-  office_name: yup.string().required("Please Enter the Office Name"),
+  office_name: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Please Enter the Office Name"),
   office_code: yup.string().required("Please Enter the Office Code"),
   ddo_designation: yup.string().required("Please Enter the DDO Designation"),
   ddo_code: yup.string().required("Please Enter the DDO Code"),
@@ -33,17 +33,17 @@ export const employeeValidationSchema = yup.object({
   emp_name: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Employee name is required"),
   mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
 
-  contact_no: yup.string().required("Contact number is required"),
-  emg_contact_no: yup.string().required("Emergency contact number is required"),
+  contact_no: yup.string().min(10, "Minimum 10 digit required").required("Contact number is required"),
+  emg_contact_no: yup.string().min(10, "Minimum 10 digit required").required("Emergency contact number is required"),
  
 
-  aadhar_no: yup.string().required("Aadhar number is required"),
+  aadhar_no: yup.string().min(12, "Minimum 12 digit required").required("Aadhar number is required"),
 
-  epic_no: yup.string().required("EPIC number is required"),
+  epic_no: yup.string().min(12, "Minimum 12 digit required").required("EPIC number is required"),
 
   gender: yup.mixed().required("Gender is required"),
 
-  pran: yup.string().required("PRAN is required"),
+  pran: yup.string().min(12, "Minimum 12 digit required").required("PRAN is required"),
 
   emp_type: yup.mixed().required("Employee type is required"),
   // weight: yup.string().required("Weight is required").positive(),
@@ -94,7 +94,7 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
-  emp_family_name: yup.string().required("Please Enter the Name"),
+  emp_family_name: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Please Enter the Name"),
   // emp_org_name: yup.string().required("Please Enter the Organisation Name"),
   // emp_office_name: yup.string().required("Please Enter the Office Name"),
   // emp_lang_do: yup.string().required("Please Enter the Language Proficiency"),
@@ -122,13 +122,13 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
 };
 
 export const employeePresentAddressValidationSchema = yup.object({
-  address_primary: yup.string().required("Please Enter the Correct Address"),
-  village: yup.string().required("Please Enter the Correct City"),
+  address_primary: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Please Enter the Correct Address"),
+  village: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Please Enter the Correct City"),
   state: yup.string().required("Please Enter the Correct State"),
   district: yup.string().required("Please Enter the Correct District"),
-  pin_code: yup.string().required("Please Enter the Correct Pin Code"),
+  pin_code: yup.string().min(4, "Minimum 4 digit required").max(6, "Maximum 6 digit long").required("Please Enter the Correct Pin Code"),
   police_station: yup
-    .string()
+    .string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long')
     .required("Please Enter the Correct Police Station"),
   emp_address_same: yup.string().required("Please Choose Correct Option"),
   // address_primary_permanent: yup.string().required("Please Enter the Correct Permanent Address"),

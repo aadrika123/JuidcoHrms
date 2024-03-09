@@ -19,6 +19,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 import { ApexOptions } from "apexcharts";
+import PrimaryButton from "@/components/Helpers/Button";
+import goBack from "@/utils/helper";
 
 
 
@@ -48,7 +50,7 @@ export const DashboardMain = () => {
     chart: {
       type: "donut",
     },
-    series: [90, 10],
+    series: [84, 16],
     labels: ["Present", "Absent"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
@@ -108,19 +110,43 @@ export const DashboardMain = () => {
     /* -----------------------Chart Implementation   ----------------------------------- */
   }
 
-
-
-
   return (
     <>
-      <SubHeading className="mx-5 my-5 mb-0 text-4xl">
-        Employee Management System
-      </SubHeading>
+      <div className="flex items-center justify-between border-b-2 pb-7 mb-10">
+        <div className="flex items-center">
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={goBack}
+            className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"
+          >
+            <i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 25 25" fill="none">
+                <g clip-path="url(#clip0_949_7008)">
+                  <path d="M10.6736 7.20536L4 13.9137L10.6736 20.622C10.7339 20.7012 10.8105 20.7665 10.8981 20.8134C10.9858 20.8604 11.0826 20.888 11.1819 20.8943C11.2812 20.9007 11.3806 20.8856 11.4736 20.8501C11.5666 20.8147 11.6508 20.7597 11.7206 20.6888C11.7905 20.618 11.8443 20.533 11.8784 20.4395C11.9125 20.3461 11.9262 20.2464 11.9184 20.1472C11.9107 20.048 11.8817 19.9517 11.8335 19.8646C11.7853 19.7776 11.7189 19.702 11.6389 19.6429L6.64583 14.6081H19.9306C20.1147 14.6081 20.2914 14.535 20.4216 14.4047C20.5518 14.2745 20.625 14.0979 20.625 13.9137C20.625 13.7295 20.5518 13.5529 20.4216 13.4227C20.2914 13.2924 20.1147 13.2193 19.9306 13.2193H6.64583L11.6389 8.18453C11.7687 8.05376 11.8413 7.87677 11.8407 7.69249C11.84 7.50821 11.7662 7.33174 11.6354 7.20189C11.5047 7.07205 11.3277 6.99946 11.1434 7.00012C10.9591 7.00077 10.7826 7.0746 10.6528 7.20536H10.6736Z" fill="#665DD9" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_949_7008">
+                    <rect width="25" height="25" fill="white" transform="matrix(0 -1 1 0 0 25)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </i>
+            Back
+          </PrimaryButton>
+        </div>
+        <div>
+          <SubHeading className="mx-5 my-5 mb-0 text-4xl">
+            HRMS Dashboard
+          </SubHeading>
+        </div>
+      </div>
+
       <div className="w-full flex flex-col sm:flex-row justify-between">
         {/* -----------------------Doughnut graph   ----------------------------------- */}
 
         <div
-          className={`w-auto md:w-2/5 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg`}
+          className={`w-auto md:w-2/5 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5  shadow-lg`}
         >
           <InnerHeading className="text-xl flex items-center justify-between">
             <div className="flex items-center">
@@ -205,7 +231,7 @@ export const DashboardMain = () => {
         {/* -----------------------Barchart graph   ----------------------------------- */}
 
         <div
-          className={`w-auto md:w-2/5 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 rounded-[19.516px] shadow-lg`}
+          className={`w-auto md:w-2/5 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg`}
         >
           <InnerHeading className="text-xl flex items-center justify-between">
             <div className="flex items-center">
@@ -246,7 +272,7 @@ export const DashboardMain = () => {
         >
           {/* First Box - See the Log * Activity */}
 
-          <div className="bg-[#ffffff] h-[50%] p-5 rounded-[19.516px] shadow-lg relative z-10">
+          <div className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10">
             <InnerHeading className="text-xl flex items-center justify-between">
               <div className="flex items-center">
                 <i className="mr-2">
@@ -270,7 +296,7 @@ export const DashboardMain = () => {
 
           {/* Second Box - New Title */}
 
-          <div className="bg-[#ffffff] h-[50%] p-5 rounded-[19.516px] shadow-lg relative z-10 mt-5">
+          <div className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10 mt-5">
             <InnerHeading className="text-xl flex items-center justify-between">
               <div className="flex items-center">
                 <i className="mr-2">
