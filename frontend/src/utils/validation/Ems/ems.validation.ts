@@ -30,19 +30,26 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 export const employeeValidationSchema = yup.object({
   // emp_id: yup.string().required("Employee ID is required"),
   emp_image: yup.string().required("Employee image is required"),
-  emp_name: yup.string().required("Employee name is required"),
+  emp_name: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Employee name is required"),
   mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
+
   contact_no: yup.string().required("Contact number is required"),
   emg_contact_no: yup.string().required("Emergency contact number is required"),
-  aadhar_no: yup.number().required("Aadhar number is required").positive(),
+ 
+
+  aadhar_no: yup.string().required("Aadhar number is required"),
+
   epic_no: yup.string().required("EPIC number is required"),
+
   gender: yup.mixed().required("Gender is required"),
+
   pran: yup.string().required("PRAN is required"),
+
   emp_type: yup.mixed().required("Employee type is required"),
-  weight: yup.number().required("Weight is required").positive(),
-  height: yup.number().required("Height is required").positive(),
-  cps: yup.string().required("CPS is required"),
-  gps: yup.string().required("GPS is required"),
+  // weight: yup.string().required("Weight is required").positive(),
+  // height: yup.number().required("Height is required").positive(),
+  // cps: yup.string().required("CPS is required"),
+  // gps: yup.string().required("GPF is required"),
   dob: yup.string().required("Date of Birth is required"),
 });
 
@@ -53,13 +60,13 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
   mode_of_recruitment: "",
   contact_no: "",
   emg_contact_no: "",
-  aadhar_no: 0,
+  aadhar_no: "",
   epic_no: "",
   gender: "",
   pran: "",
   emp_type: "",
-  weight: 0,
-  height: 0,
+  weight: "",
+  height: "",
   cps: "",
   gps: "",
   dob: "",
@@ -87,6 +94,9 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
+  emp_family_name: yup.string().required("Please Enter the Name"),
+  // emp_org_name: yup.string().required("Please Enter the Organisation Name"),
+  // emp_office_name: yup.string().required("Please Enter the Office Name"),
   // emp_lang_do: yup.string().required("Please Enter the Language Proficiency"),
 });
 
@@ -104,6 +114,10 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_phy_health_type: "",
   emp_family: "",
   emp_lang: "",
+  emp_family_name: "",
+  emp_org_name: "",
+  emp_office_name: "",
+  emp_health_file:''
   // emp_lang_do: "",
 };
 
@@ -116,7 +130,13 @@ export const employeePresentAddressValidationSchema = yup.object({
   police_station: yup
     .string()
     .required("Please Enter the Correct Police Station"),
-  // emp_address_same: yup.string().required("Please Choose Correct Option"),
+  emp_address_same: yup.string().required("Please Choose Correct Option"),
+  // address_primary_permanent: yup.string().required("Please Enter the Correct Permanent Address"),
+  // village_permanent: yup.string().required("Please Enter the Correct Permanent Village"),
+  // state_permanent: yup.string().required("Please Enter the Correct Permanent State"),
+  // district_permanent: yup.string().required("Please Enter the Correct Permanent District"),
+  // pin_code_permanent: yup.string().required("Please Enter the Correct Permanent Pin Code"),
+  // police_station_permanent: yup.string().required("Please Enter the Correct Permanent Police Station"),
 });
 
 export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
@@ -131,11 +151,21 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
     pin_code: "",
     police_station: "",
     emp_address_same: "yes",
+    address_primary_permanent: "",
+    address_secondary_permanent: "",
+    village_permanent: "",
+    post_office_permanent: "",
+    state_permanent: "",
+    district_permanent: "",
+    block_ulb_permanent: "",
+    pin_code_permanent: "",
+    police_station_permanent: "",
+    emp_address_same_permanent: "yes",
   };
 
 export const employeeJoinValidationSchema = yup.object({
-  department: yup.string().required("Please Enter the Correct Department"),
-  designation: yup.string().required("Please Enter the Correct Designation"),
+  department: yup.string().required("Please Choose the Correct Department"),
+  designation: yup.string().required("Please Choose the Correct Designation"),
   task: yup.string().required("Please Choose Correct Task"),
   doj: yup.string().required("Please Enter the Correct Date Of Joining"),
   effective_pay_commision: yup
@@ -165,7 +195,6 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   conf_order_number: "",
   deduction_type: "",
   conf_order_date: "",
-  // member_gis: "yes",
   appoint_authority: "",
   gis_account: "",
   ulb: "",
@@ -179,12 +208,12 @@ export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
   acc_number: "",
   ifsc: "",
   sen_grade_list: "",
-  member_gis: [],
-  confirmation_order: "yes"
+  member_gis: "no",
+  confirmation_order: "yes",
 };
 
 export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
-  loan_name: "",
+  loan_name_det: "",
   loan_account_num: "",
   sanc_order_num: "",
   dos: "",
@@ -193,23 +222,20 @@ export const initialEmployeeLoanDetails: EmployeeLoanDetailsType = {
   dis_treasury_name: "",
   voucher_date: "",
   treasury_voc_num: "",
-  loan_name_principal: "",
-  tot_amt_released: "",
-  total_install: "",
-  monthly_install: "",
-  last_paid_install: "",
-  month_last_install: "",
-  total_amnt: "",
-  loan_name_recovery: "",
-  total_int_amount: "",
-  total_install_recovery: "",
-  monthly_install_recovery: "",
-  last_paid_install_recovery: "",
-  month_last_install_recovery: "",
-  total_amnt_recovery: "",
+  // loan_name_principal: "",
+  // tot_amt_released: "",
+  // total_install: "",
+  // monthly_install: "",
+  // last_paid_install: "",
+  // month_last_install: "",
+  // total_amnt: "",
+  // loan_name_recovery: "",
+  // total_int_amount: "",
+  // total_install_recovery: "",
+  // monthly_install_recovery: "",
+  // last_paid_install_recovery: "",
+  // month_last_install_recovery: "",
+  // total_amnt_recovery: "",
 };
-
-
-
 
 /// ------------- Employee personal Details ---------------------///

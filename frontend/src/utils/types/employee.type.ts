@@ -10,7 +10,7 @@ export interface EmployeeOnBoardForm {
   emp_education_details: EmployeeEducationDetailsType;
   emp_timebound_details: EmployeeTimeBoundDetailType;
   emp_training_infrm: EmployeeEducationTrainingType;
-  emp_salary_details: any;
+  emp_salary_details: EmployeeSalaryDetailType;
 }
 
 export type EmployeeOnBoardAllTypes =
@@ -25,7 +25,8 @@ export type EmployeeOnBoardAllTypes =
   | EmployeeLoanDetailsType
   | EmployeeEducationDetailsType
   | EmployeeTimeBoundDetailType
-  | EmployeeEducationTrainingType;
+  | EmployeeEducationTrainingType
+  | EmployeeSalaryDetailType;
 
 export interface EmployeeDetailsProps<K> {
   setData: (key: keyof EmployeeOnBoardForm, values: K, index?: number) => void;
@@ -46,14 +47,14 @@ export interface EmployeeDetailsType {
   mode_of_recruitment: number | string;
   contact_no: string;
   emg_contact_no: string;
-  aadhar_no: number;
-  epic_no: string;
+  aadhar_no: string | number;
+  epic_no: string | number;
   gender: string | number;
   gender_name?: string | number;
-  pran: string;
+  pran: string | number;
   emp_type: string | number;
-  weight: number;
-  height: number;
+  weight: string | number;
+  height: string | number;
   cps: string;
   gps: string;
   dob: string;
@@ -68,17 +69,21 @@ export interface EmployeePersonalDetailsType {
   emp_district: string;
   emp_blood_group: string | number;
   emp_health_status: string | number;
+  emp_health_file: string;
   emp_ltc_home_town: string;
   emp_nearest_railway_station: string;
   emp_phy_health_type: string | number;
   emp_family: string | number;
+  emp_family_name: string | number;
+  emp_org_name: string | number;
+  emp_office_name: string | number;
   emp_lang: string | number;
   emp_lang_do?: ("read" | "write" | "speak")[];
 }
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//
 
-type InnerInputBox = {
+export type InnerInputBox = {
   from: string;
   to: string;
 };
@@ -93,19 +98,20 @@ export type EmployeeIncDetails = {
 };
 
 export type EmployeePromDetails = {
-  desigination: InnerInputBox;
+  designation: InnerInputBox;
   scale: InnerInputBox;
   vide_order_no: string;
   vide_order_date: string;
   transfer: "yes" | "no";
+  join_date: string;
 };
 
 export type EmployeeTransDetails = {
-  desigination: InnerInputBox;
+  designation: InnerInputBox;
   office: InnerInputBox;
-  joining_date: string;
   vide_order_no: string;
   vide_order_date: string;
+  join_date: string;
   transfer_after_prom: "yes" | "no";
 };
 
@@ -150,6 +156,17 @@ export interface EmployeePresentAddressDetailsType {
   pin_code: string | number;
   police_station: string;
   emp_address_same: "yes" | "no";
+
+  address_primary_permanent: string | number;
+  address_secondary_permanent: string | number;
+  village_permanent: string;
+  post_office_permanent: string;
+  state_permanent: string;
+  district_permanent: string;
+  block_ulb_permanent: string | number;
+  pin_code_permanent: string | number;
+  police_station_permanent: string;
+  emp_address_same_permanent: "yes" | "no";
 }
 
 export interface EmployeeJoinDetailsType {
@@ -160,7 +177,6 @@ export interface EmployeeJoinDetailsType {
   doj: string;
   effective_pay_commision: string;
   confirmation_order?: "yes" | "no";
-  // confirmation_order: ("yes" | "no")[];
   pay_scale: string | number;
   pay_band: string | number;
   grade_pay: string | number;
@@ -169,8 +185,7 @@ export interface EmployeeJoinDetailsType {
   conf_order_number: string | number;
   deduction_type: string;
   conf_order_date: string;
-  // member_gis: "yes" | "no";
-  member_gis: ("yes" | "no")[];
+  member_gis: "yes" | "no";
   appoint_authority: string;
   gis_account: string | number;
   ulb: string;
@@ -187,7 +202,7 @@ export interface EmployeeJoinDetailsType {
 }
 
 export interface EmployeeLoanDetailsType {
-  loan_name: string;
+  loan_name_det: string | number;
   loan_account_num: string | number;
   sanc_order_num: string | number;
   dos: string;
@@ -196,7 +211,9 @@ export interface EmployeeLoanDetailsType {
   dis_treasury_name: string | number;
   voucher_date: string;
   treasury_voc_num: string;
+}
 
+export interface EmployeeLoanDetailsPrincipalType {
   loan_name_principal: string;
   tot_amt_released: string | number;
   total_install: string | number;
@@ -204,7 +221,9 @@ export interface EmployeeLoanDetailsType {
   last_paid_install: string | number;
   month_last_install: string | number;
   total_amnt: string | number;
+}
 
+export interface EmployeeLoanDetailsRecoveryType {
   loan_name_recovery: string;
   total_int_amount: string | number;
   total_install_recovery: string | number;
@@ -214,53 +233,83 @@ export interface EmployeeLoanDetailsType {
   total_amnt_recovery: string | number;
 }
 
-export interface EmployeeEducationDetailsType {
-  metric_subject: string | number;
-  metric_board: string | number;
-  metric_passing_yr: string | number;
-  metric_marks: string | number;
-  metric_grade: string | number;
+// export interface EmployeeEducationDetailsType {
+//   metric_subject: string | number;
+//   metric_board: string | number;
+//   metric_passing_yr: string | number;
+//   metric_marks: string | number;
+//   metric_grade: string | number;
 
-  inter_subject: string | number;
-  inter_board: string | number;
-  inter_passing_yr: string | number;
-  inter_marks: string | number;
-  inter_grade: string | number;
+//   inter_subject: string | number;
+//   inter_board: string | number;
+//   inter_passing_yr: string | number;
+//   inter_marks: string | number;
+//   inter_grade: string | number;
 
-  grad_subject: string | number;
-  grad_board: string | number;
-  grad_passing_yr: string | number;
-  grad_marks: string | number;
-  grad_grade: string | number;
+//   grad_subject: string | number;
+//   grad_board: string | number;
+//   grad_passing_yr: string | number;
+//   grad_marks: string | number;
+//   grad_grade: string | number;
 
-  post_grad_subject: string | number;
-  post_grad_board: string | number;
-  post_grad_passing_yr: string | number;
-  post_grad_marks: string | number;
-  post_grad_grade: string | number;
+//   post_grad_subject: string | number;
+//   post_grad_board: string | number;
+//   post_grad_passing_yr: string | number;
+//   post_grad_marks: string | number;
+//   post_grad_grade: string | number;
 
-  educationLevel: string | number;
-  subjectStream: string | number;
-  boardUniversity: string | number;
-  passingYear: string | number;
-  marksPercentage: string | number;
-  gradeDivision: string | number;
+//   educationLevel: string | number,
+//   subjectStream: string | number,
+//   boardUniversity: string | number,
+//   passingYear: string | number,
+//   marksPercentage: string | number,
+//   gradeDivision: string | number,
+
+// }
+
+export interface EmployeeTimeBoundDetailType {
+  pay_scale: string;
+  inc_amount: string | number;
+  bpay_aft_inc: string | number;
+  vide_ord_no: string | number;
+  remarks: string | number;
 }
 
-export interface EmployeeEducationTrainingType {
+export interface EmployeeSalaryDetailType {
+  emp_salary_allow_details: EmployeeSalaryAllowType;
+  emp_salary_deduction_details: EmployeeSalaryDeductionType;
+}
+
+export type EmployeeSalaryAllowType = {
+  name: string | number;
+  wfe_date: string | number;
+  amount_in: string | number;
+};
+export type EmployeeSalaryDeductionType = {
+  name: string | number;
+  wfe_date: string | number;
+  acnt_no: string | number;
+  amount_in: string | number;
+};
+
+export interface EmployeeEducationDetailsType {
+  emp_education_details: EmployeeEducation;
+  emp_eduaction_train_details: EmployeeEducationTrainingType;
+}
+export type EmployeeEducation = {
+  edu_level: string;
+  stream: string | number;
+  board: string | number;
+  passing_year: string | number;
+  marks: string | number;
+  grade: string | number;
+};
+
+export type EmployeeEducationTrainingType = {
   name_of_training: string | number;
   training_type: string | number;
   name_of_inst: string | number;
   starting_from: string | number;
   end_to: string | number;
   tot_day_training: string | number;
-}
-
-export interface EmployeeTimeBoundDetailType {
-  sl_no: string | number;
-  pay_scale: string | number;
-  inc_amount: string | number;
-  bpay_aft_inc: string | number;
-  vide_ord_no: string | number;
-  remarks: string | number;
-}
+};

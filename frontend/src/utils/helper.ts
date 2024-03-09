@@ -27,7 +27,22 @@ export function formatString(input: string): string {
   return result;
 }
 
+// remove any empty object from an array
+export function removeObj(array: any[]): any[] {
+  const filterObj = array.filter((obj) => {
+    // Check if the object is empty
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
+      return false;
+    }
 
+    // Check if all values in the object are empty
+    const allValuesEmpty = Object.values(obj).every((value) => value === "");
+
+    return !allValuesEmpty;
+  });
+
+  return filterObj;
+}
 
 export const generateUniquePaymentNo = (initialString?: string): string => {
   const uniqueId = uuidv4();
@@ -36,10 +51,9 @@ export const generateUniquePaymentNo = (initialString?: string): string => {
   return initialString ? initialString + unqId : unqId;
 };
 
-
 export const filterValBefStoring = (values: any) => {
   function mapingObject(obj: any) {
-    const modifiedObj = {...obj};
+    const modifiedObj = { ...obj };
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(modifiedObj, key)) {
         if (key.toLowerCase().endsWith("id_name") || key === "id") {

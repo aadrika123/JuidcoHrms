@@ -30,9 +30,11 @@ const EmpployeePersonalDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
+
   const [empLangTypes, setEmpLangTypes] = useState<
     ("read" | "write" | "speak")[]
   >([]);
+
 
   function updateEmpLangTypes(langType: "read" | "write" | "speak") {
     setEmpLangTypes((prev) => {
@@ -44,6 +46,10 @@ const EmpployeePersonalDetails: React.FC<
       }
     });
   }
+
+
+
+
   const handleSubmitFormik = (
     values: EmployeePersonalDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -52,6 +58,7 @@ const EmpployeePersonalDetails: React.FC<
       sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
       setSubmitting(false);
       values.emp_lang_do = empLangTypes;
+
       // const new_val = { ...values, emp_lang_do: empLangTypes };
       console.log(values);
       if (props.setData) {
@@ -67,6 +74,9 @@ const EmpployeePersonalDetails: React.FC<
         ? JSON.parse(sessionStorage.getItem("emp_personal_details") ?? "{}")
         : initialEmployeePersonalDetails
       : initialEmployeePersonalDetails;
+
+
+
 
   return (
     <>
@@ -95,23 +105,27 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.married_status}
                 error={errors.married_status}
                 touched={touched.married_status}
-                label="Married Status*"
+                label="Married Status"
                 name="married_status"
                 placeholder={"Select Married Status"}
+                required={true}
                 options={[
-                  { id: 1, name: "married" },
-                  { id: 2, name: "not married" },
+                  { id: 1, name: "Single" },
+                  { id: 2, name: "Married" },
+                  { id: 3, name: "Widow" },
                 ]}
               />
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.identification_marks}
                 error={errors.identification_marks}
                 touched={touched.identification_marks}
-                label="Identification Marks*"
+                label="Identification Marks"
                 placeholder="Enter Identification Marks"
                 name="identification_marks"
+                required={true}
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -119,10 +133,16 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.religion}
                 error={errors.religion}
                 touched={touched.religion}
-                label="Religion*"
+                label="Religion"
                 name="religion"
                 placeholder={"Select Religion"}
-                options={[{ id: 1, name: "hindu" }]}
+                required={true}
+                options={[
+                  { id: 1, name: "Hindu" },
+                  { id: 2, name: "Muslim" },
+                  { id: 3, name: "Sikh" },
+                  { id: 4, name: "Christian" },
+                ]}
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -130,10 +150,17 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.emp_categories}
                 error={errors.emp_categories}
                 touched={touched.emp_categories}
-                label="Categories*"
+                label="Categories"
                 name="emp_categories"
                 placeholder={"Select Categories"}
-                options={[{ id: 1, name: "option 1" }]}
+                required={true}
+                options={[
+                  { id: 1, name: "SC" },
+                  { id: 2, name: "ST" },
+                  { id: 3, name: "OBC-1" },
+                  { id: 4, name: "OBC-2" },
+                  { id: 5, name: "General" },
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -141,20 +168,48 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.emp_home_state}
                 error={errors.emp_home_state}
                 touched={touched.emp_home_state}
-                label="Home State*"
+                label="Home State"
                 name="emp_home_state"
                 placeholder={"Enter Home State"}
+                required={true}
               />
 
-              <InputBox
+              <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_district}
                 error={errors.emp_district}
                 touched={touched.emp_district}
-                label="District*"
+                label="District"
                 name="emp_district"
                 placeholder={"Enter District"}
+                required={true}
+                options={[
+                  { id: 1, name: "Deoghar" },
+                  { id: 2, name: "Dumka" },
+                  { id: 3, name: "Bokaro" },
+                  { id: 4, name: "Giridih" },
+                  { id: 5, name: "Koderma" },
+                  { id: 6, name: "Godda" },
+                  { id: 7, name: "Chatra" },
+                  { id: 8, name: "Dhanbad" },
+                  { id: 9, name: "Gharwha" },
+                  { id: 10, name: "East-Singhbhum" },
+                  { id: 11, name: "Jamtara" },
+                  { id: 12, name: "Saraikela-Kharsawan" },
+                  { id: 13, name: "Ranchi" },
+                  { id: 14, name: "Pakur" },
+                  { id: 15, name: "Latehar" },
+                  { id: 16, name: "Hazaribagh" },
+                  { id: 17, name: "Lohardaga" },
+                  { id: 18, name: "Palamu" },
+                  { id: 19, name: "Ramghar" },
+                  { id: 20, name: "Simdega" },
+                  { id: 21, name: "West-Singhbhum" },
+                  { id: 22, name: "Sahebganj" },
+                  { id: 23, name: "Gumla" },
+                  { id: 24, name: "Khunti" },
+                ]}
               />
 
               <SelectForNoApi
@@ -163,38 +218,65 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.emp_blood_group}
                 error={errors.emp_blood_group}
                 touched={touched.emp_blood_group}
-                label="Blood Group*"
+                label="Blood Group"
                 name="emp_blood_group"
                 placeholder={"Enter Blood Group"}
+                required={true}
                 options={[
                   { id: 1, name: "A+" },
-                  { id: 1, name: "B+" },
+                  { id: 2, name: "A-" },
+                  { id: 3, name: "B+" },
+                  { id: 4, name: "B-" },
+                  { id: 5, name: "AB+" },
+                  { id: 6, name: "AB-" },
+                  { id: 7, name: "O+" },
+                  { id: 8, name: "O-" },
                 ]}
               />
 
-              <SelectForNoApi
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.emp_health_status}
-                error={errors.emp_health_status}
-                touched={touched.emp_health_status}
-                label="Health Status*"
-                name="emp_health_status"
-                placeholder={"Enter Health Status"}
-                options={[
-                  { id: 1, name: "Good" },
-                  { id: 1, name: "Bad" },
-                ]}
-              />
+              <div>
+                <div className="grid">
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_health_status}
+                    error={errors.emp_health_status}
+                    touched={touched.emp_health_status}
+                    label="Health Status"
+                    name="emp_health_status"
+                    placeholder="Enter Health Status"
+                    options={[
+                      { id: 1, name: "Fit" },
+                      { id: 2, name: "UnFit" },
+                    ]}
+                    required={true}
+                  />
+                </div>
+
+                {values.emp_health_status && (
+                  <>
+                    <input
+                      type="file"
+                      name="emp_health_file"
+                      onChange={handleChange}
+                      value={undefined}
+                      // value={values.emp_health_file || ''}
+                    />
+                  </>
+                )}
+              </div>
+
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_ltc_home_town}
                 error={errors.emp_ltc_home_town}
                 touched={touched.emp_ltc_home_town}
-                label="LTC Home Town*"
+                label="LTC Home Town"
                 name="emp_ltc_home_town"
                 placeholder={"Enter LTC Home Town"}
+                required={true}
               />
               <InputBox
                 onChange={handleChange}
@@ -202,9 +284,10 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.emp_nearest_railway_station}
                 error={errors.emp_nearest_railway_station}
                 touched={touched.emp_nearest_railway_station}
-                label="Nearest Railway Station*"
+                label="Nearest Railway Station"
                 name="emp_nearest_railway_station"
                 placeholder={"Enter Nearest Railway Station"}
+                required={true}
               />
 
               <SelectForNoApi
@@ -219,16 +302,16 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Good",
+                    name: "Physically Disabled",
                   },
                   {
                     id: 2,
-                    name: "Bad",
+                    name: "Normal",
                   },
                 ]}
               />
 
-              <SelectForNoApi
+              {/* <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_family}
@@ -240,14 +323,128 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Good",
+                    name: "Father",
                   },
                   {
                     id: 2,
-                    name: "Bad",
+                    name: "Mother",
+                  },
+                  {
+                    id: 3,
+                    name: "Husband",
+                  },
+                  {
+                    id: 4,
+                    name: "Spouse",
                   },
                 ]}
-              />
+              />  */}
+
+              <div>
+                <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
+                  {/* <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family}
+                    error={errors.emp_family}
+                    touched={touched.emp_family}
+                    label="Family/Guardian"
+                    name="emp_family"
+                    placeholder={"Select Family/Guardian"}
+                    required={true}
+                    options={[
+                      {
+                        id: 1,
+                        name: "Father",
+                      },
+                      {
+                        id: 2,
+                        name: "Mother",
+                      },
+                      {
+                        id: 3,
+                        name: "Spouse",
+                        // hidden: values.married_status === "Single",
+
+
+                      },
+                    ]}
+                  /> */}
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family}
+                    error={errors.emp_family}
+                    touched={touched.emp_family}
+                    label="Family/Guardian"
+                    name="emp_family"
+                    placeholder={"Select Family/Guardian"}
+                    required={true}
+                    options={[
+                      {
+                        id: 1,
+                        name: "Father",
+                      },
+                      {
+                        id: 2,
+                        name: "Mother",
+                      },
+                      {
+                        id: 3,
+                        name: "Spouse",
+                      },
+                    ].filter((option) => {
+                      return (
+                        (values.married_status === "Single" && ["Father", "Mother"].includes(option.name)) ||
+                        (values.married_status !== "Single")
+                      );
+                    })}
+
+                  />
+
+
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family_name}
+                    error={errors.emp_family_name}
+                    touched={touched.emp_family_name}
+                    label="Name"
+                    name="emp_family_name"
+                    placeholder={"Enter Family Name"}
+                    required={true}
+                  />
+                </div>
+
+                {!(values.married_status === "Single") && (values.emp_family === "Spouse") && (
+                  <div className="mt-5">
+                    <div>
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.emp_org_name}
+                        error={errors.emp_org_name}
+                        touched={touched.emp_org_name}
+                        label="Organisation"
+                        name="emp_org_name"
+                        placeholder={"Enter Organisation Name"}
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.emp_office_name}
+                        error={errors.emp_office_name}
+                        touched={touched.emp_office_name}
+                        label="Office Name"
+                        name="emp_office_name"
+                        placeholder={"Enter Office Name"}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <SelectForNoApi
                 onChange={handleChange}
@@ -255,17 +452,18 @@ const EmpployeePersonalDetails: React.FC<
                 value={values.emp_lang}
                 error={errors.emp_lang}
                 touched={touched.emp_lang}
-                label="Language*"
+                label="Language"
                 name="emp_lang"
                 placeholder={"Select Language"}
+                required={true}
                 options={[
                   {
                     id: 1,
-                    name: "hindi",
+                    name: "Hindi",
                   },
                   {
                     id: 2,
-                    name: "english",
+                    name: "English",
                   },
                 ]}
               />
@@ -324,7 +522,7 @@ const EmpployeePersonalDetails: React.FC<
               </PrimaryButton>
 
               <PrimaryButton buttonType="submit" variant="primary">
-                Save
+                Next
               </PrimaryButton>
             </div>
           </form>

@@ -103,8 +103,8 @@ const EmployeeBasicDetails: React.FC<
                 name="emp_image"
               /> */}
 
-              <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer">
-                <p className="text-zinc-600">Upload Employee Profile</p>
+              <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-7">
+                <p className="text-zinc-600 ">Upload Employee Profile<span className="text-red-500">*</span></p>
                 <div
                   className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                   onClick={handleDivClick}
@@ -146,19 +146,35 @@ const EmployeeBasicDetails: React.FC<
                 value={values.emp_name}
                 error={errors.emp_name}
                 touched={touched.emp_name}
-                label="Name**"
+                label="Name"
                 name="emp_name"
                 placeholder={"Enter Name"}
+                required={true}
               />
-              <InputBox
+              <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.mode_of_recruitment}
                 error={errors.mode_of_recruitment}
                 touched={touched.mode_of_recruitment}
-                label="Mode of Recruitment*"
+                label="Mode of Recruitment"
                 name="mode_of_recruitment"
+                required={true}
                 placeholder={"Enter Mode of Recruitment"}
+                options={[
+                  {
+                    id: 1,
+                    name: "Online",
+                  },
+                  {
+                    id: 2,
+                    name: "Offline",
+                  },
+                  {
+                    id: 3,
+                    name: "Consultant- Third Agent",
+                  },
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -166,29 +182,58 @@ const EmployeeBasicDetails: React.FC<
                 value={values.contact_no}
                 error={errors.contact_no}
                 touched={touched.contact_no}
-                label="Contact No.*"
+                label="Contact No."
                 name="contact_no"
-                placeholder={"Enter Contact No."}
+                placeholder={"+91"}
+                type="text"
+                required={true} 
+                maxLength={10}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }}        
+              
               />
-              <InputBox
+              
+               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emg_contact_no}
                 error={errors.emg_contact_no}
                 touched={touched.emg_contact_no}
-                label="Emergency Contact No.*"
+                label="Emergency Contact No."
                 name="emg_contact_no"
-                placeholder={"Enter Emergency Contact Number"}
-              />
+                placeholder={"+91"}
+                type="text"
+                required={true}
+                maxLength={10}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
+                       
+                   
+
+              /> 
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.aadhar_no}
                 error={errors.aadhar_no}
                 touched={touched.aadhar_no}
-                label="Aadhar Card No.*"
+                label="Aadhar Card No."
                 name="aadhar_no"
                 placeholder={"Enter Aadhar Card No."}
+                type="text"
+                required={true}
+                maxLength={12}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <InputBox
                 onChange={handleChange}
@@ -196,9 +241,17 @@ const EmployeeBasicDetails: React.FC<
                 value={values.epic_no}
                 error={errors.epic_no}
                 touched={touched.epic_no}
-                label="EPIC No.*"
+                label="EPIC No."
                 name="epic_no"
                 placeholder={"Enter EPIC Number"}
+                type="text"
+                required={true}
+                maxLength={12}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -206,18 +259,23 @@ const EmployeeBasicDetails: React.FC<
                 value={values.gender}
                 error={errors.gender}
                 touched={touched.gender}
-                label="Gender*"
+                label="Gender"
                 name="gender"
                 placeholder={"Enter Gender"}
+                required={true}
                 options={[
                   {
                     id: 1,
-                    name: "male",
+                    name: "Male",
                   },
                   {
                     id: 2,
-                    name: "female",
+                    name: "Female",
                   },
+                  {
+                    id: 3,
+                    name: "Transgender"
+                  }
                 ]}
               />
               <InputBox
@@ -226,9 +284,17 @@ const EmployeeBasicDetails: React.FC<
                 value={values.pran}
                 error={errors.pran}
                 touched={touched.pran}
-                label="PRAN*"
+                label="PRAN"
                 name="pran"
                 placeholder={"Enter PRAN"}
+                type="text"
+                required={true}
+                maxLength={12}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -236,68 +302,98 @@ const EmployeeBasicDetails: React.FC<
                 value={values.emp_type}
                 error={errors.emp_type}
                 touched={touched.emp_type}
-                label="Employee Type*"
+                label="Employee Type"
                 name="emp_type"
                 placeholder={"Enter Employee Type"}
+                required={true}
                 options={[
                   {
                     id: 1,
-                    name: "Permanent",
+                    name: "Sanctioned Post",
                   },
                   {
                     id: 2,
-                    name: "Temporary",
+                    name: "Contractual Appointment",
                   },
                   {
                     id: 3,
-                    name: "Contractual",
+                    name: "Outsourced Employees",
+                  },
+                  {
+                    id: 4,
+                    name: "Daily Wages",
+                  },
+                  {
+                    id: 5,
+                    name: "Deputation Post",
                   },
                 ]}
               />
 
               <InputBox
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.weight}
-                error={errors.weight}
-                touched={touched.weight}
-                label="Weight*"
+                label="Weight"
                 name="weight"
-                placeholder={"Enter Weight"}
-                type="number"
+                placeholder={"in KG"}
+                type="text"
+                maxLength={3}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.height}
-                error={errors.height}
-                touched={touched.height}
-                label="Height*"
+                label="Height"
                 name="height"
-                placeholder={"Enter Height"}
-                type="number"
+                placeholder={"in c.m"}
+                type="text"
+                maxLength={3}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
+              
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.cps}
-                error={errors.cps}
-                touched={touched.cps}
-                label="CPS*"
+                label="CPS"
                 name="cps"
                 placeholder={"Enter CPS"}
-                type="number"
+                type="text"
+                // required={true}
+                maxLength={12}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.gps}
-                error={errors.gps}
-                touched={touched.gps}
-                label="GPS*"
+                // error={errors.gps}
+                // touched={touched.gps}
+                label="GPF"
                 name="gps"
-                placeholder={"Enter GPS"}
-                type="number"
+                placeholder={"Enter GPF"}
+                type="text"
+                // required={true}
+                maxLength={12}
+                onKeyPress={(e:any) => {
+                  if (!(e.key >= '0' && e.key <= '9')) {
+                    e.preventDefault(); 
+                  }
+                }} 
               />
               <InputBox
                 onChange={handleChange}
@@ -305,10 +401,11 @@ const EmployeeBasicDetails: React.FC<
                 value={values.dob}
                 error={errors.dob}
                 touched={touched.dob}
-                label="D.O.B*"
+                label="D.O.B"
                 name="dob"
                 placeholder={"Enter D.O.B"}
                 type="date"
+                required={true}
               />
             </div>
 

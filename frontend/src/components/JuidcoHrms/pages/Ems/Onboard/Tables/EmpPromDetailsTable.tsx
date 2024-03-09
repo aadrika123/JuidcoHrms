@@ -8,6 +8,7 @@ import { InnerHeading } from "@/components/Helpers/Heading";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../../global/atoms/Button";
 import { EmployeePromDetails } from "@/utils/types/employee.type";
+import { removeObj } from "@/utils/helper";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -32,7 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   const [tableData, setTableData] = useState<EmployeePromDetails[]>([
     {
-      desigination: {
+      designation: {
         from: "",
         to: "",
       },
@@ -43,6 +44,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       vide_order_no: "",
       vide_order_date: "",
       transfer: "no",
+      join_date: "",
     },
   ]);
 
@@ -61,7 +63,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   const columns = [
     {
-      header: "SL_NO",
+      header: "Sl.No.",
     },
     {
       header: "Designation ",
@@ -111,10 +113,10 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     setDataSesson();
     const lastRow = tableData[tableData.length - 1];
     const isLastRowEmpty = Object.values(lastRow).every((row) =>
-      Object.values(row).every((val) => val !== "")
+      Object.values(row).every((val) => val === "")
     );
     console.log(isLastRowEmpty);
-    if (isLastRowEmpty) {
+    if (!isLastRowEmpty) {
       setTableData((prev: any) => [
         ...prev,
         {
@@ -151,7 +153,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   useEffect(() => {
     if (props.setData) {
-      props.setData("emp_prom_details", tableData);
+      const filterTableData = removeObj(tableData);
+      props.setData("emp_prom_details", filterTableData);
     }
   }, [tableData]);
 
@@ -159,7 +162,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
   return (
     <>
       {header}
-      <table className="table table-md">
+      <table className="table table-md mt-4">
         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
           <tr>
             {columns?.map((cols, index: number) => (
@@ -199,11 +202,11 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "desigination",
+                          "designation",
                           "from"
                         )
                       }
-                      value={row?.desigination?.from}
+                      value={row?.designation?.from}
                       placeholder={"Enter "}
                       isRequired={true}
                     />
@@ -214,11 +217,11 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "desigination",
+                          "designation",
                           "to"
                         )
                       }
-                      value={row.desigination?.to}
+                      value={row.designation?.to}
                       placeholder={"Enter "}
                       isRequired={true}
                     />

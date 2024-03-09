@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const generateUniquePaymentNo = (initialString?: string): string => {
+export const generateUnique = (initialString?: string): string => {
   const uniqueId = uuidv4();
 
   // Extract the first 8 characters from the UUID
