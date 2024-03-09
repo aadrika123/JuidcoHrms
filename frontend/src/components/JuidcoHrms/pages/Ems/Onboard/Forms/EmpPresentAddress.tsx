@@ -36,8 +36,8 @@ const EmpPresentAddress: React.FC<
   };
 
   const handleSubmitFormik = (
-    values: EmployeePresentAddressDetailsType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+    values: EmployeePresentAddressDetailsType
+    // { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     Object.keys(values).forEach((key) => {
       const val = values[key as keyof typeof values];
@@ -51,26 +51,40 @@ const EmpPresentAddress: React.FC<
       }
     });
     if (typeof window !== "undefined") {
-      let formData;
-
-      if (confirmationOrder === "yes") {
-        formData = [
-          { type: "present", ...values },
-          { type: "permanent", ...values },
-        ];
-      } else {
-        formData = [{ type: "present", ...values }];
-      }
-
-      sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
-      setSubmitting(false);
+      sessionStorage.setItem("emp_address_details", JSON.stringify(values));
 
       if (props.setData) {
-        props.setData("emp_address_details", formData as any);
+        props.setData("emp_address_details", values);
       }
       router.push(`${pathName}?emp=${empType}&page=5`);
     }
   };
+
+  // const handleSubmitFormik = (
+  //   values: EmployeePresentAddressDetailsType,
+  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  // ) => {
+
+  //   if (typeof window !== "undefined") {
+  //     let formData ;
+  //     if (confirmationOrder === "yes") {
+  //       formData = [
+  //         { type: "present", ...values },
+  //         { type: "permanent", ...values },
+  //       ];
+  //     } else {
+  //       formData = [{ type: "present", ...values }];
+  //     }
+
+  //     sessionStorage.setItem("emp_address_details", JSON.stringify(formData));
+  //     setSubmitting(false);
+
+  //     if (props.setData) {
+  //       props.setData("emp_address_details", formData as any);
+  //     }
+  //     router.push(`${pathName}?emp=${empType}&page=5`);
+  //   }
+  // };
 
   const initialValues =
     typeof window !== "undefined"
@@ -152,19 +166,6 @@ const EmpPresentAddress: React.FC<
                 placeholder="Enter Your State"
                 name="state"
               />
-              {/* <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.district}
-                error={errors.district}
-                touched={touched.district}
-                label="District"
-                required={true}
-                placeholder="Enter Your District"
-                name="district"
-
-              /> */}
-
               <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -202,13 +203,56 @@ const EmpPresentAddress: React.FC<
                   { id: 24, name: "Khunti" },
                 ]}
               />
-              <InputBox
+
+              <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.block_ulb}
                 label="Block ULB"
-                placeholder="Block ULB"
+                // placeholder="Block ULB"
                 name="block_ulb"
+                placeholder={"Choose Block ULB"}
+                options={[
+                  { id: 1, name: "Ranchi (Nagar Nigam)" },
+                  { id: 2, name: "Dhanbad (Nagar Nigam)" },
+                  { id: 3, name: "Hazaribag (Nagar Parshad)" },
+                  { id: 4, name: "Adityapur (Nagar Parshad)" },
+                  { id: 5, name: "Vishrampur (Nagar Panchayat)" },
+                  { id: 6, name: "Jamshedpur (NAC)" },
+                  { id: 7, name: "Deoghar (Nagar Nigam)" },
+                  { id: 8, name: "Medininagar (Daltonganj) (Nagar Parshad)" },
+                  { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
+                  { id: 10, name: "Giridih (Nagar Parshad)" },
+                  { id: 11, name: "Sahibganj (Nagar Parshad)" },
+                  { id: 12, name: "Phusro (Nagar Parshad)" },
+                  { id: 13, name: "Chas (Nagar Parshad)" },
+                  { id: 14, name: "Chaibasa (Nagar Parshad)" },
+                  { id: 15, name: "Chakradharpur (Nagar Parshad)" },
+                  { id: 16, name: "Garhwa (Nagar Panchayat)" },
+                  { id: 17, name: "Hussainabad (Nagar Panchayat)" },
+                  { id: 18, name: "Chatra (Nagar Parshad)" },
+                  { id: 19, name: "Madhupur (Nagar Parshad)" },
+                  { id: 20, name: "Godda (Nagar Panchayat)" },
+                  { id: 21, name: "Pakur (Nagar Panchayat)" },
+                  { id: 22, name: "Dumka (Nagar Parshad)" },
+                  { id: 23, name: "Jamtara (Nagar Panchayat)" },
+                  { id: 24, name: "Mihijam (Nagar Panchayat)" },
+                  { id: 25, name: "Chirkunda (Nagar Panchayat)" },
+                  { id: 26, name: "Khunti (Nagar Panchayat)" },
+                  { id: 27, name: "Lohardaga (Nagar Parshad)" },
+                  { id: 28, name: "Gumla (Nagar Panchayat)" },
+                  { id: 29, name: "Simdega (Nagar Panchayat)" },
+                  { id: 30, name: "Jugsalai (Municipality)" },
+                  { id: 31, name: "Majhiaown (Nagar Panchayat)" },
+                  { id: 32, name: "Latehar (Nagar Panchayat)" },
+                  { id: 33, name: "Kodarma (Nagar Panchayat)" },
+                  { id: 34, name: "Rajmahal (Nagar Panchayat)" },
+                  { id: 35, name: "Basukinath (Nagar Panchayat)" },
+                  { id: 36, name: "Bundu (Nagar Panchayat)" },
+                  { id: 37, name: "Saraikela (Nagar Panchayat)" },
+                  { id: 38, name: "Chakulia (Nagar Panchayat)" },
+                  { id: 39, name: "Vishrampur (Nagar Panchayat)" },
+                ]}
               />
               <InputBox
                 onChange={handleChange}
@@ -256,6 +300,13 @@ const EmpPresentAddress: React.FC<
 
               {confirmationOrder === "yes" && (
                 <>
+                  <div>
+                    <SubHeading className="text-[20px] py-4">
+                      Employee Permanent Address
+                    </SubHeading>
+                  </div>
+                  <div></div>
+
                   <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -350,13 +401,64 @@ const EmpPresentAddress: React.FC<
                       { id: 24, name: "Khunti" },
                     ]}
                   />
-                  <InputBox
+                  {/* <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.block_ulb_permanent}
                     label="Block ULB"
                     placeholder="Enter Your Permanent Block ULB"
                     name="block_ulb_permanent"
+                  /> */}
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.block_ulb_permanent}
+                    label="Block ULB"
+                    name="block_ulb_permanent"
+                    placeholder={"Choose Permanent Block ULB"}
+                    options={[
+                      { id: 1, name: "Ranchi (Nagar Nigam)" },
+                      { id: 2, name: "Dhanbad (Nagar Nigam)" },
+                      { id: 3, name: "Hazaribag (Nagar Parshad)" },
+                      { id: 4, name: "Adityapur (Nagar Parshad)" },
+                      { id: 5, name: "Vishrampur (Nagar Panchayat)" },
+                      { id: 6, name: "Jamshedpur (NAC)" },
+                      { id: 7, name: "Deoghar (Nagar Nigam)" },
+                      {
+                        id: 8,
+                        name: "Medininagar (Daltonganj) (Nagar Parshad)",
+                      },
+                      { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
+                      { id: 10, name: "Giridih (Nagar Parshad)" },
+                      { id: 11, name: "Sahibganj (Nagar Parshad)" },
+                      { id: 12, name: "Phusro (Nagar Parshad)" },
+                      { id: 13, name: "Chas (Nagar Parshad)" },
+                      { id: 14, name: "Chaibasa (Nagar Parshad)" },
+                      { id: 15, name: "Chakradharpur (Nagar Parshad)" },
+                      { id: 16, name: "Garhwa (Nagar Panchayat)" },
+                      { id: 17, name: "Hussainabad (Nagar Panchayat)" },
+                      { id: 18, name: "Chatra (Nagar Parshad)" },
+                      { id: 19, name: "Madhupur (Nagar Parshad)" },
+                      { id: 20, name: "Godda (Nagar Panchayat)" },
+                      { id: 21, name: "Pakur (Nagar Panchayat)" },
+                      { id: 22, name: "Dumka (Nagar Parshad)" },
+                      { id: 23, name: "Jamtara (Nagar Panchayat)" },
+                      { id: 24, name: "Mihijam (Nagar Panchayat)" },
+                      { id: 25, name: "Chirkunda (Nagar Panchayat)" },
+                      { id: 26, name: "Khunti (Nagar Panchayat)" },
+                      { id: 27, name: "Lohardaga (Nagar Parshad)" },
+                      { id: 28, name: "Gumla (Nagar Panchayat)" },
+                      { id: 29, name: "Simdega (Nagar Panchayat)" },
+                      { id: 30, name: "Jugsalai (Municipality)" },
+                      { id: 31, name: "Majhiaown (Nagar Panchayat)" },
+                      { id: 32, name: "Latehar (Nagar Panchayat)" },
+                      { id: 33, name: "Kodarma (Nagar Panchayat)" },
+                      { id: 34, name: "Rajmahal (Nagar Panchayat)" },
+                      { id: 35, name: "Basukinath (Nagar Panchayat)" },
+                      { id: 36, name: "Bundu (Nagar Panchayat)" },
+                      { id: 37, name: "Saraikela (Nagar Panchayat)" },
+                      { id: 38, name: "Chakulia (Nagar Panchayat)" },
+                    ]}
                   />
                   <InputBox
                     onChange={handleChange}

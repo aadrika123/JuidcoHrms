@@ -362,7 +362,7 @@ const EmpInitialJoinDetails: React.FC<
                             </div> */}
 
                             <div className="flex flex-col gap-2">
-                                <div className="flex items-center">Weather Confirmation Order*</div>
+                                <div className="flex items-center">Weather Confirmation Order</div>
                                 <div className="flex items-center gap-5">
                                     <div className="flex items-center">
                                         <input

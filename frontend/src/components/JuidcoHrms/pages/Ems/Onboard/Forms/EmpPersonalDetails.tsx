@@ -45,7 +45,7 @@ const EmpployeePersonalDetails: React.FC<
     },
   ]);
   function updateEmpLangTypes(id: number, key: string, value: string | number) {
-    setEmpLang((prev: any) => {
+    setEmpLang((prev: any): any => {
       const updatedData = [...prev];
       const row = { ...updatedData[id] };
 
@@ -171,9 +171,10 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   { id: 1, name: "Single" },
                   { id: 2, name: "Married" },
-                  { id: 3, name: "Widowed" },
+                  { id: 3, name: "Widow" },
                 ]}
               />
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -215,8 +216,9 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   { id: 1, name: "SC" },
                   { id: 2, name: "ST" },
-                  { id: 3, name: "OBC" },
-                  { id: 4, name: "General" },
+                  { id: 3, name: "OBC-1" },
+                  { id: 4, name: "OBC-2" },
+                  { id: 5, name: "General" },
                 ]}
               />
               <InputBox
@@ -291,21 +293,38 @@ const EmpployeePersonalDetails: React.FC<
                 ]}
               />
 
-              <SelectForNoApi
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.emp_health_status}
-                error={errors.emp_health_status}
-                touched={touched.emp_health_status}
-                label="Health Status"
-                name="emp_health_status"
-                placeholder={"Enter Health Status"}
-                options={[
-                  { id: 1, name: "Fit" },
-                  { id: 1, name: "UnFit" },
-                ]}
-                required={true}
-              />
+              <div>
+                <div className="grid">
+                  <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_health_status}
+                    error={errors.emp_health_status}
+                    touched={touched.emp_health_status}
+                    label="Health Status"
+                    name="emp_health_status"
+                    placeholder="Enter Health Status"
+                    options={[
+                      { id: 1, name: "Fit" },
+                      { id: 2, name: "UnFit" },
+                    ]}
+                    required={true}
+                  />
+                </div>
+
+                {values.emp_health_status && (
+                  <>
+                    <input
+                      type="file"
+                      name="emp_health_file"
+                      onChange={handleChange}
+                      value={undefined}
+                      // value={values.emp_health_file || ''}
+                    />
+                  </>
+                )}
+              </div>
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -341,7 +360,7 @@ const EmpployeePersonalDetails: React.FC<
                 options={[
                   {
                     id: 1,
-                    name: "Handicap",
+                    name: "Physically Disabled",
                   },
                   {
                     id: 2,
@@ -380,8 +399,35 @@ const EmpployeePersonalDetails: React.FC<
               />  */}
 
               <div>
-                {/* <div className="inline-flex gap-2"> */}
                 <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
+                  {/* <SelectForNoApi
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_family}
+                    error={errors.emp_family}
+                    touched={touched.emp_family}
+                    label="Family/Guardian"
+                    name="emp_family"
+                    placeholder={"Select Family/Guardian"}
+                    required={true}
+                    options={[
+                      {
+                        id: 1,
+                        name: "Father",
+                      },
+                      {
+                        id: 2,
+                        name: "Mother",
+                      },
+                      {
+                        id: 3,
+                        name: "Spouse",
+                        // hidden: values.married_status === "Single",
+
+
+                      },
+                    ]}
+                  /> */}
                   <SelectForNoApi
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -403,13 +449,15 @@ const EmpployeePersonalDetails: React.FC<
                       },
                       {
                         id: 3,
-                        name: "Husband",
-                      },
-                      {
-                        id: 4,
                         name: "Spouse",
                       },
-                    ]}
+                    ].filter((option) => {
+                      return (
+                        (values.married_status === "Single" &&
+                          ["Father", "Mother"].includes(option.name)) ||
+                        values.married_status !== "Single"
+                      );
+                    })}
                   />
 
                   <InputBox
@@ -425,34 +473,35 @@ const EmpployeePersonalDetails: React.FC<
                   />
                 </div>
 
-                {values.emp_family === "Spouse" && (
-                  <div className="mt-5">
-                    <div>
-                      <InputBox
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.emp_org_name}
-                        error={errors.emp_org_name}
-                        touched={touched.emp_org_name}
-                        label="Organisation"
-                        name="emp_org_name"
-                        placeholder={"Enter Organisation Name"}
-                      />
-                    </div>
+                {!(values.married_status === "Single") &&
+                  values.emp_family === "Spouse" && (
                     <div className="mt-5">
-                      <InputBox
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.emp_office_name}
-                        error={errors.emp_office_name}
-                        touched={touched.emp_office_name}
-                        label="Office Name"
-                        name="emp_office_name"
-                        placeholder={"Enter Office Name"}
-                      />
+                      <div>
+                        <InputBox
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.emp_org_name}
+                          error={errors.emp_org_name}
+                          touched={touched.emp_org_name}
+                          label="Organisation"
+                          name="emp_org_name"
+                          placeholder={"Enter Organisation Name"}
+                        />
+                      </div>
+                      <div className="mt-5">
+                        <InputBox
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.emp_office_name}
+                          error={errors.emp_office_name}
+                          touched={touched.emp_office_name}
+                          label="Office Name"
+                          name="emp_office_name"
+                          placeholder={"Enter Office Name"}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               <div className="flex items-center gap-5">

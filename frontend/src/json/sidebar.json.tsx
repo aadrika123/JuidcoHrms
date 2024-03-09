@@ -40,6 +40,7 @@ export const sidebarLinks: SidebarLinksProps = {
             { moduleName: "Dashboard", path: `${url}/ems/dashboard` },
             { moduleName: "On Board", path: `${url}/ems/onboard` },
           ],
+          
         },
         {
           moduleName: "Attendance Management",
@@ -78,7 +79,7 @@ export const sidebarLinks: SidebarLinksProps = {
           path: `${url}`,
         },
         {
-          moduleName: "Suspension Management",
+          moduleName: "Suspension & Termination Management",
           icon: (
             <Image
               src="/icons/sidebar/suspension.svg"
@@ -102,7 +103,7 @@ export const sidebarLinks: SidebarLinksProps = {
           path: `${url}`,
         },
         {
-          moduleName: "Termination Management",
+          moduleName: "Grievance Management",
           icon: (
             <Image
               src="/icons/sidebar/termination.svg"
@@ -125,7 +126,11 @@ export const sidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}`,
         },
+        
+      
+        
       ],
+
     },
   ],
 };

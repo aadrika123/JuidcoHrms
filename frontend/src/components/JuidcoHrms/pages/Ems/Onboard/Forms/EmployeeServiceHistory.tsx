@@ -100,7 +100,7 @@ const EmployeeServiceHistory: React.FC<
       <SubHeading className="text-[20px] pt-4">
         Employee Service History{" "}
       </SubHeading>
-      <div className="mt-4">
+      <div className="border p-5 rounded-xl shadow mt-4">
         <TableFormContainer
           setData={getStateData}
           columns={COLUMNS_FOR_EMP_INCR_DET}
@@ -110,8 +110,11 @@ const EmployeeServiceHistory: React.FC<
         />
       </div>
 
-      <div className="">
+      <div className="border p-5 rounded-xl shadow mt-4">
         <EmployeePromotionDetailsTable setData={getStateData} />
+      </div>
+
+      <div className="border p-5 rounded-xl shadow mt-4">
         <EmployeeTransferDetailsTable setData={() => {}} />
       </div>
 

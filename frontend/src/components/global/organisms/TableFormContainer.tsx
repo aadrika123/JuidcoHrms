@@ -141,7 +141,7 @@
 //         <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
 //           <tr>
 //             {props.labels && props.labels.length > 0 && (
-//               <th className="border border-zinc-400 font-medium w-[5%]">
+//               <th className=" font-medium w-[5%]">
 //                 <div className="flex gap-2">
 //                   <span>Education Level</span>
 //                 </div>
@@ -165,17 +165,17 @@
 //         <tbody>
 //           {tableData?.map((row: any, index: number) => {
 //             return (
-//               <tr key={index} className="border border-zinc-400 text-secondary">
+//               <tr key={index} className=" text-secondary">
 
 //                 {/* {props.labels && props.labels.length > 0 && (
-//                   <td className="border border-zinc-400">
+//                   <td className="">
 //                     {props.labels[index] || `Label ${index + 1}`}
 //                   </td>
 //                 )} */}
 //                 {props.columns?.map((col) => {
 //                   return (
 //                     <React.Fragment key={col.ACCESSOR}>
-//                       <td className="border border-zinc-400">
+//                       <td className="">
 //                         {!col.type ? (
 //                           <InputField
 //                             onChange={(
@@ -231,7 +231,7 @@
 //                                 key={option.key}
 //                               >
 //                                 <input
-//                                   className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
+//                                   className="mr-1 appearance-none  rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
 //                                   type="radio"
 //                                   id={option.value}
 //                                   value={option.value}
@@ -513,21 +513,21 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     <>
       {header}
       <table className="table table-md mt-4">
-        <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
+        <thead className="  text-[1rem] bg-primary_green text-[#211F35]  ">
           <tr>
-            {props.labels && props.labels.length > 0 && (
-              <th className="border border-zinc-400 font-medium w-[5%]">
+            {/* {props.labels && props.labels.length > 0 && (
+              <th className=" font-medium w-[5%]">
                 <div className="flex gap-2">
                   <span>Education Level</span>
                 </div>
               </th>
-            )}
+            )} */}
 
             {props.columns?.map((cols, index: number) => (
               <>
                 <th
                   key={index}
-                  className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                  className={`border-b border-zinc-50 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
                 >
                   <div className="flex gap-2">
                     <span>{cols.HEADER}</span>
@@ -540,16 +540,19 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
         <tbody>
           {tableData?.map((row: any, index: number) => {
             return (
-              <tr key={index} className="border border-zinc-400 text-secondary">
+              <tr
+                key={index}
+                className=" text-secondary border-b border-zinc-300"
+              >
                 {props.labels && props.labels.length > 0 && (
-                  <td className="border border-zinc-400">
+                  <td className="">
                     {props.labels[index] || `Label ${index + 1}`}
                   </td>
                 )}
                 {props.columns?.map((col, i: number) => {
                   return (
                     <React.Fragment key={col.ACCESSOR}>
-                      <td className="border border-zinc-400">
+                      <td className="">
                         {!col.type ? (
                           col.sl_no && i === 0 ? (
                             <span>{index + 1}</span>
@@ -603,7 +606,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                 key={option.key}
                               >
                                 <input
-                                  className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
+                                  className="mr-1 appearance-none  rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
                                   type="radio"
                                   id={option.value}
                                   value={option.value}
@@ -845,11 +848,11 @@ export default TableFormContainer;
 //         <tbody>
 //           {tableData?.map((row: any, index: number) => {
 //             return (
-//               <tr key={index} className="border border-zinc-400 text-secondary">
+//               <tr key={index} className=" text-secondary">
 //                 {props.columns?.map((col) => {
 //                   return (
 //                     <React.Fragment key={col.ACCESSOR}>
-//                       <td className="border border-zinc-400">
+//                       <td className="">
 //                         {!col.type ? (
 //                           <InputField
 //                             onChange={(
@@ -905,7 +908,7 @@ export default TableFormContainer;
 //                                 key={option.key}
 //                               >
 //                                 <input
-//                                   className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
+//                                   className="mr-1 appearance-none  rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
 //                                   type="radio"
 //                                   id={option.value}
 //                                   value={option.value}

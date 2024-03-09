@@ -47,14 +47,14 @@ export interface EmployeeDetailsType {
   mode_of_recruitment: number | string;
   contact_no: string;
   emg_contact_no: string;
-  aadhar_no: number;
-  epic_no: string;
+  aadhar_no: string | number;
+  epic_no: string | number;
   gender: string | number;
   gender_name?: string | number;
-  pran: string;
+  pran: string | number;
   emp_type: string | number;
-  weight: string;
-  height: string;
+  weight: string | number;
+  height: string | number;
   cps: string;
   gps: string;
   dob: string;
@@ -69,6 +69,7 @@ export interface EmployeePersonalDetailsType {
   emp_district: string;
   emp_blood_group: string | number;
   emp_health_status: string | number;
+  emp_health_file: string;
   emp_ltc_home_town: string;
   emp_nearest_railway_station: string;
   emp_phy_health_type: string | number;
@@ -302,6 +303,7 @@ export type EmployeeEducation = {
   passing_year: string | number;
   marks?: number;
   grade: string | number;
+  upload_edu: string;
 };
 
 export type EmployeeEducationTrainingType = {

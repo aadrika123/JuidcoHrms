@@ -22,8 +22,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-primary_green",
-        primary_rounded: "bg-primary_green rounded-full",
+        primary: "bg-[#4338CA]",
+        primary_rounded: "bg-[#4338CA] rounded-full",
         danger: "bg-red-400",
         cancel:
           "bg-white border text-neutral-800 border-primary_green hover:bg-neutral-50  hover:text-neutral-700",

@@ -605,6 +605,7 @@ const EmpEducationDetails: React.FC<
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [isValidate, setIsValidate] = useState<boolean>(true);
+  const [session, setSession] = useState<boolean>(false);
   const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
@@ -625,12 +626,25 @@ const EmpEducationDetails: React.FC<
     setTabIndex(index || tabIndex);
   }
 
+  function getDataSesson() {
+    setSession(!session);
+  }
+
   return (
     <div>
-      <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
-      <EmpEducationTable setData={getStateData} validate={setIsValidate} />
+      <div className="border p-5 rounded-xl shadow">
+        <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
+        <EmpEducationTable
+          setData={getStateData}
+          validate={setIsValidate}
+          setSession={session}
+        />
+      </div>
 
-      <EmployeeTrainingTable setData={getStateData} />
+      <div className="border p-5 rounded-xl shadow mt-6 ">
+        <EmployeeTrainingTable setData={getStateData} />
+      </div>
+
       <div className="flex items-center justify-end mt-5 gap-5">
         <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
           Back
@@ -642,7 +656,10 @@ const EmpEducationDetails: React.FC<
 
         {isValidate && (
           <PrimaryButton
-            onClick={() => handleSubmitForm(employeeEducationDetails)}
+            onClick={() => {
+              getDataSesson();
+              handleSubmitForm(employeeEducationDetails);
+            }}
             buttonType="submit"
             variant="primary"
           >

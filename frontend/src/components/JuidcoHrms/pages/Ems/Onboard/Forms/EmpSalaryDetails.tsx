@@ -63,6 +63,23 @@ const EmpSalaryDetails: React.FC<
         { id: 9, name: "MA(A)" },
         { id: 10, name: "SA(A)" },
       ],
+
+      //       ].filter((option) => {
+      // return(
+      //   // (option.name === "DA(%)").includes("HRA(%), DP(A), ADA(A), IR(A)"))
+      // )
+
+      //       }
+
+      // ].filter((option)=>{
+      //   console.log("option", option.name)
+      //   return (
+      //     (option.name === "DA(%)" && ["HRA(%)", "DP(A)"].includes(option.name)) ||
+      //     (option.name === "HRA(%)" && ["DA(%)", "DP(A)"].includes(option.name))
+      //     // (values.married_status !== "Single")
+      //   );
+      // })
+      // !option.name.includes("DA(%)")
     },
 
     {

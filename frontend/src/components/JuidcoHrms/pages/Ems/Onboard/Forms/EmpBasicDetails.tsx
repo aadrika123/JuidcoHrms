@@ -49,9 +49,7 @@ const EmployeeBasicDetails: React.FC<
         const val = values[key as keyof typeof values];
         if (
           val ==
-          initialEmployeeDetails[
-            key as keyof typeof initialEmployeeDetails
-          ]
+          initialEmployeeDetails[key as keyof typeof initialEmployeeDetails]
         ) {
           delete values[key as keyof typeof values];
         }
@@ -113,8 +111,14 @@ const EmployeeBasicDetails: React.FC<
                 name="emp_image"
               /> */}
 
-              <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer">
-                <p className="text-zinc-600">Upload Employee Profile<span className="text-red-500">*</span></p>
+              <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-7">
+                <p className="text-zinc-600 ">
+                  Upload Employee Profile<span className="text-red-500">*</span>
+                  {touched.emp_image && errors.emp_image && (
+                    <div className="text-red-500">{errors.emp_image}</div>
+                  )}
+                </p>
+
                 <div
                   className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                   onClick={handleDivClick}
@@ -146,6 +150,7 @@ const EmployeeBasicDetails: React.FC<
                     style={{ display: "none" }}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.emp_image}
                     name="emp_image"
                   />
                 </div>
@@ -194,10 +199,17 @@ const EmployeeBasicDetails: React.FC<
                 touched={touched.contact_no}
                 label="Contact No."
                 name="contact_no"
-                placeholder={"Enter Contact No."}
-                type="number"
+                placeholder={"+91"}
+                type="text"
                 required={true}
+                maxLength={10}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -206,9 +218,15 @@ const EmployeeBasicDetails: React.FC<
                 touched={touched.emg_contact_no}
                 label="Emergency Contact No."
                 name="emg_contact_no"
-                placeholder={"Enter Emergency Contact Number"}
-                type="number"
+                placeholder={"+91"}
+                type="text"
                 required={true}
+                maxLength={10}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <InputBox
                 onChange={handleChange}
@@ -219,8 +237,14 @@ const EmployeeBasicDetails: React.FC<
                 label="Aadhar Card No."
                 name="aadhar_no"
                 placeholder={"Enter Aadhar Card No."}
-                type="number"
+                type="text"
                 required={true}
+                maxLength={12}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <InputBox
                 onChange={handleChange}
@@ -231,8 +255,14 @@ const EmployeeBasicDetails: React.FC<
                 label="EPIC No."
                 name="epic_no"
                 placeholder={"Enter EPIC Number"}
-                type="number"
+                type="text"
                 required={true}
+                maxLength={12}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -255,8 +285,8 @@ const EmployeeBasicDetails: React.FC<
                   },
                   {
                     id: 3,
-                    name: "Transgender"
-                  }
+                    name: "Transgender",
+                  },
                 ]}
               />
               <InputBox
@@ -268,8 +298,14 @@ const EmployeeBasicDetails: React.FC<
                 label="PRAN"
                 name="pran"
                 placeholder={"Enter PRAN"}
-                type="number"
+                type="text"
                 required={true}
+                maxLength={12}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <SelectForNoApi
                 onChange={handleChange}
@@ -307,14 +343,18 @@ const EmployeeBasicDetails: React.FC<
 
               <InputBox
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.weight}
-                error={errors.weight}
-                touched={touched.weight}
                 label="Weight"
                 name="weight"
-                placeholder={"Enter Weight in KG"}
+                placeholder={"in KG"}
                 type="text"
+                maxLength={3}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <InputBox
                 onChange={handleChange}
@@ -322,9 +362,16 @@ const EmployeeBasicDetails: React.FC<
                 value={values.height}
                 label="Height"
                 name="height"
-                placeholder={"Enter Height"}
+                placeholder={"in c.m"}
                 type="text"
+                maxLength={3}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
+
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -332,20 +379,32 @@ const EmployeeBasicDetails: React.FC<
                 label="CPS"
                 name="cps"
                 placeholder={"Enter CPS"}
-                type="number"
-                required={true}
+                type="text"
+                // required={true}
+                maxLength={12}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.gps}
-                error={errors.gps}
-                touched={touched.gps}
-                label="GPS"
+                // error={errors.gps}
+                // touched={touched.gps}
+                label="GPF"
                 name="gps"
                 placeholder={"Enter GPF"}
-                type="number"
-                required={true}
+                type="text"
+                // required={true}
+                maxLength={12}
+                onKeyPress={(e: any) => {
+                  if (!(e.key >= "0" && e.key <= "9")) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <InputBox
                 onChange={handleChange}

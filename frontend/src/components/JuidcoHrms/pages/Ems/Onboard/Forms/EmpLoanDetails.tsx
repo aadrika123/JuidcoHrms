@@ -29,18 +29,22 @@ const EmpLoanDetails: React.FC<
   const empType = useSearchParams().get("emp");
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [innerTabIndex, setInnerTabIndex] = useState<number>(1);
+  const [addedRows, setAddedRows] = useState<number>(0);
 
-  const getInitialFormData = () => ({
-    loan_name_det: "",
-    loan_account_num: "",
-    sanc_order_num: "",
-    dos: "",
-    san_authority: "",
-    dod: "",
-    dis_treasury_name: "",
-    voucher_date: "",
-    treasury_voc_num: "",
-  });
+
+  const getInitialFormData = () => (
+    {
+      loan_name_det: "",
+      loan_account_num: "",
+      sanc_order_num: "",
+      dos: "",
+      san_authority: "",
+      dod: "",
+      dis_treasury_name: "",
+      voucher_date: "",
+      treasury_voc_num: "",
+    });
+
 
   const getInitialPrincipalFormData = () => ({
     loan_name_principal: "",
@@ -62,20 +66,43 @@ const EmpLoanDetails: React.FC<
     total_amnt_recovery: "",
   });
 
-  const [formFields, setFormFields] = useState([getInitialFormData()]);
-  const [formPrincipalFields, setFormPrincipalFields] = useState([
-    getInitialPrincipalFormData(),
-  ]);
-  const [formRecoveryFields, setFormRecoveryFields] = useState([
-    getInitialRecoveryFormData(),
-  ]);
+  // const [formFields, setFormFields] = useState([getInitialFormData()]);
+  // const [formPrincipalFields, setFormPrincipalFields] = useState([
+  //   getInitialPrincipalFormData(),
+  // ]);
+  // const [formRecoveryFields, setFormRecoveryFields] = useState([
+  //   getInitialRecoveryFormData(),
+  // ]);
+
+
+  const storedEmpDetails =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("emp_loan_details")
+      : null;
+
+  const initialEmpDetails = storedEmpDetails
+    ? JSON.parse(storedEmpDetails)
+    : {
+        emp_loan_inform: [getInitialFormData()],
+        emp_principal_inform: [getInitialPrincipalFormData()],
+        emp_recovery_inform: [getInitialRecoveryFormData()],
+      };
+
+  
+  const [formFields, setFormFields] = useState(initialEmpDetails.emp_loan_inform);
+  const [formPrincipalFields, setFormPrincipalFields] = useState(
+    initialEmpDetails.emp_principal_inform
+  );
+  const [formRecoveryFields, setFormRecoveryFields] = useState(
+    initialEmpDetails.emp_recovery_inform
+  );
 
   const handleInputChange = (
     fieldName: keyof (typeof formFields)[0],
     value: any,
     index: number
   ) => {
-    setFormFields((prevFields) => {
+    setFormFields((prevFields: any) => {
       const updatedFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
@@ -87,7 +114,7 @@ const EmpLoanDetails: React.FC<
     value: any,
     index: any
   ) => {
-    setFormPrincipalFields((prevFields) => {
+    setFormPrincipalFields((prevFields:any) => {
       const updatedFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
@@ -99,12 +126,30 @@ const EmpLoanDetails: React.FC<
     value: any,
     index: number
   ) => {
-    setFormRecoveryFields((prevFields) => {
+    setFormRecoveryFields((prevFields:any) => {
       const updatedFields: typeof formRecoveryFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
     });
   };
+
+  // const handleSubmitFormik = () => {
+  //   if (typeof window !== "undefined") {
+  //     const empDetails = {
+  //       emp_loan_inform: formFields,
+  //       emp_principal_inform: formPrincipalFields,
+  //       emp_recovery_inform: formRecoveryFields,
+  //     };
+
+  //     sessionStorage.setItem("emp_loan_details", JSON.stringify(empDetails));
+
+  //     if (props.setData) {
+  //       props.setData("emp_loan_details", empDetails as any);
+  //     }
+  //     router.push(`${pathName}?emp=${empType}&page=11`);
+  //   }
+  // };
+
 
   const handleSubmitFormik = () => {
     if (typeof window !== "undefined") {
@@ -124,16 +169,25 @@ const EmpLoanDetails: React.FC<
   };
 
   const addRow = () => {
-    setFormFields((prevFields) => [...prevFields, getInitialFormData()]);
-    setFormPrincipalFields((prevFields) => [
-      ...prevFields,
-      getInitialPrincipalFormData(),
-    ]);
-    setFormRecoveryFields((prevFields) => [
-      ...prevFields,
-      getInitialRecoveryFormData(),
-    ]);
+    if (addedRows < 6) {
+      setAddedRows((prevRows) => prevRows + 1);
+
+      if (tabIndex === 1) {
+        setFormFields((prevFields :any) => [...prevFields, getInitialFormData()]);
+      } else if (tabIndex === 2 && innerTabIndex === 1) {
+        setFormPrincipalFields((prevFields:any) => [
+          ...prevFields,
+          getInitialPrincipalFormData(),
+        ]);
+      } else if (tabIndex === 2 && innerTabIndex === 2) {
+        setFormRecoveryFields((prevFields:any) => [
+          ...prevFields,
+          getInitialRecoveryFormData(),
+        ]);
+      }
+    }
   };
+
 
   return (
     <>
@@ -144,7 +198,7 @@ const EmpLoanDetails: React.FC<
       <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
         <div className="flex-all-center ">
           <input
-            id="accounting"
+            id="loan details"
             type="radio"
             onChange={() => setTabIndex(1)}
             name="radio-1"
@@ -158,7 +212,7 @@ const EmpLoanDetails: React.FC<
 
         <div className="flex-all-center ">
           <input
-            id="function"
+            id="recovery details"
             onChange={() => setTabIndex(2)}
             type="radio"
             name="radio-1"
@@ -179,168 +233,151 @@ const EmpLoanDetails: React.FC<
             {/* -----------------------Employee Loan details for tabIndex === 1 ----------------------------------- */}
 
             {tabIndex === 1 && (
-              <>
-                {formFields.map((field, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4"
-                  >
-                    {/* <SelectForNoApi
-                      onBlur={handleBlur}
-                      value={field.loan_name_det}
-                      label="Loan Name"
-                      name="loan_name_det"
-                      onChange={(e: any) => handleInputChange("loan_name_det", e.target.value, index)}
-
-                      placeholder={"Please Select"}
-                      options={[
-                        { id: 1, name: "Festival Adv." },
-                        { id: 2, name: "Motor Cycle Adv." },
-                        { id: 3, name: "Moped Adv." },
-                        { id: 4, name: "House Building Adv." },
-                        { id: 5, name: "Spl House Building Adv." },
-                        { id: 6, name: "GPF Adv." },
-                      ]}
-                    /> */}
-
-                    <div>
-                      <span className="text-sm">Loan Name</span>
-                      <br />
-                      <div className="border w-full p-2 rounded border-black">
-                        <select
-                          value={field.loan_name_det}
-                          name="loan_name_det"
-                          onChange={(e: any) =>
-                            handleInputChange(
-                              "loan_name_det",
-                              e.target.value,
-                              index
-                            )
-                          }
-                          className="w-full border-none outline-none"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="Festival Adv.">Festival Adv.</option>
-                          <option value="Motor Cycle Adv.">
-                            Motor Cycle Adv.
-                          </option>
-                          <option value="Moped Adv.">Moped Adv.</option>
-                          <option value="House Building Adv.">
-                            House Building Adv.
-                          </option>
-                          <option value="Spl House Building Adv.">
-                            Spl House Building Adv.
-                          </option>
-                          <option value="GPF Adv.">GPF Adv.</option>
-                        </select>
+              <div>
+                {formFields.map((field:any, index:any) => (
+                  <div key={index}>
+                    <div
+                      className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4"
+                    >
+                      <div>
+                        <span className="text-sm">Loan Name</span>
+                        <br />
+                        <div className="border w-full p-2 rounded border-black">
+                          <select
+                            value={field.loan_name_det}
+                            name="loan_name_det"
+                            onChange={(e: any) =>
+                              handleInputChange(
+                                "loan_name_det",
+                                e.target.value,
+                                index
+                              )
+                            }
+                            className="w-full border-none outline-none"
+                          >
+                            <option value="">Please Select</option>
+                            <option value="Festival Adv.">Festival Adv.</option>
+                            <option value="Motor Cycle Adv.">
+                              Motor Cycle Adv.
+                            </option>
+                            <option value="Moped Adv.">Moped Adv.</option>
+                            <option value="House Building Adv.">
+                              House Building Adv.
+                            </option>
+                            <option value="Spl House Building Adv.">
+                              Spl House Building Adv.
+                            </option>
+                            <option value="GPF Adv.">GPF Adv.</option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
 
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.loan_account_num}
-                      label="Loan Account Number"
-                      placeholder="Enter Loan Account Number"
-                      name="loan_account_num"
-                      type="number"
-                      onChange={(e: any) =>
-                        handleInputChange(
-                          "loan_account_num",
-                          e.target.value,
-                          index
-                        )
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.sanc_order_num}
-                      label="Sanc Order Number"
-                      placeholder="Enter Sanc Order Number"
-                      name="sanc_order_num"
-                      onChange={(e: any) =>
-                        handleInputChange(
-                          "sanc_order_num",
-                          e.target.value,
-                          index
-                        )
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.dos}
-                      label="Date of Sanction"
-                      name="dos"
-                      type="date"
-                      onChange={(e: any) =>
-                        handleInputChange("dos", e.target.value, index)
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.san_authority}
-                      label="Sanctioning Authority"
-                      placeholder="Enter Sanctioning Authority"
-                      name="san_authority"
-                      onChange={(e: any) =>
-                        handleInputChange(
-                          "san_authority",
-                          e.target.value,
-                          index
-                        )
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.dod}
-                      label="Date of Disbursement"
-                      name="dod"
-                      type="date"
-                      onChange={(e: any) =>
-                        handleInputChange("dod", e.target.value, index)
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.dis_treasury_name}
-                      label="Disbursing Treasury Name"
-                      placeholder="Enter Disbursing Treasury Name"
-                      name="dis_treasury_name"
-                      onChange={(e: any) =>
-                        handleInputChange(
-                          "dis_treasury_name",
-                          e.target.value,
-                          index
-                        )
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.voucher_date}
-                      label="Voucher Date"
-                      name="voucher_date"
-                      type="date"
-                      onChange={(e: any) =>
-                        handleInputChange("voucher_date", e.target.value, index)
-                      }
-                    />
-                    <InputBox
-                      onBlur={handleBlur}
-                      value={field.treasury_voc_num}
-                      label="Treasury Voucher Number"
-                      placeholder="Enter Treasury Voucher Number"
-                      name="treasury_voc_num"
-                      onChange={(e: any) =>
-                        handleInputChange(
-                          "treasury_voc_num",
-                          e.target.value,
-                          index
-                        )
-                      }
-                      type="number"
-                    />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.loan_account_num}
+                        label="Loan Account Number"
+                        placeholder="Enter Loan Account Number"
+                        name="loan_account_num"
+                        type="number"
+                        onChange={(e: any) =>
+                          handleInputChange(
+                            "loan_account_num",
+                            e.target.value,
+                            index
+                          )
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.sanc_order_num}
+                        label="Sanc Order Number"
+                        placeholder="Enter Sanc Order Number"
+                        name="sanc_order_num"
+                        onChange={(e: any) =>
+                          handleInputChange(
+                            "sanc_order_num",
+                            e.target.value,
+                            index
+                          )
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.dos}
+                        label="Date of Sanction"
+                        name="dos"
+                        type="date"
+                        onChange={(e: any) =>
+                          handleInputChange("dos", e.target.value, index)
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.san_authority}
+                        label="Sanctioning Authority"
+                        placeholder="Enter Sanctioning Authority"
+                        name="san_authority"
+                        onChange={(e: any) =>
+                          handleInputChange(
+                            "san_authority",
+                            e.target.value,
+                            index
+                          )
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.dod}
+                        label="Date of Disbursement"
+                        name="dod"
+                        type="date"
+                        onChange={(e: any) =>
+                          handleInputChange("dod", e.target.value, index)
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.dis_treasury_name}
+                        label="Disbursing Treasury Name"
+                        placeholder="Enter Disbursing Treasury Name"
+                        name="dis_treasury_name"
+                        onChange={(e: any) =>
+                          handleInputChange(
+                            "dis_treasury_name",
+                            e.target.value,
+                            index
+                          )
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.voucher_date}
+                        label="Voucher Date"
+                        name="voucher_date"
+                        type="date"
+                        onChange={(e: any) =>
+                          handleInputChange("voucher_date", e.target.value, index)
+                        }
+                      />
+                      <InputBox
+                        onBlur={handleBlur}
+                        value={field.treasury_voc_num}
+                        label="Treasury Voucher Number"
+                        placeholder="Enter Treasury Voucher Number"
+                        name="treasury_voc_num"
+                        onChange={(e: any) =>
+                          handleInputChange(
+                            "treasury_voc_num",
+                            e.target.value,
+                            index
+                          )
+                        }
+                        type="number"
+                      />
+                    </div>
                   </div>
                 ))}
-              </>
+              </div>
             )}
 
             {/* -----------------------Employee Loan details for tabIndex === 1 ends ----------------------------------- */}
@@ -349,8 +386,8 @@ const EmpLoanDetails: React.FC<
 
             {tabIndex === 2 && (
               <>
-                {formFields.map((fields, index) => (
-                  <div key={index}>
+                {/* {formPrincipalFields.map((fields, index) => ( */}
+                  <div>
                     <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
                       <div className="flex-all-center">
                         <input
@@ -360,6 +397,7 @@ const EmpLoanDetails: React.FC<
                           name="inner-radio-2"
                           className="radio border border-zinc-600"
                           defaultChecked
+
                         />
                         <label htmlFor="principal" className="cursor-pointer">
                           Principal Component
@@ -373,6 +411,7 @@ const EmpLoanDetails: React.FC<
                           type="radio"
                           name="inner-radio-2"
                           className="radio border-zinc-600"
+
                         />
                         <label htmlFor="recovery" className="cursor-pointer">
                           Recovery Details
@@ -381,301 +420,281 @@ const EmpLoanDetails: React.FC<
                     </div>
 
                     <div>
-                      {innerTabIndex === 1 && (
-                        <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-                          {/* <SelectForNoApi
-                              onBlur={handleBlur}
-                              value={(fields as any).loan_name_principal}
-                              onChange={(e: any) => handleInputPrincipalChange("loan_name_principal", e.target.value, index)}
-                              label="Loan Name"
-                              name="loan_name_principal"
-                              placeholder={"Please Select"}
-                              options={[
-                                { id: 1, name: "Festival Adv." },
-                                { id: 2, name: "Motor Cycle Adv." },
-                                { id: 3, name: "Moped Adv." },
-                                { id: 4, name: "House Building Adv." },
-                                { id: 5, name: "Spl House Building Adv." },
-                                { id: 6, name: "GPF Adv." },
-                                { id: 7, name: "GIS Adv." },
-                              ]}
-                            /> */}
-                          <div>
-                            <span className="text-sm">Loan Name</span>
-                            <br />
-                            <div className="border w-full p-2 rounded border-black">
-                              <select
-                                value={(fields as any).loan_name_principal}
-                                name="loan_name_principal"
+
+                      {formPrincipalFields.map((fields:any, index:any) => (
+                        <div key={`formPrincipalField-${index}`}>
+                          {innerTabIndex === 1 && (
+                            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4 ">
+
+                              <div>
+                                <span className="text-sm">Loan Name</span>
+                                <br />
+                                <div className="border w-full p-2 rounded border-black">
+                                  <select
+                                    value={(fields as any).loan_name_principal}
+                                    name="loan_name_principal"
+                                    onChange={(e: any) =>
+                                      handleInputPrincipalChange(
+                                        "loan_name_principal",
+                                        e.target.value,
+                                        index
+                                      )
+                                    }
+                                    className="w-full border-none outline-none"
+                                  >
+                                    <option value="">Please Select</option>
+                                    <option value="Festival Adv.">
+                                      Festival Adv.
+                                    </option>
+                                    <option value="Motor Cycle Adv.">
+                                      Motor Cycle Adv.
+                                    </option>
+                                    <option value="Moped Adv.">Moped Adv.</option>
+                                    <option value="House Building Adv.">
+                                      House Building Adv.
+                                    </option>
+                                    <option value="Spl House Building Adv.">
+                                      Spl House Building Adv.
+                                    </option>
+                                    <option value="GPF Adv.">GPF Adv.</option>
+                                    <option value="GIS Adv.">GIS Adv.</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <InputBox
+                                value={(fields as any).tot_amt_released}
                                 onChange={(e: any) =>
                                   handleInputPrincipalChange(
-                                    "loan_name_principal",
+                                    "tot_amt_released",
                                     e.target.value,
                                     index
                                   )
                                 }
-                                className="w-full border-none outline-none"
-                              >
-                                <option value="">Please Select</option>
-                                <option value="Festival Adv.">
-                                  Festival Adv.
-                                </option>
-                                <option value="Motor Cycle Adv.">
-                                  Motor Cycle Adv.
-                                </option>
-                                <option value="Moped Adv.">Moped Adv.</option>
-                                <option value="House Building Adv.">
-                                  House Building Adv.
-                                </option>
-                                <option value="Spl House Building Adv.">
-                                  Spl House Building Adv.
-                                </option>
-                                <option value="GPF Adv.">GPF Adv.</option>
-                                <option value="GIS Adv.">GIS Adv.</option>
-                              </select>
+                                onBlur={handleBlur}
+                                label="Loan Amount Released (Rs)"
+                                placeholder="Enter Loan Amount Released(Rs)"
+                                name="tot_amt_released"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).total_install}
+                                onChange={(e: any) =>
+                                  handleInputPrincipalChange(
+                                    "total_install",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Total Installment Fixed(Rs)"
+                                placeholder="Enter Total Installment Fixed(Rs)"
+                                name="total_install"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).monthly_install}
+                                onChange={(e: any) =>
+                                  handleInputPrincipalChange(
+                                    "monthly_install",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Monthly Installment Amount(Rs)"
+                                placeholder="Enter Monthly Installment Amount(Rs)"
+                                name="monthly_install"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).last_paid_install}
+                                onChange={(e: any) =>
+                                  handleInputPrincipalChange(
+                                    "last_paid_install",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Last Paid Installment Number"
+                                placeholder="Last Paid Installment Number"
+                                name="last_paid_install"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).month_last_install}
+                                onChange={(e: any) =>
+                                  handleInputPrincipalChange(
+                                    "month_last_install",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Month In Which last Installment was paid"
+                                name="month_last_install"
+                                type="date"
+                              />
+                              <InputBox
+                                value={(fields as any).total_amnt}
+                                onChange={(e: any) =>
+                                  handleInputPrincipalChange(
+                                    "total_amnt",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Total Amount Paid Towards Principal(Rs)"
+                                placeholder="Enter Total Amount Paid Towards Principal(Rs)"
+                                name="total_amnt"
+                                type="number"
+                              />
                             </div>
-                          </div>
-                          
-                          <InputBox
-                            value={(fields as any).tot_amt_released}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "tot_amt_released",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Loan Amount Released (Rs)"
-                            placeholder="Enter Loan Amount Released(Rs)"
-                            name="tot_amt_released"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).total_install}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "total_install",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Total Installment Fixed(Rs)"
-                            placeholder="Enter Total Installment Fixed(Rs)"
-                            name="total_install"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).monthly_install}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "monthly_install",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Monthly Installment Amount(Rs)"
-                            placeholder="Enter Monthly Installment Amount(Rs)"
-                            name="monthly_install"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).last_paid_install}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "last_paid_install",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Last Paid Installment Number"
-                            placeholder="Last Paid Installment Number"
-                            name="last_paid_install"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).month_last_install}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "month_last_install",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Month In Which last Installment was paid"
-                            name="month_last_install"
-                            type="date"
-                          />
-                          <InputBox
-                            value={(fields as any).total_amnt}
-                            onChange={(e: any) =>
-                              handleInputPrincipalChange(
-                                "total_amnt",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Total Amount Paid Towards Principal(Rs)"
-                            placeholder="Enter Total Amount Paid Towards Principal(Rs)"
-                            name="total_amnt"
-                            type="number"
-                          />
+                          )}
                         </div>
-                      )}
-                      {innerTabIndex === 2 && (
-                        <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-                          {/* <SelectForNoApi
-                              onBlur={handleBlur}
-                              value={(fields as any).loan_name_recovery}
-                              onChange={(e: any) => handleInputRecoveryChange("loan_name_recovery", e.target.value, index)}
-                              label="Loan Name"
-                              name="loan_name_recovery"
-                              placeholder={"Please Select"}
-                              options={[
-                                { id: 1, name: "Festival Adv." },
-                                { id: 2, name: "Motor Cycle Adv." },
-                                { id: 3, name: "Moped Adv." },
-                                { id: 4, name: "House Building Adv." },
-                                { id: 5, name: "Spl House Building Adv." },
-                                { id: 6, name: "GPF Adv." },
-                                { id: 7, name: "GIS Adv." },
-                              ]}
-                            /> */}
-                          <div>
-                            <span className="text-sm">Loan Name</span>
-                            <br />
-                            <div className="border w-full p-2 rounded border-black">
-                              <select
-                                value={(fields as any).loan_name_recovery}
-                                name="loan_name_recovery"
+                      ))}
+
+                      {formRecoveryFields.map((fields:any, index:any) => (
+                        <div key={`formRecoveryField-${index}`}>
+                          {innerTabIndex === 2 && (
+                            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4  mt-4">
+
+                              <div>
+                                <span className="text-sm">Loan Name</span>
+                                <br />
+                                <div className="border w-full p-2 rounded border-black">
+                                  <select
+                                    value={(fields as any).loan_name_recovery}
+                                    name="loan_name_recovery"
+                                    onChange={(e: any) =>
+                                      handleInputRecoveryChange(
+                                        "loan_name_recovery",
+                                        e.target.value,
+                                        index
+                                      )
+                                    }
+                                    className="w-full border-none outline-none"
+                                  >
+                                    <option value="">Please Select</option>
+                                    <option value="Festival Adv.">
+                                      Festival Adv.
+                                    </option>
+                                    <option value="Motor Cycle Adv.">
+                                      Motor Cycle Adv.
+                                    </option>
+                                    <option value="Moped Adv.">Moped Adv.</option>
+                                    <option value="House Building Adv.">
+                                      House Building Adv.
+                                    </option>
+                                    <option value="Spl House Building Adv.">
+                                      Spl House Building Adv.
+                                    </option>
+                                    <option value="GPF Adv.">GPF Adv.</option>
+                                    <option value="GIS Adv.">GIS Adv.</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <InputBox
+                                value={(fields as any).total_int_amount}
                                 onChange={(e: any) =>
                                   handleInputRecoveryChange(
-                                    "loan_name_recovery",
+                                    "total_int_amount",
                                     e.target.value,
                                     index
                                   )
                                 }
-                                className="w-full border-none outline-none"
-                              >
-                                <option value="">Please Select</option>
-                                <option value="Festival Adv.">
-                                  Festival Adv.
-                                </option>
-                                <option value="Motor Cycle Adv.">
-                                  Motor Cycle Adv.
-                                </option>
-                                <option value="Moped Adv.">Moped Adv.</option>
-                                <option value="House Building Adv.">
-                                  House Building Adv.
-                                </option>
-                                <option value="Spl House Building Adv.">
-                                  Spl House Building Adv.
-                                </option>
-                                <option value="GPF Adv.">GPF Adv.</option>
-                                <option value="GIS Adv.">GIS Adv.</option>
-                              </select>
+                                onBlur={handleBlur}
+                                label=" Total Interest Amount To Be Recovered (Rs)"
+                                placeholder="Enter Total Interest Amount To Be Recovered (Rs)"
+                                name="total_int_amount"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).total_install_recovery}
+                                onChange={(e: any) =>
+                                  handleInputRecoveryChange(
+                                    "total_install_recovery",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Total No. Of Installments"
+                                placeholder="Enter Total No. Of Installments"
+                                name="total_install_recovery"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).monthly_install_recovery}
+                                onChange={(e: any) =>
+                                  handleInputRecoveryChange(
+                                    "monthly_install_recovery",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Monthly Installment Amount(Rs)"
+                                placeholder="Enter Monthly Installment Amount(Rs)"
+                                name="monthly_install_recovery"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).last_paid_install_recovery}
+                                onChange={(e: any) =>
+                                  handleInputRecoveryChange(
+                                    "last_paid_install_recovery",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Last paid Installment Number."
+                                placeholder="Enter Last paid Installment Number."
+                                name="last_paid_install_recovery"
+                                type="number"
+                              />
+                              <InputBox
+                                value={(fields as any).month_last_install_recovery}
+                                onChange={(e: any) =>
+                                  handleInputRecoveryChange(
+                                    "month_last_install_recovery",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Month In Which last Installment was paid"
+                                placeholder="Enter Month In Which last Installment was paid"
+                                name="month_last_install_recovery"
+                                type="date"
+                              />
+                              <InputBox
+                                value={(fields as any).total_amnt_recovery}
+                                onChange={(e: any) =>
+                                  handleInputRecoveryChange(
+                                    "total_amnt_recovery",
+                                    e.target.value,
+                                    index
+                                  )
+                                }
+                                onBlur={handleBlur}
+                                label="Total Amount Paid Towards Interest(Rs)"
+                                placeholder="Enter Total Amount Paid Towards Interest(Rs)"
+                                name="total_amnt_recovery"
+                                type="number"
+                              />
                             </div>
-                          </div>
-                          <InputBox
-                            value={(fields as any).total_int_amount}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "total_int_amount",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label=" Total Interest Amount To Be Recovered (Rs)"
-                            placeholder="Enter Total Interest Amount To Be Recovered (Rs)"
-                            name="total_int_amount"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).total_install_recovery}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "total_install_recovery",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Total No. Of Installments"
-                            placeholder="Enter Total No. Of Installments"
-                            name="total_install_recovery"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).monthly_install_recovery}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "monthly_install_recovery",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Monthly Installment Amount(Rs)"
-                            placeholder="Enter Monthly Installment Amount(Rs)"
-                            name="monthly_install_recovery"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).last_paid_install_recovery}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "last_paid_install_recovery",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Last paid Installment Number."
-                            placeholder="Enter Last paid Installment Number."
-                            name="last_paid_install_recovery"
-                            type="number"
-                          />
-                          <InputBox
-                            value={(fields as any).month_last_install_recovery}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "month_last_install_recovery",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Month In Which last Installment was paid"
-                            placeholder="Enter Month In Which last Installment was paid"
-                            name="month_last_install_recovery"
-                            type="date"
-                          />
-                          <InputBox
-                            value={(fields as any).total_amnt_recovery}
-                            onChange={(e: any) =>
-                              handleInputRecoveryChange(
-                                "total_amnt_recovery",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            onBlur={handleBlur}
-                            label="Total Amount Paid Towards Interest(Rs)"
-                            placeholder="Enter Total Amount Paid Towards Interest(Rs)"
-                            name="total_amnt_recovery"
-                            type="number"
-                          />
+                          )}
                         </div>
-                      )}
+                      ))}
+
                     </div>
                   </div>
-                ))}
+                {/* ))} */}
+
               </>
             )}
 
@@ -686,6 +705,7 @@ const EmpLoanDetails: React.FC<
             <div className="w-full flex items-center justify-end mt-3">
               <Button
                 onClick={addRow}
+
                 buttontype="button"
                 variant="primary_rounded"
               >
