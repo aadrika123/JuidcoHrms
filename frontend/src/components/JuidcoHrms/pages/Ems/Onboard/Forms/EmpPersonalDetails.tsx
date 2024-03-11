@@ -139,8 +139,15 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder="Enter Identification Marks"
                   name="identification_marks"
                   required={true}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  maxLength={50}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -191,8 +198,14 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter Home State"}
                   required={true}
                   // maxLength={20}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -301,8 +314,14 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_ltc_home_town"
                   placeholder={"Enter LTC Home Town"}
                   required={true}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -317,8 +336,14 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_nearest_railway_station"
                   placeholder={"Enter Nearest Railway Station"}
                   required={true}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -447,8 +472,15 @@ const EmpployeePersonalDetails: React.FC<
                       name="emp_family_name"
                       placeholder={"Enter Family Name"}
                       required={true}
-                      onKeyPress={(e: any) => {
-                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                      // maxLength={60}
+                      onKeyPress={(e:any) => {
+                        if (
+                          !(
+                            (e.key >= 'a' && e.key <= 'z') ||
+                            (e.key >= 'A' && e.key <= 'Z') ||
+                            e.key === ' '
+                          )
+                        ) {
                           e.preventDefault();
                         }
                       }}
@@ -467,8 +499,14 @@ const EmpployeePersonalDetails: React.FC<
                           label="Organisation"
                           name="emp_org_name"
                           placeholder={"Enter Organisation Name"}
-                          onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                          onKeyPress={(e:any) => {
+                            if (
+                              !(
+                                (e.key >= 'a' && e.key <= 'z') ||
+                                (e.key >= 'A' && e.key <= 'Z') ||
+                                e.key === ' '
+                              )
+                            ) {
                               e.preventDefault();
                             }
                           }}
@@ -484,8 +522,14 @@ const EmpployeePersonalDetails: React.FC<
                           label="Office Name"
                           name="emp_office_name"
                           placeholder={"Enter Office Name"}
-                          onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                          onKeyPress={(e:any) => {
+                            if (
+                              !(
+                                (e.key >= 'a' && e.key <= 'z') ||
+                                (e.key >= 'A' && e.key <= 'Z') ||
+                                e.key === ' '
+                              )
+                            ) {
                               e.preventDefault();
                             }
                           }}

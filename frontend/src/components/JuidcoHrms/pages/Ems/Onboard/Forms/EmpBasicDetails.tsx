@@ -166,7 +166,20 @@ const EmployeeBasicDetails: React.FC<
                   name="emp_name"
                   placeholder={"Enter Name"}
                   required={true}
+                  maxLength={40}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}

@@ -148,8 +148,14 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Enter Your Village/Town/City"
                   name="village"
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A')  && (e.key <= 'z' || e.key <= 'Z') )) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -329,8 +335,14 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Police Station"
                   name="police_station"
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -394,8 +406,14 @@ const EmpPresentAddress: React.FC<
                       label="Village/Town/City"
                       placeholder="Enter Your Permanent Village/Town/City"
                       name="village_permanent"
-                      onKeyPress={(e: any) => {
-                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                      onKeyPress={(e:any) => {
+                        if (
+                          !(
+                            (e.key >= 'a' && e.key <= 'z') ||
+                            (e.key >= 'A' && e.key <= 'Z') ||
+                            e.key === ' '
+                          )
+                        ) {
                           e.preventDefault();
                         }
                       }}
@@ -407,8 +425,14 @@ const EmpPresentAddress: React.FC<
                       label="Post Office"
                       placeholder="Enter Your Permanent Post Office"
                       name="post_office_permanent"
-                      onKeyPress={(e: any) => {
-                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                      onKeyPress={(e:any) => {
+                        if (
+                          !(
+                            (e.key >= 'a' && e.key <= 'z') ||
+                            (e.key >= 'A' && e.key <= 'Z') ||
+                            e.key === ' '
+                          )
+                        ) {
                           e.preventDefault();
                         }
                       }}
@@ -592,8 +616,14 @@ const EmpPresentAddress: React.FC<
                       label="Police Station"
                       placeholder="Enter Your Permanent Police Station"
                       name="police_station_permanent"
-                      onKeyPress={(e: any) => {
-                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                      onKeyPress={(e:any) => {
+                        if (
+                          !(
+                            (e.key >= 'a' && e.key <= 'z') ||
+                            (e.key >= 'A' && e.key <= 'Z') ||
+                            e.key === ' '
+                          )
+                        ) {
                           e.preventDefault();
                         }
                       }}

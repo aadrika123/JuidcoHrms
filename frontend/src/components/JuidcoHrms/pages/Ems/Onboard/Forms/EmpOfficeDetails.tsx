@@ -205,8 +205,19 @@ const EmployeeOfficeDetails: React.FC<
                   name="ddo_designation"
                   placeholder={"Enter DDO Designation"}
                   maxLength={30}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  // onKeyPress={(e: any) => {
+                  //   if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z' ) && )) {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -253,8 +264,14 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   placeholder={"Enter Office Name"}
                   maxLength={30}
-                  onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
