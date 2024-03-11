@@ -26,9 +26,10 @@ import goBack from "@/utils/helper";
 
 export const DashboardMain = () => {
 
-  const [selectedDate, setSelectedDate] = useState(new Date('2024-03-08'));
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef<DatePicker>(null);
-
+  let present = 83;
+  let absent = 17;
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
@@ -46,11 +47,13 @@ export const DashboardMain = () => {
     /* -----------------------Chart Implementation   ----------------------------------- */
   }
 
+ 
+
   const chartOptions = {
     chart: {
       type: "donut",
     },
-    series: [84, 16],
+    series: [present, absent],
     labels: ["Present", "Absent"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
@@ -209,7 +212,7 @@ export const DashboardMain = () => {
                 <div
                   className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                 >
-                  <span className="text-[#574CDD] text-3xl font-bold">84</span>
+                  <span className="text-[#574CDD] text-3xl font-bold">{present}</span>
                   <InnerTextHeading className="text-center">
                     Total No. of Present Employees
                   </InnerTextHeading>
@@ -218,7 +221,7 @@ export const DashboardMain = () => {
                 <div
                   className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                 >
-                  <span className="text-[#098DA4] text-3xl font-bold">16</span>
+                  <span className="text-[#098DA4] text-3xl font-bold">{absent}</span>
                   <InnerTextHeading className="text-center">
                     Total No. of Absent Employees
                   </InnerTextHeading>

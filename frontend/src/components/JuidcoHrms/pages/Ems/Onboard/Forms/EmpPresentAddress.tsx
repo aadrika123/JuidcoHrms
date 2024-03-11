@@ -146,6 +146,11 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Enter Your Village/Town/City"
                   name="village"
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -155,7 +160,7 @@ const EmpPresentAddress: React.FC<
                   placeholder="Enter Your Post Office"
                   name="post_office"
                 />
-                <InputBox
+                <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.state}
@@ -163,8 +168,48 @@ const EmpPresentAddress: React.FC<
                   touched={touched.state}
                   label="State"
                   required={true}
-                  placeholder="Enter Your State"
+                  placeholder="Please Select"
                   name="state"
+                  options={[
+                    { "id": 1, "name": "West Bengal" },
+                    { "id": 2, "name": "Rajasthan" },
+                    { "id": 3, "name": "Jammu and Kashmir" },
+                    { "id": 4, "name": "Uttar Pradesh" },
+                    { "id": 5, "name": "Bihar" },
+                    { "id": 6, "name": "Assam" },
+                    { "id": 7, "name": "Odisha" },
+                    { "id": 8, "name": "Tamil Nadu" },
+                    { "id": 9, "name": "Andhra Pradesh" },
+                    { "id": 10, "name": "Madhya Pradesh" },
+                    { "id": 11, "name": "Kerala" },
+                    { "id": 12, "name": "Karnataka" },
+                    { "id": 13, "name": "Maharashtra" },
+                    { "id": 14, "name": "Gujarat" },
+                    { "id": 15, "name": "Nagaland" },
+                    { "id": 16, "name": "Punjab" },
+                    { "id": 17, "name": "Himachal Pradesh" },
+                    { "id": 18, "name": "Manipur" },
+                    { "id": 19, "name": "Meghalaya" },
+                    { "id": 20, "name": "Tripura" },
+                    { "id": 21, "name": "Sikkim" },
+                    { "id": 22, "name": "Goa" },
+                    { "id": 23, "name": "Arunachal Pradesh" },
+                    { "id": 24, "name": "Mizoram" },
+                    { "id": 25, "name": "Chhattisgarh" },
+                    { "id": 26, "name": "Jharkhand" },
+                    { "id": 27, "name": "Uttarakhand" },
+                    { "id": 28, "name": "Telangana" },
+                    { "id": 29, "name": "Haryana" },
+                    { "id": 30, "name": "Delhi" },
+                    { "id": 31, "name": "Andaman and Nicobar Islands" },
+                    { "id": 32, "name": "Chandigarh" },
+                    { "id": 33, "name": "Dadra and Nagar Haveli" },
+                    { "id": 34, "name": "Lakshadweep" },
+                    { "id": 35, "name": "Puducherry" },
+                    { "id": 36, "name": "Anglo Indian Nominated" },
+                    { "id": 37, "name": "Jammu and Kashmir" },
+                    { "id": 38, "name": "Ladakh" }
+                  ]}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -282,6 +327,11 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Police Station"
                   name="police_station"
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <div className="flex items-center gap-5">
                   <div className="flex items-center">
@@ -296,7 +346,7 @@ const EmpPresentAddress: React.FC<
                       type="checkbox"
                     />
                     <label htmlFor="">
-                      If Present & Permanent Address are not same
+                      If Present & Permanent Address are not same<span className="text-red-500">*</span>
                     </label>
                   </div>
                 </div>
@@ -342,6 +392,11 @@ const EmpPresentAddress: React.FC<
                       label="Village/Town/City"
                       placeholder="Enter Your Permanent Village/Town/City"
                       name="village_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <InputBox
                       onChange={handleChange}
@@ -350,6 +405,11 @@ const EmpPresentAddress: React.FC<
                       label="Post Office"
                       placeholder="Enter Your Permanent Post Office"
                       name="post_office_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <InputBox
                       onChange={handleChange}
@@ -474,6 +534,11 @@ const EmpPresentAddress: React.FC<
                       placeholder="Enter Your Permanent Pin Code"
                       name="pin_code_permanent"
                       type="number"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= '1' && e.key <= '9')) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <InputBox
                       onChange={handleChange}
@@ -484,6 +549,11 @@ const EmpPresentAddress: React.FC<
                       label="Police Station"
                       placeholder="Enter Your Permanent Police Station"
                       name="police_station_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </>
                 )}

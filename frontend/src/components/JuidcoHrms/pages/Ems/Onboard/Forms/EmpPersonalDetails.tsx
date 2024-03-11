@@ -123,7 +123,7 @@ const EmpployeePersonalDetails: React.FC<
                   options={[
                     { id: 1, name: "Single" },
                     { id: 2, name: "Married" },
-                    { id: 3, name: "Widow" },
+                    { id: 3, name: "Widowed" },
                   ]}
                 />
 
@@ -137,6 +137,11 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder="Enter Identification Marks"
                   name="identification_marks"
                   required={true}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -183,6 +188,12 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_home_state"
                   placeholder={"Enter Home State"}
                   required={true}
+                  // maxLength={20}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
 
                 <SelectForNoApi
@@ -288,6 +299,11 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_ltc_home_town"
                   placeholder={"Enter LTC Home Town"}
                   required={true}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -299,6 +315,11 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_nearest_railway_station"
                   placeholder={"Enter Nearest Railway Station"}
                   required={true}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
 
                 <SelectForNoApi
@@ -424,6 +445,11 @@ const EmpployeePersonalDetails: React.FC<
                       name="emp_family_name"
                       placeholder={"Enter Family Name"}
                       required={true}
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
 
@@ -439,6 +465,11 @@ const EmpployeePersonalDetails: React.FC<
                           label="Organisation"
                           name="emp_org_name"
                           placeholder={"Enter Organisation Name"}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </div>
                       <div className="mt-5">
@@ -451,6 +482,11 @@ const EmpployeePersonalDetails: React.FC<
                           label="Office Name"
                           name="emp_office_name"
                           placeholder={"Enter Office Name"}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </div>
                     </div>

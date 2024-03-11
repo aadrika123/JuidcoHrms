@@ -169,7 +169,7 @@ const EmpLoanDetails: React.FC<
   };
 
   const addRow = () => {
-    if (addedRows < 6) {
+    if (addedRows < 7) {
       setAddedRows((prevRows) => prevRows + 1);
 
       if (tabIndex === 1) {
@@ -290,7 +290,13 @@ const EmpLoanDetails: React.FC<
                           label="Loan Account Number"
                           placeholder="Enter Loan Account Number"
                           name="loan_account_num"
-                          type="number"
+                          type="text"
+                          maxLength={15}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= '0' && e.key <= '9')) {
+                              e.preventDefault();
+                            }
+                          }}
                           onChange={(e: any) =>
                             handleInputChange(
                               "loan_account_num",
@@ -305,6 +311,12 @@ const EmpLoanDetails: React.FC<
                           label="Sanc Order Number"
                           placeholder="Enter Sanc Order Number"
                           name="sanc_order_num"
+                          maxLength={10}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= '0' && e.key <= '9')) {
+                              e.preventDefault();
+                            }
+                          }}
                           onChange={(e: any) =>
                             handleInputChange(
                               "sanc_order_num",
@@ -329,6 +341,12 @@ const EmpLoanDetails: React.FC<
                           label="Sanctioning Authority"
                           placeholder="Enter Sanctioning Authority"
                           name="san_authority"
+                          maxLength={20}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                              e.preventDefault();
+                            }
+                          }}
                           onChange={(e: any) =>
                             handleInputChange(
                               "san_authority",
@@ -353,6 +371,12 @@ const EmpLoanDetails: React.FC<
                           label="Disbursing Treasury Name"
                           placeholder="Enter Disbursing Treasury Name"
                           name="dis_treasury_name"
+                          maxLength={30}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                              e.preventDefault();
+                            }
+                          }}
                           onChange={(e: any) =>
                             handleInputChange(
                               "dis_treasury_name",
@@ -377,6 +401,12 @@ const EmpLoanDetails: React.FC<
                           label="Treasury Voucher Number"
                           placeholder="Enter Treasury Voucher Number"
                           name="treasury_voc_num"
+                          maxLength={15}
+                          onKeyPress={(e: any) => {
+                            if (!(e.key >= '0' && e.key <= '9')) {
+                              e.preventDefault();
+                            }
+                          }}
                           onChange={(e: any) =>
                             handleInputChange(
                               "treasury_voc_num",
@@ -384,7 +414,7 @@ const EmpLoanDetails: React.FC<
                               index
                             )
                           }
-                          type="number"
+                          type="text"
                         />
                       </div>
                     </div>
@@ -486,8 +516,14 @@ const EmpLoanDetails: React.FC<
                                 onBlur={handleBlur}
                                 label="Loan Amount Released (Rs)"
                                 placeholder="Enter Loan Amount Released(Rs)"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                                 name="tot_amt_released"
-                                type="number"
+                                type="text"
                               />
                               <InputBox
                                 value={(fields as any).total_install}
@@ -502,7 +538,13 @@ const EmpLoanDetails: React.FC<
                                 label="Total Installment Fixed(Rs)"
                                 placeholder="Enter Total Installment Fixed(Rs)"
                                 name="total_install"
-                                type="number"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                                type="text"
                               />
                               <InputBox
                                 value={(fields as any).monthly_install}
@@ -517,7 +559,13 @@ const EmpLoanDetails: React.FC<
                                 label="Monthly Installment Amount(Rs)"
                                 placeholder="Enter Monthly Installment Amount(Rs)"
                                 name="monthly_install"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).last_paid_install}
@@ -532,7 +580,13 @@ const EmpLoanDetails: React.FC<
                                 label="Last Paid Installment Number"
                                 placeholder="Last Paid Installment Number"
                                 name="last_paid_install"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).month_last_install}
@@ -561,7 +615,13 @@ const EmpLoanDetails: React.FC<
                                 label="Total Amount Paid Towards Principal(Rs)"
                                 placeholder="Enter Total Amount Paid Towards Principal(Rs)"
                                 name="total_amnt"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                             </div>
                           )}
@@ -621,7 +681,13 @@ const EmpLoanDetails: React.FC<
                                 label=" Total Interest Amount To Be Recovered (Rs)"
                                 placeholder="Enter Total Interest Amount To Be Recovered (Rs)"
                                 name="total_int_amount"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).total_install_recovery}
@@ -636,7 +702,13 @@ const EmpLoanDetails: React.FC<
                                 label="Total No. Of Installments"
                                 placeholder="Enter Total No. Of Installments"
                                 name="total_install_recovery"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).monthly_install_recovery}
@@ -651,7 +723,13 @@ const EmpLoanDetails: React.FC<
                                 label="Monthly Installment Amount(Rs)"
                                 placeholder="Enter Monthly Installment Amount(Rs)"
                                 name="monthly_install_recovery"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).last_paid_install_recovery}
@@ -666,7 +744,13 @@ const EmpLoanDetails: React.FC<
                                 label="Last paid Installment Number."
                                 placeholder="Enter Last paid Installment Number."
                                 name="last_paid_install_recovery"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               <InputBox
                                 value={(fields as any).month_last_install_recovery}
@@ -696,7 +780,13 @@ const EmpLoanDetails: React.FC<
                                 label="Total Amount Paid Towards Interest(Rs)"
                                 placeholder="Enter Total Amount Paid Towards Interest(Rs)"
                                 name="total_amnt_recovery"
-                                type="number"
+                                type="text"
+                                maxLength={30}
+                                onKeyPress={(e: any) => {
+                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                             </div>
                           )}

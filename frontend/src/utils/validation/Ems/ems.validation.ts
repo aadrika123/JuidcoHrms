@@ -28,10 +28,10 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 
 /// ------------- Employee Basic Details ---------------------///
 export const employeeValidationSchema = yup.object({
-  // emp_id: yup.string().required("Employee ID is required"),
+  emp_id: yup.string().required("Employee ID is required"),
   emp_image: yup.string().required("Employee image is required"),
   emp_name: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Employee name is required"),
-  mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
+  // mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
 
   contact_no: yup.string().min(10, "Minimum 10 digit required").required("Contact number is required"),
   emg_contact_no: yup.string().min(10, "Minimum 10 digit required").required("Emergency contact number is required"),
@@ -39,17 +39,17 @@ export const employeeValidationSchema = yup.object({
 
   aadhar_no: yup.string().min(12, "Minimum 12 digit required").required("Aadhar number is required"),
 
-  epic_no: yup.string().min(12, "Minimum 12 digit required").required("EPIC number is required"),
+  epic_no: yup.string().min(10, "Minimum 10 digit required").required("EPIC number is required"),
 
   gender: yup.mixed().required("Gender is required"),
 
-  pran: yup.string().min(12, "Minimum 12 digit required").required("PRAN is required"),
+  // pran: yup.string().min(12, "Minimum 12 digit required").required("PRAN is required"),
 
   emp_type: yup.mixed().required("Employee type is required"),
   // weight: yup.string().required("Weight is required").positive(),
   // height: yup.number().required("Height is required").positive(),
   // cps: yup.string().required("CPS is required"),
-  // gps: yup.string().required("GPF is required"),
+  gps: yup.string().min(12, "Minimum 12 digit required").required("GPF is required"),
   dob: yup.string().required("Date of Birth is required"),
 });
 
@@ -81,13 +81,13 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .required("Please Enter the Identification Marks"),
   religion: yup.mixed().required("Please Enter the Religion"),
   emp_categories: yup.mixed().required("Please Enter the Employee Category"),
-  emp_home_state: yup.string().required("Please Enter the Home State"),
+  emp_home_state: yup.string().min(5, 'Must be at least 5 characters long').max(50, 'Max 50 characters long').required("Please Enter the Home State"),
   emp_district: yup.string().required("Please Enter the Home District"),
   emp_blood_group: yup.mixed().required("Please Enter the Blood Group"),
   emp_health_status: yup.mixed().required("Please Enter the Health Status"),
-  emp_ltc_home_town: yup.string().required("Please Enter the LTC Home Town"),
+  emp_ltc_home_town: yup.string().min(5, 'Must be at least 5 characters long').max(50, 'Max 50 characters long').required("Please Enter the LTC Home Town"),
   emp_nearest_railway_station: yup
-    .string()
+    .string().min(5, 'Must be at least 5 characters long').max(50, 'Max 50 characters long')
     .required("Please Enter the Nearest Railway Station"),
   emp_phy_health_type: yup
     .mixed()
@@ -165,19 +165,19 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
 
 export const employeeJoinValidationSchema = yup.object({
   department: yup.string().required("Please Choose the Correct Department"),
-  designation: yup.string().required("Please Choose the Correct Designation"),
-  task: yup.string().required("Please Choose Correct Task"),
-  doj: yup.string().required("Please Enter the Correct Date Of Joining"),
+  // designation: yup.string().required("Please Choose the Correct Designation"),
+  task: yup.string().min(3, 'Must be at least 3 characters long').max(50, 'Max 50 characters long').required("Please Choose Correct Task"),
+  // doj: yup.string().required("Please Enter the Correct Date Of Joining"),
   effective_pay_commision: yup
     .string()
     .required("Please Choose the Correct Pay Commission"),
-  pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
-  pay_band: yup.string().required("Please Enter the Correct Pay Band"),
+  // pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
+  // pay_band: yup.string().required("Please Enter the Correct Pay Band"),
   grade_pay: yup.string().required("Please Enter the Correct Grade Pay"),
   basic_pay: yup.string().required("Please Enter the Correct Basic Pay"),
   deduction_type: yup
     .string()
-    .required("Please Enter the Correct Deduction Type (GPF/CPS)"),
+    .required("Please Enter the Correct Deduction Type"),
 });
 
 export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {

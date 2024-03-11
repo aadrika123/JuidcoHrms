@@ -169,11 +169,11 @@ const EmployeeBasicDetails: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.mode_of_recruitment}
-                  error={errors.mode_of_recruitment}
-                  touched={touched.mode_of_recruitment}
+                  // error={errors.mode_of_recruitment}
+                  // touched={touched.mode_of_recruitment}
                   label="Mode of Recruitment"
                   name="mode_of_recruitment"
-                  required={true}
+                  // required={true}
                   placeholder={"Enter Mode of Recruitment"}
                   options={[
                     {
@@ -182,11 +182,27 @@ const EmployeeBasicDetails: React.FC<
                     },
                     {
                       id: 2,
-                      name: "Offline",
+                      name: "Contractual",
                     },
                     {
                       id: 3,
-                      name: "Consultant- Third Agent",
+                      name: "Appointments",
+                    },
+                    {
+                      id: 4,
+                      name: "Outsourced",
+                    },
+                    {
+                      id: 5,
+                      name: "Employees",
+                    },
+                    {
+                      id: 6,
+                      name: "Daily Wages",
+                    },
+                    {
+                      id: 7,
+                      name: "Deputation Post",
                     },
                   ]}
                 />
@@ -255,14 +271,14 @@ const EmployeeBasicDetails: React.FC<
                   value={values.epic_no}
                   error={errors.epic_no}
                   touched={touched.epic_no}
-                  label="EPIC No."
+                  label="EPIC No.(Voter id)"
                   name="epic_no"
                   placeholder={"Enter EPIC Number"}
                   type="text"
                   required={true}
-                  maxLength={12}
+                  maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= '0' || e.key >= 'A'  && e.key <= '9' || e.key <= 'Z')) {
                       e.preventDefault();
                     }
                   }}
@@ -275,7 +291,7 @@ const EmployeeBasicDetails: React.FC<
                   touched={touched.gender}
                   label="Gender"
                   name="gender"
-                  placeholder={"Enter Gender"}
+                  placeholder={"Please Select"}
                   required={true}
                   options={[
                     {
@@ -296,13 +312,13 @@ const EmployeeBasicDetails: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.pran}
-                  error={errors.pran}
-                  touched={touched.pran}
+                  // error={errors.pran}
+                  // touched={touched.pran}
                   label="PRAN"
                   name="pran"
                   placeholder={"Enter PRAN"}
                   type="text"
-                  required={true}
+                  // required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
@@ -352,7 +368,7 @@ const EmployeeBasicDetails: React.FC<
                   name="weight"
                   placeholder={"in KG"}
                   type="text"
-                  maxLength={3}
+                  maxLength={5}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
@@ -367,7 +383,7 @@ const EmployeeBasicDetails: React.FC<
                   name="height"
                   placeholder={"in c.m"}
                   type="text"
-                  maxLength={3}
+                  maxLength={5}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
@@ -395,13 +411,13 @@ const EmployeeBasicDetails: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.gps}
-                  // error={errors.gps}
-                  // touched={touched.gps}
+                  error={errors.gps}
+                  touched={touched.gps}
                   label="GPF"
                   name="gps"
                   placeholder={"Enter GPF"}
                   type="text"
-                  // required={true}
+                  required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
