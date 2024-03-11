@@ -313,7 +313,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                             key={option.key}
                           >
                             <input
-                              className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-primary_green checked:text-white  checked:border-transparent"
+                              className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent"
                               type="radio"
                               id={option.value}
                               value={option.value}

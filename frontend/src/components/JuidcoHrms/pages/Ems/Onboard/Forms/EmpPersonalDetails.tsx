@@ -158,7 +158,6 @@ const EmpployeePersonalDetails: React.FC<
           </i>
         </SubHeading>
         <h5>Steps-11/3</h5>
-
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -209,7 +208,12 @@ const EmpployeePersonalDetails: React.FC<
                   name="identification_marks"
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -261,7 +265,12 @@ const EmpployeePersonalDetails: React.FC<
                   required={true}
                   // maxLength={20}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -370,7 +379,12 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter LTC Home Town"}
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -386,7 +400,12 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter Nearest Railway Station"}
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -515,68 +534,70 @@ const EmpployeePersonalDetails: React.FC<
                       placeholder={"Enter Family Name"}
                       required={true}
                       onKeyPress={(e: any) => {
-                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                        if (
+                          !(
+                            (e.key >= "a" || e.key >= "A") &&
+                            (e.key <= "z" || e.key <= "Z")
+                          )
+                        ) {
                           e.preventDefault();
                         }
                       }}
                     />
                   </div>
 
-                  {!(values.married_status === "Single") && (values.emp_family === "Spouse") && (
-                    <div className="mt-5">
-                      <div>
-                        <InputBox
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.emp_org_name}
-                          error={errors.emp_org_name}
-                          touched={touched.emp_org_name}
-                          label="Organisation"
-                          name="emp_org_name"
-                          placeholder={"Enter Organisation Name"}
-                          onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
-                              e.preventDefault();
-                            }
-                          }}
-                        />
-                      </div>
+                  {!(values.married_status === "Single") &&
+                    values.emp_family === "Spouse" && (
                       <div className="mt-5">
-                        <InputBox
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.emp_office_name}
-                          error={errors.emp_office_name}
-                          touched={touched.emp_office_name}
-                          label="Office Name"
-                          name="emp_office_name"
-                          placeholder={"Enter Office Name"}
-                          onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
-                              e.preventDefault();
-                            }
-                          }}
-                        />
+                        <div>
+                          <InputBox
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.emp_org_name}
+                            error={errors.emp_org_name}
+                            touched={touched.emp_org_name}
+                            label="Organisation"
+                            name="emp_org_name"
+                            placeholder={"Enter Organisation Name"}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "a" && e.key <= "z")) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="mt-5">
+                          <InputBox
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.emp_office_name}
+                            error={errors.emp_office_name}
+                            touched={touched.emp_office_name}
+                            label="Office Name"
+                            name="emp_office_name"
+                            placeholder={"Enter Office Name"}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "a" && e.key <= "z")) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
 
                 <div className="flex items-center gap-5">
                   <div>
                     {empLang?.map((row, index: number) => {
-                      console.log("first", row);
+                      console.log("first", row.lang);
                       return (
                         <React.Fragment key={index}>
                           <SelectForNoApi
                             onChange={(e) =>
                               updateEmpLangTypes(index, "lang", e.target.value)
                             }
-                            value={row.lang[index]}
-                            // onBlur={handleBlur}
-                            // value={row.lang}
-                            // error={errors.emp_lang}
-                            // touched={touched.emp_lang}
+                            value={row.lang}
                             label={`${index === 0 ? "Language" : ""}`}
                             name="emp_lang"
                             placeholder={"Select Language"}

@@ -70,14 +70,22 @@ const EmployeeOfficeDetails: React.FC<
         <SubHeading>
           Employee Office Details
           <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
         <h5>Steps-11/1</h5>
       </div>
-
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md">
         {/* <div className="flex justify-between mb-10">
@@ -191,7 +199,6 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   placeholder="Enter Office Code"
                   maxLength={10}
-
                 />
 
                 <InputBox
@@ -206,7 +213,12 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Enter DDO Designation"}
                   maxLength={30}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -224,7 +236,7 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Enter DDO Code"}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -241,7 +253,6 @@ const EmployeeOfficeDetails: React.FC<
                 placeholder={"Enter District"}
               /> */}
 
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -254,12 +265,15 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Enter Office Name"}
                   maxLength={30}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "a" || e.key >= "A") &&
+                        (e.key <= "z" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
-                  
-
                 />
               </div>
 

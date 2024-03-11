@@ -36,7 +36,7 @@ const EmployeeFamilyDetails: React.FC<
     }
   };
 
-  console.log(employeeFamilyDetails, "fami")
+  console.log(employeeFamilyDetails, "fami");
 
   // ----------------------- TABLE COLUMNS --------------------------------//
   const COLUMS_EMP_FAMILY_DETAILS: COLUMNS[] = [
@@ -45,7 +45,6 @@ const EmployeeFamilyDetails: React.FC<
       ACCESSOR: "sl_no",
       isRequired: false,
       sl_no: true,
-      
     },
     {
       HEADER: "Name",
@@ -62,7 +61,7 @@ const EmployeeFamilyDetails: React.FC<
       HEADER: "D.O.B",
       ACCESSOR: "dob",
       isRequired: true,
-      type:'date'
+      type: "date",
     },
 
     {
@@ -146,9 +145,9 @@ const EmployeeFamilyDetails: React.FC<
           Back
         </PrimaryButton>
 
-        <PrimaryButton buttonType="button" variant={"cancel"}>
+        {/* <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
-        </PrimaryButton>
+        </PrimaryButton> */}
 
         <PrimaryButton
           onClick={() => handleSubmitForm(employeeFamilyDetails)}

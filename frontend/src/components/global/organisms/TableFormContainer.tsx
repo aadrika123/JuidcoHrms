@@ -368,7 +368,7 @@ interface TableFormProps {
   isRequired?: boolean;
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];
-  validate: (value: boolean) => void;
+  // validate: (value: boolean) => void;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -614,7 +614,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                 key={option.key}
                               >
                                 <input
-                                  className="mr-1 appearance-none border-2 border-zinc-400  rounded w-6 h-6 checked:bg-primary checked:text-white  checked:border-transparent cursor-pointer"
+                                  className="mr-1 appearance-none border-2 border-zinc-400  rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent cursor-pointer"
                                   type="radio"
                                   id={option.value}
                                   value={option.value}

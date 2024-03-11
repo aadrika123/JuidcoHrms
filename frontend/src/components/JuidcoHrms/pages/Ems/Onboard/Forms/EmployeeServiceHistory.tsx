@@ -18,7 +18,6 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
 import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
-import toast, { Toaster } from "react-hot-toast";
 
 const EmployeeServiceHistory: React.FC<
   EmployeeDetailsProps<EmployeeServiceHistoryType>
@@ -26,7 +25,7 @@ const EmployeeServiceHistory: React.FC<
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const [session, setSession] = useState<boolean>(false);
-  const [isValidate, setIsValidate] = useState<boolean>(true);
+
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
@@ -104,7 +103,6 @@ const EmployeeServiceHistory: React.FC<
 
   return (
     <>
-      <Toaster />
       <SubHeading className="text-[20px] pt-4">
         Employee Service History{" "}
       </SubHeading>
@@ -115,7 +113,7 @@ const EmployeeServiceHistory: React.FC<
           session_key={"emp_inc_details"}
           getData={[]}
           subHeading={"Employee Increment Details "}
-          validate={setIsValidate}
+          // validate={setIsValidate}
         />
       </div>
 
@@ -132,31 +130,20 @@ const EmployeeServiceHistory: React.FC<
           Back
         </PrimaryButton>
 
-        <PrimaryButton buttonType="button" variant={"cancel"}>
+        {/* <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
-        </PrimaryButton>
+        </PrimaryButton> */}
 
-        {isValidate ? (
-          <PrimaryButton
-            onClick={() => {
-              getDataSesson();
-              handleSubmitForm(employeeServiceHistory);
-            }}
-            buttonType="submit"
-            variant="primary"
-          >
-            Next
-          </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            onClick={() => {
-              toast.error("Please fill the complete form!");
-            }}
-            variant="disabled"
-          >
-            Next
-          </PrimaryButton>
-        )}
+        <PrimaryButton
+          onClick={() => {
+            getDataSesson();
+            handleSubmitForm(employeeServiceHistory);
+          }}
+          buttonType="submit"
+          variant="primary"
+        >
+          Next
+        </PrimaryButton>
       </div>
     </>
   );

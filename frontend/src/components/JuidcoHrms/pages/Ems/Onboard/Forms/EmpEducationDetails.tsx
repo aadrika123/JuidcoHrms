@@ -95,9 +95,9 @@ const EmpEducationDetails: React.FC<
           Back
         </PrimaryButton>
 
-        <PrimaryButton buttonType="button" variant={"cancel"}>
+        {/* <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
-        </PrimaryButton>
+        </PrimaryButton> */}
 
         {isValidate ? (
           <PrimaryButton

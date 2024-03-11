@@ -17,13 +17,13 @@ import {
   EmployeeTimeBoundDetailType,
   EmployeeDetailsProps,
 } from "@/utils/types/employee.type";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export const EmpTimeBound: React.FC<
   EmployeeDetailsProps<EmployeeTimeBoundDetailType>
 > = (props) => {
   // const pathName = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   const [addedRows, setAddedRows] = useState<number>(0);
 
   const COLUMNS_FOR_EMP_TRNG_INFRM = [
@@ -103,10 +103,6 @@ export const EmpTimeBound: React.FC<
       if (props.setData) {
         props.setData("emp_timebound_details", tableData as any);
       }
-
-      setTimeout(() => {
-        router.push("/hrms/ems/onboard");
-      }, 3000);
     }
   };
 
@@ -294,10 +290,10 @@ export const EmpTimeBound: React.FC<
         <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
           Back
         </PrimaryButton>
-
+        {/* 
         <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
-        </PrimaryButton>
+        </PrimaryButton> */}
 
         {/* <PrimaryButton
           onClick={saveDataToSessionStorage}
