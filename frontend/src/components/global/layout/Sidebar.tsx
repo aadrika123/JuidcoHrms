@@ -10,6 +10,8 @@ interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
 
+
+
 const Sidebar: React.FC<SideBarProps> = (props) => {
   const pathName = usePathname();
   const [data, setData] = useState<string | null>();
@@ -22,6 +24,8 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   };
 
   return (
+    <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""}`}>
+
     <div {...props}>
       <section>
         <div className="flex flex-col items-center justify-center p-5">
@@ -132,6 +136,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
           })}
         </div>
       </section>
+    </div>
     </div>
   );
 };

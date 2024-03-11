@@ -103,47 +103,75 @@ const EmployeeServiceHistory: React.FC<
 
   return (
     <>
-      <SubHeading className="text-[20px] pt-4">
+      {/* <SubHeading className="text-[20px] pt-4">
         Employee Service History{" "}
-      </SubHeading>
-      <div className="border p-5 rounded-xl shadow mt-4">
-        <TableFormContainer
-          setData={getStateData}
-          columns={COLUMNS_FOR_EMP_INCR_DET}
-          session_key={"emp_inc_details"}
-          getData={[]}
-          subHeading={"Employee Increment Details "}
-          // validate={setIsValidate}
-        />
+      </SubHeading> */}
+
+      <div className="flex justify-between mb-10">
+        <SubHeading>
+          Employee Service History{" "}
+          <i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
+            </svg>
+          </i>
+        </SubHeading>
+        <h5>Steps-7/11</h5>
       </div>
 
-      <div className="border p-5 rounded-xl shadow mt-4">
-        <EmployeePromotionDetailsTable setData={getStateData} />
-      </div>
+      <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
+        <div className="border p-5 rounded-xl shadow mt-4">
+          <TableFormContainer
+            setData={getStateData}
+            columns={COLUMNS_FOR_EMP_INCR_DET}
+            session_key={"emp_inc_details"}
+            getData={[]}
+            subHeading={"Employee Increment Details "}
+            // validate={setIsValidate}
+          />
+        </div>
 
-      <div className="border p-5 rounded-xl shadow mt-4">
-        <EmployeeTransferDetailsTable setData={() => {}} />
-      </div>
+        <div className="border p-5 rounded-xl shadow mt-4">
+          <EmployeePromotionDetailsTable setData={getStateData} />
+        </div>
 
-      <div className="flex items-center justify-end mt-5 gap-5">
-        <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
-          Back
-        </PrimaryButton>
+        <div className="border p-5 rounded-xl shadow mt-4">
+          <EmployeeTransferDetailsTable setData={() => {}} />
+        </div>
 
-        {/* <PrimaryButton buttonType="button" variant={"cancel"}>
+        <div className="flex items-center justify-end mt-5 gap-5">
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={goBack}
+          >
+            Back
+          </PrimaryButton>
+
+          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
         </PrimaryButton> */}
 
-        <PrimaryButton
-          onClick={() => {
-            getDataSesson();
-            handleSubmitForm(employeeServiceHistory);
-          }}
-          buttonType="submit"
-          variant="primary"
-        >
-          Next
-        </PrimaryButton>
+          <PrimaryButton
+            onClick={() => {
+              getDataSesson();
+              handleSubmitForm(employeeServiceHistory);
+            }}
+            buttonType="submit"
+            variant="primary"
+          >
+            Next
+          </PrimaryButton>
+        </div>
       </div>
     </>
   );

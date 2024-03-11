@@ -343,8 +343,14 @@ const EmpLoanDetails: React.FC<
                           placeholder="Enter Sanctioning Authority"
                           name="san_authority"
                           maxLength={20}
-                          onKeyPress={(e: any) => {
-                            if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                          onKeyPress={(e:any) => {
+                            if (
+                              !(
+                                (e.key >= 'a' && e.key <= 'z') ||
+                                (e.key >= 'A' && e.key <= 'Z') ||
+                                e.key === ' '
+                              )
+                            ) {
                               e.preventDefault();
                             }
                           }}
@@ -373,8 +379,14 @@ const EmpLoanDetails: React.FC<
                           placeholder="Enter Disbursing Treasury Name"
                           name="dis_treasury_name"
                           maxLength={30}
-                          onKeyPress={(e: any) => {
-                            if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                          onKeyPress={(e:any) => {
+                            if (
+                              !(
+                                (e.key >= 'a' && e.key <= 'z') ||
+                                (e.key >= 'A' && e.key <= 'Z') ||
+                                e.key === ' '
+                              )
+                            ) {
                               e.preventDefault();
                             }
                           }}

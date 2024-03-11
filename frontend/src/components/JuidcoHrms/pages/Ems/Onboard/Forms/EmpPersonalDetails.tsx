@@ -157,7 +157,7 @@ const EmpployeePersonalDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/3</h5>
+        <h5>Steps-3/11</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -207,11 +207,13 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder="Enter Identification Marks"
                   name="identification_marks"
                   required={true}
+                  maxLength={50}
                   onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -267,8 +269,9 @@ const EmpployeePersonalDetails: React.FC<
                   onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -381,8 +384,9 @@ const EmpployeePersonalDetails: React.FC<
                   onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -402,8 +406,9 @@ const EmpployeePersonalDetails: React.FC<
                   onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -533,11 +538,13 @@ const EmpployeePersonalDetails: React.FC<
                       name="emp_family_name"
                       placeholder={"Enter Family Name"}
                       required={true}
+                      // maxLength={60}
                       onKeyPress={(e: any) => {
                         if (
                           !(
-                            (e.key >= "a" || e.key >= "A") &&
-                            (e.key <= "z" || e.key <= "Z")
+                            (e.key >= "a" && e.key <= "z") ||
+                            (e.key >= "A" && e.key <= "Z") ||
+                            e.key === " "
                           )
                         ) {
                           e.preventDefault();
@@ -560,7 +567,13 @@ const EmpployeePersonalDetails: React.FC<
                             name="emp_org_name"
                             placeholder={"Enter Organisation Name"}
                             onKeyPress={(e: any) => {
-                              if (!(e.key >= "a" && e.key <= "z")) {
+                              if (
+                                !(
+                                  (e.key >= "a" && e.key <= "z") ||
+                                  (e.key >= "A" && e.key <= "Z") ||
+                                  e.key === " "
+                                )
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -577,7 +590,13 @@ const EmpployeePersonalDetails: React.FC<
                             name="emp_office_name"
                             placeholder={"Enter Office Name"}
                             onKeyPress={(e: any) => {
-                              if (!(e.key >= "a" && e.key <= "z")) {
+                              if (
+                                !(
+                                  (e.key >= "a" && e.key <= "z") ||
+                                  (e.key >= "A" && e.key <= "Z") ||
+                                  e.key === " "
+                                )
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -603,14 +622,28 @@ const EmpployeePersonalDetails: React.FC<
                             placeholder={"Select Language"}
                             required={index === 0 ? true : false}
                             options={[
-                              {
-                                id: 1,
-                                name: "Hindi",
-                              },
-                              {
-                                id: 2,
-                                name: "English",
-                              },
+                              { id: 1, name: "Assamese" },
+                              { id: 2, name: "Bengali" },
+                              { id: 3, name: "Bodo" },
+                              { id: 4, name: "Dogri" },
+                              { id: 5, name: "Gujarati" },
+                              { id: 6, name: "Hindi" },
+                              { id: 7, name: "Kannada" },
+                              { id: 8, name: "Kashmiri" },
+                              { id: 9, name: "Konkani" },
+                              { id: 10, name: "Maithili" },
+                              { id: 11, name: "Malayalam" },
+                              { id: 12, name: "Manipuri" },
+                              { id: 13, name: "Marathi" },
+                              { id: 14, name: "Nepali" },
+                              { id: 15, name: "Odia" },
+                              { id: 16, name: "Punjabi" },
+                              { id: 17, name: "Sanskrit" },
+                              { id: 18, name: "Santali" },
+                              { id: 19, name: "Sindhi" },
+                              { id: 20, name: "Tamil" },
+                              { id: 21, name: "Telugu" },
+                              { id: 22, name: "Urdu" },
                             ]}
                           />
 
@@ -692,6 +725,28 @@ const EmpployeePersonalDetails: React.FC<
                     </span>
                   </button>
                 </div>
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.emp_mother_tounge}
+                  error={errors.emp_mother_tounge}
+                  touched={touched.emp_mother_tounge}
+                  label="Mother Tongue"
+                  required={true}
+                  name="emp_mother_tounge"
+                  placeholder={"Enter Mother Tongue"}
+                  onKeyPress={(e: any) => {
+                    if (
+                      !(
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
               </div>
 
               <div className="flex items-center justify-end mt-5 gap-5">

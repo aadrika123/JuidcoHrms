@@ -70,7 +70,7 @@ const EmpInitialJoinDetails: React.FC<
                         </svg>
                     </i>
                 </SubHeading>
-                <h5>Steps-11/6</h5>
+                <h5>Steps-6/11</h5>
 
             </div>
 
@@ -295,8 +295,14 @@ const EmpInitialJoinDetails: React.FC<
                                     placeholder="Enter Task"
                                     name="task"
                                     required={true}
-                                    onKeyPress={(e: any) => {
-                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                    onKeyPress={(e:any) => {
+                                        if (
+                                          !(
+                                            (e.key >= 'a' && e.key <= 'z') ||
+                                            (e.key >= 'A' && e.key <= 'Z') ||
+                                            e.key === ' '
+                                          )
+                                        ) {
                                           e.preventDefault();
                                         }
                                       }}
@@ -647,8 +653,14 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Name Of Service at the time of joining"
                                     name="name_of_service"
                                     placeholder={"Enter Name Of Service at the time of joining"}
-                                    onKeyPress={(e: any) => {
-                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                    onKeyPress={(e:any) => {
+                                        if (
+                                          !(
+                                            (e.key >= 'a' && e.key <= 'z') ||
+                                            (e.key >= 'A' && e.key <= 'Z') ||
+                                            e.key === ' '
+                                          )
+                                        ) {
                                           e.preventDefault();
                                         }
                                       }}
@@ -669,8 +681,14 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Bank Name"
                                     name="bank_name"
                                     placeholder={"Enter Bank Name"}
-                                    onKeyPress={(e: any) => {
-                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                    onKeyPress={(e:any) => {
+                                        if (
+                                          !(
+                                            (e.key >= 'a' && e.key <= 'z') ||
+                                            (e.key >= 'A' && e.key <= 'Z') ||
+                                            e.key === ' '
+                                          )
+                                        ) {
                                           e.preventDefault();
                                         }
                                       }}
@@ -737,8 +755,14 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Employee fall under, Seniority in gradation list"
                                     name="sen_grade_list"
                                     placeholder={"Enter if Seniority in gradation list"}
-                                    onKeyPress={(e: any) => {
-                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                    onKeyPress={(e:any) => {
+                                        if (
+                                          !(
+                                            (e.key >= 'a' && e.key <= 'z') ||
+                                            (e.key >= 'A' && e.key <= 'Z') ||
+                                            e.key === ' '
+                                          )
+                                        ) {
                                           e.preventDefault();
                                         }
                                       }}

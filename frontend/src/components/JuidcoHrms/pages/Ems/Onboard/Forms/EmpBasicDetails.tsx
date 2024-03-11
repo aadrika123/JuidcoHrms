@@ -45,15 +45,7 @@ const EmployeeBasicDetails: React.FC<
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
-      // Object.keys(values).forEach((key) => {
-      //   const val = values[key as keyof typeof values];
-      //   if (
-      //     val ==
-      //     initialEmployeeDetails[key as keyof typeof initialEmployeeDetails]
-      //   ) {
-      //     delete values[key as keyof typeof values];
-      //   }
-      // });
+
       if (props.setData) {
         props.setData("emp_basic_details", values);
       }
@@ -72,26 +64,19 @@ const EmployeeBasicDetails: React.FC<
     <>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Details
-          <i>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="19"
-              height="19"
-              viewBox="0 0 19 19"
-              fill="none"
-            >
-              <path
-                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
-                fill="#6565DD"
-              />
+          Employee Details     
+             <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/2</h5>
+        <h5>Steps-2/11</h5>
+
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
+
         <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
         <Formik
           initialValues={initialValues}
@@ -134,15 +119,13 @@ const EmployeeBasicDetails: React.FC<
                 name="emp_image"
               /> */}
 
-                <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-7">
-                  <p className="text-zinc-600 ">
-                    Upload Employee Profile
-                    <span className="text-red-500">*</span>
+                <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-4">
+                  <p className="text-zinc-600 mt-2">Upload Employee Profile
+                  <span className="text-red-500">*</span>
                     {touched.emp_image && errors.emp_image && (
                       <div className="text-red-500">{errors.emp_image}</div>
                     )}
-                  </p>
-
+                    </p>
                   <div
                     className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                     onClick={handleDivClick}
@@ -188,16 +171,29 @@ const EmployeeBasicDetails: React.FC<
                   name="emp_name"
                   placeholder={"Enter Name"}
                   required={true}
+                  // maxLength={40}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.mode_of_recruitment}
-                  error={errors.mode_of_recruitment}
-                  touched={touched.mode_of_recruitment}
+                  // error={errors.mode_of_recruitment}
+                  // touched={touched.mode_of_recruitment}
                   label="Mode of Recruitment"
                   name="mode_of_recruitment"
-                  required={true}
+                  // required={true}
                   placeholder={"Enter Mode of Recruitment"}
                   options={[
                     {
@@ -206,11 +202,27 @@ const EmployeeBasicDetails: React.FC<
                     },
                     {
                       id: 2,
-                      name: "Offline",
+                      name: "Contractual",
                     },
                     {
                       id: 3,
-                      name: "Consultant- Third Agent",
+                      name: "Appointments",
+                    },
+                    {
+                      id: 4,
+                      name: "Outsourced",
+                    },
+                    {
+                      id: 5,
+                      name: "Employees",
+                    },
+                    {
+                      id: 6,
+                      name: "Daily Wages",
+                    },
+                    {
+                      id: 7,
+                      name: "Deputation Post",
                     },
                   ]}
                 />
@@ -227,10 +239,11 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
+
                 />
 
                 <InputBox
@@ -246,10 +259,13 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
+
+
+
                 />
                 <InputBox
                   onChange={handleChange}
@@ -264,7 +280,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
@@ -282,12 +298,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (
-                      !(
-                        (e.key >= "0" || e.key >= "A") &&
-                        (e.key <= "9" || e.key <= "Z")
-                      )
-                    ) {
+                    if (!((e.key >= '0' || e.key >= 'A' ) &&( e.key <= '9' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -313,8 +324,8 @@ const EmployeeBasicDetails: React.FC<
                     },
                     {
                       id: 3,
-                      name: "Transgender",
-                    },
+                      name: "Transgender"
+                    }
                   ]}
                 />
                 <InputBox
@@ -330,7 +341,7 @@ const EmployeeBasicDetails: React.FC<
                   // required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
@@ -379,7 +390,7 @@ const EmployeeBasicDetails: React.FC<
                   type="text"
                   maxLength={5}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
@@ -394,7 +405,7 @@ const EmployeeBasicDetails: React.FC<
                   type="text"
                   maxLength={5}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
@@ -411,7 +422,7 @@ const EmployeeBasicDetails: React.FC<
                   // required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}
@@ -429,7 +440,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
+                    if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
                     }
                   }}

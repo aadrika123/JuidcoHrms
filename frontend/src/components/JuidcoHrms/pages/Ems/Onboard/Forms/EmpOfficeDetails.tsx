@@ -84,7 +84,7 @@ const EmployeeOfficeDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/1</h5>
+        <h5>Steps-1/11</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md">
@@ -198,7 +198,20 @@ const EmployeeOfficeDetails: React.FC<
                   name="office_code"
                   required={true}
                   placeholder="Enter Office Code"
-                  maxLength={10}
+                  maxLength={20}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= '0' && e.key <= '9') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+
                 />
 
                 <InputBox
@@ -212,11 +225,17 @@ const EmployeeOfficeDetails: React.FC<
                   name="ddo_designation"
                   placeholder={"Enter DDO Designation"}
                   maxLength={30}
-                  onKeyPress={(e: any) => {
+                  // onKeyPress={(e: any) => {
+                  //   if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z' ) && )) {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
+                  onKeyPress={(e:any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
                       )
                     ) {
                       e.preventDefault();
@@ -264,11 +283,12 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   placeholder={"Enter Office Name"}
                   maxLength={30}
-                  onKeyPress={(e: any) => {
+                  onKeyPress={(e:any) => {
                     if (
                       !(
-                        (e.key >= "a" || e.key >= "A") &&
-                        (e.key <= "z" || e.key <= "Z")
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
                       )
                     ) {
                       e.preventDefault();

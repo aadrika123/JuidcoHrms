@@ -126,6 +126,8 @@ export const employeePersonalDetailsValidationSchema = yup.object({
   //   .required("Please Enter the Physical Health Type"),
   emp_family: yup.mixed().required("Please Enter the Family"),
   emp_lang: yup.mixed().required("Please Enter the Language"),
+  emp_mother_tounge:yup.string().min(3, "Must be at least 5 characters long")
+  .max(50, "Max 50 characters long").required("Please Enter Mother Tounge"),
   emp_family_name: yup
     .string()
     .min(3, "Must be at least 3 characters long")
@@ -154,6 +156,7 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   emp_org_name: "",
   emp_office_name: "",
   emp_health_file: "",
+  emp_mother_tounge:"",
   // emp_lang_do: "",
 };
 

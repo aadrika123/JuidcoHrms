@@ -71,7 +71,12 @@ const EmpEducationDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-5/11</h5>
+
       </div>
+
+
+      <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
 
       <div className="border p-5 rounded-xl shadow">
         <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
@@ -120,6 +125,7 @@ const EmpEducationDetails: React.FC<
             Next
           </PrimaryButton>
         )}
+      </div>
       </div>
     </div>
   );
