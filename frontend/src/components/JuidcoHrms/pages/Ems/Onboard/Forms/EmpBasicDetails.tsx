@@ -120,7 +120,12 @@ const EmployeeBasicDetails: React.FC<
               /> */}
 
                 <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-4">
-                  <p className="text-zinc-600 mt-2">Upload Employee Profile<span className="text-red-500">*</span></p>
+                  <p className="text-zinc-600 mt-2">Upload Employee Profile
+                  <span className="text-red-500">*</span>
+                    {touched.emp_image && errors.emp_image && (
+                      <div className="text-red-500">{errors.emp_image}</div>
+                    )}
+                    </p>
                   <div
                     className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                     onClick={handleDivClick}
@@ -166,7 +171,7 @@ const EmployeeBasicDetails: React.FC<
                   name="emp_name"
                   placeholder={"Enter Name"}
                   required={true}
-                  maxLength={40}
+                  // maxLength={40}
                   onKeyPress={(e:any) => {
                     if (
                       !(
