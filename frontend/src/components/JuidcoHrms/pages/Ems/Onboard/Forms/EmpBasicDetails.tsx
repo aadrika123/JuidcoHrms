@@ -71,6 +71,8 @@ const EmployeeBasicDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/2</h5>
+
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
@@ -278,7 +280,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' || e.key >= 'A'  && e.key <= '9' || e.key <= 'Z')) {
+                    if (!((e.key >= '0' || e.key >= 'A' ) &&( e.key <= '9' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}

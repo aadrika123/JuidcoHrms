@@ -199,6 +199,7 @@ const EmpLoanDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -343,7 +344,7 @@ const EmpLoanDetails: React.FC<
                           name="san_authority"
                           maxLength={20}
                           onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                            if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                               e.preventDefault();
                             }
                           }}
@@ -373,7 +374,7 @@ const EmpLoanDetails: React.FC<
                           name="dis_treasury_name"
                           maxLength={30}
                           onKeyPress={(e: any) => {
-                            if (!(e.key >= 'a' && e.key <= 'z')) {
+                            if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                               e.preventDefault();
                             }
                           }}

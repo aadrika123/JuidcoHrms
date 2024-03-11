@@ -88,6 +88,8 @@ const EmpployeePersonalDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/3</h5>
+
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -138,7 +140,7 @@ const EmpployeePersonalDetails: React.FC<
                   name="identification_marks"
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -190,7 +192,7 @@ const EmpployeePersonalDetails: React.FC<
                   required={true}
                   // maxLength={20}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -300,7 +302,7 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter LTC Home Town"}
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -316,7 +318,7 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter Nearest Railway Station"}
                   required={true}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -446,7 +448,7 @@ const EmpployeePersonalDetails: React.FC<
                       placeholder={"Enter Family Name"}
                       required={true}
                       onKeyPress={(e: any) => {
-                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                           e.preventDefault();
                         }
                       }}
