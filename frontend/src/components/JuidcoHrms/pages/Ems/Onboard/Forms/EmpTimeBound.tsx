@@ -126,13 +126,13 @@ export const EmpTimeBound: React.FC<
       <div>
         <table>
           {/* -----------------------Table Header----------------------------------- */}
-          <thead className="text-[1rem] bg-primary_green text-white ">
+          <thead className="text-[1rem] bg-primary_green text-[#211F35]  ">
             <tr>
               {COLUMNS_FOR_EMP_TRNG_INFRM?.map((cols, index: number) => (
                 <>
                   <th
                     key={index}
-                    className={`border  border-zinc-400 p-3 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                    className={` p-3 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
                   >
                     <div className="flex gap-2">
                       <span>{cols.HEADER}</span>
@@ -146,22 +146,22 @@ export const EmpTimeBound: React.FC<
 
           <tbody>
             {tableData.map((rowData: any, rowIndex) => (
-              <tr key={rowIndex} className="border py-2 px-4 ">
-                <td className="border py-3 px-10 text-center ">
+              <tr key={rowIndex} className=" py-2 px-4 ">
+                <td className=" py-3 px-10 text-center border-b-2">
                   <span>{rowIndex + 1}</span>
                 </td>
                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
                   const stateKey: any =
                     Object.keys(getInitialFormData())[colIndex];
                   return (
-                    <td key={colIndex} className="border">
+                    <td key={colIndex} className="border-b-2">
                       {colIndex === 0 ? (
                         <div className=" inline-flex items-center pt-1 pb-1 mx-2 my-2">
                           <React.Fragment>
                             <p className="mr-2">From:</p>
                             <input
                               type="number"
-                              className="w-full h-full p-2 bg-transparent border border-gray-300"
+                              className="w-full h-full p-2 bg-transparent "
                               placeholder="Enter Increment Amount"
                               onChange={(e) =>
                                 handleInputChange(
@@ -176,7 +176,7 @@ export const EmpTimeBound: React.FC<
                             <p className="ml-2 mr-2">To:</p>
                             <input
                               type="number"
-                              className="w-full h-full p-2 bg-transparent border border-gray-300"
+                              className="w-full h-full p-2 bg-transparent "
                               placeholder="Enter Increment Amount"
                               onChange={(e) =>
                                 handleInputChange(

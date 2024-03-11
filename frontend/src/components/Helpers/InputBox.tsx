@@ -19,14 +19,11 @@ interface InputBoxProps {
   className?: string;
   onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e?: React.FocusEvent<HTMLInputElement>) => void;
-  required?:boolean;
+  required?: boolean;
   maxLength?: number;
   // pattern?: string;
   onKeyPress?: (e?: React.KeyboardEvent<HTMLInputElement>) => void;
   // onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-
-  
-
 }
 
 const InputBox: React.FC<InputBoxProps> = (props) => {
@@ -44,19 +41,16 @@ const InputBox: React.FC<InputBoxProps> = (props) => {
           placeholder={props.placeholder}
           onChange={props.onChange}
           onBlur={props.onBlur}
-          type={props.type || "text" }
+          type={props.type || "text"}
           value={props.value}
           className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 ${props.className}`}
           name={props.name}
           id={fieldId}
-          // pattern={props.pattern || "[0-9]*"}  
+          // pattern={props.pattern || "[0-9]*"}
           maxLength={props.maxLength}
           // onKeyPress={(e) => props.onKeyPress && props.onKeyPress(e)}
           onKeyPress={(e) => props.onKeyPress && props.onKeyPress(e)}
           // onKeyDown={(e) => props.onKeyDown && props.onKeyDown(e)}
-
-
-
         />
 
         {props.touched && props.error && (

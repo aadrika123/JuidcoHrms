@@ -147,11 +147,11 @@ const EmpInitialJoinDetails: React.FC<
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.designation}
-                                    error={errors.designation}
-                                    touched={touched.designation}
+                                    // error={errors.designation}
+                                    // touched={touched.designation}
                                     label="Designation"
                                     placeholder="Please Select"
-                                    required={true}
+                                    // required={true}
                                     name="designation"
                                     options={[
                                         { id: 1, name: "Assistant Municipal Commissioner" },
@@ -293,6 +293,11 @@ const EmpInitialJoinDetails: React.FC<
                                     placeholder="Enter Task"
                                     name="task"
                                     required={true}
+                                    onKeyPress={(e: any) => {
+                                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                 <SelectForNoApi
                                     onChange={handleChange}
@@ -310,13 +315,13 @@ const EmpInitialJoinDetails: React.FC<
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.doj}
-                                    error={errors.doj}
-                                    touched={touched.doj}
+                                    // error={errors.doj}
+                                    // touched={touched.doj}
                                     label="Date Of Joining"
                                     name="doj"
                                     placeholder={"Enter Date Of Joining"}
                                     type="date"
-                                    required={true}
+                                    // required={true}
                                 />
                                 <SelectForNoApi
                                     onChange={handleChange}
@@ -412,25 +417,37 @@ const EmpInitialJoinDetails: React.FC<
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.pay_scale}
-                                        error={errors.pay_scale}
-                                        touched={touched.pay_scale}
+                                        // error={errors.pay_scale}
+                                        // touched={touched.pay_scale}
                                         label="Pay Scale"
                                         name="pay_scale"
                                         placeholder={"Enter Pay Scale"}
-                                        type="number"
-                                        required={true}
+                                        type="text"
+                                        // required={true}
+                                        maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                     <InputBox
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.pay_band}
-                                        error={errors.pay_band}
-                                        touched={touched.pay_band}
+                                        // error={errors.pay_band}
+                                        // touched={touched.pay_band}
                                         label="Pay Band"
                                         name="pay_band"
                                         placeholder={"Enter Pay Band"}
-                                        type="number"
-                                        required={true}
+                                        type="text"
+                                        // required={true}
+                                        maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
 
                                     />
                                     <InputBox
@@ -442,8 +459,14 @@ const EmpInitialJoinDetails: React.FC<
                                         label="Grade Pay"
                                         name="grade_pay"
                                         placeholder={"Enter Grade Pay"}
-                                        type="number"
+                                        type="text"
                                         required={true}
+                                        maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </div>
 
@@ -465,8 +488,14 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Basic Pay"
                                     name="basic_pay"
                                     placeholder={"Enter Basic Pay"}
-                                    type='number'
+                                    type='text'
                                     required={true}
+                                    maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -475,7 +504,13 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Confirmation Order Number"
                                     name="conf_order_number"
                                     placeholder={"Enter Confirmation Order Number"}
-                                    type='number'
+                                    type='text'
+                                    maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                 />
 
                                 <SelectForNoApi
@@ -542,7 +577,13 @@ const EmpInitialJoinDetails: React.FC<
                                             label="GIS Account No"
                                             name="gis_account"
                                             placeholder={"Enter GIS Account No."}
-                                            type="number"
+                                            type="text"
+                                            maxLength={10}
+                                            onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
 
                                         />
                                     )}
@@ -595,7 +636,7 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Last Increment Order No."
                                     name="last_inc_order"
                                     placeholder={"Enter Last Increment Order No."}
-                                    type="date"
+                                    type="text"
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -604,6 +645,11 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Name Of Service at the time of joining"
                                     name="name_of_service"
                                     placeholder={"Enter Name Of Service at the time of joining"}
+                                    onKeyPress={(e: any) => {
+                                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -621,6 +667,11 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Bank Name"
                                     name="bank_name"
                                     placeholder={"Enter Bank Name"}
+                                    onKeyPress={(e: any) => {
+                                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -660,7 +711,13 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Account Number"
                                     name="acc_number"
                                     placeholder={"Enter Account Number"}
-                                    type='number'
+                                    type='text'
+                                    maxLength={10}
+                                        onKeyPress={(e: any) => {
+                                            if (!(e.key >= '0' && e.key <= '9')) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -669,6 +726,7 @@ const EmpInitialJoinDetails: React.FC<
                                     label="IFSC Code"
                                     name="ifsc"
                                     placeholder={"Enter IFSC Code"}
+                                    maxLength={12}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -677,6 +735,11 @@ const EmpInitialJoinDetails: React.FC<
                                     label="Employee fall under, Seniority in gradation list"
                                     name="sen_grade_list"
                                     placeholder={"Enter if Seniority in gradation list"}
+                                    onKeyPress={(e: any) => {
+                                        if (!(e.key >= 'a' && e.key <= 'z')) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                             </div>
 

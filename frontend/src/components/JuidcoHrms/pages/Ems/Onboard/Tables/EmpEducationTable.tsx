@@ -39,7 +39,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     (_, index) => ({
       edu_level:
         index === 0
-          ? "Matric"
+          ? "Matriculation"
           : index === 1
             ? "Intermediate"
             : index === 2
@@ -66,6 +66,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       const storedData = sessionStorage.getItem("emp_education");
       if (storedData !== null)
         setTableData(storedData ? JSON.parse(storedData) : [{}]);
+      props.validate(true);
     }
   }, [props.setSession]);
 
@@ -135,6 +136,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
         if (!row[key]) {
           row[key] = {};
         }
+        value = Math.min(Number(value), 100);
 
         row["grade"] =
           (value as number) >= 60
@@ -162,10 +164,10 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       if (
         Object.values(row)
           .slice(1)
-          .every((key) => key === "") ||
+          .every((key) => key !== "") ||
         Object.values(row)
           .slice(1)
-          .every((key) => key !== "")
+          .every((key) => key === "")
       ) {
         props.validate(true);
       } else {
@@ -273,6 +275,16 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     value={row?.stream}
                     placeholder={"Enter "}
                     isRequired={true}
+                    onKeyPress={(e: any) => {
+                      if (
+                        !(
+                          (e.key >= "a" || e.key >= "A") &&
+                          (e.key <= "z" || e.key <= "Z")
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </td>
                 {/* ---------------------------STREAM----------------------------------- */}
@@ -287,6 +299,16 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       value={row.board}
                       placeholder={"Enter "}
                       isRequired={true}
+                      onKeyPress={(e: any) => {
+                        if (
+                          !(
+                            (e.key >= "a" || e.key >= "A") &&
+                            (e.key <= "z" || e.key <= "Z")
+                          )
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </React.Fragment>
                 </td>
@@ -303,9 +325,13 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       )
                     }
                     value={row?.passing_year}
-                    type="number"
-                    min={1111}
-                    max={9999}
+                    maxLength={4}
+                    type="text"
+                    onKeyPress={(e: any) => {
+                      if (!(e.key >= "0" && e.key <= "9")) {
+                        e.preventDefault();
+                      }
+                    }}
                     placeholder={"Enter "}
                     isRequired={true}
                   />
@@ -322,7 +348,13 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                         "marks"
                       )
                     }
-                    type="number"
+                    type="text"
+                    maxLength={3}
+                    onKeyPress={(e: any) => {
+                      if (!(e.key >= "0" && e.key <= "9")) {
+                        e.preventDefault();
+                      }
+                    }}
                     value={row?.marks}
                     placeholder={"Enter "}
                     isRequired={true}
@@ -339,6 +371,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     value={row?.grade}
                     placeholder={"Enter "}
                     isRequired={true}
+                    disabled
                   />
                 </td>
                 {/* ---------------------------GRADE----------------------------------- */}

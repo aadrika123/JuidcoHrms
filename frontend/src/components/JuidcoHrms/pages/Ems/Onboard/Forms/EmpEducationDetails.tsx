@@ -23,7 +23,7 @@ const EmpEducationDetails: React.FC<
   EmployeeDetailsProps<EmployeeEducationDetailsType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
-  const [isValidate, setIsValidate] = useState<boolean>(true);
+  const [isValidate, setIsValidate] = useState<boolean>(false);
   const [session, setSession] = useState<boolean>(false);
   const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();

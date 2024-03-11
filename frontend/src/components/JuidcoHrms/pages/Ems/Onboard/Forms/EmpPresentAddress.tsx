@@ -35,21 +35,7 @@ const EmpPresentAddress: React.FC<
     setConfirmationOrder(value);
   };
 
-  const handleSubmitFormik = (
-    values: EmployeePresentAddressDetailsType
-    // { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    Object.keys(values).forEach((key) => {
-      const val = values[key as keyof typeof values];
-      if (
-        val ==
-        initialEmployeeAddressDetails[
-          key as keyof typeof initialEmployeeAddressDetails
-        ]
-      ) {
-        delete values[key as keyof typeof values];
-      }
-    });
+  const handleSubmitFormik = (values: EmployeePresentAddressDetailsType) => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_address_details", JSON.stringify(values));
 
@@ -99,8 +85,17 @@ const EmpPresentAddress: React.FC<
         <SubHeading>
           Employee Present Address
           <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
@@ -158,6 +153,11 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Enter Your Village/Town/City"
                   name="village"
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= "a" && e.key <= "z")) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -167,7 +167,7 @@ const EmpPresentAddress: React.FC<
                   placeholder="Enter Your Post Office"
                   name="post_office"
                 />
-                <InputBox
+                <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.state}
@@ -175,8 +175,48 @@ const EmpPresentAddress: React.FC<
                   touched={touched.state}
                   label="State"
                   required={true}
-                  placeholder="Enter Your State"
+                  placeholder="Please Select"
                   name="state"
+                  options={[
+                    { id: 1, name: "West Bengal" },
+                    { id: 2, name: "Rajasthan" },
+                    { id: 3, name: "Jammu and Kashmir" },
+                    { id: 4, name: "Uttar Pradesh" },
+                    { id: 5, name: "Bihar" },
+                    { id: 6, name: "Assam" },
+                    { id: 7, name: "Odisha" },
+                    { id: 8, name: "Tamil Nadu" },
+                    { id: 9, name: "Andhra Pradesh" },
+                    { id: 10, name: "Madhya Pradesh" },
+                    { id: 11, name: "Kerala" },
+                    { id: 12, name: "Karnataka" },
+                    { id: 13, name: "Maharashtra" },
+                    { id: 14, name: "Gujarat" },
+                    { id: 15, name: "Nagaland" },
+                    { id: 16, name: "Punjab" },
+                    { id: 17, name: "Himachal Pradesh" },
+                    { id: 18, name: "Manipur" },
+                    { id: 19, name: "Meghalaya" },
+                    { id: 20, name: "Tripura" },
+                    { id: 21, name: "Sikkim" },
+                    { id: 22, name: "Goa" },
+                    { id: 23, name: "Arunachal Pradesh" },
+                    { id: 24, name: "Mizoram" },
+                    { id: 25, name: "Chhattisgarh" },
+                    { id: 26, name: "Jharkhand" },
+                    { id: 27, name: "Uttarakhand" },
+                    { id: 28, name: "Telangana" },
+                    { id: 29, name: "Haryana" },
+                    { id: 30, name: "Delhi" },
+                    { id: 31, name: "Andaman and Nicobar Islands" },
+                    { id: 32, name: "Chandigarh" },
+                    { id: 33, name: "Dadra and Nagar Haveli" },
+                    { id: 34, name: "Lakshadweep" },
+                    { id: 35, name: "Puducherry" },
+                    { id: 36, name: "Anglo Indian Nominated" },
+                    { id: 37, name: "Jammu and Kashmir" },
+                    { id: 38, name: "Ladakh" },
+                  ]}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -279,7 +319,7 @@ const EmpPresentAddress: React.FC<
                   type="text"
                   maxLength={6}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -294,6 +334,11 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Police Station"
                   name="police_station"
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= "a" && e.key <= "z")) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <div className="flex items-center gap-5">
                   <div className="flex items-center">
@@ -309,6 +354,7 @@ const EmpPresentAddress: React.FC<
                     />
                     <label htmlFor="">
                       If Present & Permanent Address are not same
+                      <span className="text-red-500">*</span>
                     </label>
                   </div>
                 </div>
@@ -316,14 +362,14 @@ const EmpPresentAddress: React.FC<
 
                 {/* -----------------------Present Address fields if confirmationOrder === yes ----------------------------------- */}
 
-              {confirmationOrder === "yes" && (
-                <>
-                  <div>
-                    <SubHeading className="text-[20px] py-4">
-                      Employee Permanent Address
-                    </SubHeading>
-                  </div>
-                  <div></div>
+                {confirmationOrder === "yes" && (
+                  <>
+                    <div>
+                      <SubHeading className="text-[20px] py-4">
+                        Employee Permanent Address
+                      </SubHeading>
+                    </div>
+                    <div></div>
 
                     <InputBox
                       onChange={handleChange}
@@ -353,6 +399,11 @@ const EmpPresentAddress: React.FC<
                       label="Village/Town/City"
                       placeholder="Enter Your Permanent Village/Town/City"
                       name="village_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= "a" && e.key <= "z")) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <InputBox
                       onChange={handleChange}
@@ -361,16 +412,61 @@ const EmpPresentAddress: React.FC<
                       label="Post Office"
                       placeholder="Enter Your Permanent Post Office"
                       name="post_office_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= "a" && e.key <= "z")) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
-                    <InputBox
+                    <SelectForNoApi
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.state_permanent}
                       error={errors.state_permanent}
                       touched={touched.state_permanent}
                       label="State"
-                      placeholder="Enter Your Permanent State"
+                      placeholder="Please Select"
                       name="state_permanent"
+                      options={[
+                        { id: 1, name: "West Bengal" },
+                        { id: 2, name: "Rajasthan" },
+                        { id: 3, name: "Jammu and Kashmir" },
+                        { id: 4, name: "Uttar Pradesh" },
+                        { id: 5, name: "Bihar" },
+                        { id: 6, name: "Assam" },
+                        { id: 7, name: "Odisha" },
+                        { id: 8, name: "Tamil Nadu" },
+                        { id: 9, name: "Andhra Pradesh" },
+                        { id: 10, name: "Madhya Pradesh" },
+                        { id: 11, name: "Kerala" },
+                        { id: 12, name: "Karnataka" },
+                        { id: 13, name: "Maharashtra" },
+                        { id: 14, name: "Gujarat" },
+                        { id: 15, name: "Nagaland" },
+                        { id: 16, name: "Punjab" },
+                        { id: 17, name: "Himachal Pradesh" },
+                        { id: 18, name: "Manipur" },
+                        { id: 19, name: "Meghalaya" },
+                        { id: 20, name: "Tripura" },
+                        { id: 21, name: "Sikkim" },
+                        { id: 22, name: "Goa" },
+                        { id: 23, name: "Arunachal Pradesh" },
+                        { id: 24, name: "Mizoram" },
+                        { id: 25, name: "Chhattisgarh" },
+                        { id: 26, name: "Jharkhand" },
+                        { id: 27, name: "Uttarakhand" },
+                        { id: 28, name: "Telangana" },
+                        { id: 29, name: "Haryana" },
+                        { id: 30, name: "Delhi" },
+                        { id: 31, name: "Andaman and Nicobar Islands" },
+                        { id: 32, name: "Chandigarh" },
+                        { id: 33, name: "Dadra and Nagar Haveli" },
+                        { id: 34, name: "Lakshadweep" },
+                        { id: 35, name: "Puducherry" },
+                        { id: 36, name: "Anglo Indian Nominated" },
+                        { id: 37, name: "Jammu and Kashmir" },
+                        { id: 38, name: "Ladakh" },
+                      ]}
                     />
                     {/* <InputBox
                     onChange={handleChange}
@@ -427,80 +523,91 @@ const EmpPresentAddress: React.FC<
                     placeholder="Enter Your Permanent Block ULB"
                     name="block_ulb_permanent"
                   /> */}
-                  <SelectForNoApi
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.block_ulb_permanent}
-                    label="Block ULB"
-                    name="block_ulb_permanent"
-                    placeholder={"Choose Permanent Block ULB"}
-                    options={[
-                      { id: 1, name: "Ranchi (Nagar Nigam)" },
-                      { id: 2, name: "Dhanbad (Nagar Nigam)" },
-                      { id: 3, name: "Hazaribag (Nagar Parshad)" },
-                      { id: 4, name: "Adityapur (Nagar Parshad)" },
-                      { id: 5, name: "Vishrampur (Nagar Panchayat)" },
-                      { id: 6, name: "Jamshedpur (NAC)" },
-                      { id: 7, name: "Deoghar (Nagar Nigam)" },
-                      {
-                        id: 8,
-                        name: "Medininagar (Daltonganj) (Nagar Parshad)",
-                      },
-                      { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
-                      { id: 10, name: "Giridih (Nagar Parshad)" },
-                      { id: 11, name: "Sahibganj (Nagar Parshad)" },
-                      { id: 12, name: "Phusro (Nagar Parshad)" },
-                      { id: 13, name: "Chas (Nagar Parshad)" },
-                      { id: 14, name: "Chaibasa (Nagar Parshad)" },
-                      { id: 15, name: "Chakradharpur (Nagar Parshad)" },
-                      { id: 16, name: "Garhwa (Nagar Panchayat)" },
-                      { id: 17, name: "Hussainabad (Nagar Panchayat)" },
-                      { id: 18, name: "Chatra (Nagar Parshad)" },
-                      { id: 19, name: "Madhupur (Nagar Parshad)" },
-                      { id: 20, name: "Godda (Nagar Panchayat)" },
-                      { id: 21, name: "Pakur (Nagar Panchayat)" },
-                      { id: 22, name: "Dumka (Nagar Parshad)" },
-                      { id: 23, name: "Jamtara (Nagar Panchayat)" },
-                      { id: 24, name: "Mihijam (Nagar Panchayat)" },
-                      { id: 25, name: "Chirkunda (Nagar Panchayat)" },
-                      { id: 26, name: "Khunti (Nagar Panchayat)" },
-                      { id: 27, name: "Lohardaga (Nagar Parshad)" },
-                      { id: 28, name: "Gumla (Nagar Panchayat)" },
-                      { id: 29, name: "Simdega (Nagar Panchayat)" },
-                      { id: 30, name: "Jugsalai (Municipality)" },
-                      { id: 31, name: "Majhiaown (Nagar Panchayat)" },
-                      { id: 32, name: "Latehar (Nagar Panchayat)" },
-                      { id: 33, name: "Kodarma (Nagar Panchayat)" },
-                      { id: 34, name: "Rajmahal (Nagar Panchayat)" },
-                      { id: 35, name: "Basukinath (Nagar Panchayat)" },
-                      { id: 36, name: "Bundu (Nagar Panchayat)" },
-                      { id: 37, name: "Saraikela (Nagar Panchayat)" },
-                      { id: 38, name: "Chakulia (Nagar Panchayat)" },
-                    ]}
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.pin_code_permanent}
-                    error={errors.pin_code_permanent}
-                    touched={touched.pin_code_permanent}
-                    label="Pin Code"
-                    placeholder="Enter Your Permanent Pin Code"
-                    name="pin_code_permanent"
-                    type="number"
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.police_station_permanent}
-                    error={errors.police_station_permanent}
-                    touched={touched.police_station_permanent}
-                    label="Police Station"
-                    placeholder="Enter Your Permanent Police Station"
-                    name="police_station_permanent"
-                  />
-                </>
-              )}
+                    <SelectForNoApi
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.block_ulb_permanent}
+                      label="Block ULB"
+                      name="block_ulb_permanent"
+                      placeholder={"Choose Permanent Block ULB"}
+                      options={[
+                        { id: 1, name: "Ranchi (Nagar Nigam)" },
+                        { id: 2, name: "Dhanbad (Nagar Nigam)" },
+                        { id: 3, name: "Hazaribag (Nagar Parshad)" },
+                        { id: 4, name: "Adityapur (Nagar Parshad)" },
+                        { id: 5, name: "Vishrampur (Nagar Panchayat)" },
+                        { id: 6, name: "Jamshedpur (NAC)" },
+                        { id: 7, name: "Deoghar (Nagar Nigam)" },
+                        {
+                          id: 8,
+                          name: "Medininagar (Daltonganj) (Nagar Parshad)",
+                        },
+                        { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
+                        { id: 10, name: "Giridih (Nagar Parshad)" },
+                        { id: 11, name: "Sahibganj (Nagar Parshad)" },
+                        { id: 12, name: "Phusro (Nagar Parshad)" },
+                        { id: 13, name: "Chas (Nagar Parshad)" },
+                        { id: 14, name: "Chaibasa (Nagar Parshad)" },
+                        { id: 15, name: "Chakradharpur (Nagar Parshad)" },
+                        { id: 16, name: "Garhwa (Nagar Panchayat)" },
+                        { id: 17, name: "Hussainabad (Nagar Panchayat)" },
+                        { id: 18, name: "Chatra (Nagar Parshad)" },
+                        { id: 19, name: "Madhupur (Nagar Parshad)" },
+                        { id: 20, name: "Godda (Nagar Panchayat)" },
+                        { id: 21, name: "Pakur (Nagar Panchayat)" },
+                        { id: 22, name: "Dumka (Nagar Parshad)" },
+                        { id: 23, name: "Jamtara (Nagar Panchayat)" },
+                        { id: 24, name: "Mihijam (Nagar Panchayat)" },
+                        { id: 25, name: "Chirkunda (Nagar Panchayat)" },
+                        { id: 26, name: "Khunti (Nagar Panchayat)" },
+                        { id: 27, name: "Lohardaga (Nagar Parshad)" },
+                        { id: 28, name: "Gumla (Nagar Panchayat)" },
+                        { id: 29, name: "Simdega (Nagar Panchayat)" },
+                        { id: 30, name: "Jugsalai (Municipality)" },
+                        { id: 31, name: "Majhiaown (Nagar Panchayat)" },
+                        { id: 32, name: "Latehar (Nagar Panchayat)" },
+                        { id: 33, name: "Kodarma (Nagar Panchayat)" },
+                        { id: 34, name: "Rajmahal (Nagar Panchayat)" },
+                        { id: 35, name: "Basukinath (Nagar Panchayat)" },
+                        { id: 36, name: "Bundu (Nagar Panchayat)" },
+                        { id: 37, name: "Saraikela (Nagar Panchayat)" },
+                        { id: 38, name: "Chakulia (Nagar Panchayat)" },
+                      ]}
+                    />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.pin_code_permanent}
+                      error={errors.pin_code_permanent}
+                      touched={touched.pin_code_permanent}
+                      label="Pin Code"
+                      placeholder="Enter Your Permanent Pin Code"
+                      name="pin_code_permanent"
+                      type="text"
+                      maxLength={6}
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= "0" && e.key <= "9")) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.police_station_permanent}
+                      error={errors.police_station_permanent}
+                      touched={touched.police_station_permanent}
+                      label="Police Station"
+                      placeholder="Enter Your Permanent Police Station"
+                      name="police_station_permanent"
+                      onKeyPress={(e: any) => {
+                        if (!(e.key >= "a" && e.key <= "z")) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </>
+                )}
 
                 {/* -----------------------Present Address fields if confirmationOrder === yes ends ----------------------------------- */}
               </div>

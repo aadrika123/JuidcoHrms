@@ -18,12 +18,15 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
 import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
+import toast, { Toaster } from "react-hot-toast";
 
 const EmployeeServiceHistory: React.FC<
   EmployeeDetailsProps<EmployeeServiceHistoryType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
+  const [session, setSession] = useState<boolean>(false);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
@@ -95,8 +98,13 @@ const EmployeeServiceHistory: React.FC<
     setTabIndex(index || tabIndex);
   }
 
+  function getDataSesson() {
+    setSession(!session);
+  }
+
   return (
     <>
+      <Toaster />
       <SubHeading className="text-[20px] pt-4">
         Employee Service History{" "}
       </SubHeading>
@@ -107,6 +115,7 @@ const EmployeeServiceHistory: React.FC<
           session_key={"emp_inc_details"}
           getData={[]}
           subHeading={"Employee Increment Details "}
+          validate={setIsValidate}
         />
       </div>
 
@@ -127,13 +136,27 @@ const EmployeeServiceHistory: React.FC<
           Reset
         </PrimaryButton>
 
-        <PrimaryButton
-          onClick={() => handleSubmitForm(employeeServiceHistory)}
-          buttonType="submit"
-          variant="primary"
-        >
-          Next
-        </PrimaryButton>
+        {isValidate ? (
+          <PrimaryButton
+            onClick={() => {
+              getDataSesson();
+              handleSubmitForm(employeeServiceHistory);
+            }}
+            buttonType="submit"
+            variant="primary"
+          >
+            Next
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton
+            onClick={() => {
+              toast.error("Please fill the complete form!");
+            }}
+            variant="disabled"
+          >
+            Next
+          </PrimaryButton>
+        )}
       </div>
     </>
   );

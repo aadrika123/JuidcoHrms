@@ -138,13 +138,13 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       } else {
         updatedData[rowIndex as any][fieldName] = value;
       }
-      const allValuesNotEmpty = updatedData.every((row) =>
-        Object.values(row)
-          .slice(1)
-          .every((val) => val !== "")
-      );
+      // const allValuesNotEmpty = updatedData.every((row) =>
+      //   Object.values(row)
+      //     .slice(1)
+      //     .every((val) => val !== "")
+      // );
 
-      props.validate(allValuesNotEmpty);
+      // props.validate(allValuesNotEmpty);
       return updatedData;
     });
   };
@@ -183,9 +183,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                     <div className="flex gap-2 py-4 px-6 rounded-md">
                       <span>
                         {cols.HEADER}
-                        <span className="text-red-500">
-                          {index === 0 ? "" : "*"}
-                        </span>
+                        {/* <span>{index === 0 ? "" : "*"}</span> */}
                       </span>
                     </div>
                   </th>
@@ -224,6 +222,16 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 rowIndex
                               )
                             }
+                            onKeyPress={(e: any) => {
+                              if (
+                                !(
+                                  (e.key >= "a" || e.key >= "A") &&
+                                  (e.key <= "z" || e.key <= "Z")
+                                )
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : null}
 
@@ -261,6 +269,16 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 rowIndex
                               )
                             }
+                            onKeyPress={(e: any) => {
+                              if (
+                                !(
+                                  (e.key >= "a" || e.key >= "A") &&
+                                  (e.key <= "z" || e.key <= "Z")
+                                )
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : null}
 
@@ -322,6 +340,12 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 rowIndex
                               )
                             }
+                            maxLength={3}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "0" && e.key <= "9")) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : null}
 
