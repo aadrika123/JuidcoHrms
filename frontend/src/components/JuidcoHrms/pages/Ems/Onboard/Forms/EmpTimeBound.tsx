@@ -72,6 +72,13 @@ export const EmpTimeBound: React.FC<
 
   const [tableData, setTableData] = useState<any[]>([getInitialFormData()]);
 
+  React.useEffect(() => {
+    const storedData = sessionStorage.getItem("emp_timebound_details");
+    if (storedData) {
+      setTableData(JSON.parse(storedData));
+    }
+  }, []);
+
   const handleInputChange = (
     fieldName: any,
     value: any,
