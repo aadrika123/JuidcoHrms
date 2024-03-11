@@ -75,7 +75,10 @@ const EmployeeOfficeDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/1</h5>
       </div>
+
+
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md">
         {/* <div className="flex justify-between mb-10">
         <SubHeading>
@@ -203,7 +206,7 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Enter DDO Designation"}
                   maxLength={30}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -251,7 +254,7 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Enter Office Name"}
                   maxLength={30}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= 'a' && e.key <= 'z')) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}

@@ -99,6 +99,8 @@ const EmpPresentAddress: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/4</h5>
+
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -154,7 +156,7 @@ const EmpPresentAddress: React.FC<
                   placeholder="Enter Your Village/Town/City"
                   name="village"
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "a" && e.key <= "z")) {
+                    if (!((e.key >= 'a' || e.key >= 'A')  && (e.key <= 'z' || e.key <= 'Z') )) {
                       e.preventDefault();
                     }
                   }}
@@ -335,7 +337,7 @@ const EmpPresentAddress: React.FC<
                   placeholder="Police Station"
                   name="police_station"
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= "a" && e.key <= "z")) {
+                    if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                       e.preventDefault();
                     }
                   }}
@@ -400,7 +402,7 @@ const EmpPresentAddress: React.FC<
                       placeholder="Enter Your Permanent Village/Town/City"
                       name="village_permanent"
                       onKeyPress={(e: any) => {
-                        if (!(e.key >= "a" && e.key <= "z")) {
+                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                           e.preventDefault();
                         }
                       }}
@@ -413,7 +415,7 @@ const EmpPresentAddress: React.FC<
                       placeholder="Enter Your Permanent Post Office"
                       name="post_office_permanent"
                       onKeyPress={(e: any) => {
-                        if (!(e.key >= "a" && e.key <= "z")) {
+                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                           e.preventDefault();
                         }
                       }}
@@ -428,44 +430,44 @@ const EmpPresentAddress: React.FC<
                       placeholder="Please Select"
                       name="state_permanent"
                       options={[
-                        { id: 1, name: "West Bengal" },
-                        { id: 2, name: "Rajasthan" },
-                        { id: 3, name: "Jammu and Kashmir" },
-                        { id: 4, name: "Uttar Pradesh" },
-                        { id: 5, name: "Bihar" },
-                        { id: 6, name: "Assam" },
-                        { id: 7, name: "Odisha" },
-                        { id: 8, name: "Tamil Nadu" },
-                        { id: 9, name: "Andhra Pradesh" },
-                        { id: 10, name: "Madhya Pradesh" },
-                        { id: 11, name: "Kerala" },
-                        { id: 12, name: "Karnataka" },
-                        { id: 13, name: "Maharashtra" },
-                        { id: 14, name: "Gujarat" },
-                        { id: 15, name: "Nagaland" },
-                        { id: 16, name: "Punjab" },
-                        { id: 17, name: "Himachal Pradesh" },
-                        { id: 18, name: "Manipur" },
-                        { id: 19, name: "Meghalaya" },
-                        { id: 20, name: "Tripura" },
-                        { id: 21, name: "Sikkim" },
-                        { id: 22, name: "Goa" },
-                        { id: 23, name: "Arunachal Pradesh" },
-                        { id: 24, name: "Mizoram" },
-                        { id: 25, name: "Chhattisgarh" },
-                        { id: 26, name: "Jharkhand" },
-                        { id: 27, name: "Uttarakhand" },
-                        { id: 28, name: "Telangana" },
-                        { id: 29, name: "Haryana" },
-                        { id: 30, name: "Delhi" },
-                        { id: 31, name: "Andaman and Nicobar Islands" },
-                        { id: 32, name: "Chandigarh" },
-                        { id: 33, name: "Dadra and Nagar Haveli" },
-                        { id: 34, name: "Lakshadweep" },
-                        { id: 35, name: "Puducherry" },
-                        { id: 36, name: "Anglo Indian Nominated" },
-                        { id: 37, name: "Jammu and Kashmir" },
-                        { id: 38, name: "Ladakh" },
+                        { "id": 1, "name": "West Bengal" },
+                        { "id": 2, "name": "Rajasthan" },
+                        { "id": 3, "name": "Jammu and Kashmir" },
+                        { "id": 4, "name": "Uttar Pradesh" },
+                        { "id": 5, "name": "Bihar" },
+                        { "id": 6, "name": "Assam" },
+                        { "id": 7, "name": "Odisha" },
+                        { "id": 8, "name": "Tamil Nadu" },
+                        { "id": 9, "name": "Andhra Pradesh" },
+                        { "id": 10, "name": "Madhya Pradesh" },
+                        { "id": 11, "name": "Kerala" },
+                        { "id": 12, "name": "Karnataka" },
+                        { "id": 13, "name": "Maharashtra" },
+                        { "id": 14, "name": "Gujarat" },
+                        { "id": 15, "name": "Nagaland" },
+                        { "id": 16, "name": "Punjab" },
+                        { "id": 17, "name": "Himachal Pradesh" },
+                        { "id": 18, "name": "Manipur" },
+                        { "id": 19, "name": "Meghalaya" },
+                        { "id": 20, "name": "Tripura" },
+                        { "id": 21, "name": "Sikkim" },
+                        { "id": 22, "name": "Goa" },
+                        { "id": 23, "name": "Arunachal Pradesh" },
+                        { "id": 24, "name": "Mizoram" },
+                        { "id": 25, "name": "Chhattisgarh" },
+                        { "id": 26, "name": "Jharkhand" },
+                        { "id": 27, "name": "Uttarakhand" },
+                        { "id": 28, "name": "Telangana" },
+                        { "id": 29, "name": "Haryana" },
+                        { "id": 30, "name": "Delhi" },
+                        { "id": 31, "name": "Andaman and Nicobar Islands" },
+                        { "id": 32, "name": "Chandigarh" },
+                        { "id": 33, "name": "Dadra and Nagar Haveli" },
+                        { "id": 34, "name": "Lakshadweep" },
+                        { "id": 35, "name": "Puducherry" },
+                        { "id": 36, "name": "Anglo Indian Nominated" },
+                        { "id": 37, "name": "Jammu and Kashmir" },
+                        { "id": 38, "name": "Ladakh" }
                       ]}
                     />
                     {/* <InputBox
@@ -586,7 +588,7 @@ const EmpPresentAddress: React.FC<
                       type="text"
                       maxLength={6}
                       onKeyPress={(e: any) => {
-                        if (!(e.key >= "0" && e.key <= "9")) {
+                        if (!(e.key >= '0' && e.key <= '9')) {
                           e.preventDefault();
                         }
                       }}
@@ -601,7 +603,7 @@ const EmpPresentAddress: React.FC<
                       placeholder="Enter Your Permanent Police Station"
                       name="police_station_permanent"
                       onKeyPress={(e: any) => {
-                        if (!(e.key >= "a" && e.key <= "z")) {
+                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
                           e.preventDefault();
                         }
                       }}

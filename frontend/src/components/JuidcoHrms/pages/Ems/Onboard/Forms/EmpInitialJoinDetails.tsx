@@ -70,6 +70,8 @@ const EmpInitialJoinDetails: React.FC<
                         </svg>
                     </i>
                 </SubHeading>
+                <h5>Steps-11/6</h5>
+
             </div>
 
             <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -294,10 +296,10 @@ const EmpInitialJoinDetails: React.FC<
                                     name="task"
                                     required={true}
                                     onKeyPress={(e: any) => {
-                                        if (!(e.key >= 'a' && e.key <= 'z')) {
-                                            e.preventDefault();
+                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                          e.preventDefault();
                                         }
-                                    }}
+                                      }}
                                 />
                                 <SelectForNoApi
                                     onChange={handleChange}
@@ -646,10 +648,10 @@ const EmpInitialJoinDetails: React.FC<
                                     name="name_of_service"
                                     placeholder={"Enter Name Of Service at the time of joining"}
                                     onKeyPress={(e: any) => {
-                                        if (!(e.key >= 'a' && e.key <= 'z')) {
-                                            e.preventDefault();
+                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                          e.preventDefault();
                                         }
-                                    }}
+                                      }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -668,10 +670,10 @@ const EmpInitialJoinDetails: React.FC<
                                     name="bank_name"
                                     placeholder={"Enter Bank Name"}
                                     onKeyPress={(e: any) => {
-                                        if (!(e.key >= 'a' && e.key <= 'z')) {
-                                            e.preventDefault();
+                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                          e.preventDefault();
                                         }
-                                    }}
+                                      }}
                                 />
                                 <InputBox
                                     onChange={handleChange}
@@ -736,10 +738,10 @@ const EmpInitialJoinDetails: React.FC<
                                     name="sen_grade_list"
                                     placeholder={"Enter if Seniority in gradation list"}
                                     onKeyPress={(e: any) => {
-                                        if (!(e.key >= 'a' && e.key <= 'z')) {
-                                            e.preventDefault();
+                                        if (!((e.key >= 'a' || e.key >= 'A') && (e.key <= 'z' || e.key <= 'Z'))) {
+                                          e.preventDefault();
                                         }
-                                    }}
+                                      }}
                                 />
                             </div>
 

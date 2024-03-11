@@ -45,15 +45,15 @@ const EmployeeBasicDetails: React.FC<
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
-      Object.keys(values).forEach((key) => {
-        const val = values[key as keyof typeof values];
-        if (
-          val ==
-          initialEmployeeDetails[key as keyof typeof initialEmployeeDetails]
-        ) {
-          delete values[key as keyof typeof values];
-        }
-      });
+      // Object.keys(values).forEach((key) => {
+      //   const val = values[key as keyof typeof values];
+      //   if (
+      //     val ==
+      //     initialEmployeeDetails[key as keyof typeof initialEmployeeDetails]
+      //   ) {
+      //     delete values[key as keyof typeof values];
+      //   }
+      // });
       if (props.setData) {
         props.setData("emp_basic_details", values);
       }
@@ -88,6 +88,7 @@ const EmployeeBasicDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
+        <h5>Steps-11/2</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
@@ -173,7 +174,6 @@ const EmployeeBasicDetails: React.FC<
                       style={{ display: "none" }}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.emp_image}
                       name="emp_image"
                     />
                   </div>
