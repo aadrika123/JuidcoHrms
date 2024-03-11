@@ -39,7 +39,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     (_, index) => ({
       edu_level:
         index === 0
-          ? "Metric"
+          ? "Matric"
           : index === 1
             ? "Intermediate"
             : index === 2
@@ -76,7 +76,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   }
 
   useEffect(() => {
-    console.log(props.setSession);
     setDataSesson();
   }, [props.setSession]);
 
@@ -160,20 +159,18 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       } else {
         row[key] = value;
       }
-
-      console.log(row, "polo");
-
-      if (Object.keys(row).every((key) => row[key] !== "")) {
+      if (
+        Object.values(row)
+          .slice(1)
+          .every((key) => key === "") ||
+        Object.values(row)
+          .slice(1)
+          .every((key) => key !== "")
+      ) {
         props.validate(true);
       } else {
         props.validate(false);
       }
-
-      // if (row["grade"] !== "") {
-      //   props.validate(true);
-      // } else {
-      //   props.validate(false);
-      // }
 
       updatedData[id] = { ...row } as EmployeeEducation;
       return updatedData;

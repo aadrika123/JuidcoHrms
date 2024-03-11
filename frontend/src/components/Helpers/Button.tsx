@@ -7,7 +7,7 @@ interface PrimaryButtonProps {
   onClick?: () => void;
   className?: string;
   buttonType?: string;
-  variant: "primary" | "danger" | "cancel";
+  variant: "primary" | "danger" | "cancel" | "disabled";
 }
 
 const buttonVariants = cva(
@@ -19,6 +19,7 @@ const buttonVariants = cva(
         danger: "bg-red-400",
         cancel:
           "bg-white border text-[#4245D9] border-[#4245D9] hover:bg-neutral-50  hover:text-neutral-700",
+        disabled: " bg-zinc-400 text-black",
       },
     },
     defaultVariants: {

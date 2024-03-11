@@ -95,208 +95,226 @@ const EmpPresentAddress: React.FC<
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">
-        Employee Present Address
-      </SubHeading>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={employeePresentAddressValidationSchema}
-        onSubmit={handleSubmitFormik}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-              {/* -----------------------Present Address fields----------------------------------- */}
+      <div className="flex justify-between mb-10">
+        <SubHeading>
+          Employee Present Address
+          <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            </svg>
+          </i>
+        </SubHeading>
+      </div>
 
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_primary}
-                error={errors.address_primary}
-                touched={touched.address_primary}
-                label="Address-1"
-                required={true}
-                placeholder="Enter Present Address"
-                name="address_primary"
-              />
+      <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
+        <SubHeading className="text-[20px] py-4">
+          Employee Present Address
+        </SubHeading>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={employeePresentAddressValidationSchema}
+          onSubmit={handleSubmitFormik}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            handleReset,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
+                {/* -----------------------Present Address fields----------------------------------- */}
 
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.address_secondary}
-                label="Address-2"
-                name="address_secondary"
-                placeholder={"Enter Present Address"}
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.village}
-                error={errors.village}
-                touched={touched.village}
-                label="Village/Town/City"
-                required={true}
-                placeholder="Enter Your Village/Town/City"
-                name="village"
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.post_office}
-                label="Post Office"
-                placeholder="Enter Your Post Office"
-                name="post_office"
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.state}
-                error={errors.state}
-                touched={touched.state}
-                label="State"
-                required={true}
-                placeholder="Enter Your State"
-                name="state"
-              />
-              <SelectForNoApi
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.district}
-                error={errors.district}
-                touched={touched.district}
-                label="District"
-                required={true}
-                name="district"
-                placeholder={"Choose District"}
-                options={[
-                  { id: 1, name: "Deoghar" },
-                  { id: 2, name: "Dumka" },
-                  { id: 3, name: "Bokaro" },
-                  { id: 4, name: "Giridih" },
-                  { id: 5, name: "Koderma" },
-                  { id: 6, name: "Godda" },
-                  { id: 7, name: "Chatra" },
-                  { id: 8, name: "Dhanbad" },
-                  { id: 9, name: "Gharwha" },
-                  { id: 10, name: "East-Singhbhum" },
-                  { id: 11, name: "Jamtara" },
-                  { id: 12, name: "Saraikela-Kharsawan" },
-                  { id: 13, name: "Ranchi" },
-                  { id: 14, name: "Pakur" },
-                  { id: 15, name: "Latehar" },
-                  { id: 16, name: "Hazaribagh" },
-                  { id: 17, name: "Lohardaga" },
-                  { id: 18, name: "Palamu" },
-                  { id: 19, name: "Ramghar" },
-                  { id: 20, name: "Simdega" },
-                  { id: 21, name: "West-Singhbhum" },
-                  { id: 22, name: "Sahebganj" },
-                  { id: 23, name: "Gumla" },
-                  { id: 24, name: "Khunti" },
-                ]}
-              />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.address_primary}
+                  error={errors.address_primary}
+                  touched={touched.address_primary}
+                  label="Address-1"
+                  required={true}
+                  placeholder="Enter Present Address"
+                  name="address_primary"
+                />
 
-              <SelectForNoApi
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.block_ulb}
-                label="Block ULB"
-                // placeholder="Block ULB"
-                name="block_ulb"
-                placeholder={"Choose Block ULB"}
-                options={[
-                  { id: 1, name: "Ranchi (Nagar Nigam)" },
-                  { id: 2, name: "Dhanbad (Nagar Nigam)" },
-                  { id: 3, name: "Hazaribag (Nagar Parshad)" },
-                  { id: 4, name: "Adityapur (Nagar Parshad)" },
-                  { id: 5, name: "Vishrampur (Nagar Panchayat)" },
-                  { id: 6, name: "Jamshedpur (NAC)" },
-                  { id: 7, name: "Deoghar (Nagar Nigam)" },
-                  { id: 8, name: "Medininagar (Daltonganj) (Nagar Parshad)" },
-                  { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
-                  { id: 10, name: "Giridih (Nagar Parshad)" },
-                  { id: 11, name: "Sahibganj (Nagar Parshad)" },
-                  { id: 12, name: "Phusro (Nagar Parshad)" },
-                  { id: 13, name: "Chas (Nagar Parshad)" },
-                  { id: 14, name: "Chaibasa (Nagar Parshad)" },
-                  { id: 15, name: "Chakradharpur (Nagar Parshad)" },
-                  { id: 16, name: "Garhwa (Nagar Panchayat)" },
-                  { id: 17, name: "Hussainabad (Nagar Panchayat)" },
-                  { id: 18, name: "Chatra (Nagar Parshad)" },
-                  { id: 19, name: "Madhupur (Nagar Parshad)" },
-                  { id: 20, name: "Godda (Nagar Panchayat)" },
-                  { id: 21, name: "Pakur (Nagar Panchayat)" },
-                  { id: 22, name: "Dumka (Nagar Parshad)" },
-                  { id: 23, name: "Jamtara (Nagar Panchayat)" },
-                  { id: 24, name: "Mihijam (Nagar Panchayat)" },
-                  { id: 25, name: "Chirkunda (Nagar Panchayat)" },
-                  { id: 26, name: "Khunti (Nagar Panchayat)" },
-                  { id: 27, name: "Lohardaga (Nagar Parshad)" },
-                  { id: 28, name: "Gumla (Nagar Panchayat)" },
-                  { id: 29, name: "Simdega (Nagar Panchayat)" },
-                  { id: 30, name: "Jugsalai (Municipality)" },
-                  { id: 31, name: "Majhiaown (Nagar Panchayat)" },
-                  { id: 32, name: "Latehar (Nagar Panchayat)" },
-                  { id: 33, name: "Kodarma (Nagar Panchayat)" },
-                  { id: 34, name: "Rajmahal (Nagar Panchayat)" },
-                  { id: 35, name: "Basukinath (Nagar Panchayat)" },
-                  { id: 36, name: "Bundu (Nagar Panchayat)" },
-                  { id: 37, name: "Saraikela (Nagar Panchayat)" },
-                  { id: 38, name: "Chakulia (Nagar Panchayat)" },
-                  { id: 39, name: "Vishrampur (Nagar Panchayat)" },
-                ]}
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.pin_code}
-                error={errors.pin_code}
-                touched={touched.pin_code}
-                label="Pin Code"
-                required={true}
-                placeholder="Pin Code"
-                name="pin_code"
-                type="number"
-              />
-              <InputBox
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.police_station}
-                error={errors.police_station}
-                touched={touched.police_station}
-                label="Police Station"
-                required={true}
-                placeholder="Police Station"
-                name="police_station"
-              />
-              <div className="flex items-center gap-5">
-                <div className="flex items-center">
-                  <input
-                    onChange={(e) =>
-                      updateConfirmationOrder(e.target.checked ? "yes" : "no")
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.address_secondary}
+                  label="Address-2"
+                  name="address_secondary"
+                  placeholder={"Enter Present Address"}
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.village}
+                  error={errors.village}
+                  touched={touched.village}
+                  label="Village/Town/City"
+                  required={true}
+                  placeholder="Enter Your Village/Town/City"
+                  name="village"
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.post_office}
+                  label="Post Office"
+                  placeholder="Enter Your Post Office"
+                  name="post_office"
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.state}
+                  error={errors.state}
+                  touched={touched.state}
+                  label="State"
+                  required={true}
+                  placeholder="Enter Your State"
+                  name="state"
+                />
+                <SelectForNoApi
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.district}
+                  error={errors.district}
+                  touched={touched.district}
+                  label="District"
+                  required={true}
+                  name="district"
+                  placeholder={"Choose District"}
+                  options={[
+                    { id: 1, name: "Deoghar" },
+                    { id: 2, name: "Dumka" },
+                    { id: 3, name: "Bokaro" },
+                    { id: 4, name: "Giridih" },
+                    { id: 5, name: "Koderma" },
+                    { id: 6, name: "Godda" },
+                    { id: 7, name: "Chatra" },
+                    { id: 8, name: "Dhanbad" },
+                    { id: 9, name: "Gharwha" },
+                    { id: 10, name: "East-Singhbhum" },
+                    { id: 11, name: "Jamtara" },
+                    { id: 12, name: "Saraikela-Kharsawan" },
+                    { id: 13, name: "Ranchi" },
+                    { id: 14, name: "Pakur" },
+                    { id: 15, name: "Latehar" },
+                    { id: 16, name: "Hazaribagh" },
+                    { id: 17, name: "Lohardaga" },
+                    { id: 18, name: "Palamu" },
+                    { id: 19, name: "Ramghar" },
+                    { id: 20, name: "Simdega" },
+                    { id: 21, name: "West-Singhbhum" },
+                    { id: 22, name: "Sahebganj" },
+                    { id: 23, name: "Gumla" },
+                    { id: 24, name: "Khunti" },
+                  ]}
+                />
+
+                <SelectForNoApi
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.block_ulb}
+                  label="Block ULB"
+                  // placeholder="Block ULB"
+                  name="block_ulb"
+                  placeholder={"Choose Block ULB"}
+                  options={[
+                    { id: 1, name: "Ranchi (Nagar Nigam)" },
+                    { id: 2, name: "Dhanbad (Nagar Nigam)" },
+                    { id: 3, name: "Hazaribag (Nagar Parshad)" },
+                    { id: 4, name: "Adityapur (Nagar Parshad)" },
+                    { id: 5, name: "Vishrampur (Nagar Panchayat)" },
+                    { id: 6, name: "Jamshedpur (NAC)" },
+                    { id: 7, name: "Deoghar (Nagar Nigam)" },
+                    { id: 8, name: "Medininagar (Daltonganj) (Nagar Parshad)" },
+                    { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
+                    { id: 10, name: "Giridih (Nagar Parshad)" },
+                    { id: 11, name: "Sahibganj (Nagar Parshad)" },
+                    { id: 12, name: "Phusro (Nagar Parshad)" },
+                    { id: 13, name: "Chas (Nagar Parshad)" },
+                    { id: 14, name: "Chaibasa (Nagar Parshad)" },
+                    { id: 15, name: "Chakradharpur (Nagar Parshad)" },
+                    { id: 16, name: "Garhwa (Nagar Panchayat)" },
+                    { id: 17, name: "Hussainabad (Nagar Panchayat)" },
+                    { id: 18, name: "Chatra (Nagar Parshad)" },
+                    { id: 19, name: "Madhupur (Nagar Parshad)" },
+                    { id: 20, name: "Godda (Nagar Panchayat)" },
+                    { id: 21, name: "Pakur (Nagar Panchayat)" },
+                    { id: 22, name: "Dumka (Nagar Parshad)" },
+                    { id: 23, name: "Jamtara (Nagar Panchayat)" },
+                    { id: 24, name: "Mihijam (Nagar Panchayat)" },
+                    { id: 25, name: "Chirkunda (Nagar Panchayat)" },
+                    { id: 26, name: "Khunti (Nagar Panchayat)" },
+                    { id: 27, name: "Lohardaga (Nagar Parshad)" },
+                    { id: 28, name: "Gumla (Nagar Panchayat)" },
+                    { id: 29, name: "Simdega (Nagar Panchayat)" },
+                    { id: 30, name: "Jugsalai (Municipality)" },
+                    { id: 31, name: "Majhiaown (Nagar Panchayat)" },
+                    { id: 32, name: "Latehar (Nagar Panchayat)" },
+                    { id: 33, name: "Kodarma (Nagar Panchayat)" },
+                    { id: 34, name: "Rajmahal (Nagar Panchayat)" },
+                    { id: 35, name: "Basukinath (Nagar Panchayat)" },
+                    { id: 36, name: "Bundu (Nagar Panchayat)" },
+                    { id: 37, name: "Saraikela (Nagar Panchayat)" },
+                    { id: 38, name: "Chakulia (Nagar Panchayat)" },
+                    { id: 39, name: "Vishrampur (Nagar Panchayat)" },
+                  ]}
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.pin_code}
+                  error={errors.pin_code}
+                  touched={touched.pin_code}
+                  label="Pin Code"
+                  required={true}
+                  placeholder="Pin Code"
+                  name="pin_code"
+                  type="text"
+                  maxLength={6}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= '0' && e.key <= '9')) {
+                      e.preventDefault();
                     }
-                    checked={confirmationOrder === "yes"}
-                    className={`mr-1 bg-white checkbox border border-zinc-500`}
-                    id="yes"
-                    name="emp_address_same"
-                    type="checkbox"
-                  />
-                  <label htmlFor="">
-                    If Present & Permanent Address are not same
-                  </label>
+                  }}
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.police_station}
+                  error={errors.police_station}
+                  touched={touched.police_station}
+                  label="Police Station"
+                  required={true}
+                  placeholder="Police Station"
+                  name="police_station"
+                />
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center">
+                    <input
+                      onChange={(e) =>
+                        updateConfirmationOrder(e.target.checked ? "yes" : "no")
+                      }
+                      checked={confirmationOrder === "yes"}
+                      className={`mr-1 bg-white checkbox border border-zinc-500`}
+                      id="yes"
+                      name="emp_address_same"
+                      type="checkbox"
+                    />
+                    <label htmlFor="">
+                      If Present & Permanent Address are not same
+                    </label>
+                  </div>
                 </div>
-              </div>
-              {/* -----------------------Present Address fields ends----------------------------------- */}
+                {/* -----------------------Present Address fields ends----------------------------------- */}
 
-              {/* -----------------------Present Address fields if confirmationOrder === yes ----------------------------------- */}
+                {/* -----------------------Present Address fields if confirmationOrder === yes ----------------------------------- */}
 
               {confirmationOrder === "yes" && (
                 <>
@@ -307,54 +325,54 @@ const EmpPresentAddress: React.FC<
                   </div>
                   <div></div>
 
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.address_primary_permanent}
-                    error={errors.address_primary_permanent}
-                    touched={touched.address_primary_permanent}
-                    label="Address-1"
-                    placeholder="Enter Permanent Address"
-                    name="address_primary_permanent"
-                  />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address_primary_permanent}
+                      error={errors.address_primary_permanent}
+                      touched={touched.address_primary_permanent}
+                      label="Address-1"
+                      placeholder="Enter Permanent Address"
+                      name="address_primary_permanent"
+                    />
 
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.address_secondary_permanent}
-                    label="Address-2"
-                    name="address_secondary_permanent"
-                    placeholder={"Enter Permanent Address"}
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.village_permanent}
-                    error={errors.village_permanent}
-                    touched={touched.village_permanent}
-                    label="Village/Town/City"
-                    placeholder="Enter Your Permanent Village/Town/City"
-                    name="village_permanent"
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.post_office_permanent}
-                    label="Post Office"
-                    placeholder="Enter Your Permanent Post Office"
-                    name="post_office_permanent"
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.state_permanent}
-                    error={errors.state_permanent}
-                    touched={touched.state_permanent}
-                    label="State"
-                    placeholder="Enter Your Permanent State"
-                    name="state_permanent"
-                  />
-                  {/* <InputBox
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address_secondary_permanent}
+                      label="Address-2"
+                      name="address_secondary_permanent"
+                      placeholder={"Enter Permanent Address"}
+                    />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.village_permanent}
+                      error={errors.village_permanent}
+                      touched={touched.village_permanent}
+                      label="Village/Town/City"
+                      placeholder="Enter Your Permanent Village/Town/City"
+                      name="village_permanent"
+                    />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.post_office_permanent}
+                      label="Post Office"
+                      placeholder="Enter Your Permanent Post Office"
+                      name="post_office_permanent"
+                    />
+                    <InputBox
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.state_permanent}
+                      error={errors.state_permanent}
+                      touched={touched.state_permanent}
+                      label="State"
+                      placeholder="Enter Your Permanent State"
+                      name="state_permanent"
+                    />
+                    {/* <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.district_permanent}
@@ -365,43 +383,43 @@ const EmpPresentAddress: React.FC<
                     name="district_permanent"
                   /> */}
 
-                  <SelectForNoApi
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.district_permanent}
-                    error={errors.district_permanent}
-                    touched={touched.district_permanent}
-                    label="District"
-                    name="district_permanent"
-                    placeholder={"Choose District"}
-                    options={[
-                      { id: 1, name: "Deoghar" },
-                      { id: 2, name: "Dumka" },
-                      { id: 3, name: "Bokaro" },
-                      { id: 4, name: "Giridih" },
-                      { id: 5, name: "Koderma" },
-                      { id: 6, name: "Godda" },
-                      { id: 7, name: "Chatra" },
-                      { id: 8, name: "Dhanbad" },
-                      { id: 9, name: "Gharwha" },
-                      { id: 10, name: "East-Singhbhum" },
-                      { id: 11, name: "Jamtara" },
-                      { id: 12, name: "Saraikela-Kharsawan" },
-                      { id: 13, name: "Ranchi" },
-                      { id: 14, name: "Pakur" },
-                      { id: 15, name: "Latehar" },
-                      { id: 16, name: "Hazaribagh" },
-                      { id: 17, name: "Lohardaga" },
-                      { id: 18, name: "Palamu" },
-                      { id: 19, name: "Ramghar" },
-                      { id: 20, name: "Simdega" },
-                      { id: 21, name: "West-Singhbhum" },
-                      { id: 22, name: "Sahebganj" },
-                      { id: 23, name: "Gumla" },
-                      { id: 24, name: "Khunti" },
-                    ]}
-                  />
-                  {/* <InputBox
+                    <SelectForNoApi
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.district_permanent}
+                      error={errors.district_permanent}
+                      touched={touched.district_permanent}
+                      label="District"
+                      name="district_permanent"
+                      placeholder={"Choose District"}
+                      options={[
+                        { id: 1, name: "Deoghar" },
+                        { id: 2, name: "Dumka" },
+                        { id: 3, name: "Bokaro" },
+                        { id: 4, name: "Giridih" },
+                        { id: 5, name: "Koderma" },
+                        { id: 6, name: "Godda" },
+                        { id: 7, name: "Chatra" },
+                        { id: 8, name: "Dhanbad" },
+                        { id: 9, name: "Gharwha" },
+                        { id: 10, name: "East-Singhbhum" },
+                        { id: 11, name: "Jamtara" },
+                        { id: 12, name: "Saraikela-Kharsawan" },
+                        { id: 13, name: "Ranchi" },
+                        { id: 14, name: "Pakur" },
+                        { id: 15, name: "Latehar" },
+                        { id: 16, name: "Hazaribagh" },
+                        { id: 17, name: "Lohardaga" },
+                        { id: 18, name: "Palamu" },
+                        { id: 19, name: "Ramghar" },
+                        { id: 20, name: "Simdega" },
+                        { id: 21, name: "West-Singhbhum" },
+                        { id: 22, name: "Sahebganj" },
+                        { id: 23, name: "Gumla" },
+                        { id: 24, name: "Khunti" },
+                      ]}
+                    />
+                    {/* <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.block_ulb_permanent}
@@ -484,33 +502,34 @@ const EmpPresentAddress: React.FC<
                 </>
               )}
 
-              {/* -----------------------Present Address fields if confirmationOrder === yes ends ----------------------------------- */}
-            </div>
+                {/* -----------------------Present Address fields if confirmationOrder === yes ends ----------------------------------- */}
+              </div>
 
-            <div className="flex items-center justify-end mt-5 gap-5">
-              <PrimaryButton
-                buttonType="button"
-                variant={"cancel"}
-                onClick={goBack}
-              >
-                Back
-              </PrimaryButton>
+              <div className="flex items-center justify-end mt-5 gap-5">
+                <PrimaryButton
+                  buttonType="button"
+                  variant={"cancel"}
+                  onClick={goBack}
+                >
+                  Back
+                </PrimaryButton>
 
-              <PrimaryButton
-                onClick={handleReset}
-                buttonType="button"
-                variant={"cancel"}
-              >
-                Reset
-              </PrimaryButton>
+                <PrimaryButton
+                  onClick={handleReset}
+                  buttonType="button"
+                  variant={"cancel"}
+                >
+                  Reset
+                </PrimaryButton>
 
-              <PrimaryButton buttonType="submit" variant="primary">
-                Next
-              </PrimaryButton>
-            </div>
-          </form>
-        )}
-      </Formik>
+                <PrimaryButton buttonType="submit" variant="primary">
+                  Next
+                </PrimaryButton>
+              </div>
+            </form>
+          )}
+        </Formik>
+      </div>
     </>
   );
 };

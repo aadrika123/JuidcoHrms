@@ -14,6 +14,8 @@ import { SubHeading } from "@/components/Helpers/Heading";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
+  setSession: boolean;
+  validate: (value: boolean) => void;
 }
 
 // interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -34,31 +36,43 @@ interface TableFormProps {
 
 const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   const getInitialFormData: any = () => ({
+    sl_no: "",
     name_of_training: "",
     training_type: "",
     name_of_inst: "",
     starting_from: "",
     end_to: "",
     tot_day_training: "",
+    upload_edu: "",
   });
   const [addedRows, setAddedRows] = useState<number>(0);
-  const [tableData, setTableData] = useState<any[]>([getInitialFormData()]);
+  const [tableData, setTableData] = useState<any[]>(
+    JSON.parse(sessionStorage.getItem("emp_training") as string) || [
+      getInitialFormData(),
+    ]
+  );
 
-  console.log(tableData, "tdata");
-  console.log(tableData, "table data");
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = sessionStorage.getItem("emp_training");
       if (storedData !== null)
         setTableData(storedData ? JSON.parse(storedData) : [{}]);
     }
-  }, []);
+  }, [props.setSession]);
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
+      tableData?.forEach((val, i: number) => {
+        delete tableData[i].sl_no;
+      });
+
       sessionStorage.setItem("emp_training", JSON.stringify(tableData));
     }
   }
+
+  useEffect(() => {
+    setDataSesson();
+  }, [props.setSession]);
 
   const COLUMNS_FOR_EMP_TRNG_INFRM: COLUMNS[] = [
     {
@@ -102,7 +116,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     },
     {
       HEADER: "Upload",
-      ACCESSOR: "upload_train",
+      ACCESSOR: "upload_edu",
       isRequired: true,
     },
   ];
@@ -124,6 +138,13 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       } else {
         updatedData[rowIndex as any][fieldName] = value;
       }
+      const allValuesNotEmpty = updatedData.every((row) =>
+        Object.values(row)
+          .slice(1)
+          .every((val) => val !== "")
+      );
+
+      props.validate(allValuesNotEmpty);
       return updatedData;
     });
   };
@@ -179,147 +200,147 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                   const stateKey: any =
                     Object.keys(getInitialFormData())[colIndex];
                   return (
-                    <td key={colIndex} className="px-5">
-                      {colIndex === 0 ? (
-                        <>
-                          <p className="">
-                            <span>{rowIndex + 1}</span>
-                          </p>
-                        </>
-                      ) : null}
+                    <>
+                      <td key={colIndex} className="px-5">
+                        {colIndex === 0 ? (
+                          <>
+                            <p className="">
+                              <span>{rowIndex + 1}</span>
+                            </p>
+                          </>
+                        ) : null}
 
-                      {colIndex === 1 ? (
-                        <input
-                          type="text"
-                          className=" bg-transparent outline-none"
-                          placeholder={`Enter ${column.HEADER}`}
-                          value={rowData[stateKey]}
-                          onChange={(e) =>
-                            handleInputChange(
-                              stateKey,
-                              e.target.value,
-                              undefined,
-                              rowIndex
-                            )
-                          }
-                        />
-                      ) : null}
+                        {colIndex === 1 ? (
+                          <input
+                            type="text"
+                            className=" bg-transparent outline-none"
+                            placeholder={`Enter ${column.HEADER}`}
+                            value={rowData[stateKey]}
+                            onChange={(e) =>
+                              handleInputChange(
+                                stateKey,
+                                e.target.value,
+                                undefined,
+                                rowIndex
+                              )
+                            }
+                          />
+                        ) : null}
 
-                      {colIndex === 2 ? (
-                        <select
-                          className="bg-white border p-1 mx-2"
-                          value={rowData[stateKey]}
-                          onChange={(e) =>
-                            handleInputChange(
-                              stateKey,
-                              e.target.value,
-                              undefined,
-                              rowIndex
-                            )
-                          }
-                        >
-                          <option>Please Select Option</option>
-                          <option value="Basic">Basic</option>
-                          <option value="Intermediate">Intermediate</option>
-                          <option value="Advance">Advance</option>
-                        </select>
-                      ) : null}
+                        {colIndex === 2 ? (
+                          <select
+                            className="bg-white border p-1 mx-2"
+                            value={rowData[stateKey]}
+                            onChange={(e) =>
+                              handleInputChange(
+                                stateKey,
+                                e.target.value,
+                                undefined,
+                                rowIndex
+                              )
+                            }
+                          >
+                            <option>Please Select Option</option>
+                            <option value="Basic">Basic</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advance">Advance</option>
+                          </select>
+                        ) : null}
 
-                      {colIndex === 3 ? (
-                        <input
-                          type="text"
-                          className=" bg-transparent outline-none"
-                          placeholder={`Enter ${column.HEADER}`}
-                          value={rowData[stateKey]}
-                          onChange={(e) =>
-                            handleInputChange(
-                              stateKey,
-                              e.target.value,
-                              undefined,
-                              rowIndex
-                            )
-                          }
-                        />
-                      ) : null}
+                        {colIndex === 3 ? (
+                          <input
+                            type="text"
+                            className=" bg-transparent outline-none"
+                            placeholder={`Enter ${column.HEADER}`}
+                            value={rowData[stateKey]}
+                            onChange={(e) =>
+                              handleInputChange(
+                                stateKey,
+                                e.target.value,
+                                undefined,
+                                rowIndex
+                              )
+                            }
+                          />
+                        ) : null}
 
-                      {colIndex === 4 ? (
-                        <div className=" inline-flex items-center pt-1 pb-1  my-2">
-                          <React.Fragment>
-                            <p className="mr-2">From:</p>
-                            <input
-                              type="date"
-                              className=" p-2 bg-transparent border border-gray-300"
-                              placeholder="Enter Starting From"
-                              onChange={(e) =>
-                                handleInputChange(
-                                  stateKey,
-                                  e.target.value,
-                                  "from",
-                                  rowIndex
-                                )
-                              }
-                              value={rowData[stateKey]?.from || ""}
-                            />
-                          </React.Fragment>
-                        </div>
-                      ) : null}
+                        {colIndex === 4 ? (
+                          <div className=" inline-flex items-center pt-1 pb-1  my-2">
+                            <React.Fragment>
+                              <p className="mr-2">From:</p>
+                              <input
+                                type="date"
+                                className=" p-2 bg-transparent border border-gray-300"
+                                placeholder="Enter Starting From"
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    stateKey,
+                                    e.target.value,
+                                    "from",
+                                    rowIndex
+                                  )
+                                }
+                                value={rowData[stateKey]?.from || ""}
+                              />
+                            </React.Fragment>
+                          </div>
+                        ) : null}
 
-                      {colIndex === 5 ? (
-                        <div className=" inline-flex items-center pt-1 pb-1 my-2">
-                          <React.Fragment>
-                            <p className="ml-2 mr-2">To:</p>
-                            <input
-                              type="date"
-                              className=" p-2 bg-transparent border border-gray-300"
-                              placeholder="Enter End To"
-                              onChange={(e) =>
-                                handleInputChange(
-                                  stateKey,
-                                  e.target.value,
-                                  "to",
-                                  rowIndex
-                                )
-                              }
-                              value={rowData[stateKey]?.to || ""}
-                            />
-                          </React.Fragment>
-                        </div>
-                      ) : null}
+                        {colIndex === 5 ? (
+                          <div className=" inline-flex items-center pt-1 pb-1 my-2">
+                            <React.Fragment>
+                              <p className="ml-2 mr-2">To:</p>
+                              <input
+                                type="date"
+                                className=" p-2 bg-transparent border border-gray-300"
+                                placeholder="Enter End To"
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    stateKey,
+                                    e.target.value,
+                                    "to",
+                                    rowIndex
+                                  )
+                                }
+                                value={rowData[stateKey]?.to || ""}
+                              />
+                            </React.Fragment>
+                          </div>
+                        ) : null}
 
-                      {colIndex === 6 ? (
-                        <input
-                          type="text"
-                          className=" bg-transparent outline-none"
-                          placeholder={`Enter ${column.HEADER}`}
-                          value={rowData[stateKey]}
-                          onChange={(e) =>
-                            handleInputChange(
-                              stateKey,
-                              e.target.value,
-                              undefined,
-                              rowIndex
-                            )
-                          }
-                        />
-                      ) : null}
+                        {colIndex === 6 ? (
+                          <input
+                            type="text"
+                            className=" bg-transparent outline-none"
+                            placeholder={`Enter ${column.HEADER}`}
+                            value={rowData[stateKey]}
+                            onChange={(e) =>
+                              handleInputChange(
+                                stateKey,
+                                e.target.value,
+                                undefined,
+                                rowIndex
+                              )
+                            }
+                          />
+                        ) : null}
 
-                      {colIndex === 7 ? (
-                        <input
-                          onChange={(e) =>
-                            handleInputChange(
-                              stateKey,
-                              e.target.value,
-                              undefined,
-                              rowIndex
-                            )
-                          }
-                          className="bg-transparent outline-none"
-                          value={rowData[stateKey]}
-                          type="file"
-                          placeholder={"Enter "}
-                        />
-                      ) : null}
-                    </td>
+                        {colIndex === 7 ? (
+                          <input
+                            onChange={(e) =>
+                              handleInputChange(
+                                stateKey,
+                                e.target.value,
+                                undefined,
+                                rowIndex
+                              )
+                            }
+                            className="bg-transparent outline-none"
+                            type="file"
+                          />
+                        ) : null}
+                      </td>
+                    </>
 
                     // : (
                     // <input

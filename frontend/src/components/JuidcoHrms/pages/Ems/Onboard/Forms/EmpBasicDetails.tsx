@@ -70,37 +70,51 @@ const EmployeeBasicDetails: React.FC<
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={employeeValidationSchema}
-        onSubmit={handleSubmitFormik}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-        }) => (
-          <form onSubmit={handleSubmit} className="relative">
-            <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
-              {empType === "old" && (
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.emp_id}
-                  error={errors.emp_id}
-                  touched={touched.emp_id}
-                  label="Employment ID *"
-                  name="emp_id"
-                  placeholder={"Enter Employment ID"}
-                />
-              )}
+      <div className="flex justify-between mb-10">
+        <SubHeading>
+          Employee Details     
+             <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            </svg>
+          </i>
+        </SubHeading>
+      </div>
 
-              {/* <InputBox
+      <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
+
+        <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={employeeValidationSchema}
+          onSubmit={handleSubmitFormik}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            handleReset,
+          }) => (
+            <form onSubmit={handleSubmit} className="relative">
+              <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
+                {empType === "old" && (
+                  <InputBox
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emp_id}
+                    error={errors.emp_id}
+                    touched={touched.emp_id}
+                    label="Employment ID"
+                    name="emp_id"
+                    placeholder={"Enter Employment ID"}
+                    required={true}
+                  />
+                )}
+
+                {/* <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.emp_image}
@@ -420,30 +434,31 @@ const EmployeeBasicDetails: React.FC<
               />
             </div>
 
-            <div className="flex items-center justify-end mt-5 gap-5">
-              <PrimaryButton
-                buttonType="button"
-                variant={"cancel"}
-                onClick={goBack}
-              >
-                Back
-              </PrimaryButton>
+              <div className="flex items-center justify-end mt-5 gap-5">
+                <PrimaryButton
+                  buttonType="button"
+                  variant={"cancel"}
+                  onClick={goBack}
+                >
+                  Back
+                </PrimaryButton>
 
-              <PrimaryButton
-                onClick={handleReset}
-                buttonType="button"
-                variant={"cancel"}
-              >
-                Reset
-              </PrimaryButton>
+                <PrimaryButton
+                  onClick={handleReset}
+                  buttonType="button"
+                  variant={"cancel"}
+                >
+                  Reset
+                </PrimaryButton>
 
-              <PrimaryButton buttonType="submit" variant="primary">
-                Next
-              </PrimaryButton>
-            </div>
-          </form>
-        )}
-      </Formik>
+                <PrimaryButton buttonType="submit" variant="primary">
+                  Next
+                </PrimaryButton>
+              </div>
+            </form>
+          )}
+        </Formik>
+      </div>
     </>
   );
 };

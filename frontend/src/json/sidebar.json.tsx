@@ -37,8 +37,27 @@ export const sidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}/ems/onboard`,
           subModules: [
-            { moduleName: "Dashboard", path: `${url}/ems/dashboard` },
-            { moduleName: "On Board", path: `${url}/ems/onboard` },
+            { moduleName: "Dashboard", path: `${url}/ems/dashboard`,
+            icon: (
+              <Image
+                src="/icons/sidebar/ion_home.svg"
+                alt="masters"
+                width={100}
+                height={100}
+              />
+            )
+          },
+            { moduleName: "On Board", path: `${url}/ems/onboard`,
+            icon: (
+              <Image
+                src="/icons/sidebar/mdi_user-add.svg"
+                alt="masters"
+                width={100}
+                height={100}
+              />
+            )
+          
+          },
           ],
           
         },
@@ -79,7 +98,7 @@ export const sidebarLinks: SidebarLinksProps = {
           path: `${url}`,
         },
         {
-          moduleName: "Suspension & Termination Management",
+          moduleName: "Suspension Management",
           icon: (
             <Image
               src="/icons/sidebar/suspension.svg"
@@ -103,10 +122,10 @@ export const sidebarLinks: SidebarLinksProps = {
           path: `${url}`,
         },
         {
-          moduleName: "Grievance Management",
+          moduleName: "Termination Management",
           icon: (
             <Image
-              src="/icons/sidebar/termination.svg"
+              src="/icons/sidebar/grievance.svg"
               alt="masters"
               width={100}
               height={100}
@@ -118,7 +137,19 @@ export const sidebarLinks: SidebarLinksProps = {
           moduleName: "Pension Management",
           icon: (
             <Image
-              src="/icons/sidebar/pension.svg"
+              src="/icons/sidebar/pen_sion.svg"
+              alt="masters"
+              width={100}
+              height={100}
+            />
+          ),
+          path: `${url}`,
+        },
+        {
+          moduleName: "Grievance Management",
+          icon: (
+            <Image
+              src="/icons/sidebar/grievance.svg"
               alt="masters"
               width={100}
               height={100}

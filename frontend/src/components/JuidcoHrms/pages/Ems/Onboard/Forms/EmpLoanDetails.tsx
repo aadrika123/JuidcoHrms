@@ -83,12 +83,12 @@ const EmpLoanDetails: React.FC<
   const initialEmpDetails = storedEmpDetails
     ? JSON.parse(storedEmpDetails)
     : {
-        emp_loan_inform: [getInitialFormData()],
-        emp_principal_inform: [getInitialPrincipalFormData()],
-        emp_recovery_inform: [getInitialRecoveryFormData()],
-      };
+      emp_loan_inform: [getInitialFormData()],
+      emp_principal_inform: [getInitialPrincipalFormData()],
+      emp_recovery_inform: [getInitialRecoveryFormData()],
+    };
 
-  
+
   const [formFields, setFormFields] = useState(initialEmpDetails.emp_loan_inform);
   const [formPrincipalFields, setFormPrincipalFields] = useState(
     initialEmpDetails.emp_principal_inform
@@ -114,7 +114,7 @@ const EmpLoanDetails: React.FC<
     value: any,
     index: any
   ) => {
-    setFormPrincipalFields((prevFields:any) => {
+    setFormPrincipalFields((prevFields: any) => {
       const updatedFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
@@ -126,7 +126,7 @@ const EmpLoanDetails: React.FC<
     value: any,
     index: number
   ) => {
-    setFormRecoveryFields((prevFields:any) => {
+    setFormRecoveryFields((prevFields: any) => {
       const updatedFields: typeof formRecoveryFields = [...prevFields];
       updatedFields[index][fieldName] = value;
       return updatedFields;
@@ -173,14 +173,14 @@ const EmpLoanDetails: React.FC<
       setAddedRows((prevRows) => prevRows + 1);
 
       if (tabIndex === 1) {
-        setFormFields((prevFields :any) => [...prevFields, getInitialFormData()]);
+        setFormFields((prevFields: any) => [...prevFields, getInitialFormData()]);
       } else if (tabIndex === 2 && innerTabIndex === 1) {
-        setFormPrincipalFields((prevFields:any) => [
+        setFormPrincipalFields((prevFields: any) => [
           ...prevFields,
           getInitialPrincipalFormData(),
         ]);
       } else if (tabIndex === 2 && innerTabIndex === 2) {
-        setFormRecoveryFields((prevFields:any) => [
+        setFormRecoveryFields((prevFields: any) => [
           ...prevFields,
           getInitialRecoveryFormData(),
         ]);
@@ -191,202 +191,214 @@ const EmpLoanDetails: React.FC<
 
   return (
     <>
-      <SubHeading className="text-[20px] py-4">
-        Employee Loan & Advance Information
-      </SubHeading>
-
-      <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
-        <div className="flex-all-center ">
-          <input
-            id="loan details"
-            type="radio"
-            onChange={() => setTabIndex(1)}
-            name="radio-1"
-            className="radio border border-zinc-600"
-            defaultChecked
-          />
-          <label htmlFor="accounting" className=" cursor-pointer">
-            Loan Details
-          </label>
-        </div>
-
-        <div className="flex-all-center ">
-          <input
-            id="recovery details"
-            onChange={() => setTabIndex(2)}
-            type="radio"
-            name="radio-1"
-            className="radio  border-zinc-600"
-          />
-          <label htmlFor="function" className=" cursor-pointer">
-            Recovery Details
-          </label>
-        </div>
+      <div className="flex justify-between mb-10">
+        <SubHeading>
+          Employee Loan & Advance Information          <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            </svg>
+          </i>
+        </SubHeading>
       </div>
 
-      <Formik
-        initialValues={getInitialFormData()}
-        onSubmit={handleSubmitFormik}
-      >
-        {({ handleBlur, handleSubmit, handleReset }) => (
-          <form onSubmit={handleSubmit}>
-            {/* -----------------------Employee Loan details for tabIndex === 1 ----------------------------------- */}
+      <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
 
-            {tabIndex === 1 && (
-              <div>
-                {formFields.map((field:any, index:any) => (
-                  <div key={index}>
-                    <div
-                      className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4"
-                    >
-                      <div>
-                        <span className="text-sm">Loan Name</span>
-                        <br />
-                        <div className="border w-full p-2 rounded border-black">
-                          <select
-                            value={field.loan_name_det}
-                            name="loan_name_det"
-                            onChange={(e: any) =>
-                              handleInputChange(
-                                "loan_name_det",
-                                e.target.value,
-                                index
-                              )
-                            }
-                            className="w-full border-none outline-none"
-                          >
-                            <option value="">Please Select</option>
-                            <option value="Festival Adv.">Festival Adv.</option>
-                            <option value="Motor Cycle Adv.">
-                              Motor Cycle Adv.
-                            </option>
-                            <option value="Moped Adv.">Moped Adv.</option>
-                            <option value="House Building Adv.">
-                              House Building Adv.
-                            </option>
-                            <option value="Spl House Building Adv.">
-                              Spl House Building Adv.
-                            </option>
-                            <option value="GPF Adv.">GPF Adv.</option>
-                          </select>
+        <SubHeading className="text-[20px] py-4">
+          Employee Loan & Advance Information
+        </SubHeading>
+
+        <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
+          <div className="flex-all-center ">
+            <input
+              id="loan details"
+              type="radio"
+              onChange={() => setTabIndex(1)}
+              name="radio-1"
+              className="radio border border-zinc-600"
+              defaultChecked
+            />
+            <label htmlFor="accounting" className=" cursor-pointer">
+              Loan Details
+            </label>
+          </div>
+
+          <div className="flex-all-center ">
+            <input
+              id="recovery details"
+              onChange={() => setTabIndex(2)}
+              type="radio"
+              name="radio-1"
+              className="radio  border-zinc-600"
+            />
+            <label htmlFor="function" className=" cursor-pointer">
+              Recovery Details
+            </label>
+          </div>
+        </div>
+
+        <Formik
+          initialValues={getInitialFormData()}
+          onSubmit={handleSubmitFormik}
+        >
+          {({ handleBlur, handleSubmit, handleReset }) => (
+            <form onSubmit={handleSubmit}>
+              {/* -----------------------Employee Loan details for tabIndex === 1 ----------------------------------- */}
+
+              {tabIndex === 1 && (
+                <div>
+                  {formFields.map((field: any, index: any) => (
+                    <div key={index}>
+                      <div
+                        className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4"
+                      >
+                        <div>
+                          <span className="text-sm">Loan Name</span>
+                          <br />
+                          <div className="border w-full p-2 rounded border-black">
+                            <select
+                              value={field.loan_name_det}
+                              name="loan_name_det"
+                              onChange={(e: any) =>
+                                handleInputChange(
+                                  "loan_name_det",
+                                  e.target.value,
+                                  index
+                                )
+                              }
+                              className="w-full border-none outline-none"
+                            >
+                              <option value="">Please Select</option>
+                              <option value="Festival Adv.">Festival Adv.</option>
+                              <option value="Motor Cycle Adv.">
+                                Motor Cycle Adv.
+                              </option>
+                              <option value="Moped Adv.">Moped Adv.</option>
+                              <option value="House Building Adv.">
+                                House Building Adv.
+                              </option>
+                              <option value="Spl House Building Adv.">
+                                Spl House Building Adv.
+                              </option>
+                              <option value="GPF Adv.">GPF Adv.</option>
+                            </select>
+                          </div>
                         </div>
+
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.loan_account_num}
+                          label="Loan Account Number"
+                          placeholder="Enter Loan Account Number"
+                          name="loan_account_num"
+                          type="number"
+                          onChange={(e: any) =>
+                            handleInputChange(
+                              "loan_account_num",
+                              e.target.value,
+                              index
+                            )
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.sanc_order_num}
+                          label="Sanc Order Number"
+                          placeholder="Enter Sanc Order Number"
+                          name="sanc_order_num"
+                          onChange={(e: any) =>
+                            handleInputChange(
+                              "sanc_order_num",
+                              e.target.value,
+                              index
+                            )
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.dos}
+                          label="Date of Sanction"
+                          name="dos"
+                          type="date"
+                          onChange={(e: any) =>
+                            handleInputChange("dos", e.target.value, index)
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.san_authority}
+                          label="Sanctioning Authority"
+                          placeholder="Enter Sanctioning Authority"
+                          name="san_authority"
+                          onChange={(e: any) =>
+                            handleInputChange(
+                              "san_authority",
+                              e.target.value,
+                              index
+                            )
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.dod}
+                          label="Date of Disbursement"
+                          name="dod"
+                          type="date"
+                          onChange={(e: any) =>
+                            handleInputChange("dod", e.target.value, index)
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.dis_treasury_name}
+                          label="Disbursing Treasury Name"
+                          placeholder="Enter Disbursing Treasury Name"
+                          name="dis_treasury_name"
+                          onChange={(e: any) =>
+                            handleInputChange(
+                              "dis_treasury_name",
+                              e.target.value,
+                              index
+                            )
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.voucher_date}
+                          label="Voucher Date"
+                          name="voucher_date"
+                          type="date"
+                          onChange={(e: any) =>
+                            handleInputChange("voucher_date", e.target.value, index)
+                          }
+                        />
+                        <InputBox
+                          onBlur={handleBlur}
+                          value={field.treasury_voc_num}
+                          label="Treasury Voucher Number"
+                          placeholder="Enter Treasury Voucher Number"
+                          name="treasury_voc_num"
+                          onChange={(e: any) =>
+                            handleInputChange(
+                              "treasury_voc_num",
+                              e.target.value,
+                              index
+                            )
+                          }
+                          type="number"
+                        />
                       </div>
-
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.loan_account_num}
-                        label="Loan Account Number"
-                        placeholder="Enter Loan Account Number"
-                        name="loan_account_num"
-                        type="number"
-                        onChange={(e: any) =>
-                          handleInputChange(
-                            "loan_account_num",
-                            e.target.value,
-                            index
-                          )
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.sanc_order_num}
-                        label="Sanc Order Number"
-                        placeholder="Enter Sanc Order Number"
-                        name="sanc_order_num"
-                        onChange={(e: any) =>
-                          handleInputChange(
-                            "sanc_order_num",
-                            e.target.value,
-                            index
-                          )
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.dos}
-                        label="Date of Sanction"
-                        name="dos"
-                        type="date"
-                        onChange={(e: any) =>
-                          handleInputChange("dos", e.target.value, index)
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.san_authority}
-                        label="Sanctioning Authority"
-                        placeholder="Enter Sanctioning Authority"
-                        name="san_authority"
-                        onChange={(e: any) =>
-                          handleInputChange(
-                            "san_authority",
-                            e.target.value,
-                            index
-                          )
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.dod}
-                        label="Date of Disbursement"
-                        name="dod"
-                        type="date"
-                        onChange={(e: any) =>
-                          handleInputChange("dod", e.target.value, index)
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.dis_treasury_name}
-                        label="Disbursing Treasury Name"
-                        placeholder="Enter Disbursing Treasury Name"
-                        name="dis_treasury_name"
-                        onChange={(e: any) =>
-                          handleInputChange(
-                            "dis_treasury_name",
-                            e.target.value,
-                            index
-                          )
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.voucher_date}
-                        label="Voucher Date"
-                        name="voucher_date"
-                        type="date"
-                        onChange={(e: any) =>
-                          handleInputChange("voucher_date", e.target.value, index)
-                        }
-                      />
-                      <InputBox
-                        onBlur={handleBlur}
-                        value={field.treasury_voc_num}
-                        label="Treasury Voucher Number"
-                        placeholder="Enter Treasury Voucher Number"
-                        name="treasury_voc_num"
-                        onChange={(e: any) =>
-                          handleInputChange(
-                            "treasury_voc_num",
-                            e.target.value,
-                            index
-                          )
-                        }
-                        type="number"
-                      />
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
 
-            {/* -----------------------Employee Loan details for tabIndex === 1 ends ----------------------------------- */}
+              {/* -----------------------Employee Loan details for tabIndex === 1 ends ----------------------------------- */}
 
-            {/* -----------------------Employee Loan details for tabIndex === 2 ----------------------------------- */}
+              {/* -----------------------Employee Loan details for tabIndex === 2 ----------------------------------- */}
 
-            {tabIndex === 2 && (
-              <>
-                {/* {formPrincipalFields.map((fields, index) => ( */}
+              {tabIndex === 2 && (
+                <>
+                  {/* {formPrincipalFields.map((fields, index) => ( */}
                   <div>
                     <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
                       <div className="flex-all-center">
@@ -421,7 +433,7 @@ const EmpLoanDetails: React.FC<
 
                     <div>
 
-                      {formPrincipalFields.map((fields:any, index:any) => (
+                      {formPrincipalFields.map((fields: any, index: any) => (
                         <div key={`formPrincipalField-${index}`}>
                           {innerTabIndex === 1 && (
                             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4 ">
@@ -556,7 +568,7 @@ const EmpLoanDetails: React.FC<
                         </div>
                       ))}
 
-                      {formRecoveryFields.map((fields:any, index:any) => (
+                      {formRecoveryFields.map((fields: any, index: any) => (
                         <div key={`formRecoveryField-${index}`}>
                           {innerTabIndex === 2 && (
                             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4  mt-4">
@@ -693,52 +705,54 @@ const EmpLoanDetails: React.FC<
 
                     </div>
                   </div>
-                {/* ))} */}
+                  {/* ))} */}
 
-              </>
-            )}
+                </>
+              )}
 
-            {/* -----------------------Employee Loan details for tabIndex === 2 ends ----------------------------------- */}
+              {/* -----------------------Employee Loan details for tabIndex === 2 ends ----------------------------------- */}
 
-            {/* -----------------------Employee Loan details add row  ----------------------------------- */}
+              {/* -----------------------Employee Loan details add row  ----------------------------------- */}
 
-            <div className="w-full flex items-center justify-end mt-3">
-              <Button
-                onClick={addRow}
+              <div className="w-full flex items-center justify-end mt-3">
+                <Button
+                  onClick={addRow}
+                  buttontype="button"
+                  variant="primary_rounded"
+                  className="bg-[#4245D9]"
+                >
+                  Add
+                </Button>
+              </div>
 
-                buttontype="button"
-                variant="primary_rounded"
-              >
-                Add
-              </Button>
-            </div>
+              {/* -----------------------Employee Loan details add row  ----------------------------------- */}
 
-            {/* -----------------------Employee Loan details add row  ----------------------------------- */}
+              <div className="flex items-center justify-end mt-5 gap-5">
+                <PrimaryButton
+                  buttonType="button"
+                  variant={"cancel"}
+                  onClick={goBack}
+                >
+                  Back
+                </PrimaryButton>
 
-            <div className="flex items-center justify-end mt-5 gap-5">
-              <PrimaryButton
-                buttonType="button"
-                variant={"cancel"}
-                onClick={goBack}
-              >
-                Back
-              </PrimaryButton>
+                <PrimaryButton
+                  onClick={handleReset}
+                  buttonType="button"
+                  variant={"cancel"}
+                >
+                  Reset
+                </PrimaryButton>
 
-              <PrimaryButton
-                onClick={handleReset}
-                buttonType="button"
-                variant={"cancel"}
-              >
-                Reset
-              </PrimaryButton>
+                <PrimaryButton buttonType="submit" variant="primary">
+                  Next
+                </PrimaryButton>
+              </div>
+            </form>
+          )}
+        </Formik>
 
-              <PrimaryButton buttonType="submit" variant="primary">
-                Next
-              </PrimaryButton>
-            </div>
-          </form>
-        )}
-      </Formik>
+      </div>
     </>
   );
 };
