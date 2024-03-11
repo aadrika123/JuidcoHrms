@@ -16,7 +16,7 @@ const config: Config = {
       colors: {
         primary: "#3A3838",
         secondary: "#484646F2",
-        primary_green: "#12743B",
+        primary_green: "#E1E7FF",
       },
 
       fontSize: {

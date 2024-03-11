@@ -15,13 +15,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { HRMS_URL } from "@/utils/api/urls";
 import { DateFormatter } from "@/utils/helper";
-import { HeaderWidget } from "@/components/Helpers/Widgets/HeaderWidget";
 import EmployeeOfficeDetails from "./Forms/EmpOfficeDetails";
 import {
   EmployeeOnBoardAllTypes,
   EmployeeOnBoardForm,
 } from "@/utils/types/employee.type";
-import { redirect, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import EmployeeBasicDetails from "./Forms/EmpBasicDetails";
 import EmpployeePersonalDetails from "./Forms/EmpPersonalDetails";
 import Button from "@/components/global/atoms/Button";
@@ -37,7 +36,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-
 
 // Imports // ----------------------------------------------------------------
 
@@ -59,6 +57,12 @@ export const EmployeeOnBoard = () => {
         ? JSON.parse(sessionStorage.getItem("emp_onboard") as string) || ``
         : {}
   );
+
+  function removeSessionsAfterSubmit() {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("emp_onboard");
+    }
+  }
 
   const router = useRouter();
   // ----------Employee All Detail states------------ //
@@ -102,6 +106,7 @@ export const EmployeeOnBoard = () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
       setTimeout(() => {
+        removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },
@@ -152,13 +157,27 @@ export const EmployeeOnBoard = () => {
             className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"
           >
             <i>
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 25 25" fill="none">
-                <g clip-path="url(#clip0_949_7008)">
-                  <path d="M10.6736 7.20536L4 13.9137L10.6736 20.622C10.7339 20.7012 10.8105 20.7665 10.8981 20.8134C10.9858 20.8604 11.0826 20.888 11.1819 20.8943C11.2812 20.9007 11.3806 20.8856 11.4736 20.8501C11.5666 20.8147 11.6508 20.7597 11.7206 20.6888C11.7905 20.618 11.8443 20.533 11.8784 20.4395C11.9125 20.3461 11.9262 20.2464 11.9184 20.1472C11.9107 20.048 11.8817 19.9517 11.8335 19.8646C11.7853 19.7776 11.7189 19.702 11.6389 19.6429L6.64583 14.6081H19.9306C20.1147 14.6081 20.2914 14.535 20.4216 14.4047C20.5518 14.2745 20.625 14.0979 20.625 13.9137C20.625 13.7295 20.5518 13.5529 20.4216 13.4227C20.2914 13.2924 20.1147 13.2193 19.9306 13.2193H6.64583L11.6389 8.18453C11.7687 8.05376 11.8413 7.87677 11.8407 7.69249C11.84 7.50821 11.7662 7.33174 11.6354 7.20189C11.5047 7.07205 11.3277 6.99946 11.1434 7.00012C10.9591 7.00077 10.7826 7.0746 10.6528 7.20536H10.6736Z" fill="#665DD9" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="20"
+                viewBox="0 0 25 25"
+                fill="none"
+              >
+                <g clipPath="url(#clip0_949_7008)">
+                  <path
+                    d="M10.6736 7.20536L4 13.9137L10.6736 20.622C10.7339 20.7012 10.8105 20.7665 10.8981 20.8134C10.9858 20.8604 11.0826 20.888 11.1819 20.8943C11.2812 20.9007 11.3806 20.8856 11.4736 20.8501C11.5666 20.8147 11.6508 20.7597 11.7206 20.6888C11.7905 20.618 11.8443 20.533 11.8784 20.4395C11.9125 20.3461 11.9262 20.2464 11.9184 20.1472C11.9107 20.048 11.8817 19.9517 11.8335 19.8646C11.7853 19.7776 11.7189 19.702 11.6389 19.6429L6.64583 14.6081H19.9306C20.1147 14.6081 20.2914 14.535 20.4216 14.4047C20.5518 14.2745 20.625 14.0979 20.625 13.9137C20.625 13.7295 20.5518 13.5529 20.4216 13.4227C20.2914 13.2924 20.1147 13.2193 19.9306 13.2193H6.64583L11.6389 8.18453C11.7687 8.05376 11.8413 7.87677 11.8407 7.69249C11.84 7.50821 11.7662 7.33174 11.6354 7.20189C11.5047 7.07205 11.3277 6.99946 11.1434 7.00012C10.9591 7.00077 10.7826 7.0746 10.6528 7.20536H10.6736Z"
+                    fill="#665DD9"
+                  />
                 </g>
                 <defs>
                   <clipPath id="clip0_949_7008">
-                    <rect width="25" height="25" fill="white" transform="matrix(0 -1 1 0 0 25)" />
+                    <rect
+                      width="25"
+                      height="25"
+                      fill="white"
+                      transform="matrix(0 -1 1 0 0 25)"
+                    />
                   </clipPath>
                 </defs>
               </svg>
@@ -183,15 +202,12 @@ export const EmployeeOnBoard = () => {
         </SubHeading>
       </div> */}
 
-
-      <section className="" >
-      {/* <section className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md" > */}
-
+      <section className="">
+        {/* <section className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md" > */}
 
         <div className="mt-8">
           {searchParam === "1" || !searchParam ? (
-            <EmployeeOfficeDetails 
-            setData={getStateData} />
+            <EmployeeOfficeDetails setData={getStateData} />
           ) : searchParam === "2" ? (
             <EmployeeBasicDetails setData={getStateData} />
           ) : searchParam === "3" ? (
@@ -212,28 +228,28 @@ export const EmployeeOnBoard = () => {
               <EmployeeFamilyDetails setData={getStateData} />
             </>
           ) : //
-            searchParam === "9" ? (
-              //
-              <EmpSalaryDetails setData={getStateData} />
-            ) : searchParam === "10" ? (
-              <EmpLoanDetails setData={getStateData} />
-            ) : searchParam === "11" ? (
-              <>
-                <EmpTimeBound setData={getStateData} />
+          searchParam === "9" ? (
+            //
+            <EmpSalaryDetails setData={getStateData} />
+          ) : searchParam === "10" ? (
+            <EmpLoanDetails setData={getStateData} />
+          ) : searchParam === "11" ? (
+            <>
+              <EmpTimeBound setData={getStateData} />
 
-                <aside className="flex w-full items-center justify-end mt-3">
-                  <Button
-                    buttontype="button"
-                    variant="primary"
-                    onClick={() => mutate(employeeOnBoardDetails)}
-                  >
-                    Save
-                  </Button>
-                </aside>
-              </>
-            ) : (
-              <></>
-            )}
+              <aside className="flex w-full items-center justify-end mt-3">
+                <Button
+                  buttontype="button"
+                  variant="primary"
+                  onClick={() => mutate(employeeOnBoardDetails)}
+                >
+                  Save
+                </Button>
+              </aside>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </section>
     </>

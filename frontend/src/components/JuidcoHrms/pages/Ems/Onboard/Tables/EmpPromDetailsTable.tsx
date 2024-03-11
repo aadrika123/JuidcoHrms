@@ -163,13 +163,13 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     <>
       {header}
       <table className="table table-md mt-4">
-        <thead className="  text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400 ">
+        <thead className="  text-[1rem] bg-primary_green text-[#211F35]  ">
           <tr>
             {columns?.map((cols, index: number) => (
               <>
                 <th
                   key={index}
-                  className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                  className={` border-b border-zinc-50 font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
                 >
                   <div className="flex gap-2">
                     <span>{cols.header}</span>
@@ -185,7 +185,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
             return (
               <tr
                 key={index}
-                className="border border-zinc-400 text-secondary w-full"
+                className=" text-secondary w-full border-b border-zinc-300"
               >
                 {/* -----------------------SL_NO----------------------------------- */}
                 <td className="text-center">
@@ -194,7 +194,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* -----------------------SL_NO----------------------------------- */}
 
                 {/* -----------------------DESIGINATION----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" ">
                   <React.Fragment>
                     <p>From:</p>
                     <InputField
@@ -230,7 +230,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* -----------------------DESIGINATION----------------------------------- */}
 
                 {/* ---------------------------SCALE----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className="">
                   <React.Fragment>
                     <p>From:</p>
                     <InputField
@@ -266,7 +266,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------SCALE----------------------------------- */}
 
                 {/* ---------------------------VIDE ORDER NO----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className="">
                   <React.Fragment>
                     <InputField
                       onChange={(e) =>
@@ -285,7 +285,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------VIDE ORDER NO----------------------------------- */}
 
                 {/* ---------------------------VIDE ORDER DATE----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" ">
                   <InputField
                     onChange={(e) =>
                       onChangeTableDataHandler(
@@ -303,7 +303,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------VIDE ORDER DATE----------------------------------- */}
 
                 {/* ---------------------------TRANSFER----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" ">
                   <div className="flex flex-col items-start justify-center gap-4">
                     <div>
                       <div className="flex flex-col gap-3 pl-5 items-start">

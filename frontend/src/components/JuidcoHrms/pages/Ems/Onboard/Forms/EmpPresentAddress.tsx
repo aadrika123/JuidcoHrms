@@ -79,20 +79,27 @@ const EmpPresentAddress: React.FC<
         : initialEmployeeAddressDetails
       : initialEmployeeAddressDetails;
 
-
-
   return (
     <>
       <div className="flex justify-between mb-10">
         <SubHeading>
           Employee Present Address
           <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/4</h5>
+        <h5>Steps-4/11</h5>
 
       </div>
 
@@ -179,44 +186,44 @@ const EmpPresentAddress: React.FC<
                   placeholder="Please Select"
                   name="state"
                   options={[
-                    { "id": 1, "name": "West Bengal" },
-                    { "id": 2, "name": "Rajasthan" },
-                    { "id": 3, "name": "Jammu and Kashmir" },
-                    { "id": 4, "name": "Uttar Pradesh" },
-                    { "id": 5, "name": "Bihar" },
-                    { "id": 6, "name": "Assam" },
-                    { "id": 7, "name": "Odisha" },
-                    { "id": 8, "name": "Tamil Nadu" },
-                    { "id": 9, "name": "Andhra Pradesh" },
-                    { "id": 10, "name": "Madhya Pradesh" },
-                    { "id": 11, "name": "Kerala" },
-                    { "id": 12, "name": "Karnataka" },
-                    { "id": 13, "name": "Maharashtra" },
-                    { "id": 14, "name": "Gujarat" },
-                    { "id": 15, "name": "Nagaland" },
-                    { "id": 16, "name": "Punjab" },
-                    { "id": 17, "name": "Himachal Pradesh" },
-                    { "id": 18, "name": "Manipur" },
-                    { "id": 19, "name": "Meghalaya" },
-                    { "id": 20, "name": "Tripura" },
-                    { "id": 21, "name": "Sikkim" },
-                    { "id": 22, "name": "Goa" },
-                    { "id": 23, "name": "Arunachal Pradesh" },
-                    { "id": 24, "name": "Mizoram" },
-                    { "id": 25, "name": "Chhattisgarh" },
-                    { "id": 26, "name": "Jharkhand" },
-                    { "id": 27, "name": "Uttarakhand" },
-                    { "id": 28, "name": "Telangana" },
-                    { "id": 29, "name": "Haryana" },
-                    { "id": 30, "name": "Delhi" },
-                    { "id": 31, "name": "Andaman and Nicobar Islands" },
-                    { "id": 32, "name": "Chandigarh" },
-                    { "id": 33, "name": "Dadra and Nagar Haveli" },
-                    { "id": 34, "name": "Lakshadweep" },
-                    { "id": 35, "name": "Puducherry" },
-                    { "id": 36, "name": "Anglo Indian Nominated" },
-                    { "id": 37, "name": "Jammu and Kashmir" },
-                    { "id": 38, "name": "Ladakh" }
+                    { id: 1, name: "West Bengal" },
+                    { id: 2, name: "Rajasthan" },
+                    { id: 3, name: "Jammu and Kashmir" },
+                    { id: 4, name: "Uttar Pradesh" },
+                    { id: 5, name: "Bihar" },
+                    { id: 6, name: "Assam" },
+                    { id: 7, name: "Odisha" },
+                    { id: 8, name: "Tamil Nadu" },
+                    { id: 9, name: "Andhra Pradesh" },
+                    { id: 10, name: "Madhya Pradesh" },
+                    { id: 11, name: "Kerala" },
+                    { id: 12, name: "Karnataka" },
+                    { id: 13, name: "Maharashtra" },
+                    { id: 14, name: "Gujarat" },
+                    { id: 15, name: "Nagaland" },
+                    { id: 16, name: "Punjab" },
+                    { id: 17, name: "Himachal Pradesh" },
+                    { id: 18, name: "Manipur" },
+                    { id: 19, name: "Meghalaya" },
+                    { id: 20, name: "Tripura" },
+                    { id: 21, name: "Sikkim" },
+                    { id: 22, name: "Goa" },
+                    { id: 23, name: "Arunachal Pradesh" },
+                    { id: 24, name: "Mizoram" },
+                    { id: 25, name: "Chhattisgarh" },
+                    { id: 26, name: "Jharkhand" },
+                    { id: 27, name: "Uttarakhand" },
+                    { id: 28, name: "Telangana" },
+                    { id: 29, name: "Haryana" },
+                    { id: 30, name: "Delhi" },
+                    { id: 31, name: "Andaman and Nicobar Islands" },
+                    { id: 32, name: "Chandigarh" },
+                    { id: 33, name: "Dadra and Nagar Haveli" },
+                    { id: 34, name: "Lakshadweep" },
+                    { id: 35, name: "Puducherry" },
+                    { id: 36, name: "Anglo Indian Nominated" },
+                    { id: 37, name: "Jammu and Kashmir" },
+                    { id: 38, name: "Ladakh" },
                   ]}
                 />
                 <SelectForNoApi
@@ -320,7 +327,7 @@ const EmpPresentAddress: React.FC<
                   type="text"
                   maxLength={6}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -360,7 +367,8 @@ const EmpPresentAddress: React.FC<
                       type="checkbox"
                     />
                     <label htmlFor="">
-                      If Present & Permanent Address are not same<span className="text-red-500">*</span>
+                      If Present & Permanent Address are not same
+                      <span className="text-red-500">*</span>
                     </label>
                   </div>
                 </div>
@@ -376,7 +384,6 @@ const EmpPresentAddress: React.FC<
                       </SubHeading>
                     </div>
                     <div></div>
-
 
                     <InputBox
                       onChange={handleChange}
@@ -557,7 +564,10 @@ const EmpPresentAddress: React.FC<
                         { id: 5, name: "Vishrampur (Nagar Panchayat)" },
                         { id: 6, name: "Jamshedpur (NAC)" },
                         { id: 7, name: "Deoghar (Nagar Nigam)" },
-                        { id: 8, name: "Medininagar (Daltonganj) (Nagar Parshad)" },
+                        {
+                          id: 8,
+                          name: "Medininagar (Daltonganj) (Nagar Parshad)",
+                        },
                         { id: 9, name: "Jhumri Talaiya (Nagar Parshad)" },
                         { id: 10, name: "Giridih (Nagar Parshad)" },
                         { id: 11, name: "Sahibganj (Nagar Parshad)" },

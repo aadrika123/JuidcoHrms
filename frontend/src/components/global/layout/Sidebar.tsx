@@ -5,28 +5,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { sidebarLinks } from "@/json/sidebar.json";
 import { usePathname } from "next/navigation";
-import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
+import { InnerHeading } from "@/components/Helpers/Heading";
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
+
+
 
 const Sidebar: React.FC<SideBarProps> = (props) => {
   const pathName = usePathname();
   const [data, setData] = useState<string | null>();
 
   useEffect(() => {
-    setData(localStorage.getItem('openPage'));
-  }, [])
+    setData(localStorage.getItem("openPage"));
+  }, []);
   const handleClick = (moduleName: string) => {
-    localStorage.setItem('openPage', moduleName);
+    localStorage.setItem("openPage", moduleName);
   };
 
   return (
+    <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""}`}>
+
     <div {...props}>
       <section>
-      <div className="flex flex-col items-center justify-center p-5">
+        <div className="flex flex-col items-center justify-center p-5">
           {/* <Image src="/logo/jh-logo.png" width={100} height={100} alt="logo" /> */}
-          <Image src="/icons/profile_new.png" width={100} height={100} alt="logo" /><br />
+          <Image
+            src="/icons/profile_new.png"
+            width={100}
+            height={100}
+            alt="logo"
+          />
+          <br />
           <InnerHeading className="font-bold">HR ADMIN</InnerHeading>
           <InnerHeading>DMA</InnerHeading>
         </div>
@@ -34,7 +44,6 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
         <div>
           {sidebarLinks.modules?.map((link, index: number) => {
             return (
-              
               <div key={index}>
                 <ul className="w-full menu menu-xs p-0 overflow-hidden">
                   <ul className="h-lvh">
@@ -49,7 +58,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                         <ul>
                           {link.subModules?.map((sub, index: number) => (
                             <li key={index} className="mt-5 w-[90%] ">
-                              <details open={data === sub?.moduleName} >
+                              <details open={data === sub?.moduleName}>
                                 {/* <summary
                                   className={`${
                                     pathName.startsWith(sub.path)
@@ -58,35 +67,43 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                                   } ml-2 text-[0.9375rem] p-1 pr-4 hover:bg-[#4338CA] hover:text-white font-semibold text-white`}
                                 > */}
                                 <summary
-                                  className={`${data === sub?.moduleName
-                                    ? "bg-[#4338CA] text-white m-2"
-                                    : "bg-transparent text-zinc-600"
-                                    } ml-2 text-[0.9375rem] p-1 pr-4 hover:bg-[#4338CA] hover:text-white font-semibold`}
+                                  className={`${
+                                    data === sub?.moduleName
+                                      ? "bg-[#4338CA] text-white m-2"
+                                      : "bg-transparent text-zinc-600"
+                                  } ml-2 text-[0.9375rem] p-1 pr-4 hover:bg-[#4338CA] hover:text-white font-semibold`}
                                 >
                                   <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
                                     {sub.icon}
                                   </i>
                                   {sub.moduleName}
                                 </summary>
-                                <div className="bg-[#E2DFFD] p-1 m-2 mt-[-8px] " >
-                                <ul>
-                                  {sub.subModules?.map((link, i: number) => (
-                                    <li onClick={() => handleClick(sub.moduleName)} key={i} className={`mt-3 ml-5`}>
-                                      <Link
-                                        className={`text-[0.9375rem] p-2 ${pathName === link.path
-                                          ? "text-black font-medium bg-black bg-opacity-20 bg-transparent"
-                                          : "text-primary"
-                                          } `}
-                                        href={link.path}
+                                <div className="bg-[#E2DFFD] p-1 m-2 mt-[-8px] ">
+                                  <ul>
+                                    {sub.subModules?.map((link, i: number) => (
+                                      <li
+                                        onClick={() =>
+                                          handleClick(sub.moduleName)
+                                        }
+                                        key={i}
+                                        className={`mt-3 ml-5`}
                                       >
-                                        <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
-                                          {link.icon}
-                                        </i>
-                                        {link.moduleName}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
+                                        <Link
+                                          className={`text-[0.9375rem] p-2 ${
+                                            pathName === link.path
+                                              ? "text-black font-medium bg-black bg-opacity-20 bg-transparent"
+                                              : "text-primary"
+                                          } `}
+                                          href={link.path}
+                                        >
+                                          <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
+                                            {link.icon}
+                                          </i>
+                                          {link.moduleName}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
                                 {/* <ul className="bg-red-500  mt-[-12px]" >
                                   {sub.subModules?.map((link, i: number) => (
@@ -119,6 +136,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
           })}
         </div>
       </section>
+    </div>
     </div>
   );
 };

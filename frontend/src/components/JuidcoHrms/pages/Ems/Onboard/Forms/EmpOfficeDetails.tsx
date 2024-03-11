@@ -75,7 +75,7 @@ const EmployeeOfficeDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/1</h5>
+        <h5>Steps-1/11</h5>
       </div>
 
 
@@ -190,7 +190,19 @@ const EmployeeOfficeDetails: React.FC<
                   name="office_code"
                   required={true}
                   placeholder="Enter Office Code"
-                  maxLength={10}
+                  maxLength={20}
+                  onKeyPress={(e:any) => {
+                    if (
+                      !(
+                        (e.key >= 'a' && e.key <= 'z') ||
+                        (e.key >= '0' && e.key <= '9') ||
+                        (e.key >= 'A' && e.key <= 'Z') ||
+                        e.key === ' '
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
 
                 />
 

@@ -12,7 +12,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         {/* <div className="grid grid-cols-10">
           <Sidebar className="col-span-2 border-r border-[#12743B] rounded-tr-2xl w-full min-h-screen " />
           <div className="col-span-8">
-            <Header className="border-b border-b-[#12743B] w-full h-[6.5rem] flex items-center justify-between px-5 " />
+            <Header className="border-b  w-full h-[6.5rem] flex items-center justify-between px-5 " />
             <section className="p-8 h-screen bg-[#FCFDFF] ">{children}</section>
           </div>
         </div> */}
@@ -20,7 +20,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           <div className="col-span-10">
             <Header className="bg-white border-b border-b-slate-100 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
           </div>
-          <div className="col-span-2 border-r border-slate-100 rounded-br-2xl shadow-xl mx-1">
+          <div className="col-span-2 border-r border-slate-300 rounded-br-2xl shadow-xl mx-1">
             <Sidebar className="w-full min-h-screen" />
           </div>
           <div className="col-span-8">
@@ -29,7 +29,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
             </section>
           </div>
         </div>
-
       </main>
     </>
   );

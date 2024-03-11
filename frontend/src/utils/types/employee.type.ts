@@ -77,8 +77,9 @@ export interface EmployeePersonalDetailsType {
   emp_family_name: string | number;
   emp_org_name: string | number;
   emp_office_name: string | number;
-  emp_lang: string | number;
-  emp_lang_do?: ("read" | "write" | "speak")[];
+  emp_lang: any[];
+  emp_mother_tounge: string | number;
+  // emp_lang_do?: ("read" | "write" | "speak")[];
 }
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//
@@ -164,7 +165,7 @@ export interface EmployeePresentAddressDetailsType {
   state_permanent: string;
   district_permanent: string;
   block_ulb_permanent: string | number;
-  pin_code_permanent: string | number;
+  pin_code_permanent?: string | number;
   police_station_permanent: string;
   emp_address_same_permanent: "yes" | "no";
 }
@@ -301,8 +302,9 @@ export type EmployeeEducation = {
   stream: string | number;
   board: string | number;
   passing_year: string | number;
-  marks: string | number;
+  marks?: number;
   grade: string | number;
+  upload_edu: string;
 };
 
 export type EmployeeEducationTrainingType = {

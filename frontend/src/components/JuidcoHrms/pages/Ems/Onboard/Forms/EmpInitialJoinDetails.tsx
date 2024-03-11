@@ -70,7 +70,7 @@ const EmpInitialJoinDetails: React.FC<
                         </svg>
                     </i>
                 </SubHeading>
-                <h5>Steps-11/6</h5>
+                <h5>Steps-6/11</h5>
 
             </div>
 

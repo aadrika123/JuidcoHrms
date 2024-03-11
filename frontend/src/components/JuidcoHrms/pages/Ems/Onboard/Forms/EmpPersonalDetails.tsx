@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik } from "formik";
 import type {
@@ -31,36 +31,79 @@ const EmpployeePersonalDetails: React.FC<
   const router = useRouter();
   const empType = useSearchParams().get("emp");
 
-  const [empLangTypes, setEmpLangTypes] = useState<
-    ("read" | "write" | "speak")[]
-  >([]);
+  const [empLang, setEmpLang] = useState<
+    [
+      {
+        lang: string;
+        lang_type: string[];
+      },
+    ]
+  >([
+    {
+      lang: "",
+      lang_type: [],
+    },
+  ]);
+  function updateEmpLangTypes(id: number, key: string, value: string | number) {
+    setEmpLang((prev: any): any => {
+      const updatedData = [...prev];
+      const row = { ...updatedData[id] };
 
-
-  function updateEmpLangTypes(langType: "read" | "write" | "speak") {
-    setEmpLangTypes((prev) => {
-      // Toggle the value in the array
-      if (prev.includes(langType)) {
-        return prev.filter((lang) => lang !== langType);
+      if (Array.isArray(row[key])) {
+        if (row[key].includes(value)) {
+          row[key] = row[key].filter((lang: string) => lang !== value);
+        } else {
+          row[key] = [...row[key], value];
+        }
       } else {
-        return [...prev, langType];
+        row[key] = value;
       }
+
+      updatedData[id] = { ...row };
+      return updatedData;
     });
   }
 
+  function addEmpLangTypes() {
+    setEmpLang((prev: any) => {
+      const lastObj = prev[prev.length - 1];
 
+      // Check if all values in 'lastObj' are empty
+      const lastObjEmpty = Object.values(lastObj).every((item) => item === "");
 
+      if (!lastObjEmpty) {
+        return [
+          ...prev,
+          {
+            lang: "",
+            lang_type: [],
+          },
+        ];
+      } else {
+        return prev;
+      }
+    });
+  }
 
   const handleSubmitFormik = (
     values: EmployeePersonalDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
+    values.emp_lang = empLang;
+    Object.keys(values).forEach((key) => {
+      const val = values[key as keyof typeof values];
+      if (
+        val ==
+        initialEmployeePersonalDetails[
+          key as keyof typeof initialEmployeePersonalDetails
+        ]
+      ) {
+        delete values[key as keyof typeof values];
+      }
+    });
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
       setSubmitting(false);
-      values.emp_lang_do = empLangTypes;
-
-      // const new_val = { ...values, emp_lang_do: empLangTypes };
-      console.log(values);
       if (props.setData) {
         props.setData("emp_personal_details", values);
       }
@@ -75,20 +118,46 @@ const EmpployeePersonalDetails: React.FC<
         : initialEmployeePersonalDetails
       : initialEmployeePersonalDetails;
 
-
-
+  useEffect(() => {
+    if (empLang.length < 1) {
+      if (typeof window !== "undefined") {
+        const empData = JSON.parse(
+          sessionStorage.getItem("emp_personal_details") ?? "{}"
+        );
+        if (empData) {
+          setEmpLang(empData.emp_lang);
+        }
+        setEmpLang([
+          {
+            lang: "",
+            lang_type: [],
+          },
+        ]);
+      }
+    }
+  }, []);
 
   return (
     <>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Personal Details             <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+          Employee Personal Details{" "}
+          <i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-11/3</h5>
+        <h5>Steps-3/11</h5>
 
       </div>
 
@@ -297,12 +366,11 @@ const EmpployeePersonalDetails: React.FC<
                         name="emp_health_file"
                         onChange={handleChange}
                         value={undefined}
-                      // value={values.emp_health_file || ''}
+                        // value={values.emp_health_file || ''}
                       />
                     </>
                   )}
                 </div>
-
 
                 <InputBox
                   onChange={handleChange}
@@ -454,13 +522,12 @@ const EmpployeePersonalDetails: React.FC<
                         },
                       ].filter((option) => {
                         return (
-                          (values.married_status === "Single" && ["Father", "Mother"].includes(option.name)) ||
-                          (values.married_status !== "Single")
+                          (values.married_status === "Single" &&
+                            ["Father", "Mother"].includes(option.name)) ||
+                          values.married_status !== "Single"
                         );
                       })}
-
                     />
-
 
                     <InputBox
                       onChange={handleChange}
@@ -539,63 +606,158 @@ const EmpployeePersonalDetails: React.FC<
                   )}
                 </div>
 
-                <SelectForNoApi
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.emp_lang}
-                  error={errors.emp_lang}
-                  touched={touched.emp_lang}
-                  label="Language"
-                  name="emp_lang"
-                  placeholder={"Select Language"}
-                  required={true}
-                  options={[
-                    {
-                      id: 1,
-                      name: "Hindi",
-                    },
-                    {
-                      id: 2,
-                      name: "English",
-                    },
-                  ]}
-                />
-                <div></div>
                 <div className="flex items-center gap-5">
-                  <div className="flex items-center">
-                    <input
-                      onChange={() => updateEmpLangTypes("read")}
-                      className={`mr-1 bg-white checkbox border border-zinc-500`}
-                      name={"read"}
-                      id="read"
-                      type="checkbox"
-                    />
-                    <label htmlFor="read">Read</label>
+                  <div>
+                    {empLang?.map((row, index: number) => {
+                      console.log("first", row);
+                      return (
+                        <React.Fragment key={index}>
+                          <SelectForNoApi
+                            onChange={(e) =>
+                              updateEmpLangTypes(index, "lang", e.target.value)
+                            }
+                            value={row.lang[index]}
+                            // onBlur={handleBlur}
+                            // value={row.lang}
+                            // error={errors.emp_lang}
+                            // touched={touched.emp_lang}
+                            label={`${index === 0 ? "Language" : ""}`}
+                            name="emp_lang"
+                            placeholder={"Select Language"}
+                            required={index === 0 ? true : false}
+                            options={[
+                              { "id": 1, "name": "Assamese" },
+                              { "id": 2, "name": "Bengali" },
+                              { "id": 3, "name": "Bodo" },
+                              { "id": 4, "name": "Dogri" },
+                              { "id": 5, "name": "Gujarati" },
+                              { "id": 6, "name": "Hindi" },
+                              { "id": 7, "name": "Kannada" },
+                              { "id": 8, "name": "Kashmiri" },
+                              { "id": 9, "name": "Konkani" },
+                              { "id": 10, "name": "Maithili" },
+                              { "id": 11, "name": "Malayalam" },
+                              { "id": 12, "name": "Manipuri" },
+                              { "id": 13, "name": "Marathi" },
+                              { "id": 14, "name": "Nepali" },
+                              { "id": 15, "name": "Odia" },
+                              { "id": 16, "name": "Punjabi" },
+                              { "id": 17, "name": "Sanskrit" },
+                              { "id": 18, "name": "Santali" },
+                              { "id": 19, "name": "Sindhi" },
+                              { "id": 20, "name": "Tamil" },
+                              { "id": 21, "name": "Telugu" },
+                              { "id": 22, "name": "Urdu" }
+                            ]}
+                          />
+
+                          <div className="flex items-center gap-5 mt-4">
+                            <div className="flex items-center">
+                              <input
+                                onChange={() =>
+                                  updateEmpLangTypes(index, "lang_type", "read")
+                                }
+                                className={`mr-1 bg-white checkbox border border-zinc-500`}
+                                name={"read"}
+                                id="read"
+                                type="checkbox"
+                              />
+                              <label htmlFor="read">Read</label>
+                            </div>
+
+                            <div className="flex items-center">
+                              <input
+                                onChange={() =>
+                                  updateEmpLangTypes(
+                                    index,
+                                    "lang_type",
+                                    "write"
+                                  )
+                                }
+                                className={`mr-1 bg-white checkbox border border-zinc-500`}
+                                name={"write"}
+                                id="write"
+                                type="checkbox"
+                              />
+                              <label htmlFor="write">Write</label>
+                            </div>
+
+                            <div className="flex items-center">
+                              <input
+                                onChange={() =>
+                                  updateEmpLangTypes(
+                                    index,
+                                    "lang_type",
+                                    "speak"
+                                  )
+                                }
+                                // checked={row.lang_type[index] === "speak"}
+                                className={`mr-1 bg-white checkbox border border-zinc-500`}
+                                name={"write"}
+                                id="write"
+                                type="checkbox"
+                              />
+                              <label htmlFor="write">Speak</label>
+                            </div>
+                          </div>
+                        </React.Fragment>
+                      );
+                    })}
                   </div>
 
-                  <div className="flex items-center">
-                    <input
-                      onChange={() => updateEmpLangTypes("write")}
-                      className={`mr-1 bg-white checkbox border border-zinc-500`}
-                      name={"write"}
-                      id="write"
-                      type="checkbox"
-                    />
-                    <label htmlFor="write">Write</label>
-                  </div>
+                  
 
-                  <div className="flex items-center">
-                    <input
-                      onChange={() => updateEmpLangTypes("speak")}
-                      className={`mr-1 bg-white checkbox border border-zinc-500`}
-                      name={"write"}
-                      id="write"
-                      type="checkbox"
-                    />
-                    <label htmlFor="write">Speak</label>
-                  </div>
+
+
+                  <button
+                    type="button"
+                    onClick={addEmpLangTypes}
+                    className="flex items-center flex-col gap-1"
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
+                        <path
+                          d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                          fill="#12743B"
+                        />
+                      </svg>
+                    </span>
+                    <span className="text-xs whitespace-nowrap">
+                      add more language
+                    </span>
+                  </button>
                 </div>
+                <InputBox
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.emp_mother_tounge}
+                          error={errors.emp_mother_tounge}
+                          touched={touched.emp_mother_tounge}
+                          label="Mother Tongue"
+                          required={true}
+                          name="emp_mother_tounge"
+                          placeholder={"Enter Mother Tongue"}
+                          onKeyPress={(e:any) => {
+                            if (
+                              !(
+                                (e.key >= 'a' && e.key <= 'z') ||
+                                (e.key >= 'A' && e.key <= 'Z') ||
+                                e.key === ' '
+                              )
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
               </div>
+
+            
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton

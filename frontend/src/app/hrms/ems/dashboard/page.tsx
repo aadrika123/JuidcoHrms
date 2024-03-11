@@ -3,11 +3,11 @@ import PageLayout from "@/components/Layouts/PageLayout";
 import React from "react";
 
 function page() {
-    return (
-        <PageLayout>
-            <DashboardMain />
-        </PageLayout>
-    );
+  return (
+    <PageLayout>
+      <DashboardMain />
+    </PageLayout>
+  );
 }
 
 export default page;

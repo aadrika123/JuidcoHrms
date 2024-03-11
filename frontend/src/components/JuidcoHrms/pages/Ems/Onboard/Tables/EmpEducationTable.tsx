@@ -12,7 +12,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { removeObj } from "@/utils/helper";
 
 interface TableFormProps {
+  validate: (value: boolean) => void;
   setData: (key: string, values: any, index?: number | undefined) => void;
+  setSession: boolean;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -37,7 +39,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     (_, index) => ({
       edu_level:
         index === 0
-          ? "Metric"
+          ? "Matriculation"
           : index === 1
             ? "Intermediate"
             : index === 2
@@ -48,21 +50,25 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       stream: "",
       board: "",
       passing_year: "",
-      marks: "",
+      marks: undefined,
       grade: "",
+      upload_edu: "",
     })
   );
 
-  const [tableData, setTableData] =
-    useState<EmployeeEducation[]>(initialTableData);
+  const [tableData, setTableData] = useState<any[]>(
+    JSON.parse(sessionStorage.getItem("emp_education") as string) ||
+      initialTableData
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = sessionStorage.getItem("emp_education");
       if (storedData !== null)
         setTableData(storedData ? JSON.parse(storedData) : [{}]);
+      props.validate(true);
     }
-  }, []);
+  }, [props.setSession]);
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
@@ -70,7 +76,16 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     }
   }
 
+  useEffect(() => {
+    setDataSesson();
+  }, [props.setSession]);
+
   const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
+    {
+      HEADER: "#",
+      ACCESSOR: "sl_no",
+      isRequired: false,
+    },
     {
       HEADER: "Education Level",
       ACCESSOR: "edu_level",
@@ -101,10 +116,15 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       ACCESSOR: "grade",
       isRequired: true,
     },
+    {
+      HEADER: "Upload",
+      ACCESSOR: "upload_edu",
+      isRequired: true,
+    },
   ];
   function onChangeTableDataHandler(
     id: number,
-    value: string,
+    value: string | number,
     key: string,
     innerKey?: string
   ) {
@@ -112,14 +132,46 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       const updatedData = [...prev];
       const row: Record<string, any> = { ...updatedData[id] };
 
+      if (key === "marks") {
+        if (!row[key]) {
+          row[key] = {};
+        }
+        value = Math.min(Number(value), 100);
+
+        row["grade"] =
+          (value as number) >= 60
+            ? "1st"
+            : (value as number) >= 49
+              ? "2nd"
+              : (value as number) >= 34
+                ? "3rd"
+                : (value as number) < 34 && (value as number) > 0
+                  ? "FAIL"
+                  : (value as number) === 0
+                    ? ""
+                    : "";
+      }
       if (innerKey) {
         if (!row[key]) {
           row[key] = {};
         }
-        const nestedObject: Record<string, string | boolean> = row[key];
+        const nestedObject: Record<string, string | boolean | number> =
+          row[key];
         nestedObject[innerKey] = value;
       } else {
         row[key] = value;
+      }
+      if (
+        Object.values(row)
+          .slice(1)
+          .every((key) => key !== "") ||
+        Object.values(row)
+          .slice(1)
+          .every((key) => key === "")
+      ) {
+        props.validate(true);
+      } else {
+        props.validate(false);
       }
 
       updatedData[id] = { ...row } as EmployeeEducation;
@@ -129,9 +181,12 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
 
   function addRow() {
     setDataSesson();
+    // props.setSession("emp_education", tableData);
     const lastRow = tableData[tableData.length - 1];
-    const isLastRowEmpty = Object.values(lastRow).every((row) =>
-      Object.values(row).every((val) => val !== "")
+    const isLastRowEmpty = Object.values(lastRow).every(
+      (row) =>
+        row !== undefined &&
+        Object?.values(row as any).every((val) => val !== "")
     );
 
     if (tableData.length < 6) {
@@ -143,8 +198,9 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
             stream: "",
             board: "",
             passing_year: "",
-            marks: "",
+            marks: undefined,
             grade: "",
+            upload_edu: "",
           },
         ]);
       }
@@ -163,19 +219,21 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   return (
     <>
       <Toaster />
-      <table className="table table-md mt-4">
-        <thead className="text-[1rem] bg-primary_green text-white border border-t-2 border-zinc-400">
+      <table className=" mt-4 p-5">
+        <thead className="text-[1rem] bg-[#E1E7FF] text-[#211F35] rounded-md">
           <tr>
             {COLUMNS_FOR_EDUCATION?.map((cols, index: number) => (
               <>
                 <th
                   key={index}
-                  className={`border  border-zinc-400  font-medium ${index === 0 ? "w-[5%]" : "w-[20%]"}`}
+                  className={`font-medium ${index === 0 ? "w-[2%]" : "w-[10%]"}`}
                 >
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 py-4 px-6 rounded-md">
                     <span>
                       {cols.HEADER}
-                      <span className="text-red-500">*</span>
+                      <span className="text-red-500">
+                        {index === 0 ? "" : "*"}
+                      </span>
                     </span>
                   </div>
                 </th>
@@ -187,12 +245,12 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
         <tbody>
           {tableData?.map((row, index: number) => {
             return (
-              <tr
-                key={index}
-                className="border border-zinc-400 text-secondary w-full"
-              >
+              <tr key={index} className=" text-secondary w-full border-b">
+                <td className="px-6">
+                  <span>{index + 1}</span>
+                </td>
                 {/* -----------------------Edu Level----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" px-5 py-2">
                   <InputField
                     onChange={(e) =>
                       onChangeTableDataHandler(
@@ -209,7 +267,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* -----------------------Edu Level----------------------------------- */}
 
                 {/* ---------------------------STREAM----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" px-6">
                   <InputField
                     onChange={(e) =>
                       onChangeTableDataHandler(index, e.target.value, "stream")
@@ -217,12 +275,22 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     value={row?.stream}
                     placeholder={"Enter "}
                     isRequired={true}
+                    onKeyPress={(e: any) => {
+                      if (
+                        !(
+                          (e.key >= "a" || e.key >= "A") &&
+                          (e.key <= "z" || e.key <= "Z")
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </td>
                 {/* ---------------------------STREAM----------------------------------- */}
 
                 {/* ---------------------------BOARD----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className="px-6 ">
                   <React.Fragment>
                     <InputField
                       onChange={(e) =>
@@ -231,13 +299,23 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       value={row.board}
                       placeholder={"Enter "}
                       isRequired={true}
+                      onKeyPress={(e: any) => {
+                        if (
+                          !(
+                            (e.key >= "a" || e.key >= "A") &&
+                            (e.key <= "z" || e.key <= "Z")
+                          )
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </React.Fragment>
                 </td>
                 {/* ---------------------------BOARD----------------------------------- */}
 
                 {/* ---------------------------PASSING YEAR----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" px-6">
                   <InputField
                     onChange={(e) =>
                       onChangeTableDataHandler(
@@ -247,6 +325,13 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       )
                     }
                     value={row?.passing_year}
+                    maxLength={4}
+                    type="text"
+                    onKeyPress={(e: any) => {
+                      if (!(e.key >= "0" && e.key <= "9")) {
+                        e.preventDefault();
+                      }
+                    }}
                     placeholder={"Enter "}
                     isRequired={true}
                   />
@@ -254,12 +339,22 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------PASSING YEAR----------------------------------- */}
 
                 {/* ---------------------------MARKS----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" px-6">
                   <InputField
                     onChange={(e) =>
-                      onChangeTableDataHandler(index, e.target.value, "marks")
+                      onChangeTableDataHandler(
+                        index,
+                        Number(e.target.value),
+                        "marks"
+                      )
                     }
-                    type="number"
+                    type="text"
+                    maxLength={3}
+                    onKeyPress={(e: any) => {
+                      if (!(e.key >= "0" && e.key <= "9")) {
+                        e.preventDefault();
+                      }
+                    }}
                     value={row?.marks}
                     placeholder={"Enter "}
                     isRequired={true}
@@ -268,24 +363,56 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------MARKS----------------------------------- */}
 
                 {/* ---------------------------GRADE----------------------------------- */}
-                <td className="border border-zinc-400 ">
+                <td className=" px-6">
                   <InputField
                     onChange={(e) =>
                       onChangeTableDataHandler(index, e.target.value, "grade")
                     }
-                    type="number"
                     value={row?.grade}
                     placeholder={"Enter "}
                     isRequired={true}
+                    disabled
                   />
                 </td>
                 {/* ---------------------------GRADE----------------------------------- */}
+
+                {/* ---------------------------UPLOAD FILE----------------------------------- */}
+                <td className=" px-6">
+                  <div className="flex gap-3 cursor-pointer mt-7 pb-2">
+                    <p className="text-zinc-600 whitespace-nowrap ">
+                      Browse File
+                    </p>
+
+                    <div className="w-[8rem] h-[2rem] bg-transparent  border border-blue-300 rounded-xl flex flex-col items-center justify-center">
+                      <label htmlFor="xyz">Upload Image</label>
+
+                      <input
+                        type="file"
+                        id="xyz"
+                        style={{ display: "none" }}
+                        onChange={(e) =>
+                          onChangeTableDataHandler(
+                            index,
+                            e.target.value,
+                            "upload_edu"
+                          )
+                        }
+                        required
+                        // value={row?.upload_edu}
+                      />
+                    </div>
+                  </div>
+                </td>
+                {/* ---------------------------UPLOAD FILE----------------------------------- */}
               </tr>
             );
           })}
         </tbody>
       </table>
-      <div className="w-full flex items-center justify-end mt-3">
+      <div className="w-full flex items-start justify-between mt-3">
+        <span className="text-xs italic">
+          P.S-You can add more 4 other information of education
+        </span>
         <Button onClick={addRow} buttontype="button" variant="primary_rounded">
           Add
         </Button>
