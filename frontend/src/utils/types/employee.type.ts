@@ -78,7 +78,7 @@ export interface EmployeePersonalDetailsType {
   emp_org_name: string | number;
   emp_office_name: string | number;
   emp_lang: any[];
-  emp_mother_tounge: string | number;
+  emp_mother_tounge: any[];
   // emp_lang_do?: ("read" | "write" | "speak")[];
 }
 

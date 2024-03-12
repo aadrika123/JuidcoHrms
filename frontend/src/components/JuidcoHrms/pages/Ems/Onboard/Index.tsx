@@ -64,9 +64,6 @@ export const EmployeeOnBoard = () => {
     }
   }
 
- 
-  
-
   const router = useRouter();
   // ----------Employee All Detail states------------ //
 
@@ -105,7 +102,6 @@ export const EmployeeOnBoard = () => {
     return res.data;
   };
 
-  
   const { mutate } = useMutation(createVendorDetails, {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
