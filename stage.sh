@@ -1,6 +1,7 @@
 #!/bin/sh
 SERVER_PORT=7001
 DB_PASSWORD="judico@2024"
+GITHUB_TOKEN="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"
 
 installModules () {
     echo "Installing frontend node modules ..."
@@ -41,6 +42,9 @@ startServices(){
     cd ..
     pm2 list
 }
+
+
+git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
 
 installModules
 resetDatabases
