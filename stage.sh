@@ -44,7 +44,7 @@ startServices(){
 }
 
 
-git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
+# git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
 
 installModules
 resetDatabases
