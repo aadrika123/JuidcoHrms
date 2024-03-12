@@ -43,6 +43,7 @@ startServices(){
     pm2 list
 }
 
+# git clone -b krish_dev https://Kkrish7654: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@github.com/aadrika123/JuidcoHrms.git
 
 # git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
 

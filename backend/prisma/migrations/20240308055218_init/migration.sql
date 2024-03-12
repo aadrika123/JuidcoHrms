@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "employee_basic_details" ALTER COLUMN "weight" DROP NOT NULL,
-ALTER COLUMN "weight" SET DATA TYPE TEXT,
-ALTER COLUMN "height" DROP NOT NULL,
-ALTER COLUMN "height" SET DATA TYPE TEXT;

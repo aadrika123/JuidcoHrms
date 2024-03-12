@@ -88,12 +88,12 @@ model employee_personal_details {
   emp_ltc_home_town           String
   emp_nearest_railway_station String
   emp_phy_health_type         String?
-  emp_family                  String
-  emp_family_name             String
+  emp_family                  String?
+  emp_family_name             String?
   emp_office_name             String?
   emp_org_name                String?
   emp_lang                    Json
-  emp_mother_tounge           String?
+  emp_mother_tounge           Json?
   employee                    employees[]
   created_at                  DateTime    @default(now()) @map("created_at")
   updated_at                  DateTime    @updatedAt @map("updated_at")
@@ -237,20 +237,20 @@ model employee_salary_deduction {
 // // //-------------- Employee Join Details ---------------------//
 model employee_join_details {
   id                      Int         @id @default(autoincrement())
-  department              String
-  designation             String
-  task                    String
+  department              String?
+  designation             String?
+  task                    String?
   class                   String?
-  doj                     String
-  effective_pay_commision String
+  doj                     String?
+  effective_pay_commision String?
   confirmation_order      String?
-  pay_scale               BigInt
-  pay_band                BigInt
-  grade_pay               BigInt
+  pay_scale               BigInt?
+  pay_band                BigInt?
+  grade_pay               BigInt?
   doc                     String?
-  basic_pay               BigInt
+  basic_pay               BigInt?
   conf_order_number       BigInt?
-  deduction_type          String
+  deduction_type          String?
   conf_order_date         String?
   member_gis              String?
   appoint_authority       String?
