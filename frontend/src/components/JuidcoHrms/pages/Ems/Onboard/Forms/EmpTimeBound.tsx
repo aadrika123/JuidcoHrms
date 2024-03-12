@@ -100,8 +100,6 @@ export const EmpTimeBound: React.FC<
     });
   };
 
-
-
   const saveDataToSessionStorage = () => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem(
@@ -129,18 +127,27 @@ export const EmpTimeBound: React.FC<
         <SubHeading>
           Time Bound Promotion/ACP/MACP details
           <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
         <h5>Steps-11/11</h5>
-
       </div>
       <div>
-
         <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
-          <SubHeading className="mb-10">Time Bound Promotion/ACP/MACP details</SubHeading>
+          <SubHeading className="mb-10">
+            Time Bound Promotion/ACP/MACP details
+          </SubHeading>
           <table>
             {/* -----------------------Table Header----------------------------------- */}
             <thead className="text-[1rem] bg-primary_green text-[#211F35]  ">
@@ -190,11 +197,10 @@ export const EmpTimeBound: React.FC<
                                 }
                                 maxLength={10}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
-
                                 value={rowData[stateKey]?.from || ""}
                               />
                               <p className="ml-2 mr-2">To:</p>
@@ -212,7 +218,7 @@ export const EmpTimeBound: React.FC<
                                 }
                                 maxLength={10}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -250,11 +256,11 @@ export const EmpTimeBound: React.FC<
                               )
                             }
                             maxLength={10}
-                                onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
-                                    e.preventDefault();
-                                  }
-                                }}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "0" && e.key <= "9")) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : colIndex === 2 ? (
                           <input
@@ -271,11 +277,11 @@ export const EmpTimeBound: React.FC<
                               )
                             }
                             maxLength={10}
-                                onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
-                                    e.preventDefault();
-                                  }
-                                }}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "0" && e.key <= "9")) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : colIndex === 3 ? (
                           <input
@@ -292,11 +298,11 @@ export const EmpTimeBound: React.FC<
                               )
                             }
                             maxLength={10}
-                                onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
-                                    e.preventDefault();
-                                  }
-                                }}
+                            onKeyPress={(e: any) => {
+                              if (!(e.key >= "0" && e.key <= "9")) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         ) : (
                           <input
@@ -315,12 +321,12 @@ export const EmpTimeBound: React.FC<
                               )
                             }
                             maxLength={10}
-                            onKeyPress={(e:any) => {
+                            onKeyPress={(e: any) => {
                               if (
                                 !(
-                                  (e.key >= 'a' && e.key <= 'z') ||
-                                  (e.key >= 'A' && e.key <= 'Z') ||
-                                  e.key === ' '
+                                  (e.key >= "a" && e.key <= "z") ||
+                                  (e.key >= "A" && e.key <= "Z") ||
+                                  e.key === " "
                                 )
                               ) {
                                 e.preventDefault();
@@ -350,11 +356,15 @@ export const EmpTimeBound: React.FC<
           {/* -----------------------Add Row ----------------------------------- */}
         </div>
 
-      <div className="flex items-center justify-end mt-5 gap-5">
-        <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
-          Back
-        </PrimaryButton>
-        {/* 
+        <div className="flex items-center justify-end mt-5 gap-5">
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={goBack}
+          >
+            Back
+          </PrimaryButton>
+          {/* 
         <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
         </PrimaryButton> */}

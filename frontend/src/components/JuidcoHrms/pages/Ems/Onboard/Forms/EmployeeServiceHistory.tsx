@@ -24,7 +24,7 @@ const EmployeeServiceHistory: React.FC<
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
-  const [session, setSession] = useState<boolean>(false);
+  const [session, setSession] = useState<number>(0);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -98,7 +98,7 @@ const EmployeeServiceHistory: React.FC<
   }
 
   function getDataSesson() {
-    setSession(!session);
+    setSession(1);
   }
 
   return (
@@ -136,16 +136,17 @@ const EmployeeServiceHistory: React.FC<
             session_key={"emp_inc_details"}
             getData={[]}
             subHeading={"Employee Increment Details "}
+            setSession={session}
             // validate={setIsValidate}
           />
         </div>
 
         <div className="border p-5 rounded-xl shadow mt-4">
-          <EmployeePromotionDetailsTable setData={getStateData} />
+          <EmployeePromotionDetailsTable setData={getStateData} setSession={session} />
         </div>
 
         <div className="border p-5 rounded-xl shadow mt-4">
-          <EmployeeTransferDetailsTable setData={() => {}} />
+          <EmployeeTransferDetailsTable setData={() => {}} setSession={session} />
         </div>
 
         <div className="flex items-center justify-end mt-5 gap-5">

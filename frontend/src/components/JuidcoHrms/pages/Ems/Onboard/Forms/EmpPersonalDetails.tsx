@@ -119,20 +119,20 @@ const EmpployeePersonalDetails: React.FC<
       : initialEmployeePersonalDetails;
 
   useEffect(() => {
-    if (empLang.length < 1) {
-      if (typeof window !== "undefined") {
-        const empData = JSON.parse(
-          sessionStorage.getItem("emp_personal_details") ?? "{}"
+    if (typeof window !== "undefined") {
+      const empData = JSON.parse(
+        sessionStorage.getItem("emp_personal_details") ?? "{}"
+      );
+
+      if (empData) {
+        setEmpLang(
+          empData.emp_lang || [
+            {
+              lang: "",
+              lang_type: [],
+            },
+          ]
         );
-        if (empData) {
-          setEmpLang(empData.emp_lang);
-        }
-        setEmpLang([
-          {
-            lang: "",
-            lang_type: [],
-          },
-        ]);
       }
     }
   }, []);
@@ -359,7 +359,7 @@ const EmpployeePersonalDetails: React.FC<
                   </div>
 
                   {values.emp_health_status && (
-                    <>
+                    <div>
                       <input
                         type="file"
                         name="emp_health_file"
@@ -367,7 +367,7 @@ const EmpployeePersonalDetails: React.FC<
                         value={undefined}
                         // value={values.emp_health_file || ''}
                       />
-                    </>
+                    </div>
                   )}
                 </div>
 
@@ -654,6 +654,9 @@ const EmpployeePersonalDetails: React.FC<
                                   updateEmpLangTypes(index, "lang_type", "read")
                                 }
                                 className={`mr-1 bg-white checkbox border border-zinc-500`}
+                                checked={empLang[index].lang_type.includes(
+                                  "read"
+                                )}
                                 name={"read"}
                                 id="read"
                                 type="checkbox"
@@ -671,6 +674,9 @@ const EmpployeePersonalDetails: React.FC<
                                   )
                                 }
                                 className={`mr-1 bg-white checkbox border border-zinc-500`}
+                                checked={empLang[index].lang_type.includes(
+                                  "write"
+                                )}
                                 name={"write"}
                                 id="write"
                                 type="checkbox"
@@ -687,7 +693,9 @@ const EmpployeePersonalDetails: React.FC<
                                     "speak"
                                   )
                                 }
-                                // checked={row.lang_type[index] === "speak"}
+                                checked={empLang[index].lang_type.includes(
+                                  "speak"
+                                )}
                                 className={`mr-1 bg-white checkbox border border-zinc-500`}
                                 name={"write"}
                                 id="write"

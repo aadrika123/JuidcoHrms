@@ -368,6 +368,7 @@ interface TableFormProps {
   isRequired?: boolean;
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];
+  setSession: number;
   // validate: (value: boolean) => void;
 }
 
@@ -388,7 +389,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const TableFormContainer: React.FC<TableFormProps> = (props) => {
-  const [tableData, setTableData] = useState([{}]);
+  const [tableData, setTableData] = useState<any[]>([]);
   const [tableLabels] = useState(props.labels || []);
   // const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const filterData = removeObj(tableData);
@@ -430,6 +431,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       );
     }
   }
+
+  useEffect(() => {
+    if (props.setSession === 1) setDataSesson();
+  }, [props.setSession]);
 
   // useEffect(() => {
   //   props.setData(`${props.session_key}`, filterData);

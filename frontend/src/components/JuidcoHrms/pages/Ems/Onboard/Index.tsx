@@ -60,9 +60,12 @@ export const EmployeeOnBoard = () => {
 
   function removeSessionsAfterSubmit() {
     if (typeof window !== "undefined") {
-      sessionStorage.removeItem("emp_onboard");
+      sessionStorage.clear();
     }
   }
+
+ 
+  
 
   const router = useRouter();
   // ----------Employee All Detail states------------ //
@@ -101,12 +104,15 @@ export const EmployeeOnBoard = () => {
     setEmpId(res.data.data.emp_id);
     return res.data;
   };
+
+  
   const { mutate } = useMutation(createVendorDetails, {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
+      removeSessionsAfterSubmit();
       setTimeout(() => {
-        removeSessionsAfterSubmit();
+        // removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },

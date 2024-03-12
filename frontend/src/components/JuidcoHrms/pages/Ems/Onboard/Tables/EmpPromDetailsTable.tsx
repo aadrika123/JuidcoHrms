@@ -12,6 +12,7 @@ import { removeObj } from "@/utils/helper";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
+  setSession: number;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -60,6 +61,10 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       sessionStorage.setItem("emp_prom_details", JSON.stringify(tableData));
     }
   }
+
+  useEffect(() => {
+    if (props.setSession === 1) setDataSesson();
+  }, [props.setSession]);
 
   const columns = [
     {
