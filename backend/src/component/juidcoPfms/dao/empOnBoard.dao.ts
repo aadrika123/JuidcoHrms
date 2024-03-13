@@ -166,9 +166,11 @@ class EmployeeOnBoardDao {
         emp_salary_details;
 
       empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
-      empSalaryDeductionDetails = this.filterReqBody(
-        emp_salary_deduction_details
-      );
+      if (emp_salary_deduction_details !== undefined) {
+        empSalaryDeductionDetails = this.filterReqBody(
+          emp_salary_deduction_details
+        );
+      }
     }
 
     let empLoan: any = undefined;
