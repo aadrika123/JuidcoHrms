@@ -41,7 +41,7 @@ const Header: React.FC<SideBarProps> = (props) => {
       <div className="flex items-center justify-center gap-3 mx-20">
         <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
 
-        <i>
+        {/* <i>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -54,7 +54,7 @@ const Header: React.FC<SideBarProps> = (props) => {
               fill="#555555"
             />
           </svg>
-        </i>
+        </i> */}
 
         {/* <div className="text-sm breadcrumbs p-0">
           <ul className="text-[#625e5eb7]">

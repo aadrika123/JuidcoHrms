@@ -388,7 +388,7 @@ const EmployeeBasicDetails: React.FC<
                   name="weight"
                   placeholder={"in KG"}
                   type="text"
-                  maxLength={5}
+                  maxLength={3}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();
@@ -403,7 +403,7 @@ const EmployeeBasicDetails: React.FC<
                   name="height"
                   placeholder={"in c.m"}
                   type="text"
-                  maxLength={5}
+                  maxLength={3}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= '0' && e.key <= '9')) {
                       e.preventDefault();

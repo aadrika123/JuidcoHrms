@@ -74,3 +74,18 @@ export const filterValBefStoring = (values: any) => {
     return mapingObject(values); // Return the modified values
   }
 };
+
+// CALCULATE TOTAL DAYS
+export const calculateTotalDays = (start: string, end: string): number => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // Calculate the difference in milliseconds
+  const timeDifference = endDate.getTime() - startDate.getTime();
+
+  // Convert milliseconds to days
+  const totalDays = timeDifference / (1000 * 3600 * 24);
+
+  // Round to the nearest whole number
+  return Math.max(totalDays, 0);
+};

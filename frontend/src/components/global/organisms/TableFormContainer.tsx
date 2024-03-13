@@ -393,6 +393,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableLabels] = useState(props.labels || []);
   // const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const filterData = removeObj(tableData);
+  const [isObjectEmpty, setIsObjectEmpty] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -433,7 +434,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   }
 
   useEffect(() => {
-    if (props.setSession === 1) setDataSesson();
+    if (isObjectEmpty) if (props.setSession === 1) setDataSesson();
   }, [props.setSession]);
 
   // useEffect(() => {
@@ -452,7 +453,9 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     setTableData((prev: any) => {
       const updatedData = [...prev];
       const row: any = { ...updatedData[id] };
-
+      if (Object.values(row).every((value) => value !== "")) {
+        setIsObjectEmpty(true);
+      }
       console.log(row, "row");
       row[key as keyof typeof row] = value;
       updatedData[id] = row;

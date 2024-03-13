@@ -9,7 +9,7 @@ import Button from "../../../../../global/atoms/Button";
 
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { Toaster } from "react-hot-toast";
-import { removeObj } from "@/utils/helper";
+import { calculateTotalDays, removeObj } from "@/utils/helper";
 import { SubHeading } from "@/components/Helpers/Heading";
 
 interface TableFormProps {
@@ -129,6 +129,12 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
+      const total_days = calculateTotalDays(
+        updatedData[rowIndex as number].starting_from.from,
+        updatedData[rowIndex as number].end_to.to
+      ).toString();
+      updatedData[rowIndex as number].tot_day_training = total_days;
+      console.log(updatedData, "days");
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
           updatedData[rowIndex][fieldName] = { [nestedKey]: value };
@@ -138,13 +144,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       } else {
         updatedData[rowIndex as any][fieldName] = value;
       }
-      // const allValuesNotEmpty = updatedData.every((row) =>
-      //   Object.values(row)
-      //     .slice(1)
-      //     .every((val) => val !== "")
-      // );
 
-      // props.validate(allValuesNotEmpty);
       return updatedData;
     });
   };
@@ -331,7 +331,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                             type="text"
                             className=" bg-transparent outline-none"
                             placeholder={`Enter ${column.HEADER}`}
-                            value={rowData[stateKey]}
+                            value={rowData["tot_day_training"]}
                             onChange={(e) =>
                               handleInputChange(
                                 stateKey,
@@ -340,6 +340,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 rowIndex
                               )
                             }
+                            disabled
                             maxLength={3}
                             onKeyPress={(e: any) => {
                               if (!(e.key >= "0" && e.key <= "9")) {

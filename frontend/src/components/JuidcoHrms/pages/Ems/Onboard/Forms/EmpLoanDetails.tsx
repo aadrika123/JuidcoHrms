@@ -31,20 +31,17 @@ const EmpLoanDetails: React.FC<
   const [innerTabIndex, setInnerTabIndex] = useState<number>(1);
   const [addedRows, setAddedRows] = useState<number>(0);
 
-
-  const getInitialFormData = () => (
-    {
-      loan_name_det: "",
-      loan_account_num: "",
-      sanc_order_num: "",
-      dos: "",
-      san_authority: "",
-      dod: "",
-      dis_treasury_name: "",
-      voucher_date: "",
-      treasury_voc_num: "",
-    });
-
+  const getInitialFormData = () => ({
+    loan_name_det: "",
+    loan_account_num: "",
+    sanc_order_num: "",
+    dos: "",
+    san_authority: "",
+    dod: "",
+    dis_treasury_name: "",
+    voucher_date: "",
+    treasury_voc_num: "",
+  });
 
   const getInitialPrincipalFormData = () => ({
     loan_name_principal: "",
@@ -74,7 +71,6 @@ const EmpLoanDetails: React.FC<
   //   getInitialRecoveryFormData(),
   // ]);
 
-
   const storedEmpDetails =
     typeof window !== "undefined"
       ? sessionStorage.getItem("emp_loan_details")
@@ -83,13 +79,14 @@ const EmpLoanDetails: React.FC<
   const initialEmpDetails = storedEmpDetails
     ? JSON.parse(storedEmpDetails)
     : {
-      emp_loan_inform: [getInitialFormData()],
-      emp_principal_inform: [getInitialPrincipalFormData()],
-      emp_recovery_inform: [getInitialRecoveryFormData()],
-    };
+        emp_loan_inform: [getInitialFormData()],
+        emp_principal_inform: [getInitialPrincipalFormData()],
+        emp_recovery_inform: [getInitialRecoveryFormData()],
+      };
 
-
-  const [formFields, setFormFields] = useState(initialEmpDetails.emp_loan_inform);
+  const [formFields, setFormFields] = useState(
+    initialEmpDetails.emp_loan_inform
+  );
   const [formPrincipalFields, setFormPrincipalFields] = useState(
     initialEmpDetails.emp_principal_inform
   );
@@ -150,8 +147,46 @@ const EmpLoanDetails: React.FC<
   //   }
   // };
 
-
   const handleSubmitFormik = () => {
+    formFields?.forEach((element: any) => {
+      Object.keys(element).forEach((key) => {
+        const val = element[key as keyof typeof element];
+        if (
+          val == getInitialFormData()[key as keyof typeof getInitialFormData]
+        ) {
+          delete element[key as keyof typeof element];
+        }
+      });
+    });
+
+    formPrincipalFields?.forEach((element: any) => {
+      Object.keys(element).forEach((key) => {
+        const val = element[key as keyof typeof element];
+        if (
+          val ==
+          getInitialPrincipalFormData()[
+            key as keyof typeof getInitialPrincipalFormData
+          ]
+        ) {
+          delete element[key as keyof typeof element];
+        }
+      });
+    });
+
+    formRecoveryFields?.forEach((element: any) => {
+      Object.keys(element).forEach((key) => {
+        const val = element[key as keyof typeof element];
+        if (
+          val ==
+          getInitialRecoveryFormData()[
+            key as keyof typeof getInitialRecoveryFormData
+          ]
+        ) {
+          delete element[key as keyof typeof element];
+        }
+      });
+    });
+
     if (typeof window !== "undefined") {
       const empDetails = {
         emp_loan_inform: formFields,
@@ -173,7 +208,10 @@ const EmpLoanDetails: React.FC<
       setAddedRows((prevRows) => prevRows + 1);
 
       if (tabIndex === 1) {
-        setFormFields((prevFields: any) => [...prevFields, getInitialFormData()]);
+        setFormFields((prevFields: any) => [
+          ...prevFields,
+          getInitialFormData(),
+        ]);
       } else if (tabIndex === 2 && innerTabIndex === 1) {
         setFormPrincipalFields((prevFields: any) => [
           ...prevFields,
@@ -188,14 +226,23 @@ const EmpLoanDetails: React.FC<
     }
   };
 
-
   return (
     <>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Loan & Advance Information          <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+          Employee Loan & Advance Information{" "}
+          <i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
@@ -203,7 +250,6 @@ const EmpLoanDetails: React.FC<
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
-
         <SubHeading className="text-[20px] py-4">
           Employee Loan & Advance Information
         </SubHeading>
@@ -249,9 +295,7 @@ const EmpLoanDetails: React.FC<
                 <div>
                   {formFields.map((field: any, index: any) => (
                     <div key={index}>
-                      <div
-                        className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4"
-                      >
+                      <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4">
                         <div>
                           <span className="text-sm">Loan Name</span>
                           <br />
@@ -269,7 +313,9 @@ const EmpLoanDetails: React.FC<
                               className="w-full border-none outline-none"
                             >
                               <option value="">Please Select</option>
-                              <option value="Festival Adv.">Festival Adv.</option>
+                              <option value="Festival Adv.">
+                                Festival Adv.
+                              </option>
                               <option value="Motor Cycle Adv.">
                                 Motor Cycle Adv.
                               </option>
@@ -294,7 +340,7 @@ const EmpLoanDetails: React.FC<
                           type="text"
                           maxLength={15}
                           onKeyPress={(e: any) => {
-                            if (!(e.key >= '0' && e.key <= '9')) {
+                            if (!(e.key >= "0" && e.key <= "9")) {
                               e.preventDefault();
                             }
                           }}
@@ -314,7 +360,7 @@ const EmpLoanDetails: React.FC<
                           name="sanc_order_num"
                           maxLength={10}
                           onKeyPress={(e: any) => {
-                            if (!(e.key >= '0' && e.key <= '9')) {
+                            if (!(e.key >= "0" && e.key <= "9")) {
                               e.preventDefault();
                             }
                           }}
@@ -343,12 +389,12 @@ const EmpLoanDetails: React.FC<
                           placeholder="Enter Sanctioning Authority"
                           name="san_authority"
                           maxLength={20}
-                          onKeyPress={(e:any) => {
+                          onKeyPress={(e: any) => {
                             if (
                               !(
-                                (e.key >= 'a' && e.key <= 'z') ||
-                                (e.key >= 'A' && e.key <= 'Z') ||
-                                e.key === ' '
+                                (e.key >= "a" && e.key <= "z") ||
+                                (e.key >= "A" && e.key <= "Z") ||
+                                e.key === " "
                               )
                             ) {
                               e.preventDefault();
@@ -379,12 +425,12 @@ const EmpLoanDetails: React.FC<
                           placeholder="Enter Disbursing Treasury Name"
                           name="dis_treasury_name"
                           maxLength={30}
-                          onKeyPress={(e:any) => {
+                          onKeyPress={(e: any) => {
                             if (
                               !(
-                                (e.key >= 'a' && e.key <= 'z') ||
-                                (e.key >= 'A' && e.key <= 'Z') ||
-                                e.key === ' '
+                                (e.key >= "a" && e.key <= "z") ||
+                                (e.key >= "A" && e.key <= "Z") ||
+                                e.key === " "
                               )
                             ) {
                               e.preventDefault();
@@ -405,7 +451,11 @@ const EmpLoanDetails: React.FC<
                           name="voucher_date"
                           type="date"
                           onChange={(e: any) =>
-                            handleInputChange("voucher_date", e.target.value, index)
+                            handleInputChange(
+                              "voucher_date",
+                              e.target.value,
+                              index
+                            )
                           }
                         />
                         <InputBox
@@ -416,7 +466,7 @@ const EmpLoanDetails: React.FC<
                           name="treasury_voc_num"
                           maxLength={15}
                           onKeyPress={(e: any) => {
-                            if (!(e.key >= '0' && e.key <= '9')) {
+                            if (!(e.key >= "0" && e.key <= "9")) {
                               e.preventDefault();
                             }
                           }}
@@ -452,7 +502,6 @@ const EmpLoanDetails: React.FC<
                           name="inner-radio-2"
                           className="radio border border-zinc-600"
                           defaultChecked
-
                         />
                         <label htmlFor="principal" className="cursor-pointer">
                           Principal Component
@@ -466,7 +515,6 @@ const EmpLoanDetails: React.FC<
                           type="radio"
                           name="inner-radio-2"
                           className="radio border-zinc-600"
-
                         />
                         <label htmlFor="recovery" className="cursor-pointer">
                           Recovery Details
@@ -475,12 +523,10 @@ const EmpLoanDetails: React.FC<
                     </div>
 
                     <div>
-
                       {formPrincipalFields.map((fields: any, index: any) => (
                         <div key={`formPrincipalField-${index}`}>
                           {innerTabIndex === 1 && (
                             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 mt-4 ">
-
                               <div>
                                 <span className="text-sm">Loan Name</span>
                                 <br />
@@ -504,7 +550,9 @@ const EmpLoanDetails: React.FC<
                                     <option value="Motor Cycle Adv.">
                                       Motor Cycle Adv.
                                     </option>
-                                    <option value="Moped Adv.">Moped Adv.</option>
+                                    <option value="Moped Adv.">
+                                      Moped Adv.
+                                    </option>
                                     <option value="House Building Adv.">
                                       House Building Adv.
                                     </option>
@@ -531,7 +579,7 @@ const EmpLoanDetails: React.FC<
                                 placeholder="Enter Loan Amount Released(Rs)"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -553,7 +601,7 @@ const EmpLoanDetails: React.FC<
                                 name="total_install"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -575,7 +623,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -596,7 +644,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -631,7 +679,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -645,7 +693,6 @@ const EmpLoanDetails: React.FC<
                         <div key={`formRecoveryField-${index}`}>
                           {innerTabIndex === 2 && (
                             <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4  mt-4">
-
                               <div>
                                 <span className="text-sm">Loan Name</span>
                                 <br />
@@ -669,7 +716,9 @@ const EmpLoanDetails: React.FC<
                                     <option value="Motor Cycle Adv.">
                                       Motor Cycle Adv.
                                     </option>
-                                    <option value="Moped Adv.">Moped Adv.</option>
+                                    <option value="Moped Adv.">
+                                      Moped Adv.
+                                    </option>
                                     <option value="House Building Adv.">
                                       House Building Adv.
                                     </option>
@@ -697,7 +746,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -718,7 +767,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -739,13 +788,15 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
                               />
                               <InputBox
-                                value={(fields as any).last_paid_install_recovery}
+                                value={
+                                  (fields as any).last_paid_install_recovery
+                                }
                                 onChange={(e: any) =>
                                   handleInputRecoveryChange(
                                     "last_paid_install_recovery",
@@ -760,13 +811,15 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
                               />
                               <InputBox
-                                value={(fields as any).month_last_install_recovery}
+                                value={
+                                  (fields as any).month_last_install_recovery
+                                }
                                 onChange={(e: any) =>
                                   handleInputRecoveryChange(
                                     "month_last_install_recovery",
@@ -796,7 +849,7 @@ const EmpLoanDetails: React.FC<
                                 type="text"
                                 maxLength={30}
                                 onKeyPress={(e: any) => {
-                                  if (!(e.key >= '0' && e.key <= '9')) {
+                                  if (!(e.key >= "0" && e.key <= "9")) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -805,11 +858,9 @@ const EmpLoanDetails: React.FC<
                           )}
                         </div>
                       ))}
-
                     </div>
                   </div>
                   {/* ))} */}
-
                 </>
               )}
 
@@ -854,7 +905,6 @@ const EmpLoanDetails: React.FC<
             </form>
           )}
         </Formik>
-
       </div>
     </>
   );
