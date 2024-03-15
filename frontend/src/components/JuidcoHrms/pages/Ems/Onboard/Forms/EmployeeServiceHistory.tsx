@@ -18,6 +18,7 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import EmployeePromotionDetailsTable from "@/components/JuidcoHrms/pages/Ems/Onboard/Tables/EmpPromDetailsTable";
 import EmployeeTransferDetailsTable from "../Tables/EmpTransferDetailsTable";
+import toast from "react-hot-toast";
 
 const EmployeeServiceHistory: React.FC<
   EmployeeDetailsProps<EmployeeServiceHistoryType>
@@ -25,6 +26,7 @@ const EmployeeServiceHistory: React.FC<
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const [session, setSession] = useState<number>(0);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -137,16 +139,22 @@ const EmployeeServiceHistory: React.FC<
             getData={[]}
             subHeading={"Employee Increment Details "}
             setSession={session}
-            // validate={setIsValidate}
+            validate={setIsValidate}
           />
         </div>
 
         <div className="border p-5 rounded-xl shadow mt-4">
-          <EmployeePromotionDetailsTable setData={getStateData} setSession={session} />
+          <EmployeePromotionDetailsTable
+            setData={getStateData}
+            setSession={session}
+          />
         </div>
 
         <div className="border p-5 rounded-xl shadow mt-4">
-          <EmployeeTransferDetailsTable setData={() => {}} setSession={session} />
+          <EmployeeTransferDetailsTable
+            setData={() => {}}
+            setSession={session}
+          />
         </div>
 
         <div className="flex items-center justify-end mt-5 gap-5">
@@ -162,16 +170,27 @@ const EmployeeServiceHistory: React.FC<
           Reset
         </PrimaryButton> */}
 
-          <PrimaryButton
-            onClick={() => {
-              getDataSesson();
-              handleSubmitForm(employeeServiceHistory);
-            }}
-            buttonType="submit"
-            variant="primary"
-          >
-            Next
-          </PrimaryButton>
+          {isValidate ? (
+            <PrimaryButton
+              onClick={() => {
+                getDataSesson();
+                handleSubmitForm(employeeServiceHistory);
+              }}
+              buttonType="submit"
+              variant="primary"
+            >
+              Next
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              onClick={() => {
+                toast.error("Please fill the complete form!");
+              }}
+              variant="disabled"
+            >
+              Next
+            </PrimaryButton>
+          )}
         </div>
       </div>
     </>

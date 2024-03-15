@@ -108,7 +108,6 @@ export const employeePersonalDetailsRequestData = (
     emp_office_name: empPersonalDetails.emp_office_name,
     emp_org_name: empPersonalDetails.emp_org_name,
     emp_lang: empPersonalDetails.emp_lang,
-    emp_lang_do: empPersonalDetails.emp_lang_do,
   };
 };
 

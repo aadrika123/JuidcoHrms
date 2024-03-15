@@ -49,7 +49,6 @@ export interface EmployeePersonalDetailsType {
   emp_office_name: string;
   emp_org_name: string;
   emp_lang: string | number;
-  emp_lang_do: "read" | "write" | "speak";
 }
 
 //------------------------- EmployeeServiceHistory Types -----------------------------//

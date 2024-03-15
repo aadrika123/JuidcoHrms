@@ -17,6 +17,7 @@ import goBack from "@/utils/helper";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { SubHeading } from "@/components/Helpers/Heading";
+import toast from "react-hot-toast";
 
 const EmpSalaryDetails: React.FC<
   EmployeeDetailsProps<EmployeeSalaryDetailType>
@@ -27,6 +28,7 @@ const EmpSalaryDetails: React.FC<
   const empType = useSearchParams().get("emp");
   const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([{}]);
   const [session, setSession] = useState<number>(0);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
@@ -230,6 +232,7 @@ const EmpSalaryDetails: React.FC<
               setData={getStateData}
               session_key="emp_salary_allow_details"
               setSession={session}
+              validate={setIsValidate}
             />
           </>
         )}
@@ -243,6 +246,7 @@ const EmpSalaryDetails: React.FC<
               setData={getStateData}
               session_key="emp_salary_deduction_details"
               setSession={session}
+              validate={setIsValidate}
             />
           </>
         )}
@@ -262,16 +266,27 @@ const EmpSalaryDetails: React.FC<
           Reset
         </PrimaryButton> */}
 
-          <PrimaryButton
-            onClick={() => {
-              getDataSesson();
-              handleSubmitForm(employeeSalaryDetails);
-            }}
-            buttonType="submit"
-            variant="primary"
-          >
-            Next
-          </PrimaryButton>
+          {isValidate ? (
+            <PrimaryButton
+              onClick={() => {
+                getDataSesson();
+                handleSubmitForm(employeeSalaryDetails);
+              }}
+              buttonType="submit"
+              variant="primary"
+            >
+              Next
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              onClick={() => {
+                toast.error("Please fill the complete form!");
+              }}
+              variant="disabled"
+            >
+              Next
+            </PrimaryButton>
+          )}
         </div>
       </div>
     </div>

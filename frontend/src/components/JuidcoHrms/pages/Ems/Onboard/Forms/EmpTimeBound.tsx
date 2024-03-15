@@ -101,7 +101,7 @@ export const EmpTimeBound: React.FC<
   };
 
   const saveDataToSessionStorage = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined") { 
       sessionStorage.setItem(
         "emp_timebound_details",
         JSON.stringify(tableData)

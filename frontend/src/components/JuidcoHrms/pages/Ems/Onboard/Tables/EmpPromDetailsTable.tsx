@@ -108,7 +108,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       } else {
         row[key] = value;
       }
-
+      console.log(row, "row");
       updatedData[id] = { ...row } as EmployeePromDetails;
       return updatedData;
     });

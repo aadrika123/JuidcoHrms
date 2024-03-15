@@ -16,12 +16,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
+import toast from "react-hot-toast";
 
 const EmployeeFamilyDetails: React.FC<
   EmployeeDetailsProps<EmployeeFamilyDetailsType>
 > = (props) => {
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
   const [session, setSession] = useState<number>(0);
 
   const pathName = usePathname();
@@ -122,12 +124,10 @@ const EmployeeFamilyDetails: React.FC<
     setSession(1);
   }
 
+  console.log(isValidate, "validate");
+
   return (
     <>
-      {/* <SubHeading className="text-[20px] pt-4">
-        Employee Family Details
-      </SubHeading> */}
-
       <div className="flex justify-between mb-10">
         <SubHeading>
           Employee Family Details
@@ -159,6 +159,7 @@ const EmployeeFamilyDetails: React.FC<
               subHeading={""}
               session_key={"emp_fam_details"}
               setSession={session}
+              validate={setIsValidate}
             />
           </div>
           <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
@@ -169,6 +170,7 @@ const EmployeeFamilyDetails: React.FC<
               subHeading={"Employee Nominee Details  "}
               session_key={"emp_nominee_details"}
               setSession={session}
+              validate={setIsValidate}
             />
           </div>
         </div>
@@ -186,16 +188,27 @@ const EmployeeFamilyDetails: React.FC<
           Reset
         </PrimaryButton> */}
 
-          <PrimaryButton
-            onClick={() => {
-              getDataSesson();
-              handleSubmitForm(employeeFamilyDetails);
-            }}
-            buttonType="submit"
-            variant="primary"
-          >
-            Next
-          </PrimaryButton>
+          {isValidate ? (
+            <PrimaryButton
+              onClick={() => {
+                getDataSesson();
+                handleSubmitForm(employeeFamilyDetails);
+              }}
+              buttonType="submit"
+              variant="primary"
+            >
+              Next
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              onClick={() => {
+                toast.error("Please fill the complete form!");
+              }}
+              variant="disabled"
+            >
+              Next
+            </PrimaryButton>
+          )}
         </div>
       </div>
     </>

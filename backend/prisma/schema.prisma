@@ -93,6 +93,7 @@ model employee_personal_details {
   emp_office_name             String?
   emp_org_name                String?
   emp_lang                    Json
+  mother_tounge               Json
   employee                    employees[]
   created_at                  DateTime    @default(now()) @map("created_at")
   updated_at                  DateTime    @updatedAt @map("updated_at")

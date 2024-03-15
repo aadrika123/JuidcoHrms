@@ -60,18 +60,18 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
         </div> */}
         <div
-          className={`grid grid-cols-10  h-screen ${isSidebarCollapsed ? "sidebar-collapsed h-0" : ""}`}
+          className={`grid grid-cols-10  ${isSidebarCollapsed ? "sidebar-collapsed h-0" : ""}`}
         >
           <div className="col-span-10">
-            <Header className="bg-white border-b border-b-slate-100 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
+            <Header className="bg-white border-b border-b-slate-400 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
           </div>
           <div
-            className={`col-span-2 border-r border-slate-300 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}
+            className={`col-span-2 border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}
           >
             <Sidebar className="w-full min-h-screen" />
           </div>
           <div
-            className={`col-span-8 ${isSidebarCollapsed ? "col-span-12 p-0" : ""}`}
+            className={`col-span-8 ${isSidebarCollapsed ? "col-span-full p-0" : ""}`}
           >
             <section
               className={`p-8 h-full bg-[#FCFDFF] overflow-y-auto ${isSidebarCollapsed ? "content-collapsed" : ""}`}

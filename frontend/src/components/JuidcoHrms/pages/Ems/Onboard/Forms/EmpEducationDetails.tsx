@@ -49,8 +49,6 @@ const EmpEducationDetails: React.FC<
     setSession(!session);
   }
 
-  console.log(isValidate, "validate");
-
   return (
     <div>
       <div className="flex justify-between mb-10">
@@ -72,60 +70,63 @@ const EmpEducationDetails: React.FC<
           </i>
         </SubHeading>
         <h5>Steps-5/11</h5>
-
       </div>
-
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
+        <div className="border p-5 rounded-xl shadow">
+          <SubHeading className="text-[20px] pt-4">
+            Employee Education
+          </SubHeading>
+          <EmpEducationTable
+            setData={getStateData}
+            validate={setIsValidate}
+            setSession={session}
+          />
+        </div>
 
-      <div className="border p-5 rounded-xl shadow">
-        <SubHeading className="text-[20px] pt-4">Employee Education</SubHeading>
-        <EmpEducationTable
-          setData={getStateData}
-          validate={setIsValidate}
-          setSession={session}
-        />
-      </div>
+        <div className="border p-5 rounded-xl shadow mt-6 ">
+          <EmployeeTrainingTable
+            setData={getStateData}
+            setSession={session}
+            validate={setIsValidate}
+          />
+        </div>
 
-      <div className="border p-5 rounded-xl shadow mt-6 ">
-        <EmployeeTrainingTable
-          setData={getStateData}
-          setSession={session}
-          validate={setIsValidate}
-        />
-      </div>
+        <div className="flex items-center justify-end mt-5 gap-5">
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={goBack}
+          >
+            Back
+          </PrimaryButton>
 
-      <div className="flex items-center justify-end mt-5 gap-5">
-        <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
-          Back
-        </PrimaryButton>
-
-        {/* <PrimaryButton buttonType="button" variant={"cancel"}>
+          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
           Reset
         </PrimaryButton> */}
 
-        {isValidate ? (
-          <PrimaryButton
-            onClick={() => {
-              getDataSesson();
-              handleSubmitForm(employeeEducationDetails);
-            }}
-            buttonType="submit"
-            variant="primary"
-          >
-            Next
-          </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            onClick={() => {
-              toast.error("Please fill the complete form!");
-            }}
-            variant="disabled"
-          >
-            Next
-          </PrimaryButton>
-        )}
-      </div>
+          {isValidate ? (
+            <PrimaryButton
+              onClick={() => {
+                getDataSesson();
+                handleSubmitForm(employeeEducationDetails);
+              }}
+              buttonType="submit"
+              variant="primary"
+            >
+              Next
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              onClick={() => {
+                toast.error("Please fill the complete form!");
+              }}
+              variant="disabled"
+            >
+              Next
+            </PrimaryButton>
+          )}
+        </div>
       </div>
     </div>
   );
