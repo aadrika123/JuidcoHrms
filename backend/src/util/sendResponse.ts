@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import errorCodes from "./errorCodes";
 
 /**
@@ -14,8 +14,9 @@ export const sendResponse = async (
   apiId: string,
   version: string,
   res: Response,
+  next: NextFunction,
   deviceId?: string
-): Promise<Response> => {
+): Promise<object> => {
   if (!status) {
     resData = errorCodes[resData as keyof typeof errorCodes];
   }
@@ -41,5 +42,10 @@ export const sendResponse = async (
     data: resData,
   };
 
-  return res.status(responseCode).json(jsonRes);
+  console.log("Hi");
+
+  res.locals.jsonRes = jsonRes;
+
+  next();
+  return res;
 };

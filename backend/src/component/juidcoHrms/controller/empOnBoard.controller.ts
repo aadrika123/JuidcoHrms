@@ -4,78 +4,22 @@
  * | Status: open
  */
 
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import EmployeeOnBoardDao from "../dao/empOnBoard.dao";
 import { resObj } from "../../../util/types";
-import {
-  // employeeBasicDetailsSchema,
-  // employeeFamilyAndNomineeeDetailsSchema,
-  // employeeJoinValidationSchema,
-  // // employeeLoanDetailsSchema,
-  // employeeOfficeDetailsSchema,
-  // employeePersonalDetailsSchema,
-  // employeePresentAddressDetailsSchema,
-  // employeeSalaryDetailsSchema,
-  // // employeeServiceHistrorySchema,
-  // employeeTimeBoundSchema,
-} from "../requests/ems/emp_pers_details.validation";
+import // employeeBasicDetailsSchema,
+// employeeFamilyAndNomineeeDetailsSchema,
+// employeeJoinValidationSchema,
+// // employeeLoanDetailsSchema,
+// employeeOfficeDetailsSchema,
+// employeePersonalDetailsSchema,
+// employeePresentAddressDetailsSchema,
+// employeeSalaryDetailsSchema,
+// // employeeServiceHistrorySchema,
+// employeeTimeBoundSchema,
+"../requests/ems/emp_pers_details.validation";
 import CommonRes from "../../../util/helper/commonResponse";
 import { resMessage } from "../../../util/common";
-
-// class EmployeeOnBoardController {
-//   private employeeOnBoardDao: EmployeeOnBoardDao;
-//   private initMesg: string;
-//   constructor() {
-//     this.employeeOnBoardDao = new EmployeeOnBoardDao();
-//     this.initMesg = "Employee OnBoard";
-//   }
-
-//   // Create
-//   create = async (
-//     req: Request,
-//     res: Response,
-//     apiId: string
-//   ): Promise<Response> => {
-//     const resObj: resObj = {
-//       apiId,
-//       action: "POST",
-//       version: "1.0",
-//     };
-//     try {
-//       const { error } = employeeOfficeDetailsSchema.validate(
-//         req.body.emp_office_details
-//       );
-
-//       if (!error) {
-//         const { error } = employeeDetailsSchema.validate(
-//           req.body.emp_basic_details
-//         );
-//         if (!error) {
-//           const { error } = employeeDetailsSchema.validate(
-//             req.body.emp_basic_details
-//           );
-//           if (error) {
-//             return CommonRes.VALIDATION_ERROR(error, resObj, res);
-//           }
-//         } else {
-//           return CommonRes.VALIDATION_ERROR(error, resObj, res);
-//         }
-//       } else {
-//         return CommonRes.VALIDATION_ERROR(error, resObj, res);
-//       }
-
-//       const data = await this.employeeOnBoardDao.store(req);
-//       return CommonRes.CREATED(
-//         resMessage(this.initMesg).CREATED,
-//         data,
-//         resObj,
-//         res
-//       );
-//     } catch (error: any) {
-//       return CommonRes.SERVER_ERROR(error, resObj, res);
-//     }
-//   };
-// }
 
 class EmployeeOnBoardController {
   private employeeOnBoardDao: EmployeeOnBoardDao;
@@ -106,8 +50,9 @@ class EmployeeOnBoardController {
   create = async (
     req: Request,
     res: Response,
+    next: NextFunction,
     apiId: string
-  ): Promise<Response> => {
+  ): Promise<object> => {
     const resObj: resObj = {
       apiId,
       action: "POST",
@@ -231,12 +176,17 @@ class EmployeeOnBoardController {
         resMessage(this.initMesg).CREATED,
         data,
         resObj,
-        res
+        res,
+        next
       );
     } catch (error: any) {
-      console.log(error);
-      return CommonRes.SERVER_ERROR(error, resObj, res);
+      // console.log(error);
+      // logger.error("failed");
+
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
+
+    
   };
 }
 

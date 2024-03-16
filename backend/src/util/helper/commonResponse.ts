@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import { sendResponse } from "../sendResponse";
 import { resObj } from "../types";
 
@@ -8,8 +8,9 @@ const CommonRes = Object.freeze({
   VALIDATION_ERROR: (
     error: any,
     resObj: resObj,
-    res: Response
-  ): Promise<Response> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<object> => {
     return sendResponse(
       false,
       error,
@@ -18,14 +19,16 @@ const CommonRes = Object.freeze({
       resObj.action,
       resObj.apiId,
       resObj.version,
-      res
+      res,
+      next
     );
   },
   SERVER_ERROR: (
     error: any,
     resObj: resObj,
-    res: Response
-  ): Promise<Response> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<object> => {
     return sendResponse(
       false,
       error,
@@ -34,15 +37,17 @@ const CommonRes = Object.freeze({
       resObj.action,
       resObj.apiId,
       resObj.version,
-      res
+      res,
+      next
     );
   },
   CREATED: (
     message: any,
     data: unknown,
     resObj: resObj,
-    res: Response
-  ): Promise<Response> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<object> => {
     return sendResponse(
       true,
       message,
@@ -51,15 +56,17 @@ const CommonRes = Object.freeze({
       resObj.action,
       resObj.apiId,
       resObj.version,
-      res
+      res,
+      next
     );
   },
   SUCCESS: (
     message: any,
     data: unknown,
     resObj: resObj,
-    res: Response
-  ): Promise<Response> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<object> => {
     return sendResponse(
       true,
       message,
@@ -68,7 +75,8 @@ const CommonRes = Object.freeze({
       resObj.action,
       resObj.apiId,
       resObj.version,
-      res
+      res,
+      next
     );
   },
   DEFAULT: "The underlying {kind} for model {model} does not exist.",
