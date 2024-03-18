@@ -34,7 +34,8 @@ class EmployeeOnBoardRoute {
 
       // app
       // .route(`${baseUrl}/employee/create`)
-      // .post(handler, loggerMiddleware
+      // .post(handler
+      
       // ); //1101
   }
 }

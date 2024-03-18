@@ -25,6 +25,7 @@ const EmpEducationDetails: React.FC<
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [isValidate, setIsValidate] = useState<boolean>(false);
   const [session, setSession] = useState<boolean>(false);
+  const [resetTable, setResetTable] = useState<number>(0);
   const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
@@ -47,6 +48,10 @@ const EmpEducationDetails: React.FC<
 
   function getDataSesson() {
     setSession(!session);
+  }
+
+  function resetData() {
+    setResetTable(resetTable + 1);
   }
 
   return (
@@ -81,6 +86,7 @@ const EmpEducationDetails: React.FC<
             setData={getStateData}
             validate={setIsValidate}
             setSession={session}
+            resetTable={resetTable}
           />
         </div>
 
@@ -89,6 +95,7 @@ const EmpEducationDetails: React.FC<
             setData={getStateData}
             setSession={session}
             validate={setIsValidate}
+            resetTable={resetTable}
           />
         </div>
 
@@ -101,9 +108,13 @@ const EmpEducationDetails: React.FC<
             Back
           </PrimaryButton>
 
-          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
-          Reset
-        </PrimaryButton> */}
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={resetData}
+          >
+            Reset
+          </PrimaryButton>
 
           {isValidate ? (
             <PrimaryButton

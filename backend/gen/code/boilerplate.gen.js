@@ -41,7 +41,6 @@ class FileGenerator {
   generate_file = (filename, template, className) => {
     const classNameInPascalCase = toPascalCase(className);
     template = template.replaceAll(/Controller/g, classNameInPascalCase);
-    console.log(template);
     try {
       fs.writeFileSync(filename, template, { encoding: "utf8", flag: "w" });
     } catch (error) {

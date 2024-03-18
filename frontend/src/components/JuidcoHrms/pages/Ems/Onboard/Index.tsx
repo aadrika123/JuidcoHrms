@@ -87,8 +87,7 @@ export const EmployeeOnBoard = () => {
 
   // ------------------ Functions ------------------//
 
-  // Add Bank Details
-  const createVendorDetails = async (
+  const onBoardEmployee = async (
     values: EmployeeOnBoardForm
   ): Promise<EmployeeOnBoardForm> => {
     values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
@@ -102,11 +101,11 @@ export const EmployeeOnBoard = () => {
     return res.data;
   };
 
-  const { mutate } = useMutation(createVendorDetails, {
+  const { mutate } = useMutation(onBoardEmployee, {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
-      removeSessionsAfterSubmit();
+      // removeSessionsAfterSubmit();
       setTimeout(() => {
         // removeSessionsAfterSubmit();
         router.push("/");

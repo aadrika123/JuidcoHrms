@@ -26,7 +26,8 @@ const EmployeeServiceHistory: React.FC<
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const [session, setSession] = useState<number>(0);
-  const [isValidate, setIsValidate] = useState<boolean>(true);
+  const [isValidate, setIsValidate] = useState<boolean>(false);
+  const [resetTable, setResetTable] = useState<number>(0);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -103,6 +104,9 @@ const EmployeeServiceHistory: React.FC<
     setSession(1);
   }
 
+  function resetData() {
+    setResetTable(resetTable + 1);
+  }
   return (
     <>
       {/* <SubHeading className="text-[20px] pt-4">
@@ -140,6 +144,7 @@ const EmployeeServiceHistory: React.FC<
             subHeading={"Employee Increment Details "}
             setSession={session}
             validate={setIsValidate}
+            resetTable={resetTable}
           />
         </div>
 
@@ -147,6 +152,8 @@ const EmployeeServiceHistory: React.FC<
           <EmployeePromotionDetailsTable
             setData={getStateData}
             setSession={session}
+            validate={setIsValidate}
+            resetTable={resetTable}
           />
         </div>
 
@@ -166,9 +173,13 @@ const EmployeeServiceHistory: React.FC<
             Back
           </PrimaryButton>
 
-          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
-          Reset
-        </PrimaryButton> */}
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={resetData}
+          >
+            Reset
+          </PrimaryButton>
 
           {isValidate ? (
             <PrimaryButton

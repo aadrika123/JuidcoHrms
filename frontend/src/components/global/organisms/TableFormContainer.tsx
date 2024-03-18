@@ -36,6 +36,7 @@ interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];
   setSession: number;
+  resetTable: number;
   validate: (value: boolean) => void;
 }
 
@@ -86,9 +87,12 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     if (isObjectEmpty) if (props.setSession === 1) setDataSesson();
   }, [props.setSession]);
 
-  // useEffect(() => {
-  //   props.setData(`${props.session_key}`, filterData);
-  // }, [filterData]);
+  useEffect(() => {
+    if (props.resetTable !== 0) {
+      setTableData([{}]);
+      props.validate(true);
+    }
+  }, [props.resetTable]);
 
   useEffect(() => {
     props.setData(`${props.session_key}`, filterData, tableLabels as any);
@@ -123,7 +127,6 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       // ------------ VALIDATION ----------------------//
 
       updatedData[id] = row;
-
       return updatedData;
     });
   }

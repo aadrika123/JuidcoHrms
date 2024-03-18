@@ -199,19 +199,18 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   placeholder="Enter Office Code"
                   maxLength={20}
-                  onKeyPress={(e:any) => {
+                  onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= 'a' && e.key <= 'z') ||
-                        (e.key >= '0' && e.key <= '9') ||
-                        (e.key >= 'A' && e.key <= 'Z') ||
-                        e.key === ' '
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "0" && e.key <= "9") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
                     }
                   }}
-
                 />
 
                 <InputBox
@@ -230,12 +229,12 @@ const EmployeeOfficeDetails: React.FC<
                   //     e.preventDefault();
                   //   }
                   // }}
-                  onKeyPress={(e:any) => {
+                  onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= 'a' && e.key <= 'z') ||
-                        (e.key >= 'A' && e.key <= 'Z') ||
-                        e.key === ' '
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -283,12 +282,12 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   placeholder={"Enter Office Name"}
                   maxLength={30}
-                  onKeyPress={(e:any) => {
+                  onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= 'a' && e.key <= 'z') ||
-                        (e.key >= 'A' && e.key <= 'Z') ||
-                        e.key === ' '
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
                       )
                     ) {
                       e.preventDefault();
@@ -308,7 +307,7 @@ const EmployeeOfficeDetails: React.FC<
 
                 <PrimaryButton
                   onClick={handleReset}
-                  buttonType="button"
+                  buttonType="submit"
                   variant={"cancel"}
                 >
                   Reset

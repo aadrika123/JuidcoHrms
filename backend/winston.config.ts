@@ -6,7 +6,7 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
-      filename: "/home/krish/Desktop/hrms_error.log",
+      filename: "hrms_error.log",
     }),
   ],
 });

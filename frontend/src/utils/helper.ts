@@ -89,3 +89,12 @@ export const calculateTotalDays = (start: string, end: string): number => {
   // Round to the nearest whole number
   return Math.max(totalDays, 0);
 };
+
+// RESET TABLE INSTANCE
+Array.prototype.resetData = function () {
+  this.forEach((elem: object) => {
+    Object.values(elem).every((val) => val === "");
+  });
+
+  return this;
+};

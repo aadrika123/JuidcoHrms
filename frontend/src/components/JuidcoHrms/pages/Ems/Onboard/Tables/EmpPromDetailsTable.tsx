@@ -13,6 +13,8 @@ import { removeObj } from "@/utils/helper";
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
   setSession: number;
+  resetTable: number;
+  validate: (value: boolean) => void;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -98,7 +100,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     setTableData((prev) => {
       const updatedData = [...prev];
       const row: Record<string, any> = { ...updatedData[id] };
-
+      2;
       if (innerKey) {
         if (!row[key]) {
           row[key] = {};
@@ -162,6 +164,28 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
       props.setData("emp_prom_details", filterTableData);
     }
   }, [tableData]);
+
+  useEffect(() => {
+    if (props.resetTable !== 0) {
+      setTableData([
+        {
+          designation: {
+            from: "",
+            to: "",
+          },
+          scale: {
+            from: "",
+            to: "",
+          },
+          vide_order_no: "",
+          vide_order_date: "",
+          transfer: "no",
+          join_date: "",
+        },
+      ]);
+      props.validate(true);
+    }
+  }, [props.resetTable]);
 
   const header = <InnerHeading>Employee Promotion Details </InnerHeading>;
   return (

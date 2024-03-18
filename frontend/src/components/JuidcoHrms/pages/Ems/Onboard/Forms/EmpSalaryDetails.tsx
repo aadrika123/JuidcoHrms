@@ -29,6 +29,7 @@ const EmpSalaryDetails: React.FC<
   const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([{}]);
   const [session, setSession] = useState<number>(0);
   const [isValidate, setIsValidate] = useState<boolean>(true);
+  const [resetTable, setResetTable] = useState<number>(0);
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
@@ -162,6 +163,9 @@ const EmpSalaryDetails: React.FC<
   function getDataSesson() {
     setSession(1);
   }
+  function resetData() {
+    setResetTable(resetTable + 1);
+  }
 
   return (
     <div>
@@ -233,6 +237,7 @@ const EmpSalaryDetails: React.FC<
               session_key="emp_salary_allow_details"
               setSession={session}
               validate={setIsValidate}
+              resetTable={resetTable}
             />
           </>
         )}
@@ -247,6 +252,7 @@ const EmpSalaryDetails: React.FC<
               session_key="emp_salary_deduction_details"
               setSession={session}
               validate={setIsValidate}
+              resetTable={resetTable}
             />
           </>
         )}
@@ -262,9 +268,13 @@ const EmpSalaryDetails: React.FC<
             Back
           </PrimaryButton>
 
-          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
-          Reset
-        </PrimaryButton> */}
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={resetData}
+          >
+            Reset
+          </PrimaryButton>
 
           {isValidate ? (
             <PrimaryButton

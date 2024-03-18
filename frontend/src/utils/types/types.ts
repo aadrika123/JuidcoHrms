@@ -1,4 +1,8 @@
-// Pagination Types
+declare global {
+  interface Array<T> {
+    resetData(): T[];
+  }
+} // Pagination Types
 export interface Pagination {
   page: number;
   totalPage: number;

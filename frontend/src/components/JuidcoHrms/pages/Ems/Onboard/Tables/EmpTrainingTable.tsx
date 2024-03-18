@@ -16,6 +16,7 @@ interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
   setSession: boolean;
   validate: (value: boolean) => void;
+  resetTable: number;
 }
 
 // interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -70,9 +71,19 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     }
   }
 
+  const handleReset = (): void => {
+    setTableData([getInitialFormData()]);
+  };
+
+  console.log(tableData, "dd");
+
   useEffect(() => {
     setDataSesson();
   }, [props.setSession]);
+
+  useEffect(() => {
+    if (props.resetTable !== 0) handleReset();
+  }, [props.resetTable]);
 
   const COLUMNS_FOR_EMP_TRNG_INFRM: COLUMNS[] = [
     {

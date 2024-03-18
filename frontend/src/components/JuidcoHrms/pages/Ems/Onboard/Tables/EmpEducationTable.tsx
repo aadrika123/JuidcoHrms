@@ -10,11 +10,12 @@ import { EmployeeEducation } from "@/utils/types/employee.type";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import toast, { Toaster } from "react-hot-toast";
 import { removeObj } from "@/utils/helper";
-
+3;
 interface TableFormProps {
   validate: (value: boolean) => void;
   setData: (key: string, values: any, index?: number | undefined) => void;
   setSession: boolean;
+  resetTable: number;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -75,10 +76,23 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       sessionStorage.setItem("emp_education", JSON.stringify(tableData));
     }
   }
+  const handleReset = (): void => {
+    // const emptyTableData = [...initialTableData];
+    const emptyTableData = initialTableData.resetData();
+    emptyTableData?.forEach((m) => {
+      m.marks = "" as string;
+    });
+    setTableData(emptyTableData);
+    props.validate(true);
+  };
 
   useEffect(() => {
     setDataSesson();
   }, [props.setSession]);
+
+  useEffect(() => {
+    if (props.resetTable !== 0) handleReset();
+  }, [props.resetTable]);
 
   const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
     {

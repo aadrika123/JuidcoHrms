@@ -14,8 +14,6 @@ const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
   };
 
   res.once("finish", logRequest);
-  // console.log(res);
-  console.log("fuck");
 
   console.log(res.locals.jsonRes);
 

@@ -25,6 +25,7 @@ const EmployeeFamilyDetails: React.FC<
   const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
   const [isValidate, setIsValidate] = useState<boolean>(true);
   const [session, setSession] = useState<number>(0);
+  const [resetTable, setResetTable] = useState<number>(0);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -123,6 +124,9 @@ const EmployeeFamilyDetails: React.FC<
   function getDataSesson() {
     setSession(1);
   }
+  function resetData() {
+    setResetTable(resetTable + 1);
+  }
 
   console.log(isValidate, "validate");
 
@@ -160,6 +164,7 @@ const EmployeeFamilyDetails: React.FC<
               session_key={"emp_fam_details"}
               setSession={session}
               validate={setIsValidate}
+              resetTable={resetTable}
             />
           </div>
           <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
@@ -171,6 +176,7 @@ const EmployeeFamilyDetails: React.FC<
               session_key={"emp_nominee_details"}
               setSession={session}
               validate={setIsValidate}
+              resetTable={resetTable}
             />
           </div>
         </div>
@@ -184,9 +190,13 @@ const EmployeeFamilyDetails: React.FC<
             Back
           </PrimaryButton>
 
-          {/* <PrimaryButton buttonType="button" variant={"cancel"}>
-          Reset
-        </PrimaryButton> */}
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={resetData}
+          >
+            Reset
+          </PrimaryButton>
 
           {isValidate ? (
             <PrimaryButton
