@@ -24,6 +24,7 @@ export const employeeOfficeDetailRequestData = (
   empOfficeDetails: EmployeeOfficeDetaislType
 ): EmployeeOfficeDetaislType => {
   return {
+    emp_type: empOfficeDetails.emp_type,
     office_name: empOfficeDetails.office_code,
     office_code: empOfficeDetails.office_code,
     ddo_code: empOfficeDetails.ddo_code,

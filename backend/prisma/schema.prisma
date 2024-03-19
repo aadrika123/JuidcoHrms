@@ -13,6 +13,7 @@ datasource db {
 model employees {
   id                      Int                          @id @default(autoincrement())
   emp_id                  String
+  emp_type                Int // 0 existing, 1 New
   emp_office_details      employee_office_details      @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
   emp_basic_details       employee_basic_details       @relation(fields: [emp_basic_details_id], references: [id])
@@ -41,6 +42,7 @@ model employees {
 
 model employee_office_details {
   id              Int         @id @default(autoincrement())
+  emp_type        Int
   office_name     String
   office_code     String
   ddo_designation String

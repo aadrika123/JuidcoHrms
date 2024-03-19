@@ -5,8 +5,6 @@ import { baseUrl } from "../../../../util/common";
 import EmployeeOnBoardController from "../../controller/empOnBoard.controller";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
 
-
-
 /**
  * | Route - 01
  */
@@ -25,18 +23,34 @@ class EmployeeOnBoardRoute {
   }
 
   configure(app: express.Application): void {
-
     app
       .route(`${baseUrl}/employee/create`)
-      .post((req: Request, res: Response, next: NextFunction) =>
-        this.employeeOnBoardController.create(req, res, next, "0101"), loggerMiddleware
-      ); //1101
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.create(req, res, next, "0101"),
+        loggerMiddleware
+      ); //0101
 
-      // app
-      // .route(`${baseUrl}/employee/create`)
-      // .post(handler
-      
-      // ); //1101
+    app
+      .route(`${baseUrl}/employee/get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.get(req, res, next, "0102"),
+        loggerMiddleware
+      ); //0102
+
+    app
+      .route(`${baseUrl}/employee/count`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.getEmployeeCount(
+            req,
+            res,
+            next,
+            "0103"
+          ),
+        loggerMiddleware
+      ); //0103
   }
 }
 

@@ -5,7 +5,7 @@
  */
 
 import { Request } from "express";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import {
   employeeBasicDetailRequestData,
   employeeJoinDetailsRequestData,
@@ -15,6 +15,7 @@ import {
   // employeePresentAddressDetailsRequestData,
 } from "../requests/ems/emp_pers_details.validation";
 import { generateUnique } from "../../../util/helper/generateUniqueNo";
+import { generateRes } from "../../../util/generateRes";
 
 const prisma = new PrismaClient();
 
@@ -130,7 +131,8 @@ class EmployeeOnBoardDao {
         tx,
         "employee_basic_details",
         employeeBasicDetailRequestData(emp_basic_details)
-      );``
+      );
+      ``;
 
       const empPersonal = await this.createEmployeeDetails(
         tx,
@@ -190,6 +192,7 @@ class EmployeeOnBoardDao {
           emp_basic_details.emp_id && emp_basic_details.emp_id !== ""
             ? emp_basic_details.emp_id
             : generateUnique("EMP"),
+        emp_type: emp_office_details.emp_type,
         emp_personal_details_id: empPersonal.id,
         emp_address_details_id: empAddress.id,
         emp_join_details_id: empJoining.id,
@@ -225,6 +228,71 @@ class EmployeeOnBoardDao {
     });
 
     return employeeData;
+  };
+
+  get = async (req: Request) => {
+    const page: number = Number(req.query.page);
+    const limit: number = Number(req.query.limit);
+    const search: string = String(req.query.search);
+
+    const query: Prisma.employeesFindManyArgs = {
+      skip: (page - 1) * limit,
+      take: limit,
+      select: {
+        id: true,
+        emp_id: true,
+        emp_basic_details: {
+          select: {
+            emp_name: true,
+          },
+        },
+        emp_join_details: {
+          select: {
+            department: true,
+          },
+        },
+        created_at: true,
+        updated_at: true,
+      },
+    };
+    if (search !== "undefined" && search !== "") {
+      query.where = {
+        OR: [
+          {
+            emp_id: {
+              equals: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      };
+    }
+
+    const [data, count] = await prisma.$transaction([
+      prisma.employees.findMany(query),
+      prisma.employees.count(),
+    ]);
+
+    return generateRes(data, count, page, limit);
+  };
+
+  // get total, existing and new employee //
+  getEmployeeCount = async () => {
+    const [existingEmp, newEmp, totalEmp] = await prisma.$transaction([
+      prisma.employees.count({
+        where: {
+          emp_type: 0,
+        },
+      }),
+      prisma.employees.count({
+        where: {
+          emp_type: 1,
+        },
+      }),
+      prisma.employees.count(),
+    ]);
+
+    return generateRes({ existingEmp, newEmp, totalEmp });
   };
 }
 
