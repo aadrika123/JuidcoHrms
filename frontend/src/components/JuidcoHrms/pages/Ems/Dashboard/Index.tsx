@@ -21,6 +21,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 import { ApexOptions } from "apexcharts";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
+import Link from "next/link";
 
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,6 +33,8 @@ export const DashboardMain = () => {
       setSelectedDate(date);
     }
   };
+
+  const emp_list_url: string = "/hrms/ems/emp-list";
 
   // const dateFormatted = new Intl.DateTimeFormat('en-US', {
   //   month: 'long',
@@ -348,7 +351,10 @@ export const DashboardMain = () => {
 
           {/* Second Box - New Title */}
 
-          <div className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10 mt-5">
+          <Link
+            href={emp_list_url}
+            className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10 mt-5"
+          >
             <InnerHeading className="text-xl flex items-center justify-between">
               <div className="flex items-center">
                 <i className="mr-2">
@@ -378,7 +384,7 @@ export const DashboardMain = () => {
             <InnerHeading className="mt-5 text-center justify-center text-[22px]">
               Employee List
             </InnerHeading>
-          </div>
+          </Link>
         </div>
       </div>
     </>

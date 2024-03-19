@@ -105,9 +105,8 @@ export const EmployeeOnBoard = () => {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
-      // removeSessionsAfterSubmit();
       setTimeout(() => {
-        // removeSessionsAfterSubmit();
+        removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },

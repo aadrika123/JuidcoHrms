@@ -57,7 +57,12 @@ const Table = <T,>({
 
   const rows = !data?.length ? (
     <Trow className="flex items-center justify-center" scrollable={scrollable}>
-      <Tdata className="border-none" scrollable={scrollable} value="No data" colSpan={columns.length} />
+      <Tdata
+        className="border-none"
+        scrollable={scrollable}
+        value="No data"
+        colSpan={columns.length}
+      />
     </Trow>
   ) : (
     data?.map((row, index) => {

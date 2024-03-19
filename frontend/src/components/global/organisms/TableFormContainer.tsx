@@ -57,7 +57,7 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const TableFormContainer: React.FC<TableFormProps> = (props) => {
-  const [tableData, setTableData] = useState<any[]>([]);
+  const [tableData, setTableData] = useState<any[]>([{}]);
   const [tableLabels] = useState(props.labels || []);
   // const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const filterData = removeObj(tableData);
@@ -72,7 +72,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
           : Array.from({ length: tableLabels?.length || 1 }, () => ({}))
       );
     }
-  }, [props.session_key, tableLabels]);
+  }, [props.session_key]);
 
   function setDataSesson() {
     if (global?.window && typeof window !== "undefined") {
@@ -95,7 +95,8 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   }, [props.resetTable]);
 
   useEffect(() => {
-    props.setData(`${props.session_key}`, filterData, tableLabels as any);
+    if (isObjectEmpty)
+      props.setData(`${props.session_key}`, filterData, tableLabels as any);
   }, [tableData, tableLabels]);
 
   function onChangeTableDataHandler(

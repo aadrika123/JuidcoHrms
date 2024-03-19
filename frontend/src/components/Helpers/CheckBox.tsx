@@ -7,8 +7,8 @@ interface CheckBoxProps {
   error?: string | undefined;
   touched?: boolean | undefined;
   className?: string;
-  onChange: (e?: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e?: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e?: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const CheckBox: React.FC<CheckBoxProps> = (props) => {
@@ -19,7 +19,7 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         // value={props.value}
-        className={`mr-1 bg-white ${props.className} checkbox border border-zinc-500`}
+        className={`mr-1 bg-white ${props.className} checkbox border border-zinc-400`}
         name={props.name}
         id={fieldId}
         type="checkbox"
