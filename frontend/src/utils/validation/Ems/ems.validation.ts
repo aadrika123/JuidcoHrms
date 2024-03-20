@@ -22,6 +22,7 @@ export const officeDetailsValidationSchema = yup.object({
 });
 
 export const initialOfficeDetails: EmployeeOfficeDetaislType = {
+  emp_type: 0,
   office_name: "",
   office_code: "",
   ddo_designation: "",

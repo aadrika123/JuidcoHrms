@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import Image from "next/image";
@@ -8,6 +8,15 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import TableListContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableListContainer";
+import axios from "@/lib/axiosConfig";
+import { HRMS_URL } from "@/utils/api/urls";
+import { useQuery } from "react-query";
+
+interface DropDownList {
+  id: number;
+  name?: string;
+  type?: string;
+}
 
 const EmployeeList = () => {
   const EMP_LIST_COLS: COLUMNS[] = [
@@ -37,6 +46,29 @@ const EmployeeList = () => {
       ACCESSOR: "status",
     },
   ];
+
+  const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
+
+  const fetchData = async (endpoint: string): Promise<DropDownList[]> => {
+    if (endpoint === "null") return [];
+    const res = await axios({
+      url: `${endpoint}`,
+      method: "GET",
+    });
+    return res.data?.data?.data;
+  };
+
+  const useCodeQuery = (endpoint: string) => {
+    return useQuery([endpoint, selectedFilter], () => fetchData(endpoint));
+  };
+
+  const { data: dataList = [], error: dataError } = useCodeQuery(
+    `${selectedFilter === 0 ? HRMS_URL.department.get : selectedFilter === 1 ? HRMS_URL.designation.get : null}`
+  );
+
+  if (dataError) {
+    throw Error("Fatal Error!");
+  }
 
   // -----------------Employee Onboard report JSX----------------------//
   const employeeReports = (
@@ -92,12 +124,15 @@ const EmployeeList = () => {
           <label htmlFor="search-by" className="text-secondary text-lg">
             Search By
           </label>
-          <select className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 bg-white">
+          <select
+            onChange={(e) => setSelectedFilter(parseInt(e.target.value))}
+            className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 bg-white"
+          >
             <option disabled selected>
-              Who shot first?
+              Select Search By
             </option>
-            <option>Han Solo</option>
-            <option>Greedo</option>
+            <option value={0}>Department</option>
+            <option value={1}>Designation</option>
           </select>
         </div>
 
@@ -107,10 +142,15 @@ const EmployeeList = () => {
           </label>
           <select className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 max-w-xs bg-white ">
             <option disabled selected>
-              Who shot first?
+              Select Filter By
             </option>
-            <option>Han Solo</option>
-            <option>Greedo</option>
+            {dataList?.map((k) => {
+              return (
+                <option key={k.id} value={k.id}>
+                  {k.name}
+                </option>
+              );
+            })}
           </select>
         </div>
         <PrimaryButton

@@ -21,6 +21,7 @@ interface DropDownListProps {
   className?: string;
   onChange: (e?: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlur?: (e?: React.FocusEvent<HTMLSelectElement>) => void;
+  required?: boolean;
 }
 
 interface DropDownList {
@@ -42,7 +43,7 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
       method: "GET",
     });
 
-    return res.data?.data;
+    return res.data?.data?.data;
   };
 
   const { data: dataList = [], isError: dataError } = useQuery({
@@ -59,6 +60,7 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
       <div className="flex flex-col gap-1">
         <label className="text-secondary text-sm" htmlFor={fieldId}>
           {props.label}
+          {props.required && <span className="text-red-500">*</span>}
         </label>
         <select
           onChange={(event) => setValue(parseInt(event.target.value))}
@@ -71,7 +73,7 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
           <option selected value="">
             {props.placeholder}
           </option>
-          {dataList.map((d: DropDownList) => (
+          {dataList?.map((d: DropDownList) => (
             <option key={d?.id} value={d?.id}>
               {d?.name || d?.type}
             </option>

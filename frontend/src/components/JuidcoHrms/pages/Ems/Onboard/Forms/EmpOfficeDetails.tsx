@@ -25,7 +25,7 @@ import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 const EmployeeOfficeDetails: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
 > = (props) => {
-  const [tabIndex, setTabIndex] = useState<number>(1);
+  const [empType, setEmpType] = useState<number>(0);
   const pathName = usePathname();
   const router = useRouter();
 
@@ -33,17 +33,18 @@ const EmployeeOfficeDetails: React.FC<
     values: EmployeeOfficeDetaislType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
+    values.emp_type = empType;
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_office_details", JSON.stringify(values));
-      sessionStorage.setItem("emp_type", JSON.stringify(tabIndex));
+      sessionStorage.setItem("emp_type", JSON.stringify(empType));
       setSubmitting(false);
 
       if (props.setData) {
-        props.setData("emp_office_details", values, tabIndex);
+        props.setData("emp_office_details", values, empType);
       }
-      if (tabIndex === 1) {
+      if (empType === 1) {
         router.push(`${pathName}?emp=old&page=2`);
-      } else if (tabIndex === 2) {
+      } else if (empType === 2) {
         router.push(`${pathName}?emp=new&page=2`);
       }
     }
@@ -52,7 +53,7 @@ const EmployeeOfficeDetails: React.FC<
   useEffect(() => {
     typeof window !== "undefined"
       ? sessionStorage.getItem("emp_type")
-        ? setTabIndex(JSON.parse(sessionStorage.getItem("emp_type") ?? ""))
+        ? setEmpType(JSON.parse(sessionStorage.getItem("emp_type") ?? ""))
         : null
       : "";
   }, [pathName]);
@@ -108,11 +109,11 @@ const EmployeeOfficeDetails: React.FC<
               <input
                 id="accounting"
                 type="radio"
-                onChange={() => setTabIndex(1)}
+                onChange={() => setEmpType(0)}
                 name="radio-1"
                 className="radio border border-zinc-600"
                 defaultChecked
-                checked={tabIndex === 1}
+                checked={empType === 0}
               />
               <label htmlFor="accounting" className=" cursor-pointer">
                 Existing Employee
@@ -122,11 +123,11 @@ const EmployeeOfficeDetails: React.FC<
             <div className="flex-all-center ">
               <input
                 id="function"
-                onChange={() => setTabIndex(2)}
+                onChange={() => setEmpType(1)}
                 type="radio"
                 name="radio-1"
                 className="radio  border-zinc-600"
-                checked={tabIndex === 2}
+                checked={empType === 1}
               />
               <label htmlFor="function" className=" cursor-pointer">
                 New Employee

@@ -1,5 +1,6 @@
 import express from "express";
 import EmployeeOnBoardRoute from "./route/ems/empOnBoard.route";
+import MasterDataRoute from "./route/ems/master/master.route";
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,14 @@ import EmployeeOnBoardRoute from "./route/ems/empOnBoard.route";
 
 class HrmsRoute {
   private employeeOnBoardRoute: EmployeeOnBoardRoute;
+  private masterDataRoute: MasterDataRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
     this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
-    this.employeeOnBoardRoute.configure(app); // 08
+    this.employeeOnBoardRoute.configure(app); // 01
+
+    this.masterDataRoute = new MasterDataRoute();
+    this.masterDataRoute.configure(app); // 02
   }
 }
 

@@ -98,3 +98,4 @@ Array.prototype.resetData = function () {
 
   return this;
 };
+

@@ -167,22 +167,22 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
 
   useEffect(() => {
     if (props.resetTable !== 0) {
-      setTableData([
-        {
-          designation: {
-            from: "",
-            to: "",
-          },
-          scale: {
-            from: "",
-            to: "",
-          },
-          vide_order_no: "",
-          vide_order_date: "",
-          transfer: "no",
-          join_date: "",
-        },
-      ]);
+      // setTableData([
+      //   {
+      //     designation: {
+      //       from: "",
+      //       to: "",
+      //     },
+      //     scale: {
+      //       from: "",
+      //       to: "",
+      //     },
+      //     vide_order_no: "",
+      //     vide_order_date: "",
+      //     transfer: "no",
+      //     join_date: "",
+      //   },
+      // ]);
       props.validate(true);
     }
   }, [props.resetTable]);

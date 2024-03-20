@@ -36,7 +36,7 @@ interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];
   setSession: number;
-  resetTable: number;
+  // resetTable: number;
   validate: (value: boolean) => void;
 }
 
@@ -61,7 +61,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   const [tableLabels] = useState(props.labels || []);
   // const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const filterData = removeObj(tableData);
-  const [isObjectEmpty, setIsObjectEmpty] = useState<boolean>(false);
+  // const [isObjectEmpty, setIsObjectEmpty] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -84,19 +84,20 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
   }
 
   useEffect(() => {
-    if (isObjectEmpty) if (props.setSession === 1) setDataSesson();
+    // if (isObjectEmpty)
+    if (props.setSession === 1) setDataSesson();
   }, [props.setSession]);
 
-  useEffect(() => {
-    if (props.resetTable !== 0) {
-      setTableData([{}]);
-      props.validate(true);
-    }
-  }, [props.resetTable]);
+  // useEffect(() => {
+  //   if (props.resetTable !== 0) {
+  //     setTableData([{}]);
+  //     props.validate(true);
+  //   }
+  // }, [props.resetTable]);
 
   useEffect(() => {
-    if (isObjectEmpty)
-      props.setData(`${props.session_key}`, filterData, tableLabels as any);
+    // if (isObjectEmpty)
+    props.setData(`${props.session_key}`, filterData, tableLabels as any);
   }, [tableData, tableLabels]);
 
   function onChangeTableDataHandler(
@@ -108,9 +109,9 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       const updatedData = [...prev];
       const row: any = { ...updatedData[id] };
 
-      if (Object.values(row).every((value) => value !== "")) {
-        setIsObjectEmpty(true);
-      }
+      // if (Object.values(row).every((value) => value !== "")) {
+      //   setIsObjectEmpty(true);
+      // }
 
       row[key as keyof typeof row] = value;
 

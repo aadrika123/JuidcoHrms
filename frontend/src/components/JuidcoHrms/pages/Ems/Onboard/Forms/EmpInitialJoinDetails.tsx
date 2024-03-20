@@ -22,6 +22,8 @@ import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import DropDownList from "@/components/Helpers/DropDownList";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmpInitialJoinDetails: React.FC<
   EmployeeDetailsProps<EmployeeJoinDetailsType>
@@ -123,7 +125,7 @@ const EmpInitialJoinDetails: React.FC<
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-                <SelectForNoApi
+                {/* <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.department}
@@ -216,6 +218,19 @@ const EmpInitialJoinDetails: React.FC<
                       name: "Women Child Development and Social Security Department",
                     },
                   ]}
+                /> */}
+
+                <DropDownList
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.department}
+                  error={errors.department}
+                  touched={touched.department}
+                  label="Department"
+                  name="department"
+                  placeholder={"Please Select Department"}
+                  api={`${HRMS_URL.department.get}`}
+                  required
                 />
 
                 <SelectForNoApi

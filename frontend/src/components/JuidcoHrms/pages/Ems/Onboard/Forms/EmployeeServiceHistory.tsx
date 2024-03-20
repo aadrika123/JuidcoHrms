@@ -26,7 +26,7 @@ const EmployeeServiceHistory: React.FC<
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [employeeServiceHistory, setEmloyeeServiceHistory] = useState([]);
   const [session, setSession] = useState<number>(0);
-  const [isValidate, setIsValidate] = useState<boolean>(false);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
   const [resetTable, setResetTable] = useState<number>(0);
 
   const pathName = usePathname();
@@ -144,7 +144,7 @@ const EmployeeServiceHistory: React.FC<
             subHeading={"Employee Increment Details "}
             setSession={session}
             validate={setIsValidate}
-            resetTable={resetTable}
+            // resetTable={resetTable}
           />
         </div>
 

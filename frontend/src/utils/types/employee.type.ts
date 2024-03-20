@@ -33,6 +33,7 @@ export interface EmployeeDetailsProps<K> {
 }
 
 export interface EmployeeOfficeDetaislType {
+  emp_type: number;
   office_name: string;
   office_code: string;
   ddo_designation: string;

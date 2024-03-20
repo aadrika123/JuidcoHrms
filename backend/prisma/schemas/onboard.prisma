@@ -238,7 +238,7 @@ model employee_salary_deduction {
 
 // // //-------------- Employee Join Details ---------------------//
 model employee_join_details {
-  id                      Int          @id @default(autoincrement())
+  id                      Int         @id @default(autoincrement())
   department              department?  @relation(fields: [department_id], references: [id])
   department_id           Int?
   designation             designation? @relation(fields: [designation_id], references: [id])
@@ -271,8 +271,8 @@ model employee_join_details {
   ifsc                    String?
   sen_grade_list          String?
   employee                employees[]
-  created_at              DateTime     @default(now()) @map("created_at")
-  updated_at              DateTime     @updatedAt @map("updated_at")
+  created_at              DateTime    @default(now()) @map("created_at")
+  updated_at              DateTime    @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Join Details ---------------------//
@@ -386,19 +386,3 @@ model employee_loan_recovery {
 //-------------- Employee LOAN Details ---------------------//
 
 //-----------------------------------------------------------------//
-
-model department {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model designation {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}

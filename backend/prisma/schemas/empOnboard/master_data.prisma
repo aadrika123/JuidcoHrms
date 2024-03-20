@@ -1,0 +1,15 @@
+model department {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model designation {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
