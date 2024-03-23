@@ -14,10 +14,7 @@ const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
   };
 
   res.once("finish", logRequest);
-
-  console.log(res.locals.jsonRes);
-
-  res.json(res.locals.jsonRes);
+  res.status(res.locals.statusCode).json(res.locals.jsonRes);
 
   next();
 };

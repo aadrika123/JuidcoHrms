@@ -5,18 +5,13 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import Image from "next/image";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
+import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 import TableListContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableListContainer";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useQuery } from "react-query";
-
-interface DropDownList {
-  id: number;
-  name?: string;
-  type?: string;
-}
 
 const EmployeeList = () => {
   const EMP_LIST_COLS: COLUMNS[] = [
@@ -31,7 +26,7 @@ const EmployeeList = () => {
     },
     {
       HEADER: "Department",
-      ACCESSOR: "emp_department",
+      ACCESSOR: "name",
     },
     {
       HEADER: "Leave",
@@ -41,33 +36,56 @@ const EmployeeList = () => {
       HEADER: "Present",
       ACCESSOR: "emp_present_count",
     },
-    {
-      HEADER: "Status",
-      ACCESSOR: "status",
-    },
   ];
 
   const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
+  const [selectedData, setSelectedData] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
 
-  const fetchData = async (endpoint: string): Promise<DropDownList[]> => {
+  const handleChangePage = (direction: "prev" | "next") => {
+    setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
+  };
+
+  const fetchData = async (endpoint: string) => {
     if (endpoint === "null") return [];
     const res = await axios({
       url: `${endpoint}`,
       method: "GET",
     });
-    return res.data?.data?.data;
+
+    return res.data?.data;
   };
 
+  // const { currentPage, count, totalPage } = page;
   const useCodeQuery = (endpoint: string) => {
-    return useQuery([endpoint, selectedFilter], () => fetchData(endpoint));
+    return useQuery([endpoint, [selectedFilter, selectedData, page]], () =>
+      fetchData(endpoint)
+    );
   };
 
   const { data: dataList = [], error: dataError } = useCodeQuery(
-    `${selectedFilter === 0 ? HRMS_URL.department.get : selectedFilter === 1 ? HRMS_URL.designation.get : null}`
+    // `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : null}`
+    `${HRMS_URL.DEPARTMENT.get}`
+  );
+
+  const { data: empLstData, error: empLstErr } = useCodeQuery(
+    `${HRMS_URL.EMS.get}&page=${page}&department=${selectedData}`
+  );
+
+  const { data: empCount, error: empCountErr } = useCodeQuery(
+    `${HRMS_URL.EMP_COUNT.get}`
   );
 
   if (dataError) {
-    throw Error("Fatal Error!");
+    return <div>Failed to fetch data</div>;
+  }
+
+  if (empCountErr) {
+    throw Error;
+  }
+
+  if (empLstErr) {
+    return <div>Failed to fetch data</div>;
   }
 
   // -----------------Employee Onboard report JSX----------------------//
@@ -78,17 +96,23 @@ const EmployeeList = () => {
           List of Onboard Employees Report
         </h2>
         <h4 className=" text-[1.3819rem]">
-          <span className="text-primary_blue">500 total, </span>
+          <span className="text-primary_blue">
+            {empCount?.totalEmp} total,{" "}
+          </span>
           Employee are onboarded
         </h4>
       </div>
       <div className="flex items-start gap-8">
         <div className=" w-40 flex flex-col gap-3">
-          <span className="text-primary_blue text-[1.63544rem]">94</span>
+          <span className="text-primary_blue text-[1.63544rem]">
+            {empCount?.existingEmp}
+          </span>
           <span>Total No. of Existing Employee</span>
         </div>
         <div className="w-40 flex flex-col gap-3">
-          <span className="text-[#63ADCB] text-[1.63544rem]">32</span>
+          <span className="text-[#63ADCB] text-[1.63544rem]">
+            {empCount?.newEmp}
+          </span>
           <span>Total No. of New Employee</span>
         </div>
       </div>
@@ -140,11 +164,16 @@ const EmployeeList = () => {
           <label htmlFor="filter-by" className="text-secondary text-lg">
             Filter By
           </label>
-          <select className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 max-w-xs bg-white ">
+          <select
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setSelectedData(parseInt(e.target.value))
+            }
+            className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 max-w-xs bg-white "
+          >
             <option disabled selected>
               Select Filter By
             </option>
-            {dataList?.map((k) => {
+            {dataList?.data?.map((k: any) => {
               return (
                 <option key={k.id} value={k.id}>
                   {k.name}
@@ -182,13 +211,20 @@ const EmployeeList = () => {
         <div className="mt-[5rem]">
           <TableListContainer
             columns={EMP_LIST_COLS}
-            tableData={[
-              { emp_name: "done", emp_id: "die", emp_department: "die" },
-              { emp_name: "done", emp_id: "die" },
-              { emp_name: "done", emp_id: "die" },
-            ]}
+            tableData={empLstData?.data || []}
+            actionBtn
+            actionName="Status"
           />
         </div>
+        <aside className="mt-16">
+          <div>
+            <NextPrevPagination
+              page={empLstData?.currentPage}
+              pageCount={empLstData?.totalPage}
+              handlePageChange={handleChangePage}
+            />
+          </div>
+        </aside>
       </section>
       {/* -----------------------------------Employee Onboard Reports------------------------------------------ */}
     </>

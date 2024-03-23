@@ -42,9 +42,8 @@ export const sendResponse = async (
     data: resData,
   };
 
-  console.log("Hi");
-
   res.locals.jsonRes = jsonRes;
+  res.locals.statusCode = responseCode;
 
   next();
   return res;

@@ -9,7 +9,7 @@ class DepartmentController {
   private initMsg: string;
   constructor() {
     this.departmentDao = new DepartmentDao();
-    this.initMsg = "Designation";
+    this.initMsg = "Department";
   }
 
   get = async (
@@ -36,7 +36,7 @@ class DepartmentController {
         );
       }
 
-      return CommonRes.NOT_FOUND(
+      return CommonRes.SUCCESS(
         resMessage(this.initMsg).FOUND,
         data,
         resObj,

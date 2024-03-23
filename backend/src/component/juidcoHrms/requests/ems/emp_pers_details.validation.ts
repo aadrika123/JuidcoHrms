@@ -343,8 +343,8 @@ export const employeeJoinDetailsRequestData = (
   empJoinDetails: EmployeeJoinDetailsType
 ): EmployeeJoinDetailsType => {
   return {
-    department: empJoinDetails.department,
-    designation: empJoinDetails.designation,
+    department_id: empJoinDetails.department_id,
+    designation_id: empJoinDetails.designation_id,
     task: empJoinDetails.task,
     class: empJoinDetails.class,
     doj: empJoinDetails.doj,

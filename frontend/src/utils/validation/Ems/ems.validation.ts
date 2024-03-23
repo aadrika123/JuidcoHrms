@@ -217,7 +217,7 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
   };
 
 export const employeeJoinValidationSchema = yup.object({
-  department: yup.string().required("Please Choose the Correct Department"),
+  department_id: yup.string().required("Please Choose the Correct Department"),
   // designation: yup.string().required("Please Choose the Correct Designation"),
   task: yup
     .string()
@@ -238,8 +238,8 @@ export const employeeJoinValidationSchema = yup.object({
 });
 
 export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {
-  department: "",
-  designation: "",
+  department_id: "",
+  designation_id: "",
   task: "",
   class: "",
   doj: "",

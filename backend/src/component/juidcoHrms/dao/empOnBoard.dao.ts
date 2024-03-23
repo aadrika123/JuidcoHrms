@@ -16,6 +16,19 @@ import {
 } from "../requests/ems/emp_pers_details.validation";
 import { generateUnique } from "../../../util/helper/generateUniqueNo";
 import { generateRes } from "../../../util/generateRes";
+import nodemailer from "nodemailer";
+interface EditEmpList {
+  id: string;
+  emp_id: string;
+  emp_name: string;
+  department_id: number;
+  pay_scale: number;
+  designation_id: number;
+  pay_band: number;
+  grade_pay: number;
+  task: string;
+  basic_pay: number;
+}
 
 const prisma = new PrismaClient();
 
@@ -30,6 +43,37 @@ class EmployeeOnBoardDao {
     }
     return body;
   }
+
+  ////////////Nodemailer code /////////////////////////////
+
+  private async sendEmail(emp_id: string): Promise<void> {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "jgupta324@gmail.com",
+        pass: "tvriqbgnthbrhywa",
+      },
+    });
+
+    if (emp_id) {
+      const mailOptions = {
+        from: '"New Employee Onboarded 👻" <jgupta324@gmail.com>',
+        // from: 'jgupta324@gmail.com',
+        // to: 'gjai4341@gmail.com',
+        to: "gjai4341@gmail.com, kkrish7654@gmail.com",
+        subject: "New Employee Onboarded",
+        text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
+      };
+
+      console.log("data", mailOptions);
+      const data = await transporter.sendMail(mailOptions);
+      console.log("res", data);
+    }
+  }
+
+  ////////////Nodemailer code /////////////////////////////
 
   private createEmployeeDetails = async (
     tx: any,
@@ -46,6 +90,7 @@ class EmployeeOnBoardDao {
     }
   };
 
+  // !-----------------------------Add New or Existing Employee to the System------------------------------//
   store = async (req: Request) => {
     const {
       emp_office_details,
@@ -226,14 +271,18 @@ class EmployeeOnBoardDao {
 
       return await this.createEmployeeDetails(tx, "employees", employeeDatas);
     });
+    ////////////Nodemailer code /////////////////////////////
 
+    await this.sendEmail(employeeData.emp_id);
+
+    ////////////Nodemailer code /////////////////////////////
     return employeeData;
   };
-
+  // !-----------------------------Get Employee List------------------------------//
   get = async (req: Request) => {
     const page: number = Number(req.query.page);
     const limit: number = Number(req.query.limit);
-    const search: string = String(req.query.search);
+    const department: string = String(req.query.department);
 
     const query: Prisma.employeesFindManyArgs = {
       skip: (page - 1) * limit,
@@ -249,19 +298,25 @@ class EmployeeOnBoardDao {
         emp_join_details: {
           select: {
             department: true,
+            grade_pay: true,
           },
         },
         created_at: true,
         updated_at: true,
       },
     };
-    if (search !== "undefined" && search !== "") {
+    if (
+      department !== "undefined" &&
+      department !== "" &&
+      department !== "null"
+    ) {
       query.where = {
         OR: [
           {
-            emp_id: {
-              equals: search,
-              mode: "insensitive",
+            emp_join_details: {
+              department_id: {
+                equals: Number(department),
+              },
             },
           },
         ],
@@ -293,6 +348,94 @@ class EmployeeOnBoardDao {
     ]);
 
     return generateRes({ existingEmp, newEmp, totalEmp });
+  };
+
+  // !--------------------------Get Single employee basic information------------------------//
+  getSingleEmpInfo = async (req: Request) => {
+    const id = Number(req.params.id);
+
+    const query: Prisma.employeesFindFirstArgs = {
+      select: {
+        emp_id: true,
+        emp_basic_details: {
+          select: { emp_name: true },
+        },
+        emp_join_details: {
+          select: {
+            department_id: true,
+            designation_id: true,
+            grade_pay: true,
+            task: true,
+            basic_pay: true,
+            pay_band: true,
+            pay_scale: true,
+          },
+        },
+      },
+      where: {
+        id: id,
+      },
+    };
+
+    const data = await prisma.employees.findFirst(query);
+
+    return generateRes(data);
+  };
+
+  // !-------------------------------Edit employee basic information--------------------------//
+  editEmpInfo = async (req: Request) => {
+    const {
+      id,
+      emp_id,
+      emp_name,
+      department_id,
+      designation_id,
+      grade_pay,
+      task,
+      basic_pay,
+      pay_band,
+      pay_scale,
+    } = req.body as EditEmpList;
+
+    const trans = await prisma.$transaction(async (tx) => {
+      const emp = await tx.employees.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          emp_id: emp_id,
+        },
+      });
+
+      await tx.employee_basic_details.update({
+        where: {
+          id: emp.emp_basic_details_id,
+        },
+        data: {
+          emp_name: emp_name,
+        },
+      });
+
+      await tx.employee_join_details.update({
+        where: {
+          id: emp.emp_join_details_id,
+        },
+
+        data: {
+          department_id: department_id,
+          designation_id: designation_id,
+          grade_pay: grade_pay,
+          task: task,
+          basic_pay: basic_pay,
+          pay_band: pay_band,
+          pay_scale: pay_scale,
+        },
+      });
+
+      return true;
+    });
+
+    return generateRes(trans);
   };
 }
 

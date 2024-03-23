@@ -223,169 +223,24 @@ const EmpInitialJoinDetails: React.FC<
                 <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.department}
-                  error={errors.department}
-                  touched={touched.department}
+                  value={values.department_id}
+                  error={errors.department_id}
+                  touched={touched.department_id}
                   label="Department"
-                  name="department"
+                  name="department_id"
                   placeholder={"Please Select Department"}
-                  api={`${HRMS_URL.department.get}`}
+                  api={`${HRMS_URL.DEPARTMENT.get}`}
                   required
                 />
 
-                <SelectForNoApi
+                <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.designation}
-                  // error={errors.designation}
-                  // touched={touched.designation}
+                  value={values.designation_id}
                   label="Designation"
                   placeholder="Please Select"
-                  // required={true}
-                  name="designation"
-                  options={[
-                    { id: 1, name: "Assistant Municipal Commissioner" },
-                    { id: 2, name: "Executive Officer/Special Officer" },
-                    { id: 3, name: "Deputy Municipal Comissioner" },
-                    { id: 4, name: "Additional Municipal Comissioner" },
-                    { id: 5, name: "Junior Engineer(Civil & Mechanical)" },
-                    {
-                      id: 6,
-                      name: "Assistant Engineer(Civil )/Technical Advisor to the Superitending Engineer",
-                    },
-                    { id: 7, name: "Assistant Engineer(Transport/Mechanical)" },
-                    {
-                      id: 8,
-                      name: "Executive Engineer/Technical Advisor to Chief Engineer",
-                    },
-                    { id: 9, name: "Subordinate Engineer" },
-                    { id: 10, name: "Chief City Engineer" },
-                    { id: 11, name: "Junior Engineer(Electrical)" },
-                    { id: 12, name: "Assistant Engineer(Electrical)" },
-                    { id: 13, name: "Pipeline Inspector" },
-                    { id: 14, name: "Street Light Inspector" },
-                    {
-                      id: 15,
-                      name: "Sub Divisional Clerk/Office - Assistant-cum-Accountant/Accounts Clerk/Accountant -Cum-Computer Operator",
-                    },
-                    { id: 16, name: "Accountant -Cum-Cashier/Accountant" },
-                    { id: 17, name: "Assistant Accounts Officer" },
-                    { id: 18, name: "Accounts Officer" },
-                    { id: 19, name: "Chief Accounts Officer" },
-                    { id: 20, name: "Revenue Inspector" },
-                    { id: 21, name: "Assistant Superitendent of Tax" },
-                    {
-                      id: 22,
-                      name: "Assistant Revenue Officer(Assessment and valuation officer /Tax Superetendant/Assistant Valuation officer Integrated)",
-                    },
-                    { id: 23, name: "Chief Assessment and valuation officer" },
-                    { id: 24, name: "Sanitary Supervisor" },
-                    { id: 25, name: "Sanitary and Food Inspector" },
-                    { id: 26, name: "Chief Sanitary Inspector" },
-                    { id: 27, name: "Assistant Public Health Officer" },
-                    { id: 28, name: "Public Health Officer" },
-                    { id: 29, name: "Garden Superitendent" },
-                    { id: 30, name: "Agriculture Officer" },
-                    { id: 31, name: "Horticulture Officer" },
-                    { id: 32, name: "Publicity Assistant" },
-                    { id: 33, name: "Assistant Public Relations Officer" },
-                    { id: 34, name: "Public Relations Officer" },
-                    { id: 35, name: "Legal Assistant" },
-                    { id: 36, name: "Assistant Law Officer" },
-                    { id: 37, name: "Law Officer" },
-                    { id: 38, name: "Veterinary Assistant" },
-                    { id: 39, name: "Medical Assistant" },
-                    { id: 40, name: "Veterinary Officer" },
-                    { id: 41, name: "Medical Practitioner" },
-                    {
-                      id: 42,
-                      name: "Sub Divisional Clerk/Office - Assistant-cum-Computer Operator/ Accounts Clerk -Cum-Computer Operator",
-                    },
-                    { id: 43, name: "Branch Officer" },
-                    { id: 44, name: "Real Estate Officer" },
-                    { id: 45, name: "Office Superitendent" },
-                    { id: 46, name: "Administrative Officer" },
-                    { id: 47, name: "Stenographer Assistant" },
-                    { id: 48, name: "Personal Assistant" },
-                    { id: 49, name: "Private Secretary" },
-                    { id: 50, name: "Planning Assistant" },
-                    { id: 51, name: "Municipal Commissioner" },
-                    { id: 52, name: "project manager" },
-                    { id: 53, name: "project manager consultant" },
-                    { id: 54, name: "Deputy Project Manager" },
-                    { id: 55, name: "Assistant Project Manager" },
-                    { id: 56, name: "Deputy General Manager" },
-                    { id: 57, name: "General Manager" },
-                    { id: 58, name: "Drawing & Disbursing Officer" },
-                    { id: 59, name: "Chief Secretary (IAS)" },
-                    { id: 60, name: "Director" },
-                    { id: 61, name: "Deputy Executive Officer" },
-                    {
-                      id: 62,
-                      name: "SMM Financial Inclusion & Micro Enterprises",
-                    },
-                    { id: 63, name: "SMM MIS & ME" },
-                    { id: 64, name: "SMM Skills & Livelihood" },
-                    { id: 65, name: "SMM Social Development & Infrastructure" },
-                    { id: 66, name: "CMM Financial Inclusion" },
-                    { id: 67, name: "CMM MIS & ME" },
-                    { id: 68, name: "CMM Skills & Livelihood" },
-                    { id: 69, name: "CMM Social Development & Infrastructure" },
-                    { id: 70, name: "Principal Assistant" },
-                    { id: 71, name: "Assistant" },
-                    { id: 72, name: "Tax Inspector" },
-                    { id: 73, name: "PEON" },
-                    { id: 74, name: "City Manager" },
-                    { id: 75, name: "Community Organizer" },
-                    { id: 76, name: "Programmer" },
-                    { id: 77, name: "Computer Operator" },
-                    { id: 78, name: "Water Tax Collector" },
-                    { id: 79, name: "Candidate" },
-                    { id: 80, name: "Candidate CO" },
-                    {
-                      id: 81,
-                      name: "SMM – Shelters and Social Infrastructure",
-                    },
-                    {
-                      id: 82,
-                      name: "SMM – Social Mobilization & Institutional Development",
-                    },
-                    { id: 83, name: "SMM – HR & Capacity Building" },
-                    { id: 84, name: "Accountant" },
-                    { id: 85, name: "Computer Operator Cum Assistant" },
-                    { id: 86, name: "Sweeper" },
-                    { id: 87, name: "Night Guard" },
-                    { id: 88, name: "Driver" },
-                    { id: 89, name: "Electrician" },
-                    { id: 90, name: "Assistant Electrician" },
-                    { id: 91, name: "JCB Operator Cum Driver" },
-                    { id: 92, name: "Accounts Clerk Cum Computer Operator" },
-                    { id: 93, name: "Plumber" },
-                    { id: 94, name: "Chairman" },
-                    { id: 95, name: "Dy Chairman" },
-                    { id: 96, name: "Section Officer" },
-                    { id: 97, name: "Ward Zamadar" },
-                    { id: 98, name: "Deputy Municipal Corporation" },
-                    { id: 99, name: "Chief Engineer" },
-                    { id: 100, name: "Executive Engineer" },
-                    { id: 101, name: "Sanitary Inspector In Charge" },
-                    { id: 102, name: "Social Development Specialist" },
-                    { id: 103, name: "Labour" },
-                    { id: 104, name: "WORK SARKAR" },
-                    { id: 105, name: "Light Inspector" },
-                    { id: 106, name: "ROAD MAT" },
-                    { id: 107, name: "Tubewel Mechanic" },
-                    { id: 108, name: "MIS Specialist" },
-                    { id: 109, name: "GIS Specialist" },
-                    { id: 110, name: "Town Planning Specialist" },
-                    { id: 111, name: "Project Engineering Specialist" },
-                    { id: 112, name: "Tax Daroga" },
-                    { id: 113, name: "Joint Secretery" },
-                    { id: 114, name: "Deputy Secretery" },
-                    { id: 115, name: "Town Planner" },
-                    { id: 116, name: "Assistant Director" },
-                    { id: 117, name: "Accountant" },
-                  ]}
+                  name="designation_id"
+                  api={`${HRMS_URL.DESIGNATION.get}`}
                 />
 
                 <InputBox

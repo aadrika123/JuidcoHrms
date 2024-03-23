@@ -172,8 +172,8 @@ export interface EmployeePresentAddressDetailsType {
 }
 
 export interface EmployeeJoinDetailsType {
-  department: string;
-  designation: string;
+  department_id: string | number;
+  designation_id: string | number;
   task: string;
   class: string;
   doj: string;

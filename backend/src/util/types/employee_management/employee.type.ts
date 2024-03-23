@@ -165,8 +165,8 @@ export interface EmployeeSalaryDeductionType {
 
 //------------------------- Employee JOINING DETAILS -----------------------------//
 export interface EmployeeJoinDetailsType {
-  department: string;
-  designation: string;
+  department_id: number;
+  designation_id: number;
   task: string;
   class: string;
   doj: string;

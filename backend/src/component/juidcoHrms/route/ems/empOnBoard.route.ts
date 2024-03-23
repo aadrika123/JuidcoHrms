@@ -51,6 +51,27 @@ class EmployeeOnBoardRoute {
           ),
         loggerMiddleware
       ); //0103
+
+    app
+      .route(`${baseUrl}/employee/get-single/:id`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.getSingleEmpInfo(
+            req,
+            res,
+            next,
+            "0104"
+          ),
+        loggerMiddleware
+      ); //0104
+
+    app
+      .route(`${baseUrl}/employee/update`)
+      .patch(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.editEmpInfo(req, res, next, "0105"),
+        loggerMiddleware
+      ); //0105
   }
 }
 

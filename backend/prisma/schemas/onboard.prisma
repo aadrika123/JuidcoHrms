@@ -215,7 +215,7 @@ model employee_salary_allow {
   id                         Int                     @id @default(autoincrement())
   name                       String
   wfe_date                   String
-  amount_in                  BigInt
+  amount_in                  Float
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")
@@ -226,8 +226,8 @@ model employee_salary_deduction {
   id                         Int                     @id @default(autoincrement())
   name                       String
   wfe_date                   String
-  acnt_no                    BigInt
-  amount_in                  BigInt
+  acnt_no                    Float
+  amount_in                  Float
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")
@@ -238,7 +238,7 @@ model employee_salary_deduction {
 
 // // //-------------- Employee Join Details ---------------------//
 model employee_join_details {
-  id                      Int         @id @default(autoincrement())
+  id                      Int          @id @default(autoincrement())
   department              department?  @relation(fields: [department_id], references: [id])
   department_id           Int?
   designation             designation? @relation(fields: [designation_id], references: [id])
@@ -248,17 +248,17 @@ model employee_join_details {
   doj                     String?
   effective_pay_commision String?
   confirmation_order      String?
-  pay_scale               BigInt?
-  pay_band                BigInt?
-  grade_pay               BigInt?
+  pay_scale               Float?
+  pay_band                Float?
+  grade_pay               Float?
   doc                     String?
-  basic_pay               BigInt?
-  conf_order_number       BigInt?
+  basic_pay               Float?
+  conf_order_number       Float?
   deduction_type          String?
   conf_order_date         String?
   member_gis              String?
   appoint_authority       String?
-  gis_account             BigInt?
+  gis_account             Float?
   ulb                     String?
   last_inc_order          String?
   name_of_service         String?
@@ -267,12 +267,12 @@ model employee_join_details {
   wef_date                String?
   branch_name             String?
   pf_category             String?
-  acc_number              BigInt?
+  acc_number              Float?
   ifsc                    String?
   sen_grade_list          String?
   employee                employees[]
-  created_at              DateTime    @default(now()) @map("created_at")
-  updated_at              DateTime    @updatedAt @map("updated_at")
+  created_at              DateTime     @default(now()) @map("created_at")
+  updated_at              DateTime     @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Join Details ---------------------//
@@ -361,7 +361,7 @@ model employee_loan_Principal {
   monthly_install     String
   last_paid_install   String
   month_last_install  String
-  total_amnt          BigInt
+  total_amnt          Float
   emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
   emp_loan_details_id Int
   created_at          DateTime              @default(now()) @map("created_at")

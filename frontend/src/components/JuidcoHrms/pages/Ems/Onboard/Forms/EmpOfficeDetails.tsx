@@ -42,9 +42,9 @@ const EmployeeOfficeDetails: React.FC<
       if (props.setData) {
         props.setData("emp_office_details", values, empType);
       }
-      if (empType === 1) {
+      if (empType === 0) {
         router.push(`${pathName}?emp=old&page=2`);
-      } else if (empType === 2) {
+      } else if (empType === 1) {
         router.push(`${pathName}?emp=new&page=2`);
       }
     }

@@ -4,7 +4,7 @@
  * status: Open
  */
 
-type UrlKeys = "EMS" | "department" | "designation";
+type UrlKeys = "EMS" | "EMP_COUNT" | "DEPARTMENT" | "DESIGNATION";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -20,16 +20,19 @@ type Urls = {
 
 export const HRMS_URL: Urls = {
   EMS: {
-    get: "/bank-master/get-all?limit=10",
+    get: "/employee/get?limit=10",
     create: "/employee/create",
-    update: "/bank-master/update",
-    getById: "/bank-master/get-by-id",
+    update: "/",
+    getById: "/employee/get-single",
   },
 
-  department: {
+  DEPARTMENT: {
     get: "/master/department",
   },
-  designation: {
+  DESIGNATION: {
     get: "/master/designation",
+  },
+  EMP_COUNT: {
+    get: "/employee/count",
   },
 };
