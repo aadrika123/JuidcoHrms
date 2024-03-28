@@ -22,7 +22,7 @@ export const HRMS_URL: Urls = {
   EMS: {
     get: "/employee/get?limit=10",
     create: "/employee/create",
-    update: "/",
+    update: "/employee/update",
     getById: "/employee/get-single",
   },
 

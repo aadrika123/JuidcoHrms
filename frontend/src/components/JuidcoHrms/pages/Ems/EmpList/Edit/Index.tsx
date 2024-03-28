@@ -7,11 +7,11 @@ import InputBox from "@/components/Helpers/InputBox";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import { Formik } from "formik";
-import { officeDetailsValidationSchema } from "@/utils/validation/Ems/ems.validation";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
 import axios from "@/lib/axiosConfig";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import toast from "react-hot-toast";
 
 interface EditEmpListProps {
   empId: string;
@@ -34,26 +34,62 @@ interface EditEmpListTypes {
 }
 
 const EditEmpList: React.FC<EditEmpListProps> = (props) => {
-  const fetchData = async (endpoint: string) => {
+  const queryClient = useQueryClient();
+
+  const fetchData = async (endpoint: string, method: string) => {
     if (endpoint === "null") return [];
     const res = await axios({
       url: `${endpoint}`,
-      method: "GET",
+      method: `${method}`,
     });
     return res.data?.data;
   };
 
-  // const { currentPage, count, totalPage } = page;
-  const useCodeQuery = (endpoint: string, id: string) => {
-    return useQuery([endpoint, id], () => fetchData(endpoint));
+  const useCodeQuery = (endpoint: string, id: string, method: string) => {
+    return useQuery([endpoint, id], () => fetchData(endpoint, method));
   };
 
+  // get single user data
   const { data: empData, error: empErr } = useCodeQuery(
     `${HRMS_URL.EMS.getById}/${props.empId}`,
-    props.empId
+    props.empId,
+    "GET"
   );
 
+  // Update single user data
+
+  // UPDATE VENDOR DETAILS
+  const updateVendorDetails = async (values: any) => {
+    try {
+      const res = await axios({
+        url: `${HRMS_URL.EMS.update}`,
+        method: "PATCH",
+        data: {
+          id: props.empId,
+          ...values,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+  const { mutate } = useMutation(updateVendorDetails, {
+    onSuccess: () => {
+      toast.success("Updated Employee Information");
+    },
+    onError: () => {
+      alert("Error updating Employee Information");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries("emp_info");
+      // goBack();
+    },
+  });
   if (empErr) return <>Failed</>;
+
+  console.log(empData);
 
   return (
     <>
@@ -93,17 +129,16 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
           initialValues={{
             emp_id: empData?.emp_id as string,
             emp_name: empData?.emp_basic_details?.emp_name as string,
-            department_id: "",
-            pay_band: 0,
-            pay_scale: 0,
-            designation_id: 0,
-            grade_pay: 0,
-            task: "",
-            basic_pay: 0,
+            department_id: empData?.emp_join_details?.department_id as string,
+            pay_band: empData?.emp_join_details?.pay_band as string,
+            pay_scale: empData?.emp_join_details?.pay_scale as string,
+            designation_id: empData?.emp_join_details?.designation_id as string,
+            grade_pay: empData?.emp_join_details?.grade_pay as string,
+            task: empData?.emp_join_details?.task as string,
+            basic_pay: empData?.emp_join_details?.basic_pay as string,
           }}
           enableReinitialize
-          validationSchema={officeDetailsValidationSchema}
-          onSubmit={() => {}}
+          onSubmit={(value) => mutate(value)}
         >
           {({
             values,
