@@ -13,7 +13,7 @@ const CommonRes = Object.freeze({
       false,
       error,
       "",
-      403,
+      200,
       resObj.action,
       resObj.apiId,
       resObj.version,
@@ -31,7 +31,7 @@ const CommonRes = Object.freeze({
       false,
       error,
       "",
-      500,
+      200,
       resObj.action,
       resObj.apiId,
       resObj.version,
@@ -50,7 +50,7 @@ const CommonRes = Object.freeze({
       true,
       message,
       data,
-      201,
+      200,
       resObj.action,
       resObj.apiId,
       resObj.version,
@@ -89,7 +89,26 @@ const CommonRes = Object.freeze({
       true,
       message,
       data,
-      404,
+      200,
+      resObj.action,
+      resObj.apiId,
+      resObj.version,
+      res,
+      next
+    );
+  },
+
+  UNAUTHORISED: (
+    error: any,
+    resObj: resObj,
+    res: Response,
+    next: NextFunction
+  ): Promise<object> => {
+    return sendResponse(
+      false,
+      error,
+      "",
+      200,
       resObj.action,
       resObj.apiId,
       resObj.version,

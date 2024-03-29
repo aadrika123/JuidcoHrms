@@ -15,7 +15,7 @@ model employees {
   id                      Int                          @id @default(autoincrement())
   emp_id                  String
   emp_type                Int // 0 existing, 1 New
-  emp_del                 Int                          @default(0) // 0 false, 1 True
+  emp_del                 Int                          @default(0)
   emp_office_details      employee_office_details      @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
   emp_basic_details       employee_basic_details       @relation(fields: [emp_basic_details_id], references: [id])
@@ -339,15 +339,15 @@ model employee_loan_details {
 
 model employee_loan {
   id                  Int                   @id @default(autoincrement())
-  loan_name_det       String
-  loan_account_num    String
-  sanc_order_num      String
-  dos                 String
-  san_authority       String
-  dod                 String
-  dis_treasury_name   String
-  voucher_date        String
-  treasury_voc_num    String
+  loan_name_det       String?
+  loan_account_num    String?
+  sanc_order_num      String?
+  dos                 String?
+  san_authority       String?
+  dod                 String?
+  dis_treasury_name   String?
+  voucher_date        String?
+  treasury_voc_num    String?
   emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
   emp_loan_details_id Int
   created_at          DateTime              @default(now()) @map("created_at")
@@ -356,13 +356,13 @@ model employee_loan {
 
 model employee_loan_Principal {
   id                  Int                   @id @default(autoincrement())
-  loan_name_principal String
-  tot_amt_released    String
-  total_install       String
-  monthly_install     String
-  last_paid_install   String
-  month_last_install  String
-  total_amnt          Float
+  loan_name_principal String?
+  tot_amt_released    String?
+  total_install       String?
+  monthly_install     String?
+  last_paid_install   String?
+  month_last_install  String?
+  total_amnt          Float?
   emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
   emp_loan_details_id Int
   created_at          DateTime              @default(now()) @map("created_at")
@@ -371,13 +371,13 @@ model employee_loan_Principal {
 
 model employee_loan_recovery {
   id                          Int                   @id @default(autoincrement())
-  loan_name_recovery          String
-  total_int_amount            String
-  total_install_recovery      String
-  monthly_install_recovery    String
-  last_paid_install_recovery  String
-  month_last_install_recovery String
-  total_amnt_recovery         String
+  loan_name_recovery          String?
+  total_int_amount            String?
+  total_install_recovery      String?
+  monthly_install_recovery    String?
+  last_paid_install_recovery  String?
+  month_last_install_recovery String?
+  total_amnt_recovery         String?
   emp_loan_details            employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
   emp_loan_details_id         Int
   created_at                  DateTime              @default(now()) @map("created_at")
@@ -386,6 +386,65 @@ model employee_loan_recovery {
 
 //-------------- Employee LOAN Details ---------------------//
 
+
+// ----- Managed and Used by Jaideep ---------------- //
+model users {
+  id                   Int      @id @default(autoincrement())
+  user_name            String?
+  mobile               String?
+  email                String
+  email_verified_at    DateTime?
+  user_type            String?
+  ulb_id               Int
+  password             String
+  suspended            Boolean
+  super_user           Boolean?
+  description          String?
+  remember_token       String
+  workflow_participant Boolean
+  photo_relative_path  String?
+  photo                String?
+  sign_relative_path   String?
+  signature            String?
+  old_ids              Int?
+  name                 String
+  old_password         String?
+  user_code            String?
+  alternate_mobile     String?
+  address              String?
+  wf_roleusermaps      wf_roleusermaps[]
+
+  created_at           DateTime? @default(now()) @map("created_at")
+  updated_at           DateTime @updatedAt @map("updated_at")
+}
+
+/////// wf_roles Managed by: Sanjiv Kumar //////////////
+
+model wf_roles {
+    id              Int       @id @default(autoincrement())
+    role_name       String
+    is_suspended    Boolean
+    created_by      Int
+    stamp_date_time DateTime?
+    old_ids         String?
+    wf_roleusermaps wf_roleusermaps[]
+    created_at      DateTime? @default(now()) @map("created_at")
+    updated_at      DateTime? @updatedAt @map("updated_at")
+}
+
+/////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
+
+model wf_roleusermaps {
+    id           Int       @id @default(autoincrement())
+    wf_role_id   Int
+    wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
+    user_id      Int
+    user         users    @relation(fields: [user_id], references: [id])
+    is_suspended Boolean
+    created_by   Int?
+    created_at   DateTime? @default(now()) @map("created_at")
+    updated_at   DateTime? @updatedAt @map("updated_at")
+}
 model department {
   id               Int                     @id @default(autoincrement())
   name             String
@@ -401,3 +460,4 @@ model designation {
   created_at       DateTime                @default(now()) @map("created_at")
   updated_at       DateTime                @updatedAt @map("updated_at")
 }
+

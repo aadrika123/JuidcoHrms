@@ -2,6 +2,7 @@
 CREATE TABLE "employees" (
     "id" SERIAL NOT NULL,
     "emp_id" TEXT NOT NULL,
+    "emp_type" INTEGER NOT NULL,
     "emp_office_details_id" INTEGER NOT NULL,
     "emp_basic_details_id" INTEGER NOT NULL,
     "emp_personal_details_id" INTEGER NOT NULL,
@@ -18,6 +19,7 @@ CREATE TABLE "employees" (
 -- CreateTable
 CREATE TABLE "employee_office_details" (
     "id" SERIAL NOT NULL,
+    "emp_type" INTEGER NOT NULL,
     "office_name" TEXT NOT NULL,
     "office_code" TEXT NOT NULL,
     "ddo_designation" TEXT NOT NULL,
@@ -57,7 +59,6 @@ CREATE TABLE "employee_basic_details" (
 -- CreateTable
 CREATE TABLE "employee_personal_details" (
     "id" SERIAL NOT NULL,
-    "loda" TEXT NOT NULL,
     "married_status" TEXT NOT NULL,
     "identification_marks" TEXT NOT NULL,
     "religion" TEXT NOT NULL,
@@ -75,7 +76,6 @@ CREATE TABLE "employee_personal_details" (
     "emp_office_name" TEXT,
     "emp_org_name" TEXT,
     "emp_lang" JSONB NOT NULL,
-    "mother_tounge" JSONB NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -185,7 +185,7 @@ CREATE TABLE "employee_salary_allow" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "wfe_date" TEXT NOT NULL,
-    "amount_in" BIGINT NOT NULL,
+    "amount_in" DOUBLE PRECISION NOT NULL,
     "employee_salary_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -198,8 +198,8 @@ CREATE TABLE "employee_salary_deduction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "wfe_date" TEXT NOT NULL,
-    "acnt_no" BIGINT NOT NULL,
-    "amount_in" BIGINT NOT NULL,
+    "acnt_no" DOUBLE PRECISION NOT NULL,
+    "amount_in" DOUBLE PRECISION NOT NULL,
     "employee_salary_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -210,24 +210,24 @@ CREATE TABLE "employee_salary_deduction" (
 -- CreateTable
 CREATE TABLE "employee_join_details" (
     "id" SERIAL NOT NULL,
-    "department" TEXT,
-    "designation" TEXT,
+    "department_id" INTEGER,
+    "designation_id" INTEGER,
     "task" TEXT,
     "class" TEXT,
     "doj" TEXT,
     "effective_pay_commision" TEXT,
     "confirmation_order" TEXT,
-    "pay_scale" BIGINT,
-    "pay_band" BIGINT,
-    "grade_pay" BIGINT,
+    "pay_scale" DOUBLE PRECISION,
+    "pay_band" DOUBLE PRECISION,
+    "grade_pay" DOUBLE PRECISION,
     "doc" TEXT,
-    "basic_pay" BIGINT,
-    "conf_order_number" BIGINT,
+    "basic_pay" DOUBLE PRECISION,
+    "conf_order_number" DOUBLE PRECISION,
     "deduction_type" TEXT,
     "conf_order_date" TEXT,
     "member_gis" TEXT,
     "appoint_authority" TEXT,
-    "gis_account" BIGINT,
+    "gis_account" DOUBLE PRECISION,
     "ulb" TEXT,
     "last_inc_order" TEXT,
     "name_of_service" TEXT,
@@ -236,7 +236,7 @@ CREATE TABLE "employee_join_details" (
     "wef_date" TEXT,
     "branch_name" TEXT,
     "pf_category" TEXT,
-    "acc_number" BIGINT,
+    "acc_number" TEXT,
     "ifsc" TEXT,
     "sen_grade_list" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -307,15 +307,15 @@ CREATE TABLE "employee_loan_details" (
 -- CreateTable
 CREATE TABLE "employee_loan" (
     "id" SERIAL NOT NULL,
-    "loan_name_det" TEXT NOT NULL,
-    "loan_account_num" TEXT NOT NULL,
-    "sanc_order_num" TEXT NOT NULL,
-    "dos" TEXT NOT NULL,
-    "san_authority" TEXT NOT NULL,
-    "dod" TEXT NOT NULL,
-    "dis_treasury_name" TEXT NOT NULL,
-    "voucher_date" TEXT NOT NULL,
-    "treasury_voc_num" TEXT NOT NULL,
+    "loan_name_det" TEXT,
+    "loan_account_num" TEXT,
+    "sanc_order_num" TEXT,
+    "dos" TEXT,
+    "san_authority" TEXT,
+    "dod" TEXT,
+    "dis_treasury_name" TEXT,
+    "voucher_date" TEXT,
+    "treasury_voc_num" TEXT,
     "emp_loan_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -326,13 +326,13 @@ CREATE TABLE "employee_loan" (
 -- CreateTable
 CREATE TABLE "employee_loan_Principal" (
     "id" SERIAL NOT NULL,
-    "loan_name_principal" TEXT NOT NULL,
-    "tot_amt_released" TEXT NOT NULL,
-    "total_install" TEXT NOT NULL,
-    "monthly_install" TEXT NOT NULL,
-    "last_paid_install" TEXT NOT NULL,
-    "month_last_install" TEXT NOT NULL,
-    "total_amnt" BIGINT NOT NULL,
+    "loan_name_principal" TEXT,
+    "tot_amt_released" TEXT,
+    "total_install" TEXT,
+    "monthly_install" TEXT,
+    "last_paid_install" TEXT,
+    "month_last_install" TEXT,
+    "total_amnt" DOUBLE PRECISION,
     "emp_loan_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -343,18 +343,96 @@ CREATE TABLE "employee_loan_Principal" (
 -- CreateTable
 CREATE TABLE "employee_loan_recovery" (
     "id" SERIAL NOT NULL,
-    "loan_name_recovery" TEXT NOT NULL,
-    "total_int_amount" TEXT NOT NULL,
-    "total_install_recovery" TEXT NOT NULL,
-    "monthly_install_recovery" TEXT NOT NULL,
-    "last_paid_install_recovery" TEXT NOT NULL,
-    "month_last_install_recovery" TEXT NOT NULL,
-    "total_amnt_recovery" TEXT NOT NULL,
+    "loan_name_recovery" TEXT,
+    "total_int_amount" TEXT,
+    "total_install_recovery" TEXT,
+    "monthly_install_recovery" TEXT,
+    "last_paid_install_recovery" TEXT,
+    "month_last_install_recovery" TEXT,
+    "total_amnt_recovery" TEXT,
     "emp_loan_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "employee_loan_recovery_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "users" (
+    "id" SERIAL NOT NULL,
+    "user_name" TEXT,
+    "mobile" TEXT,
+    "email" TEXT NOT NULL,
+    "email_verified_at" TIMESTAMP(3),
+    "user_type" TEXT,
+    "ulb_id" INTEGER NOT NULL,
+    "password" TEXT NOT NULL,
+    "suspended" BOOLEAN NOT NULL,
+    "super_user" BOOLEAN,
+    "description" TEXT,
+    "remember_token" TEXT NOT NULL,
+    "workflow_participant" BOOLEAN NOT NULL,
+    "photo_relative_path" TEXT,
+    "photo" TEXT,
+    "sign_relative_path" TEXT,
+    "signature" TEXT,
+    "old_ids" INTEGER,
+    "name" TEXT NOT NULL,
+    "old_password" TEXT,
+    "user_code" TEXT,
+    "alternate_mobile" TEXT,
+    "address" TEXT,
+    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "wf_roles" (
+    "id" SERIAL NOT NULL,
+    "role_name" TEXT NOT NULL,
+    "is_suspended" BOOLEAN NOT NULL,
+    "created_by" INTEGER NOT NULL,
+    "stamp_date_time" TIMESTAMP(3),
+    "old_ids" TEXT,
+    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+
+    CONSTRAINT "wf_roles_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "wf_roleusermaps" (
+    "id" SERIAL NOT NULL,
+    "wf_role_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "is_suspended" BOOLEAN NOT NULL,
+    "created_by" INTEGER,
+    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+
+    CONSTRAINT "wf_roleusermaps_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "department" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "department_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "designation" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
@@ -397,6 +475,12 @@ ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employ
 ALTER TABLE "employee_salary_deduction" ADD CONSTRAINT "employee_salary_deduction_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "employee_join_details" ADD CONSTRAINT "employee_join_details_department_id_fkey" FOREIGN KEY ("department_id") REFERENCES "department"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_join_details" ADD CONSTRAINT "employee_join_details_designation_id_fkey" FOREIGN KEY ("designation_id") REFERENCES "designation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "employee_education_details" ADD CONSTRAINT "employee_education_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -413,3 +497,9 @@ ALTER TABLE "employee_loan_Principal" ADD CONSTRAINT "employee_loan_Principal_em
 
 -- AddForeignKey
 ALTER TABLE "employee_loan_recovery" ADD CONSTRAINT "employee_loan_recovery_emp_loan_details_id_fkey" FOREIGN KEY ("emp_loan_details_id") REFERENCES "employee_loan_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "wf_roleusermaps" ADD CONSTRAINT "wf_roleusermaps_wf_role_id_fkey" FOREIGN KEY ("wf_role_id") REFERENCES "wf_roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "wf_roleusermaps" ADD CONSTRAINT "wf_roleusermaps_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
