@@ -237,7 +237,6 @@ const EmpSalaryDetails: React.FC<
               session_key="emp_salary_allow_details"
               setSession={session}
               validate={setIsValidate}
-              resetTable={resetTable}
             />
           </>
         )}
@@ -252,7 +251,6 @@ const EmpSalaryDetails: React.FC<
               session_key="emp_salary_deduction_details"
               setSession={session}
               validate={setIsValidate}
-              resetTable={resetTable}
             />
           </>
         )}

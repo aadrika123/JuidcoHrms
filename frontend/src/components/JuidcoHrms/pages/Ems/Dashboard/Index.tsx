@@ -34,7 +34,7 @@ export const DashboardMain = () => {
     }
   };
 
-  const emp_list_url: string = "/hrms/ems/emp-list";
+  const emp_list_url: string = "/ems/emp-list";
 
   // const dateFormatted = new Intl.DateTimeFormat('en-US', {
   //   month: 'long',

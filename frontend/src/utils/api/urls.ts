@@ -24,6 +24,7 @@ export const HRMS_URL: Urls = {
     create: "/employee/create",
     update: "/employee/update",
     getById: "/employee/get-single",
+    delete: "/employee/remove",
   },
 
   DEPARTMENT: {

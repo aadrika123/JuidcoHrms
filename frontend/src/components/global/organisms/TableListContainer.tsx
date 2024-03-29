@@ -15,6 +15,7 @@ interface TLContainerProps {
   tableData: any[];
   actionBtn: boolean;
   actionName: string;
+  setEmpId: (val: number) => void;
 }
 
 const Thead: React.FC<{ index: number; HEADER: string; WIDTH?: string }> = (
@@ -129,7 +130,6 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                     };
 
                     const value = getValue(data);
-                    console.log("values", value);
 
                     return <Tdata key={i} tdata={value} index={i} />;
                   })}
@@ -198,7 +198,10 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                             />
                           </svg>
                         </button>
-                        <button className=" scale-125">
+                        <button
+                          className=" scale-125"
+                          onClick={() => props.setEmpId(data?.id)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"

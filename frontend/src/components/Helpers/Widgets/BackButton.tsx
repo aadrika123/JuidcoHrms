@@ -1,6 +1,9 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import PrimaryButton from "../Button";
+import BackArrowIcon from "@/assets/svg/icons/back-arrow.svg"
 import goBack from "@/utils/helper";
 const BackButton = () => {
   return (
@@ -13,7 +16,7 @@ const BackButton = () => {
       >
         <i>
           <Image
-            src="/svg/icons/back-arrow.svg"
+            src={BackArrowIcon}
             alt="back-arrow"
             width={25}
             height={22}

@@ -13,8 +13,6 @@ body {
   gap: 10px;
 }
 
-
-
 table tbody::-webkit-scrollbar {
   /* Set display to none */
   display: none;
@@ -22,6 +20,18 @@ table tbody::-webkit-scrollbar {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* .remove-arrow::-webkit-inner-spin-button, 

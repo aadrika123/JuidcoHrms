@@ -260,12 +260,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               ] || ""
                             }
                             name={col.ACCESSOR}
-                            type="text"
-                            onKeyPress={(e: any) => {
-                              if (!(e.key >= "0" && e.key <= "9")) {
-                                e.preventDefault();
-                              }
-                            }}
+                            type="number"
                             placeholder={"Enter " + col.HEADER}
                             isRequired={col.isRequired}
                           />

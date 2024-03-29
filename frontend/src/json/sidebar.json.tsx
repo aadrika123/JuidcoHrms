@@ -1,6 +1,18 @@
 import React from "react";
 import Image from "next/image";
 import { SidebarLinksProps } from "@/utils/types/types";
+import HomeIcon from "@/assets/icons/sidebar/hrms.svg";
+import EmployeeManagementIcon from "@/assets/icons/sidebar/employee.svg";
+import DashboardIcon from "@/assets/icons/sidebar/ion_home.svg";
+import OnBoardIcon from "@/assets/icons/sidebar/mdi_user-add.svg";
+import AttendanceIcon from "@/assets/icons/sidebar/attendance.svg";
+import LeaveIcon from "@/assets/icons/sidebar/leave.svg";
+import PayrollIcon from "@/assets/icons/sidebar/payroll.svg";
+import SuspensionIcon from "@/assets/icons/sidebar/suspension.svg";
+import LoanIcon from "@/assets/icons/sidebar/loan.svg";
+import TerminationIcon from "@/assets/icons/sidebar/termination.svg";
+import PensionIcon from "@/assets/icons/sidebar/pension.svg";
+import GrievanceIcon from "@/assets/icons/sidebar/grievance.svg";
 
 // interface UrlTypes {
 //   uri: string;
@@ -9,27 +21,20 @@ import { SidebarLinksProps } from "@/utils/types/types";
 // const URLS: UrlTypes[] = [{
 //   name: "/"
 // }];
-const url = "/hrms";
+const url = "";
 
 export const sidebarLinks: SidebarLinksProps = {
   modules: [
     {
       moduleName: "HRMS",
       path: "/",
-      icon: (
-        <Image
-          src="/icons/sidebar/finance.svg"
-          alt="finance"
-          width={100}
-          height={100}
-        />
-      ),
+      icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
       subModules: [
         {
           moduleName: "Employee Management",
           icon: (
             <Image
-              src="/icons/sidebar/employee.svg"
+              src={EmployeeManagementIcon}
               alt="masters"
               width={100}
               height={100}
@@ -37,35 +42,37 @@ export const sidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}/ems/onboard`,
           subModules: [
-            { moduleName: "Dashboard", path: `${url}/ems/dashboard`,
-            icon: (
-              <Image
-                src="/icons/sidebar/ion_home.svg"
-                alt="masters"
-                width={100}
-                height={100}
-              />
-            )
-          },
-            { moduleName: "On Board", path: `${url}/ems/onboard`,
-            icon: (
-              <Image
-                src="/icons/sidebar/mdi_user-add.svg"
-                alt="masters"
-                width={100}
-                height={100}
-              />
-            )
-          
-          },
+            {
+              moduleName: "Dashboard",
+              path: `${url}/ems/dashboard`,
+              icon: (
+                <Image
+                  src={DashboardIcon}
+                  alt="masters"
+                  width={100}
+                  height={100}
+                />
+              ),
+            },
+            {
+              moduleName: "On Board",
+              path: `${url}/ems/onboard`,
+              icon: (
+                <Image
+                  src={OnBoardIcon}
+                  alt="masters"
+                  width={100}
+                  height={100}
+                />
+              ),
+            },
           ],
-          
         },
         {
           moduleName: "Attendance Management",
           icon: (
             <Image
-              src="/icons/sidebar/attendance.svg"
+              src={AttendanceIcon}
               alt="masters"
               width={100}
               height={100}
@@ -76,24 +83,14 @@ export const sidebarLinks: SidebarLinksProps = {
         {
           moduleName: "Leave Management",
           icon: (
-            <Image
-              src="/icons/sidebar/leave.svg"
-              alt="masters"
-              width={100}
-              height={100}
-            />
+            <Image src={LeaveIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
         },
         {
           moduleName: "Payroll Management",
           icon: (
-            <Image
-              src="/icons/sidebar/payroll.svg"
-              alt="masters"
-              width={100}
-              height={100}
-            />
+            <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
         },
@@ -101,7 +98,7 @@ export const sidebarLinks: SidebarLinksProps = {
           moduleName: "Suspension Management",
           icon: (
             <Image
-              src="/icons/sidebar/suspension.svg"
+              src={SuspensionIcon}
               alt="masters"
               width={100}
               height={100}
@@ -111,21 +108,14 @@ export const sidebarLinks: SidebarLinksProps = {
         },
         {
           moduleName: "Loan Management",
-          icon: (
-            <Image
-              src="/icons/sidebar/loan.svg"
-              alt="masters"
-              width={100}
-              height={100}
-            />
-          ),
+          icon: <Image src={LoanIcon} alt="masters" width={100} height={100} />,
           path: `${url}`,
         },
         {
           moduleName: "Termination Management",
           icon: (
             <Image
-              src="/icons/sidebar/grievance.svg"
+              src={TerminationIcon}
               alt="masters"
               width={100}
               height={100}
@@ -136,32 +126,18 @@ export const sidebarLinks: SidebarLinksProps = {
         {
           moduleName: "Pension Management",
           icon: (
-            <Image
-              src="/icons/sidebar/pen_sion.svg"
-              alt="masters"
-              width={100}
-              height={100}
-            />
+            <Image src={PensionIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
         },
         {
           moduleName: "Grievance Management",
           icon: (
-            <Image
-              src="/icons/sidebar/grievance.svg"
-              alt="masters"
-              width={100}
-              height={100}
-            />
+            <Image src={GrievanceIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
         },
-        
-      
-        
       ],
-
     },
   ],
 };

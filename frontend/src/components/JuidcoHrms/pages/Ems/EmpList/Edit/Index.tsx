@@ -17,21 +17,21 @@ interface EditEmpListProps {
   empId: string;
 }
 
-interface EditEmpListTypes {
-  emp_id: string;
-  emp_basic_details: {
-    emp_name: string;
-  };
-  emp_join_details: {
-    department_id: string | number;
-    pay_scale: number;
-    designation_id: number;
-    pay_band: number;
-    grade_pay: number;
-    task: string;
-    basic_pay: number;
-  };
-}
+// interface EditEmpListTypes {
+//   emp_id: string;
+//   emp_basic_details: {
+//     emp_name: string;
+//   };
+//   emp_join_details: {
+//     department_id: string | number;
+//     pay_scale: number;
+//     designation_id: number;
+//     pay_band: number;
+//     grade_pay: number;
+//     task: string;
+//     basic_pay: number;
+//   };
+// }
 
 const EditEmpList: React.FC<EditEmpListProps> = (props) => {
   const queryClient = useQueryClient();
@@ -58,8 +58,8 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
 
   // Update single user data
 
-  // UPDATE VENDOR DETAILS
-  const updateVendorDetails = async (values: any) => {
+  // UPDATE EMPLOYEE DETAILS
+  const updateEmpInformation = async (values: any) => {
     try {
       const res = await axios({
         url: `${HRMS_URL.EMS.update}`,
@@ -75,7 +75,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
       throw error;
     }
   };
-  const { mutate } = useMutation(updateVendorDetails, {
+  const { mutate } = useMutation(updateEmpInformation, {
     onSuccess: () => {
       toast.success("Updated Employee Information");
     },
@@ -83,8 +83,8 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
       alert("Error updating Employee Information");
     },
     onSettled: () => {
-      queryClient.invalidateQueries("emp_info");
-      // goBack();
+      queryClient.invalidateQueries();
+      goBack();
     },
   });
   if (empErr) return <>Failed</>;

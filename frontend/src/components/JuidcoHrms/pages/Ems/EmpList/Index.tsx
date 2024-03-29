@@ -11,7 +11,8 @@ import TableListContainer, {
 } from "@/components/global/organisms/TableListContainer";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import toast, { Toaster } from "react-hot-toast";
 
 const EmployeeList = () => {
   const EMP_LIST_COLS: COLUMNS[] = [
@@ -41,6 +42,8 @@ const EmployeeList = () => {
   const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
   const [selectedData, setSelectedData] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
+
+  const queryClient = useQueryClient();
 
   const handleChangePage = (direction: "prev" | "next") => {
     setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
@@ -76,6 +79,39 @@ const EmployeeList = () => {
     `${HRMS_URL.EMP_COUNT.get}`
   );
 
+  // REMOVE EMPLOYEE
+  const remEmployee = async (id: number) => {
+    try {
+      const res = await axios({
+        url: `${HRMS_URL.EMS.delete}`,
+        method: "POST",
+        data: {
+          id: id,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+  const { mutate } = useMutation(remEmployee, {
+    onSuccess: () => {
+      toast.success("Removed Employee");
+    },
+    onError: () => {
+      alert("Error removing Employee");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+
+  const removeEmployee = (id: number) => {
+    const confirm = window.confirm("Are you sure want to delete this Employee");
+    if (confirm) mutate(id);
+  };
+
   if (dataError) {
     return <div>Failed to fetch data</div>;
   }
@@ -85,7 +121,7 @@ const EmployeeList = () => {
   }
 
   if (empLstErr) {
-    return <div>Failed to fetch data</div>;
+    toast.error("No data available!");
   }
 
   // -----------------Employee Onboard report JSX----------------------//
@@ -122,6 +158,7 @@ const EmployeeList = () => {
 
   return (
     <>
+      <Toaster />
       <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
         <BackButton />
         <div>
@@ -214,6 +251,7 @@ const EmployeeList = () => {
             tableData={empLstData?.data || []}
             actionBtn
             actionName="Status"
+            setEmpId={removeEmployee}
           />
         </div>
         <aside className="mt-16">

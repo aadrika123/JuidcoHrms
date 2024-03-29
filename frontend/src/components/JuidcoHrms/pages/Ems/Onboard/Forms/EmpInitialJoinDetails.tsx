@@ -381,14 +381,9 @@ const EmpInitialJoinDetails: React.FC<
                     label="Pay Scale"
                     name="pay_scale"
                     placeholder={"Enter Pay Scale"}
-                    type="text"
+                    type="number"
                     // required={true}
                     maxLength={10}
-                    onKeyPress={(e: any) => {
-                      if (!(e.key >= "0" && e.key <= "9")) {
-                        e.preventDefault();
-                      }
-                    }}
                   />
                   <InputBox
                     onChange={handleChange}
@@ -399,14 +394,8 @@ const EmpInitialJoinDetails: React.FC<
                     label="Pay Band"
                     name="pay_band"
                     placeholder={"Enter Pay Band"}
-                    type="text"
+                    type="number"
                     // required={true}
-                    maxLength={10}
-                    onKeyPress={(e: any) => {
-                      if (!(e.key >= "0" && e.key <= "9")) {
-                        e.preventDefault();
-                      }
-                    }}
                   />
                   <InputBox
                     onChange={handleChange}
@@ -417,14 +406,8 @@ const EmpInitialJoinDetails: React.FC<
                     label="Grade Pay"
                     name="grade_pay"
                     placeholder={"Enter Grade Pay"}
-                    type="text"
+                    type="number"
                     required={true}
-                    maxLength={10}
-                    onKeyPress={(e: any) => {
-                      if (!(e.key >= "0" && e.key <= "9")) {
-                        e.preventDefault();
-                      }
-                    }}
                   />
                 </div>
 
@@ -437,14 +420,8 @@ const EmpInitialJoinDetails: React.FC<
                   label="Basic Pay"
                   name="basic_pay"
                   placeholder={"Enter Basic Pay"}
-                  type="text"
+                  type="number"
                   required={true}
-                  maxLength={10}
-                  onKeyPress={(e: any) => {
-                    if (!(e.key >= "0" && e.key <= "9")) {
-                      e.preventDefault();
-                    }
-                  }}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -526,13 +503,7 @@ const EmpInitialJoinDetails: React.FC<
                         label="GIS Account No"
                         name="gis_account"
                         placeholder={"Enter GIS Account No."}
-                        type="text"
-                        maxLength={10}
-                        onKeyPress={(e: any) => {
-                          if (!(e.key >= "0" && e.key <= "9")) {
-                            e.preventDefault();
-                          }
-                        }}
+                        type="number"
                       />
                     )}
                   </div>

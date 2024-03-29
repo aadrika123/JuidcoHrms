@@ -72,6 +72,14 @@ class EmployeeOnBoardRoute {
           this.employeeOnBoardController.editEmpInfo(req, res, next, "0105"),
         loggerMiddleware
       ); //0105
+
+    app
+      .route(`${baseUrl}/employee/remove`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.removeEmp(req, res, next, "0106"),
+        loggerMiddleware
+      ); //0106
   }
 }
 

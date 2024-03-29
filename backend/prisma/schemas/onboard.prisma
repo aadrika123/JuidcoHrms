@@ -267,7 +267,7 @@ model employee_join_details {
   wef_date                String?
   branch_name             String?
   pf_category             String?
-  acc_number              Float?
+  acc_number              String?
   ifsc                    String?
   sen_grade_list          String?
   employee                employees[]
@@ -384,5 +384,3 @@ model employee_loan_recovery {
 }
 
 //-------------- Employee LOAN Details ---------------------//
-
-//-----------------------------------------------------------------//

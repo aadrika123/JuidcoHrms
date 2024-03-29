@@ -15,6 +15,7 @@ model employees {
   id                      Int                          @id @default(autoincrement())
   emp_id                  String
   emp_type                Int // 0 existing, 1 New
+  emp_del                 Int                          @default(0) // 0 false, 1 True
   emp_office_details      employee_office_details      @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
   emp_basic_details       employee_basic_details       @relation(fields: [emp_basic_details_id], references: [id])
@@ -267,7 +268,7 @@ model employee_join_details {
   wef_date                String?
   branch_name             String?
   pf_category             String?
-  acc_number              Float?
+  acc_number              String?
   ifsc                    String?
   sen_grade_list          String?
   employee                employees[]
@@ -385,8 +386,6 @@ model employee_loan_recovery {
 
 //-------------- Employee LOAN Details ---------------------//
 
-//-----------------------------------------------------------------//
-
 model department {
   id               Int                     @id @default(autoincrement())
   name             String
@@ -402,4 +401,3 @@ model designation {
   created_at       DateTime                @default(now()) @map("created_at")
   updated_at       DateTime                @updatedAt @map("updated_at")
 }
-

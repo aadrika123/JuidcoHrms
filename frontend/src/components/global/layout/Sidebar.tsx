@@ -6,6 +6,8 @@ import Link from "next/link";
 import { sidebarLinks } from "@/json/sidebar.json";
 import { usePathname } from "next/navigation";
 import { InnerHeading } from "@/components/Helpers/Heading";
+import ProfileIcon from "@/assets/icons/profile_new.png";
+
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
@@ -31,7 +33,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
         <div className="flex flex-col items-center justify-center p-5">
           {/* <Image src="/logo/jh-logo.png" width={100} height={100} alt="logo" /> */}
           <Image
-            src="/icons/profile_new.png"
+            src={ProfileIcon}
             width={100}
             height={100}
             alt="logo"

@@ -304,6 +304,9 @@ class EmployeeOnBoardDao {
         created_at: true,
         updated_at: true,
       },
+      where: {
+        emp_del: 0,
+      },
     };
     if (
       department !== "undefined" &&
@@ -379,6 +382,23 @@ class EmployeeOnBoardDao {
 
     const data = await prisma.employees.findFirst(query);
 
+    return generateRes(data);
+  };
+
+  // !-----------------------------Delete a Employee------------------------------//
+  removeEmp = async (req: Request) => {
+    const id: string = req.body.id;
+
+    const query: Prisma.employeesUpdateArgs = {
+      data: {
+        emp_del: 1,
+      },
+      where: {
+        id: Number(id),
+      },
+    };
+
+    const data = await prisma.employees.update(query);
     return generateRes(data);
   };
 
