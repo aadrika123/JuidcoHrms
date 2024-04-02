@@ -1,6 +1,6 @@
 #!/bin/sh
 SERVER_PORT=7001
-DB_PASSWORD="judico@2024"
+DB_PASSWORD="Secure@2023?"
 GITHUB_TOKEN="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"
 
 installModules () {
