@@ -12,34 +12,35 @@ datasource db {
 }
 
 model employees {
-  id                      Int                          @id @default(autoincrement())
-  emp_id                  String
+  // id                      Int                           @id @default(autoincrement())
+  emp_id                  String                        @id @unique
   emp_type                Int // 0 existing, 1 New
-  emp_del                 Int                          @default(0)
-  emp_office_details      employee_office_details      @relation(fields: [emp_office_details_id], references: [id])
+  emp_del                 Int                           @default(0)
+  emp_office_details      employee_office_details       @relation(fields: [emp_office_details_id], references: [id])
   emp_office_details_id   Int
-  emp_basic_details       employee_basic_details       @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details       employee_basic_details        @relation(fields: [emp_basic_details_id], references: [id])
   emp_basic_details_id    Int
-  emp_personal_details    employee_personal_details    @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details    employee_personal_details     @relation(fields: [emp_personal_details_id], references: [id])
   emp_personal_details_id Int
   emp_family_details      employee_family_details[]
   emp_nominee_details     employee_nominee_details[]
-  emp_address_details     employee_address_details     @relation(fields: [emp_address_details_id], references: [id])
+  emp_address_details     employee_address_details      @relation(fields: [emp_address_details_id], references: [id])
   emp_address_details_id  Int
   emp_increment_details   employee_increment_details[]
   emp_promotion_details   employee_promotion_details[]
   // // emp_transfer_details    employee_transfer_details[]
   emp_timebound_details   employee_timebound_details[]
-  emp_join_details        employee_join_details        @relation(fields: [emp_join_details_id], references: [id])
+  emp_join_details        employee_join_details         @relation(fields: [emp_join_details_id], references: [id])
   emp_join_details_id     Int
   emp_education_details   employee_education_details[]
   emp_training_details    employee_training_details[]
-  emp_loan_details        employee_loan_details        @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details        employee_loan_details         @relation(fields: [emp_loan_details_id], references: [id])
   emp_loan_details_id     Int
-  emp_salary_details      employee_salary_details      @relation(fields: [emp_salary_details_id], references: [id])
+  emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
   emp_salary_details_id   Int
-  created_at              DateTime                     @default(now()) @map("created_at")
-  updated_at              DateTime                     @updatedAt @map("updated_at")
+  emp_attendance          employee_attendance_history[]
+  created_at              DateTime                      @default(now()) @map("created_at")
+  updated_at              DateTime                      @updatedAt @map("updated_at")
 }
 
 model employee_office_details {
@@ -108,8 +109,8 @@ model employee_family_details {
   relation     String
   dob          String
   dependent    String
-  employees    employees @relation(fields: [employees_id], references: [id])
-  employees_id Int
+  employees    employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id String
   created_at   DateTime  @default(now()) @map("created_at")
   updated_at   DateTime  @updatedAt @map("updated_at")
 }
@@ -121,8 +122,8 @@ model employee_nominee_details {
   percentage   Float
   address      String
   minor        String
-  employees    employees @relation(fields: [employees_id], references: [id])
-  employees_id Int
+  employees    employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id String
   created_at   DateTime  @default(now()) @map("created_at")
   updated_at   DateTime  @updatedAt @map("updated_at")
 }
@@ -166,8 +167,8 @@ model employee_increment_details {
   basic_pay_after_inc Float
   vide_order_no       String
   vide_order_date     String
-  employees           employees @relation(fields: [employees_id], references: [id])
-  employees_id        Int
+  employees           employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id        String
   created_at          DateTime  @default(now()) @map("created_at")
   updated_at          DateTime  @updatedAt @map("updated_at")
 }
@@ -179,8 +180,8 @@ model employee_promotion_details {
   vide_order_no   String
   vide_order_date String
   transfer        String
-  employees       employees @relation(fields: [employees_id], references: [id])
-  employees_id    Int
+  employees       employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id    String
   created_at      DateTime  @default(now()) @map("created_at")
   updated_at      DateTime  @updatedAt @map("updated_at")
 }
@@ -288,8 +289,8 @@ model employee_education_details {
   marks        Int?
   grade        String?
   upload_edu   String?
-  employee     employees @relation(fields: [employee_id], references: [id])
-  employee_id  Int
+  employee     employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id  String
   created_at   DateTime  @default(now()) @map("created_at")
   updated_at   DateTime  @updatedAt @map("updated_at")
 }
@@ -303,8 +304,8 @@ model employee_training_details {
   end_to           Json?
   tot_day_training String?
   upload_edu       String?
-  employee         employees @relation(fields: [employee_id], references: [id])
-  employee_id      Int
+  employee         employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id      String
   created_at       DateTime  @default(now()) @map("created_at")
   updated_at       DateTime  @updatedAt @map("updated_at")
 }
@@ -319,8 +320,8 @@ model employee_timebound_details {
   vide_order_no   String
   vide_order_date String
   remarks         String
-  employees       employees @relation(fields: [employees_id], references: [id])
-  employees_id    Int
+  employees       employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id    String
   created_at      DateTime  @default(now()) @map("created_at")
   updated_at      DateTime  @updatedAt @map("updated_at")
 }

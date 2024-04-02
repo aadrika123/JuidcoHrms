@@ -4,7 +4,14 @@
  * status: Open
  */
 
-type UrlKeys = "EMS" | "EMP_COUNT" | "DEPARTMENT" | "DESIGNATION" | "LOGIN";
+type UrlKeys =
+  | "EMS"
+  | "EMP_COUNT"
+  | "DEPARTMENT"
+  | "DESIGNATION"
+  | "LOGIN"
+  | "ATTENDANCE"
+  | "HOLIDAY";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -38,5 +45,14 @@ export const HRMS_URL: Urls = {
   },
   LOGIN: {
     create: "/api/login",
+  },
+  ATTENDANCE: {
+    create: "/employee/attendance/create",
+    update: "/employee/attendance/update",
+    get: "/employee/attendance/get",
+  },
+
+  HOLIDAY: {
+    get: "/employee/holidays",
   },
 };

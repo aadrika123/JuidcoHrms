@@ -197,7 +197,21 @@ const EmpLoanDetails: React.FC<
       sessionStorage.setItem("emp_loan_details", JSON.stringify(empDetails));
 
       if (props.setData) {
-        props.setData("emp_loan_details", empDetails as any);
+        console.log(
+          Object.keys(empDetails.emp_loan_inform[0]).length === 0 &&
+            empDetails.emp_loan_inform[0].constructor === Object,
+          "izi"
+        );
+        if (
+          (Object.keys(empDetails.emp_loan_inform[0]).length === 0 &&
+            empDetails.emp_loan_inform[0].constructor === Object) ||
+          (Object.keys(empDetails.emp_principal_inform[0]).length === 0 &&
+            empDetails.emp_principal_inform[0].constructor === Object) ||
+          (Object.keys(empDetails.emp_recovery_inform[0]).length === 0 &&
+            empDetails.emp_recovery_inform[0].constructor === Object)
+        ) {
+          null;
+        } else props.setData("emp_loan_details", empDetails as any);
       }
       router.push(`${pathName}?emp=${empType}&page=11`);
     }

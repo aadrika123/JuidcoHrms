@@ -17,6 +17,7 @@ import type {
   EmployeeSalaryAllowType,
   EmployeeSalaryDeductionType,
 } from "../../../../util/types/employee_management/employee.type";
+import { generateUnique } from "../../../../util/helper/generateUniqueNo";
 
 //------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
 
@@ -47,7 +48,7 @@ export const employeeBasicDetailRequestData = (
   empBasicDetails: EmployeeBasicDetailsType
 ): EmployeeBasicDetailsType => {
   return {
-    emp_id: empBasicDetails.emp_id,
+    emp_id: empBasicDetails.emp_id && empBasicDetails.emp_id !==""? empBasicDetails.emp_id : generateUnique("EMP"),
     emp_image: empBasicDetails.emp_image,
     emp_name: empBasicDetails.emp_name,
     mode_of_recruitment: empBasicDetails.mode_of_recruitment,

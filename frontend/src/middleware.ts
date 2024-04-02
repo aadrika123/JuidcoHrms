@@ -20,5 +20,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/((?!api|_next/static|_next/image|johar.png|Juidco.png|Jhar_logo.png|favicon.ico|auth/login).*)",
+    "/",
+    "/hrms",
   ],
 };

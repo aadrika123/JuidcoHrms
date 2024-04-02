@@ -137,7 +137,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                     <td className="text-center py-3 text-xl text-zinc-600 font-light">
                       <div className="flex items-center justify-around">
                         <Link
-                          href={`${pathName}/edit/${data?.id}`}
+                          href={`${pathName}/edit/${data?.emp_id}`}
                           className=" scale-125"
                         >
                           <svg
@@ -200,7 +200,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                         </button>
                         <button
                           className=" scale-125"
-                          onClick={() => props.setEmpId(data?.id)}
+                          onClick={() => props.setEmpId(data?.emp_id)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

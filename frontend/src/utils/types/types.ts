@@ -19,6 +19,7 @@ export type MasterProps<T> = {
 
 // Sidebar Types
 export type SidebarModule = {
+  dropdown?: boolean;
   moduleName: string;
   path: string;
   icon?: React.ReactElement;

@@ -53,7 +53,7 @@ class EmployeeOnBoardRoute {
       ); //0103
 
     app
-      .route(`${baseUrl}/employee/get-single/:id`)
+      .route(`${baseUrl}/employee/get-single/:emp_id`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.getSingleEmpInfo(
@@ -67,7 +67,7 @@ class EmployeeOnBoardRoute {
 
     app
       .route(`${baseUrl}/employee/update`)
-      .patch(
+      .post(
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.editEmpInfo(req, res, next, "0105"),
         loggerMiddleware

@@ -1,11 +1,183 @@
+/**
+ * Author : Krish
+ * status: Open
+ * Use: Employee Attendance Management
+ */
+
+"use client";
+
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
-import ManagerIcon from "@/assets/icons/manager 1.png";
+// import ManagerIcon from "@/assets/icons/manager 1.png";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import HorizontalStepper from "@/components/Helpers/Widgets/Stepper";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import axios from "@/lib/axiosConfig";
+import { useQuery } from "react-query";
+import { HRMS_URL } from "@/utils/api/urls";
+import HolidayIcon from "@/assets/svg/icons/holiday.svg";
+import Lottie from "lottie-react";
+import MapLottie from "../../../lotties/map.json";
+
+function formatDate(timestamp: string) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+  const day = String(date.getDate()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
 
 const AttendanceManagement = () => {
+  const Map = React.useMemo(
+    () =>
+      dynamic(() => import("./Segments/MapIndex"), {
+        loading: () => (
+          <div style={{ height: "35vh", width: "100%" }}>
+            <Lottie
+              animationData={MapLottie}
+              loop={true}
+              className="w-[20%] ml-[8rem] absolute"
+            />
+          </div>
+        ),
+        ssr: false,
+      }),
+    []
+  );
+
+  const [selectedMonth, setSelectedMonth] = useState("fsdf");
+  const [attndData, setAttnd] = useState<any>();
+  const [eventList, setEventList] = useState<any[]>([]);
+  const [userDetails, setUserDetails] = useState<any>();
+
+  // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const data = sessionStorage.getItem("user_details");
+      const userDetails = JSON.parse(data as string);
+      setUserDetails(userDetails);
+    }
+  }, []);
+
+  console.log(userDetails);
+  // ----------->> EMPLOYEE ATTENDANCE DETAILS <<--------------------------------//
+  const fetchAttendance = async (emp_id: string) => {
+    const res = await axios({
+      url: `${HRMS_URL.ATTENDANCE.get}?emp_id=${emp_id}`,
+      method: "GET",
+    });
+
+    const data = res.data?.data?.data;
+    setAttnd(data);
+  };
+
+  // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
+  const filterAttendanceorCalendar = () => {
+    const events: any = [];
+
+    attndData?.map((element: any) => {
+      if (element?.emp_out !== "null" && element?.emp_out !== "") {
+        events.push({
+          title: "",
+          date: formatDate(element.emp_in),
+          display: "background",
+          color: "green",
+        });
+      } else if (element?.emp_out === "exceed") {
+        events.push({
+          title: "",
+          date: formatDate(element.emp_in),
+          display: "background",
+          color: "yellow",
+        });
+      } else {
+        events.push({
+          title: "",
+          date: formatDate(element.emp_in),
+          display: "background",
+          color: "red",
+        });
+      }
+    });
+
+    return events;
+  };
+
+  React.useEffect(() => {
+    fetchAttendance(userDetails?.emp_id);
+  }, [userDetails?.emp_id]);
+
+  React.useEffect(() => {
+    const events = filterAttendanceorCalendar();
+    setEventList(events);
+  }, [attndData]);
+
+  const data = [
+    {
+      id: 1,
+      label: "Less than 8 hour",
+      bgColor: "bg-[#FFFBEB]",
+      buttonColor: "bg-[#F59E0B]",
+    },
+    {
+      id: 2,
+      label: "8 hour working",
+      bgColor: "bg-[#FDF4FF]",
+      buttonColor: "bg-[#12743B]",
+    },
+    {
+      id: 3,
+      label: "Absent",
+      bgColor: "bg-[#FEF2F2]",
+      buttonColor: "bg-[#DC2626]",
+    },
+    {
+      id: 4,
+      label: "Approve",
+      bgColor: "bg-[#F0FFF5]",
+      buttonColor: "bg-[#F59E0B]",
+    },
+    {
+      id: 5,
+      label: "others",
+      bgColor: "bg-[#F6F6F6]",
+      buttonColor: "bg-[#4A4A4A]",
+    },
+  ];
+
+  // ----------->> FILTER HOLIDAY DETAILS <<--------------------------------//
+  const fetchData = async (endpoint: string) => {
+    if (endpoint === "null") return [];
+    const res = await axios({
+      url: `${endpoint}`,
+      method: "GET",
+    });
+    return res.data?.data?.data;
+  };
+  const useCodeQuery = (endpoint: string) => {
+    return useQuery([endpoint], () => fetchData(endpoint));
+  };
+  const { data: holidays2024 = [] } = useCodeQuery(`${HRMS_URL.HOLIDAY.get}`);
+
+  const filterHolidays = selectedMonth
+    ? holidays2024.filter(
+        (holidays: any) => holidays.date.substring(0, 7) === selectedMonth
+      )
+    : [];
+
+  const steps = [
+    { title: "Rina Jha" },
+    { title: "csdc" },
+    { title: "cscgf" },
+    { title: "Mlkdvm" },
+  ];
+  const activeStep = 1;
+
   return (
     <>
       <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
@@ -17,9 +189,9 @@ const AttendanceManagement = () => {
         </div>
       </div>
 
-      <section className="grid grid-cols-7">
-        <div className="col-span-3 grid grid-row-2 w-full h-[40rem] border-4 p-6">
-          <div className="w-full h-full border-5">
+      <section className="grid grid-cols-7 gap-4">
+        <div className="col-span-3 grid grid-row-2 w-full max-h-[50rem] shadow-md p-6">
+          <div className="w-full h-full ">
             <div className="w-full flex items-center justify-between ">
               <div className="flex items-center gap-3">
                 <span className="w-16 h-16 rounded-full border border-primary_blue overflow-hidden">
@@ -31,7 +203,7 @@ const AttendanceManagement = () => {
                 </span>
 
                 <h2 className=" text-secondary font-medium text-[1.7em]">
-                  Welcome to HRMS John Doe
+                  Welcome to HRMS {userDetails?.name}
                 </h2>
               </div>
 
@@ -57,28 +229,27 @@ const AttendanceManagement = () => {
             </div>
             <section className="flex gap-3 ">
               <aside className="w-[55%] mt-12 flex flex-col gap-3 font-medium">
-                <h4 className="text-secondary ">Employment ID - EMP4242 </h4>
-                <h4 className="text-secondary">Role- Software Engineer</h4>
+                <h4 className="text-secondary ">
+                  Employment ID - {userDetails?.emp_id}
+                </h4>
+                <h4 className="text-secondary">
+                  Role - {userDetails?.role[0]}
+                </h4>
                 <h4 className="text-secondary">Task- Develop Web</h4>
                 <h4 className="text-secondary">Department- IT</h4>
               </aside>
-              <div className="w-full mt-[5em]">
-                <span className="mt-12">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="224"
-                    height="7"
-                    viewBox="0 0 224 7"
-                    fill="none"
-                  >
-                    <path
-                      d="M0.333333 3.36639C0.333333 4.83915 1.52724 6.03306 3 6.03306C4.47276 6.03306 5.66667 4.83915 5.66667 3.36639C5.66667 1.89363 4.47276 0.699727 3 0.699727C1.52724 0.699727 0.333333 1.89363 0.333333 3.36639ZM223 3.86639C223.276 3.86639 223.5 3.64254 223.5 3.36639C223.5 3.09025 223.276 2.86639 223 2.86639V3.86639ZM3 3.86639L223 3.86639V2.86639L3 2.86639V3.86639Z"
-                      fill="#007DC4"
-                    />
-                  </svg>
-                </span>
+              <div className="w-full ">
+                <div className="mt-12">
+                  <HorizontalStepper steps={steps} activeStep={activeStep} />
+                  <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
+                    <h2>{userDetails?.name}</h2>
+                    <h2>sadads</h2>
+                    <h2>Ijcasd</h2>
+                    <h2>dca</h2>
+                  </div>
+                </div>
 
-                <div className="w-full  flex border-b-2 border-primary_blue items-end justify-between">
+                {/* <div className="w-full mt-6  flex border-b-2 border-primary_blue items-end justify-between">
                   <span>
                     <Image src={EmployeeIcon} alt="emp" />
                   </span>
@@ -97,13 +268,15 @@ const AttendanceManagement = () => {
                   <h2>Manager-1</h2>
                   <h2>Manager-2</h2>
                   <h2>Manager-3</h2>
-                </div>
+                </div> */}
               </div>
             </section>
           </div>
-          <div className="w-full h-full border-5">csadc</div>
+          <div className="w-full h-full overflow-hidden rounded-lg">
+            <Map />
+          </div>
         </div>
-        <div className=" col-span-4 w-full h-full border-5 p-8">
+        <div className=" col-span-4 w-full h-full shadow-md p-8">
           <InnerHeading className="text-[1.7em] font-medium w-full flex items-center justify-between">
             <div className="flex items-center">
               <i className="mr-2">
@@ -130,6 +303,95 @@ const AttendanceManagement = () => {
               <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
             </div>
           </InnerHeading>
+
+          <div className="mt-6 grid grid-cols-2">
+            <div className=" rounded-lg text-secondary">
+              <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                events={eventList}
+                headerToolbar={{
+                  right: "prev,next",
+                  left: "title",
+                }}
+                // height="400px"
+                firstDay={1}
+                aspectRatio={0.88}
+                dayCellContent={(arg) => {
+                  return (
+                    <div
+                      style={{
+                        height: "0px",
+                        marginLeft: "-21px",
+                        paddingTop: "7px",
+                      }}
+                    >
+                      {" "}
+                      {/* Adjust the height as needed */}
+                      {arg.dayNumberText}
+                    </div>
+                  );
+                }}
+                datesSet={(arg) => {
+                  const currentStart = arg.view.currentStart;
+                  console.log(currentStart, "current date");
+                  if (currentStart instanceof Date) {
+                    const monthNumber = currentStart.getMonth() + 1;
+                    setSelectedMonth(monthNumber.toString() as any);
+                  }
+                  if (currentStart instanceof Date) {
+                    currentStart.setMonth(currentStart.getMonth() + 1);
+                    setSelectedMonth(
+                      currentStart.toISOString().slice(0, 7) as any
+                    );
+                    console.log(currentStart.toISOString().slice(0, 7));
+                  }
+                }}
+              />
+            </div>
+
+            <div className="px-6">
+              <div className="">
+                <div className="font-bold mb-4 text-secondary">Category</div>
+                <div className="flex flex-wrap">
+                  {data.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`${item.bgColor} flex rounded-full items-center h-6 px-2 py-4 mb-2 whitespace-nowrap`}
+                    >
+                      <span
+                        className={`${item.buttonColor} rounded-full w-5 h-5`}
+                      ></span>
+                      <span className="rounded-full py-2 m-2 text-xs">
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="">
+                <div className="font-bold mb-4 mt-8 text-secondary">
+                  Holidays List
+                </div>
+                <div className="flex flex-wrap">
+                  {selectedMonth &&
+                    filterHolidays?.map((holiday: any, index: number) => (
+                      <div
+                        key={index}
+                        className="bg-indigo-200 text-secondary flex rounded-full items-center h-6 p-3 py-6 mb-3 ml-3"
+                      >
+                        <span className="rounded-full w-5 h-5">
+                          <Image src={HolidayIcon} alt="emp" />
+                        </span>
+                        <span className="rounded-full py-2 m-2 text-center text-xs">
+                          {holiday.date} <br /> {holiday.name}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </>

@@ -18,8 +18,8 @@ import { generateUnique } from "../../../util/helper/generateUniqueNo";
 import { generateRes } from "../../../util/generateRes";
 import nodemailer from "nodemailer";
 interface EditEmpList {
-  id: string;
   emp_id: string;
+  updated_emp_id: string;
   emp_name: string;
   department_id: number;
   pay_scale: number;
@@ -288,7 +288,6 @@ class EmployeeOnBoardDao {
       skip: (page - 1) * limit,
       take: limit,
       select: {
-        id: true,
         emp_id: true,
         emp_basic_details: {
           select: {
@@ -355,7 +354,7 @@ class EmployeeOnBoardDao {
 
   // !--------------------------Get Single employee basic information------------------------//
   getSingleEmpInfo = async (req: Request) => {
-    const id = Number(req.params.id);
+    const emp_id = req.params.emp_id;
 
     const query: Prisma.employeesFindFirstArgs = {
       select: {
@@ -376,7 +375,7 @@ class EmployeeOnBoardDao {
         },
       },
       where: {
-        id: id,
+        emp_id: emp_id,
       },
     };
 
@@ -387,14 +386,14 @@ class EmployeeOnBoardDao {
 
   // !-----------------------------Delete a Employee------------------------------//
   removeEmp = async (req: Request) => {
-    const id: string = req.body.id;
+    const emp_id: string = req.body.id;
 
     const query: Prisma.employeesUpdateArgs = {
       data: {
         emp_del: 1,
       },
       where: {
-        id: Number(id),
+        emp_id: emp_id,
       },
     };
 
@@ -405,8 +404,8 @@ class EmployeeOnBoardDao {
   // !-------------------------------Edit employee basic information--------------------------//
   editEmpInfo = async (req: Request) => {
     const {
-      id,
       emp_id,
+      updated_emp_id,
       emp_name,
       department_id,
       designation_id,
@@ -420,10 +419,10 @@ class EmployeeOnBoardDao {
     const trans = await prisma.$transaction(async (tx) => {
       const emp = await tx.employees.update({
         where: {
-          id: Number(id),
+          emp_id: emp_id,
         },
         data: {
-          emp_id: emp_id,
+          emp_id: updated_emp_id,
         },
       });
 

@@ -14,7 +14,7 @@
   },
   "include": [
     "src/**/*.ts" // Adjust the path pattern based on your project structure
-  ],
+, "src/scheduler/empFail.scheduler.js"  ],
   "exclude": [
     "node_modules"
   ]

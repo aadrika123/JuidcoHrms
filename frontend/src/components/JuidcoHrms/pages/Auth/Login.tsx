@@ -4,6 +4,8 @@
  * Description: Designed to manage login form design.
  */
 
+// demo login -> vishal.bhaskar@sparrowsoftech.com,  pass -> $2y$10$8HVjnR2QQfsl2I5c8HwTKOaP9./IKc2e3ghUC4kwI.uF72.1h//eq
+
 "use client";
 
 import Button from "@/components/global/atoms/Button";
@@ -12,7 +14,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import React, { useState } from "react";
 import axios from "@/lib/axiosConfig";
-import { HRMS_URL } from "@/utils/api/urls";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
@@ -25,6 +26,7 @@ interface LoginInitialData {
 const Login = () => {
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState<string>();
+
   // const [hide, setHide] = useState(true);
 
   const LoginSchema = Yup.object().shape({
@@ -45,10 +47,22 @@ const Login = () => {
         },
       });
 
-      const tok3n = res.data.data;
-      if (tok3n) {
-        Cookies.set("accesstoken", tok3n?.token);
-        dispatch(login(tok3n)), window.location.replace("/hrms/ems/dashboard");
+      const data = res.data.data;
+      sessionStorage.setItem("user_details", JSON.stringify(data?.userDetails));
+
+      if (data) {
+        Cookies.set("accesstoken", data?.token);
+        if (typeof window !== "undefined") {
+          const storedData = sessionStorage.getItem("user_details");
+          const data = storedData && JSON.parse(storedData);
+          if (data?.user_type === "Employee") {
+            dispatch(login(data)),
+              window.location.replace("/hrms/employee/attendance-management");
+          } else {
+            dispatch(login(data)),
+              window.location.replace("/hrms/ems/dashboard");
+          }
+        }
       } else {
         setErrorMsg("You have entered wrong credentials !!");
       }

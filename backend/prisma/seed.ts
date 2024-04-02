@@ -2,6 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import designation_seeder from "./seeder/designation.seed";
 import department_seeder from "./seeder/department.seed";
 import foreign_wrapper from "./seeder/foreignWrapper.seed";
+import district_seed from "./seeder/masters/district.seed";
+import language_seed from "./seeder/masters/language.seed";
+import state_seed from "./seeder/masters/states.seed";
+import ulb_seed from "./seeder/masters/ulb.seed";
+import holidays_seeder from "./seeder/masters/holiday.seed";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -11,6 +16,11 @@ async function main() {
 
   await designation_seeder();
   await department_seeder();
+  await district_seed();
+  await language_seed();
+  await state_seed();
+  await ulb_seed();
+  await holidays_seeder();
 
   setTimeout(async () => {
     await foreign_wrapper();

@@ -63,9 +63,9 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
     try {
       const res = await axios({
         url: `${HRMS_URL.EMS.update}`,
-        method: "PATCH",
+        method: "POST",
         data: {
-          id: props.empId,
+          emp_id: props.empId,
           ...values,
         },
       });
@@ -88,8 +88,6 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
     },
   });
   if (empErr) return <>Failed</>;
-
-  console.log(empData);
 
   return (
     <>

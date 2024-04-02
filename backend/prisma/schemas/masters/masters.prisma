@@ -1,0 +1,28 @@
+// -------------- Created and maintained by Jaideep ----------------------- //
+model ulb {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+}
+
+model indianstates {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+}
+
+model language {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+}
+
+model district {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+}
