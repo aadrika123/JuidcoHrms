@@ -22,6 +22,8 @@ import { HRMS_URL } from "@/utils/api/urls";
 import HolidayIcon from "@/assets/svg/icons/holiday.svg";
 import Lottie from "lottie-react";
 import MapLottie from "../../../lotties/map.json";
+import TableListContainer from "@/components/global/organisms/TableListContainer";
+import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 
 function formatDate(timestamp: string) {
   const date = new Date(timestamp);
@@ -177,6 +179,31 @@ const AttendanceManagement = () => {
     { title: "Mlkdvm" },
   ];
   const activeStep = 1;
+
+  //---------------------->> EMPLOYEE LOG TIME <<-----------------------------//
+
+  const EMP_LIST_COLS: COLUMNS[] = [
+    {
+      HEADER: "Employee In",
+      ACCESSOR: "emp_in",
+    },
+    {
+      HEADER: "Employee Out",
+      ACCESSOR: "emp_out",
+    },
+    {
+      HEADER: "Date",
+      ACCESSOR: "created_at",
+    },
+  ];
+
+  const log_data = [
+    {
+      emp_in: "10:00 AM",
+      emp_out: "07:00 PM",
+      created_at: "2024-04-03",
+    },
+  ];
 
   return (
     <>
@@ -391,6 +418,21 @@ const AttendanceManagement = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-[4rem]">
+        <h2 className="text-[1.63544rem] text-secondary font-semibold">
+          Log Time
+        </h2>
+        <div>
+          <div className="mt-2">
+            <TableListContainer
+              columns={EMP_LIST_COLS}
+              tableData={log_data || []}
+              sl_no
+            />
           </div>
         </div>
       </section>

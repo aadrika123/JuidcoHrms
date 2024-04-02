@@ -13,24 +13,36 @@ export interface COLUMNS {
 interface TLContainerProps {
   columns: COLUMNS[];
   tableData: any[];
-  actionBtn: boolean;
-  actionName: string;
-  setEmpId: (val: number) => void;
+  actionBtn?: boolean;
+  actionName?: string;
+  setEmpId?: (val: number) => void;
+  sl_no: boolean;
 }
 
-const Thead: React.FC<{ index: number; HEADER: string; WIDTH?: string }> = (
-  props
-) => {
+const Thead: React.FC<{
+  index: number;
+  HEADER: string;
+  WIDTH?: string;
+  SL_NO: boolean;
+}> = (props) => {
   return (
     <>
       {props.index === 0 ? (
         <>
           <th className="px-4 w-16">
-            <CheckBox
-              label={""}
-              name={""}
-              className="border-zinc-800 w-8 h-8"
-            />
+            {props.SL_NO ? (
+              <th key={props.index} className={`p-5 text-xl font-light`}>
+                <div className="flex gap-2">
+                  <span>#</span>
+                </div>
+              </th>
+            ) : (
+              <CheckBox
+                label={""}
+                name={""}
+                className="border-zinc-800 w-8 h-8"
+              />
+            )}
           </th>
           <th
             key={props.index}
@@ -55,13 +67,20 @@ const Thead: React.FC<{ index: number; HEADER: string; WIDTH?: string }> = (
   );
 };
 
-const Tdata: React.FC<{ tdata: any; index: number }> = (props) => {
+const Tdata: React.FC<{ tdata: any; index: number, SL_NO: boolean }> = (props) => {
   return (
     <>
       {props.index === 0 ? (
         <>
           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
+            {
+              props.SL_NO ? <td className="">
+              <span>{props.index + 1}</span>
+            </td> : 
+
             <CheckBox label="" name="" />
+
+            }
           </td>
           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
             <span>{props.tdata}</span>
@@ -91,6 +110,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                 HEADER={cols.HEADER}
                 WIDTH={cols.WIDTH}
                 index={index}
+                SL_NO={props.sl_no}
               />
             ))}
             {props.actionBtn && (
@@ -131,7 +151,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
 
                     const value = getValue(data);
 
-                    return <Tdata key={i} tdata={value} index={i} />;
+                    return <Tdata key={i} tdata={value} index={i} SL_NO={props.sl_no} />;
                   })}
                   {props.actionBtn && (
                     <td className="text-center py-3 text-xl text-zinc-600 font-light">
@@ -200,7 +220,9 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                         </button>
                         <button
                           className=" scale-125"
-                          onClick={() => props.setEmpId(data?.emp_id)}
+                          onClick={() =>
+                            props?.setEmpId && props.setEmpId(data?.emp_id)
+                          }
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
