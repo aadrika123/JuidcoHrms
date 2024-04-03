@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   basePath: "/hrms",
+  env: {
+    backend: "http://localhost:8000",
+  },
   // async rewrites() {
   //   return [
   //     {

@@ -40,7 +40,7 @@ const Login = () => {
   const handleLogin = async (values: LoginInitialData) => {
     try {
       const res = await axios({
-        url: `http://127.0.0.1:8000/api/login`,
+        url: `${process.env.backend}/api/login`,
         method: "POST",
         data: {
           email: values.user_id,
