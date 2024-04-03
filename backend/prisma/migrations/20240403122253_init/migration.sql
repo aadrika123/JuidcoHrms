@@ -447,9 +447,9 @@ CREATE TABLE "holidays" (
 -- CreateTable
 CREATE TABLE "employee_attendance_history" (
     "id" SERIAL NOT NULL,
-    "emp_in" TEXT NOT NULL,
-    "emp_out" TEXT,
-    "date" TEXT NOT NULL,
+    "emp_in" TIMESTAMP(3) NOT NULL,
+    "emp_out" TIMESTAMP(3),
+    "date" TIMESTAMP(3) NOT NULL,
     "status" BOOLEAN NOT NULL DEFAULT false,
     "lat" DOUBLE PRECISION,
     "lang" DOUBLE PRECISION,
@@ -469,6 +469,65 @@ CREATE TABLE "employee_hierarchy" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "employee_hierarchy_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_leave_details" (
+    "id" SERIAL NOT NULL,
+    "emp_leave_type_id" INTEGER NOT NULL,
+    "leave_from" TEXT,
+    "leave_to" TEXT,
+    "total_days" INTEGER,
+    "leave_reason" TEXT,
+    "file_upload" TEXT,
+    "half_day" BOOLEAN,
+    "leave_status" INTEGER NOT NULL DEFAULT 0,
+    "employee_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_leave_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_leave_chart" (
+    "id" SERIAL NOT NULL,
+    "tot_leave_allow_year" INTEGER,
+    "tot_bal_leave_year" INTEGER,
+    "tot_prev_leave_approv" INTEGER,
+    "sick_leave" INTEGER DEFAULT 20,
+    "earned_leave" INTEGER DEFAULT 10,
+    "personal_leave" INTEGER DEFAULT 30,
+    "commuted_leave" INTEGER DEFAULT 20,
+    "leave_not_due" INTEGER DEFAULT 10,
+    "extraordinary_leave" INTEGER DEFAULT 10,
+    "privileged_leave" INTEGER DEFAULT 10,
+    "leave_entitlements_for_vacation" INTEGER DEFAULT 20,
+    "leave_on_adoption" INTEGER DEFAULT 10,
+    "leave_to_female_on_adoption" INTEGER DEFAULT 10,
+    "child_care_leave" INTEGER DEFAULT 10,
+    "wrill" INTEGER DEFAULT 20,
+    "special_leave_on_enquiry" INTEGER DEFAULT 10,
+    "study_leave" INTEGER DEFAULT 10,
+    "ad_hoc_employees" INTEGER DEFAULT 10,
+    "leave_salary" INTEGER DEFAULT 10,
+    "special_casual_leave" INTEGER DEFAULT 10,
+    "paternity_leave" INTEGER DEFAULT 10,
+    "employee_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_leave_chart_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_leave_type" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_leave_type_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -588,3 +647,12 @@ ALTER TABLE "employee_attendance_history" ADD CONSTRAINT "employee_attendance_hi
 
 -- AddForeignKey
 ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_emp_leave_type_id_fkey" FOREIGN KEY ("emp_leave_type_id") REFERENCES "employee_leave_type"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_leave_chart" ADD CONSTRAINT "employee_leave_chart_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;

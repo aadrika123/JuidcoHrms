@@ -7,6 +7,7 @@ import language_seed from "./seeder/masters/language.seed";
 import state_seed from "./seeder/masters/states.seed";
 import ulb_seed from "./seeder/masters/ulb.seed";
 import holidays_seeder from "./seeder/masters/holiday.seed";
+import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -21,6 +22,7 @@ async function main() {
   await state_seed();
   await ulb_seed();
   await holidays_seeder();
+  await empLeave_seeder();
 
   setTimeout(async () => {
     await foreign_wrapper();

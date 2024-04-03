@@ -2,9 +2,9 @@
 
 model employee_attendance_history {
   id          Int       @id @default(autoincrement())
-  emp_in      String
-  emp_out     String?
-  date        String
+  emp_in      DateTime?
+  emp_out     DateTime?
+  date        DateTime
   status      Boolean   @default(false) // false -> absend , true -> present
   lat         Float?
   lang        Float?

@@ -24,15 +24,6 @@ import TableListContainer from "@/components/global/organisms/TableListContainer
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import Loader from "@/components/global/atoms/Loader";
 
-// function formatDate(timestamp: string) {
-//   const date = new Date(timestamp);
-//   const year = date.getFullYear();
-//   const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-//   const day = String(date.getDate()).padStart(2, "0");
-//   const formattedDate = `${year}-${month}-${day}`;
-//   return formattedDate;
-// }
-
 const AttendanceManagement = () => {
   const Map = React.useMemo(
     () =>
@@ -72,7 +63,6 @@ const AttendanceManagement = () => {
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -181,13 +171,15 @@ const AttendanceManagement = () => {
       url: `${endpoint}`,
       method: "GET",
     });
-    setLoading(false);
+    // setLoading(false);
     return res.data?.data?.data;
   };
   const useCodeQuery = (endpoint: string) => {
     return useQuery([endpoint], () => fetchData(endpoint));
   };
-  const { data: holidays2024 = [] } = useCodeQuery(`${HRMS_URL.HOLIDAY.get}`);
+  const { data: holidays2024 = [], isLoading } = useCodeQuery(
+    `${HRMS_URL.HOLIDAY.get}`
+  );
 
   const filterHolidays = selectedMonth
     ? holidays2024.filter(
@@ -238,14 +230,17 @@ const AttendanceManagement = () => {
     {
       HEADER: "Employee In",
       ACCESSOR: "emp_in",
+      TYPE: "time",
     },
     {
       HEADER: "Employee Out",
       ACCESSOR: "emp_out",
+      TYPE: "time",
     },
     {
       HEADER: "Date",
       ACCESSOR: "date",
+      TYPE: "date",
     },
   ];
 
@@ -425,7 +420,7 @@ const AttendanceManagement = () => {
                   Holidays List
                 </div>
                 <div className="flex flex-wrap">
-                  {loading ? (
+                  {isLoading ? (
                     <>
                       {[1, 2, 3, 4]?.map((index: number) => (
                         <div

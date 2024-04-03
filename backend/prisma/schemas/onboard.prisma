@@ -40,6 +40,8 @@ model employees {
   emp_salary_details_id   Int
   emp_attendance          employee_attendance_history[]
   emp_hierarchy           employee_hierarchy[]
+  emp_leave_details       employee_leave_details[]
+  emp_leave_chart         employee_leave_chart[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }

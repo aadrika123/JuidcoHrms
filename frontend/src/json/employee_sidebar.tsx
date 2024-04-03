@@ -26,11 +26,23 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={LeaveIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}/employee/attendance-management`,
+          path: `${url}`,
           subModules: [
             {
-              moduleName: "Apply for Leave",
+              moduleName: "Attendance Management",
+              icon: (
+                <Image
+                  src={AttendanceIcon}
+                  alt="masters"
+                  width={100}
+                  height={100}
+                />
+              ),
               path: `${url}/employee/attendance-management`,
+            },
+            {
+              moduleName: "Apply for Leave",
+              path: `${url}/employee/leave-management`,
               icon: (
                 <Image src={LeaveIcon} alt="masters" width={100} height={100} />
               ),

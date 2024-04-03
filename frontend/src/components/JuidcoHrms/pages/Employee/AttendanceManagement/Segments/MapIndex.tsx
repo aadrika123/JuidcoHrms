@@ -113,7 +113,7 @@ const MapIndex = () => {
             icon={LeafIcon()}
             position={[position.latitude, position.longitude]}
           >
-            <Popup>Your current location.</Popup>
+            <Popup>Ranchi Muncipal Corporation.</Popup>
           </Marker>
         </MapContainer>
       )}

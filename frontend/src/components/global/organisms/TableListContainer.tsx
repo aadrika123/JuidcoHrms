@@ -7,7 +7,30 @@ export interface COLUMNS {
   HEADER: string;
   ACCESSOR: string;
   SUB_ACCESSOR?: string;
+  TYPE?: string;
   WIDTH?: string;
+}
+
+function formatDate(timestamp: string) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+  const day = String(date.getDate()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
+function convertTimeToAMPM(timeString: string): string {
+  if (timeString === "--") return "--";
+  const time = new Date(timeString);
+  let hours = time.getHours();
+  const minutes = time.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+  const realTime = `${hours}:${formattedMinutes} ${ampm}`;
+  return realTime;
 }
 
 interface TLContainerProps {
@@ -72,6 +95,7 @@ const Tdata: React.FC<{
   index: number;
   SL_NO: boolean;
   sl_index: number;
+  type: string;
 }> = (props) => {
   return (
     <>
@@ -87,13 +111,25 @@ const Tdata: React.FC<{
             )}
           </td>
           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
-            <span>{props.tdata}</span>
+            <span>
+              {props.type === "date"
+                ? formatDate(props.tdata)
+                : props.type === "time"
+                  ? convertTimeToAMPM(props.tdata)
+                  : props.tdata}
+            </span>
           </td>
         </>
       ) : (
         <>
           <td className="pl-6 py-3 text-xl text-zinc-600 font-light">
-            <span>{props.tdata}</span>
+            <span>
+              {props.type === "date"
+                ? formatDate(props.tdata)
+                : props.type === "time"
+                  ? convertTimeToAMPM(props.tdata)
+                  : props.tdata}
+            </span>
           </td>
         </>
       )}
@@ -162,6 +198,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                         index={i}
                         SL_NO={props.sl_no}
                         sl_index={index}
+                        type={col.TYPE as string}
                       />
                     );
                   })}

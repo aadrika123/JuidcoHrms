@@ -11,7 +11,10 @@ type UrlKeys =
   | "DESIGNATION"
   | "LOGIN"
   | "ATTENDANCE"
-  | "HOLIDAY";
+  | "HOLIDAY"
+  | "LEAVETYPE"
+  | "LEAVEGET"
+  | "LEAVECHART";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -54,5 +57,16 @@ export const HRMS_URL: Urls = {
 
   HOLIDAY: {
     get: "/employee/holidays",
+  },
+  LEAVETYPE: {
+    get: "/employee/leave-type-get",
+  },
+  LEAVEGET: {
+    get: "/employee/leave-get",
+    create: "/employee/leave",
+  },
+  LEAVECHART: {
+    get: "/employee/leave-chart-get",
+    create: "/employee/leave-chart-update",
   },
 };
