@@ -67,8 +67,8 @@ const EmployeeList = () => {
   };
 
   const { data: dataList = [], error: dataError } = useCodeQuery(
-    // `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : null}`
-    `${HRMS_URL.DEPARTMENT.get}`
+    `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : null}`
+    // `${HRMS_URL.DEPARTMENT.get}`
   );
 
   const { data: empLstData, error: empLstErr } = useCodeQuery(
@@ -252,6 +252,7 @@ const EmployeeList = () => {
             actionBtn
             actionName="Status"
             setEmpId={removeEmployee}
+            sl_no={false}
           />
         </div>
         <aside className="mt-16">

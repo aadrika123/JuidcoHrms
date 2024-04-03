@@ -1,3 +1,11 @@
+/**
+ * | Author- Krish
+ * | Created for- Employee Attendance Management
+ * | Status: open
+ */
+
+
+
 import { NextFunction, Request, Response } from "express";
 import { resObj } from "../../../../util/types";
 import { resMessage } from "../../../../util/common";

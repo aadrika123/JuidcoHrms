@@ -10,41 +10,55 @@ import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 // import ManagerIcon from "@/assets/icons/manager 1.png";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import HorizontalStepper from "@/components/Helpers/Widgets/Stepper";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
+// import FullCalendar from "@fullcalendar/react";
+// import dayGridPlugin from "@fullcalendar/daygrid";
 import axios from "@/lib/axiosConfig";
 import { useQuery } from "react-query";
 import { HRMS_URL } from "@/utils/api/urls";
 import HolidayIcon from "@/assets/svg/icons/holiday.svg";
-import Lottie from "lottie-react";
-import MapLottie from "../../../lotties/map.json";
 import TableListContainer from "@/components/global/organisms/TableListContainer";
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
+import Loader from "@/components/global/atoms/Loader";
 
-function formatDate(timestamp: string) {
-  const date = new Date(timestamp);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-  const day = String(date.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
+// function formatDate(timestamp: string) {
+//   const date = new Date(timestamp);
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const formattedDate = `${year}-${month}-${day}`;
+//   return formattedDate;
+// }
 
 const AttendanceManagement = () => {
   const Map = React.useMemo(
     () =>
       dynamic(() => import("./Segments/MapIndex"), {
         loading: () => (
-          <div style={{ height: "35vh", width: "100%" }}>
-            <Lottie
-              animationData={MapLottie}
-              loop={true}
-              className="w-[20%] ml-[8rem] absolute"
-            />
+          <div
+            className="bg-slate-100 animate-pulse rounded-lg"
+            style={{ height: "35vh", width: "100%" }}
+          >
+            <Loader />
+          </div>
+        ),
+        ssr: false,
+      }),
+    []
+  );
+
+  const Calendar = React.useMemo(
+    () =>
+      dynamic(() => import("./Segments/CalendarIndex"), {
+        loading: () => (
+          <div
+            className="bg-slate-100 animate-pulse rounded-l transition-all"
+            style={{ height: "50vh", width: "100%" }}
+          >
+            <Loader />
           </div>
         ),
         ssr: false,
@@ -56,6 +70,9 @@ const AttendanceManagement = () => {
   const [attndData, setAttnd] = useState<any>();
   const [eventList, setEventList] = useState<any[]>([]);
   const [userDetails, setUserDetails] = useState<any>();
+  const [employeeDetails, setEmployeeDetails] = useState<any>();
+  const [department, setDepartment] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -79,6 +96,11 @@ const AttendanceManagement = () => {
   };
 
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
+
+  function getSelectedMonthFromCalendar(month: string) {
+    setSelectedMonth(month);
+  }
+
   const filterAttendanceorCalendar = () => {
     const events: any = [];
 
@@ -86,21 +108,21 @@ const AttendanceManagement = () => {
       if (element?.emp_out !== "null" && element?.emp_out !== "") {
         events.push({
           title: "",
-          date: formatDate(element.emp_in),
+          date: element.date,
           display: "background",
           color: "green",
         });
       } else if (element?.emp_out === "exceed") {
         events.push({
           title: "",
-          date: formatDate(element.emp_in),
+          date: element.date,
           display: "background",
           color: "yellow",
         });
       } else {
         events.push({
           title: "",
-          date: formatDate(element.emp_in),
+          date: element.date,
           display: "background",
           color: "red",
         });
@@ -159,6 +181,7 @@ const AttendanceManagement = () => {
       url: `${endpoint}`,
       method: "GET",
     });
+    setLoading(false);
     return res.data?.data?.data;
   };
   const useCodeQuery = (endpoint: string) => {
@@ -182,6 +205,35 @@ const AttendanceManagement = () => {
 
   //---------------------->> EMPLOYEE LOG TIME <<-----------------------------//
 
+  //---------------------->> EMPLOYEE BASIC DETAILS <<-----------------------------//
+
+  useEffect(() => {
+    (async () => {
+      const res = await axios({
+        url: `${HRMS_URL.DEPARTMENT.get}`,
+        method: "GET",
+      });
+      const data = res?.data?.data?.data;
+      setDepartment(data);
+    })();
+  }, [userDetails?.emp_id]);
+
+  console.log(
+    department[employeeDetails?.emp_join_details?.department_id]?.name,
+    "depa"
+  );
+
+  useEffect(() => {
+    (async () => {
+      const res = await axios({
+        url: `${HRMS_URL.EMS.getById}/${userDetails?.emp_id}`,
+        method: "GET",
+      });
+      const data = res?.data?.data;
+      setEmployeeDetails(data);
+    })();
+  }, [userDetails?.emp_id]);
+
   const EMP_LIST_COLS: COLUMNS[] = [
     {
       HEADER: "Employee In",
@@ -193,17 +245,17 @@ const AttendanceManagement = () => {
     },
     {
       HEADER: "Date",
-      ACCESSOR: "created_at",
+      ACCESSOR: "date",
     },
   ];
 
-  const log_data = [
-    {
-      emp_in: "10:00 AM",
-      emp_out: "07:00 PM",
-      created_at: "2024-04-03",
-    },
-  ];
+  // const log_data = [
+  //   {
+  //     emp_in: "10:00 AM",
+  //     emp_out: "07:00 PM",
+  //     created_at: "2024-04-03",
+  //   },
+  // ];
 
   return (
     <>
@@ -262,8 +314,16 @@ const AttendanceManagement = () => {
                 <h4 className="text-secondary">
                   Role - {userDetails?.role[0]}
                 </h4>
-                <h4 className="text-secondary">Task- Develop Web</h4>
-                <h4 className="text-secondary">Department- IT</h4>
+                <h4 className="text-secondary">
+                  Task- {employeeDetails?.emp_join_details?.task}
+                </h4>
+                <h4 className="text-secondary">
+                  Department-{" "}
+                  {
+                    department[employeeDetails?.emp_join_details?.department_id]
+                      ?.name
+                  }
+                </h4>
               </aside>
               <div className="w-full ">
                 <div className="mt-12">
@@ -333,48 +393,12 @@ const AttendanceManagement = () => {
 
           <div className="mt-6 grid grid-cols-2">
             <div className=" rounded-lg text-secondary">
-              <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                events={eventList}
-                headerToolbar={{
-                  right: "prev,next",
-                  left: "title",
-                }}
-                // height="400px"
-                firstDay={1}
-                aspectRatio={0.88}
-                dayCellContent={(arg) => {
-                  return (
-                    <div
-                      style={{
-                        height: "0px",
-                        marginLeft: "-21px",
-                        paddingTop: "7px",
-                      }}
-                    >
-                      {" "}
-                      {/* Adjust the height as needed */}
-                      {arg.dayNumberText}
-                    </div>
-                  );
-                }}
-                datesSet={(arg) => {
-                  const currentStart = arg.view.currentStart;
-                  console.log(currentStart, "current date");
-                  if (currentStart instanceof Date) {
-                    const monthNumber = currentStart.getMonth() + 1;
-                    setSelectedMonth(monthNumber.toString() as any);
-                  }
-                  if (currentStart instanceof Date) {
-                    currentStart.setMonth(currentStart.getMonth() + 1);
-                    setSelectedMonth(
-                      currentStart.toISOString().slice(0, 7) as any
-                    );
-                    console.log(currentStart.toISOString().slice(0, 7));
-                  }
-                }}
-              />
+              <Suspense fallback={<Loader />}>
+                <Calendar
+                  eventList={eventList}
+                  setSelectedMonth={getSelectedMonthFromCalendar}
+                />
+              </Suspense>
             </div>
 
             <div className="px-6">
@@ -401,7 +425,18 @@ const AttendanceManagement = () => {
                   Holidays List
                 </div>
                 <div className="flex flex-wrap">
-                  {selectedMonth &&
+                  {loading ? (
+                    <>
+                      {[1, 2, 3, 4]?.map((index: number) => (
+                        <div
+                          key={index}
+                          className="bg-indigo-200 text-secondary flex rounded-full items-center w-32 h-6 p-3 py-6 mb-3 ml-3 animate-pulse"
+                        ></div>
+                      ))}
+                    </>
+                  ) : selectedMonth && filterHolidays.length < 1 ? (
+                    <span>No holidays this month.</span>
+                  ) : (
                     filterHolidays?.map((holiday: any, index: number) => (
                       <div
                         key={index}
@@ -414,7 +449,8 @@ const AttendanceManagement = () => {
                           {holiday.date} <br /> {holiday.name}
                         </span>
                       </div>
-                    ))}
+                    ))
+                  )}
                 </div>
               </div>
             </div>
@@ -430,7 +466,7 @@ const AttendanceManagement = () => {
           <div className="mt-2">
             <TableListContainer
               columns={EMP_LIST_COLS}
-              tableData={log_data || []}
+              tableData={attndData || []}
               sl_no
             />
           </div>

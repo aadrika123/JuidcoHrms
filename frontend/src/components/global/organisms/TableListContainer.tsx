@@ -31,11 +31,11 @@ const Thead: React.FC<{
         <>
           <th className="px-4 w-16">
             {props.SL_NO ? (
-              <th key={props.index} className={`p-5 text-xl font-light`}>
+              <div key={props.index} className={`p-5 text-xl font-light`}>
                 <div className="flex gap-2">
                   <span>#</span>
                 </div>
-              </th>
+              </div>
             ) : (
               <CheckBox
                 label={""}
@@ -67,20 +67,24 @@ const Thead: React.FC<{
   );
 };
 
-const Tdata: React.FC<{ tdata: any; index: number, SL_NO: boolean }> = (props) => {
+const Tdata: React.FC<{
+  tdata: any;
+  index: number;
+  SL_NO: boolean;
+  sl_index: number;
+}> = (props) => {
   return (
     <>
       {props.index === 0 ? (
         <>
           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
-            {
-              props.SL_NO ? <td className="">
-              <span>{props.index + 1}</span>
-            </td> : 
-
-            <CheckBox label="" name="" />
-
-            }
+            {props.SL_NO ? (
+              <div className="">
+                <span>{props.sl_index + 1}</span>
+              </div>
+            ) : (
+              <CheckBox label="" name="" />
+            )}
           </td>
           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
             <span>{props.tdata}</span>
@@ -145,13 +149,21 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                           }
                         }
                       } else {
-                        return data || "null";
+                        return data || "--";
                       }
                     };
 
                     const value = getValue(data);
 
-                    return <Tdata key={i} tdata={value} index={i} SL_NO={props.sl_no} />;
+                    return (
+                      <Tdata
+                        key={i}
+                        tdata={value}
+                        index={i}
+                        SL_NO={props.sl_no}
+                        sl_index={index}
+                      />
+                    );
                   })}
                   {props.actionBtn && (
                     <td className="text-center py-3 text-xl text-zinc-600 font-light">

@@ -39,6 +39,7 @@ model employees {
   emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
   emp_salary_details_id   Int
   emp_attendance          employee_attendance_history[]
+  emp_hierarchy           employee_hierarchy[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -472,13 +473,25 @@ model holidays {
 
 model employee_attendance_history {
   id          Int       @id @default(autoincrement())
-  emp_in      DateTime
-  emp_out     DateTime?
+  emp_in      String
+  emp_out     String?
+  date        String
   status      Boolean   @default(false) // false -> absend , true -> present
+  lat         Float?
+  lang        Float?
   employee    employees @relation(fields: [employee_id], references: [emp_id])
   employee_id String
   created_at  DateTime  @default(now()) @map("created_at")
   updated_at  DateTime  @updatedAt @map("updated_at")
+}
+
+model employee_hierarchy {
+  id         Int       @id @default(autoincrement())
+  employee   employees @relation(fields: [emp_id], references: [emp_id])
+  emp_id     String
+  parent_emp String
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime  @updatedAt @map("updated_at")
 }
 
 // -------------- Created and maintained by Jaideep ----------------------- //

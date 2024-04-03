@@ -1,3 +1,8 @@
+/**
+ * Author: Krish
+ * status: Closed
+ */
+
 import { PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 

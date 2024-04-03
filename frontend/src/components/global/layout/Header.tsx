@@ -5,6 +5,8 @@ import React from "react";
 // import { formatString } from "@/utils/helper";
 import { SubHeading } from "@/components/Helpers/Heading";
 import Cookies from "js-cookie";
+import axios from "@/lib/axiosConfig";
+import { HRMS_URL } from "@/utils/api/urls";
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
@@ -36,10 +38,28 @@ const Header: React.FC<SideBarProps> = (props) => {
 
   function logout() {
     const confirm = window.confirm("Are you sure want to logout?");
-
+    const emp_id = "EMP912e43";
     if (confirm) {
       Cookies.remove("accesstoken");
       Cookies.remove("user_details");
+
+      (async () => {
+        try {
+          const user_attend = sessionStorage.getItem("attnd_details");
+          const user_id = JSON.parse(user_attend as string)?.id;
+          console.log(user_id, "user_id");
+          await axios({
+            url: `${HRMS_URL.ATTENDANCE.update}`,
+            method: "POST",
+            data: {
+              emp_id: emp_id,
+              id: user_id,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
 
       setTimeout(() => {
         window.location.reload();

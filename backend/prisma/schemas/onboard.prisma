@@ -39,6 +39,7 @@ model employees {
   emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
   emp_salary_details_id   Int
   emp_attendance          employee_attendance_history[]
+  emp_hierarchy           employee_hierarchy[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }

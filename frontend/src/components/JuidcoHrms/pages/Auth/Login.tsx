@@ -17,6 +17,7 @@ import axios from "@/lib/axiosConfig";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
+import { HRMS_URL } from "@/utils/api/urls";
 
 interface LoginInitialData {
   user_id: string;
@@ -50,14 +51,35 @@ const Login = () => {
       const data = res.data.data;
       sessionStorage.setItem("user_details", JSON.stringify(data?.userDetails));
 
+      //! EMPLOYEE ID WILL COME FROM USER TABLE
       if (data) {
         Cookies.set("accesstoken", data?.token);
+
+        const res2 = await axios({
+          url: `${HRMS_URL.ATTENDANCE.create}`,
+          method: "POST",
+          data: {
+            emp_id: data?.userDetails?.emp_id,
+          },
+          headers: {
+            Authorization: "Bearer " + data?.token,
+          },
+        });
+
+        if (res2) {
+          const attnd_details = res2?.data?.data;
+          sessionStorage.setItem(
+            "attnd_details",
+            JSON.stringify(attnd_details)
+          );
+        }
+
         if (typeof window !== "undefined") {
           const storedData = sessionStorage.getItem("user_details");
           const data = storedData && JSON.parse(storedData);
           if (data?.user_type === "Employee") {
-            dispatch(login(data)),
-              window.location.replace("/hrms/employee/attendance-management");
+            dispatch(login(data)), "a";
+            window.location.replace("/hrms/employee/attendance-management");
           } else {
             dispatch(login(data)),
               window.location.replace("/hrms/ems/dashboard");

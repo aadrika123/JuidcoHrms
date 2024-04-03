@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "employees" (
-    "id" SERIAL NOT NULL,
     "emp_id" TEXT NOT NULL,
     "emp_type" INTEGER NOT NULL,
+    "emp_del" INTEGER NOT NULL DEFAULT 0,
     "emp_office_details_id" INTEGER NOT NULL,
     "emp_basic_details_id" INTEGER NOT NULL,
     "emp_personal_details_id" INTEGER NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "employees" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "employees_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "employees_pkey" PRIMARY KEY ("emp_id")
 );
 
 -- CreateTable
@@ -89,7 +89,7 @@ CREATE TABLE "employee_family_details" (
     "relation" TEXT NOT NULL,
     "dob" TEXT NOT NULL,
     "dependent" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -104,7 +104,7 @@ CREATE TABLE "employee_nominee_details" (
     "percentage" DOUBLE PRECISION NOT NULL,
     "address" TEXT NOT NULL,
     "minor" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -149,7 +149,7 @@ CREATE TABLE "employee_increment_details" (
     "basic_pay_after_inc" DOUBLE PRECISION NOT NULL,
     "vide_order_no" TEXT NOT NULL,
     "vide_order_date" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -164,7 +164,7 @@ CREATE TABLE "employee_promotion_details" (
     "vide_order_no" TEXT NOT NULL,
     "vide_order_date" TEXT NOT NULL,
     "transfer" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -255,7 +255,7 @@ CREATE TABLE "employee_education_details" (
     "marks" INTEGER,
     "grade" TEXT,
     "upload_edu" TEXT,
-    "employee_id" INTEGER NOT NULL,
+    "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -272,7 +272,7 @@ CREATE TABLE "employee_training_details" (
     "end_to" JSONB,
     "tot_day_training" TEXT,
     "upload_edu" TEXT,
-    "employee_id" INTEGER NOT NULL,
+    "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -288,7 +288,7 @@ CREATE TABLE "employee_timebound_details" (
     "vide_order_no" TEXT NOT NULL,
     "vide_order_date" TEXT NOT NULL,
     "remarks" TEXT NOT NULL,
-    "employees_id" INTEGER NOT NULL,
+    "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -435,6 +435,85 @@ CREATE TABLE "designation" (
     CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "holidays" (
+    "id" SERIAL NOT NULL,
+    "date" TEXT,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "holidays_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_attendance_history" (
+    "id" SERIAL NOT NULL,
+    "emp_in" TEXT NOT NULL,
+    "emp_out" TEXT,
+    "date" TEXT NOT NULL,
+    "status" BOOLEAN NOT NULL DEFAULT false,
+    "lat" DOUBLE PRECISION,
+    "lang" DOUBLE PRECISION,
+    "employee_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_attendance_history_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_hierarchy" (
+    "id" SERIAL NOT NULL,
+    "emp_id" TEXT NOT NULL,
+    "parent_emp" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_hierarchy_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ulb" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ulb_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "indianstates" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "indianstates_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "language" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "language_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "district" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "district_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
+
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -457,16 +536,16 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_loan_details_id_fkey" FORE
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_salary_details_id_fkey" FOREIGN KEY ("emp_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_increment_details" ADD CONSTRAINT "employee_increment_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_increment_details" ADD CONSTRAINT "employee_increment_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_promotion_details" ADD CONSTRAINT "employee_promotion_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_promotion_details" ADD CONSTRAINT "employee_promotion_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -481,13 +560,13 @@ ALTER TABLE "employee_join_details" ADD CONSTRAINT "employee_join_details_depart
 ALTER TABLE "employee_join_details" ADD CONSTRAINT "employee_join_details_designation_id_fkey" FOREIGN KEY ("designation_id") REFERENCES "designation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_education_details" ADD CONSTRAINT "employee_education_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_education_details" ADD CONSTRAINT "employee_education_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_training_details" ADD CONSTRAINT "employee_training_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_training_details" ADD CONSTRAINT "employee_training_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_timebound_details" ADD CONSTRAINT "employee_timebound_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_timebound_details" ADD CONSTRAINT "employee_timebound_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_loan" ADD CONSTRAINT "employee_loan_emp_loan_details_id_fkey" FOREIGN KEY ("emp_loan_details_id") REFERENCES "employee_loan_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -503,3 +582,9 @@ ALTER TABLE "wf_roleusermaps" ADD CONSTRAINT "wf_roleusermaps_wf_role_id_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "wf_roleusermaps" ADD CONSTRAINT "wf_roleusermaps_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_attendance_history" ADD CONSTRAINT "employee_attendance_history_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
