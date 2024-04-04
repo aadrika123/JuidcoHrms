@@ -24,6 +24,15 @@ import TableListContainer from "@/components/global/organisms/TableListContainer
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import Loader from "@/components/global/atoms/Loader";
 
+function formatDate(timestamp: string) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+  const day = String(date.getDate()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
 const AttendanceManagement = () => {
   const Map = React.useMemo(
     () =>
@@ -98,21 +107,21 @@ const AttendanceManagement = () => {
       if (element?.emp_out !== "null" && element?.emp_out !== "") {
         events.push({
           title: "",
-          date: element.date,
+          date: formatDate(element.date),
           display: "background",
           color: "green",
         });
       } else if (element?.emp_out === "exceed") {
         events.push({
           title: "",
-          date: element.date,
+          date: formatDate(element.date),
           display: "background",
           color: "yellow",
         });
       } else {
         events.push({
           title: "",
-          date: element.date,
+          date: formatDate(element.date),
           display: "background",
           color: "red",
         });

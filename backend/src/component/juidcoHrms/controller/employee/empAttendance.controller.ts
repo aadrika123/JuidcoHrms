@@ -4,8 +4,6 @@
  * | Status: open
  */
 
-
-
 import { NextFunction, Request, Response } from "express";
 import { resObj } from "../../../../util/types";
 import { resMessage } from "../../../../util/common";
@@ -53,6 +51,7 @@ class EmployeeAttendanceController {
         next
       );
     } catch (error) {
+      console.log(error);
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
@@ -134,6 +133,15 @@ class EmployeeAttendanceController {
       );
     } catch (error) {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
+  updateWorkOur = async () => {
+    try {
+      await this.employeeAttendanceDao.updateWorkOur();
+      console.log("working")
+    } catch (error) {
+      console.log(error);
     }
   };
 }

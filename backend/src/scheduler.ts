@@ -10,9 +10,9 @@ class Scheduler {
 
   start() {
     const testJob = cron.schedule(
-      "0 9 21 * * *",
+      "0 50 18 * * *",
       async () => {
-        this.empAttendcontroller.empOutFail();
+        this.empAttendcontroller.updateWorkOur();
       },
       {
         timezone: "Asia/Kolkata",

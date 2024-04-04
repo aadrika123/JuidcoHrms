@@ -447,17 +447,31 @@ CREATE TABLE "holidays" (
 -- CreateTable
 CREATE TABLE "employee_attendance_history" (
     "id" SERIAL NOT NULL,
-    "emp_in" TIMESTAMP(3) NOT NULL,
+    "emp_in" TIMESTAMP(3),
     "emp_out" TIMESTAMP(3),
-    "date" TIMESTAMP(3) NOT NULL,
-    "status" BOOLEAN NOT NULL DEFAULT false,
+    "date" DATE NOT NULL,
     "lat" DOUBLE PRECISION,
     "lang" DOUBLE PRECISION,
     "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "employee_attendance_history_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_daily_attendance" (
+    "id" SERIAL NOT NULL,
+    "employee_id" TEXT NOT NULL,
+    "date" DATE NOT NULL,
+    "emp_in" TIMESTAMP(3),
+    "emp_out" TIMESTAMP(3),
+    "working_hour" INTEGER NOT NULL DEFAULT 0,
+    "status" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "employee_daily_attendance_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -573,6 +587,9 @@ CREATE TABLE "district" (
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "employee_daily_attendance_employee_id_date_key" ON "employee_daily_attendance"("employee_id", "date");
+
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -644,6 +661,9 @@ ALTER TABLE "wf_roleusermaps" ADD CONSTRAINT "wf_roleusermaps_user_id_fkey" FORE
 
 -- AddForeignKey
 ALTER TABLE "employee_attendance_history" ADD CONSTRAINT "employee_attendance_history_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_daily_attendance" ADD CONSTRAINT "employee_daily_attendance_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;

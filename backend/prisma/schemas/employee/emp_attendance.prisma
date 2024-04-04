@@ -4,14 +4,31 @@ model employee_attendance_history {
   id          Int       @id @default(autoincrement())
   emp_in      DateTime?
   emp_out     DateTime?
-  date        DateTime
-  status      Boolean   @default(false) // false -> absend , true -> present
+  date        DateTime @db.Date
   lat         Float?
   lang        Float?
   employee    employees @relation(fields: [employee_id], references: [emp_id])
   employee_id String
   created_at  DateTime  @default(now()) @map("created_at")
-  updated_at  DateTime  @updatedAt @map("updated_at")
+  updated_at  DateTime  @default(now()) @updatedAt @map("updated_at")
+}
+
+model employee_daily_attendance {
+  id           Int       @id @default(autoincrement())
+  employee_id  String
+  date         DateTime @db.Date
+  emp_in       DateTime?
+  emp_out      DateTime?
+  working_hour Int @default(0)
+
+  status Int @default(0) // false -> absend , true -> present
+
+  employee employees @relation(fields: [employee_id], references: [emp_id])
+
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([employee_id, date])
 }
 
 model employee_hierarchy {

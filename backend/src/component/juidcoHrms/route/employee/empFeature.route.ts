@@ -129,6 +129,19 @@ class EmployeeFeatureRoute {
           ),
         loggerMiddleware
       ); //0311
+
+    // app
+    //   .route(`${baseUrl}/employee/attendance/test`)
+    //   .get(
+    //     (req: Request, res: Response, next: NextFunction) =>
+    //       this.employeeAttendanceController.updateWorkOur(
+    //         req,
+    //         res,
+    //         next,
+    //         "0312"
+    //       ),
+    //     loggerMiddleware
+    //   ); //0311
   }
 }
 
