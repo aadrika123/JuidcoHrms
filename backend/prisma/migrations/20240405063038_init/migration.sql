@@ -37,7 +37,7 @@ CREATE TABLE "employee_basic_details" (
     "emp_id" TEXT NOT NULL,
     "emp_image" TEXT NOT NULL,
     "emp_name" TEXT NOT NULL,
-    "mode_of_recruitment" TEXT NOT NULL,
+    "mode_of_recruitment" TEXT,
     "contact_no" TEXT NOT NULL,
     "emg_contact_no" TEXT NOT NULL,
     "aadhar_no" TEXT NOT NULL,

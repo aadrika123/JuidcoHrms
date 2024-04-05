@@ -85,17 +85,21 @@ const LeaveForm = () => {
   const calculateDaysDiff = (values: LeaveInitialData) => {
     const { leave_from, leave_to } = values;
     if (leave_from && leave_to) {
-      const firstDate = new Date(leave_from);
-      const secondDate = new Date(leave_to);
+        const firstDate = new Date(leave_from);
+        const secondDate = new Date(leave_to);
 
-      const differenceBtwDates = secondDate.getTime() - firstDate.getTime();
-      const aDayInMs = 24 * 60 * 60 * 1000;
+        // Set hours to 0 for accurate calculation
+        firstDate.setHours(0, 0, 0, 0);
+        secondDate.setHours(0, 0, 0, 0);
 
-      const diff = Math.round(differenceBtwDates / aDayInMs);
-      setDaysDiff(diff);
-      setTotalDays(diff);
+        const differenceBtwDates = secondDate.getTime() - firstDate.getTime();
+        const aDayInMs = 24 * 60 * 60 * 1000;
+
+        const diff = Math.round(differenceBtwDates / aDayInMs) + 1;
+        setDaysDiff(diff);
+        setTotalDays(diff);
     }
-  };
+};
 
   useEffect(() => {
     try {
@@ -131,33 +135,37 @@ const LeaveForm = () => {
     }
   };
 
-  // logic to handle map status for approve or confirm
+  // logic to handle date status 
 
   const tileContent = ({ date, view }: any) => {
-    if (view === "month") {
-      const currentDate = new Date(date);
-      const leaveFromDate = new Date(leaveData?.leave_from);
-      const leaveToDate = new Date(leaveData?.leave_to);
+    if (view === 'month' && leaveData?.leave_from && leaveData?.leave_to) {
+        const currentDate = new Date(date);
+        const leaveFromDate = new Date(leaveData.leave_from);
+        const leaveToDate = new Date(leaveData.leave_to);
 
-      if (currentDate >= leaveFromDate && currentDate <= leaveToDate) {
-        return (
-          <div
-            className="highlighted-date"
-            style={{
-              backgroundColor:
-                leaveData?.leave_status === 3 ? "green" : "orange",
-              borderRadius: "50%",
-              width: "10px",
-              height: "10px",
-              position: "absolute",
-              transform: "translate(-50%, -50%)",
-            }}
-          ></div>
-        );
-      }
+        // Set time to start of day for accurate comparison
+        currentDate.setHours(0, 0, 0, 0);
+        leaveFromDate.setHours(0, 0, 0, 0);
+        leaveToDate.setHours(0, 0, 0, 0);
+
+        if (currentDate >= leaveFromDate && currentDate <= leaveToDate) {
+            return (
+                <div
+                    className="highlighted-date"
+                    style={{
+                        backgroundColor: leaveData.leave_status === 3 ? 'green' : 'orange',
+                        borderRadius: '50%',
+                        width: '10px',
+                        height: '10px',
+                        position: 'absolute',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                ></div>
+            );
+        }
     }
     return null;
-  };
+};
 
   const [selectedFileName, setSelectedFileName] = useState("");
 

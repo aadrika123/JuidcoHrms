@@ -36,6 +36,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
+import CorrectIcon from "@/assets/icons/correct.png";
+import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
 
 // Imports // ----------------------------------------------------------------
 
@@ -63,6 +65,8 @@ export const EmployeeOnBoard = () => {
       sessionStorage.clear();
     }
   }
+  const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
+    useWorkingAnimation();
 
   const router = useRouter();
   // ----------Employee All Detail states------------ //
@@ -91,7 +95,7 @@ export const EmployeeOnBoard = () => {
     values: EmployeeOnBoardForm
   ): Promise<EmployeeOnBoardForm> => {
     values.emp_basic_details.dob = DateFormatter(values.emp_basic_details.dob);
-    console.log(values, "valll");
+    activateWorkingAnimation();
     const res = await axios({
       url: `${HRMS_URL.EMS.create}`,
       method: "POST",
@@ -105,6 +109,7 @@ export const EmployeeOnBoard = () => {
     onSuccess: () => {
       toast.success(`Employee Added Successfully!`);
       setShowCongratulations(true);
+      hideWorkingAnimation();
       setTimeout(() => {
         removeSessionsAfterSubmit();
         router.push("/");
@@ -118,12 +123,10 @@ export const EmployeeOnBoard = () => {
     },
   });
 
-  console.log("first", empId);
-
   return (
     <>
       <Toaster />
-
+      {workingAnimation}
       {showCongratulations && (
         <div className="fixed top-1/2 left-1/2 transform border border-green-800 -translate-x-1/2 -translate-y-1/2 bg-[#F8FFF7] p-8 rounded-md text-black text-center justify-center w-[50%] h-[40%] flex flex-col items-center">
           {/* <div className='mb-4'>
@@ -133,7 +136,7 @@ export const EmployeeOnBoard = () => {
                             </svg>
                         </div> */}
           <Image
-            src="/icons/correct.jpeg"
+            src={CorrectIcon}
             alt="Correct Icon"
             width={200}
             height={200}

@@ -26,8 +26,8 @@ import Link from "next/link";
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef<DatePicker>(null);
-  const present = 83;
-  const absent = 17;
+  const present = 1;
+  const absent = 0;
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);

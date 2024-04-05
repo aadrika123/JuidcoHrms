@@ -55,6 +55,10 @@ button.react-calendar__tile.react-calendar__month-view__days__day {
   margin-left: 20px;
 }
 
+.react-calendar {
+  width: 95% !important;
+}
+
 .react-calendar__month-view__weekdays__weekday abbr {
   text-decoration: none;
 }
@@ -65,11 +69,27 @@ span.react-calendar__navigation__label__labelText.react-calendar__navigation__la
 }
 
 .text-area {
-  height: 13rem;
+  /* height: 12rem;
+  padding-left: 45px; */
+
+  padding: 5rem 0rem;
+  padding-left: 45px;
+  white-space: pre-wrap;
+  width: 100%;
 }
 
-.react-calendar {
-  width: 95% !important;
-
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
 }
+
+.text-area {
+  white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+  overflow-wrap: break-word; /* Break words when needed */
+  word-wrap: break-word; /* Compatibility for older browsers */
+  width: 100%; /* Ensure the input takes the full width */
+}
+
 /* code for calendar used for leave managemanet system */

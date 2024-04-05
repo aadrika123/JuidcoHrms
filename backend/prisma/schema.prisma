@@ -65,7 +65,7 @@ model employee_basic_details {
   emp_id              String
   emp_image           String
   emp_name            String
-  mode_of_recruitment String // Assuming you want to store it as a string, adjust as needed
+  mode_of_recruitment String? // Assuming you want to store it as a string, adjust as needed
   contact_no          String
   emg_contact_no      String
   aadhar_no           String

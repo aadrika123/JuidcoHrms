@@ -13,6 +13,7 @@ import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
+import EmployeeIcon from "@/assets/icons/employee 1.png";
 
 const EmployeeList = () => {
   const EMP_LIST_COLS: COLUMNS[] = [
@@ -129,13 +130,12 @@ const EmployeeList = () => {
     <section className="flex items-center justify-between mt-5">
       <div>
         <h2 className="text-[2rem] text-secondary font-medium">
-          List of Onboard Employees Report
+          List of On-Boarded Employee Records
         </h2>
         <h4 className=" text-[1.3819rem]">
           <span className="text-primary_blue">
-            {empCount?.totalEmp} total,{" "}
+            Onboarded employee - {empCount?.totalEmp}
           </span>
-          Employee are onboarded
         </h4>
       </div>
       <div className="flex items-start gap-8">
@@ -169,12 +169,7 @@ const EmployeeList = () => {
       </div>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          <Image
-            src="/icons/employee 1.png"
-            alt="employee"
-            width={40}
-            height={20}
-          />
+          <Image src={EmployeeIcon} alt="employee" width={40} height={20} />
           <span className="ml-4">Search Employee</span>
         </SubHeading>
       </div>

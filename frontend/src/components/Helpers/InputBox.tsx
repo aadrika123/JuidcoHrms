@@ -21,6 +21,7 @@ interface InputBoxProps {
   onBlur?: (e?: React.FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
   maxLength?: number;
+  disabled?: boolean;
   // pattern?: string;
   onKeyPress?: (e?: React.KeyboardEvent<HTMLInputElement>) => void;
   // onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -51,6 +52,7 @@ const InputBox: React.FC<InputBoxProps> = (props) => {
           // onKeyPress={(e) => props.onKeyPress && props.onKeyPress(e)}
           onKeyPress={(e) => props.onKeyPress && props.onKeyPress(e)}
           // onKeyDown={(e) => props.onKeyDown && props.onKeyDown(e)}
+          disabled={props.disabled}
         />
 
         {props.touched && props.error && (

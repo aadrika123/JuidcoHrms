@@ -128,12 +128,12 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
             emp_id: empData?.emp_id as string,
             emp_name: empData?.emp_basic_details?.emp_name as string,
             department_id: empData?.emp_join_details?.department_id as string,
-            pay_band: empData?.emp_join_details?.pay_band as string,
-            pay_scale: empData?.emp_join_details?.pay_scale as string,
+            pay_band: empData?.emp_join_details?.pay_band as number,
+            pay_scale: empData?.emp_join_details?.pay_scale as number,
             designation_id: empData?.emp_join_details?.designation_id as string,
-            grade_pay: empData?.emp_join_details?.grade_pay as string,
+            grade_pay: empData?.emp_join_details?.grade_pay as number,
             task: empData?.emp_join_details?.task as string,
-            basic_pay: empData?.emp_join_details?.basic_pay as string,
+            basic_pay: empData?.emp_join_details?.basic_pay as number,
           }}
           enableReinitialize
           onSubmit={(value) => mutate(value)}
@@ -157,8 +157,8 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
                   touched={touched.emp_id}
                   label="Employee ID"
                   name="emp_id"
-                  required={true}
                   placeholder="Edit Employee ID"
+                  disabled
                 />
 
                 <InputBox
@@ -205,6 +205,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
                   label="Pay Scale"
                   required={true}
                   name="pay_scale"
+                  type="number"
                   placeholder={"Enter Pay Scale"}
                 />
 
@@ -216,6 +217,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
                   touched={touched.pay_band}
                   label="Basic Pay Band"
                   name="pay_band"
+                  type="number"
                   required={true}
                 />
 
@@ -227,6 +229,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
                   touched={touched.grade_pay}
                   label="Grade Pay "
                   name="grade_pay"
+                  type="number"
                   required={true}
                 />
 
@@ -249,6 +252,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
                   touched={touched.basic_pay}
                   label="Basic Pay "
                   name="basic_pay"
+                  type="number"
                   required={true}
                 />
               </div>

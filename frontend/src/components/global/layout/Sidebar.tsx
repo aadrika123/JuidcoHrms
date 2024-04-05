@@ -17,6 +17,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   const pathName = usePathname();
   const [data, setData] = useState<string | null>();
   const [sidebarLink, setSidebarLink] = useState<any>();
+  const [userDetails, setUserDetails] = useState<any>();
   useEffect(() => {
     setData(localStorage.getItem("openPage"));
   }, []);
@@ -37,6 +38,14 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const data = sessionStorage.getItem("user_details");
+      const user_details = JSON.parse(data as string);
+      setUserDetails(user_details);
+    }
+  }, []);
+
   return (
     <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""}`}>
       <div {...props}>
@@ -45,8 +54,8 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
             {/* <Image src="/logo/jh-logo.png" width={100} height={100} alt="logo" /> */}
             <Image src={ProfileIcon} width={100} height={100} alt="logo" />
             <br />
-            <InnerHeading className="font-bold">HR ADMIN</InnerHeading>
-            <InnerHeading>DMA</InnerHeading>
+            <InnerHeading className="font-bold">{userDetails?.user_type}</InnerHeading>
+            <InnerHeading>{userDetails?.name}</InnerHeading>
           </div>
 
           <div>
@@ -66,9 +75,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                           <ul>
                             {link.subModules?.map((sub: any, index: number) => (
                               <li key={index} className="mt-5 w-[90%] ">
-                                {
-                                  
-                                }
+                                {}
                                 <details open={data === sub?.moduleName}>
                                   <summary
                                     className={`${

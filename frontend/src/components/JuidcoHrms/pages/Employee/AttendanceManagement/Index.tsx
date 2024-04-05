@@ -68,6 +68,7 @@ const AttendanceManagement = () => {
 
   const [selectedMonth, setSelectedMonth] = useState("fsdf");
   const [attndData, setAttnd] = useState<any>();
+  const [attndDataHistory, setAttndHistory] = useState<any>();
   const [eventList, setEventList] = useState<any[]>([]);
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();
@@ -90,9 +91,18 @@ const AttendanceManagement = () => {
       method: "GET",
     });
 
+    const res2 = await axios({
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}`,
+      method: "GET",
+    });
+
     const data = res.data?.data?.data;
+    const data2 = res2.data?.data?.data;
+    setAttndHistory(data2);
     setAttnd(data);
   };
+
+  console.log(attndData, "main_atnd");
 
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
 
@@ -104,26 +114,33 @@ const AttendanceManagement = () => {
     const events: any = [];
 
     attndData?.map((element: any) => {
-      if (element?.emp_out !== "null" && element?.emp_out !== "") {
+      if (element?.status !== 1 && element?.status !== 2) {
+        events.push({
+          title: "",
+          date: formatDate(element.date),
+          display: "background",
+          color: "red",
+        });
+      } else if (element?.status === 1) {
+        events.push({
+          title: "",
+          date: formatDate(element.date),
+          display: "background",
+          color: "orange",
+        });
+      } else if (element?.status === 2) {
         events.push({
           title: "",
           date: formatDate(element.date),
           display: "background",
           color: "green",
         });
-      } else if (element?.emp_out === "exceed") {
+      } else if (element?.status === 3) {
         events.push({
           title: "",
           date: formatDate(element.date),
           display: "background",
-          color: "yellow",
-        });
-      } else {
-        events.push({
-          title: "",
-          date: formatDate(element.date),
-          display: "background",
-          color: "red",
+          color: "blue",
         });
       }
     });
@@ -218,11 +235,6 @@ const AttendanceManagement = () => {
       setDepartment(data);
     })();
   }, [userDetails?.emp_id]);
-
-  console.log(
-    department[employeeDetails?.emp_join_details?.department_id]?.name,
-    "depa"
-  );
 
   useEffect(() => {
     (async () => {
@@ -470,7 +482,7 @@ const AttendanceManagement = () => {
           <div className="mt-2">
             <TableListContainer
               columns={EMP_LIST_COLS}
-              tableData={attndData || []}
+              tableData={attndDataHistory || []}
               sl_no
             />
           </div>

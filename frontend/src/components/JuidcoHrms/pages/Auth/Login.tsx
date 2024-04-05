@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
 import { HRMS_URL } from "@/utils/api/urls";
+import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
 
 interface LoginInitialData {
   user_id: string;
@@ -27,6 +28,8 @@ interface LoginInitialData {
 const Login = () => {
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState<string>();
+  const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
+    useWorkingAnimation();
 
   // const [hide, setHide] = useState(true);
 
@@ -39,6 +42,7 @@ const Login = () => {
 
   const handleLogin = async (values: LoginInitialData) => {
     try {
+      activateWorkingAnimation();
       const res = await axios({
         url: `${process.env.backend}/api/login`,
         method: "POST",
@@ -86,9 +90,11 @@ const Login = () => {
           }
         }
       } else {
+        hideWorkingAnimation();
         setErrorMsg("You have entered wrong credentials !!");
       }
     } catch (error) {
+      hideWorkingAnimation();
       setErrorMsg("Something Went Wrong!!");
       console.log(error);
     }
@@ -100,6 +106,7 @@ const Login = () => {
 
   return (
     <>
+      {workingAnimation}
       <div className="max-w-full w-full px-2 sm:px-12 lg:pr-20 mb-12 lg:mb-0">
         <div className="relative">
           <div className="p-6 sm:py-8 sm:px-12 rounded-lg bg-white darks:bg-gray-800 shadow-xl">
@@ -153,6 +160,7 @@ const Login = () => {
                       error={errors.password}
                       touched={touched.password}
                       name="password"
+                      type="password"
                       placeholder="Password"
                       className="mt-1 border-0 focus:border-0 visible:border-0 focus:outline-none"
                       // type={hide ? "password" : "text"}

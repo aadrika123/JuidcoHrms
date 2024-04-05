@@ -62,7 +62,7 @@ class EmployeeOnBoardDao {
         from: '"New Employee Onboarded 👻" <jgupta324@gmail.com>',
         // from: 'jgupta324@gmail.com',
         // to: 'gjai4341@gmail.com',
-        to: "gjai4341@gmail.com, kkrish7654@gmail.com",
+        to: "gjai4341@gmail.com, kkrish7654@gmail.com, jharina070@gmail.com, rajeshguptaranchi123@gmail.com",
         subject: "New Employee Onboarded",
         text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
       };

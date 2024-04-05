@@ -40,10 +40,10 @@ class EmployeeFeatureRoute {
       ); //0302
 
     app
-      .route(`${baseUrl}/employee/attendance/get`)
+      .route(`${baseUrl}/employee/attendance-history/get`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>
-          this.employeeAttendanceController.getEmpAttendance(
+          this.employeeAttendanceController.getEmpAttendanceHistory(
             req,
             res,
             next,
@@ -129,6 +129,19 @@ class EmployeeFeatureRoute {
           ),
         loggerMiddleware
       ); //0311
+
+    app
+      .route(`${baseUrl}/employee/attendance/get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeAttendanceController.getEmpAttendance(
+            req,
+            res,
+            next,
+            "0312"
+          ),
+        loggerMiddleware
+      ); //0312
 
     // app
     //   .route(`${baseUrl}/employee/attendance/test`)

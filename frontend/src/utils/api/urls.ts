@@ -53,6 +53,7 @@ export const HRMS_URL: Urls = {
     create: "/employee/attendance/create",
     update: "/employee/attendance/update",
     get: "/employee/attendance/get",
+    getAll: "/employee/attendance-history/get",
   },
 
   HOLIDAY: {

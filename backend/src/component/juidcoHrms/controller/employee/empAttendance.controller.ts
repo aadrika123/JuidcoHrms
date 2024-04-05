@@ -100,6 +100,44 @@ class EmployeeAttendanceController {
     }
   };
 
+  getEmpAttendanceHistory = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ): Promise<object> => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.employeeAttendanceDao.getEmpAttendanceHistory(
+        req
+      );
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Not Found `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        `${this.initMesg} Found Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
   getEmpAttendance = async (
     req: Request,
     res: Response,
@@ -139,7 +177,7 @@ class EmployeeAttendanceController {
   updateWorkOur = async () => {
     try {
       await this.employeeAttendanceDao.updateWorkOur();
-      console.log("working")
+      console.log("working");
     } catch (error) {
       console.log(error);
     }

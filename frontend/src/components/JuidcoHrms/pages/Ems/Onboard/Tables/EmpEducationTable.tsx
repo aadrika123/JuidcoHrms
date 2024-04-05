@@ -264,7 +264,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   <span>{index + 1}</span>
                 </td>
                 {/* -----------------------Edu Level----------------------------------- */}
-                <td className=" px-5 py-2 flex items-center">
+                <td className=" px-5 py-2 flex items-center w-[15rem]">
                   <span>
                     <svg
                       stroke="currentColor"
@@ -438,11 +438,27 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
           })}
         </tbody>
       </table>
-      <div className="w-full flex items-start justify-between mt-3">
+      {/* <div className="w-full flex items-start justify-end mt-3">
         <span className="text-xs italic">
           P.S-You can add more 4 other information of education
         </span>
         <Button onClick={addRow} buttontype="button" variant="primary_rounded">
+          Add
+        </Button>
+      </div> */}
+
+      <div className="w-full flex items-start justify-between mt-3">
+        <span className="text-xs italic">
+          P.S-You can add more 4 other information of education
+        </span>
+      </div>
+      <div className="w-full flex items-center justify-end mt-3 mb-3">
+        <Button
+          onClick={addRow}
+          buttontype="button"
+          variant="primary_rounded"
+          className="absolute"
+        >
           Add
         </Button>
       </div>
