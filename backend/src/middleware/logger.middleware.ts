@@ -8,7 +8,11 @@ const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const resTime = end - start;
     if (res.locals.jsonRes.status !== true) {
       logger.error(
-        `${req.method} ${resTime} ${req.url} status = ${res.locals.jsonRes.status}, err = ${res.locals.jsonRes.message} `
+        `Date & Time:- ${new Date().toISOString()} ${req.method} ${resTime} ${
+          req.url
+        } status = ${res.locals.jsonRes.status}, err = ${
+          res.locals.jsonRes.message
+        } `
       );
     }
   };
