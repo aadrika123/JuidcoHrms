@@ -11,6 +11,15 @@ installModules () {
     npm --prefix ./backend install
 }
 
+
+configure(){
+    rm  ./backend/prisma/seeder/foreignWrapper.seed.ts
+    cp ./staging/foreignWrapper.seed.ts ./backend/prisma/seeder/
+
+    rm ./frontend/next.config.js
+    cp ./staging/next.config.js ./frontend
+}
+
 resetDatabases() {
     rm -rf ./backend/prisma/migrations
     cd backend
@@ -48,6 +57,7 @@ startServices(){
 # git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
 
 installModules
+configure
 resetDatabases
 buildThem
 startServices
