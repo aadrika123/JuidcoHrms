@@ -23,13 +23,13 @@ function formatDate(timestamp: string) {
 function convertTimeToAMPM(timeString: string): string {
   if (timeString === "--") return "--";
   console.log("Time string: ", timeString);
-  const time1 = new Date(timeString);
+  const time = new Date(timeString);
 
-  const timeZoneFromDB = -0.00; //time zone value from database
-//get the timezone offset from local time in minutes
-  const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
-//convert the offset to milliseconds, add to targetTime, and make a new Date
-  const time = new Date(time1.getTime() + tzDifference * 60 * 1000);
+  // const timeZoneFromDB = -0.0; //time zone value from database
+  // //get the timezone offset from local time in minutes
+  // const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
+  // //convert the offset to milliseconds, add to targetTime, and make a new Date
+  // const time = new Date(time1.getTime() + tzDifference * 60 * 1000);
 
   let hours = time.getHours();
   const minutes = time.getMinutes();
