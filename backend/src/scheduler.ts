@@ -10,7 +10,7 @@ class Scheduler {
 
   start() {
     const testJob = cron.schedule(
-      "0 59 23 * * *",
+      "0 31 13 * * *",
       async () => {
         this.empAttendcontroller.updateWorkOur();
       },
