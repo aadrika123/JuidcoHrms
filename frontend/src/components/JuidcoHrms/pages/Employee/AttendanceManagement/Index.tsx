@@ -24,14 +24,14 @@ import TableListContainer from "@/components/global/organisms/TableListContainer
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import Loader from "@/components/global/atoms/Loader";
 
-function formatDate(timestamp: string) {
-  const date = new Date(timestamp);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-  const day = String(date.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
+// function formatDate(timestamp: string) {
+//   const date = new Date(timestamp);
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const formattedDate = `${year}-${month}-${day}`;
+//   return formattedDate;
+// }
 
 const AttendanceManagement = () => {
   const Map = React.useMemo(
@@ -49,6 +49,23 @@ const AttendanceManagement = () => {
       }),
     []
   );
+
+  function formatDate(timestamp: string) {
+    const time1 = new Date(timestamp);
+
+    const timeZoneFromDB = -0.0; //time zone value from database
+    //get the timezone offset from local time in minutes
+    const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
+    //convert the offset to milliseconds, add to targetTime, and make a new Date
+    const date = new Date(time1.getTime() + tzDifference * 60 * 1000);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+    const day = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(formattedDate, "dvkmd");
+    return formattedDate;
+  }
 
   const Calendar = React.useMemo(
     () =>
@@ -114,7 +131,12 @@ const AttendanceManagement = () => {
     const events: any = [];
 
     attndData?.map((element: any) => {
-      if (element?.status !== 1 && element?.status !== 2) {
+      if (
+        element?.status !== 1 &&
+        element?.status !== 2 &&
+        element?.status !== 3 &&
+        element?.status !== 4
+      ) {
         events.push({
           title: "",
           date: formatDate(element.date),
@@ -141,6 +163,13 @@ const AttendanceManagement = () => {
           date: formatDate(element.date),
           display: "background",
           color: "blue",
+        });
+      } else if (element?.status === 4) {
+        events.push({
+          title: "",
+          date: formatDate(element.date),
+          display: "background",
+          color: "white",
         });
       }
     });
@@ -178,9 +207,9 @@ const AttendanceManagement = () => {
     },
     {
       id: 4,
-      label: "Approve",
+      label: "Leaves Approved",
       bgColor: "bg-[#F0FFF5]",
-      buttonColor: "bg-[#F59E0B]",
+      buttonColor: "bg-[#1560BD]",
     },
     {
       id: 5,
@@ -243,6 +272,7 @@ const AttendanceManagement = () => {
         method: "GET",
       });
       const data = res?.data?.data;
+      console.log("li", data)
       setEmployeeDetails(data);
     })();
   }, [userDetails?.emp_id]);
@@ -336,8 +366,7 @@ const AttendanceManagement = () => {
                 <h4 className="text-secondary">
                   Department-{" "}
                   {
-                    department[employeeDetails?.emp_join_details?.department_id]
-                      ?.name
+                    employeeDetails ? department[employeeDetails?.emp_join_details?.department_id]?.name : ""
                   }
                 </h4>
               </aside>

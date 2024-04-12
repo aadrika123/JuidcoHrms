@@ -54,6 +54,28 @@ class PayrollController {
       next
     );
   };
+
+  calc_total_amount_released = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+
+    const data = await this.payrollDao.calc_total_amount_released();
+    return CommonRes.SUCCESS(
+      resMessage("Calculated Total Amount Released").FOUND,
+      data,
+      resObj,
+      res,
+      next
+    );
+  };
 }
 
 export default PayrollController;

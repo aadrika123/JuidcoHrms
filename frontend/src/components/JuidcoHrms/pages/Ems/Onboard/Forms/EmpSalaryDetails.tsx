@@ -6,7 +6,7 @@
 
 "use client";
 import TableFormContainer from "@/components/global/organisms/TableFormContainer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EmployeeDetailsProps,
   EmployeeSalaryDetailType,
@@ -18,6 +18,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { SubHeading } from "@/components/Helpers/Heading";
 import toast from "react-hot-toast";
+import Button from "@/components/global/atoms/Button";
 
 const EmpSalaryDetails: React.FC<
   EmployeeDetailsProps<EmployeeSalaryDetailType>
@@ -26,18 +27,173 @@ const EmpSalaryDetails: React.FC<
   const router = useRouter();
   const pathName = usePathname();
   const empType = useSearchParams().get("emp");
-  const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([{}]);
+  const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([]);
   const [session, setSession] = useState<number>(0);
   const [isValidate, setIsValidate] = useState<boolean>(true);
   const [resetTable, setResetTable] = useState<number>(0);
+  const [basic_pay, setBasicPay] = useState(0);
+  const [basic_pay1, setBasicPay1] = useState(0);
 
-  const handleSubmitForm = (values: any) => {
+  const initialDeductDetails = {
+    amount_in: "",
+    name: "",
+    wfe_date: "",
+    acnt_no: "",
+  };
+  const [employeeDeductionDetails, setEmployeeDeductionDetails] = useState<any>(
+    [initialDeductDetails]
+  );
+
+  function storeEmployeeDeductionDetails() {
     if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "emp_salary_deduction_details",
+        JSON.stringify(employeeDeductionDetails)
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const sessionData = sessionStorage.getItem(
+        "emp_salary_deduction_details"
+      );
+      const empDeduction = JSON.parse(sessionData as string);
+      if (empDeduction) setEmployeeDeductionDetails(empDeduction);
+    }
+  }, []);
+
+  // console.log("employeeDeductionDetails", employeeDeductionDetails)
+
+  useEffect(() => {
+    const storedJoinDataString = sessionStorage.getItem("emp_join_details");
+    const storedJoinData = storedJoinDataString
+      ? JSON.parse(storedJoinDataString)
+      : null;
+
+    const storedAllowanceDataString = sessionStorage.getItem(
+      "emp_salary_allow_details"
+    );
+    const storedAllowanceData = storedAllowanceDataString
+      ? JSON.parse(storedAllowanceDataString)
+      : null;
+
+    if (storedJoinData && storedJoinData.basic_pay) {
+      const totalAllowances = storedAllowanceData?.reduce(
+        (sum: number, item: any) => sum + item.amount_in,
+        0
+      );
+
+      const newBasicPay2 = storedJoinData.basic_pay;
+      console.log("newBasicPay2", newBasicPay2);
+      setBasicPay1(newBasicPay2);
+      const newBasicPay = storedJoinData.basic_pay + totalAllowances;
+      console.log("newBasicPay", newBasicPay);
+      setBasicPay(newBasicPay);
+    }
+  }, [basic_pay, employeeDeductionDetails]);
+
+  const handleSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) => {
+    const selectedOption = e.target.value;
+    let calculatedAmount = 0;
+
+    const currentBasicPay = basic_pay; // Use the current basic_pay state
+    console.log("currentBasicPay", currentBasicPay);
+    switch (selectedOption) {
+      case "PT":
+        if (currentBasicPay <= 25000) {
+          calculatedAmount = 0;
+        } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
+          calculatedAmount = 100;
+        } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
+          calculatedAmount = 150;
+        } else if (currentBasicPay >= 66667) {
+          calculatedAmount = 200;
+        }
+        break;
+
+      case "IT": {
+        const annualBasicPay = currentBasicPay * 12;
+        console.log("annualBasicPay12", annualBasicPay);
+        if (annualBasicPay <= 250000) {
+          calculatedAmount = 0;
+        } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
+          calculatedAmount = Math.round((annualBasicPay * 5) / 100);
+          console.log("calculatedAmount12323", calculatedAmount);
+        } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
+          calculatedAmount = Math.round((annualBasicPay * 20) / 100);
+        } else if (annualBasicPay > 1000000) {
+          calculatedAmount = Math.round((annualBasicPay * 30) / 100);
+        }
+        break;
+      }
+
+      case "ESIC":
+        calculatedAmount = Math.round(currentBasicPay * 0.0175);
+        break;
+
+      case "EPF": {
+        const basicPay = basic_pay;
+        const allowanceDataString =
+          sessionStorage.getItem("emp_salary_allow_details") || "";
+        const allowanceData = JSON?.parse(allowanceDataString);
+        const daAllowance = allowanceData.find(
+          (item: any) => item.name === "DA"
+        );
+        console.log("daAllowance", daAllowance);
+        if (daAllowance) {
+          const daAmount = daAllowance.amount_in;
+          console.log("currentBasicPay", currentBasicPay);
+          const totalAmount = basicPay + daAmount;
+          console.log("totalAmount", totalAmount);
+          // Calculate EPF (12% of total amount)
+          calculatedAmount = Math.round(totalAmount * 0.12);
+        } else {
+          console.error("DA allowance not found in allowance data");
+        }
+
+        console.log("daAllowance", daAllowance);
+        if (daAllowance) {
+          const daAmount = daAllowance.amount_in;
+          console.log("currentBasicPay", currentBasicPay);
+          const totalAmount = basic_pay1 + daAmount;
+          console.log("totalAmount", totalAmount);
+          // Calculate EPF (12% of total amount)
+          calculatedAmount = Math.round(totalAmount * 0.12);
+        } else {
+          console.error("DA allowance not found in allowance data");
+        }
+        break;
+      }
+
+      default:
+        calculatedAmount = 0;
+        break;
+    }
+
+    setEmployeeDeductionDetails((prev: any) => {
+      const updatedDetails = [...prev];
+      updatedDetails[index] = {
+        ...updatedDetails[index],
+        name: selectedOption,
+        amount_in: calculatedAmount,
+      };
+      return updatedDetails;
+    });
+  };
+
+  const handleSubmitForm = (values: any, employeeDeductionDetails: any) => {
+    if (typeof window !== "undefined") {
+      values.emp_salary_deduction_details = employeeDeductionDetails;
       sessionStorage.setItem("emp_salary_details", JSON.stringify(values));
 
       if (props.setData) {
         props.setData("emp_salary_details", values, tabIndex);
       }
+
       router.push(`${pathName}?emp=${empType}&page=10`);
     }
   };
@@ -56,8 +212,8 @@ const EmpSalaryDetails: React.FC<
       type: "select",
       placeholder: "Please Select",
       select_options: [
-        { id: 1, name: "DA(%)" },
-        { id: 2, name: "HRA(%)" },
+        { id: 1, name: "DA" },
+        { id: 2, name: "HRA" },
         { id: 3, name: "DP(A)" },
         { id: 4, name: "ADA(A)" },
         { id: 5, name: "IR(A)" },
@@ -67,23 +223,6 @@ const EmpSalaryDetails: React.FC<
         { id: 9, name: "MA(A)" },
         { id: 10, name: "SA(A)" },
       ],
-
-      //       ].filter((option) => {
-      // return(
-      //   // (option.name === "DA(%)").includes("HRA(%), DP(A), ADA(A), IR(A)"))
-      // )
-
-      //       }
-
-      // ].filter((option)=>{
-      //   console.log("option", option.name)
-      //   return (
-      //     (option.name === "DA(%)" && ["HRA(%)", "DP(A)"].includes(option.name)) ||
-      //     (option.name === "HRA(%)" && ["DA(%)", "DP(A)"].includes(option.name))
-      //     // (values.married_status !== "Single")
-      //   );
-      // })
-      // !option.name.includes("DA(%)")
     },
 
     {
@@ -167,6 +306,8 @@ const EmpSalaryDetails: React.FC<
     setResetTable(resetTable + 1);
   }
 
+  /////////////////////////////////
+
   return (
     <div>
       {/* <SubHeading className="text-[20px] pt-4">Salary Information</SubHeading> */}
@@ -243,15 +384,138 @@ const EmpSalaryDetails: React.FC<
 
         {tabIndex === 2 && (
           <>
-            <TableFormContainer
-              columns={COLUMNS_FOR_SLRY_DEDUCTION_INFRM_INFRM}
-              getData={[]}
-              subHeading={" "}
-              setData={getStateData}
-              session_key="emp_salary_deduction_details"
-              setSession={session}
-              validate={setIsValidate}
-            />
+            <div className="overflow-auto hide-scrollbar">
+              <table className="overflow-x-hidden">
+                <thead className="text-[1rem] bg-primary_green text-[#211F35]  ">
+                  <tr>
+                    {COLUMNS_FOR_SLRY_DEDUCTION_INFRM_INFRM?.map(
+                      (cols, index: number) => (
+                        <>
+                          <th
+                            key={index}
+                            // className="w-full"
+                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                          >
+                            <div className="flex gap-2 py-2 px-2 rounded-md">
+                              <span>{cols.HEADER}</span>
+                            </div>
+                          </th>
+                        </>
+                      )
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {employeeDeductionDetails?.map((item: any, index: number) => (
+                    <tr key={index}>
+                      <td className="w-[10%] px-5">{index + 1}</td>
+                      <td className="w-[20%]">
+                        <select
+                          value={employeeDeductionDetails[index].name}
+                          onChange={(e) => handleSelectChange(e, index)}
+                          className="w-[20rem] border rounded-xl p-2 mt-2"
+                        >
+                          <option value="">Please Select</option>
+                          <option value="GPF">GPF</option>
+                          <option value="EPF">EPF</option>
+                          <option value="PT">PT</option>
+                          <option value="IT">IT</option>
+                          <option value="Vol EPF(A)"> Vol EPF(A)</option>
+                          <option value="QR(A)">QR(A)</option>
+                          <option value="LIC Policy- 1">LIC Policy- 1</option>
+                          <option value="LIC Policy- 2">LIC Policy- 2</option>
+                          <option value="LIC Policy- 3">LIC Policy- 3</option>
+                          <option value="LIC Policy- 4">LIC Policy- 4</option>
+                          <option value="LIC Policy- 5">LIC Policy- 5</option>
+                          <option value="LIC Policy- 6">LIC Policy- 6</option>
+                          <option value="Hire Charge">Hire Charge</option>
+                          <option value="Rent Payment">Rent Payment</option>
+                          <option value="Telephone Bills">
+                            Telephone Bills
+                          </option>
+                          <option value="ESIC">ESIC</option>
+                        </select>
+                      </td>
+
+                      <td className="w-[20%] ">
+                        <input
+                          type="date"
+                          className=" bg-transparent outline-none w-[15rem]"
+                          placeholder={"Enter Date"}
+                          value={item.wfe_date}
+                          onChange={(e) =>
+                            setEmployeeDeductionDetails((prev: any) => {
+                              const updateData = [...prev];
+                              updateData[index].wfe_date = e.target.value;
+                              return updateData;
+                            })
+                          }
+                        />
+                      </td>
+                      <td className="w-[10%]">
+                        <input
+                          type="number"
+                          className="bg-transparent outline-none w-[15rem]"
+                          placeholder={"Enter Accnt No "}
+                          value={item.acnt_no}
+                          onChange={(e) =>
+                            setEmployeeDeductionDetails((prev: any) => {
+                              const updateData = [...prev];
+                              updateData[index].acnt_no = e.target.value;
+                              return updateData;
+                            })
+                          }
+                        />
+                      </td>
+
+                      <td className="w-[20%]">
+                        {["ESIC", "IT", "PT", "EPF"].includes(item.name) ? (
+                          <span>{item.amount_in}</span>
+                        ) : (
+                          <input
+                            type="number"
+                            value={item.amount_in}
+                            placeholder="Enter Amount"
+                            onChange={(e) =>
+                              setEmployeeDeductionDetails((prev: any) => {
+                                const updateData = [...prev];
+                                updateData[index].amount_in = Number(
+                                  e.target.value
+                                );
+                                return updateData;
+                              })
+                            }
+                            onKeyPress={(e) => {
+                              if (!(e.key >= "0" && e.key <= "9")) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Button
+                className="float-end rounded-3xl"
+                onClick={() => {
+                  setEmployeeDeductionDetails((prev: any) => [
+                    ...prev,
+                    {
+                      amount_in: "",
+                      name: "",
+                      wfe_date: "",
+                      acnt_no: "",
+                    },
+                  ]);
+                  storeEmployeeDeductionDetails();
+                }}
+                variant="primary"
+              >
+                Add
+              </Button>
+            </div>
           </>
         )}
 
@@ -278,7 +542,10 @@ const EmpSalaryDetails: React.FC<
             <PrimaryButton
               onClick={() => {
                 getDataSesson();
-                handleSubmitForm(employeeSalaryDetails);
+                handleSubmitForm(
+                  employeeSalaryDetails,
+                  employeeDeductionDetails
+                );
               }}
               buttonType="submit"
               variant="primary"

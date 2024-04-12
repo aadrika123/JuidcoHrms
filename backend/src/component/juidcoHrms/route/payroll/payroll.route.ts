@@ -27,6 +27,19 @@ class PayrollRoute {
           this.payrollController.calc_net_pay(req, res, next, "0402"),
         loggerMiddleware
       ); //0402
+
+    app
+      .route(`${baseUrl}/pay/total`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.calc_total_amount_released(
+            req,
+            res,
+            next,
+            "0403"
+          ),
+        loggerMiddleware
+      ); //0403
   }
 }
 

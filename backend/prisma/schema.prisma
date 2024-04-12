@@ -232,7 +232,7 @@ model employee_salary_deduction {
   id                         Int                     @id @default(autoincrement())
   name                       String
   wfe_date                   String
-  acnt_no                    Float
+  acnt_no                    String
   amount_in                  Float
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
