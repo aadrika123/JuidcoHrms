@@ -29,6 +29,7 @@ export const sidebarLinks: SidebarLinksProps = {
       moduleName: "HRMS",
       path: "/",
       icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
+      dropdown: false,
       subModules: [
         {
           moduleName: "Employee Management",

@@ -26,42 +26,34 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
       moduleName: "HRMS",
       path: "/",
       icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
+      dropdown: true,
       subModules: [
         {
           dropdown: false,
-          moduleName: "Employee",
+          moduleName: "Attendance Management",
+          icon: (
+            <Image
+              src={AttendanceIcon}
+              alt="masters"
+              width={100}
+              height={100}
+            />
+          ),
+          path: `${url}/employee/attendance-management`,
+        },
+        {
+          moduleName: "Apply for Leave",
           icon: (
             <Image src={LeaveIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}`,
-          subModules: [
-            {
-              moduleName: "Attendance Management",
-              icon: (
-                <Image
-                  src={AttendanceIcon}
-                  alt="masters"
-                  width={100}
-                  height={100}
-                />
-              ),
-              path: `${url}/employee/attendance-management`,
-            },
-            {
-              moduleName: "Apply for Leave",
-              path: `${url}/employee/leave-management`,
-              icon: (
-                <Image src={LeaveIcon} alt="masters" width={100} height={100} />
-              ),
-            },
-          ],
+          path: `${url}/employee/leave-management`,
         },
         {
           moduleName: "Payroll",
           icon: (
             <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}`,
+          path: `${url}/employee/payroll-management`,
         },
         {
           moduleName: "Download Pay slip",
