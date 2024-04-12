@@ -198,7 +198,7 @@ CREATE TABLE "employee_salary_deduction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "wfe_date" TEXT NOT NULL,
-    "acnt_no" DOUBLE PRECISION NOT NULL,
+    "acnt_no" TEXT NOT NULL,
     "amount_in" DOUBLE PRECISION NOT NULL,
     "employee_salary_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

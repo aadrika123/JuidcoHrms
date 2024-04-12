@@ -21,6 +21,7 @@ class PayrollDao {
     this.allowances = [];
     this.gross = [];
     this.no_of_leave_approved = [];
+    // this.offset = (1 - 1) * 2;
   }
 
   cal_allowance_and_deduction = async () => {
@@ -38,6 +39,7 @@ class PayrollDao {
       JOIN
         employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
       GROUP BY emp.emp_id
+      
     `;
 
     return generateRes(this.allowances);
@@ -56,6 +58,7 @@ class PayrollDao {
       JOIN 
         employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
       GROUP BY emp.emp_id, emp_join_details.basic_pay
+      
     `;
 
     // console.log(this.gross);
@@ -74,17 +77,18 @@ class PayrollDao {
       JOIN
         employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
       GROUP BY emp.emp_id, emp_join_details.basic_pay
+      
     `;
 
     // console.log(this.regulary_pay);
     // ---------------------------CALCULATING NO OF LEAVE DAYS APPROVED-------------------------------//
 
     this.total_working_hours = await prisma.$queryRaw`
-      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance group by employee_id;
+      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 group by employee_id ;
     `;
 
     this.no_of_leave_approved = await prisma.$queryRaw`
-      SELECT employee_id as emp_id, total_days as days_leave_approved FROM employee_leave_details
+      SELECT employee_id as emp_id, total_days as days_leave_approved FROM employee_leave_details 
     `;
   };
 
@@ -100,11 +104,16 @@ class PayrollDao {
 
   // end point
   // calc_net_pay ===> Gross - calc_non_billable_hours
+
+  // ---------------------------CALCULATING OF NET PAY------------------------------//
   calc_net_pay = async () => {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
-
+    console.log(this.regulary_pay);
+    console.log(this.gross);
+    console.log(this.total_working_hours);
+    console.log(this.no_of_leave_approved);
     // collect gross
     this.gross.forEach((emp) => {
       data[emp.emp_id] = {
@@ -137,7 +146,26 @@ class PayrollDao {
     });
 
     this.gross.forEach((record: any) => {
-      const total_hours: number = 26 * 8;
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      const numberOfDaysInMonth = new Date(
+        currentYear,
+        currentMonth + 1,
+        0
+      ).getDate();
+      let numberOfWeekdaysInMonth: number = 0;
+      for (let day = 1; day <= numberOfDaysInMonth; day++) {
+        const date = new Date(currentYear, currentMonth, day);
+        const dayOfWeek = date.getDay();
+
+        // Check if the day is not Sunday (0 represents Sunday)
+        if (dayOfWeek !== 0) {
+          numberOfWeekdaysInMonth++;
+        }
+      }
+
+      const total_hours: number = numberOfWeekdaysInMonth * 8;
       const leave_days = data[record.emp_id].leave_days;
       const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
 
@@ -147,6 +175,11 @@ class PayrollDao {
       const calc_non_billable_hours =
         total_hours -
         (data[record.emp_id].working_hour + no_of_hours_leave_approved);
+
+      const employee_present_days =
+        (data[record.emp_id].working_hour as number) / 8;
+
+      const employee_lwp_days = calc_non_billable_hours / 8;
 
       const calc_non_billable_salary =
         salary_per_hour * calc_non_billable_hours;
@@ -158,14 +191,37 @@ class PayrollDao {
       data[record.emp_id] = {
         ...data[record.emp_id],
         non_billable: calc_non_billable_hours,
+        present_days: employee_present_days,
+        lwp_days: employee_lwp_days,
+        salary_deducted: Math.floor(calc_non_billable_salary),
         net_pay: Math.floor(calc_net_pay),
       };
     });
+    return generateRes(data);
+  };
 
-    //console.log(this.total_working_hours);
+  calc_total_amount_released = async () => {
+    const total_amount = await prisma.$queryRaw<any[]>`
+      SELECT SUM(gross_pay) as total_amount_released
+      FROM (
+        SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
+        FROM 
+          employees as emp                        
+        JOIN 
+          employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
+        JOIN 
+          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+        JOIN 
+          employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+        GROUP BY emp.emp_id, emp_join_details.basic_pay
+      ) as subquery
+  `;
 
-    // console.log(calc_non_billable_hours);
-
+    const totalEmp = await prisma.employees.count();
+    const data = {
+      total_employee: totalEmp,
+      total_amount: total_amount[0].total_amount_released,
+    };
     return generateRes(data);
   };
 }
