@@ -83,7 +83,12 @@ export const sidebarLinks: SidebarLinksProps = {
         {
           moduleName: "Leave Management",
           icon: (
-            <Image src={LeaveIcon} alt="masters" width={100} height={100} />
+            <Image 
+              src={LeaveIcon} 
+              alt="masters" 
+              width={100} 
+              height={100} 
+            />
           ),
           path: `${url}`,
         },
