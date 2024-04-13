@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  payroll: sessionStorage.getItem("employee_payroll_details")
-    ? JSON.parse(sessionStorage.getItem("employee_payroll_details") as any)
-    : {},
+  payroll:
+    typeof window !== "undefined" &&
+    sessionStorage.getItem("employee_payroll_details")
+      ? JSON.parse(sessionStorage.getItem("employee_payroll_details") as any)
+      : {},
 };
 
 const payrollSlice = createSlice({
