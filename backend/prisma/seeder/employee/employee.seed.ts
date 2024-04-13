@@ -186,11 +186,8 @@ const employee_seeder = async () => {
         wef_date: null,
         branch_name: null,
         pf_category: null,
-        acc_number: faker.number.int({
-          min: 0o000000000000,
-          max: 999999999999,
-        }),
-        ifsc: faker.number.int({ min: 0o0000000, max: 999999999 }),
+        acc_number: "123456789123",
+        ifsc: "EMP23232",
         sen_grade_list: null,
       },
 
