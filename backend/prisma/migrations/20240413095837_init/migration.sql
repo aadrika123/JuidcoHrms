@@ -584,6 +584,28 @@ CREATE TABLE "district" (
     CONSTRAINT "district_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "payroll_master" (
+    "id" SERIAL NOT NULL,
+    "emp_id" TEXT NOT NULL,
+    "emp_name" TEXT NOT NULL,
+    "gross_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "leave_days" INTEGER NOT NULL DEFAULT 0,
+    "working_hour" INTEGER NOT NULL DEFAULT 0,
+    "total_allowance" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "total_deductions" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "non_billable" INTEGER NOT NULL DEFAULT 0,
+    "present_days" INTEGER NOT NULL DEFAULT 0,
+    "lwp_days" INTEGER NOT NULL DEFAULT 0,
+    "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "payroll_master_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 

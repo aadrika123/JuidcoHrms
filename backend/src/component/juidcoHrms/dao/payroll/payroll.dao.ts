@@ -48,16 +48,18 @@ class PayrollDao {
   calc_regular_pay = async () => {
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
-      SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
+      SELECT emp.emp_id,  emp_basic_details.emp_name, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
       FROM 
-        employees as emp                        
+        employees as emp    
+      JOIN 
+        employee_basic_details as emp_basic_details ON emp.emp_basic_details_id = emp_basic_details.id                     
       JOIN 
         employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
       JOIN 
         employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
       JOIN 
         employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-      GROUP BY emp.emp_id, emp_join_details.basic_pay
+      GROUP BY emp.emp_id, emp_join_details.basic_pay, emp_basic_details.emp_name
       
     `;
 
@@ -67,7 +69,7 @@ class PayrollDao {
     this.regulary_pay = await prisma.$queryRaw`
       SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) - SUM(emp_deduct.amount_in) as regulary_pay
       FROM 
-        employees as emp                        
+        employees as emp    
       JOIN 
         employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
       JOIN 
@@ -122,7 +124,6 @@ class PayrollDao {
     this.total_working_hours.forEach((record: any) => {
       //      console.log(record);
       const working_hour = Number(record.working_hour);
-
       data[record.emp_id] = {
         ...data[record.emp_id],
         working_hour: working_hour,
@@ -170,20 +171,38 @@ class PayrollDao {
 
       const non_bill =
         data[record.emp_id].working_hour + no_of_hours_leave_approved;
-      const calc_non_billable_hours = total_hours - non_bill;
+      let calc_non_billable_hours = total_hours - non_bill;
 
-      const employee_present_days =
+      if (isNaN(calc_non_billable_hours)) {
+        calc_non_billable_hours = total_hours;
+      }
+
+      if (calc_non_billable_hours < 1) {
+        calc_non_billable_hours = 0;
+      }
+
+      let employee_present_days =
         (data[record.emp_id].working_hour as number) / 8;
 
-      const employee_lwp_days = calc_non_billable_hours / 8;
-
+      if (isNaN(employee_present_days)) {
+        employee_present_days = 0;
+      }
+      let employee_lwp_days = calc_non_billable_hours / 8;
+      if (isNaN(employee_lwp_days)) {
+        employee_lwp_days = 0;
+      }
       const calc_non_billable_salary =
         salary_per_hour * calc_non_billable_hours;
 
-      const calc_net_pay =
+      let calc_net_pay =
         data[record.emp_id].gross_pay -
         calc_non_billable_salary -
         data[record.emp_id].total_deductions;
+
+      if (calc_net_pay < 1) {
+        calc_net_pay = 0;
+      }
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         non_billable: calc_non_billable_hours,
@@ -194,7 +213,19 @@ class PayrollDao {
       };
     });
 
-    return generateRes(data);
+    const new_data: any = [];
+    const keys = Object.keys(data);
+    keys.forEach((key) => {
+      new_data.push(data[key]);
+    });
+
+    console.log(new_data);
+
+    await prisma.payroll_master.createMany({
+      data: new_data,
+    });
+
+    return generateRes(new_data);
   };
 
   calc_total_amount_released = async () => {
@@ -219,6 +250,7 @@ class PayrollDao {
       total_employee: totalEmp,
       total_amount: total_amount[0].total_amount_released,
     };
+
     return generateRes(data);
   };
 }

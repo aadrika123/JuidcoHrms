@@ -371,6 +371,8 @@ class EmployeeOnBoardDao {
             basic_pay: true,
             pay_band: true,
             pay_scale: true,
+            acc_number: true,
+            ifsc: true,
           },
         },
       },

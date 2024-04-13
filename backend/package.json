@@ -15,7 +15,8 @@
     "lint": "eslint src/",
     "start": "tsc && node build/src/server.js",
     "dev": "nodemon src/server.ts",
-    "migrate": "rm -rf ./prisma/migrations && npx prisma migrate dev --name init"
+    "migrate": "rm -rf ./prisma/migrations && npx prisma migrate dev --name init",
+    "migrate_win": "npx prisma migrate dev --name init"
   },
   "author": "Aadrika Enterprises",
   "license": "ISC",

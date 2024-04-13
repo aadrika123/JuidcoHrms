@@ -272,6 +272,7 @@ const AttendanceManagement = () => {
         method: "GET",
       });
       const data = res?.data?.data;
+      console.log("li", data)
       setEmployeeDetails(data);
     })();
   }, [userDetails?.emp_id]);
@@ -365,8 +366,7 @@ const AttendanceManagement = () => {
                 <h4 className="text-secondary">
                   Department-{" "}
                   {
-                    department[employeeDetails?.emp_join_details?.department_id]
-                      ?.name
+                    employeeDetails ? department[employeeDetails?.emp_join_details?.department_id]?.name : ""
                   }
                 </h4>
               </aside>

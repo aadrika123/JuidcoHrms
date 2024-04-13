@@ -60,8 +60,25 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={PayslipIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}`,
-        },
+          path: `${url}/download/payslip_from`,
+          // subModules: [
+          //   {
+          //     moduleName: "Dowload_from",
+          //     icon: (
+          //       <Image
+          //         src={AttendanceIcon}
+          //         alt="masters"
+          //         width={100}
+          //         height={100}
+          //       />
+          //     ),
+          //     path: `${url}/download/payslip_from`,
+          //   },
+            
+          // ],
+        }
+        
+        ,
         {
           moduleName: "Applications",
           icon: (

@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 class EmployeeAttendanceDao {
   empIn = async (req: Request) => {
     const { emp_id } = req.body;
-
+    
     await prisma.$queryRaw`INSERT into employee_daily_attendance(employee_id, date, emp_in, status) values(${emp_id},${new Date()},${new Date()}, 1) ON CONFLICT DO NOTHING`;
 
     // const query: Prisma.employee_attendance_historyCreateArgs = {
