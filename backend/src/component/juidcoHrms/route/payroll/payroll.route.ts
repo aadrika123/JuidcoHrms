@@ -4,11 +4,14 @@ import express, { NextFunction, Request, Response } from "express";
 import { baseUrl } from "../../../../util/common";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
 import PayrollController from "../../controller/payroll/payroll.controller";
+import PayslipController from "../../controller/employee/paySlip.controller";
 
 class PayrollRoute {
   private payrollController: PayrollController;
+  private payslipController: PayslipController
   constructor() {
     this.payrollController = new PayrollController();
+    this.payslipController = new PayslipController();
   }
 
   configure(app: express.Application): void {
@@ -40,6 +43,19 @@ class PayrollRoute {
           ),
         loggerMiddleware
       ); //0403
+
+      app
+      .route(`${baseUrl}/pay/payslip`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payslipController.get(
+            req,
+            res,
+            next,
+            "0404"
+          ),
+        loggerMiddleware
+      ); //0404
   }
 }
 
