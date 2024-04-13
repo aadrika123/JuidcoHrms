@@ -77,7 +77,6 @@ class PayrollDao {
       JOIN
         employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
       GROUP BY emp.emp_id, emp_join_details.basic_pay
-      
     `;
 
     // console.log(this.regulary_pay);
@@ -110,10 +109,7 @@ class PayrollDao {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
-    console.log(this.regulary_pay);
-    console.log(this.gross);
-    console.log(this.total_working_hours);
-    console.log(this.no_of_leave_approved);
+
     // collect gross
     this.gross.forEach((emp) => {
       data[emp.emp_id] = {
@@ -172,9 +168,9 @@ class PayrollDao {
       const days_leave_approved = leave_days;
       const no_of_hours_leave_approved = days_leave_approved * 8;
 
-      const calc_non_billable_hours =
-        total_hours -
-        (data[record.emp_id].working_hour + no_of_hours_leave_approved);
+      const non_bill =
+        data[record.emp_id].working_hour + no_of_hours_leave_approved;
+      const calc_non_billable_hours = total_hours - non_bill;
 
       const employee_present_days =
         (data[record.emp_id].working_hour as number) / 8;
@@ -197,6 +193,7 @@ class PayrollDao {
         net_pay: Math.floor(calc_net_pay),
       };
     });
+
     return generateRes(data);
   };
 
