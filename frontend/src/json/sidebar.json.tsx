@@ -94,6 +94,20 @@ export const sidebarLinks: SidebarLinksProps = {
             <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
+          subModules: [
+            {
+              moduleName: "Payroll",
+              path: `${url}/ems/payroll-management`,
+              icon: (
+                <Image
+                  src={PayrollIcon}
+                  alt="payroll"
+                  width={100}
+                  height={100}
+                />
+              ),
+            },
+          ],
         },
         {
           moduleName: "Suspension Management",

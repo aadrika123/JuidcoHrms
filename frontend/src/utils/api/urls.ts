@@ -14,7 +14,9 @@ type UrlKeys =
   | "HOLIDAY"
   | "LEAVETYPE"
   | "LEAVEGET"
-  | "LEAVECHART";
+  | "LEAVECHART"
+  | "PAYROLL"
+  | "PAYROLL_TOTAL";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -56,6 +58,13 @@ export const HRMS_URL: Urls = {
     getAll: "/employee/attendance-history/get",
   },
 
+  PAYROLL: {
+    getAll: "/pay/net",
+  },
+
+  PAYROLL_TOTAL: {
+    getAll: "/pay/total",
+  },
   HOLIDAY: {
     get: "/employee/holidays",
   },

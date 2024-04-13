@@ -1,4 +1,4 @@
-import PayrollManagement from "@/components/JuidcoHrms/pages/Employee/PayrollManagement/Index";
+import PayrollManagement from "@/components/JuidcoHrms/pages/Ems/PayrollManagement/Index";
 import PageLayout from "@/components/Layouts/PageLayout";
 import React from "react";
 

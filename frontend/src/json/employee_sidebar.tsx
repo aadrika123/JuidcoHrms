@@ -53,7 +53,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}/employee/payroll-management`,
+          path: `${url}`,
         },
         {
           moduleName: "Download Pay slip",

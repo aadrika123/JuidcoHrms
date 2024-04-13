@@ -1,9 +1,19 @@
+/**
+ * Author: Krish
+ * Status: Open
+ * Created for: Showing payroll for all employees
+ */
+
 import React from "react";
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import PrimaryButton from "@/components/Helpers/Button";
-
+import { EmployeePayroll } from "../Index";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { set_payroll } from "@/redux/reducers/payroll.reducer";
 interface TLContainerProps {
-  tableData: any[];
+  tableData: EmployeePayroll[];
   actionBtn?: boolean;
   actionName?: string;
   setEmpId?: (val: number) => void;
@@ -52,49 +62,10 @@ const Thead: React.FC<{
   );
 };
 
-// const Tdata: React.FC<{
-//   tdata: any;
-//   index: number;
-//   sl_index: number;
-//   type: string;
-// }> = (props) => {
-//   return (
-//     <>
-//       {props.index === 0 ? (
-//         <>
-//           <td className="py-3 text-xl text-zinc-600 font-light">
-//             <div className="text-center">
-//               <span>{props.sl_index + 1}</span>
-//             </div>
-//           </td>
-//           <td className="pl-5 py-3 text-xl text-zinc-600 font-light">
-//             <span>
-//               {props.type === "date"
-//                 ? formatDate(props.tdata)
-//                 : props.type === "time"
-//                   ? convertTimeToAMPM(props.tdata)
-//                   : props.tdata}
-//             </span>
-//           </td>
-//         </>
-//       ) : (
-//         <>
-//           <td className="pl-6 py-3 text-xl text-zinc-600 font-light">
-//             <span>
-//               {props.type === "date"
-//                 ? formatDate(props.tdata)
-//                 : props.type === "time"
-//                   ? convertTimeToAMPM(props.tdata)
-//                   : props.tdata}
-//             </span>
-//           </td>
-//         </>
-//       )}
-//     </>
-//   );
-// };
-
 const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
+  const dispatch = useDispatch();
+  const pathName = usePathname();
+
   const EMP_LIST_COLS: COLUMNS[] = [
     {
       HEADER: "Employee Details",
@@ -148,8 +119,8 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
               {/* =================== Employee Details ======================== */}
               <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5">
-                  <h4 className="text-xl font-semibold">Jaydeep Gupta</h4>
-                  <p>E. ID - </p>
+                  <h4 className="text-xl font-semibold">{item.emp_name}</h4>
+                  <p>E. ID - {item.emp_id}</p>
                   <p>PAN No. -</p>
                 </div>
               </td>
@@ -160,15 +131,19 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                 <div className="pl-5">
                   <div className="grid grid-cols-2">
                     <p>Allowances-</p>
-                    <p className="text-[#0E9D4A] font-medium">25000/-</p>
+                    <p className="text-[#0E9D4A] font-medium">
+                      {item.total_allowance}/-
+                    </p>
                   </div>
                   <div className="grid grid-cols-2">
                     <p>Deductions-</p>
-                    <p className="text-red-600 font-medium">11000/-</p>
+                    <p className="text-red-600 font-medium">
+                      {item.total_deductions}/-
+                    </p>
                   </div>
                   <div className="grid grid-cols-2">
                     <p>Claims-</p>
-                    <p className="text-zinc-700 font-medium">5000/-</p>
+                    <p className="text-zinc-700 font-medium">0/-</p>
                   </div>
                 </div>
               </td>
@@ -178,15 +153,19 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                 <div className="pl-5">
                   <div className="grid grid-cols-2 whitespace-nowrap">
                     <p>Total Present days-</p>
-                    <p className="text-[#0E9D4A] font-medium">27</p>
+                    <p className="text-[#0E9D4A] font-medium">
+                      {item.present_days}
+                    </p>
                   </div>
                   <div className="grid grid-cols-2 whitespace-nowrap">
                     <p>Total Absent days-</p>
-                    <p className="text-red-600 font-medium">3</p>
+                    <p className="text-red-600 font-medium">
+                      {item.leave_days}
+                    </p>
                   </div>
                   <div className="grid grid-cols-2 whitespace-nowrap">
                     <p>LWP-</p>
-                    <p className="text-zinc-700 font-medium">2</p>
+                    <p className="text-zinc-700 font-medium">{item.lwp_days}</p>
                   </div>
                 </div>
               </td>
@@ -195,7 +174,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
               <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5">
                   <p className="text-2xl font-medium text-[#0E9D4A] ">
-                    26598.00/-
+                    {item.net_pay}/-
                   </p>
                 </div>
               </td>
@@ -207,7 +186,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                     variant="primary"
                     className="rounded-none flex items-center justify-center"
                   >
-                    <span>Approved</span>
+                    <span>Approve</span>
                     <span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -244,26 +223,31 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                     </span>
                   </PrimaryButton>
 
-                  <PrimaryButton
-                    variant="cancel"
-                    className="rounded-none  flex items-center justify-center"
-                  >
-                    <span>Edit</span>
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="10"
-                        height="11"
-                        viewBox="0 0 10 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M9.52631 2.90154C9.34342 3.09469 9.16591 3.28217 9.16054 3.46964C9.1444 3.65143 9.32729 3.83891 9.49942 4.01502C9.75761 4.29907 10.0104 4.55472 9.99967 4.83309C9.98891 5.11146 9.71458 5.40119 9.44025 5.68524L7.2187 8.03719L6.45487 7.23048L8.74097 4.82172L8.22458 4.27635L7.46075 5.07737L5.44361 2.94698L7.50916 0.771151C7.71895 0.54959 8.06859 0.54959 8.26761 0.771151L9.52631 2.10051C9.73609 2.31071 9.73609 2.67998 9.52631 2.90154ZM0 8.70187L5.14238 3.26512L7.15952 5.39551L2.01715 10.8323H0V8.70187Z"
-                          fill="#6D63E8"
-                        />
-                      </svg>
-                    </span>
-                  </PrimaryButton>
+                  <Link href={`${pathName}/${item.emp_id}`} className="w-full">
+                    <PrimaryButton
+                      onClick={() => {
+                        dispatch(set_payroll(item));
+                      }}
+                      variant="cancel"
+                      className="rounded-none  flex items-center justify-center w-full"
+                    >
+                      <span>Edit</span>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="11"
+                          viewBox="0 0 10 11"
+                          fill="none"
+                        >
+                          <path
+                            d="M9.52631 2.90154C9.34342 3.09469 9.16591 3.28217 9.16054 3.46964C9.1444 3.65143 9.32729 3.83891 9.49942 4.01502C9.75761 4.29907 10.0104 4.55472 9.99967 4.83309C9.98891 5.11146 9.71458 5.40119 9.44025 5.68524L7.2187 8.03719L6.45487 7.23048L8.74097 4.82172L8.22458 4.27635L7.46075 5.07737L5.44361 2.94698L7.50916 0.771151C7.71895 0.54959 8.06859 0.54959 8.26761 0.771151L9.52631 2.10051C9.73609 2.31071 9.73609 2.67998 9.52631 2.90154ZM0 8.70187L5.14238 3.26512L7.15952 5.39551L2.01715 10.8323H0V8.70187Z"
+                            fill="#6D63E8"
+                          />
+                        </svg>
+                      </span>
+                    </PrimaryButton>
+                  </Link>
                 </div>
               </td>
             </tr>
