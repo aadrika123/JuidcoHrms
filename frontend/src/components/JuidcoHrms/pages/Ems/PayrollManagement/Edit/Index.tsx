@@ -40,15 +40,10 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
 
   // const [empData, setEmpData] = useState<any>({});
 
-  const bearerToken = "MLiTumT6GLtLtahiV3LKOUm9oOhpX3VaFNM3ho3y5ea5092c";
-
   const fetchEmpData = async () => {
     try {
       const res = await axios({
-        url: `http://192.168.159.199:8000/api/hrms/v1/pay/payslip?emp_id=${emp}`,
-        headers: {
-          Authorization: `Bearer ${bearerToken}`,
-        },
+        url: `/pay/payslip?emp_id=${emp}`,
         method: "GET",
       });
       setEmpData(res.data?.data);
@@ -76,9 +71,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
     try {
       const res = await axios({
         url: `/employee/get-single/${emp}`,
-        headers: {
-          Authorization: `Bearer ${bearerToken}`,
-        },
         method: "GET",
       });
       return res.data?.data;
