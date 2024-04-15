@@ -15,12 +15,17 @@ class PayrollDao {
   private gross: any[];
   private no_of_leave_approved: any[];
   private total_working_hours: any;
+  private employee_payroll_data: any[];
+  private total_amount_released: number;
 
   constructor() {
     this.regulary_pay = [];
     this.allowances = [];
     this.gross = [];
     this.no_of_leave_approved = [];
+    this.employee_payroll_data = [];
+    this.total_amount_released = 0;
+
     // this.offset = (1 - 1) * 2;
   }
 
@@ -209,46 +214,52 @@ class PayrollDao {
         present_days: employee_present_days,
         lwp_days: employee_lwp_days,
         salary_deducted: Math.floor(calc_non_billable_salary),
+        actual_salary: data[record.emp_id].gross_pay,
         net_pay: Math.floor(calc_net_pay),
       };
     });
 
-    const new_data: any = [];
     const keys = Object.keys(data);
+    this.employee_payroll_data = [];
     keys.forEach((key) => {
-      new_data.push(data[key]);
+      this.employee_payroll_data.push(data[key]);
     });
 
-    console.log(new_data);
+    // await prisma.payroll_master.createMany({
+    //   data: this.employee_payroll_data,
+    // });
 
-    await prisma.payroll_master.createMany({
-      data: new_data,
-    });
-
-    return generateRes(new_data);
+    return generateRes(this.employee_payroll_data);
   };
 
   calc_total_amount_released = async () => {
-    const total_amount = await prisma.$queryRaw<any[]>`
-      SELECT SUM(gross_pay) as total_amount_released
-      FROM (
-        SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
-        FROM 
-          employees as emp                        
-        JOIN 
-          employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
-        JOIN 
-          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-        JOIN 
-          employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-        GROUP BY emp.emp_id, emp_join_details.basic_pay
-      ) as subquery
-  `;
+    await this.calc_net_pay();
+
+    // const total_amount = await prisma.$queryRaw<any[]>`
+    //     SELECT SUM(gross_pay) as total_amount_released
+    //     FROM (
+    //       SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
+    //       FROM
+    //         employees as emp
+    //       JOIN
+    //         employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
+    //       JOIN
+    //         employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+    //       JOIN
+    //         employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+    //       GROUP BY emp.emp_id, emp_join_details.basic_pay
+    //     ) as subquery
+    // `;
+
+    let sumNetPay = 0;
+    this.employee_payroll_data.forEach((item) => {
+      sumNetPay += item.net_pay;
+    });
 
     const totalEmp = await prisma.employees.count();
     const data = {
       total_employee: totalEmp,
-      total_amount: total_amount[0].total_amount_released,
+      total_amount: sumNetPay,
     };
 
     return generateRes(data);
