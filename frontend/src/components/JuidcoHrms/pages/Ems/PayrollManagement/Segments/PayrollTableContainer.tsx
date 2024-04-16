@@ -7,13 +7,18 @@
 import React from "react";
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import PrimaryButton from "@/components/Helpers/Button";
-import { EmployeePayroll } from "../Index";
+import { EmployeePayrollType } from "../Index";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { set_payroll } from "@/redux/reducers/payroll.reducer";
+import axios from "@/lib/axiosConfig";
+import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "react-query";
+import { HRMS_URL } from "@/utils/api/urls";
+
 interface TLContainerProps {
-  tableData: EmployeePayroll[];
+  tableData: EmployeePayrollType[];
   actionBtn?: boolean;
   actionName?: string;
   setEmpId?: (val: number) => void;
@@ -91,6 +96,46 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
     },
   ];
 
+  // =================================== POST PAYROLL DATA ================================//
+  const queryClient = useQueryClient();
+
+  async function getAndPostPayrollData(data: {
+    id: number;
+    status: "approved" | "reject";
+  }) {
+    try {
+      if (!data) return null;
+
+      const res = await axios({
+        method: "POST",
+        url: `${HRMS_URL.PAYROLL.update}`,
+        data: data,
+      });
+
+      return res.data?.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  const { mutate } = useMutation(
+    (data: { id: number; status: "approved" | "reject" }) =>
+      getAndPostPayrollData(data),
+    {
+      onSuccess: () => {
+        toast.success(`Employee Status Updated`);
+      },
+      onError: () => {
+        toast.error(`Failed to Approve!`);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries();
+      },
+    }
+  );
+
+  // =================================== POST PAYROLL DATA ================================//
+
   return (
     <div>
       <table className="mt-4 w-full">
@@ -106,10 +151,11 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
             ))}
           </tr>
         </thead>
+
         <tbody>
           {props.tableData?.map((item, index: number) => (
             <tr key={index} className=" shadow-md h-[9rem]">
-              {/* =================== Serian No ======================== */}
+              {/* =================== Serial No ======================== */}
               <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5">
                   <h4>{index + 1}</h4>
@@ -183,6 +229,18 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
               <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5 flex flex-col  gap-2 w-full">
                   <PrimaryButton
+                    onClick={() => {
+                      const confirm = window.confirm(
+                        "Are you sure want to Approve"
+                      );
+
+                      if (confirm) {
+                        mutate({
+                          id: item.id,
+                          status: "approved",
+                        });
+                      }
+                    }}
                     variant="primary"
                     className="rounded-none flex items-center justify-center"
                   >
@@ -203,6 +261,18 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                     </span>
                   </PrimaryButton>
                   <PrimaryButton
+                    onClick={() => {
+                      const confirm = window.confirm(
+                        "Are you sure want to Approve"
+                      );
+
+                      if (confirm) {
+                        mutate({
+                          id: item.id,
+                          status: "reject",
+                        });
+                      }
+                    }}
                     variant="cancel"
                     className="rounded-none  flex items-center justify-center"
                   >

@@ -19,7 +19,7 @@ class PayrollController {
   ) => {
     const resObj: resObj = {
       apiId,
-      action: "POST",
+      action: "GET",
       version: "1.0",
     };
 
@@ -33,26 +33,8 @@ class PayrollController {
     );
   };
 
-  calc_net_pay = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-    apiId: string
-  ) => {
-    const resObj: resObj = {
-      apiId,
-      action: "POST",
-      version: "1.0",
-    };
-
-    const data = await this.payrollDao.calc_net_pay();
-    return CommonRes.SUCCESS(
-      resMessage("Calculated Net Pay").FOUND,
-      data,
-      resObj,
-      res,
-      next
-    );
+  calc_net_pay = async () => {
+    await this.payrollDao.calc_net_pay();
   };
 
   calc_total_amount_released = async (
@@ -63,7 +45,7 @@ class PayrollController {
   ) => {
     const resObj: resObj = {
       apiId,
-      action: "POST",
+      action: "GET",
       version: "1.0",
     };
 
@@ -75,6 +57,81 @@ class PayrollController {
       res,
       next
     );
+  };
+
+  // --------------------- STORING PAYROLL ------------------------------ //
+  get_emp_payroll = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.payrollDao.get_emp_payroll();
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage("Payroll").NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        resMessage("Payroll").FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
+  // --------------------- UPATING PAYROLL ------------------------------ //
+
+  update_emp_payroll = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.payrollDao.update_emp_payroll(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage("Payroll").NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        resMessage("Payroll").FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
   };
 }
 

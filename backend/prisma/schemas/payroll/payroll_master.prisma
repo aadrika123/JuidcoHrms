@@ -13,8 +13,10 @@ model payroll_master {
   lwp_days         Int      @default(0)
   salary_deducted  Float    @default(0)
   net_pay          Float    @default(0)
-  status           Int      // 0 -> Reject || 1 -> Approved
-  date             DateTime @default(now()) @map("date")
+  status           String? // 0 -> Reject || 1 -> Approved
+  date             DateTime
   created_at       DateTime @default(now()) @map("created_at")
   updated_at       DateTime @updatedAt @map("updated_at")
+
+  @@unique([emp_id, date])
 }
