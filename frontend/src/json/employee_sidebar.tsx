@@ -54,6 +54,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
             <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
+          
         },
         {
           moduleName: "Download Pay slip",
@@ -90,6 +91,20 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
             />
           ),
           path: `${url}`,
+          subModules: [
+            {
+              moduleName: "Claims",
+              icon: (
+                <Image
+                  src={AttendanceIcon}
+                  alt="masters"
+                  width={100}
+                  height={100}
+                />
+              ),
+              path: `${url}/payroll/claim_form`,
+            },
+          ],
         },
         {
           moduleName: "Grievances",

@@ -16,7 +16,9 @@ type UrlKeys =
   | "LEAVEGET"
   | "LEAVECHART"
   | "PAYROLL"
-  | "PAYROLL_TOTAL";
+  | "PAYROLL_TOTAL"
+  | "LEAVECHART"
+  | "CLAIM";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -80,4 +82,9 @@ export const HRMS_URL: Urls = {
     get: "/employee/leave-chart-get",
     create: "/employee/leave-chart-update",
   },
+  CLAIM:{
+    get: "/application/claim/getClaimByEmployeeId",
+    create: "/application/claim",
+    getById: "/application/claim"
+  }
 };
