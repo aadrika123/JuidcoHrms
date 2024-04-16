@@ -644,9 +644,11 @@ model employee_claim {
   thirdPartyInformation   String?
   claimSupervisor         String?   // Assuming claim supervisor is a string, modify as needed
   status                  Int @default(0)
+  thirdPartyStatus        Int @default(0)
   travelExpenseAttachment String?
   foodExpensesAttachment  String?
   hotelExpenseAttachment  String?
+  descriptionAttachment   String?
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @updatedAt @map("updated_at")
 }

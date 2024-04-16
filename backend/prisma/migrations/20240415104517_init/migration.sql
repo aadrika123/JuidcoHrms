@@ -584,6 +584,37 @@ CREATE TABLE "district" (
     CONSTRAINT "district_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "employee_claim" (
+    "id" SERIAL NOT NULL,
+    "employees_id" TEXT NOT NULL,
+    "claimType" TEXT NOT NULL,
+    "orderNo" TEXT,
+    "fromDate" TIMESTAMP(3),
+    "toDate" TIMESTAMP(3),
+    "travelExpenses" DOUBLE PRECISION,
+    "distance" DOUBLE PRECISION,
+    "foodExpenses" DOUBLE PRECISION,
+    "totalAmount" DOUBLE PRECISION,
+    "hotelExpenses" DOUBLE PRECISION,
+    "description" TEXT,
+    "location" TEXT,
+    "witnessInformation" TEXT,
+    "supervisorSelection" TEXT,
+    "thirdPartyInformation" TEXT,
+    "claimSupervisor" TEXT,
+    "status" INTEGER NOT NULL DEFAULT 0,
+    "thirdPartyStatus" INTEGER NOT NULL DEFAULT 0,
+    "travelExpenseAttachment" TEXT,
+    "foodExpensesAttachment" TEXT,
+    "hotelExpenseAttachment" TEXT,
+    "descriptionAttachment" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_claim_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 
@@ -676,3 +707,6 @@ ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_empl
 
 -- AddForeignKey
 ALTER TABLE "employee_leave_chart" ADD CONSTRAINT "employee_leave_chart_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_claim" ADD CONSTRAINT "employee_claim_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;

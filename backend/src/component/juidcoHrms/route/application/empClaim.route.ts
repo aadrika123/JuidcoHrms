@@ -64,7 +64,7 @@ class EmployeeClaimRoute {
       .route(`${baseUrl}/application/claim/create`)
       .post(
         (req: Request, res: Response, next: NextFunction) =>
-          this.employeeClaimController.createClaimCopy(req, res, next, "0401"),
+          this.employeeClaimController.createClaim(req, res, next, "0401"),
         loggerMiddleware
       ); //0401
   }

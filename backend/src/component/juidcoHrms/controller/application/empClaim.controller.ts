@@ -3,6 +3,8 @@ import { resMessage } from "../../../../util/common";
 import CommonRes from "../../../../util/helper/commonResponse";
 import { resObj } from "../../../../util/types";
 import EmployeeClaimDao from "../../dao/application/empClaim.dao";
+import multerUpload from "../../../../middleware/_multer";
+
 
 class EmployeeClaimController {
   private claimDao: EmployeeClaimDao;
@@ -19,7 +21,7 @@ class EmployeeClaimController {
     res: Response,
     next: NextFunction,
     apiId: string
-  ): Promise<object> => {
+  ) => {
     const resObj: resObj = {
       action: "POST",
       apiId: apiId,
@@ -27,6 +29,16 @@ class EmployeeClaimController {
     };
 
     try {
+      multerUpload.fields([
+      { name: 'foodExpenseAttachment', maxCount: 1 },
+      { name: 'travelExpenseAttachment', maxCount: 1 },
+      { name: 'hotelExpenseAttachment', maxCount: 1 },
+      { name: 'descriptionAttachment', maxCount: 1 },
+    ])(req, res, async (err: any) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      
       const data = await this.claimDao.post(req);
       if (!data) {
         return CommonRes.NOT_FOUND(
@@ -37,14 +49,15 @@ class EmployeeClaimController {
           next
         );
       }
-
-      return CommonRes.SUCCESS(
+    return CommonRes.SUCCESS(
         resMessage(this.initMsg).CREATED,
         data,
         resObj,
         res,
         next
       );
+      });
+       
     } catch (error) {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }

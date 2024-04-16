@@ -1,13 +1,14 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import {  PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 import { Request } from "express";
+
 const prisma = new PrismaClient();
 
 
 class EmployeeClaimDao {
   // Function to create a new employee claim
   post = async (req: Request) => {
-    const {
+      const {
       employee_id,
       claimType,
       orderNo,
@@ -26,29 +27,52 @@ class EmployeeClaimDao {
       claimSupervisor,
     } = req.body;
 
-    const query: Prisma.employee_claimCreateArgs = {
-      data: {
-        employees: { connect: { emp_id: String(employee_id) } },
+    const { foodExpenseAttachment } = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+    };
+    const { travelExpenseAttachment } = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    const { hotelExpenseAttachment } = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    const { descriptionAttachment } = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    let _todate = toDate;
+    if(claimType=="Medical reimbursement"){
+      _todate = `${fromDate}T${toDate}:00.000Z`;
+    } else {
+      _todate = new Date(toDate);
+    }
+    console.log('_todate', _todate);
+    const createdClaim = await prisma.employee_claim.create({
+      data:{
+        employees_id: employee_id,
         claimType: claimType,
         orderNo: orderNo,
         fromDate: new Date(fromDate),
-        toDate: new Date(toDate),
-        travelExpenses: travelExpenses,
-        distance: distance,
-        foodExpenses: foodExpenses,
-        totalAmount: totalAmount,
-        hotelExpenses: hotelExpenses,
+        toDate: _todate,
+        travelExpenses: parseFloat(travelExpenses),
+        distance: parseFloat(distance),
+        foodExpenses: parseFloat(foodExpenses),
+        totalAmount: parseFloat(totalAmount),
+        hotelExpenses: parseFloat(hotelExpenses),
         description: description,
         location: location,
         witnessInformation: witnessInformation,
         supervisorSelection: supervisorSelection,
         thirdPartyInformation: thirdPartyInformation,
         claimSupervisor: claimSupervisor,
-      },
-    };
-
-    const createdClaim = await prisma.employee_claim.create(query);
+        foodExpensesAttachment: foodExpenseAttachment ? foodExpenseAttachment[0]?.filename:'',
+        travelExpenseAttachment: travelExpenseAttachment ? travelExpenseAttachment[0]?.filename:'',
+        hotelExpenseAttachment: hotelExpenseAttachment ? hotelExpenseAttachment[0]?.filename:'',
+        descriptionAttachment: descriptionAttachment ? descriptionAttachment[0]?.filename : ''
+      }
+    });
     return generateRes(createdClaim);
+
+    
   };
 
   // Function to get all claims
@@ -67,7 +91,7 @@ class EmployeeClaimDao {
         },
         orderBy:{
           id: 'desc'
-        }
+        },
     });
     return generateRes(claim);
   };
@@ -86,3 +110,4 @@ class EmployeeClaimDao {
 }
 
 export default EmployeeClaimDao;
+

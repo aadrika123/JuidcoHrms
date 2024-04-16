@@ -13,6 +13,7 @@ import { SubHeading, InnerHeading } from "@/components/Helpers/Heading";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import HorizontalStepper from "@/components/Helpers/Widgets/Stepper";
+import ThirdPartyStepper from "@/components/Helpers/Widgets/ThirdPartyStepper";
 import Claim_Form from "@/components/JuidcoHrms/pages/Payroll/ClaimForm/Claim_Form";
 import { HRMS_URL } from "@/utils/api/urls";
 import axios from "@/lib/axiosConfig";
@@ -20,14 +21,20 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import employee from "@/assets/icons/employee 1.png"
+import doc from "@/assets/icons/doc.png"
+import insurance from "@/assets/icons/insurance.png"
+
+
+
 
 const ClaimForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [claimHistory, setClaimHistory] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
-  const [trackClaimId, setTrackClaimId] = useState<number>(0);
+  const [trackClaimId, setTrackClaimId] = useState<any>(0);
   const [trackClaim, setTrackClaim] = useState<any>();
-  const datePickerRef = useRef<DatePicker>(null);
+  const datePickerRef = useRef<any>(null);
 
   const handleDateChange = (date: Date | null) => {
     if (date) {
@@ -37,10 +44,16 @@ const ClaimForm = () => {
 
   // Static steps data
   const steps = [
-    { title: "Employee", status: 0 },
+    { title: "Employee", status: 0},
     { title: "Manager-1", status: 1 },
     { title: "Manager-2" , status: 2},
     { title: "Manager-3", status: 3 },
+  ];
+
+  const thirdPartySteps = [
+    { title: "Employee", status: 0, image: employee},
+    { title: "Doctor", status: 1, image: doc },
+    { title: "Insurance" , status: 2, image: insurance},
   ];
 
   const getAllClaimByEmployeeId= async (employee_id:number)=>{
@@ -67,6 +80,7 @@ const ClaimForm = () => {
       console.log('getClaimById', res);
       if(res.status){
           setTrackClaim(res?.data?.data);
+
       }
   }
   useEffect(() => {
@@ -100,13 +114,14 @@ const ClaimForm = () => {
           return <Tag value={`Settled`} severity={`success`}></Tag>
         else return <Tag value={`Pending`} severity={`danger`}></Tag>
   };
+  
   return (
     <div>
       <>
         <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
           <BackButton />
           <div>
-            <SubHeading className="mx-5 my-5 mb-0 text-4xl">Claim</SubHeading>
+            <SubHeading className="mx-5 my-5 mb-0 text-4xl">Claim </SubHeading>
           </div>
         </div>
 
@@ -171,23 +186,73 @@ const ClaimForm = () => {
               </div>
             </InnerHeading>
             <div></div>
-            <div className="w-full flex flex-col sm:flex-row justify-between">
-              <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5px">
-                <div className="mt-12">
-                  <HorizontalStepper steps={steps} activeStep={trackClaim?.status} />
-                  <div className="mt-2 px-2 flex items-center justify-between texy-xs text-secondary">
-                    <h2>Employee</h2>
-                    <h2>Manager-1</h2>
-                    <h2>Manager-2</h2>
-                    <h2>Manager-3</h2>
+            <div className="flex flex-col sm:flex-row justify-between relative">
+              {trackClaim?.claimType == "Travel reimbursement" ? (
+              <>
+                <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5px">
+                  <div className="mt-12">
+                    <HorizontalStepper steps={steps} activeStep={trackClaim?.status} />
+                    <div className="mt-2 px-2 flex items-center justify-between texy-xs text-secondary">
+                      <h2>Employee</h2>
+                      <h2>Manager-1</h2>
+                      <h2>Manager-2</h2>
+                      <h2>Manager-3</h2>
+                    </div>
+                  </div>
+                  <br />
+                  <span className="text-sm">Type of Claim- {trackClaim?.claimType}</span>
+                  <span className="text-sm">Date of Claim- {trackClaim?.createdAt}</span>
+                  <span className="text-sm">Total amount of Claim- {trackClaim?.totalAmount}</span>
+                  <span className="text-sm">Status of Claim- {statusBodyTemplate(trackClaim)}</span>
+              </div>
+              </>) : (<>
+              <div className="flex w-full relative ">
+                <div className=" w-1/2 flex flex-col relative p-5 ">
+                  <div className="mt-12">
+                    <HorizontalStepper steps={steps} activeStep={trackClaim?.status} />
+                    <div className="mt-2 px-2 flex items-center justify-between text-xs text-secondary">
+                      <h2>Employee</h2>
+                      <h2>Manager-1</h2>
+                      <h2>Manager-2</h2>
+                      <h2>Manager-3</h2>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="flex flex-col">
+                    <span className="text-sm">Type of Claim- {trackClaim?.claimType}</span>
+                    <span className="text-sm">Date of Claim- {trackClaim?.createdAt}</span>
+                    <span className="text-sm">Total amount of Claim- {trackClaim?.totalAmount}</span>
+                    <span className="text-sm">Status of Claim- {statusBodyTemplate(trackClaim)}</span>
                   </div>
                 </div>
-                <br />
-                <span className="text-sm p-1">Type of Claim- {trackClaim?.claimType}</span>
-                <span className="text-sm p-1">Date of Claim- {trackClaim?.createdAt}</span>
-                <span className="text-sm p-1">Total amount of Claim- {trackClaim?.totalAmount}</span>
-                <span className="text-sm p-1">Status of Claim- {statusBodyTemplate(trackClaim)}</span>
-              </div>
+
+                <div className="align-baseline bg-slate-300 w-1"></div>
+
+                <div className="w-1/2 flex flex-col flex-wrap relative p-5 ">
+                  <div className="mt-7">
+                    <ThirdPartyStepper steps={thirdPartySteps} activeStep={trackClaim?.thirdPartyStatus} />
+                    <div className="px-2 flex items-center justify-between text-xs text-secondary">
+                      <h2>Employee</h2>
+                      <h2>Doctor</h2>
+                      <h2>Insurance</h2>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="flex flex-col">
+                    <span className="text-sm">Type of Claim- {trackClaim?.claimType}</span>
+                    <span className="text-sm">Date of Claim- {trackClaim?.createdAt}</span>
+                    <span className="text-sm">Total amount of Claim- {trackClaim?.totalAmount}</span>
+                    <span className="text-sm">Status of Claim- {trackClaim?.thirdPartyStatus === 2 ? (
+                      <button className="bg-green-500 text-white px-2 py-1 rounded-lg">Success</button>
+                      ) : (
+  <button className="bg-red-500 text-white px-4 py-2 rounded-lg">Danger</button>
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>                
+              </>)}
+              
             </div>
           </div>
 
@@ -242,7 +307,7 @@ const ClaimForm = () => {
         </div>
 
         <div className="w-full flex flex-col sm:flex-row justify-between">
-          <Claim_Form />
+          <Claim_Form getAllClaimByEmployeeId={getAllClaimByEmployeeId} />
         </div>
       </>
     </div>
