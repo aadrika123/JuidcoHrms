@@ -208,6 +208,36 @@ CREATE TABLE "employee_salary_deduction" (
 );
 
 -- CreateTable
+CREATE TABLE "pay_slips" (
+    "id" SERIAL NOT NULL,
+    "billNo" TEXT NOT NULL,
+    "employeePFNo" TEXT NOT NULL,
+    "employeeName" TEXT NOT NULL,
+    "panNo" TEXT NOT NULL,
+    "employeeAccountNo" TEXT NOT NULL,
+    "designation" TEXT NOT NULL,
+    "payScale" TEXT NOT NULL,
+    "basic" DOUBLE PRECISION NOT NULL,
+    "da" DOUBLE PRECISION NOT NULL,
+    "hra" DOUBLE PRECISION NOT NULL,
+    "medicalAllowance" DOUBLE PRECISION NOT NULL,
+    "totalAllowances" DOUBLE PRECISION NOT NULL,
+    "gli" DOUBLE PRECISION NOT NULL,
+    "pf" DOUBLE PRECISION NOT NULL,
+    "incomeTax" DOUBLE PRECISION NOT NULL,
+    "professionalTax" DOUBLE PRECISION NOT NULL,
+    "totalDeductions" DOUBLE PRECISION NOT NULL,
+    "totalRecovery" DOUBLE PRECISION NOT NULL,
+    "netPay" DOUBLE PRECISION NOT NULL,
+    "dateFrom" TIMESTAMP(3) NOT NULL,
+    "dateTo" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "pay_slips_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "employee_join_details" (
     "id" SERIAL NOT NULL,
     "department_id" INTEGER,

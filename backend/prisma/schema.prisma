@@ -242,6 +242,16 @@ model employee_salary_deduction {
 
 // // //-------------- Employee SALARY DETAILS ---------------------//
 
+// // //-------------- Gratuity DETAILS ---------------------//
+model gratuity {
+  emp_id           Int      @id @unique
+  gratuity_amount  Decimal  @db.Decimal(10, 2)
+  application_id   Int?
+  date_of_relieving DateTime
+
+  // Add any additional fields or relationships here
+}
+
 // // //-------------- Employee Join Details ---------------------//
 model employee_join_details {
   id                      Int          @id @default(autoincrement())

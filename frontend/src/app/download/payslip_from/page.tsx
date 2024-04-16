@@ -1,7 +1,8 @@
 // @useClient
 import React from "react";
-import Download_payslip from "@/components/JuidcoHrms/pages/Download/payslip/Index";
+
 import PageLayout from "@/components/Layouts/PageLayout";
+import Download_payslip from "@/components/JuidcoHrms/pages/Download/payslip/Index";
 
 const Page = () => {
   return (

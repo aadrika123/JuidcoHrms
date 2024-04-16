@@ -7,7 +7,10 @@ const prisma = new PrismaClient();
 
 class PayslipDao {
     get = async(req: Request) => {
-        const emp_id = req.query.emp_id;
+        const {emp_id} = req.query;
+
+        const date = new Date().toISOString()
+
         const query: Prisma.employeesFindFirstArgs = {
             select : {
                 emp_salary_details: {
@@ -32,7 +35,8 @@ class PayslipDao {
 
             },
             where : {
-                emp_id : String(emp_id)
+                emp_id : String(emp_id),
+                created_at: "2024-04-12T13:13:24.114Z"
             }
         }
 
@@ -48,8 +52,8 @@ class PayslipDao {
                 employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
             JOIN
                 employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-             WHERE emp_id=${emp_id}
-        `
+            WHERE emp_id=${emp_id}
+        `;
         console.log(count_allow_and_deduction)
         data.total = {...count_allow_and_deduction[0]};
         return generateRes(data);
