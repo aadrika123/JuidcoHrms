@@ -263,7 +263,7 @@ class PayrollDao {
 
   update_emp_payroll = async (req: Request) => {
     const { status, id } = req.body;
-    
+
     const data = await prisma.payroll_master.update({
       where: {
         id: id,
