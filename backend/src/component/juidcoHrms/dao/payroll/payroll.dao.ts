@@ -3,10 +3,9 @@
  * | Created for- Payroll management
  * | Status: open
  */
-
-import { PrismaClient } from "@prisma/client";
+import { Request } from "express";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
-
 const prisma = new PrismaClient();
 
 class PayrollDao {
@@ -25,7 +24,6 @@ class PayrollDao {
     this.no_of_leave_approved = [];
     this.employee_payroll_data = [];
     this.total_amount_released = 0;
-
     // this.offset = (1 - 1) * 2;
   }
 
@@ -187,7 +185,7 @@ class PayrollDao {
       }
 
       let employee_present_days =
-        (data[record.emp_id].working_hour as number) / 8;
+        (data[record.emp_id].working_hour as number) / 8 - leave_days;
 
       if (isNaN(employee_present_days)) {
         employee_present_days = 0;
@@ -208,14 +206,17 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
+      let date: any = `${new Date().toISOString()}`;
+      date = new Date(date.split("T")[0]);
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         non_billable: calc_non_billable_hours,
         present_days: employee_present_days,
         lwp_days: employee_lwp_days,
         salary_deducted: Math.floor(calc_non_billable_salary),
-        actual_salary: data[record.emp_id].gross_pay,
         net_pay: Math.floor(calc_net_pay),
+        date: date,
       };
     });
 
@@ -225,44 +226,74 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    // await prisma.payroll_master.createMany({
-    //   data: this.employee_payroll_data,
-    // });
+    await prisma.payroll_master.createMany({
+      data: this.employee_payroll_data,
+    });
 
     return generateRes(this.employee_payroll_data);
   };
 
-  calc_total_amount_released = async () => {
-    await this.calc_net_pay();
-
-    // const total_amount = await prisma.$queryRaw<any[]>`
-    //     SELECT SUM(gross_pay) as total_amount_released
-    //     FROM (
-    //       SELECT emp.emp_id, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
-    //       FROM
-    //         employees as emp
-    //       JOIN
-    //         employee_join_details as emp_join_details ON emp.emp_join_details_id = emp_join_details.id
-    //       JOIN
-    //         employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-    //       JOIN
-    //         employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-    //       GROUP BY emp.emp_id, emp_join_details.basic_pay
-    //     ) as subquery
-    // `;
-
-    let sumNetPay = 0;
-    this.employee_payroll_data.forEach((item) => {
-      sumNetPay += item.net_pay;
-    });
-
-    const totalEmp = await prisma.employees.count();
-    const data = {
-      total_employee: totalEmp,
-      total_amount: sumNetPay,
+  // --------------------- STORING PAYROLL ------------------------------ //
+  get_emp_payroll = async () => {
+    const query: Prisma.payroll_masterFindManyArgs = {
+      select: {
+        id: true,
+        emp_id: true,
+        emp_name: true,
+        gross_pay: true,
+        leave_days: true,
+        working_hour: true,
+        total_allowance: true,
+        total_deductions: true,
+        non_billable: true,
+        present_days: true,
+        lwp_days: true,
+        salary_deducted: true,
+        status: true,
+        net_pay: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
     };
 
+    const data = await prisma.payroll_master.findMany(query);
     return generateRes(data);
+  };
+
+  update_emp_payroll = async (req: Request) => {
+    const { status, id } = req.body;
+    
+    const data = await prisma.payroll_master.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    return generateRes(data);
+  };
+
+  calc_total_amount_released = async () => {
+    // await this.calc_net_pay();
+    // let sumNetPay = 0;
+    // this.employee_payroll_data.forEach((item) => {
+    //   sumNetPay += item.net_pay;
+    // });
+
+    // const totalEmp = await prisma.employees.count();
+    // const data = {
+    //   total_employee: totalEmp,
+    //   total_amount: sumNetPay,
+    // };
+
+    const data = await prisma.$queryRaw<any[]>`
+      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master
+    `;
+
+    return generateRes(data[0]);
   };
 }
 

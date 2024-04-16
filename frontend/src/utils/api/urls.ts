@@ -59,7 +59,8 @@ export const HRMS_URL: Urls = {
   },
 
   PAYROLL: {
-    getAll: "/pay/net",
+    getAll: "/pay/payroll",
+    update: "/pay/payroll/update",
   },
 
   PAYROLL_TOTAL: {

@@ -20,22 +20,25 @@ import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 import PayrollTableContainer from "./Segments/PayrollTableContainer";
 
-export type EmployeePayroll = {
+export type EmployeePayrollType = {
+  id: number;
   emp_id: string;
   emp_name: string;
   gross_pay: number;
   leave_days: number;
+  working_hour: number;
   total_allowance: number;
   total_deductions: number;
-  non_billable: number | null;
-  present_days: number | null;
-  lwp_days: number | null;
-  salary_deducted: number | null;
-  net_pay: number | null;
+  non_billable: number;
+  present_days: number;
+  lwp_days: number;
+  salary_deducted: number;
+  status: string;
+  net_pay: number;
 };
 
 type EmployeePayrollData = {
-  data: EmployeePayroll[];
+  data: EmployeePayrollType[];
 };
 
 type PayrollCount = {
@@ -79,6 +82,10 @@ const PayrollManagement = () => {
 
   const { data: payrollCount, error: payrollCountErr } =
     useCodeQuery<PayrollCount>(`${HRMS_URL.PAYROLL_TOTAL.getAll}`);
+
+  const filterEmpListData = empLstData?.data?.filter(
+    (elem) => elem.status === null
+  );
 
   if (payrollCountErr) {
     throw Error;
@@ -192,12 +199,18 @@ const PayrollManagement = () => {
       <section className="mx-16 mt-[3rem]">
         {employeeReports}
         <div className="mt-[5rem]">
-          <PayrollTableContainer
-            tableData={empLstData?.data || []}
-            actionBtn
-            actionName="Status"
-            sl_no={false}
-          />
+          {filterEmpListData && filterEmpListData?.length < 1 ? (
+            <span className="flex items-center justify-center text-2xl font-semibold ">
+              Oops! No Data Found
+            </span>
+          ) : (
+            <PayrollTableContainer
+              tableData={filterEmpListData || []}
+              actionBtn
+              actionName="Status"
+              sl_no={false}
+            />
+          )}
         </div>
         <aside className="mt-16">
           <div>

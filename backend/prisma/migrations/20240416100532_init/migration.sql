@@ -599,7 +599,8 @@ CREATE TABLE "payroll_master" (
     "lwp_days" INTEGER NOT NULL DEFAULT 0,
     "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "status" TEXT,
+    "date" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -611,6 +612,9 @@ CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "employee_daily_attendance_employee_id_date_key" ON "employee_daily_attendance"("employee_id", "date");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "payroll_master_emp_id_date_key" ON "payroll_master"("emp_id", "date");
 
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
