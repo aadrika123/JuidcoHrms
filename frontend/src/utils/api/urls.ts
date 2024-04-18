@@ -14,7 +14,11 @@ type UrlKeys =
   | "HOLIDAY"
   | "LEAVETYPE"
   | "LEAVEGET"
-  | "LEAVECHART";
+  | "LEAVECHART"
+  | "PAYROLL"
+  | "PAYROLL_TOTAL"
+  | "LEAVECHART"
+  | "CLAIM";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -56,6 +60,14 @@ export const HRMS_URL: Urls = {
     getAll: "/employee/attendance-history/get",
   },
 
+  PAYROLL: {
+    getAll: "/pay/payroll",
+    update: "/pay/payroll/update",
+  },
+
+  PAYROLL_TOTAL: {
+    getAll: "/pay/total",
+  },
   HOLIDAY: {
     get: "/employee/holidays",
   },
@@ -70,4 +82,9 @@ export const HRMS_URL: Urls = {
     get: "/employee/leave-chart-get",
     create: "/employee/leave-chart-update",
   },
+  CLAIM:{
+    get: "/application/claim/getClaimByEmployeeId",
+    create: "/application/claim",
+    getById: "/application/claim"
+  }
 };

@@ -10,8 +10,7 @@ import axios from "@/lib/axiosConfig";
 
 const Download_payslip = () => {
   const [values, setValues] = useState<any>({
-    leave_from: "",
-    leave_to: "",
+    date: "",
     payslipData: "",
   });
 
@@ -19,53 +18,9 @@ const Download_payslip = () => {
     const { name, value } = e.target;
     setValues({
       ...values,
-      [name]: value,
+      date: value,
     });
   };
-
-  const calculateDaysDiff = () => {
-    const { leave_from, leave_to } = values;
-    const from = new Date(leave_from);
-    const to = new Date(leave_to);
-    const diffInTime = to.getTime() - from.getTime();
-    const diffInDays = diffInTime / (1000 * 3600 * 24);
-    console.log("Difference in days:", diffInDays);
-    return diffInDays;
-  };
-
-  //     billNo: "12345",
-  //     employeePFNo: "7890",
-  //     employeeName: "John Doe",
-  //     panNo: "ABCDE1234F",
-  //     employeeAccountNo: "1234567890",
-  //     designation: "Software Engineer",
-  //     payScale: "Grade 6",
-  //     allowances: {
-  //       basic: 25000,
-  //       da: 5000,
-  //       hra: 3000,
-  //       medicalAllowance: 2000,
-  //       totalAllowances: 35000,
-  //     },
-  //     deductions: {
-  //       gli: 1000,
-  //       pf: 2000,
-  //       incomeTax: 5000,
-  //       professionalTax: 200,
-  //       totalDeductions: 8200,
-  //     },
-  //     recovery: {
-  //       totalRecovery: 0,
-  //     },
-  //     netPay: 26800,
-  //     ddoSignature: "John Doe",
-  //   };
-
-  //   setValues({
-  //     ...values,
-  //     payslipData: mockData,
-  //   });
-  // };
 
   // Function to convert number to words
   const convertNumberToWords = (num: number): string => {
@@ -131,7 +86,7 @@ const Download_payslip = () => {
   const fetchPayslipData = async () => {
     try {
       const response = await axios({
-        url: `/pay/payslip?emp_id=EMP912e43`,
+        url: `/pay/payslip?emp_id=EMP912e43&date=${values.date}`,
         method: "GET",
       });
 
@@ -160,21 +115,34 @@ const Download_payslip = () => {
     fetchPayslipData();
   }, []);
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   return (
     <>
-      <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
-        <BackButton />
-        <div>
-          <SubHeading className="mx-5 my-5 mb-0 text-4xl">
-            Download Pay Slip
-          </SubHeading>
-        </div>
-      </div>
       <div>
-        {/* ------------------ */}{" "}
-        <div
-          className={`w-full sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg`}
-        >
+        {/* ------------------ */}
+        <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
+          <BackButton />
+          <div>
+            <SubHeading className="mx-5 my-5 mb-0 text-4xl">
+              Download Pay Slip
+            </SubHeading>
+          </div>
+        </div>
+        <div className="w-full sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg">
           <div className="flex items-center">
             <div className="w-[71px] h-[76px] relative mr-3">
               <Image
@@ -189,45 +157,27 @@ const Download_payslip = () => {
               <span className="text-[25px]">Search Pay Slip</span>
             </div>
           </div>
-
-          <div className="flex justify-around  items-center w-full">
+          <div className="flex justify-around items-center w-full">
             <div className="flex gap-8">
               <div className="flex flex-col ">
-                <label htmlFor="fromDate" className="text-[15px]">
-                  Date From
+                <label htmlFor="monthYear" className="text-[15px]">
+                  Month-Year
                 </label>
                 <input
-                  id="fromDate"
-                  type="date"
-                  placeholder="From Date"
+                  id="monthYear"
+                  type="month"
                   className="border border-gray-300 rounded-md px-3 py-1 mr-2"
                   onChange={handleChange}
-                  value={values.leave_from}
-                  name="leave_from"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label htmlFor="toDate" className="text-[15px]">
-                  Date To
-                </label>
-                <input
-                  id="toDate"
-                  type="date"
-                  placeholder="To Date"
-                  className="border border-gray-300 rounded-md px-3 py-1"
-                  onChange={handleChange}
-                  value={values.leave_to}
-                  name="leave_to"
+                  value={values.monthYear}
+                  name="monthYear"
                 />
               </div>
             </div>
-
-            <div className="">
+            <div>
               <button
                 type="submit"
-                className="w-full border border-indigo-600 bg-indigo-600 hover:bg-indigo-500 text-white  shadow-lg rounded-md text-base px-5 py-1"
-                onClick={calculateDaysDiff}
+                className="w-full border border-indigo-600 bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
+                onClick={fetchPayslipData}
               >
                 <p className="flex justify-center">
                   <span className="mt-1">
@@ -255,7 +205,10 @@ const Download_payslip = () => {
             </p>
           </div>
           <div className="w-full flex justify-center p-7">
-            <span>SALARY SLIP - APRIL 2024 SALARY</span>
+            <span>
+              SALARY SLIP - {months[Number(values.date.split("-")[1] - 1)]}{" "}
+              {values.date.split("-")[0]} SALARY
+            </span>
           </div>
 
           <div className="  ">
@@ -424,18 +377,18 @@ const Download_payslip = () => {
                   </td>
                 </tr>
 
-                {/* {payslipData?.emp_salary_details?.emp_salary_allow?.map(
-                (item: any, index: number) => (
-                  <tr className="border-1px">
-                    <>
-                      <td className="border w-[150px] pl-3">
-                        {item?.name || null}
-                      </td>
-                      <td className="border">{item?.amount_in || 0}</td>
-                    </>
-                  </tr>
-                )
-              )} */}
+                {payslipData?.emp_salary_details?.emp_salary_allow?.map(
+                  (item: any, index: number) => (
+                    <tr className="border-1px">
+                      <>
+                        <td className="border w-[150px] pl-3">
+                          {item?.name || null}
+                        </td>
+                        <td className="border">{item?.amount_in || 0}</td>
+                      </>
+                    </tr>
+                  )
+                )}
 
                 <tr>
                   <td className="border w-[150px] pl-3">TOTAL</td>
@@ -485,18 +438,18 @@ const Download_payslip = () => {
                   </td>
                 </tr>
 
-                {/* {payslipData?.emp_salary_details?.emp_salary_deduction?.map(
-                (item: any, index: number) => (
-                  <tr className="border-1px">
-                    <>
-                      <td className="border w-[150px] pl-3">
-                        {item?.name || null}
-                      </td>
-                      <td className="border">{item?.amount_in || 0}</td>
-                    </>
-                  </tr>
-                )
-              )} */}
+                {payslipData?.emp_salary_details?.emp_salary_deduction?.map(
+                  (item: any, index: number) => (
+                    <tr className="border-1px">
+                      <>
+                        <td className="border w-[150px] pl-3">
+                          {item?.name || null}
+                        </td>
+                        <td className="border">{item?.amount_in || 0}</td>
+                      </>
+                    </tr>
+                  )
+                )}
 
                 <tr>
                   <td className="border w-[150px] pl-3">TOTAL</td>
@@ -505,7 +458,7 @@ const Download_payslip = () => {
                   </td>
                 </tr>
               </table>
-               {/* -------------------------------- */}
+              {/* -------------------------------- */}
               {/* <table className="w-[ 190px] h-[60.916px] border-flex m-5">
               <tr className="border">
                 <td className="font-bold" colSpan={2}>

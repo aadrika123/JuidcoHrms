@@ -132,7 +132,10 @@ const EmpSalaryDetails: React.FC<
       }
 
       case "ESIC":
-        calculatedAmount = Math.round(currentBasicPay * 0.0175);
+        console.log("currentBasicPayESIC", currentBasicPay);
+        if (currentBasicPay >= 21000) {
+          calculatedAmount = currentBasicPay * 0.0175;
+        }
         break;
 
       case "EPF": {

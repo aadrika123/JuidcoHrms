@@ -186,8 +186,8 @@ const employee_seeder = async () => {
         wef_date: null,
         branch_name: null,
         pf_category: null,
-        acc_number: 24324324,
-        ifsc: null,
+        acc_number: "123456789123",
+        ifsc: "EMP23232",
         sen_grade_list: null,
       },
 

@@ -1,3 +1,9 @@
+/**
+ * Author: Krish
+ * Status: Open
+ * Use: Created for view, reject and approve employee payroll
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -5,94 +11,83 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import Image from "next/image";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
-import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
+// import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 import PayrollTableContainer from "./Segments/PayrollTableContainer";
 
+export type EmployeePayrollType = {
+  id: number;
+  emp_id: string;
+  emp_name: string;
+  gross_pay: number;
+  leave_days: number;
+  working_hour: number;
+  total_allowance: number;
+  total_deductions: number;
+  non_billable: number;
+  present_days: number;
+  lwp_days: number;
+  salary_deducted: number;
+  status: string;
+  net_pay: number;
+};
+
+type EmployeePayrollData = {
+  data: EmployeePayrollType[];
+};
+
+type PayrollCount = {
+  total_employee: number;
+  total_amount: number;
+};
+type TableData = EmployeePayrollData | PayrollCount;
+
 const PayrollManagement = () => {
   const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
   const [selectedData, setSelectedData] = useState<number | null>(null);
-  const [page, setPage] = useState<number>(1);
+  // const [page, setPage] = useState<number>(1);
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const handleChangePage = (direction: "prev" | "next") => {
-    setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
-  };
+  // const handleChangePage = (direction: "prev" | "next") => {
+  //   setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
+  // };
 
-  const fetchData = async (endpoint: string) => {
+  const fetchData = async <T extends TableData>(
+    endpoint: string
+  ): Promise<T[] | T> => {
     if (endpoint === "null") return [];
     const res = await axios({
       url: `${endpoint}`,
       method: "GET",
     });
 
-    return res.data?.data;
+    return res.data?.data as T;
   };
 
-  // const { currentPage, count, totalPage } = page;
-  const useCodeQuery = (endpoint: string) => {
-    return useQuery([endpoint, [selectedFilter, selectedData, page]], () =>
-      fetchData(endpoint)
-    );
+  const useCodeQuery = <T extends TableData>(endpoint: string) => {
+    return useQuery([endpoint, [selectedFilter, selectedData]], async () => {
+      const data = await fetchData<T>(endpoint);
+      return Array.isArray(data) ? data[0] : data;
+    });
   };
 
-  const { data: dataList = [], error: dataError } = useCodeQuery(
-    `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : null}`
-    // `${HRMS_URL.DEPARTMENT.get}`
+  const { data: empLstData, error: empLstErr } =
+    useCodeQuery<EmployeePayrollData>(`${HRMS_URL.PAYROLL.getAll}`);
+
+  const { data: payrollCount, error: payrollCountErr } =
+    useCodeQuery<PayrollCount>(`${HRMS_URL.PAYROLL_TOTAL.getAll}`);
+
+  const filterEmpListData = empLstData?.data?.filter(
+    (elem) => elem.status === null
   );
 
-  const { data: empLstData, error: empLstErr } = useCodeQuery(
-    `${HRMS_URL.EMS.get}&page=${page}&department=${selectedData}`
-  );
-
-  const { data: empCount, error: empCountErr } = useCodeQuery(
-    `${HRMS_URL.EMP_COUNT.get}`
-  );
-
-  // REMOVE EMPLOYEE
-  const remEmployee = async (id: number) => {
-    try {
-      const res = await axios({
-        url: `${HRMS_URL.EMS.delete}`,
-        method: "POST",
-        data: {
-          id: id,
-        },
-      });
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
-  const { mutate } = useMutation(remEmployee, {
-    onSuccess: () => {
-      toast.success("Removed Employee");
-    },
-    onError: () => {
-      alert("Error removing Employee");
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries();
-    },
-  });
-
-  const removeEmployee = (id: number) => {
-    const confirm = window.confirm("Are you sure want to delete this Employee");
-    if (confirm) mutate(id);
-  };
-
-  if (dataError) {
-    return <div>Failed to fetch data</div>;
-  }
-
-  if (empCountErr) {
+  if (payrollCountErr) {
     throw Error;
   }
 
@@ -111,13 +106,13 @@ const PayrollManagement = () => {
       <div className="flex items-start gap-8">
         <div className=" w-40 flex flex-col gap-3">
           <span className="text-primary_blue text-[1.63544rem]">
-            {empCount?.existingEmp}
+            {payrollCount?.total_employee}
           </span>
           <span>Total No. of Employee</span>
         </div>
         <div className="w-40 flex flex-col gap-3">
           <span className="text-[#63ADCB] text-[1.63544rem]">
-            {empCount?.newEmp}
+            {payrollCount?.total_amount}/-
           </span>
           <span>Total No. of Amount</span>
         </div>
@@ -175,13 +170,6 @@ const PayrollManagement = () => {
             <option disabled selected>
               Select Filter By
             </option>
-            {dataList?.data?.map((k: any) => {
-              return (
-                <option key={k.id} value={k.id}>
-                  {k.name}
-                </option>
-              );
-            })}
           </select>
         </div>
         <PrimaryButton
@@ -211,21 +199,26 @@ const PayrollManagement = () => {
       <section className="mx-16 mt-[3rem]">
         {employeeReports}
         <div className="mt-[5rem]">
-          <PayrollTableContainer
-            tableData={empLstData?.data || []}
-            actionBtn
-            actionName="Status"
-            setEmpId={removeEmployee}
-            sl_no={false}
-          />
+          {filterEmpListData && filterEmpListData?.length < 1 ? (
+            <span className="flex items-center justify-center text-2xl font-semibold ">
+              Oops! No Data Found
+            </span>
+          ) : (
+            <PayrollTableContainer
+              tableData={filterEmpListData || []}
+              actionBtn
+              actionName="Status"
+              sl_no={false}
+            />
+          )}
         </div>
         <aside className="mt-16">
           <div>
-            <NextPrevPagination
+            {/* <NextPrevPagination
               page={empLstData?.currentPage}
               pageCount={empLstData?.totalPage}
               handlePageChange={handleChangePage}
-            />
+            /> */}
           </div>
         </aside>
       </section>
