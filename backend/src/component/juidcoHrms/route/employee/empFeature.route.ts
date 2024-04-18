@@ -6,6 +6,7 @@ import HolidaysController from "../../controller/employee/holidays.controller";
 import EmployeeLeaveController from "../../controller/employee/empLeave.controller";
 import LeaveChartController from "../../controller/employee/empLeaveChart.controller";
 import LeaveTypeController from "../../controller/employee/empLeaveType.controller";
+import EmployeeOtpController from "../../controller/employee/empOtpGeneration.controller";
 
 class EmployeeFeatureRoute {
   private employeeAttendanceController: EmployeeAttendanceController;
@@ -13,6 +14,7 @@ class EmployeeFeatureRoute {
   private employeeLeaveChartController: LeaveChartController;
   private employeeLeaveTypeController: LeaveTypeController;
   private employeeHolidaysController: HolidaysController;
+  private employeeOtpController: EmployeeOtpController;
 
   constructor() {
     this.employeeAttendanceController = new EmployeeAttendanceController();
@@ -20,6 +22,7 @@ class EmployeeFeatureRoute {
     this.employeeLeaveController = new EmployeeLeaveController();
     this.employeeLeaveChartController = new LeaveChartController();
     this.employeeLeaveTypeController = new LeaveTypeController();
+    this.employeeOtpController = new EmployeeOtpController();
   }
 
   configure(app: express.Application): void {
@@ -141,7 +144,17 @@ class EmployeeFeatureRoute {
             "0312"
           ),
         loggerMiddleware
-      ); //0312
+    ); //0312
+    
+    //  otp generation for employee
+    
+    app
+      .route(`${baseUrl}/employee/otp-generated`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOtpController.createOtp(req, res, next, "0313"),
+        loggerMiddleware
+      ); //0313
 
     // app
     //   .route(`${baseUrl}/employee/attendance/test`)

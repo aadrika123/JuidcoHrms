@@ -416,35 +416,6 @@ CREATE TABLE "wf_roleusermaps" (
 );
 
 -- CreateTable
-CREATE TABLE "department" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "department_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "designation" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "holidays" (
-    "id" SERIAL NOT NULL,
-    "date" TEXT,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "holidays_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "employee_attendance_history" (
     "id" SERIAL NOT NULL,
     "emp_in" TIMESTAMP(3),
@@ -542,6 +513,35 @@ CREATE TABLE "employee_leave_type" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "employee_leave_type_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "department" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "department_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "designation" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "holidays" (
+    "id" SERIAL NOT NULL,
+    "date" TEXT,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "holidays_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
