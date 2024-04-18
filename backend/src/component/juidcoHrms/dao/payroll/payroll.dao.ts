@@ -49,6 +49,26 @@ class PayrollDao {
   };
 
   calc_regular_pay = async () => {
+    const currentDate = new Date();
+    const curr_month: string = (currentDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0"); // Adding 1 to get the correct month index
+    const curr_year: string = currentDate.getFullYear().toString();
+    const date = `${curr_month}-${curr_year}`;
+
+    if (!date || typeof date !== "string") {
+      return generateRes(
+        {
+          error: "Invalid date format. Please provide date in MM-YYYY format.",
+        },
+        400
+      );
+    }
+
+    const [month, year] = date.split("-");
+
+    console.log(year, month, "ae");
+
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
       SELECT emp.emp_id,  emp_basic_details.emp_name, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
@@ -86,11 +106,12 @@ class PayrollDao {
 
     // console.log(this.regulary_pay);
     // ---------------------------CALCULATING NO OF LEAVE DAYS APPROVED-------------------------------//
-
+    // WHERE EXTRACT(MONTH FROM date)::text =${month} AND EXTRACT(YEAR FROM date)::text = ${year}
     this.total_working_hours = await prisma.$queryRaw`
-      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 group by employee_id ;
+      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 AND EXTRACT(MONTH FROM date)::text=${month} AND EXTRACT(YEAR FROM date)::text = ${year} group by employee_id, date ;
     `;
 
+    console.log(this.total_working_hours, "amdkfmv");
     this.no_of_leave_approved = await prisma.$queryRaw`
       SELECT employee_id as emp_id, total_days as days_leave_approved FROM employee_leave_details 
     `;
@@ -155,6 +176,9 @@ class PayrollDao {
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
+      let after_days: number = 0;
+
+      // ----------check no_of_working_days in a month----------------//
       for (let day = 1; day <= numberOfDaysInMonth; day++) {
         const date = new Date(currentYear, currentMonth, day);
         const dayOfWeek = date.getDay();
@@ -165,16 +189,34 @@ class PayrollDao {
         }
       }
 
+      //---------check no_of_working_days after date 26th-----------------//
+      for (let day = 27; day <= numberOfDaysInMonth; day++) {
+        const date = new Date(currentYear, currentMonth, day);
+        const dayOfWeek = date.getDay();
+
+        // Check if the day is not Sunday (0 represents Sunday)
+        if (dayOfWeek !== 0) {
+          after_days++;
+        }
+      }
+
+      const after_days_hours = after_days * 8;
+
       const total_hours: number = numberOfWeekdaysInMonth * 8;
       const leave_days = data[record.emp_id].leave_days;
       const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
 
+      // salary deduction for last_month from after days only
       const days_leave_approved = leave_days;
       const no_of_hours_leave_approved = days_leave_approved * 8;
 
+
       const non_bill =
         data[record.emp_id].working_hour + no_of_hours_leave_approved;
-      let calc_non_billable_hours = total_hours - non_bill;
+      let calc_non_billable_hours = total_hours - after_days_hours - non_bill;
+
+      console.log(non_bill, "non_bill");
+      console.log(calc_non_billable_hours, "as");
 
       if (isNaN(calc_non_billable_hours)) {
         calc_non_billable_hours = total_hours;
@@ -184,8 +226,13 @@ class PayrollDao {
         calc_non_billable_hours = 0;
       }
 
+      // const after_days_hour = after_days * 8;
+      // data[record.emp_id].working_hour = after_days_hour;
+
       let employee_present_days =
-        (data[record.emp_id].working_hour as number) / 8 - leave_days;
+        ((data[record.emp_id].working_hour as number) + after_days_hours) / 8 -
+        leave_days;
+      // employee_present_days = employee_present_days + after_days;
 
       if (isNaN(employee_present_days)) {
         employee_present_days = 0;
@@ -226,15 +273,20 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    await prisma.payroll_master.createMany({
-      data: this.employee_payroll_data,
-    });
+    console.log(this.employee_payroll_data);
+
+    // await prisma.payroll_master.createMany({
+    //   data: this.employee_payroll_data,
+    // });
 
     return generateRes(this.employee_payroll_data);
   };
 
   // --------------------- STORING PAYROLL ------------------------------ //
   get_emp_payroll = async () => {
+    await this.calc_net_pay();
+    console.log(this.employee_payroll_data);
+
     const query: Prisma.payroll_masterFindManyArgs = {
       select: {
         id: true,

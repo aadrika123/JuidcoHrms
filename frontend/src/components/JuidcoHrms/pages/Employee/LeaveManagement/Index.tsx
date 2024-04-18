@@ -21,6 +21,7 @@ import axios from "@/lib/axiosConfig";
 // import axios from 'axios';
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { HRMS_URL } from "@/utils/api/urls";
+import Loader from "@/components/global/atoms/Loader";
 
 interface LeaveData {
   emp_leave_type: {
@@ -148,8 +149,8 @@ const LeaveReq = () => {
       </div>
 
       {loading && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-900"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/3 -translate-y-1/2">
+          <Loader />
         </div>
       )}
 

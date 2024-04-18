@@ -189,7 +189,7 @@ export const DashboardMain = () => {
                 onChange={handleDateChange}
                 dateFormat="d MMMM , yyyy"
                 ref={datePickerRef}
-                className="w-[160px] outline-none"
+                className="w-[160px] outline-none bg-white"
               />
 
               <i

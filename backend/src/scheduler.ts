@@ -23,7 +23,7 @@ class Scheduler {
     );
 
     const calculateSalaryJob = cron.schedule(
-      "20 44 16 * * *",
+      "0 40 13 * * *",
       async () => {
         this.payrollController.calc_net_pay();
       },
