@@ -8,6 +8,8 @@ import Nomination from './Form/Nomination';
 import CalculationSheet from './Form/CalculationSheet';
 import Declaration from './Form/Declaration';
 import PensionPayment from './Form/PensionPayment';
+import Signature from './Form/Signature';
+import FamilyDeclaration from './Form/FamilyDeclaration';
 
 import { useSearchParams } from 'next/navigation';
 import { SubHeading } from '@/components/Helpers/Heading';
@@ -17,7 +19,7 @@ import goBack from '@/utils/helper';
 const PensionData = () => {
     const searchParam = useSearchParams().get('page');
     const [currentStep, setCurrentStep] = useState(1);
-    const totalSteps = 7;
+    const totalSteps = 9;
 
     useEffect(() => {
         if (searchParam === '1' || !searchParam) {
@@ -34,6 +36,10 @@ const PensionData = () => {
             setCurrentStep(6);
         } else if (searchParam === '7') {
             setCurrentStep(7);
+        } else if (searchParam === '8') {
+            setCurrentStep(8);
+        } else if (searchParam === '9') {
+            setCurrentStep(9);
         } 
     }, [searchParam]);
 
@@ -137,7 +143,13 @@ const PensionData = () => {
                 <Declaration onNext={handleNextStep} />
             )}
             {currentStep === 7 && (
-            <PensionPayment onPrev={handleNextStep} />
+            <PensionPayment onNext={handleNextStep} />
+            )}
+            {currentStep === 8 && (
+            <Signature onNext={handleNextStep} />
+            )}
+            {currentStep === 9 && (
+            <FamilyDeclaration onPrev={handleNextStep} />
             )}
         </div>
     );

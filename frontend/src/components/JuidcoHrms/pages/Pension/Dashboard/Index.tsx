@@ -350,8 +350,10 @@ const Dashboard = () => {
 
                   </section>
 
-                  <div className="mt-8">
+                  <div className="mt-8 p-4">
+                      {/* <div className="mt-2 px-2 pr-4 mb-2 flex items-center justify-between text-xs text-secondary"> */}
                       <div className="mt-2 px-2 pr-4 mb-2 flex items-center justify-between text-xs text-secondary">
+
                           <Image src={HeadOffice} alt="employee" width={40} height={20} />
                           <Image src={JDOffice} alt="employee" width={40} height={20} />
                           <Image src={PPO} alt="employee" width={40} height={20} />
@@ -363,7 +365,9 @@ const Dashboard = () => {
 
                       <HorizontalStepper steps={steps} activeStep={activeStep} />
                       
+                      {/* <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary"> */}
                       <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
+
                           {/* <h2>{userDetails?.name}</h2> */}
                           <h2>Head of Office</h2>
                           <h2>JD Office</h2>
@@ -372,9 +376,9 @@ const Dashboard = () => {
                           <h2>CPO</h2>
                           <h2>PPO</h2>
                           <h2>Bank</h2>
-                      </div>
-                      
+                      </div>  
                   </div>
+
               </div>
 
               <section className="m-5 p-10 shadow-lg">

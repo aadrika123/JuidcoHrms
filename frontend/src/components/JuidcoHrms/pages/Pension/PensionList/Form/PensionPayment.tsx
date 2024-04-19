@@ -6,10 +6,10 @@ import { Formik } from 'formik';
 import goBack from '@/utils/helper';
 
 interface PensionPaymentProps {
-    onPrev: () => void;
+    onNext: () => void;
 }
 
-const PensionPayment: React.FC<PensionPaymentProps> = ({ onPrev }) => {
+const PensionPayment: React.FC<PensionPaymentProps> = ({ onNext }) => {
 
     const pathName = usePathname();
     const router = useRouter();

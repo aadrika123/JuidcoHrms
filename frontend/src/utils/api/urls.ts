@@ -84,5 +84,7 @@ export const HRMS_URL: Urls = {
     get: "/application/claim/getClaimByEmployeeId",
     create: "/application/claim",
     getById: "/application/claim"
-  }
+  },
+  
+
 };
