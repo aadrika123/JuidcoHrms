@@ -154,7 +154,15 @@ class EmployeeFeatureRoute {
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOtpController.createOtp(req, res, next, "0313"),
         loggerMiddleware
-      ); //0313
+    ); //0313
+    
+    app
+      .route(`${baseUrl}/employee/otp-validate`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOtpController.validateOtp(req, res, next, "0314"),
+        loggerMiddleware
+      ); //0314
 
     // app
     //   .route(`${baseUrl}/employee/attendance/test`)

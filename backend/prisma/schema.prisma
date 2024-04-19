@@ -43,6 +43,7 @@ model employees {
   emp_leave_details       employee_leave_details[]
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
+  emp_claim               employee_claim[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -618,4 +619,32 @@ model payroll_master {
   updated_at       DateTime @updatedAt @map("updated_at")
 }
 
-
+// CREATE AND MAINTAINED BY ANJALI 
+model employee_claim {
+  id                      Int       @id @default(autoincrement())
+  employees               employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id            String
+  claimType               String // Assuming claim type can be a string, modify as needed
+  orderNo                 String?
+  fromDate                DateTime? // Assuming dates are stored as DateTime, modify as needed
+  toDate                  DateTime?
+  travelExpenses          Float? // Assuming travel expenses are in float, modify as needed
+  distance                Float? // Assuming distance is in float, modify as needed
+  foodExpenses            Float? // Assuming food expenses are in float, modify as needed
+  totalAmount             Float? // Assuming total amount is in float, modify as needed
+  hotelExpenses           Float? // Assuming hotel expenses are in float, modify as needed
+  description             String?
+  location                String?
+  witnessInformation      String?
+  supervisorSelection     String? // Assuming supervisor selection is a string, modify as needed
+  thirdPartyInformation   String?
+  claimSupervisor         String? // Assuming claim supervisor is a string, modify as needed
+  status                  Int       @default(0)
+  thirdPartyStatus        Int       @default(0)
+  travelExpenseAttachment String?
+  foodExpensesAttachment  String?
+  hotelExpenseAttachment  String?
+  descriptionAttachment   String?
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @updatedAt @map("updated_at")
+}
