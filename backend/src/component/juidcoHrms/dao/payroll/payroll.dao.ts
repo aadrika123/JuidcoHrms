@@ -16,6 +16,7 @@ class PayrollDao {
   private total_working_hours: any;
   private employee_payroll_data: any[];
   private total_amount_released: number;
+  private lwp_days_last_month: any[];
 
   constructor() {
     this.regulary_pay = [];
@@ -24,6 +25,7 @@ class PayrollDao {
     this.no_of_leave_approved = [];
     this.employee_payroll_data = [];
     this.total_amount_released = 0;
+    this.lwp_days_last_month = [];
     // this.offset = (1 - 1) * 2;
   }
 
@@ -66,8 +68,13 @@ class PayrollDao {
     }
 
     const [month, year] = date.split("-");
-
-    console.log(year, month, "ae");
+    const _month: number = parseInt(month, 10); // Convert month string to integer
+    let last_month: number = _month - 1;
+    const last_year: number = parseInt(year);
+    if (last_month < 1) {
+      last_month = 12;
+      last_year - 1;
+    }
 
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
@@ -106,12 +113,29 @@ class PayrollDao {
 
     // console.log(this.regulary_pay);
     // ---------------------------CALCULATING NO OF LEAVE DAYS APPROVED-------------------------------//
-    // WHERE EXTRACT(MONTH FROM date)::text =${month} AND EXTRACT(YEAR FROM date)::text = ${year}
+    //  AND EXTRACT(MONTH FROM date)::text=${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}
+
     this.total_working_hours = await prisma.$queryRaw`
-      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 AND EXTRACT(MONTH FROM date)::text=${month} AND EXTRACT(YEAR FROM date)::text = ${year} group by employee_id, date ;
+      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 AND EXTRACT(MONTH FROM date)::text = ${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}::text group by employee_id;
     `;
 
-    console.log(this.total_working_hours, "amdkfmv");
+    // this.total_working_hours = await prisma.$queryRaw`
+    // SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 group by employee_id;
+    // `;
+
+    // lwp days for last month //
+    // this.lwp_days_last_month = await prisma.$queryRaw`
+    //   SELECT emp_id, lwp_days as last_month_lwp FROM payroll_master WHERE month = ${last_month} AND year = ${last_year};
+    // `;
+
+    // AND EXTRACT(DAY FROM date) > 26 AND EXTRACT(MONTH FROM date)::text = ${last_month}::text AND EXTRACT(YEAR FROM date)::text = ${last_year}::text
+
+    this.lwp_days_last_month = await prisma.$queryRaw`
+        SELECT employee_id as emp_id, COUNT(employee_id)::Int as last_month_lwp FROM employee_daily_attendance WHERE EXTRACT(DAY FROM date) > 26 AND EXTRACT(MONTH FROM date) = ${last_month} AND EXTRACT(YEAR FROM date) = ${last_year} AND status = 0  GROUP BY employee_id
+    `;
+
+    console.log(this.lwp_days_last_month, "last_lwp");
+
     this.no_of_leave_approved = await prisma.$queryRaw`
       SELECT employee_id as emp_id, total_days as days_leave_approved FROM employee_leave_details 
     `;
@@ -148,9 +172,20 @@ class PayrollDao {
     this.total_working_hours.forEach((record: any) => {
       //      console.log(record);
       const working_hour = Number(record.working_hour);
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         working_hour: working_hour,
+      };
+    });
+
+    this.lwp_days_last_month.forEach((record: any) => {
+      //      console.log(record);
+      const lwp_days = Number(record.last_month_lwp);
+
+      data[record.emp_id] = {
+        ...data[record.emp_id],
+        lwp_days_last_month: lwp_days,
       };
     });
 
@@ -177,6 +212,7 @@ class PayrollDao {
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
       let after_days: number = 0;
+      // let after_days_last: number = 0; // previous month lwp absent
 
       // ----------check no_of_working_days in a month----------------//
       for (let day = 1; day <= numberOfDaysInMonth; day++) {
@@ -202,21 +238,24 @@ class PayrollDao {
 
       const after_days_hours = after_days * 8;
 
+      // !======================== EMPLOYEE SALARY CALCULATION =========================//
       const total_hours: number = numberOfWeekdaysInMonth * 8;
       const leave_days = data[record.emp_id].leave_days;
       const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
-
-      // salary deduction for last_month from after days only
       const days_leave_approved = leave_days;
       const no_of_hours_leave_approved = days_leave_approved * 8;
 
+      // ------------------------CALCULATING NON BILLABLE HOURS ---------------------------//
+      let lwp_last_month_salary: number =
+        data[record.emp_id].lwp_days_last_month * 8 * salary_per_hour;
 
+      if (isNaN(lwp_last_month_salary)) {
+        lwp_last_month_salary = 0;
+      }
       const non_bill =
         data[record.emp_id].working_hour + no_of_hours_leave_approved;
-      let calc_non_billable_hours = total_hours - after_days_hours - non_bill;
 
-      console.log(non_bill, "non_bill");
-      console.log(calc_non_billable_hours, "as");
+      let calc_non_billable_hours = total_hours - non_bill - after_days_hours;
 
       if (isNaN(calc_non_billable_hours)) {
         calc_non_billable_hours = total_hours;
@@ -226,28 +265,29 @@ class PayrollDao {
         calc_non_billable_hours = 0;
       }
 
-      // const after_days_hour = after_days * 8;
-      // data[record.emp_id].working_hour = after_days_hour;
-
+      // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
       let employee_present_days =
         ((data[record.emp_id].working_hour as number) + after_days_hours) / 8 -
         leave_days;
-      // employee_present_days = employee_present_days + after_days;
-
       if (isNaN(employee_present_days)) {
         employee_present_days = 0;
       }
+
+      // ----------------------- CALCULATING EMPLOYEE LWP DAYS ---------------------------//
       let employee_lwp_days = calc_non_billable_hours / 8;
       if (isNaN(employee_lwp_days)) {
         employee_lwp_days = 0;
       }
+
+      // ------------------------ CALCULATING EMPLOYEE NET PAY ---------------------------//
       const calc_non_billable_salary =
         salary_per_hour * calc_non_billable_hours;
 
       let calc_net_pay =
         data[record.emp_id].gross_pay -
         calc_non_billable_salary -
-        data[record.emp_id].total_deductions;
+        data[record.emp_id].total_deductions -
+        lwp_last_month_salary;
 
       if (calc_net_pay < 1) {
         calc_net_pay = 0;
@@ -263,17 +303,22 @@ class PayrollDao {
         lwp_days: employee_lwp_days,
         salary_deducted: Math.floor(calc_non_billable_salary),
         net_pay: Math.floor(calc_net_pay),
+        last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
         date: date,
       };
     });
+    // !======================== EMPLOYEE SALARY CALCULATION =========================//
 
     const keys = Object.keys(data);
     this.employee_payroll_data = [];
+
     keys.forEach((key) => {
+      data[key]["month"] = data[key].date.getMonth() + 1;
+      data[key]["year"] = data[key].date.getFullYear();
       this.employee_payroll_data.push(data[key]);
     });
 
-    console.log(this.employee_payroll_data);
+    // console.log(this.employee_payroll_data);
 
     // await prisma.payroll_master.createMany({
     //   data: this.employee_payroll_data,

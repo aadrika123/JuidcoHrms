@@ -1,22 +1,25 @@
 // Created and Maintained by Krish
 model payroll_master {
-  id               Int      @id @default(autoincrement())
-  emp_id           String
-  emp_name         String
-  gross_pay        Float    @default(0)
-  leave_days       Int      @default(0)
-  working_hour     Int      @default(0)
-  total_allowance  Float    @default(0)
-  total_deductions Float    @default(0)
-  non_billable     Int      @default(0)
-  present_days     Int      @default(0)
-  lwp_days         Int      @default(0)
-  salary_deducted  Float    @default(0)
-  net_pay          Float    @default(0)
-  status           String? // 0 -> Reject || 1 -> Approved
-  date             DateTime
-  created_at       DateTime @default(now()) @map("created_at")
-  updated_at       DateTime @updatedAt @map("updated_at")
+  id                       Int      @id @default(autoincrement())
+  emp_id                   String
+  emp_name                 String
+  gross_pay                Float    @default(0)
+  leave_days               Int      @default(0)
+  working_hour             Int      @default(0)
+  total_allowance          Float    @default(0)
+  total_deductions         Float    @default(0)
+  non_billable             Int      @default(0)
+  present_days             Int      @default(0)
+  lwp_days                 Int      @default(0)
+  salary_deducted          Float    @default(0)
+  net_pay                  Float    @default(0)
+  last_month_lwp_deduction Float    @default(0)
+  status                   String? // 0 -> Reject || 1 -> Approved
+  date                     DateTime
+  month                    Int
+  year                     Int
+  created_at               DateTime @default(now()) @map("created_at")
+  updated_at               DateTime @updatedAt @map("updated_at")
 
-  @@unique([emp_id, date])
+  @@unique([emp_id, month, year])
 }
