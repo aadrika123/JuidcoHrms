@@ -44,6 +44,7 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
+  gratuity                gratuity[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -245,28 +246,15 @@ model employee_salary_deduction {
 
 // // //-------------- Gratuity DETAILS ---------------------//
 model gratuity {
-  id  Int @default(autoincrement())
-  emp_id           Int      @id @unique
-  emp_name         string
-  gratuity_amount  Float
-  application_id   Int?
-  last_working_day DateTime
+  id                Int       @id @default(autoincrement())
+  employee          employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id       String
+  gratuity_amount   Float?
+  application_id    String?
   date_of_relieving DateTime
-  created_at              DateTime    @default(now()) @map("created_at")
-  updated_at              DateTime    @updatedAt @map("updated_at")
+  created_at        DateTime  @default(now()) @map("created_at")
+  updated_at        DateTime  @updatedAt @map("updated_at")
   // Add any additional fields or relationships here
-}
-model leave_encashment {
-  id                      Int         @id @default(autoincrement())
-  application_id          String      @unique
-  employee_id             String
-  emp_name                String
-  emp_earned_leave        Int
-  emp_leave_balance       Int
-  amount                  Float
-  employee                employees   @relation(fields: [employee_id], references: [emp_id])
-  created_at              DateTime    @default(now()) @map("created_at")
-  updated_at              DateTime    @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Join Details ---------------------//
@@ -418,10 +406,9 @@ model employee_loan_recovery {
 
 //-------------- Employee LOAN Details ---------------------//
 
-
 // ----- Managed and Used by Jaideep ---------------- //
 model users {
-  id                   Int      @id @default(autoincrement())
+  id                   Int               @id @default(autoincrement())
   user_name            String?
   mobile               String?
   email                String
@@ -446,37 +433,38 @@ model users {
   address              String?
   wf_roleusermaps      wf_roleusermaps[]
 
-  created_at           DateTime? @default(now()) @map("created_at")
-  updated_at           DateTime @updatedAt @map("updated_at")
+  created_at DateTime? @default(now()) @map("created_at")
+  updated_at DateTime  @updatedAt @map("updated_at")
 }
 
 /////// wf_roles Managed by: Sanjiv Kumar //////////////
 
 model wf_roles {
-    id              Int       @id @default(autoincrement())
-    role_name       String
-    is_suspended    Boolean
-    created_by      Int
-    stamp_date_time DateTime?
-    old_ids         String?
-    wf_roleusermaps wf_roleusermaps[]
-    created_at      DateTime? @default(now()) @map("created_at")
-    updated_at      DateTime? @updatedAt @map("updated_at")
+  id              Int               @id @default(autoincrement())
+  role_name       String
+  is_suspended    Boolean
+  created_by      Int
+  stamp_date_time DateTime?
+  old_ids         String?
+  wf_roleusermaps wf_roleusermaps[]
+  created_at      DateTime?         @default(now()) @map("created_at")
+  updated_at      DateTime?         @updatedAt @map("updated_at")
 }
 
 /////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
 
 model wf_roleusermaps {
-    id           Int       @id @default(autoincrement())
-    wf_role_id   Int
-    wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
-    user_id      Int
-    user         users    @relation(fields: [user_id], references: [id])
-    is_suspended Boolean
-    created_by   Int?
-    created_at   DateTime? @default(now()) @map("created_at")
-    updated_at   DateTime? @updatedAt @map("updated_at")
+  id           Int       @id @default(autoincrement())
+  wf_role_id   Int
+  wf_role      wf_roles  @relation(fields: [wf_role_id], references: [id])
+  user_id      Int
+  user         users     @relation(fields: [user_id], references: [id])
+  is_suspended Boolean
+  created_by   Int?
+  created_at   DateTime? @default(now()) @map("created_at")
+  updated_at   DateTime? @updatedAt @map("updated_at")
 }
+
 model department {
   id               Int                     @id @default(autoincrement())
   name             String
@@ -494,7 +482,7 @@ model designation {
 }
 
 model holidays {
-  id  Int @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   date String?
   name String
 }
@@ -505,7 +493,7 @@ model employee_attendance_history {
   id          Int       @id @default(autoincrement())
   emp_in      DateTime?
   emp_out     DateTime?
-  date        DateTime @db.Date
+  date        DateTime  @db.Date
   lat         Float?
   lang        Float?
   employee    employees @relation(fields: [employee_id], references: [emp_id])
@@ -517,10 +505,10 @@ model employee_attendance_history {
 model employee_daily_attendance {
   id           Int       @id @default(autoincrement())
   employee_id  String
-  date         DateTime @db.Date
+  date         DateTime  @db.Date
   emp_in       DateTime?
   emp_out      DateTime?
-  working_hour Int @default(0)
+  working_hour Int       @default(0)
 
   status Int @default(0) // false -> absend , true -> present
 
@@ -677,4 +665,3 @@ model payroll_master {
 
   @@unique([emp_id, date])
 }
-

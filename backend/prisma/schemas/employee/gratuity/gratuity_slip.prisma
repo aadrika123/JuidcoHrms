@@ -1,9 +1,11 @@
-model Gratuity {
-  id
-  emp_id           Int      @id @unique
-  gratuity_amount  Decimal  @db.Decimal(10, 2)
-  application_id   Int?
+model gratuity {
+  id                Int       @id @default(autoincrement())
+  employee          employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id       String
+  gratuity_amount   Float?
+  application_id    String?
   date_of_relieving DateTime
-
+  created_at        DateTime  @default(now()) @map("created_at")
+  updated_at        DateTime  @updatedAt @map("updated_at")
   // Add any additional fields or relationships here
 }
