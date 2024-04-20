@@ -211,7 +211,9 @@ class PayrollDao {
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
-      let after_days: number = 0;
+      // let after_days: number = 0;
+
+      
       // let after_days_last: number = 0; // previous month lwp absent
 
       // ----------check no_of_working_days in a month----------------//
@@ -226,17 +228,17 @@ class PayrollDao {
       }
 
       //---------check no_of_working_days after date 26th-----------------//
-      for (let day = 27; day <= numberOfDaysInMonth; day++) {
-        const date = new Date(currentYear, currentMonth, day);
-        const dayOfWeek = date.getDay();
+      // for (let day = 27; day <= numberOfDaysInMonth; day++) {
+      //   const date = new Date(currentYear, currentMonth, day);
+      //   const dayOfWeek = date.getDay();
 
-        // Check if the day is not Sunday (0 represents Sunday)
-        if (dayOfWeek !== 0) {
-          after_days++;
-        }
-      }
+      //   // Check if the day is not Sunday (0 represents Sunday)
+      //   if (dayOfWeek !== 0) {
+      //     after_days++;
+      //   }
+      // }
 
-      const after_days_hours = after_days * 8;
+      // const after_days_hours = after_days * 8;
 
       // !======================== EMPLOYEE SALARY CALCULATION =========================//
       const total_hours: number = numberOfWeekdaysInMonth * 8;
@@ -255,8 +257,8 @@ class PayrollDao {
       const non_bill =
         data[record.emp_id].working_hour + no_of_hours_leave_approved;
 
-      let calc_non_billable_hours = total_hours - non_bill - after_days_hours;
-
+      let calc_non_billable_hours = total_hours - non_bill;
+      // 208 - 196 - 32
       if (isNaN(calc_non_billable_hours)) {
         calc_non_billable_hours = total_hours;
       }
@@ -267,8 +269,7 @@ class PayrollDao {
 
       // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
       let employee_present_days =
-        ((data[record.emp_id].working_hour as number) + after_days_hours) / 8 -
-        leave_days;
+        (data[record.emp_id].working_hour as number) / 8 - leave_days;
       if (isNaN(employee_present_days)) {
         employee_present_days = 0;
       }
