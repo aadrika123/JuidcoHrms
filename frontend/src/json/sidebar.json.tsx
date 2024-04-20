@@ -84,12 +84,7 @@ export const sidebarLinks: SidebarLinksProps = {
         {
           moduleName: "Leave Management",
           icon: (
-            <Image 
-              src={LeaveIcon} 
-              alt="masters" 
-              width={100} 
-              height={100} 
-            />
+            <Image src={LeaveIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
         },
@@ -149,6 +144,20 @@ export const sidebarLinks: SidebarLinksProps = {
             <Image src={PensionIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
+          subModules: [
+            {
+              moduleName: "Pension Management",
+              path: `${url}/ems/pension-management`,
+              icon: (
+                <Image
+                  src={PensionIcon}
+                  alt="pension"
+                  width={100}
+                  height={100}
+                />
+              ),
+            },
+          ],
         },
         {
           moduleName: "Grievance Management",

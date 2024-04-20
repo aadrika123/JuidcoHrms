@@ -24,6 +24,7 @@ export interface COLUMNS {
   select_options?: OptionProps[];
   placeholder?: string;
   sl_no?: boolean;
+  
 }
 
 interface TableFormProps {

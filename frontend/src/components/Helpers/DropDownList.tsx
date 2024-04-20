@@ -22,6 +22,7 @@ interface DropDownListProps {
   onChange: (e?: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlur?: (e?: React.FocusEvent<HTMLSelectElement>) => void;
   required?: boolean;
+  disabled?: boolean;
 }
 
 interface DropDownList {
@@ -69,6 +70,7 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
           className={`text-primary h-[40px] pl-3 rounded-lg border bg-transparent border-zinc-400 ${props.className}`}
           name={props.name}
           id={fieldId}
+          disabled={props.disabled}
         >
           <option selected value="">
             {props.placeholder}

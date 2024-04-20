@@ -41,52 +41,47 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const currentDate = new Date();
-const currentMonth = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
-const numberOfDaysInMonth = new Date(
-  currentYear,
-  currentMonth + 1,
-  0
-).getDate();
 
 const employee_attendance_seeder = async () => {
-  for (let i = 1; i <= numberOfDaysInMonth; ++i) {
-    const date = new Date(currentYear, currentMonth, i);
-    const dayOfWeek = date.getDay();
+  for (let y = 1; y <= 11; ++y) {
+    const numberOfDaysInMonth = new Date(currentYear, y + 1, 0).getDate();
 
-    // Check if the day is not Sunday (0 represents Sunday)
-    if (dayOfWeek !== 0) {
-      const formattedDay = i < 10 ? `0${i}` : `${i}`;
-      const formattedMonth =
-        i < 10 ? `0${currentMonth + 1}` : `0${currentMonth + 1}`;
+    for (let i = 1; i <= numberOfDaysInMonth; ++i) {
+      const date = new Date(currentYear, y, i);
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek !== 0) {
+        const formattedDay = i < 10 ? `0${i}` : `${i}`;
+        const formattedMonth = y + 1 < 10 ? `0${y + 1}` : `${y + 1}`;
 
-      const data = {
-        employee_id: "EMP912e43",
+        const data = {
+          employee_id: "EMP912e43",
 
-        date: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
-          {
-            min: 10,
-            max: 23,
-          }
-        )}:00:00.000Z`,
+          date: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
+            {
+              min: 10,
+              max: 23,
+            }
+          )}:00:00.000Z`,
 
-        emp_in: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
-          {
-            min: 10,
-            max: 23,
-          }
-        )}:10:00.000Z`,
-        emp_out: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
-          {
-            min: 10,
-            max: 23,
-          }
-        )}:19:00.000Z`,
-        working_hour: 8,
-        status: 2,
-      };
+          emp_in: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
+            {
+              min: 10,
+              max: 23,
+            }
+          )}:10:00.000Z`,
+          emp_out: `${currentYear}-${formattedMonth}-${formattedDay}T${faker.number.int(
+            {
+              min: 10,
+              max: 23,
+            }
+          )}:19:00.000Z`,
+          working_hour: 8,
+          status: 2,
+        };
 
-      await prisma.employee_daily_attendance.create({ data });
+        await prisma.employee_daily_attendance.create({ data });
+      }
     }
   }
 };

@@ -15,9 +15,9 @@ class EmployeeClaimRoute {
       .route(`${baseUrl}/application/claim`)
       .post(
         (req: Request, res: Response, next: NextFunction) =>
-          this.employeeClaimController.createClaim(req, res, next, "0401"),
+          this.employeeClaimController.createClaim(req, res, next, "0501"),
         loggerMiddleware
-      ); //0401
+      ); //0501
 
     
 
@@ -29,10 +29,10 @@ class EmployeeClaimRoute {
             req,
             res,
             next,
-            "0402"
+            "0502"
           ),
         loggerMiddleware
-      ); //0402
+      ); //0502
 
       app
       .route(`${baseUrl}/application/claim/getClaimByEmployeeId/:employee_id`)
@@ -42,10 +42,10 @@ class EmployeeClaimRoute {
             req,
             res,
             next,
-            "0403"
+            "0503"
           ),
         loggerMiddleware
-      ); //0403
+      ); //0503
 
     app
       .route(`${baseUrl}/application/claim/:id`)
@@ -55,18 +55,18 @@ class EmployeeClaimRoute {
             req,
             res,
             next,
-            "0404"
+            "0504"
           ),
         loggerMiddleware
-      ); //0404
+      ); //0504
 
       app
       .route(`${baseUrl}/application/claim/create`)
       .post(
         (req: Request, res: Response, next: NextFunction) =>
-          this.employeeClaimController.createClaim(req, res, next, "0401"),
+          this.employeeClaimController.createClaim(req, res, next, "0501"),
         loggerMiddleware
-      ); //0401
+      ); //0501
   }
 }
 

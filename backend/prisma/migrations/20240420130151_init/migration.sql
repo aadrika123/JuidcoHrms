@@ -104,7 +104,7 @@ CREATE TABLE "employee_nominee_details" (
     "percentage" DOUBLE PRECISION NOT NULL,
     "address" TEXT NOT NULL,
     "minor" TEXT NOT NULL,
-    "employees_id" TEXT NOT NULL,
+    "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -641,6 +641,22 @@ CREATE TABLE "payroll_master" (
     CONSTRAINT "payroll_master_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "pension_master" (
+    "id" SERIAL NOT NULL,
+    "beneficery_id" INTEGER NOT NULL,
+    "pension_amnt" DOUBLE PRECISION,
+    "family_pension_amnt" DOUBLE PRECISION,
+    "date_of_death" DATE,
+    "summary" TEXT,
+    "communi_sent_acc_officer" TEXT,
+    "pensioncol" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "pension_master_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 
@@ -672,7 +688,7 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_salary_details_id_fkey" FO
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_increment_details" ADD CONSTRAINT "employee_increment_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -736,3 +752,6 @@ ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_empl
 
 -- AddForeignKey
 ALTER TABLE "employee_leave_chart" ADD CONSTRAINT "employee_leave_chart_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_beneficery_id_fkey" FOREIGN KEY ("beneficery_id") REFERENCES "employee_nominee_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

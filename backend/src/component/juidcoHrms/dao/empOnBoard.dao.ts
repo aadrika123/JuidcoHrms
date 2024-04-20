@@ -292,14 +292,19 @@ class EmployeeOnBoardDao {
         emp_basic_details: {
           select: {
             emp_name: true,
+            dob: true,
           },
         },
         emp_join_details: {
           select: {
             department: true,
             grade_pay: true,
+            doj: true,
+            designation: true,
+            basic_pay: true,
           },
         },
+
         created_at: true,
         updated_at: true,
       },
@@ -360,7 +365,10 @@ class EmployeeOnBoardDao {
       select: {
         emp_id: true,
         emp_basic_details: {
-          select: { emp_name: true },
+          select: { emp_name: true, dob: true },
+        },
+        emp_personal_details: {
+          select: { identification_marks: true },
         },
         emp_join_details: {
           select: {
@@ -373,6 +381,14 @@ class EmployeeOnBoardDao {
             pay_scale: true,
             acc_number: true,
             ifsc: true,
+            doj: true,
+          },
+        },
+
+        emp_address_details: {
+          select: {
+            address_primary: true,
+            address_primary_permanent: true,
           },
         },
       },
@@ -457,6 +473,26 @@ class EmployeeOnBoardDao {
     });
 
     return generateRes(trans);
+  };
+
+  // !-----------------------------Get Employee Nominee Details------------------------------//
+  get_nominee = async (req: Request) => {
+    const emp_id = req.query.emp_id;
+    const data = await prisma.$queryRaw`
+    SELECT * FROM employee_nominee_details WHERE employee_id = ${emp_id}::text
+  `;
+
+    return generateRes(data);
+  };
+
+  // !-----------------------------Get Employee Nominee Details------------------------------//
+  get_family = async (req: Request) => {
+    const emp_id = req.query.emp_id;
+    const data = await prisma.$queryRaw`
+      SELECT * FROM employee_family_details WHERE employees_id = ${emp_id}::text
+    `;
+
+    return generateRes(data);
   };
 }
 

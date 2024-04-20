@@ -121,16 +121,17 @@ model employee_family_details {
 }
 
 model employee_nominee_details {
-  id           Int       @id @default(autoincrement())
-  nominee_name String
-  relation     String
-  percentage   Float
-  address      String
-  minor        String
-  employees    employees @relation(fields: [employees_id], references: [emp_id])
-  employees_id String
-  created_at   DateTime  @default(now()) @map("created_at")
-  updated_at   DateTime  @updatedAt @map("updated_at")
+  id             Int              @id @default(autoincrement())
+  nominee_name   String
+  relation       String
+  percentage     Float
+  address        String
+  minor          String
+  employees      employees        @relation(fields: [employee_id], references: [emp_id])
+  pension_master pension_master[]
+  employee_id    String
+  created_at     DateTime         @default(now()) @map("created_at")
+  updated_at     DateTime         @updatedAt @map("updated_at")
 }
 
 model employee_address_details {
