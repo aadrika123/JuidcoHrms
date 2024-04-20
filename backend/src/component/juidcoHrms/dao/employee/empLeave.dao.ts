@@ -15,6 +15,7 @@ interface EditEmpList {
   total_days: number;
   emp_leave_chart_id: number;
   leave_type: number;
+  employee_id: string;
 }
 
 class EmployeeLeaveDao {
@@ -104,8 +105,13 @@ class EmployeeLeaveDao {
   // };
 
   update = async (req: Request) => {
-    const { id, leave_status, total_days, emp_leave_chart_id, leave_type } =
-      req.body as EditEmpList;
+    const {
+      employee_id,
+      leave_status,
+      total_days,
+      emp_leave_chart_id,
+      leave_type,
+    } = req.body as EditEmpList;
 
     const leaveRequest: any = await prisma.$transaction(async (tx) => {
       if (leave_status === 3) {
@@ -158,15 +164,55 @@ class EmployeeLeaveDao {
         );
       }
 
-      return await tx.employee_leave_details.update({
+      // Author : Krish
+      // ====================== UPDATE ATTENDANCE STATUS ===============================//
+      if (leave_status == 3) {
+        const leave_days = await tx.employee_leave_details.findMany({
+          select: {
+            leave_from: true,
+            leave_to: true,
+          },
+          where: {
+            employee_id: employee_id,
+          },
+        });
+
+        for (const emp of leave_days) {
+          if (emp.leave_from && emp.leave_to) {
+            const startDate = new Date(emp.leave_from);
+            const endDate = new Date(emp.leave_to);
+
+            for (
+              let date = startDate;
+              date <= endDate;
+              date.setDate(date.getDate() + 1)
+            ) {
+              await tx.employee_daily_attendance.updateMany({
+                data: {
+                  status: 3,
+                },
+                where: {
+                  employee_id: employee_id,
+                  date: date,
+                },
+              });
+            }
+          }
+        }
+      }
+      // ====================== UPDATE ATTENDANCE STATUS ===============================//
+
+      const updated_leave_details = await tx.employee_leave_details.updateMany({
         where: {
-          id: Number(id),
+          employee_id: employee_id,
         },
         data: {
           leave_status: leave_status,
           total_days: total_days,
         },
       });
+
+      return updated_leave_details;
     });
     // return true;
     return generateRes(leaveRequest);

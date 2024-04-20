@@ -198,7 +198,7 @@ CREATE TABLE "employee_salary_deduction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "wfe_date" TEXT NOT NULL,
-    "acnt_no" DOUBLE PRECISION NOT NULL,
+    "acnt_no" TEXT NOT NULL,
     "amount_in" DOUBLE PRECISION NOT NULL,
     "employee_salary_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -582,6 +582,28 @@ CREATE TABLE "district" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "district_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "payroll_master" (
+    "id" SERIAL NOT NULL,
+    "emp_id" TEXT NOT NULL,
+    "emp_name" TEXT NOT NULL,
+    "gross_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "leave_days" INTEGER NOT NULL DEFAULT 0,
+    "working_hour" INTEGER NOT NULL DEFAULT 0,
+    "total_allowance" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "total_deductions" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "non_billable" INTEGER NOT NULL DEFAULT 0,
+    "present_days" INTEGER NOT NULL DEFAULT 0,
+    "lwp_days" INTEGER NOT NULL DEFAULT 0,
+    "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "payroll_master_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable

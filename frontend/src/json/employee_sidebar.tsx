@@ -26,35 +26,27 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
       moduleName: "HRMS",
       path: "/",
       icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
+      dropdown: true,
       subModules: [
         {
           dropdown: false,
-          moduleName: "Employee",
+          moduleName: "Attendance Management",
+          icon: (
+            <Image
+              src={AttendanceIcon}
+              alt="masters"
+              width={100}
+              height={100}
+            />
+          ),
+          path: `${url}/employee/attendance-management`,
+        },
+        {
+          moduleName: "Apply for Leave",
           icon: (
             <Image src={LeaveIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}`,
-          subModules: [
-            {
-              moduleName: "Attendance Management",
-              icon: (
-                <Image
-                  src={AttendanceIcon}
-                  alt="masters"
-                  width={100}
-                  height={100}
-                />
-              ),
-              path: `${url}/employee/attendance-management`,
-            },
-            {
-              moduleName: "Apply for Leave",
-              path: `${url}/employee/leave-management`,
-              icon: (
-                <Image src={LeaveIcon} alt="masters" width={100} height={100} />
-              ),
-            },
-          ],
+          path: `${url}/employee/leave-management`,
         },
         {
           moduleName: "Payroll",
@@ -69,8 +61,25 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={PayslipIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}`,
-        },
+          path: `${url}/download/payslip_from`,
+          // subModules: [
+          //   {
+          //     moduleName: "Dowload_from",
+          //     icon: (
+          //       <Image
+          //         src={AttendanceIcon}
+          //         alt="masters"
+          //         width={100}
+          //         height={100}
+          //       />
+          //     ),
+          //     path: `${url}/download/payslip_from`,
+          //   },
+            
+          // ],
+        }
+        
+        ,
         {
           moduleName: "Applications",
           icon: (
@@ -81,7 +90,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
               height={100}
             />
           ),
-          path: `${url}`,
+          path: `${url}/payroll/claim_form`,
           subModules: [
             {
               moduleName: "Claims",
@@ -123,6 +132,13 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
             <Image src={HolidayIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
+        },
+        {
+          moduleName: "Pension",
+          icon: (
+            <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+          ),
+          path: `${url}/pension/leave_encashment`,
         },
       ],
     },

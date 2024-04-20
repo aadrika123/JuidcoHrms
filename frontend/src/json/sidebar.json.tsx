@@ -29,6 +29,7 @@ export const sidebarLinks: SidebarLinksProps = {
       moduleName: "HRMS",
       path: "/",
       icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
+      dropdown: false,
       subModules: [
         {
           moduleName: "Employee Management",
@@ -98,6 +99,20 @@ export const sidebarLinks: SidebarLinksProps = {
             <Image src={PayrollIcon} alt="masters" width={100} height={100} />
           ),
           path: `${url}`,
+          subModules: [
+            {
+              moduleName: "Payroll",
+              path: `${url}/ems/payroll-management`,
+              icon: (
+                <Image
+                  src={PayrollIcon}
+                  alt="payroll"
+                  width={100}
+                  height={100}
+                />
+              ),
+            },
+          ],
         },
         {
           moduleName: "Suspension Management",

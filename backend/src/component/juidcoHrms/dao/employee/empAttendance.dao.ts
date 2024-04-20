@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 class EmployeeAttendanceDao {
   empIn = async (req: Request) => {
     const { emp_id } = req.body;
-
+    
     await prisma.$queryRaw`INSERT into employee_daily_attendance(employee_id, date, emp_in, status) values(${emp_id},${new Date()},${new Date()}, 1) ON CONFLICT DO NOTHING`;
 
     // const query: Prisma.employee_attendance_historyCreateArgs = {
@@ -40,16 +40,6 @@ class EmployeeAttendanceDao {
     const currentDate = new Date().toISOString();
 
     await prisma.$queryRaw`update employee_daily_attendance set emp_out = ${new Date()} where date=Date(${currentDate}) and employee_id=${emp_id}`;
-
-    // const query: Prisma.employee_attendance_historyUpdateArgs = {
-    //   where: {
-    //     employee_id: emp_id,
-    //     id: id,
-    //   },
-    //   data: {
-    //     emp_out: currentDate,
-    //   },
-    // };
 
     if (!emp_id && emp_id === "undefined" && emp_id === "") {
       return generateRes({ status: "not found" });
@@ -156,7 +146,8 @@ class EmployeeAttendanceDao {
 
   updateWorkOur = async () => {
     // const { emp_id } = req.body;
-
+    const today = new Date();
+    const dayOfWeek = today.getDay();
     const currentDate = new Date().toISOString();
 
     // compute number of hours
@@ -170,16 +161,23 @@ class EmployeeAttendanceDao {
     console.log(data11);
 
     if (data11)
-      data11.forEach(async (record) => {
-        console.log(record);
-        await prisma.$queryRaw`update employee_daily_attendance set working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
-      });
+      if (dayOfWeek === 0) {
+        data11.forEach(async (record) => {
+          console.log(record);
+          await prisma.$queryRaw`update employee_daily_attendance set working_hour=working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
+        });
 
-    const data1 =
-      await prisma.$queryRaw`update employee_daily_attendance set status=2 where date = Date(${currentDate}) and working_hour>=8;
-      `;
+        await prisma.$queryRaw`update employee_daily_attendance set status=4;
+        `;
+      } else {
+        data11.forEach(async (record) => {
+          console.log(record);
+          await prisma.$queryRaw`update employee_daily_attendance set working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
+        });
 
-    console.log("first", data1);
+        await prisma.$queryRaw`update employee_daily_attendance set status=2 where date = Date(${currentDate}) and working_hour>=8;
+        `;
+      }
 
     // obtain the id of the employees who are absent on the particular day
     const data2 = await prisma.$queryRaw<

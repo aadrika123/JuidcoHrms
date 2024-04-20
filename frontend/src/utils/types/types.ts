@@ -28,6 +28,7 @@ export type SidebarModule = {
 
 export type SidebarLinksProps = {
   modules: SidebarModule[];
+  dropdown?: boolean;
 };
 // Sidebar Types
 

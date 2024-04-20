@@ -56,7 +56,7 @@ const ClaimForm = () => {
     { title: "Insurance" , status: 2, image: insurance},
   ];
 
-  const getAllClaimByEmployeeId= async (employee_id:number)=>{
+  const getAllClaimByEmployeeId= async (employee_id:string)=>{
     const res = await axios({
         url: `${HRMS_URL.CLAIM.get}/${employee_id}`,
         method: "GET",
@@ -93,11 +93,11 @@ const ClaimForm = () => {
   }, []);
 
   useEffect(()=>{
-    if(userDetails?.id){
-      getAllClaimByEmployeeId(userDetails?.id);
+    if(userDetails?.emp_id){
+      getAllClaimByEmployeeId(userDetails?.emp_id);
     }
     
-  }, [userDetails?.id]);
+  }, [userDetails?.emp_id]);
 
   useEffect(()=>{
       if(trackClaimId){

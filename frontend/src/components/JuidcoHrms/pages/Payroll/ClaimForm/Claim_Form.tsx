@@ -83,6 +83,7 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
     try {
         const formData = new FormData();
 
+        console.log(formData, "formData");
         // // Append form data
         formData.append('employee_id', String(values.employee_id));
         formData.append('claimType', values.claimType);
@@ -152,7 +153,7 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
   }
  
   const initialValues = {
-    employee_id: userDetails?.id || 0,
+    employee_id: userDetails?.emp_id || 0,
     claimType: "",
     orderNo: "",
     fromDate: "",

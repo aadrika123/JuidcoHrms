@@ -43,7 +43,8 @@ model employees {
   emp_leave_details       employee_leave_details[]
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
-  emp_claim               employee_claim[]
+  // emp_claim               employee_claim[]
+  leave_encashment        leave_encashment[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -233,7 +234,7 @@ model employee_salary_deduction {
   id                         Int                     @id @default(autoincrement())
   name                       String
   wfe_date                   String
-  acnt_no                    Float
+  acnt_no                    String
   amount_in                  Float
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
@@ -599,6 +600,28 @@ model district {
   updated_at DateTime @updatedAt @map("updated_at")
 }
 
+// Created and Maintained by Krish
+model payroll_master {
+  id               Int      @id @default(autoincrement())
+  emp_id           String
+  emp_name         String
+  gross_pay        Float    @default(0)
+  leave_days       Int      @default(0)
+  working_hour     Int      @default(0)
+  total_allowance  Float    @default(0)
+  total_deductions Float    @default(0)
+  non_billable     Int      @default(0)
+  present_days     Int      @default(0)
+  lwp_days         Int      @default(0)
+  salary_deducted  Float    @default(0)
+  net_pay          Float    @default(0)
+  date             DateTime @default(now()) @map("date")
+  created_at       DateTime @default(now()) @map("created_at")
+  updated_at       DateTime @updatedAt @map("updated_at")
+}
+
+
+
 // model employee_claim {
 //   id                      Int       @id @default(autoincrement())
 //   employees               employees @relation(fields: [employees_id], references: [emp_id])
@@ -626,7 +649,7 @@ model district {
 
 model employee_claim {
   id                      Int       @id @default(autoincrement())
-  employees               employees @relation(fields: [employees_id], references: [emp_id])
+  // employees               employees @relation(fields: [employees_id], references: [emp_id])
   employees_id            String
   claimType               String    // Assuming claim type can be a string, modify as needed
   orderNo                 String?
@@ -652,3 +675,21 @@ model employee_claim {
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @updatedAt @map("updated_at")
 }
+
+model leave_encashment {
+  id                      Int         @id @default(autoincrement())
+  application_id          String      @unique
+  employee_id             String
+  emp_name                String?
+  earned_leave            Int?        @default(0)
+  total_days_for_applied  Int?        @default(0)
+  leave_balance_after_apply Int?      @default(0)
+  per_basic_pay           Int?        @default(0)
+  grand_total_encashment_amount Int?  @default(0)
+  leave_encash_apply      Int
+  status                  Int?        @default(0)
+  employee                employees   @relation(fields: [employee_id], references: [emp_id])
+  created_at              DateTime    @default(now()) @map("created_at")
+  updated_at              DateTime    @updatedAt @map("updated_at")
+}
+

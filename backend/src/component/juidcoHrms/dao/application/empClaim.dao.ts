@@ -77,7 +77,6 @@ class EmployeeClaimDao {
 
   // Function to get all claims
   getAll = async () => {
-    // const { id } = req.params;
     const claim = await prisma.employee_claim.findMany();
     return generateRes(claim);
   };
@@ -96,7 +95,6 @@ class EmployeeClaimDao {
     return generateRes(claim);
   };
 
-  // Function to get all claims
   getAllById = async (req: Request) => {
     const { id } = req.params;
     const claim = await prisma.employee_claim.findUniqueOrThrow({

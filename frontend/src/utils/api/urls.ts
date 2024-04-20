@@ -15,7 +15,10 @@ type UrlKeys =
   | "LEAVETYPE"
   | "LEAVEGET"
   | "LEAVECHART"
-  | "CLAIM";
+  | "CLAIM"
+  | "PAYROLL"
+  | "PAYROLL_TOTAL"
+  | "LEAVE_ENCASHMENT";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -57,6 +60,13 @@ export const HRMS_URL: Urls = {
     getAll: "/employee/attendance-history/get",
   },
 
+  PAYROLL: {
+    getAll: "/pay/net",
+  },
+
+  PAYROLL_TOTAL: {
+    getAll: "/pay/total",
+  },
   HOLIDAY: {
     get: "/employee/holidays",
   },
@@ -75,5 +85,10 @@ export const HRMS_URL: Urls = {
     get: "/application/claim/getClaimByEmployeeId",
     create: "/application/claim",
     getById: "/application/claim"
+  },
+  LEAVE_ENCASHMENT:{
+    get: "/pension/leave_encashment",
+    getById: "/pension/leave_encashment/getLeaveEncashById",
+    update: "/pension/leave_encashment/updateLeaveEncashByEmployeeId"
   }
 };
