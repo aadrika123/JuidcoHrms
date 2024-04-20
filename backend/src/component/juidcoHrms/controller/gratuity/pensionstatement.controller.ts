@@ -1,17 +1,17 @@
 // gratuity.controller.ts
 
 import { Request, Response, NextFunction } from "express";
-import GratuityDao from "../../dao/gratuity/gratuity.dao"; // Update the path accordingly
 import { resMessage } from "../../../../util/common";
 import CommonRes from "../../../../util/helper/commonResponse";
 import { resObj } from "../../../../util/types";
+import PensionStatementDao from "../../dao/gratuity/pensionstatement.dao";
 
-class GratuityController {
-  private gratuityDao: GratuityDao;
+class PensionStatementController {
+  private pensionstatementDao: PensionStatementDao;
   private initMsg: string;
   constructor() {
-    this.gratuityDao = new GratuityDao();
-    this.initMsg = "Gratuity";
+    this.pensionstatementDao = new PensionStatementDao();
+    this.initMsg = "Pension Statement";
   }
 
   get = async (
@@ -27,7 +27,7 @@ class GratuityController {
     };
 
     try {
-      const data = await this.gratuityDao.get();
+      const data = await this.pensionstatementDao.get();
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMsg).NOT_FOUND,
@@ -51,4 +51,4 @@ class GratuityController {
   };
 }
 
-export default GratuityController;
+export default PensionStatementController;

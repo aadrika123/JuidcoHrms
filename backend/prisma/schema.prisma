@@ -243,12 +243,21 @@ model employee_salary_deduction {
 }
 
 // // //-------------- Employee SALARY DETAILS ---------------------//
+// // //-------------- Pension  DETAILS ---------------------//
+model Pensionstatement {
+  id               Int      @id @default(autoincrement())
+  month            String
+  year             String
+  no_of_days_present String
+  net_pay          Int
+}
 
 // // //-------------- Gratuity DETAILS ---------------------//
 model gratuity {
   id                Int       @id @default(autoincrement())
   employee          employees @relation(fields: [employee_id], references: [emp_id])
   employee_id       String
+  employee_name     String
   gratuity_amount   Float?
   application_id    String?
   date_of_relieving DateTime

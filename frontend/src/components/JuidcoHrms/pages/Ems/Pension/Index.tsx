@@ -11,6 +11,7 @@ import Input from "@/components/global/atoms/Input";
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 // import { HRMS_URL } from "@/utils/api/urls";
 import axios from "@/lib/axiosConfig";
+import Link from "next/link";
 
 // import { debug } from "console";
 
@@ -66,12 +67,22 @@ const Gratuity_table = () => {
         );
     };
     const header = renderHeader();
+    // const viewBodyTemplate = (rowData:any) => {
+    //   return <Button label="View" severity="info" />
+    // };
     const viewBodyTemplate = (rowData:any) => {
-      return <Button label="View" severity="info" />
-    };
+      return <Link href={`gratuity_statement?id=${rowData.employee_id}`}>
+        <button 
+          type="button" 
+          // onClick={() => getRecordById(rowData)}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            View
+        </button>
+      </Link>
+    }
     const getAllLeaveEncashhment= async ()=>{
       const res = await axios({
-          url: `/pay/payslip?emp_id=EMP912e43`,
+          url: `http://localhost:7001/api/hrms/v1/gratuity`,
           method: "GET",
           data: {},
         });
@@ -132,7 +143,7 @@ const Gratuity_table = () => {
         />
         <Column
             header="Employee Name"
-            field="name"
+            field="employee_name"
             filterField="name"
             // filterMenuStyle={{ width: "14rem" }}
             // style={{ minWidth: "14rem" }}
@@ -150,7 +161,7 @@ const Gratuity_table = () => {
         />
         <Column
           header="Date Of Relieving "
-          field="employee_id"
+          field="date_of_relieving"
           // style={{ minWidth: "6rem" }}
         />
         <Column
@@ -163,7 +174,7 @@ const Gratuity_table = () => {
       </div>
       <style>
       {`th.p-filter-column {
-        background: #E1E8F0;
+        background: #E1;
       }`}
       </style>
     </>

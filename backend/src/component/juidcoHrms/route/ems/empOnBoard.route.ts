@@ -4,7 +4,8 @@ import express, { NextFunction, Request, Response } from "express";
 import { baseUrl } from "../../../../util/common";
 import EmployeeOnBoardController from "../../controller/empOnBoard.controller";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
-
+import router from "../gratuity/gratuity.route";
+import GratuityController from "../../controller/gratuity/gratutity.controller"; // Import GratuityController
 /**
  * | Route - 01
  */
@@ -80,6 +81,8 @@ class EmployeeOnBoardRoute {
           this.employeeOnBoardController.removeEmp(req, res, next, "0106"),
         loggerMiddleware
       ); //0106
+
+   
   }
 }
 

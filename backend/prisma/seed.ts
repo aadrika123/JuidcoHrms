@@ -11,6 +11,7 @@ import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 import employee_seeder from "./seeder/employee/employee.seed";
 import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
 import { gratuity_seeder } from "./seeder/masters/gratuity.seed";
+import pensionStatement_seeder from "./seeder/masters/pensionstatement.seed";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -34,6 +35,10 @@ async function main() {
 
   setTimeout(async () => {
     await gratuity_seeder();
+  }, 18000);
+
+  setTimeout(async () => {
+    await pensionStatement_seeder();
   }, 18000);
 }
 main()

@@ -1,45 +1,13 @@
-// import express, { NextFunction, Request, Response } from "express";
-// import { baseUrl } from "../../../../util/common";
-// import loggerMiddleware from "../../../../middleware/logger.middleware";
-// import EmployeeAttendanceController from "../../controller/employee/empAttendance.controller";
-// import HolidaysController from "../../controller/employee/holidays.controller";
-// import EmployeeLeaveController from "../../controller/employee/empLeave.controller";
-// import LeaveChartController from "../../controller/employee/empLeaveChart.controller";
-// import LeaveTypeController from "../../controller/employee/empLeaveType.controller";
+// gratuity.route.ts
 
-// class EmployeeFeatureRoute {
-//   private employeeAttendanceController: EmployeeAttendanceController;
-//   private employeeLeaveController: EmployeeLeaveController;
-//   private employeeLeaveChartController: LeaveChartController;
-//   private employeeLeaveTypeController: LeaveTypeController;
-//   private employeeHolidaysController: HolidaysController;
-//   private 
+import { Router } from "express";
+import GratuityController from "../../controller/gratuity/gratutity.controller"; // Update the path accordingly
 
-//   constructor() {
-//     this.employeeAttendanceController = new EmployeeAttendanceController();
-//     this.employeeHolidaysController = new HolidaysController();
-//     this.employeeLeaveController = new EmployeeLeaveController();
-//     this.employeeLeaveChartController = new LeaveChartController();
-//     this.employeeLeaveTypeController = new LeaveTypeController();
-//   }
+const router = Router();
+const gratuityController = new GratuityController();
 
-//   configure(app: express.Application): void {
-  
-//     app
-//       .route(`${baseUrl}/gratutity`)
-//       .get(
-//         (req: Request, res: Response, next: NextFunction) =>
-//           this.employeeAttendanceController.getEmpAttendance(
-//             req,
-//             res,
-//             next,
-//             "0312"
-//           ),
-//         loggerMiddleware
-//       ); //0312
+router.get("/gratuity", (req, res, next) =>
+  gratuityController.get(req, res, next, "0304")
+);
 
-   
-//   }
-// }
-
-// export default EmployeeFeatureRoute;
+export default router;

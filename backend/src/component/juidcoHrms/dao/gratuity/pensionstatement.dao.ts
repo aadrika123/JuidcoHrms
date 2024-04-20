@@ -5,9 +5,9 @@ import { generateRes } from "../../../../util/generateRes";
 
 const prisma = new PrismaClient();
 
-class GratuityDao {
+class PensionStatementDao {
   get = async () => {
-    const data = await prisma.gratuity.findMany({
+    const data = await prisma.pensionstatement.findMany({
       
     });
     
@@ -15,4 +15,4 @@ class GratuityDao {
   };
 }
 
-export default GratuityDao;
+export default PensionStatementDao;
