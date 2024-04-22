@@ -25,6 +25,9 @@ resetDatabases() {
     cd backend
     echo "creating/updating the env file ..."
     echo "PORT=$SERVER_PORT\nDATABASE_URL=\"postgresql://postgres:$DB_PASSWORD@localhost:5432/hrms?schema=public\"" > .env
+    echo "TWILIO_ACCNT_SID=\"AC9568828d649d47f5865843700bbf0a8c\"" > .env
+    echo "TWILIO_AUTH_TOKEN=\"c42b48d58fdfa250a2ad74aa8c3c2bbb\"" > .env
+    echo "TWILIO_PHONE=\"+16562269475\""> .env
     npx prisma migrate dev --name init
     cd ..
 }
