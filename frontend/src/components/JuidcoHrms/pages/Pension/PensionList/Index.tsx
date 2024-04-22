@@ -10,11 +10,13 @@ import Declaration from "./Form/Declaration";
 import PensionPayment from "./Form/PensionPayment";
 import Signature from "./Form/Signature";
 import FamilyDeclaration from "./Form/FamilyDeclaration";
-
+import axios from "@/lib/axiosConfig"
 import { useSearchParams } from "next/navigation";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
+import { HRMS_URL } from "@/utils/api/urls";
+import toast, { Toaster } from "react-hot-toast";
 
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
@@ -67,10 +69,28 @@ const PensionData = ({ emp_id }: { emp_id: string }) => {
   //     }
   // };
 
+
+  useEffect(() => {
+
+    (async() => {
+      try {
+        const res = await axios({
+          url: `${HRMS_URL.PAYROLL.getAll}`
+        })
+        sessionStorage.setItem("payroll", JSON.stringify(res?.data?.data));
+      } catch {
+        toast.error("Failed to fetch some data")
+      }
+    })()
+
+  },[])
+ 
+
   const progress = (currentStep / totalSteps) * 100;
 
   return (
     <div>
+      <Toaster/>
       {/* top header code*/}
       <div className="flex items-center justify-between border-b-2 pb-7 mb-10">
         <div className="flex items-center">

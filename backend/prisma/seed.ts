@@ -10,6 +10,8 @@ import holidays_seeder from "./seeder/masters/holiday.seed";
 import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 import employee_seeder from "./seeder/employee/employee.seed";
 import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
+import { generate_attendance } from "./seeder/employee/attend.seed";
+import { attend_history_seed } from "./seeder/employee/attend_history";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -29,6 +31,8 @@ async function main() {
   setTimeout(async () => {
     await employee_seeder();
     await employee_attendance_seeder();
+    await generate_attendance();
+    await attend_history_seed();
     await foreign_wrapper();
   }, 9000);
 }

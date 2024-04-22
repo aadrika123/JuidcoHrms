@@ -44,6 +44,7 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
+  pension_master          pension_master[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }

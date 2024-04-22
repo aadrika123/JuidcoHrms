@@ -7,6 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 interface CalendarIndexProps {
   eventList: any[];
   setSelectedMonth: (value: string) => void;
+  setSelectedDate: (value: string) => void;
 }
 
 const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
@@ -16,6 +17,9 @@ const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={eventList}
+      eventClick={(e) => {
+        props.setSelectedDate(e.event.start?.toISOString() as string)
+      }}
       headerToolbar={{
         right: "prev,next",
         left: "title",

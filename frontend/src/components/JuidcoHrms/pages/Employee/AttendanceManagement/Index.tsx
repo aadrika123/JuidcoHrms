@@ -63,7 +63,6 @@ const AttendanceManagement = () => {
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
     const day = String(date.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
-    console.log(formattedDate, "dvkmd");
     return formattedDate;
   }
 
@@ -90,6 +89,7 @@ const AttendanceManagement = () => {
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>("")
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -100,7 +100,21 @@ const AttendanceManagement = () => {
     }
   }, []);
 
-  console.log(userDetails);
+
+  // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
+  function getSelectedDate(date: string) {
+    const _date = date.split("T")[0]
+    setSelectedDate(_date)
+  }
+
+  function getSelectedMonthFromCalendar(month: string) {
+    setSelectedMonth(month);
+  }
+
+  // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
+
+  
+
   // ----------->> EMPLOYEE ATTENDANCE DETAILS <<--------------------------------//
   const fetchAttendance = async (emp_id: string) => {
     const res = await axios({
@@ -109,7 +123,7 @@ const AttendanceManagement = () => {
     });
 
     const res2 = await axios({
-      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}`,
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}&date=${selectedDate}`,
       method: "GET",
     });
 
@@ -119,13 +133,10 @@ const AttendanceManagement = () => {
     setAttnd(data);
   };
 
-  console.log(attndData, "main_atnd");
 
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
 
-  function getSelectedMonthFromCalendar(month: string) {
-    setSelectedMonth(month);
-  }
+
 
   const filterAttendanceorCalendar = () => {
     const events: any = [];
@@ -179,7 +190,7 @@ const AttendanceManagement = () => {
 
   React.useEffect(() => {
     fetchAttendance(userDetails?.emp_id);
-  }, [userDetails?.emp_id]);
+  }, [userDetails?.emp_id, selectedDate]);
 
   React.useEffect(() => {
     const events = filterAttendanceorCalendar();
@@ -444,6 +455,7 @@ const AttendanceManagement = () => {
                 <Calendar
                   eventList={eventList}
                   setSelectedMonth={getSelectedMonthFromCalendar}
+                  setSelectedDate={getSelectedDate}
                 />
               </Suspense>
             </div>

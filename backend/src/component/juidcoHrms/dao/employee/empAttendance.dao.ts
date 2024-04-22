@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 class EmployeeAttendanceDao {
   empIn = async (req: Request) => {
     const { emp_id } = req.body;
-    
+
     await prisma.$queryRaw`INSERT into employee_daily_attendance(employee_id, date, emp_in, status) values(${emp_id},${new Date()},${new Date()}, 1) ON CONFLICT DO NOTHING`;
 
     // const query: Prisma.employee_attendance_historyCreateArgs = {
@@ -70,37 +70,37 @@ class EmployeeAttendanceDao {
 
   //---------------------- Get Employee Attendance Details----------------------
   getEmpAttendanceHistory = async (req: Request) => {
-    const emp_id = req.query.emp_id;
+    const { emp_id, date } = req.query as { emp_id: string, date: string };
 
-    let query: Prisma.employee_attendance_historyFindManyArgs;
-    if (emp_id && emp_id !== "" && emp_id !== "undefined") {
+    let query: Prisma.employee_attendance_historyFindManyArgs = {
+      select: {
+        id: true,
+        employee_id: true,
+        emp_in: true,
+        emp_out: true,
+        date: true,
+        created_at: true,
+        updated_at: true,
+      },
+      orderBy: { date: 'desc' }
+    };
+
+    if (emp_id && emp_id !== "" && emp_id !== "undefined" && !date) {
       query = {
-        select: {
-          id: true,
-          employee_id: true,
-          emp_in: true,
-          emp_out: true,
-          date: true,
-          created_at: true,
-          updated_at: true,
-        },
+
         where: {
-          employee_id: String(emp_id),
-        },
+          employee_id: String(emp_id)
+        }
       };
-    } else {
-      query = {
-        select: {
-          employee_id: true,
-          emp_in: true,
-          emp_out: true,
-          created_at: true,
-          updated_at: true,
-        },
-      };
+    } else if (date && date !== "" && date !== "undefined" && emp_id) {
+      query.where = {
+        employee_id: String(emp_id),
+        date: new Date(date)
+      }
     }
 
     const data = await prisma.employee_attendance_history.findMany(query);
+
     return generateRes(data);
   };
 

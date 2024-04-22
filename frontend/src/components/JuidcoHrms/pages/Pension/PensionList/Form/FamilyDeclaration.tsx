@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -8,6 +8,8 @@ import TableListContainer from "@/components/global/organisms/TableListContainer
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 import { HRMS_URL } from "@/utils/api/urls";
 import toast, { Toaster } from "react-hot-toast";
+import { returnEmpPension } from "./Nominee";
+import axios from "@/lib/axiosConfig"
 
 interface PensionPaymentProps {
   onPrev: () => void;
@@ -58,11 +60,52 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
   function onSave() {
     setTimeout(() => {
       toast.success("Pension data saved successfully!");
-    }, 2000);
+    }, 1000);
 
     setTimeout(() => {
       window.location.replace("/hrms/ems/pension-management");
-    }, 3000);
+    }, 2000);
+  }
+
+
+  const [payrollData, setPayrollData] = useState<any[]>();
+
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("payroll");
+      const _data = JSON.parse(res as string);
+      setPayrollData(_data?.data);
+    }
+  }, []);
+
+  const familyPension: number =
+    (returnEmpPension(payrollData, emp_id) * 30) / 100;
+
+  const pension_data = {
+    beneficery_id: 1,
+    emp_id: emp_id,
+    pension_amnt: returnEmpPension(payrollData, emp_id),
+    family_pension_amnt: familyPension,
+    date_of_death: "",
+    summary: "",
+    communi_sent_acc_officer: "",
+    pensioncol: "",
+  }
+
+  async function storePensionData() {
+    try {
+      const res = await axios({
+        url: "/employee/pension/create",
+        method: "POST",
+        data: pension_data
+      })
+
+      if (res.status) onSave()
+
+    } catch {
+      alert("Something went wrong!")
+    }
   }
 
   return (
@@ -101,7 +144,7 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
           Reset
         </PrimaryButton>
 
-        <PrimaryButton onClick={onSave} buttonType="submit" variant="primary">
+        <PrimaryButton onClick={storePensionData} buttonType="submit" variant="primary">
           Save
         </PrimaryButton>
       </div>

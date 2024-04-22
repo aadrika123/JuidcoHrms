@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 interface PensionMasterInterface {
   id?: number;
   beneficery_id: number;
+  emp_id: string;
   pension_amnt: number;
   family_pension_amnt: number;
   date_of_death: Date;
@@ -18,6 +19,7 @@ interface PensionMasterInterface {
 class PensionDao {
   store = async (req: Request) => {
     const {
+      emp_id,
       beneficery_id,
       pension_amnt,
       family_pension_amnt,
@@ -30,6 +32,7 @@ class PensionDao {
     const query: Prisma.pension_masterCreateArgs = {
       data: {
         beneficery_id: beneficery_id,
+        emp_id: emp_id,
         pension_amnt: pension_amnt,
         family_pension_amnt: family_pension_amnt,
         date_of_death: date_of_death,
