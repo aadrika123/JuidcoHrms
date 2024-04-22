@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Formik } from "formik";
 import InputBox from "@/components/Helpers/InputBox";
@@ -8,9 +8,11 @@ import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import { useQueryClient } from "react-query";
 import { EmployeeDetailsInterface } from "./Refund";
 import { not_provided } from "../Index";
+import { returnEmpPension } from "./Nominee";
 
 interface CalSheetProps {
   onNext: () => void;
+  emp_id: string;
 }
 
 interface CalculationSheetInterface {
@@ -18,11 +20,12 @@ interface CalculationSheetInterface {
   date_of_retirement: string;
   total_lenght_service: string;
   last_pay_drawn: string;
-  pension_admissible: string;
-  last_gross_pay: string;
+  pension_admissible: number;
+  last_gross_pay: number;
 }
 
-const CalculationSheet: React.FC<CalSheetProps> = ({ onNext }) => {
+const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
+  const [payrollData, setPayrollData] = useState<any[]>();
   const pathName = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -32,18 +35,42 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext }) => {
     onNext();
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("payroll");
+      const _data = JSON.parse(res as string);
+      setPayrollData(_data?.data);
+    }
+  }, []);
+  const familyPension: number =
+    (returnEmpPension(payrollData, emp_id) * 30) / 100;
+
+  function getGrossPay(payrollData: any, emp_id: string) {
+    if (!payrollData) return 0;
+
+    const emp: any = payrollData?.filter((emp: any) => emp.emp_id === emp_id);
+    const gross = emp[0]?.gross_pay;
+    return gross;
+  }
+
+  //----------------- 50 % of gross pay ---------------------//
+  const emp_gross = (getGrossPay(payrollData, emp_id) * 50) / 100;
+  //----------------- 50 % of gross pay ---------------------//
+
   const basic_data =
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
+
   const last_pay_drawn: number =
     Number(basic_data?.emp_join_details?.basic_pay) +
     Number(basic_data?.emp_join_details?.grade_pay);
+
   const initialValues: CalculationSheetInterface = {
     date_of_appointment: basic_data?.emp_join_details.doj || not_provided,
     date_of_retirement: "",
     total_lenght_service: "",
     last_pay_drawn: String(last_pay_drawn) || not_provided,
-    pension_admissible: "",
-    last_gross_pay: "",
+    pension_admissible: familyPension || 0,
+    last_gross_pay: emp_gross || 0,
   };
 
   return (

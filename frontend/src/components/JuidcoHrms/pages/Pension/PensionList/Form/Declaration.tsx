@@ -12,7 +12,7 @@ import { formatDate } from "@fullcalendar/core/index.js";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { returnEmpPension } from "./Nominee";
-
+import { currentDate } from "../Index";
 interface DecProps {
   onNext: () => void;
   emp_id: string;
@@ -169,7 +169,7 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
                   </span>
                   <div className="flex justify-between mt-5">
                     <div>The payment should commence form :-</div>
-                    <div>Date- 18/04/2024</div>
+                    <div>Date- {currentDate}</div>
                   </div>
                 </div>
 

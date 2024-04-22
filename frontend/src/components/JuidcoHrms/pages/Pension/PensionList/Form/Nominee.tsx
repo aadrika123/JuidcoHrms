@@ -22,7 +22,7 @@ export function returnEmpPension(payrollData: any, emp_id: string) {
   if (!payrollData) return 0;
 
   const emp: any = payrollData?.filter((emp: any) => emp.emp_id === emp_id);
-  const pension = (emp[0].net_pay * 60 * 30) / 70;
+  const pension = (emp[0]?.net_pay * 60 * 30) / 70;
   return Math.floor(pension);
 }
 
@@ -85,10 +85,9 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("payroll");
       const _data = JSON.parse(res as string);
-      setPayrollData(_data.data);
+      setPayrollData(_data?.data);
     }
   }, []);
-
 
   return (
     <>

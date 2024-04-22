@@ -34,7 +34,7 @@ import TableListContainer, {
 
 import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 import HorizontalStepperPension from "@/components/Helpers/Widgets/StepperPension";
-
+export const last_work_day: string = "2024-12-31";
 const Dashboard = () => {
   const queryClient = useQueryClient();
 
@@ -121,7 +121,7 @@ const Dashboard = () => {
     ...empLstData,
     data: empLstData?.data.map((emp: any) => ({
       ...emp,
-      last_work_day: "2024-12-31",
+      last_work_day: last_work_day,
     })),
   };
 

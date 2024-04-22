@@ -14,9 +14,9 @@ import toast from "react-hot-toast";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { DateInput, formatDate } from "@fullcalendar/core/index.js";
 import axios from "@/lib/axiosConfig";
-import { ulb_name, current_date } from "../Index";
+import { ulb_name, currentDate } from "../Index";
 import { returnEmpPension } from "./Nominee";
-
+import { last_work_day } from "../../Dashboard/Index";
 interface RefundProps {
   onNext: () => void;
   emp_id: string;
@@ -172,7 +172,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
       emp_details?.emp_personal_details.identification_marks || not_provided,
     last_pay_drawn: String(last_pay_drawn) || "no data",
     cause_of_leaving_service: "",
-    retiring_from_service: "",
+    retiring_from_service: last_work_day || "",
   };
   //--------------------------- INITIALIZING EMPLOYEE DETAILS ---------------------------//
 
@@ -368,7 +368,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                   {ulb_name} has consented to grant me the sum of Rs.
                   {Math.round(returnEmpPension(payrollData, emp_id) / 12)} per
                   month as to amount of my pension with effect from{" "}
-                  {current_date} I here by acknowledge that in subject to
+                  {currentDate} I here by acknowledge that in subject to
                   revision ,if the same being found to be in excess of that to
                   which I am entitled under the rules , and I promise to raise
                   no objection to such revision,I further promise to refund

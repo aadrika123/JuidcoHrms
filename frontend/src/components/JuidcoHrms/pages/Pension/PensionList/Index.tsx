@@ -19,7 +19,14 @@ import goBack from "@/utils/helper";
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
 export const ulb_name = "Ranchi Muncipal Corporation";
-export const current_date = "22/04/2024";
+// ---------------------- CURRENT DATE ---------------------------//
+const date = new Date();
+const day = date.getDate();
+const month = date.getMonth() + 1;
+const year = date.getFullYear();
+
+export const currentDate = `${day}-${month}-${year}`;
+// ---------------------- CURRENT DATE ---------------------------//
 
 const PensionData = ({ emp_id }: { emp_id: string }) => {
   const searchParam = useSearchParams().get("page");
@@ -136,7 +143,9 @@ const PensionData = ({ emp_id }: { emp_id: string }) => {
       {currentStep === 4 && (
         <Nomination onNext={handleNextStep} emp_id={emp_id} />
       )}
-      {currentStep === 5 && <CalculationSheet onNext={handleNextStep} />}
+      {currentStep === 5 && (
+        <CalculationSheet onNext={handleNextStep} emp_id={emp_id} />
+      )}
       {currentStep === 6 && (
         <Declaration onNext={handleNextStep} emp_id={emp_id} />
       )}
