@@ -1,4 +1,4 @@
-import Gratuity_table from "@/components/JuidcoHrms/pages/Ems/Pension/Index";
+import Gratuity_table from "@/components/JuidcoHrms/pages/Ems/graduity/Index";
 import PageLayout from "@/components/Layouts/PageLayout";
 import React from "react";
 

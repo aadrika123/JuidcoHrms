@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
@@ -15,8 +16,9 @@ const Download_payslip = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setValues({
+
       ...values,
       date: value,
     });
@@ -379,7 +381,7 @@ const Download_payslip = () => {
 
                 {payslipData?.emp_salary_details?.emp_salary_allow?.map(
                   (item: any, index: number) => (
-                    <tr className="border-1px">
+                    <tr key={index} className="border-1px">
                       <>
                         <td className="border w-[150px] pl-3">
                           {item?.name || null}
@@ -440,7 +442,7 @@ const Download_payslip = () => {
 
                 {payslipData?.emp_salary_details?.emp_salary_deduction?.map(
                   (item: any, index: number) => (
-                    <tr className="border-1px">
+                    <tr key={index} className="border-1px">
                       <>
                         <td className="border w-[150px] pl-3">
                           {item?.name || null}
@@ -458,20 +460,7 @@ const Download_payslip = () => {
                   </td>
                 </tr>
               </table>
-              {/* -------------------------------- */}
-              {/* <table className="w-[ 190px] h-[60.916px] border-flex m-5">
-              <tr className="border">
-                <td className="font-bold" colSpan={2}>
-                  RECOVERY
-                </td>
-              </tr>
-              <tr className="border-1px">
-                <td className="border w-[150px] pl-3">TOTAL:</td>
-                <td className="border">
-                  {payslipData.emp_salary_details.total[0].total_deductions}
-                </td>
-              </tr>
-            </table> */}
+           
               <table className="w-[375.833px] h-[168.333px]  border-flex m-5">
                 <tr className="border">
                   <td className="font-bold px-4" colSpan={2}>
@@ -479,18 +468,7 @@ const Download_payslip = () => {
                   </td>
                 </tr>
 
-                {/* {payslipData?.emp_salary_details?.emp_salary_deduction?.map(
-                (item: any, index: number) => (
-                  <tr className="border-1px">
-                    <>
-                      <td className="border w-[150px] pl-3">
-                        {item?.name || null}
-                      </td>
-                      <td className="border">{item?.amount_in || 0}</td>
-                    </>
-                  </tr>
-                )
-              )} */}
+              
 
                 <tr>
                   <td className="border w-[150px] pl-3">TOTAL</td>

@@ -60,11 +60,11 @@ export const EmployeeOnBoard = () => {
         : {}
   );
 
-  // function removeSessionsAfterSubmit() {
-  //   if (typeof window !== "undefined") {
-  //     sessionStorage.clear();
-  //   }
-  // }
+  function removeSessionsAfterSubmit() {
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+    }
+  }
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
 

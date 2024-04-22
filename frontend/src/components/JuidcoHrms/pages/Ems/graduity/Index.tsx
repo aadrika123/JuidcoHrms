@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { Column } from "primereact/column";
-import { Button } from "primereact/button";
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import "primereact/resources/themes/saga-blue/theme.css"
 // import "primeicons/primeicons.css";
@@ -27,23 +26,23 @@ const defaultFilters: DataTableFilterMeta = {
     }
 };
 const Gratuity_table = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
     const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
     const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
     const [earnedLeaves, setEarnedLeaves] = useState<any>();
 
-    const initFilters = () => {
-        setFilters(defaultFilters);
-        setGlobalFilterValue('');
-    };
-    const clearFilter = () => {
-        initFilters();
-    };
+    // const initFilters = () => {
+    //     setFilters(defaultFilters);
+    //     setGlobalFilterValue('');
+    // };
+    // const clearFilter = () => {
+    //     initFilters();
+    // };
     const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const _filters = { ...filters };
 
-        // @ts-ignore
+        //@ts-expect-error known error
         _filters['global'].value = value;
 
         setFilters(_filters);

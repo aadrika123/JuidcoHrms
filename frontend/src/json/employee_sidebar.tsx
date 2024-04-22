@@ -78,6 +78,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
             
           // ],
         }
+
         
         ,
         {
@@ -133,6 +134,14 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}`,
         },
+        {
+          moduleName: "Graduity",
+          icon: (
+            <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+          ),
+          path: `${url}/pension/gratuity_form`,
+        },
+
       ],
     },
   ],
