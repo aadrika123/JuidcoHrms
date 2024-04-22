@@ -158,6 +158,24 @@ export const sidebarLinks: SidebarLinksProps = {
               ),
             },
           ],
+          
+          // path: `${url}/pension/gratuity_from`,
+          
+          // subModules: [
+          //   {
+          //     moduleName: "Dashboard",
+          //     path: `${url}/ems/dashboard`,
+          //     icon: (
+          //       <Image
+          //         src={DashboardIcon}
+          //         alt="masters"
+          //         width={100}
+          //         height={100}
+          //       />
+          //     ),
+          //   },
+           
+          // ],
         },
         {
           moduleName: "Grievance Management",

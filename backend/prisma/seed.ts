@@ -10,6 +10,8 @@ import holidays_seeder from "./seeder/masters/holiday.seed";
 import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 import employee_seeder from "./seeder/employee/employee.seed";
 import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
+import { gratuity_seeder } from "./seeder/masters/gratuity.seed";
+import pensionStatement_seeder from "./seeder/masters/pensionstatement.seed";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -25,12 +27,19 @@ async function main() {
   await ulb_seed();
   await holidays_seeder();
   await empLeave_seeder();
-
   setTimeout(async () => {
     await employee_seeder();
     await employee_attendance_seeder();
     await foreign_wrapper();
   }, 9000);
+
+  setTimeout(async () => {
+    await gratuity_seeder();
+  }, 18000);
+
+  setTimeout(async () => {
+    await pensionStatement_seeder();
+  }, 18000);
 }
 main()
   .then(async () => {

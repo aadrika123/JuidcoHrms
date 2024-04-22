@@ -27,6 +27,8 @@ interface SimpleTableProps<T> {
   center?: boolean;
   scrollable?: boolean;
   height?: string;
+  pageNo?: number;
+  limit?: number;
 }
 
 type ObjectContent = {
@@ -109,7 +111,7 @@ const Table = <T,>({
     <>
       <div className="overflow-x-auto border-[1px] border-zinc-400">
         <table className={`table table-md`}>
-          <thead className="text-[1rem] bg-primary_green text-white">
+          <thead className="text-[1rem] bg-gray-200 text-white">
             <Trow scrollable={scrollable} className="w-full">
               {headers}
             </Trow>
