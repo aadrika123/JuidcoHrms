@@ -371,6 +371,78 @@ class EmployeeOnBoardController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  // !-----------------------------Get Employee Nominee Details------------------------------//
+  get_nominee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+    try {
+      const data = await this.employeeOnBoardDao.get_nominee(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Failed `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        `${this.initMesg} FOUND Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
+  // !-----------------------------Get Employee Family Details------------------------------//
+  get_family = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+    try {
+      const data = await this.employeeOnBoardDao.get_family(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Failed `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        `${this.initMesg} FOUND Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
 }
 
 export default EmployeeOnBoardController;

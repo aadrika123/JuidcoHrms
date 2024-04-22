@@ -16,7 +16,12 @@ type UrlKeys =
   | "LEAVEGET"
   | "LEAVECHART"
   | "PAYROLL"
-  | "PAYROLL_TOTAL";
+  | "PAYROLL_TOTAL"
+  | "LEAVECHART"
+  | "CLAIM"
+  | "NOMINEE"
+  | "FAMILY"
+  | "OTP";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -27,6 +32,7 @@ type Urls = {
     delete?: string;
     getCodes?: string;
     getAll?: string;
+    validate?: string;
   };
 };
 
@@ -79,5 +85,20 @@ export const HRMS_URL: Urls = {
   LEAVECHART: {
     get: "/employee/leave-chart-get",
     create: "/employee/leave-chart-update",
+  },
+  CLAIM: {
+    get: "/application/claim/getClaimByEmployeeId",
+    create: "/application/claim",
+    getById: "/application/claim",
+  },
+  NOMINEE: {
+    getById: "/employee/nominee",
+  },
+  FAMILY: {
+    getById: "/employee/family",
+  },
+  OTP: {
+    create: "/employee/otp-generated",
+    validate: "/employee/otp-validate",
   },
 };

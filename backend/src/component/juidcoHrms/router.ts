@@ -3,7 +3,7 @@ import EmployeeOnBoardRoute from "./route/ems/empOnBoard.route";
 import MasterDataRoute from "./route/ems/master/master.route";
 import EmployeeFeatureRoute from "./route/employee/empFeature.route";
 import PayrollRoute from "./route/payroll/payroll.route";
-
+import EmployeeClaimRoute from "./route/application/empClaim.route";
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,6 +25,7 @@ class HrmsRoute {
   private masterDataRoute: MasterDataRoute;
   private employeeFeatureRoute: EmployeeFeatureRoute;
   private payrollRoute: PayrollRoute;
+  private employeeClaimRoute: EmployeeClaimRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
     this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
@@ -37,7 +38,10 @@ class HrmsRoute {
     this.employeeFeatureRoute.configure(app); // 03
 
     this.payrollRoute = new PayrollRoute();
-    this.payrollRoute.configure(app); // 04f
+    this.payrollRoute.configure(app); // 04
+
+    this.employeeClaimRoute = new EmployeeClaimRoute();
+    this.employeeClaimRoute.configure(app); // 05
   }
 }
 

@@ -58,11 +58,9 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   }, [emp]);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
     setBillNo((prevBillNo) => prevBillNo + 1);
+    setIsClient(true);
+
   }, []);
 
   const { data } = useQuery(["leaveData", emp], fetchData);

@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import Image from "next/image";
@@ -82,6 +82,10 @@ const PayrollManagement = () => {
 
   const { data: payrollCount, error: payrollCountErr } =
     useCodeQuery<PayrollCount>(`${HRMS_URL.PAYROLL_TOTAL.getAll}`);
+
+  useEffect(() => {
+    sessionStorage.setItem("payroll", JSON.stringify(empLstData));
+  }, [empLstData]);
 
   const filterEmpListData = empLstData?.data?.filter(
     (elem) => elem.status === null

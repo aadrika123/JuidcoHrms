@@ -17,7 +17,7 @@ const HorizontalStepper: React.FC<HorizontalStepperProps> = ({
     <div className="flex items-center">
       {steps.map((step, index) => (
         <React.Fragment key={index}>
-          {index > 0 && <div className=" bg-gray-400 w-[25%] h-2"></div>}
+          {index > 0 && <div className=" bg-gray-400 w-[25%] h-[0.5px]"></div>}
           <div
             className={`rounded-full h-6 w-6 flex items-center justify-center border ${
               index === activeStep

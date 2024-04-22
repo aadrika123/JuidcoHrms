@@ -27,7 +27,6 @@ import Button from "@/components/global/atoms/Button";
 import EmpPresentAddress from "./Forms/EmpPresentAddress";
 import EmpInitialJoinDetails from "./Forms/EmpInitialJoinDetails";
 import EmpEducationDetails from "./Forms/EmpEducationDetails";
-import EmpLoanDetails from "./Forms/EmpLoanDetails";
 import EmployeeServiceHistory from "./Forms/EmployeeServiceHistory";
 import { EmpTimeBound } from "./Forms/EmpTimeBound";
 import EmployeeFamilyDetails from "./Forms/EmpFamilyDetails";
@@ -231,14 +230,27 @@ export const EmployeeOnBoard = () => {
               <EmployeeFamilyDetails setData={getStateData} />
             </>
           ) : //
-          searchParam === "9" ? (
-            //
-            <EmpSalaryDetails setData={getStateData} />
-          ) : searchParam === "10" ? (
-            <EmpLoanDetails setData={getStateData} />
-          ) : searchParam === "11" ? (
-            <>
-              <EmpTimeBound setData={getStateData} />
+            searchParam === "9" ? (
+              //
+              <EmpSalaryDetails setData={getStateData} />
+            ) : searchParam === "10" ? (
+              <>
+                <EmpTimeBound setData={getStateData} />
+
+                <aside className="flex w-full items-center justify-end mt-3">
+                  <Button
+                    buttontype="button"
+                    variant="primary"
+                    onClick={() => mutate(employeeOnBoardDetails)}
+                  >
+                    Save
+                  </Button>
+                </aside>
+              </>
+
+            ) : searchParam === "11" ? (
+              <>
+                {/* <EmpTimeBound setData={getStateData} />
 
               <aside className="flex w-full items-center justify-end mt-3">
                 <Button
@@ -248,11 +260,11 @@ export const EmployeeOnBoard = () => {
                 >
                   Save
                 </Button>
-              </aside>
-            </>
-          ) : (
-            <></>
-          )}
+              </aside> */}
+              </>
+            ) : (
+              <></>
+            )}
         </div>
       </section>
     </>

@@ -1,0 +1,16 @@
+// CREATED AND MAINTAINED BY KRISH  
+
+model pension_master {
+  id                       Int       @id @default(autoincrement())
+  beneficery_id            Int
+  pension_amnt             Float?
+  family_pension_amnt      Float?
+  date_of_death            DateTime? @db.Date
+  summary                  String?
+  communi_sent_acc_officer String?
+  pensioncol               String?
+
+  employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
+  created_at               DateTime                 @default(now()) @map("created_at")
+  updated_at               DateTime                 @updatedAt @map("updated_at")
+}

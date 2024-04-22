@@ -28,7 +28,7 @@ model employee_daily_attendance {
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @updatedAt @map("updated_at")
 
-  @@unique([employee_id, date])
+  // @@unique([employee_id, date])
 }
 
 model employee_hierarchy {

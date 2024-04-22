@@ -80,6 +80,22 @@ class EmployeeOnBoardRoute {
           this.employeeOnBoardController.removeEmp(req, res, next, "0106"),
         loggerMiddleware
       ); //0106
+
+    app
+      .route(`${baseUrl}/employee/nominee`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.get_nominee(req, res, next, "0107"),
+        loggerMiddleware
+      ); //0107
+
+    app
+      .route(`${baseUrl}/employee/family`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.get_family(req, res, next, "0108"),
+        loggerMiddleware
+      ); //0108
   }
 }
 

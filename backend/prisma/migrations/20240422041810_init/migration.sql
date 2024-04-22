@@ -104,7 +104,7 @@ CREATE TABLE "employee_nominee_details" (
     "percentage" DOUBLE PRECISION NOT NULL,
     "address" TEXT NOT NULL,
     "minor" TEXT NOT NULL,
-    "employees_id" TEXT NOT NULL,
+    "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -486,6 +486,37 @@ CREATE TABLE "employee_hierarchy" (
 );
 
 -- CreateTable
+CREATE TABLE "employee_claim" (
+    "id" SERIAL NOT NULL,
+    "employees_id" TEXT NOT NULL,
+    "claimType" TEXT NOT NULL,
+    "orderNo" TEXT,
+    "fromDate" TIMESTAMP(3),
+    "toDate" TIMESTAMP(3),
+    "travelExpenses" DOUBLE PRECISION,
+    "distance" DOUBLE PRECISION,
+    "foodExpenses" DOUBLE PRECISION,
+    "totalAmount" DOUBLE PRECISION,
+    "hotelExpenses" DOUBLE PRECISION,
+    "description" TEXT,
+    "location" TEXT,
+    "witnessInformation" TEXT,
+    "supervisorSelection" TEXT,
+    "thirdPartyInformation" TEXT,
+    "claimSupervisor" TEXT,
+    "status" INTEGER NOT NULL DEFAULT 0,
+    "thirdPartyStatus" INTEGER NOT NULL DEFAULT 0,
+    "travelExpenseAttachment" TEXT,
+    "foodExpensesAttachment" TEXT,
+    "hotelExpenseAttachment" TEXT,
+    "descriptionAttachment" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_claim_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "employee_leave_details" (
     "id" SERIAL NOT NULL,
     "emp_leave_type_id" INTEGER NOT NULL,
@@ -599,22 +630,39 @@ CREATE TABLE "payroll_master" (
     "lwp_days" INTEGER NOT NULL DEFAULT 0,
     "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "last_month_lwp_deduction" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "lwp_days_last_month" INTEGER NOT NULL DEFAULT 0,
     "status" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
+    "month" INTEGER NOT NULL,
+    "year" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "payroll_master_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "pension_master" (
+    "id" SERIAL NOT NULL,
+    "beneficery_id" INTEGER NOT NULL,
+    "pension_amnt" DOUBLE PRECISION,
+    "family_pension_amnt" DOUBLE PRECISION,
+    "date_of_death" DATE,
+    "summary" TEXT,
+    "communi_sent_acc_officer" TEXT,
+    "pensioncol" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "pension_master_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "employee_daily_attendance_employee_id_date_key" ON "employee_daily_attendance"("employee_id", "date");
-
--- CreateIndex
-CREATE UNIQUE INDEX "payroll_master_emp_id_date_key" ON "payroll_master"("emp_id", "date");
+CREATE UNIQUE INDEX "payroll_master_emp_id_month_year_key" ON "payroll_master"("emp_id", "month", "year");
 
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -641,7 +689,7 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_salary_details_id_fkey" FO
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "employee_nominee_details" ADD CONSTRAINT "employee_nominee_details_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_increment_details" ADD CONSTRAINT "employee_increment_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -695,6 +743,9 @@ ALTER TABLE "employee_daily_attendance" ADD CONSTRAINT "employee_daily_attendanc
 ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "employee_claim" ADD CONSTRAINT "employee_claim_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_emp_leave_type_id_fkey" FOREIGN KEY ("emp_leave_type_id") REFERENCES "employee_leave_type"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -702,3 +753,6 @@ ALTER TABLE "employee_leave_details" ADD CONSTRAINT "employee_leave_details_empl
 
 -- AddForeignKey
 ALTER TABLE "employee_leave_chart" ADD CONSTRAINT "employee_leave_chart_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_beneficery_id_fkey" FOREIGN KEY ("beneficery_id") REFERENCES "employee_nominee_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
