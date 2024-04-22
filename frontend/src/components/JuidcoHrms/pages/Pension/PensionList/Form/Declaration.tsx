@@ -110,7 +110,6 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
                     value={values.dob}
                     label="DOB"
                     name="dob"
-                    type="date"
                   />
 
                   <InputBox

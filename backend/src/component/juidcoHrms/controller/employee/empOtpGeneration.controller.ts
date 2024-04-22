@@ -1,6 +1,6 @@
 /**
  * | Author- Jaideep
- * | Created for- Employee Leave Controller
+ * | Created for- Employee OTP Controller
  * | Status: open
  */
 
@@ -56,6 +56,8 @@ class EmployeeOtpController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  // OTP validation
 
   validateOtp = async (
     req: Request,

@@ -172,7 +172,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
       emp_details?.emp_personal_details.identification_marks || not_provided,
     last_pay_drawn: String(last_pay_drawn) || "no data",
     cause_of_leaving_service: "",
-    retiring_from_service: "a",
+    retiring_from_service: "",
   };
   //--------------------------- INITIALIZING EMPLOYEE DETAILS ---------------------------//
 
@@ -280,13 +280,15 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                   value={values.last_pay_drawn}
                   label="Last Pay Drawn: Basic Pay + Grade Pay"
                   name="last_pay_drawn"
+                  disabled
                 />
 
                 <InputBox
                   onChange={handleChange}
-                  value={values.cause_of_leaving_service}
+                  value={values.cause_of_leaving_service || "Retirement"}
                   label="Cause of leaving service"
                   name="cause_of_leaving_service"
+                  disabled
                 />
 
                 {/* --------------------------- OTP --------------------- */}
@@ -364,13 +366,14 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                   <br></br>
                   Where the Municipal Commissioner /Standing Committee of{" "}
                   {ulb_name} has consented to grant me the sum of Rs.
-                  {Math.round(returnEmpPension(payrollData, emp_id)/12)} per month as to amount
-                  of my pension with effect from {current_date} I here by
-                  acknowledge that in subject to revision ,if the same being
-                  found to be in excess of that to which I am entitled under the
-                  rules , and I promise to raise no objection to such revision,I
-                  further promise to refund amount paid to me in excess of that
-                  to which I may be eventually found entitled.
+                  {Math.round(returnEmpPension(payrollData, emp_id) / 12)} per
+                  month as to amount of my pension with effect from{" "}
+                  {current_date} I here by acknowledge that in subject to
+                  revision ,if the same being found to be in excess of that to
+                  which I am entitled under the rules , and I promise to raise
+                  no objection to such revision,I further promise to refund
+                  amount paid to me in excess of that to which I may be
+                  eventually found entitled.
                 </div>
               </div>
 

@@ -208,31 +208,6 @@ CREATE TABLE "employee_salary_deduction" (
 );
 
 -- CreateTable
-CREATE TABLE "Pensionstatement" (
-    "id" SERIAL NOT NULL,
-    "month" TEXT NOT NULL,
-    "year" TEXT NOT NULL,
-    "no_of_days_present" TEXT NOT NULL,
-    "net_pay" INTEGER NOT NULL,
-
-    CONSTRAINT "Pensionstatement_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "gratuity" (
-    "id" SERIAL NOT NULL,
-    "employee_id" TEXT NOT NULL,
-    "employee_name" TEXT NOT NULL,
-    "gratuity_amount" DOUBLE PRECISION,
-    "application_id" TEXT,
-    "date_of_relieving" TIMESTAMP(3) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "gratuity_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "employee_join_details" (
     "id" SERIAL NOT NULL,
     "department_id" INTEGER,
@@ -656,7 +631,6 @@ CREATE TABLE "payroll_master" (
     "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "last_month_lwp_deduction" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "lwp_days_last_month" INTEGER NOT NULL DEFAULT 0,
     "status" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
     "month" INTEGER NOT NULL,
@@ -727,9 +701,6 @@ ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employ
 
 -- AddForeignKey
 ALTER TABLE "employee_salary_deduction" ADD CONSTRAINT "employee_salary_deduction_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "gratuity" ADD CONSTRAINT "gratuity_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_join_details" ADD CONSTRAINT "employee_join_details_department_id_fkey" FOREIGN KEY ("department_id") REFERENCES "department"("id") ON DELETE SET NULL ON UPDATE CASCADE;

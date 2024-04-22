@@ -15,7 +15,9 @@ type UrlKeys =
   | "LEAVETYPE"
   | "LEAVEGET"
   | "LEAVECHART"
+  | "CLAIM"
   | "PAYROLL"
+  | "LEAVE_ENCASHMENT"
   | "PAYROLL_TOTAL"
   | "LEAVECHART"
   | "CLAIM"
@@ -90,6 +92,11 @@ export const HRMS_URL: Urls = {
     get: "/application/claim/getClaimByEmployeeId",
     create: "/application/claim",
     getById: "/application/claim",
+  },
+  LEAVE_ENCASHMENT: {
+    get: "/pension/leave_encashment",
+    getById: "/pension/leave_encashment/getLeaveEncashById",
+    update: "/pension/leave_encashment/updateLeaveEncashByEmployeeId",
   },
   NOMINEE: {
     getById: "/employee/nominee",

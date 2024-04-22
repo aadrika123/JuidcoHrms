@@ -91,7 +91,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
               height={100}
             />
           ),
-          path: `${url}`,
+          path: `${url}/payroll/claim_form`,
           subModules: [
             {
               moduleName: "Claims",
@@ -142,6 +142,13 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           path: `${url}/pension/gratuity_form`,
         },
 
+        {
+          moduleName: "Pension",
+          icon: (
+            <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+          ),
+          path: `${url}/pension/leave_encashment`,
+        },
       ],
     },
   ],

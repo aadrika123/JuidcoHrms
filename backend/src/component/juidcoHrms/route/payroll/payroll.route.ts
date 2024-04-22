@@ -51,7 +51,15 @@ class PayrollRoute {
           this.payslipController.get(req, res, next, "0404"),
         loggerMiddleware
       ); //0404
-    
+
+    app
+      .route(`${baseUrl}/pay/payroll`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.get_emp_payroll(req, res, next, "0405"),
+        loggerMiddleware
+      ); //0405
+
     app
       .route(`${baseUrl}/pay/payroll/update`)
       .post(

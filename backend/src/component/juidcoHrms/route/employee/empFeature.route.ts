@@ -6,8 +6,6 @@ import HolidaysController from "../../controller/employee/holidays.controller";
 import EmployeeLeaveController from "../../controller/employee/empLeave.controller";
 import LeaveChartController from "../../controller/employee/empLeaveChart.controller";
 import LeaveTypeController from "../../controller/employee/empLeaveType.controller";
-import GratuityController from "../../controller/gratuity/gratutity.controller";
-import PensionStatementController from "../../controller/gratuity/pensionstatement.controller";
 import EmployeeOtpController from "../../controller/employee/empOtpGeneration.controller";
 import PensionController from "../../controller/pension/pension.controller";
 
@@ -19,9 +17,6 @@ class EmployeeFeatureRoute {
   private employeeHolidaysController: HolidaysController;
   private employeeOtpController: EmployeeOtpController;
   private employeePensionController: PensionController;
-  private gratuityController: GratuityController;
-  private pensiostatementController:PensionStatementController;
-
 
   constructor() {
     this.employeeAttendanceController = new EmployeeAttendanceController();
@@ -31,10 +26,6 @@ class EmployeeFeatureRoute {
     this.employeeLeaveTypeController = new LeaveTypeController();
     this.employeeOtpController = new EmployeeOtpController();
     this.employeePensionController = new PensionController();
-    this.gratuityController = new GratuityController();
-    this.pensiostatementController = new PensionStatementController();
-
-
   }
 
   configure(app: express.Application): void {
@@ -74,23 +65,7 @@ class EmployeeFeatureRoute {
           this.employeeHolidaysController.get(req, res, next, "0304"),
         loggerMiddleware
       );
-      
-      app
-      .route(`${baseUrl}/gratuity`)
-      .get(
-        (req: Request, res: Response, next: NextFunction) =>
-          this.gratuityController.get(req, res, next, "0304"),
-        loggerMiddleware
-      );
 
-      app
-      .route(`${baseUrl}/pension/statement`)
-      .get(
-        (req: Request, res: Response, next: NextFunction) =>
-          this.pensiostatementController.get(req, res, next, "0304"),
-        loggerMiddleware
-      );
-      
     app
       .route(`${baseUrl}/employee/leave`)
       .post(

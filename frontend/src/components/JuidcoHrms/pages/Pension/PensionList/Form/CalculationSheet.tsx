@@ -34,12 +34,14 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext }) => {
 
   const basic_data =
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
-
+  const last_pay_drawn: number =
+    Number(basic_data?.emp_join_details?.basic_pay) +
+    Number(basic_data?.emp_join_details?.grade_pay);
   const initialValues: CalculationSheetInterface = {
     date_of_appointment: basic_data?.emp_join_details.doj || not_provided,
     date_of_retirement: "",
     total_lenght_service: "",
-    last_pay_drawn: "" || not_provided,
+    last_pay_drawn: String(last_pay_drawn) || not_provided,
     pension_admissible: "",
     last_gross_pay: "",
   };

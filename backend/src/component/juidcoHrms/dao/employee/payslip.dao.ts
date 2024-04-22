@@ -53,13 +53,7 @@ class PayslipDao {
   // };
 
   get = async (req: Request) => {
-    const { emp_id, date } = req.query; // Assuming 'date' is in the format 'MM-YYYY'
-
-    if (!date || typeof date !== 'string') {
-      return generateRes({ error: "Invalid date format. Please provide date in MM-YYYY format." }, 400);
-    }
-
-    const [year, month] = date.split('-');
+    const { emp_id, date } = req.query;
 
     const query: Prisma.employeesFindFirstArgs = {
       select: {
@@ -69,6 +63,7 @@ class PayslipDao {
             emp_salary_deduction: true,
           },
         },
+
         emp_join_details: {
           select: {
             acc_number: true,
@@ -84,32 +79,27 @@ class PayslipDao {
       },
       where: {
         emp_id: String(emp_id),
-        // Assuming 'date' is in the format 'MM-YYYY'
-        created_at: {
-          gte: new Date(`${year}-${month}-01`),
-          lt: new Date(`${year}-${Number(month) + 1}-01`),
-        },
+        // created_at: String(date),
       },
     };
 
     const data: any = await prisma.employees.findFirst(query);
     const payroll = await prisma.$queryRaw`
-      SELECT * FROM payroll_master WHERE emp_id=${emp_id} AND EXTRACT(MONTH FROM date)::text >=${month} AND EXTRACT(YEAR FROM date)::text <= ${year};
+      SELECT * FROM payroll_master WHERE emp_id=${emp_id} AND date=Date(${date});
     `;
     const count_allow_and_deduction = await prisma.$queryRaw<any[]>`
-      SELECT 
-        SUM(emp_allow.amount_in) as total_allowance , 
-        SUM(emp_deduct.amount_in) as total_deductions
-      FROM 
-        employees as emp
-      JOIN 
-        employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-      JOIN 
-        employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-      JOIN
-        employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-      WHERE emp_id=${emp_id};
-    `;
+            SELECT 
+            SUM(emp_allow.amount_in) as total_allowance , SUM(emp_deduct.amount_in) as total_deductions
+            FROM 
+                employees as emp
+            JOIN 
+                employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+            JOIN 
+                employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+            JOIN
+                employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
+             WHERE emp_id=${emp_id}
+        `;
     data.total = { ...count_allow_and_deduction[0] };
     data.payroll = payroll;
     return generateRes(data);

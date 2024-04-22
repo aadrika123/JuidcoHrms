@@ -213,7 +213,6 @@ class PayrollDao {
       let numberOfWeekdaysInMonth: number = 0;
       // let after_days: number = 0;
 
-      
       // let after_days_last: number = 0; // previous month lwp absent
 
       // ----------check no_of_working_days in a month----------------//
@@ -321,16 +320,16 @@ class PayrollDao {
 
     // console.log(this.employee_payroll_data);
 
-    await prisma.payroll_master.createMany({
-      data: this.employee_payroll_data,
-    });
+    // await prisma.payroll_master.createMany({
+    //   data: this.employee_payroll_data,
+    // });
 
     return generateRes(this.employee_payroll_data);
   };
 
   // --------------------- STORING PAYROLL ------------------------------ //
   get_emp_payroll = async () => {
-    // await this.calc_net_pay();
+    await this.calc_net_pay();
     console.log(this.employee_payroll_data);
 
     const query: Prisma.payroll_masterFindManyArgs = {
@@ -388,7 +387,7 @@ class PayrollDao {
     // };
 
     const data = await prisma.$queryRaw<any[]>`
-      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master WHERE status::text is null or status::text = 'approved'
+      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master
     `;
 
     return generateRes(data[0]);

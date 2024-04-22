@@ -101,12 +101,15 @@ const Download_payslip = () => {
     }
   };
 
+
   const { payslipData } = values;
   const componentRef = useRef(null);
 
   // if (!payslipData) {
   //   return null;
   // }
+  console.log(values)
+
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -483,8 +486,8 @@ const Download_payslip = () => {
         <div className="flex place-content-around mt-10">
           <div className="">
             <p>
-              NET PAY : {payslipData.netPay} (
-              {convertNumberToWords(payslipData.netPay)} ONLY)
+              NET PAY : {payslipData?.netPay} (
+              {convertNumberToWords(payslipData?.netPay)} ONLY)
             </p>
           </div>
           <div>
