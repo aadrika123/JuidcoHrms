@@ -3,11 +3,11 @@ import React from "react";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
-import { InnerHeading } from "@/components/Helpers/Heading";
+import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import TableListContainer from "@/components/global/organisms/TableListContainer";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 import { HRMS_URL } from "@/utils/api/urls";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 interface PensionPaymentProps {
   onPrev: () => void;
@@ -55,9 +55,21 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
     },
   ];
 
+  function onSave() {
+    setTimeout(() => {
+      toast.success("Pension data saved successfully!");
+    }, 2000);
+
+    setTimeout(() => {
+      window.location.replace("/hrms/ems/pension-management");
+    }, 3000);
+  }
+
   return (
     <div>
+      <Toaster />
       <div className="p-10 shadow-lg mb-10 ">
+        <SubHeading>Employee Family Details</SubHeading>
         <TableListContainer
           columns={COLUMS_EMP_FAMILY_DETAILS}
           tableData={emp_family_details?.data || []}
@@ -89,7 +101,7 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
           Reset
         </PrimaryButton>
 
-        <PrimaryButton buttonType="submit" variant="primary">
+        <PrimaryButton onClick={onSave} buttonType="submit" variant="primary">
           Save
         </PrimaryButton>
       </div>

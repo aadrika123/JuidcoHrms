@@ -17,6 +17,10 @@ import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 
 export const not_provided = "Not provided";
+//--------------------------- GET DECLARATION DETAILS ---------------------------//
+export const ulb_name = "Ranchi Muncipal Corporation";
+export const current_date = "22/04/2024";
+
 const PensionData = ({ emp_id }: { emp_id: string }) => {
   const searchParam = useSearchParams().get("page");
   const [currentStep, setCurrentStep] = useState(1);
@@ -126,12 +130,16 @@ const PensionData = ({ emp_id }: { emp_id: string }) => {
 
       {currentStep === 1 && <Nominee onNext={handleNextStep} emp_id={emp_id} />}
       {currentStep === 2 && <Refund onNext={handleNextStep} emp_id={emp_id} />}
-      {currentStep === 3 && <Statement onNext={handleNextStep} />}
+      {currentStep === 3 && (
+        <Statement onNext={handleNextStep} emp_id={emp_id} />
+      )}
       {currentStep === 4 && (
         <Nomination onNext={handleNextStep} emp_id={emp_id} />
       )}
       {currentStep === 5 && <CalculationSheet onNext={handleNextStep} />}
-      {currentStep === 6 && <Declaration onNext={handleNextStep} />}
+      {currentStep === 6 && (
+        <Declaration onNext={handleNextStep} emp_id={emp_id} />
+      )}
       {currentStep === 7 && <PensionPayment onNext={handleNextStep} />}
       {currentStep === 8 && <Signature onNext={handleNextStep} />}
       {currentStep === 9 && (

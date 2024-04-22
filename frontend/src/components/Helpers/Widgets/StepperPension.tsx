@@ -9,7 +9,7 @@ interface HorizontalStepperProps {
   activeStep: number;
 }
 
-const HorizontalStepper: React.FC<HorizontalStepperProps> = ({
+const HorizontalStepperPension: React.FC<HorizontalStepperProps> = ({
   steps,
   activeStep,
 }) => {
@@ -19,7 +19,7 @@ const HorizontalStepper: React.FC<HorizontalStepperProps> = ({
         <React.Fragment key={index}>
           {index > 0 && <div className=" bg-gray-400 w-[25%] h-[0.5px]"></div>}
           <div
-            className={`rounded-full h-6 w-6 flex items-center justify-center border ${
+            className={`rounded-full h-6 w-10 flex items-center justify-center border ${
               index === activeStep
                 ? "bg-blue-600 border-blue-600 animate-pulse"
                 : "border-gray-400"
@@ -31,4 +31,4 @@ const HorizontalStepper: React.FC<HorizontalStepperProps> = ({
   );
 };
 
-export default HorizontalStepper;
+export default HorizontalStepperPension;

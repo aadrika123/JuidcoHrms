@@ -33,7 +33,7 @@ import TableListContainer, {
 } from "@/components/global/organisms/TableListContainer";
 
 import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
-import HorizontalStepper from "@/components/Helpers/Widgets/Stepper";
+import HorizontalStepperPension from "@/components/Helpers/Widgets/StepperPension";
 
 const Dashboard = () => {
   const queryClient = useQueryClient();
@@ -43,7 +43,22 @@ const Dashboard = () => {
       type: "donut",
     },
     series: [100, 40],
-    labels: ["Present", "Absent"],
+    labels: ["Approved", "Reject"],
+    colors: ["#665DD9", "#3592FF"],
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+  };
+
+  const chartOptions2 = {
+    chart: {
+      type: "donut",
+    },
+    series: [132, 104],
+    labels: ["Approved", "Reject"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
       enabled: false,
@@ -102,6 +117,16 @@ const Dashboard = () => {
   const { data: empLstData, error: empLstErr } = useCodeQuery(
     `${HRMS_URL.EMS.get}&page=${page}&department=${selectedData}`
   );
+  const pensionData = {
+    ...empLstData,
+    data: empLstData?.data.map((emp: any) => ({
+      ...emp,
+      last_work_day: "2024-12-31",
+    })),
+  };
+
+  console.log(pensionData);
+
   if (empLstErr) toast.error("Failed to fetch data");
 
   // REMOVE EMPLOYEE
@@ -280,8 +305,8 @@ const Dashboard = () => {
 
           <div className="justify-center items-center flex mt-5">
             <ReactApexChart
-              options={chartOptions as ApexOptions}
-              series={chartOptions.series}
+              options={chartOptions2 as ApexOptions}
+              series={chartOptions2.series}
               type="pie"
               height={300}
               width={400}
@@ -304,7 +329,10 @@ const Dashboard = () => {
             <label htmlFor="search-by" className="text-secondary text-lg">
               Search By
             </label>
-            <input type="text" className="border border-slate-300 p-3" />
+            <input
+              type="text"
+              className="border border-slate-300 p-3 bg-transparent"
+            />
           </div>
 
           <PrimaryButton
@@ -341,7 +369,7 @@ const Dashboard = () => {
             <Image src={Bank} alt="employee" width={40} height={20} />
           </div>
 
-          <HorizontalStepper steps={steps} activeStep={activeStep} />
+          <HorizontalStepperPension steps={steps} activeStep={activeStep} />
 
           {/* <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary"> */}
           <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
@@ -365,7 +393,7 @@ const Dashboard = () => {
         <div className="mt-[3rem]">
           <TableListContainer
             columns={EMP_LIST_COLS}
-            tableData={empLstData?.data || []}
+            tableData={pensionData?.data || []}
             actionBtn
             actionName="Status"
             setEmpId={removeEmployee}

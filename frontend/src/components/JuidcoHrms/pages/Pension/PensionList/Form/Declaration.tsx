@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import InputBox from "@/components/Helpers/InputBox";
@@ -11,9 +11,11 @@ import { not_provided } from "../Index";
 import { formatDate } from "@fullcalendar/core/index.js";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
+import { returnEmpPension } from "./Nominee";
 
 interface DecProps {
   onNext: () => void;
+  emp_id: string;
 }
 
 interface PensionerInterface {
@@ -28,10 +30,11 @@ interface PensionerInterface {
   amount: string;
 }
 
-const Declaration: React.FC<DecProps> = ({ onNext }) => {
+const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
   const pathName = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [payrollData, setPayrollData] = useState<any[]>();
 
   const emp_data =
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
@@ -44,6 +47,7 @@ const Declaration: React.FC<DecProps> = ({ onNext }) => {
   };
 
   const dob = formatDate(emp_data?.emp_basic_details.dob as string);
+
   const initialValues: PensionerInterface = {
     pensioner_name: emp_data?.emp_basic_details.emp_name || not_provided,
     guardian_name: "",
@@ -56,6 +60,14 @@ const Declaration: React.FC<DecProps> = ({ onNext }) => {
     remarks: "",
     amount: "",
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("payroll");
+      const _data = JSON.parse(res as string);
+      setPayrollData(_data.data);
+    }
+  }, []);
 
   return (
     <>
@@ -132,9 +144,10 @@ const Declaration: React.FC<DecProps> = ({ onNext }) => {
 
                   <InputBox
                     onChange={handleChange}
-                    value={values.amount}
+                    value={returnEmpPension(payrollData, emp_id) || ""}
                     label="Amount"
                     name="amount"
+                    type="number"
                   />
                 </div>
 
@@ -149,10 +162,11 @@ const Declaration: React.FC<DecProps> = ({ onNext }) => {
                   </InnerHeading>
                   <span>
                     Until further Notice on the expiration of every month, be
-                    pleased to pay to Sri/Smt..............The Amount of Rs
-                    .................................being the amount of pension
-                    upon the production of the under and a receipt according to
-                    the usual form
+                    pleased to pay to Sri/Smt{" "}
+                    {emp_data?.emp_basic_details.emp_name} The Amount of Rs.
+                    {returnEmpPension(payrollData, emp_id)} being the amount of
+                    pension upon the production of the under and a receipt
+                    according to the usual form
                   </span>
                   <div className="flex justify-between mt-5">
                     <div>The payment should commence form :-</div>

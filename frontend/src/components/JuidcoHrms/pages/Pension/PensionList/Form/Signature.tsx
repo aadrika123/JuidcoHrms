@@ -1,9 +1,11 @@
 "use client"
-import React, { useRef, useState , ChangeEvent} from 'react'
+import React, { useRef, useState, ChangeEvent } from 'react'
 import { usePathname, useRouter } from "next/navigation";
 import { InnerHeading } from '@/components/Helpers/Heading';
 import PrimaryButton from '@/components/Helpers/Button';
 import goBack from '@/utils/helper';
+import { EmployeeDetailsInterface } from './Refund';
+import { useQueryClient } from 'react-query';
 
 interface PensionPaymentProps {
     onNext: () => void;
@@ -12,7 +14,7 @@ interface PensionPaymentProps {
 const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
     const pathName = usePathname();
     const router = useRouter();
-
+    const queryClient = useQueryClient()
 
     const handleClick = () => {
         router.push(`${pathName}?page=9`);
@@ -49,20 +51,26 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
     };
 
 
+    const emp_details =
+    queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
+    const last_pay_drawn: number =
+    Number(emp_details?.emp_join_details?.basic_pay) +
+    Number(emp_details?.emp_join_details?.grade_pay);
+
     return (
         <>
             {/* 1st col start */}
 
             <div className="border rounded-lg p-10 shadow-md">
-            <InnerHeading>Upload 3 copies of signature with preview of the employee</InnerHeading>
+                <InnerHeading>Upload 3 copies of signature with preview of the employee</InnerHeading>
                 <div className='flex justify-between mt-5'>
                     <div><input type="file" /></div>
                     <div><input type="file" /></div>
                     <div><input type="file" /></div>
-                    
+
                 </div>
                 <div className="flex items-center justify-end mt-5 gap-5">
-                    
+
                     <PrimaryButton
                         buttonType="button"
                         variant={"cancel"}
@@ -89,7 +97,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
 
             <div className="border rounded-lg p-10 shadow-md mt-5">
                 <InnerHeading>Upload 3 copies of signature with preview of the employee</InnerHeading>
-                
+
                 <div className='flex justify-between mt-10'>
                     <div className='flex flex-col items-center'>
                         {/* Hidden file input */}
@@ -214,7 +222,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                         )}
                     </div>
                 </div>
-                
+
 
 
                 <div className="flex items-center justify-end mt-5 gap-5">
@@ -249,7 +257,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                     <input type="checkbox" className='mb-5' /> Declaration*
                     <br></br>
                     <span>
-                        Whereas the CEO/Standing Committee of the Organization has consented to grant me the sum of Rs............... being the amount of family pension due to me and arrears of pension due to Sri./Smt................of Designation....................., i hereby acknokledge the amount of Rs.......                    </span>
+                        Whereas the CEO/Standing Committee of the Organization has consented to grant me the sum of Rs {last_pay_drawn} being the amount of family pension due to me and arrears of pension due to Sri./Smt {emp_details?.emp_basic_details.emp_name} of Designation {`Deputy Muncipal Comissioner`} i hereby acknokledge the amount of Rs.{last_pay_drawn}                 </span>
                 </div>
 
 
@@ -277,8 +285,8 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                     </PrimaryButton>
                 </div>
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default Signature

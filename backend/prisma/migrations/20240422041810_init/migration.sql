@@ -631,6 +631,7 @@ CREATE TABLE "payroll_master" (
     "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "last_month_lwp_deduction" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "lwp_days_last_month" INTEGER NOT NULL DEFAULT 0,
     "status" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
     "month" INTEGER NOT NULL,

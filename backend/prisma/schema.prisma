@@ -647,6 +647,7 @@ model payroll_master {
   salary_deducted          Float    @default(0)
   net_pay                  Float    @default(0)
   last_month_lwp_deduction Float    @default(0)
+  lwp_days_last_month      Int      @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
   month                    Int

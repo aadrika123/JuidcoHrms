@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik } from "formik";
 import { SubHeading } from "@/components/Helpers/Heading";
@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { DateInput, formatDate } from "@fullcalendar/core/index.js";
 import axios from "@/lib/axiosConfig";
+import { ulb_name, current_date } from "../Index";
+import { returnEmpPension } from "./Nominee";
 
 interface RefundProps {
   onNext: () => void;
@@ -71,6 +73,8 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [otpValue, setOtpValue] = useState<string>("");
   const [buttonText, setButtonText] = useState<string>("");
+  const [payrollData, setPayrollData] = useState<any[]>();
+
   const handleSubmitFormik = () => {
     router.push(`${pathName}?page=3`);
     onNext();
@@ -171,6 +175,14 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
     retiring_from_service: "a",
   };
   //--------------------------- INITIALIZING EMPLOYEE DETAILS ---------------------------//
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("payroll");
+      const _data = JSON.parse(res as string);
+      setPayrollData(_data.data);
+    }
+  }, []);
 
   return (
     <>
@@ -280,7 +292,12 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                 {/* --------------------------- OTP --------------------- */}
                 <div>
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="mobileNo"  className="text-secondary text-sm" >Enter Mobile No.</label>
+                    <label
+                      htmlFor="mobileNo"
+                      className="text-secondary text-sm"
+                    >
+                      Enter Mobile No.
+                    </label>
                     <input
                       type="text"
                       id="mobileNo"
@@ -345,9 +362,10 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                   To Whomever it will be concerned
                   <br></br>
                   <br></br>
-                  Where the Municipal Commissioner /Standing Committee of__ has
-                  consented to grant me the sum of Rs._____per month as to
-                  amount of my pension with effect from ____ I here by
+                  Where the Municipal Commissioner /Standing Committee of{" "}
+                  {ulb_name} has consented to grant me the sum of Rs.
+                  {Math.round(returnEmpPension(payrollData, emp_id)/12)} per month as to amount
+                  of my pension with effect from {current_date} I here by
                   acknowledge that in subject to revision ,if the same being
                   found to be in excess of that to which I am entitled under the
                   rules , and I promise to raise no objection to such revision,I

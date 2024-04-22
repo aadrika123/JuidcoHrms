@@ -27,7 +27,7 @@ export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef<DatePicker>(null);
   const present = 1;
-  const absent = 0;
+  const absent = 9;
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
