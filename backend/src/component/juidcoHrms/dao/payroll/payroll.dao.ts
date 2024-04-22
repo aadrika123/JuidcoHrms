@@ -320,17 +320,17 @@ class PayrollDao {
 
     // console.log(this.employee_payroll_data);
 
-    // await prisma.payroll_master.createMany({
-    //   data: this.employee_payroll_data,
-    // });
+    await prisma.payroll_master.createMany({
+      data: this.employee_payroll_data,
+    });
 
     return generateRes(this.employee_payroll_data);
   };
 
   // --------------------- STORING PAYROLL ------------------------------ //
   get_emp_payroll = async () => {
-    await this.calc_net_pay();
-    console.log(this.employee_payroll_data);
+    // await this.calc_net_pay();
+    // console.log(this.employee_payroll_data);
 
     const query: Prisma.payroll_masterFindManyArgs = {
       select: {

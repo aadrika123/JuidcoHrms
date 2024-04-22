@@ -33,8 +33,27 @@ class PayrollController {
     );
   };
 
-  calc_net_pay = async () => {
-    await this.payrollDao.calc_net_pay();
+  calc_net_pay = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    const data = await this.payrollDao.calc_net_pay();
+
+    return CommonRes.SUCCESS(
+      resMessage("Calculated Total Amount Released").FOUND,
+      data,
+      resObj,
+      res,
+      next
+    );
   };
 
   calc_total_amount_released = async (

@@ -25,7 +25,7 @@ class Scheduler {
     const calculateSalaryJob = cron.schedule(
       "0 40 13 * * *",
       async () => {
-        this.payrollController.calc_net_pay();
+        // this.payrollController.calc_net_pay();
       },
       {
         timezone: "Asia/Kolkata",

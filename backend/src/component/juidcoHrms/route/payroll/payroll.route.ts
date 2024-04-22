@@ -67,6 +67,14 @@ class PayrollRoute {
           this.payrollController.update_emp_payroll(req, res, next, "0406"),
         loggerMiddleware
       ); //0406
+
+    app
+      .route(`${baseUrl}/pay/create-payroll`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.calc_net_pay(req, res, next, "0407"),
+        loggerMiddleware
+      ); //0406
   }
 }
 
