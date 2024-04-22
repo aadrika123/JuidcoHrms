@@ -329,8 +329,8 @@ class PayrollDao {
 
   // --------------------- STORING PAYROLL ------------------------------ //
   get_emp_payroll = async () => {
-    await this.calc_net_pay();
-    console.log(this.employee_payroll_data);
+    // await this.calc_net_pay();
+    // console.log(this.employee_payroll_data);
 
     const query: Prisma.payroll_masterFindManyArgs = {
       select: {
