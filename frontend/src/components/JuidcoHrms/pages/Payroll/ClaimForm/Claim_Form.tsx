@@ -32,6 +32,7 @@ interface ClaimInitialData {
   supervisorSelection: string;
   thirdPartyInformation: string;
   claimSupervisor: string;
+  total_days_for_applied: string | number;
 }
 
 const TravelClaimFormSchema = yup.object().shape({
@@ -61,6 +62,9 @@ const MedicalClaimFormSchema = yup.object().shape({
   supervisorSelection: yup.string().required("Choose Supervisor Selection"),
   totalAmount: yup.number().required("Total amount should be atleast 0").min(0),
 });
+const LeaveEncashSchema = yup.object().shape({
+  total_days_for_applied: yup.number().required("Please enter number of days you want to encash").min(1),
+});
 
 const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
   const [foodExpenseAttachment, setFoodExpenseAttachment] = useState<File>();
@@ -69,22 +73,64 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
   const [hotelExpenseAttachment, setHotelExpenseAttachment] = useState<File>();
   const [descriptionAttachment, setDescriptionAttachment] = useState<File>();
   const [userDetails, setUserDetails] = useState<any>();
-  const [claimType, setClaimType] = useState<string>();
+  const [claimType, setClaimType] = useState<string>('Travel reimbursement');
+  const [earnedLeave, setEarnedLeave] = useState<any>();
+
+  const getBalancedEarnLeave= async (employee_id:string)=>{
+    const res = await axios({
+        url: `${HRMS_URL.LEAVE_ENCASHMENT.get}/getBalancedEarnLeave/${employee_id}`,
+        method: "GET",
+        data: {},
+      });
+      console.log('getBalancedEarnLeave', res?.data?.data?.data?.[0]);
+      if(res.status){
+        // 
+        setEarnedLeave(res?.data?.data?.data?.[0]);
+      }
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const data = sessionStorage.getItem("user_details");
       const user_details = JSON.parse(data as string);
       setUserDetails(user_details);
+      getBalancedEarnLeave(user_details?.emp_id);
     }
   }, []);
 
   // console.log(userDetails, "detaild");
-
+  const handleSaveEncash = async (values:ClaimInitialData)=>{
+    if(values.total_days_for_applied > earnedLeave.earned_leave){
+      alert(`cant apply greater than balanced leave (${earnedLeave.earned_leave})`);
+      return;
+    }
+    const data = {
+      ...earnedLeave,
+      total_days_for_applied: values.total_days_for_applied,
+      per_basic_pay: earnedLeave.per_leave_encash_amount
+    };
+    // console.log('earnedLeave', data);
+    const res = await axios({
+      url: `${HRMS_URL.LEAVE_ENCASHMENT.create}`,
+      method: "POST",
+      data: data
+    });
+    console.log('handleSaveEncash', res);
+    if(res.status){
+      setClaimType("Travel reimbursement");
+      return true;
+    }
+    return false;
+  }
   const handleSaveClaim = async (values: ClaimInitialData) => {
     try {
+      if(claimType=="Leave Encash"){
+        handleSaveEncash(values);
+        return false;
+      }
       const formData = new FormData();
 
+      console.log(formData, "formData");
       // // Append form data
       formData.append("employee_id", String(values.employee_id));
       formData.append("claimType", values.claimType);
@@ -161,8 +207,8 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
   };
 
   const initialValues = {
-    employee_id: userDetails?.emp_id,
-    claimType: "",
+    employee_id: userDetails?.emp_id || 0,
+    claimType: "Travel reimbursement",
     orderNo: "",
     fromDate: "",
     toDate: "",
@@ -177,7 +223,15 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
     supervisorSelection: "",
     thirdPartyInformation: "",
     claimSupervisor: "",
+    total_days_for_applied: ""
   };
+  const formattedDate = (new Date()).toISOString().split('T')[0];
+  const calculateGrandTotalAmount = (e: any) => {
+    const { name, value } = e.target;
+    const updatedEarnedLeave = { ...earnedLeave, [name]: value };
+    const grandTotalEncashmentAmount = (value * updatedEarnedLeave?.per_leave_encash_amount).toFixed(0);
+    setEarnedLeave({ ...updatedEarnedLeave, grand_total_encashment_amount: grandTotalEncashmentAmount });
+}
 
   return (
     <>
@@ -204,6 +258,28 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
             </i>
             Apply Claim
           </div>
+          {claimType === "Leave Encash" && (
+            <>
+              <div className="flex flex-row w-1/4">
+                <div className="border-r-2">
+                  <div className="items-center text-center text-[#4338CA]  text-3xl font-bold">
+                    {earnedLeave?.leave_balance}
+                  </div>
+                  <div className="text-sm  m-1 p-2 text-center">
+                    Total No of En-cashed Leave
+                  </div>
+                </div>
+                <div>
+                  <div className="items-center text-center text-[#63ADCB] text-3xl font-bold">
+                    {earnedLeave?.earned_leave}
+                  </div>
+                  <div className="text-sm m-1 p-1 text-center">
+                    Total No. of Earned Leave
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </InnerHeading>
 
         {/* form field  */}
@@ -211,10 +287,19 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
         <div>
           <Formik
             initialValues={initialValues}
+            // validationSchema={
+            //   claimType == "Travel reimbursement"
+            //     ? TravelClaimFormSchema
+            //     : MedicalClaimFormSchema
+            // }
+
+            const
             validationSchema={
-              claimType == "Travel reimbursement"
+              claimType === "Travel reimbursement"
                 ? TravelClaimFormSchema
-                : MedicalClaimFormSchema
+                : claimType === "Medical reimbursement"
+                  ? MedicalClaimFormSchema
+                  : LeaveEncashSchema
             }
             onSubmit={async (
               values: ClaimInitialData,
@@ -225,7 +310,7 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
                 .then(() => {
                   console.log("Save claim successful");
                   setSubmitting(false);
-                  getAllClaimByEmployeeId(userDetails?.id);
+                  getAllClaimByEmployeeId(userDetails?.emp_id);
                   resetForm();
                   setFoodExpenseAttachment(undefined);
                   setHotelExpenseAttachment(undefined);
@@ -272,11 +357,12 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
                               options={[
                                 { id: 1, name: "Medical reimbursement" },
                                 { id: 2, name: "Travel reimbursement" },
+                                { id: 3, name: "Leave Encash" },
                               ]}
                               touched={touched.claimType}
                               error={errors.claimType}
                             />
-                            {values.claimType === "Travel reimbursement" ? (
+                            {values.claimType === "Travel reimbursement" && (
                               <>
                                 <Input
                                   label="Order No"
@@ -380,7 +466,8 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
                                   />
                                 </div>
                               </>
-                            ) : (
+                            )}
+                            {values.claimType === "Medical reimbursement" && (
                               <>
                                 <Input
                                   label="Order No"
@@ -480,118 +567,164 @@ const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
                                 </div>
                               </>
                             )}
+                            
+                            {values.claimType === "Leave Encash" && (
+                              <>
+                                {/* <Input
+                              label="Order No"
+                              placeholder="Enter Order No"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.orderNo}
+                              name="orderNo"
+                              touched={touched.orderNo}
+                              error={errors.orderNo}
+                            /> */}
+                                <Input
+                                  label="Date"
+                                  value={formattedDate}
+                                  readonly={true}
+                                />
+                                <Input
+                                  type="number"
+                                  label="Number of Leave En-Cashment"
+                                  placeholder="Enter Total Days"
+                                  onChange={(e:any) => {
+                                    handleChange(e);
+                                    calculateGrandTotalAmount(e)
+                                  }}
+                                  value={values?.total_days_for_applied}
+                                  name="total_days_for_applied"
+                                  onBlur={handleBlur}
+                                  touched={touched.total_days_for_applied}
+                                  error={errors.total_days_for_applied}
+                                />
+
+                                <div className="mt-2">
+                                  <Input
+                                    label="Total Amount"
+                                    placeholder="00.00/-"
+                                    value={earnedLeave?.grand_total_encashment_amount}
+                                    name="grand_total_encashment_amount"
+                                    readonly={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <div className="h-full w-full ml-10">
-                      {travelExpenseAttachment && (
-                        <div style={{ position: "relative" }}>
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: 10, // Adjust the top position as needed
-                              right: 10, // Adjust the right position as needed
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            Travel Expense
+                    {values.claimType !== "Leave Encash" && (
+                      <div className="h-full w-full ml-10">
+                        {travelExpenseAttachment && (
+                          <div style={{ position: "relative" }}>
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 10, // Adjust the top position as needed
+                                right: 10, // Adjust the right position as needed
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                              }}
+                            >
+                              Travel Expense
+                            </div>
+                            <Image
+                              src={URL.createObjectURL(travelExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
                           </div>
-                          <Image
-                            src={URL.createObjectURL(travelExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
-                        </div>
-                      )}
-                      {foodExpenseAttachment && (
-                        <div
-                          style={{ position: "relative", marginTop: "20px" }}
-                        >
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: 10, // Adjust the top position as needed
-                              right: 10, // Adjust the right position as needed
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            Food Expense
-                          </div>
-                          <Image
-                            src={URL.createObjectURL(foodExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
-                        </div>
-                      )}
-                      {hotelExpenseAttachment && (
-                        <div
-                          style={{ position: "relative", marginTop: "20px" }}
-                        >
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: 10, // Adjust the top position as needed
-                              right: 10, // Adjust the right position as needed
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            Hotel Expense
-                          </div>
-                          <Image
-                            src={URL.createObjectURL(hotelExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
-                        </div>
-                      )}
-                      {descriptionAttachment && (
-                        <div
-                          style={{ position: "relative", marginTop: "20px" }}
-                        >
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: 10, // Adjust the top position as needed
-                              right: 10, // Adjust the right position as needed
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            Description
-                          </div>
-                          <Image
-                            src={URL.createObjectURL(descriptionAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
-                        </div>
-                      )}
-                      {!travelExpenseAttachment &&
-                        !foodExpenseAttachment &&
-                        !hotelExpenseAttachment &&
-                        !descriptionAttachment && (
-                          <Image src={receipt} alt="Demo Receipt" />
                         )}
-                    </div>
+                        {foodExpenseAttachment && (
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 10, // Adjust the top position as needed
+                                right: 10, // Adjust the right position as needed
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                              }}
+                            >
+                              Food Expense
+                            </div>
+                            <Image
+                              src={URL.createObjectURL(foodExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
+                          </div>
+                        )}
+                        {hotelExpenseAttachment && (
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 10, // Adjust the top position as needed
+                                right: 10, // Adjust the right position as needed
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                              }}
+                            >
+                              Hotel Expense
+                            </div>
+                            <Image
+                              src={URL.createObjectURL(hotelExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
+                          </div>
+                        )}
+                        {descriptionAttachment && (
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 10, // Adjust the top position as needed
+                                right: 10, // Adjust the right position as needed
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                              }}
+                            >
+                              Description
+                            </div>
+                            <Image
+                              src={URL.createObjectURL(descriptionAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
+                          </div>
+                        )}
+                        {!travelExpenseAttachment &&
+                          !foodExpenseAttachment &&
+                          !hotelExpenseAttachment &&
+                          !descriptionAttachment && (
+                            <Image src={receipt} alt="Demo Receipt" />
+                          )}
+                      </div>
+                    )}
                   </div>
                 </div>
 

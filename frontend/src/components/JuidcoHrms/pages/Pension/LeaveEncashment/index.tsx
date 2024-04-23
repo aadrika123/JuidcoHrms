@@ -11,7 +11,6 @@ import { HRMS_URL } from "@/utils/api/urls";
 import axios from "@/lib/axiosConfig";
 import Link from "next/link";
 
-
 const defaultFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   employee_id: {
@@ -43,7 +42,7 @@ const LeaveEncashment = () => {
       <div className="flex">
         <div className="flex justify-start mt-3">
           Total Results: {earnedLeaves && earnedLeaves.length}
-        </div>        
+        </div>
       </div>
     );
   };
@@ -51,7 +50,7 @@ const LeaveEncashment = () => {
 
   const viewBodyTemplate = (rowData: any) => {
     return (
-      <Link href={`leave_encash_approval?id=${rowData.employee_id}`}>
+      <Link href={`leave_encash_approval?id=${rowData.id}`}>
         <button
           type="button"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -67,7 +66,7 @@ const LeaveEncashment = () => {
 
     if (rowData.status === 0) {
       statusText = "Pending";
-      statusColor = "text-red-500";
+      statusColor = "text-orange-500";
     } else if (rowData.status === 1) {
       statusText = "Approved";
       statusColor = "text-green-500";
@@ -94,6 +93,13 @@ const LeaveEncashment = () => {
       console.log("getAllLeaveEncashhment", res?.data?.data?.data);
     }
   };
+  
+
+
+
+  const onIndexTemplate = (data: any, props: any) => {
+    return props?.rowIndex + 1; // eslint-disable-line
+  };
 
   useEffect(() => {
     getAllLeaveEncashhment();
@@ -109,9 +115,7 @@ const LeaveEncashment = () => {
         </div>
       </div>
       <div className="flex">
-        <SubHeading className="mx-5 my-5 mb-0 text-4xl">
-          List
-        </SubHeading>
+        <SubHeading className="mx-5 my-5 mb-0 text-4xl">List</SubHeading>
 
         <div className="flex ml-auto">
           {/* <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} /> */}
@@ -141,13 +145,17 @@ const LeaveEncashment = () => {
           header={header}
           emptyMessage="No records found"
           size="small"
+          className="shadow-xl"
+          let-i="rowIndex" 
         >
-          <Column
+          <Column field="i" header="#" body={onIndexTemplate} />
+
+           {/* <Column
             className=""
             field="id"
             header="ID"
             style={{ maxWidth: "12rem" }}
-          />
+          />  */}
           <Column
             header="Employee ID"
             field="employee_id"

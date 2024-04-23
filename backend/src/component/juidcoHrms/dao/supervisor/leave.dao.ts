@@ -4,9 +4,8 @@
  * | Status: open
  */
 import { Request } from "express";
-import { Prisma, PrismaClient } from "@prisma/client";
+import {  PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
-import netCalcLogger from '../../../../../loggers/netCalcLogger'
 const prisma = new PrismaClient();
 
 class LeaveDao {

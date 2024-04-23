@@ -6,11 +6,9 @@
 
 "use client"
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import {
-    InnerHeading,
-    InnerTextHeading,
     SubHeading,
 } from "@/components/Helpers/Heading";
 import Loader from "@/components/global/atoms/Loader";
@@ -24,15 +22,9 @@ import { HRMS_URL } from "@/utils/api/urls";
 export default function LeaveApproval() {
 
     const [loading, setLoading] = useState(false);
-    const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
-    const [selectedData, setSelectedData] = useState<number | null>(null);
+    // const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
     const [leaveList, setLeaveList] = useState<any>([]);
     const [isUpdated, setIsUpdated] = useState(false);
-
-    useEffect(() => {
-        console.log(selectedFilter)
-        console.log(selectedData)
-    }, [selectedFilter, selectedData])
 
 
     const fetchLeave = () => {
@@ -99,7 +91,7 @@ export default function LeaveApproval() {
                                         Search By
                                     </label>
                                     <select
-                                        onChange={(e) => setSelectedFilter(parseInt(e.target.value))}
+                                        // onChange={(e) => setSelectedFilter(parseInt(e.target.value))}
                                         className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 bg-white"
                                     >
                                         <option disabled selected>
