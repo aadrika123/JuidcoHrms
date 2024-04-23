@@ -645,6 +645,7 @@ CREATE TABLE "payroll_master" (
 CREATE TABLE "pension_master" (
     "id" SERIAL NOT NULL,
     "beneficery_id" INTEGER NOT NULL,
+    "emp_id" TEXT NOT NULL,
     "pension_amnt" DOUBLE PRECISION,
     "family_pension_amnt" DOUBLE PRECISION,
     "date_of_death" DATE,
@@ -755,3 +756,6 @@ ALTER TABLE "employee_leave_chart" ADD CONSTRAINT "employee_leave_chart_employee
 
 -- AddForeignKey
 ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_beneficery_id_fkey" FOREIGN KEY ("beneficery_id") REFERENCES "employee_nominee_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;

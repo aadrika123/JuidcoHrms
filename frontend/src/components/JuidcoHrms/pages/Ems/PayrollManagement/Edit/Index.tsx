@@ -18,6 +18,7 @@ import axios from "@/lib/axiosConfig";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [billNo, setBillNo] = useState(0);
@@ -25,6 +26,81 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
   const [designation, setDesignation] = useState<any[]>([]);
+
+  // =================================================================================== //
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [totalDayDiff, setTotalDayDiff] = useState(0);
+
+  const handleFromDateChange = (e: React.ChangeEvent<any>) => {
+    const selectedDate = e.target.value;
+    setFromDate(selectedDate);
+    calculateDayDifference(selectedDate, toDate);
+  };
+
+  const handleToDateChange = (e: React.ChangeEvent<any>) => {
+    const selectedDate = e.target.value;
+    setToDate(selectedDate);
+    calculateDayDifference(fromDate, selectedDate);
+  };
+
+  const calculateDayDifference = (start: any, end: any) => {
+    if (start && end) {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      const differenceInTime = endDate.getTime() - startDate.getTime();
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+      setTotalDayDiff(Math.round(differenceInDays));
+    } else {
+      setTotalDayDiff(0);
+    }
+  };
+
+  const hanldeClick = async () => {
+    const data = {
+      id: 1,
+      leave_status: 3,
+      total_days: totalDayDiff,
+      emp_leave_chart_id: 1,
+      leave_type: 1,
+      employee_id: "EMP912e43",
+    };
+
+    try {
+      const res = await axios({
+        // url: `${HRMS_URL.LEAVECHART.create}/EMP912e43`,
+        url: "/employee/leave-update",
+        method: "POST",
+        data: data,
+      });
+
+      sessionStorage.setItem("day_diff", JSON.stringify(totalDayDiff));
+
+      toast.success("Employee Leave updated");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  console.log("Saving...", totalDayDiff);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const _data = sessionStorage.getItem("day_diff");
+      if (_data === "null") setTotalDayDiff(0);
+      const data = JSON.parse(_data as string);
+      console.log(data, "dfif");
+      setTotalDayDiff(data);
+    }
+  }, []);
+
+  // =================================================================================== //
 
   const employeePayrollData = useSelector(
     (state: any) => state.payroll.payroll
@@ -60,7 +136,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   useEffect(() => {
     setBillNo((prevBillNo) => prevBillNo + 1);
     setIsClient(true);
-
   }, []);
 
   const { data } = useQuery(["leaveData", emp], fetchData);
@@ -103,6 +178,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
 
   return (
     <>
+      <Toaster />
       {isClient ? (
         <>
           {/* Header of page */}
@@ -199,7 +275,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                     >
                       <span className="text-[#574CDD] text-3xl font-bold">
-                        {employeePayrollData?.present_days}
+                        {employeePayrollData?.present_days + totalDayDiff}
                       </span>
                       <InnerTextHeading className="text-center">
                         Total No. of Present Days
@@ -210,10 +286,9 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                     >
                       <span className="text-[#098DA4] text-3xl font-bold">
-                        {
-                          ((employeePayrollData?.leave_days as number) +
-                            employeePayrollData?.lwp_days) as number
-                        }
+                        {(((employeePayrollData?.leave_days as number) +
+                          employeePayrollData?.lwp_days) as number) -
+                          totalDayDiff}
                       </span>
                       <InnerTextHeading className="text-center">
                         Total No. of Absent Days
@@ -274,15 +349,40 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   Permissible Leave
                 </div>
               </InnerHeading>
-
               <div></div>
-              <InnerHeading className="mx-4 mt-5">Date Range</InnerHeading>
-
-              <span className="mt-5">
-                <input type="date" className="border mx-4 p-3" />
-                To
-                <input type="date" className="border mx-4 p-3" />
-              </span>
+              <InnerHeading className="mx-4 mt-5">
+                Date Range
+              </InnerHeading>{" "}
+              <div>
+                <InnerHeading className="mx-4 mt-5">Date Range</InnerHeading>
+                <span className="mt-5">
+                  <input
+                    type="date"
+                    className="border mx-4 p-3"
+                    value={fromDate}
+                    onChange={handleFromDateChange}
+                  />
+                  To
+                  <input
+                    type="date"
+                    className="border mx-4 p-3"
+                    value={toDate}
+                    onChange={handleToDateChange}
+                  />
+                </span>
+                <button
+                  type="button"
+                  onClick={hanldeClick}
+                  className="w-20 mt-4 bg-blue-500 text-white rounded-md py-2 px-4"
+                >
+                  Save
+                </button>
+                {totalDayDiff !== 0 && (
+                  <div className="mt-4">
+                    Total: {totalDayDiff} {totalDayDiff === 1 ? "day" : "days"}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* 2nd col end */}

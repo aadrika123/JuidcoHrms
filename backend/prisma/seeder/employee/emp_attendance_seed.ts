@@ -41,7 +41,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
+const currentYear = currentDate.getFullYear() - 1;
 
 const employee_attendance_seeder = async () => {
   for (let y = 1; y <= 11; ++y) {

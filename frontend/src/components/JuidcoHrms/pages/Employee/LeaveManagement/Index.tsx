@@ -110,6 +110,19 @@ const LeaveReq = () => {
     }
   }, []);
 
+  // ================UPDATE LEAVE===================//
+
+  // async function leaveUpdate() {
+  //   try {
+  //     const res = await axios ({
+
+  //     })
+  //   } catch (error) {
+      
+  //   }
+  // }
+  // ===================================//
+
   const steps = [
     { title: "Employee" },
     { title: "Manager-1" },
