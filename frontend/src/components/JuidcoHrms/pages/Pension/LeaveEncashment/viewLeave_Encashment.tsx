@@ -29,8 +29,8 @@ const ViewLeaveEncashForm = () => {
       });
       console.log('getAllLeaveEncashhmentById', res);
       if(res.status) {
-        setSingleEmpData(res?.data?.data.data[0]);
-        console.log(res?.data?.data?.data, "singlerecord")
+        setSingleEmpData(res?.data?.data);
+        console.log(res?.data?.data, "singlerecord")
       }
   } catch (error) {
       console.error("Error fetching record by ID:", error);
@@ -82,7 +82,7 @@ const ViewLeaveEncashForm = () => {
                         <Input
                           label="Total Earned Leave"
                           placeholder="Enter Order No"
-                          value={singleEmpData?.leave_encash_apply}
+                          value={singleEmpData?.earned_leave}
                           name="earn leave"
                           readonly
                         />
@@ -114,8 +114,8 @@ const ViewLeaveEncashForm = () => {
               </div>
             </div>
           </div>
-
-          <div className="flex items-center justify-end mt-5 gap-5">
+          {singleEmpData?.status == 0 && 
+          (<div className="flex items-center justify-end mt-5 gap-5">
             <Link href={`leave_encashment`}>
               <PrimaryButton
                 buttonType="button"
@@ -130,7 +130,8 @@ const ViewLeaveEncashForm = () => {
                 Approve
               </PrimaryButton>
             </Link>
-          </div>
+          </div>)
+          }
         </form>
       </div>
     </>

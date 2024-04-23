@@ -24,13 +24,20 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import employee from "@/assets/icons/employee 1.png"
 import doc from "@/assets/icons/doc.png"
 import insurance from "@/assets/icons/insurance.png"
+import Travel_formStapper from "./Travel_formStapper";
 
 
-
+// interface EncashmentData {
+//   orderNo: string;
+//   claimType: string;
+//   createdAt: string;
+//   totalAmount: string;
+//   status: string
+// }
 
 const ClaimForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [claimHistory, setClaimHistory] = useState<any>();
+  const [claimHistory, setClaimHistory] = useState<any>([]);
   const [userDetails, setUserDetails] = useState<any>();
   const [trackClaimId, setTrackClaimId] = useState<any>(0);
   const [trackClaim, setTrackClaim] = useState<any>();
@@ -64,12 +71,36 @@ const ClaimForm = () => {
       });
       console.log('getAllClaimByEmployeeId', res);
       if(res.status){
-          // claimsData(res.data.data.data);
-          setClaimHistory(res?.data?.data?.data);
+          const data = res?.data?.data?.data;
+          setClaimHistory(data);
           setTrackClaimId(res?.data?.data?.data[0].id);
           console.log('getAllClaimByEmployeeId1', res?.data?.data?.data[0].id)
       }
   }
+
+  // const getAllLeaveEncashByEmployeeId= async (employee_id:string)=>{
+  //   const res = await axios({
+  //       url: `${HRMS_URL.LEAVE_ENCASHMENT.get}/getLeaveEncashByEmpId/${employee_id}`,
+  //       method: "GET",
+  //       data: {},
+  //     });
+  //     if(res.status){
+
+  //       const encashment = res?.data?.data?.data;
+  //       const data = encashment.map((element:any) => ({
+  //         orderNo: element.application_id,
+  //         claimType: 'Leave Encash',
+  //         createdAt: element.created_at,
+  //         totalAmount: element.grand_total_encashment_amount,
+  //         status: element.status
+  //       }));
+        
+  //       console.log('getAllLeaveEncashByEmployeeId1', data);
+        
+  //       // Append the new data array to the existing claimHistory array
+  //       setClaimHistory([...claimHistory, ...data]);
+  //     }
+  // }
   
   const getClaimById = async (id:number)=>{
     const res = await axios({
@@ -95,6 +126,7 @@ const ClaimForm = () => {
   useEffect(()=>{
     if(userDetails?.emp_id){
       getAllClaimByEmployeeId(userDetails?.emp_id);
+      // getAllLeaveEncashByEmployeeId(userDetails?.emp_id);
     }
     
   }, [userDetails?.emp_id]);
@@ -188,24 +220,28 @@ const ClaimForm = () => {
             <div></div>
             <div className="flex flex-col sm:flex-row justify-between relative">
               {trackClaim?.claimType == "Travel reimbursement" ? (
-              <>
-                <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5px">
-                  <div className="mt-12">
-                    <HorizontalStepper steps={steps} activeStep={trackClaim?.status} />
-                    <div className="mt-2 px-2 flex items-center justify-between texy-xs text-secondary">
-                      <h2>Employee</h2>
-                      <h2>Manager-1</h2>
-                      <h2>Manager-2</h2>
-                      <h2>Manager-3</h2>
-                    </div>
-                  </div>
-                  <br />
-                  <span className="text-sm">Type of Claim- {trackClaim?.claimType}</span>
-                  <span className="text-sm">Date of Claim- {trackClaim?.createdAt}</span>
-                  <span className="text-sm">Total amount of Claim- {trackClaim?.totalAmount}</span>
-                  <span className="text-sm">Status of Claim- {statusBodyTemplate(trackClaim)}</span>
-              </div>
-              </>) : (<>
+              // <>
+              //   <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5px">
+              //     <div className="mt-12">
+              //       <HorizontalStepper steps={steps} activeStep={trackClaim?.status} />
+              //       <div className="mt-2 px-2 flex items-center justify-between texy-xs text-secondary">
+              //         <h2>Employee</h2>
+              //         <h2>Manager-1</h2>
+              //         <h2>Manager-2</h2>
+              //         <h2>Manager-3</h2>
+              //       </div>
+              //     </div>
+              //     <br />
+              //     <span className="text-sm">Type of Claim- {trackClaim?.claimType}</span>
+              //     <span className="text-sm">Date of Claim- {trackClaim?.createdAt}</span>
+              //     <span className="text-sm">Total amount of Claim- {trackClaim?.totalAmount}</span>
+              //     <span className="text-sm">Status of Claim- {statusBodyTemplate(trackClaim)}</span>
+              // </div>
+              // </>
+
+              <Travel_formStapper steps={steps} trackClaim={trackClaim} statusBodyTemplate={statusBodyTemplate} />
+            ) : (
+            <>
               <div className="flex w-full relative ">
                 <div className=" w-1/2 flex flex-col relative p-5 ">
                   <div className="mt-12">

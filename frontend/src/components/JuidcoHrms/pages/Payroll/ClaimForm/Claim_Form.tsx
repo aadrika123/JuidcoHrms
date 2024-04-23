@@ -4,7 +4,7 @@ import Image from "next/image";
 import { InnerHeading } from "@/components/Helpers/Heading";
 import Input from "@/components/global/atoms/Input";
 import { Formik } from "formik";
-import * as yup from 'yup';
+import * as yup from "yup";
 import "react-calendar/dist/Calendar.css";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -16,145 +16,199 @@ import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 // import { debug } from "console";
 
 interface ClaimInitialData {
-  employee_id: string | number,
-  claimType: string,
-  orderNo: string,
-  fromDate: string,
-  toDate: string,
-  travelExpenses: string | number,
-  distance: string | number,
-  foodExpenses: number | string,
-  totalAmount: number,
-  hotelExpenses: number | string,
-  description: string,
-  location: string,
-  witnessInformation: string,
-  supervisorSelection: string,
-  thirdPartyInformation: string,
-  claimSupervisor: string
+  employee_id: string | number;
+  claimType: string;
+  orderNo: string;
+  fromDate: string;
+  toDate: string;
+  travelExpenses: string | number;
+  distance: string | number;
+  foodExpenses: number | string;
+  totalAmount: number;
+  hotelExpenses: number | string;
+  description: string;
+  location: string;
+  witnessInformation: string;
+  supervisorSelection: string;
+  thirdPartyInformation: string;
+  claimSupervisor: string;
+  total_days_for_applied: string | number;
 }
 
- const TravelClaimFormSchema = yup.object().shape({
-    employee_id: yup.string().notRequired(),
-    claimType: yup.string().required("Please choose claim type"),
-    orderNo: yup.string().required("Enter Order No"),
-    toDate: yup.string().required("Select To Date"),
-    fromDate: yup.string().required("Select From Date"),
-    distance: yup.number().required("Enter Distance"),
-    travelExpenses: yup.number().required("Enter Travel Expense"),
-    foodExpenses: yup.number().typeError("Please enter number value").required("Enter Food Expense"),
-    hotelExpenses: yup.number().required("Enter Hotel Expense"),
-    totalAmount: yup.number().required("Total amount should be atleast 0"),
-  });
-  const MedicalClaimFormSchema = yup.object().shape({
-    employee_id: yup.string().notRequired(),
-    claimType: yup.string().required("Please choose claim type"),
-    orderNo: yup.string().required("Enter Order No"),
-    toDate: yup.string().required("Select a Date"),
-    fromDate: yup.string().required("Select CHOOSE Time"),
-    description: yup.string().required("Enter Description"),
-    location: yup.string().required("Enter Location"),
-    witnessInformation: yup.string().required("Enter witness information"),
-    supervisorSelection: yup.string().required("Choose Supervisor Selection"),
-    totalAmount: yup.number().required("Total amount should be atleast 0").min(0),
-  });
+const TravelClaimFormSchema = yup.object().shape({
+  employee_id: yup.string().notRequired(),
+  claimType: yup.string().required("Please choose claim type"),
+  orderNo: yup.string().required("Enter Order No"),
+  toDate: yup.string().required("Select To Date"),
+  fromDate: yup.string().required("Select From Date"),
+  distance: yup.number().required("Enter Distance"),
+  travelExpenses: yup.number().required("Enter Travel Expense"),
+  foodExpenses: yup
+    .number()
+    .typeError("Please enter number value")
+    .required("Enter Food Expense"),
+  hotelExpenses: yup.number().required("Enter Hotel Expense"),
+  totalAmount: yup.number().required("Total amount should be atleast 0"),
+});
+const MedicalClaimFormSchema = yup.object().shape({
+  employee_id: yup.string().notRequired(),
+  claimType: yup.string().required("Please choose claim type"),
+  orderNo: yup.string().required("Enter Order No"),
+  toDate: yup.string().required("Select a Date"),
+  fromDate: yup.string().required("Select CHOOSE Time"),
+  description: yup.string().required("Enter Description"),
+  location: yup.string().required("Enter Location"),
+  witnessInformation: yup.string().required("Enter witness information"),
+  supervisorSelection: yup.string().required("Choose Supervisor Selection"),
+  totalAmount: yup.number().required("Total amount should be atleast 0").min(0),
+});
+const LeaveEncashSchema = yup.object().shape({
+  total_days_for_applied: yup.number().required("Please enter number of days you want to encash").min(1),
+});
 
-const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
+const ClaimForm = ({ getAllClaimByEmployeeId }: any) => {
   const [foodExpenseAttachment, setFoodExpenseAttachment] = useState<File>();
-  const [travelExpenseAttachment, setTravelExpenseAttachment] = useState<File>();
+  const [travelExpenseAttachment, setTravelExpenseAttachment] =
+    useState<File>();
   const [hotelExpenseAttachment, setHotelExpenseAttachment] = useState<File>();
   const [descriptionAttachment, setDescriptionAttachment] = useState<File>();
   const [userDetails, setUserDetails] = useState<any>();
-  const [claimType, setClaimType] = useState<string>();
+  const [claimType, setClaimType] = useState<string>('Travel reimbursement');
+  const [earnedLeave, setEarnedLeave] = useState<any>();
+
+  const getBalancedEarnLeave= async (employee_id:string)=>{
+    const res = await axios({
+        url: `${HRMS_URL.LEAVE_ENCASHMENT.get}/getBalancedEarnLeave/${employee_id}`,
+        method: "GET",
+        data: {},
+      });
+      console.log('getBalancedEarnLeave', res?.data?.data?.data?.[0]);
+      if(res.status){
+        // 
+        setEarnedLeave(res?.data?.data?.data?.[0]);
+      }
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const data = sessionStorage.getItem("user_details");
       const user_details = JSON.parse(data as string);
       setUserDetails(user_details);
+      getBalancedEarnLeave(user_details?.emp_id);
     }
   }, []);
 
   // console.log(userDetails, "detaild");
-
-
-
+  const handleSaveEncash = async (values:ClaimInitialData)=>{
+    if(values.total_days_for_applied > earnedLeave.earned_leave){
+      alert(`cant apply greater than balanced leave (${earnedLeave.earned_leave})`);
+      return;
+    }
+    const data = {
+      ...earnedLeave,
+      total_days_for_applied: values.total_days_for_applied,
+      per_basic_pay: earnedLeave.per_leave_encash_amount
+    };
+    // console.log('earnedLeave', data);
+    const res = await axios({
+      url: `${HRMS_URL.LEAVE_ENCASHMENT.create}`,
+      method: "POST",
+      data: data
+    });
+    console.log('handleSaveEncash', res);
+    if(res.status){
+      setClaimType("Travel reimbursement");
+      return true;
+    }
+    return false;
+  }
   const handleSaveClaim = async (values: ClaimInitialData) => {
     try {
-        const formData = new FormData();
-
-        console.log(formData, "formData");
-        // // Append form data
-        formData.append('employee_id', String(values.employee_id));
-        formData.append('claimType', values.claimType);
-        formData.append('orderNo', values.orderNo);
-        formData.append('fromDate', values.fromDate);
-        formData.append('toDate', values.toDate);
-        formData.append('travelExpenses', String(values.travelExpenses));
-        formData.append('distance', String(values.distance));
-        formData.append('foodExpenses', String(values.foodExpenses));
-        formData.append('hotelExpenses', String(values.hotelExpenses));
-        formData.append('description', values.description);
-        formData.append('location', values.location);
-        formData.append('witnessInformation', values.witnessInformation);
-        formData.append('supervisorSelection', values.supervisorSelection)
-
-        if(claimType=="Travel reimbursement"){
-          formData.append('totalAmount', (Number(values.foodExpenses) + Number(values.hotelExpenses) + Number(values.travelExpenses)).toString());
-        } else {
-          formData.append('totalAmount', String(values.totalAmount));
-        }
-        
-        console.log('foodExpenseAttachment', foodExpenseAttachment);
-        if (foodExpenseAttachment) {
-          formData.append('foodExpenseAttachment', foodExpenseAttachment);
-        }
-        if (travelExpenseAttachment) {
-          formData.append('travelExpenseAttachment', travelExpenseAttachment);
-        }
-        if (hotelExpenseAttachment) {
-          formData.append('hotelExpenseAttachment', hotelExpenseAttachment);
-        }
-        if (descriptionAttachment) {
-          formData.append('descriptionAttachment', descriptionAttachment);
-        }
-        
-        const res = await axios({
-            url: `${HRMS_URL.CLAIM.create}/create`,
-            method: "POST",
-            data: formData,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        
-        if (res.data.status) {
-            alert("Claim created successfully");
-            // window.location.reload();
-        }
-        console.log("Submitted values:", res.data);
-      } catch (error) {
-          console.error("Error submitting form:", error);
+      if(claimType=="Leave Encash"){
+        handleSaveEncash(values);
+        return false;
       }
-    };
+      const formData = new FormData();
 
-  const handleChooseFile = (e:any)=>{
+      console.log(formData, "formData");
+      // // Append form data
+      formData.append("employee_id", String(values.employee_id));
+      formData.append("claimType", values.claimType);
+      formData.append("orderNo", values.orderNo);
+      formData.append("fromDate", values.fromDate);
+      formData.append("toDate", values.toDate);
+      formData.append("travelExpenses", String(values.travelExpenses));
+      formData.append("distance", String(values.distance));
+      formData.append("foodExpenses", String(values.foodExpenses));
+      formData.append("hotelExpenses", String(values.hotelExpenses));
+      formData.append("description", values.description);
+      formData.append("location", values.location);
+      formData.append("witnessInformation", values.witnessInformation);
+      formData.append("supervisorSelection", values.supervisorSelection);
+
+      if (claimType == "Travel reimbursement") {
+        formData.append(
+          "totalAmount",
+          (
+            Number(values.foodExpenses) +
+            Number(values.hotelExpenses) +
+            Number(values.travelExpenses)
+          ).toString()
+        );
+      } else {
+        formData.append("totalAmount", String(values.totalAmount));
+      }
+
+      console.log("foodExpenseAttachment", foodExpenseAttachment);
+      if (foodExpenseAttachment) {
+        formData.append("foodExpenseAttachment", foodExpenseAttachment);
+      }
+      if (travelExpenseAttachment) {
+        formData.append("travelExpenseAttachment", travelExpenseAttachment);
+      }
+      if (hotelExpenseAttachment) {
+        formData.append("hotelExpenseAttachment", hotelExpenseAttachment);
+      }
+      if (descriptionAttachment) {
+        formData.append("descriptionAttachment", descriptionAttachment);
+      }
+
+      const res = await axios({
+        url: `${HRMS_URL.CLAIM.create}/create`,
+        method: "POST",
+        data: formData,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.data.status) {
+        alert("Claim created successfully");
+        // window.location.reload();
+      }
+      console.log("Submitted values:", res.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleChooseFile = (e: any) => {
     // debugger;
-    if(e.target.name=="foodExpenses"){
+    if (e.target.name == "foodExpenses") {
       setFoodExpenseAttachment(e.target.files[0]);
-    } else if(e.target.name=="travelExpenses"){
+    } else if (e.target.name == "travelExpenses") {
       setTravelExpenseAttachment(e.target.files[0]);
-    } else if(e.target.name=="hotelExpenses"){
+    } else if (e.target.name == "hotelExpenses") {
       setHotelExpenseAttachment(e.target.files[0]);
-    } else if(e.target.name=="description"){
+    } else if (e.target.name == "description") {
       setDescriptionAttachment(e.target.files[0]);
     }
-  }
- 
+  };
+
   const initialValues = {
     employee_id: userDetails?.emp_id || 0,
-    claimType: "",
+    claimType: "Travel reimbursement",
     orderNo: "",
     fromDate: "",
     toDate: "",
@@ -168,8 +222,16 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
     witnessInformation: "",
     supervisorSelection: "",
     thirdPartyInformation: "",
-    claimSupervisor: ""
+    claimSupervisor: "",
+    total_days_for_applied: ""
   };
+  const formattedDate = (new Date()).toISOString().split('T')[0];
+  const calculateGrandTotalAmount = (e: any) => {
+    const { name, value } = e.target;
+    const updatedEarnedLeave = { ...earnedLeave, [name]: value };
+    const grandTotalEncashmentAmount = (value * updatedEarnedLeave?.per_leave_encash_amount).toFixed(0);
+    setEarnedLeave({ ...updatedEarnedLeave, grand_total_encashment_amount: grandTotalEncashmentAmount });
+}
 
   return (
     <>
@@ -196,6 +258,28 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
             </i>
             Apply Claim
           </div>
+          {claimType === "Leave Encash" && (
+            <>
+              <div className="flex flex-row w-1/4">
+                <div className="border-r-2">
+                  <div className="items-center text-center text-[#4338CA]  text-3xl font-bold">
+                    {earnedLeave?.leave_balance}
+                  </div>
+                  <div className="text-sm  m-1 p-2 text-center">
+                    Total No of En-cashed Leave
+                  </div>
+                </div>
+                <div>
+                  <div className="items-center text-center text-[#63ADCB] text-3xl font-bold">
+                    {earnedLeave?.earned_leave}
+                  </div>
+                  <div className="text-sm m-1 p-1 text-center">
+                    Total No. of Earned Leave
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </InnerHeading>
 
         {/* form field  */}
@@ -203,27 +287,51 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
         <div>
           <Formik
             initialValues={initialValues}
-            validationSchema={claimType =="Travel reimbursement" ? TravelClaimFormSchema : MedicalClaimFormSchema }
-            onSubmit={async(values: ClaimInitialData, { setSubmitting ,resetForm}) => {
-              console.log('onSubmit', values);
-              handleSaveClaim(values).then(() => {
-                console.log('Save claim successful');
-                setSubmitting(false);
-                getAllClaimByEmployeeId(userDetails?.id);
-                resetForm();
-                setFoodExpenseAttachment(undefined);
-                setHotelExpenseAttachment(undefined);
-                setTravelExpenseAttachment(undefined);
-                setDescriptionAttachment(undefined);
-              })
-              .catch((error) => {
-                console.error('Error saving claim:', error);
-                setSubmitting(false);
-              });
+            // validationSchema={
+            //   claimType == "Travel reimbursement"
+            //     ? TravelClaimFormSchema
+            //     : MedicalClaimFormSchema
+            // }
+
+            const
+            validationSchema={
+              claimType === "Travel reimbursement"
+                ? TravelClaimFormSchema
+                : claimType === "Medical reimbursement"
+                  ? MedicalClaimFormSchema
+                  : LeaveEncashSchema
+            }
+            onSubmit={async (
+              values: ClaimInitialData,
+              { setSubmitting, resetForm }
+            ) => {
+              console.log("onSubmit", values);
+              handleSaveClaim(values)
+                .then(() => {
+                  console.log("Save claim successful");
+                  setSubmitting(false);
+                  getAllClaimByEmployeeId(userDetails?.emp_id);
+                  resetForm();
+                  setFoodExpenseAttachment(undefined);
+                  setHotelExpenseAttachment(undefined);
+                  setTravelExpenseAttachment(undefined);
+                  setDescriptionAttachment(undefined);
+                })
+                .catch((error) => {
+                  console.error("Error saving claim:", error);
+                  setSubmitting(false);
+                });
             }}
             enableReinitialize={true}
           >
-            {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) => ( 
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              errors,
+              touched,
+            }) => (
               <form onSubmit={handleSubmit} method="post">
                 <div className="flex md:flex-row">
                   <div className="w-2/3">
@@ -237,18 +345,232 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
                         <div className="mb-6">
                           <div className="grid grid-cols-2 gap-x-6 gap-4 ">
                             <SelectForNoApi
-                              onChange={(e)=> {handleChange(e); setClaimType(e.target.value)}}
+                              onChange={(e) => {
+                                handleChange(e);
+                                setClaimType(e.target.value);
+                              }}
                               onBlur={handleBlur}
                               value={values?.claimType}
                               label="Claim Type"
                               name="claimType"
                               // placeholder={"Choose Claim Type"}
-                              options={[{id: 1, name: "Medical reimbursement"}, {id: 2, name: "Travel reimbursement"}]}
+                              options={[
+                                { id: 1, name: "Medical reimbursement" },
+                                { id: 2, name: "Travel reimbursement" },
+                                { id: 3, name: "Leave Encash" },
+                              ]}
                               touched={touched.claimType}
                               error={errors.claimType}
                             />
-                            {values.claimType === "Travel reimbursement" ? (<>
-                              <Input
+                            {values.claimType === "Travel reimbursement" && (
+                              <>
+                                <Input
+                                  label="Order No"
+                                  placeholder="Enter Order No"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.orderNo}
+                                  name="orderNo"
+                                  touched={touched.orderNo}
+                                  error={errors.orderNo}
+                                />
+
+                                <Input
+                                  label="From"
+                                  placeholder="From"
+                                  onChange={handleChange}
+                                  type="date"
+                                  value={values.fromDate}
+                                  name="fromDate"
+                                  touched={touched.fromDate}
+                                  error={errors.fromDate}
+                                />
+                                <Input
+                                  label="To"
+                                  placeholder="To"
+                                  onChange={handleChange}
+                                  type="date"
+                                  value={values.toDate}
+                                  name="toDate"
+                                  touched={touched.toDate}
+                                  error={errors.toDate}
+                                />
+
+                                <InputBoxWithFileUpload
+                                  type="number"
+                                  label="Travel Expense"
+                                  name="travelExpenses"
+                                  placeholder="00.00/-"
+                                  value={values.travelExpenses}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  onFileChange={(event) => {
+                                    handleChooseFile(event);
+                                  }}
+                                  touched={touched.travelExpenses}
+                                  error={errors.travelExpenses}
+                                />
+                                <Input
+                                  type="number"
+                                  label="Distance"
+                                  placeholder="Enter Total Days"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.distance}
+                                  name="distance"
+                                  touched={touched.distance}
+                                  error={errors.distance}
+                                />
+                                <InputBoxWithFileUpload
+                                  type="number"
+                                  label="Food Expense"
+                                  name="foodExpenses"
+                                  placeholder="00.00/-"
+                                  value={values.foodExpenses}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  onFileChange={(event) => {
+                                    handleChooseFile(event);
+                                  }}
+                                  touched={touched.foodExpenses}
+                                  error={errors.foodExpenses}
+                                />
+                                <InputBoxWithFileUpload
+                                  type="number"
+                                  label="Hotel Expense"
+                                  name="hotelExpenses"
+                                  placeholder="00.00/-"
+                                  value={values.hotelExpenses}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  onFileChange={(event) => {
+                                    handleChooseFile(event);
+                                  }}
+                                  touched={touched.hotelExpenses}
+                                  error={errors.hotelExpenses}
+                                />
+
+                                <div className="mt-2">
+                                  <Input
+                                    label="Total Amount"
+                                    placeholder="00.00/-"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={
+                                      Number(values.travelExpenses) +
+                                      Number(values.hotelExpenses) +
+                                      Number(values.foodExpenses)
+                                    }
+                                    name="totalAmount"
+                                    readonly={true}
+                                  />
+                                </div>
+                              </>
+                            )}
+                            {values.claimType === "Medical reimbursement" && (
+                              <>
+                                <Input
+                                  label="Order No"
+                                  placeholder="Enter Order No"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.orderNo}
+                                  name="orderNo"
+                                  touched={touched.orderNo}
+                                  error={errors.orderNo}
+                                />
+
+                                <Input
+                                  label="Date"
+                                  placeholder="Date"
+                                  onChange={handleChange}
+                                  type="date"
+                                  value={values.fromDate}
+                                  name="fromDate"
+                                  touched={touched.fromDate}
+                                  error={errors.fromDate}
+                                />
+                                <Input
+                                  label="Time"
+                                  placeholder="Time"
+                                  onChange={handleChange}
+                                  type="time"
+                                  value={values.toDate}
+                                  name="toDate"
+                                  touched={touched.toDate}
+                                  error={errors.toDate}
+                                />
+
+                                <InputBoxWithFileUpload
+                                  type="text"
+                                  label="Description"
+                                  name="description"
+                                  placeholder=""
+                                  value={values.description}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  onFileChange={(event) => {
+                                    handleChooseFile(event);
+                                  }}
+                                  touched={touched.description}
+                                  error={errors.description}
+                                />
+                                <Input
+                                  type="text"
+                                  label="Location"
+                                  placeholder=""
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.location}
+                                  name="location"
+                                  touched={touched.location}
+                                  error={errors.location}
+                                />
+
+                                <Input
+                                  type="text"
+                                  label="Witness Information"
+                                  placeholder=""
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.witnessInformation}
+                                  name="witnessInformation"
+                                  touched={touched.witnessInformation}
+                                  error={errors.witnessInformation}
+                                />
+
+                                <SelectForNoApi
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values?.supervisorSelection}
+                                  label="Supervisor Selection"
+                                  name="supervisorSelection"
+                                  // placeholder={"Choose Claim Type"}
+                                  options={[
+                                    { id: 1, name: "Supervisor 1" },
+                                    { id: 2, name: "Supervisor 2" },
+                                  ]}
+                                  touched={touched.supervisorSelection}
+                                  error={errors.supervisorSelection}
+                                />
+
+                                <div className="mt-2">
+                                  <Input
+                                    type="number"
+                                    label="Total Amount"
+                                    placeholder="00.00/-"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.totalAmount}
+                                    name="totalAmount"
+                                  />
+                                </div>
+                              </>
+                            )}
+                            
+                            {values.claimType === "Leave Encash" && (
+                              <>
+                                {/* <Input
                               label="Order No"
                               placeholder="Enter Order No"
                               onChange={handleChange}
@@ -257,285 +579,152 @@ const ClaimForm = ({getAllClaimByEmployeeId}:any) => {
                               name="orderNo"
                               touched={touched.orderNo}
                               error={errors.orderNo}
-                            />
-                            
-                            <Input
-                              label="From"
-                              placeholder="From"
-                              onChange={handleChange}
-                              type="date"
-                              value={values.fromDate}
-                              name="fromDate"
-                              touched={touched.fromDate}
-                              error={errors.fromDate}
-                            />
-                            <Input
-                              label="To"
-                              placeholder="To"
-                              onChange={handleChange}
-                              type="date"
-                              value={values.toDate}
-                              name="toDate"
-                              touched={touched.toDate}
-                              error={errors.toDate}
-                            />
+                            /> */}
+                                <Input
+                                  label="Date"
+                                  value={formattedDate}
+                                  readonly={true}
+                                />
+                                <Input
+                                  type="number"
+                                  label="Number of Leave En-Cashment"
+                                  placeholder="Enter Total Days"
+                                  onChange={(e:any) => {
+                                    handleChange(e);
+                                    calculateGrandTotalAmount(e)
+                                  }}
+                                  value={values?.total_days_for_applied}
+                                  name="total_days_for_applied"
+                                  onBlur={handleBlur}
+                                  touched={touched.total_days_for_applied}
+                                  error={errors.total_days_for_applied}
+                                />
 
-                            <InputBoxWithFileUpload
-                              type="number"
-                              label="Travel Expense"
-                              name="travelExpenses"
-                              placeholder="00.00/-"
-                              value={values.travelExpenses}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              onFileChange={(event)=> {(handleChooseFile(event))}}
-                              touched={touched.travelExpenses}
-                              error={errors.travelExpenses}
-                            />
-                            <Input
-                              type="number"
-                              label="Distance"
-                              placeholder="Enter Total Days"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.distance}
-                              name="distance"
-                              touched={touched.distance}
-                              error={errors.distance}
-                            />
-                            <InputBoxWithFileUpload
-                              type="number"
-                              label="Food Expense"
-                              name="foodExpenses"
-                              placeholder="00.00/-"
-                              value={values.foodExpenses}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              onFileChange={(event)=> {(handleChooseFile(event))}}
-                              touched={touched.foodExpenses}
-                              error={errors.foodExpenses}
-                            />
-                            <InputBoxWithFileUpload
-                              type="number"
-                              label="Hotel Expense"
-                              name="hotelExpenses"
-                              placeholder="00.00/-"
-                              value={values.hotelExpenses}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              onFileChange={(event)=> {(handleChooseFile(event))}}
-                              touched={touched.hotelExpenses}
-                              error={errors.hotelExpenses}
-                            />
-
-                            <div className="mt-2">
-                              <Input
-                                label="Total Amount"
-                                placeholder="00.00/-"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={Number(values.travelExpenses)+Number(values.hotelExpenses)+Number(values.foodExpenses)}
-                                name="totalAmount"
-                                readonly={true}
-                              />
-                            </div>
-                            </>) : (<>
-                              <Input
-                              label="Order No"
-                              placeholder="Enter Order No"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.orderNo}
-                              name="orderNo"
-                              touched={touched.orderNo}
-                              error={errors.orderNo}
-                            />
-                            
-                            <Input
-                              label="Date"
-                              placeholder="Date"
-                              onChange={handleChange}
-                              type="date"
-                              value={values.fromDate}
-                              name="fromDate"
-                              touched={touched.fromDate}
-                              error={errors.fromDate}
-                            />
-                            <Input
-                              label="Time"
-                              placeholder="Time"
-                              onChange={handleChange}
-                              type="time"
-                              value={values.toDate}
-                              name="toDate"
-                              touched={touched.toDate}
-                              error={errors.toDate}
-                            />
-
-                            <InputBoxWithFileUpload
-                              type="text"
-                              label="Description"
-                              name="description"
-                              placeholder=""
-                              value={values.description}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              onFileChange={(event)=> {(handleChooseFile(event))}}
-                              touched={touched.description}
-                              error={errors.description}
-                            />
-                            <Input
-                              type="text"
-                              label="Location"
-                              placeholder=""
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.location}
-                              name="location"
-                              touched={touched.location}
-                              error={errors.location}
-                            />
-                            
-                            <Input
-                              type="text"
-                              label="Witness Information"
-                              placeholder=""
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.witnessInformation}
-                              name="witnessInformation"
-                              touched={touched.witnessInformation}
-                              error={errors.witnessInformation}
-                            />
-                            
-                            <SelectForNoApi
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values?.supervisorSelection}
-                              label="Supervisor Selection"
-                              name="supervisorSelection"
-                              // placeholder={"Choose Claim Type"}
-                              options={[{id: 1, name: "Supervisor 1"}, {id: 2, name: "Supervisor 2"}]}
-                              touched={touched.supervisorSelection}
-                              error={errors.supervisorSelection}
-                            />
-
-                            <div className="mt-2">
-                              <Input type="number"
-                                label="Total Amount"
-                                placeholder="00.00/-"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.totalAmount}
-                                name="totalAmount"
-                              />
-                            </div>
-                            </>)}
-                            
+                                <div className="mt-2">
+                                  <Input
+                                    label="Total Amount"
+                                    placeholder="00.00/-"
+                                    value={earnedLeave?.grand_total_encashment_amount}
+                                    name="grand_total_encashment_amount"
+                                    readonly={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <div className="h-full w-full ml-10">
+                    {values.claimType !== "Leave Encash" && (
+                      <div className="h-full w-full ml-10">
                         {travelExpenseAttachment && (
-                          <div style={{position: "relative"}}>
-                          <div 
+                          <div style={{ position: "relative" }}>
+                            <div
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 top: 10, // Adjust the top position as needed
                                 right: 10, // Adjust the right position as needed
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                color: 'white',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
                               }}
                             >
                               Travel Expense
                             </div>
-                          <Image 
-                            src={URL.createObjectURL(travelExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
+                            <Image
+                              src={URL.createObjectURL(travelExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
                           </div>
                         )}
                         {foodExpenseAttachment && (
-                          <div style={{position: "relative", marginTop: '20px'}}>
-                          <div 
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 top: 10, // Adjust the top position as needed
                                 right: 10, // Adjust the right position as needed
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                color: 'white',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
                               }}
                             >
                               Food Expense
                             </div>
-                          <Image 
-                            src={URL.createObjectURL(foodExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
+                            <Image
+                              src={URL.createObjectURL(foodExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
                           </div>
                         )}
                         {hotelExpenseAttachment && (
-                          <div style={{position: "relative", marginTop: '20px'}}>
-                          <div 
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 top: 10, // Adjust the top position as needed
                                 right: 10, // Adjust the right position as needed
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                color: 'white',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
                               }}
                             >
                               Hotel Expense
                             </div>
-                          <Image 
-                            src={URL.createObjectURL(hotelExpenseAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
+                            <Image
+                              src={URL.createObjectURL(hotelExpenseAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
                           </div>
                         )}
                         {descriptionAttachment && (
-                          <div style={{position: "relative", marginTop: '20px'}}>
-                          <div 
+                          <div
+                            style={{ position: "relative", marginTop: "20px" }}
+                          >
+                            <div
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 top: 10, // Adjust the top position as needed
                                 right: 10, // Adjust the right position as needed
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                color: 'white',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
                               }}
                             >
                               Description
                             </div>
-                          <Image 
-                            src={URL.createObjectURL(descriptionAttachment)}
-                            alt="receipt image"
-                            width={200}
-                            height={300}
-                          />
+                            <Image
+                              src={URL.createObjectURL(descriptionAttachment)}
+                              alt="receipt image"
+                              width={200}
+                              height={300}
+                            />
                           </div>
                         )}
-                        {(!travelExpenseAttachment && !foodExpenseAttachment && !hotelExpenseAttachment && !descriptionAttachment) && (
-                          <Image src={receipt} alt="Demo Receipt" />
-                        )}
+                        {!travelExpenseAttachment &&
+                          !foodExpenseAttachment &&
+                          !hotelExpenseAttachment &&
+                          !descriptionAttachment && (
+                            <Image src={receipt} alt="Demo Receipt" />
+                          )}
                       </div>
-
+                    )}
                   </div>
                 </div>
 

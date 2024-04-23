@@ -89,6 +89,7 @@ export const HRMS_URL: Urls = {
   LEAVE_ENCASHMENT:{
     get: "/pension/leave_encashment",
     getById: "/pension/leave_encashment/getLeaveEncashById",
-    update: "/pension/leave_encashment/updateLeaveEncashByEmployeeId"
+    update: "/pension/leave_encashment/updateLeaveEncashById",
+    create: "/pension/leave_encashment/createLeaveEncash"
   }
 };
