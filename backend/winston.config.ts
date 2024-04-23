@@ -1,4 +1,9 @@
 import * as winston from "winston";
+const { combine, timestamp, prettyPrint, errors, json } = winston.format
+
+const timezone = () => {
+    return new Date().toLocaleString();
+}
 
 const logger = winston.createLogger({
   exitOnError: false,
@@ -10,5 +15,21 @@ const logger = winston.createLogger({
     }),
   ],
 });
+
+winston.loggers.add('payrollLogger', {
+    level: 'info',
+    format: combine(
+        errors({ stack: true }),
+        timestamp({ format: timezone }),
+        json(),
+        prettyPrint()
+    ),
+    transports: [
+        new winston.transports.File({
+            filename: 'payroll.log',
+            level: 'info'
+        })
+    ]
+})
 
 export default logger;

@@ -453,28 +453,6 @@ model wf_roleusermaps {
     created_at   DateTime? @default(now()) @map("created_at")
     updated_at   DateTime? @updatedAt @map("updated_at")
 }
-model department {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model designation {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model holidays {
-  id  Int @id @default(autoincrement())
-  date String?
-  name String
-}
-
 // ----------------- CREATED AND MAINTAINED BY KRISH -------------------------- //
 
 model employee_attendance_history {
@@ -600,6 +578,28 @@ model employee_leave_type {
   employee_leave_details employee_leave_details[]
   created_at             DateTime                 @default(now()) @map("created_at")
   updated_at             DateTime                 @updatedAt @map("updated_at")
+}
+
+model department {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model designation {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model holidays {
+  id  Int @id @default(autoincrement())
+  date String?
+  name String
 }
 
 // -------------- Created and maintained by Jaideep ----------------------- //

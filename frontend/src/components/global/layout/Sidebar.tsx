@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { sidebarLinks } from "@/json/sidebar.json";
 import { EmployeeSidebarLinks } from "@/json/employee_sidebar";
+import { TMSidebarLinks } from "@/json/teamManagementSidebar"
 import { usePathname } from "next/navigation";
 import { InnerHeading } from "@/components/Helpers/Heading";
 import ProfileIcon from "@/assets/icons/profile_new.png";
@@ -18,6 +19,8 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   const [data, setData] = useState<string | null>();
   const [sidebarLink, setSidebarLink] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
+  const [isTeamManagementOpen, setIsTeamManagementOpen] = useState<boolean>(false);
+
   useEffect(() => {
     setData(localStorage.getItem("openPage"));
   }, []);
@@ -30,13 +33,25 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
       const data = sessionStorage.getItem("user_details");
       const user_details = JSON.parse(data as string);
       console.log(user_details, "user");
-      if (user_details?.user_type !== "Employee") {
-        setSidebarLink(sidebarLinks);
-      } else {
-        setSidebarLink(EmployeeSidebarLinks);
-      }
+      if (isTeamManagementOpen) {
+        setSidebarLink(TMSidebarLinks)
+    } else {
+        if (user_details?.user_type !== "Employee") {
+            setSidebarLink(sidebarLinks);
+        } else {
+            if (user_details.id !== 72) {
+                let updatedSubModules: any
+                updatedSubModules = EmployeeSidebarLinks?.modules[0]?.subModules?.filter(module => module.moduleName !== 'Team Management');
+                EmployeeSidebarLinks.modules[0].subModules = updatedSubModules
+                setSidebarLink(EmployeeSidebarLinks);
+            } else {
+                setSidebarLink(EmployeeSidebarLinks);
+            }
+
+        }
     }
-  }, []);
+    }
+  }, [isTeamManagementOpen]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -45,6 +60,14 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
       setUserDetails(user_details);
     }
   }, []);
+
+  const TMSidebarOpen = (name:any) => {
+    if (name === 'Team Management') {
+        setIsTeamManagementOpen(true)
+        console.log(name)
+    }
+}
+
   return (
     <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""}`}>
       <div {...props}>
@@ -57,13 +80,18 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
               {userDetails?.user_type}
             </InnerHeading>
             <InnerHeading>{userDetails?.name}</InnerHeading>
+
+            {isTeamManagementOpen && (
+                <p onClick={() => setIsTeamManagementOpen(false)} className="border-2 text-zinc-800 rounded-sm p-1 cursor-pointer"> {'<-'} Back to main menu</p>
+            )}
+
           </div>
 
           <div>
             {sidebarLink?.modules?.map((link: any, index: number) => {
               return (
                 <div key={index}>
-                  <ul className="w-full menu menu-xs p-0 overflow-hidden">
+                  <ul className="w-full menu menu-xs p-0 overflow-y-scroll">
                     <ul className="h-lvh">
                       <li>
                         <details open className="w-full ">
@@ -75,8 +103,8 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                           </summary>
                           <ul>
                             {link.subModules?.map((sub: any, index: number) => (
-                              <li key={index} className="mt-5 w-[90%] ">
-                                {link.dropdown === false ? (
+                              <li key={index} className="mt-5 w-[90%] " onClick={() => TMSidebarOpen(sub.moduleName)}>
+                                {sub.dropdown === true ? (
                                   <details open={data === sub?.moduleName}>
                                     <summary
                                       className={`${

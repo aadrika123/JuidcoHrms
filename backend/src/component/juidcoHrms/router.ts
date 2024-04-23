@@ -4,6 +4,7 @@ import MasterDataRoute from "./route/ems/master/master.route";
 import EmployeeFeatureRoute from "./route/employee/empFeature.route";
 import PayrollRoute from "./route/payroll/payroll.route";
 import EmployeeClaimRoute from "./route/application/empClaim.route";
+import LeaveRoute from "./route/supervisor/leave.route";
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +27,7 @@ class HrmsRoute {
   private employeeFeatureRoute: EmployeeFeatureRoute;
   private payrollRoute: PayrollRoute;
   private employeeClaimRoute: EmployeeClaimRoute;
+  private leaveRoute: LeaveRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
     this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
@@ -42,6 +44,10 @@ class HrmsRoute {
 
     this.employeeClaimRoute = new EmployeeClaimRoute();
     this.employeeClaimRoute.configure(app); // 05
+
+    this.leaveRoute = new LeaveRoute();
+    this.leaveRoute.configure(app); // 06
+
   }
 }
 

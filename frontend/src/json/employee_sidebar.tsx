@@ -149,6 +149,14 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}/pension/leave_encashment`,
         },
+        {
+            moduleName: "Team Management",
+            icon: (
+                <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+            ),
+            path: `${url}`,
+            dropdown: false,
+        },
       ],
     },
   ],

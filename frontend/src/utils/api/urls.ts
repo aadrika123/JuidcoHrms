@@ -23,7 +23,8 @@ type UrlKeys =
   | "CLAIM"
   | "NOMINEE"
   | "FAMILY"
-  | "OTP";
+  | "OTP"
+  | "LEAVE";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -107,5 +108,9 @@ export const HRMS_URL: Urls = {
   OTP: {
     create: "/employee/otp-generated",
     validate: "/employee/otp-validate",
+  },
+  LEAVE: {
+    get: "/leave/approval",
+    update:"/leave/accept-deny"
   },
 };
