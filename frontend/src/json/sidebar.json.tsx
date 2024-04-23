@@ -110,6 +110,7 @@ export const sidebarLinks: SidebarLinksProps = {
                         <Image src={PayrollIcon} alt="masters" width={100} height={100} />
                     ),
                     path: `${url}`,
+                    dropdown: true,
                     subModules: [
                         {
                             moduleName: "Payroll",
@@ -160,6 +161,7 @@ export const sidebarLinks: SidebarLinksProps = {
                         <Image src={PensionIcon} alt="masters" width={100} height={100} />
                     ),
                     path: `${url}`,
+                    dropdown: true,
                     subModules: [
                         {
                             moduleName: "Pension Management",
