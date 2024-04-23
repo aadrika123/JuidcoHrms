@@ -25,7 +25,7 @@ class EmployeeClaimRoute {
       ); //0401 
       
       app
-      .route(`${baseUrl}/pension/leave_encashment/getLeaveEncashById/:employee_id`)
+      .route(`${baseUrl}/pension/leave_encashment/getLeaveEncashById/:id`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>
           this.LeaveEncashController.getLeaveEncashRecordById(
@@ -38,20 +38,7 @@ class EmployeeClaimRoute {
       ); //0402
 
       app
-      .route(`${baseUrl}/pension/leave_encashment/updateLeaveEncashById/:employee_id`)
-      .put(
-        (req: Request, res: Response, next: NextFunction) =>
-          this.LeaveEncashController.getLeaveEncashRecordById(
-            req,
-            res,
-            next,
-            "0403"
-          ),
-        loggerMiddleware
-      ); //0403
-
-      app
-      .route(`${baseUrl}/pension/leave_encashment/updateLeaveEncashByEmployeeId/:employee_id`)
+      .route(`${baseUrl}/pension/leave_encashment/updateLeaveEncashById/:id`)
       .put(
         (req: Request, res: Response, next: NextFunction) =>
           this.LeaveEncashController.updateLeaveStatusById(
@@ -63,8 +50,45 @@ class EmployeeClaimRoute {
         loggerMiddleware
       ); //0403
 
+      app
+      .route(`${baseUrl}/pension/leave_encashment/getBalancedEarnLeave/:employee_id`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.LeaveEncashController.getBalancedEarnLeave(
+            req,
+            res,
+            next,
+            "0404"
+          ),
+        loggerMiddleware
+      ); //0403
 
-     
+      
+      app
+      .route(`${baseUrl}/pension/leave_encashment/createLeaveEncash`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.LeaveEncashController.createLeaveEncash(
+            req,
+            res,
+            next,
+            "0405"
+          ),
+        loggerMiddleware
+      ); //0405
+
+      app
+      .route(`${baseUrl}/pension/leave_encashment/getLeaveEncashByEmpId/:employee_id`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.LeaveEncashController.getLeaveEncashRecordByEmpId(
+            req,
+            res,
+            next,
+            "0402"
+          ),
+        loggerMiddleware
+      ); //0402
   }
 }
 

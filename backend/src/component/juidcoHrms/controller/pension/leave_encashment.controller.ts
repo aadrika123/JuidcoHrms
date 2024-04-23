@@ -4,6 +4,7 @@ import CommonRes from "../../../../util/helper/commonResponse";
 import { resObj } from "../../../../util/types";
 import LeaveEncashmentDao from "../../dao/pension/leave_encashment.dao";
 
+
 class EmployeeLeaveEncashController {
   private LeaveEncashDao: LeaveEncashmentDao;
   private initMsg: string;
@@ -13,6 +14,43 @@ class EmployeeLeaveEncashController {
     this.initMsg = "LeaveEncashment";
     this.initMsgGet = "LeaveEncashment";
   }
+
+  createLeaveEncash = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      action: "POST",
+      apiId: apiId,
+      version: "v1",
+    };
+
+    try {
+      const data = await this.LeaveEncashDao.post(req);
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage(this.initMsg).NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+    return CommonRes.SUCCESS(
+        resMessage(this.initMsg).CREATED,
+        data,
+        resObj,
+        res,
+        next
+      );
+       
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
 
   getAllLeaveEncash = async (
     req: Request,
@@ -63,9 +101,45 @@ class EmployeeLeaveEncashController {
     };
 
     try {
-      const employee_id = req.params.employee_id; 
-      console.log('employee_id', );
-      const data = await this.LeaveEncashDao.getLeaveRecordByID(employee_id);
+      const id = Number(req.params.id);
+      const data = await this.LeaveEncashDao.getLeaveRecordByID(id);
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage(this.initMsgGet).NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+
+      return CommonRes.SUCCESS(
+        resMessage(this.initMsgGet).FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
+  getLeaveEncashRecordByEmpId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ): Promise<object> => {
+    const resObj: resObj = {
+      action: "GET",
+      apiId: apiId,
+      version: "v1",
+    };
+
+    try {
+      const employee_id = req.params.employee_id;
+      const data = await this.LeaveEncashDao.getLeaveRecordByEmpID(employee_id);
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMsgGet).NOT_FOUND,
@@ -101,9 +175,6 @@ class EmployeeLeaveEncashController {
     };
 
     try {
-      // const employee_id = req.params.employee_id;
-      // const { status } = req.body; 
-      console.log(req.body, "body");
       const updatedData = await this.LeaveEncashDao.updateStatus(req); 
 
       return CommonRes.SUCCESS(
@@ -116,6 +187,42 @@ class EmployeeLeaveEncashController {
     } catch (error) {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
+  };
+
+  getBalancedEarnLeave = async(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ): Promise<object> => {
+    const resObj : resObj = {
+      action: "GET",
+      apiId: apiId,
+      version: "v1",
+    };
+    try {
+      const employee_id = req.params.employee_id; 
+      const data = await this.LeaveEncashDao.getBalancedEarnLeave(employee_id);
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage(this.initMsgGet).NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+
+      return CommonRes.SUCCESS(
+        resMessage(this.initMsgGet).FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }    
   };
 }
 
