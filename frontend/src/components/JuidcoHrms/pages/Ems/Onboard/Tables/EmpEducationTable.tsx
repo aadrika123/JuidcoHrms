@@ -193,7 +193,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
             if (!isTyping && id > 0) {
               const prevRow = updatedData[id - 1];
               if (row["passing_year"] < prevRow["passing_year"]) {
-                toast.error("Year must be greator than prev year");
+                toast.error("Passing Year must be greator than previous year");
               }
             }
           }, 1500)

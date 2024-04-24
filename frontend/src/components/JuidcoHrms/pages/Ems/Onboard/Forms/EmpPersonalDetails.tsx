@@ -23,6 +23,8 @@ import {
   employeePersonalDetailsValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import DropDownList from "@/components/Helpers/DropDownList";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmpployeePersonalDetails: React.FC<
   EmployeeDetailsProps<EmployeePersonalDetailsType>
@@ -240,7 +242,7 @@ const EmpployeePersonalDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-3/11</h5>
+        <h5>Steps-3/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -364,7 +366,7 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 />
-                <SelectForNoApi
+                {/* <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.emp_district}
@@ -400,6 +402,19 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 23, name: "Gumla" },
                     { id: 24, name: "Khunti" },
                   ]}
+                /> */}
+
+                <DropDownList
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.emp_district}
+                  error={errors.emp_district}
+                  touched={touched.emp_district}
+                  label="District"
+                  name="emp_district"
+                  placeholder={"Enter District"}
+                  required={true}
+                  api={`${HRMS_URL.DISTRICT.get}`}
                 />
                 <SelectForNoApi
                   onChange={handleChange}

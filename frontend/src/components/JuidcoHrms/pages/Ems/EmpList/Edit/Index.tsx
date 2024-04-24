@@ -118,7 +118,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-1/11</h5>
+        <h5>Steps-1/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md">

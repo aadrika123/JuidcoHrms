@@ -46,6 +46,17 @@ const EmpSalaryDetails: React.FC<
 
   function storeEmployeeDeductionDetails() {
     if (typeof window !== "undefined") {
+      employeeDeductionDetails?.forEach((element: any) => {
+        Object.keys(element).forEach((key) => {
+          const val = element[key as keyof typeof element];
+          if (
+            val ==
+            initialDeductDetails[key as keyof typeof initialDeductDetails]
+          ) {
+            delete element[key as keyof typeof element];
+          }
+        });
+      });
       sessionStorage.setItem(
         "emp_salary_deduction_details",
         JSON.stringify(employeeDeductionDetails)
@@ -333,7 +344,7 @@ const EmpSalaryDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-10/11</h5>
+        <h5>Steps-10/10</h5>
       </div>
 
       {/* -----------------------Radio option for salary ----------------------------------- */}

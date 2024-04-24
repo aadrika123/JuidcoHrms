@@ -102,7 +102,7 @@ const EmpInitialJoinDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-6/11</h5>
+        <h5>Steps-6/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">

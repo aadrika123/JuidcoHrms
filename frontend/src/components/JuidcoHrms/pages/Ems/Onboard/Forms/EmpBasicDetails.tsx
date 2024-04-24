@@ -40,16 +40,17 @@ const EmployeeBasicDetails: React.FC<
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("employee_full_name");
       const emp_name = JSON.parse(res as string);
-
-      setEmployeeName({
-        first_name: emp_name.first_name,
-        middle_name: emp_name.middle_name,
-        last_name: emp_name.last_name,
-      });
+      if (emp_name)
+        setEmployeeName({
+          first_name: emp_name.first_name || "",
+          middle_name: emp_name.middle_name || "",
+          last_name: emp_name.last_name || "",
+        });
     }
   }, []);
 
   function handleChangeName(key: string, value: string) {
+    sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
     setEmployeeName((prev: any) => ({
       ...prev,
       [key]: value,
@@ -67,10 +68,8 @@ const EmployeeBasicDetails: React.FC<
     values: EmployeeDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
     if (typeof window !== "undefined") {
       const fullName = Object.values(employeeName).join(" ");
-      console.log(fullName, "name");
       values.emp_name = String(fullName);
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
@@ -109,7 +108,7 @@ const EmployeeBasicDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-2/11</h5>
+        <h5>Steps-2/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
