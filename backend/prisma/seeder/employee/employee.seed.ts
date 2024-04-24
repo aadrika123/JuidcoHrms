@@ -278,17 +278,64 @@ const employee_seeder = async () => {
       emp_salary_details: {
         emp_salary_allow_details: [
           {
-            name: "Allowance Name",
+            name: "DA",
+            wfe_date: "2022-03-01",
+            amount_in: 122,
+          },
+          {
+            name: "HRA",
+            wfe_date: "2022-03-01",
+            amount_in: 122,
+          },
+          {
+            name: "DP(A)",
+            wfe_date: "2022-03-01",
+            amount_in: 122,
+          },
+          {
+            name: "IR(A)",
+            wfe_date: "2022-03-01",
+            amount_in: 122,
+          },
+          {
+            name: "SP(A)",
             wfe_date: "2022-03-01",
             amount_in: 122,
           },
         ],
         emp_salary_deduction_details: [
           {
-            name: "Deduction Name",
+            name: "GPF",
             wfe_date: "2022-03-01",
             acnt_no: "1234567890",
             amount_in: 500,
+          },
+
+          {
+            name: "EPF",
+            wfe_date: "2022-03-01",
+            acnt_no: "1234567890",
+            amount_in: 2900,
+          },
+
+          {
+            name: "PT",
+            wfe_date: "2022-03-01",
+            acnt_no: "1234567890",
+            amount_in: 120,
+          },
+
+          {
+            name: "IT",
+            wfe_date: "2022-03-01",
+            acnt_no: "1234567890",
+            amount_in: 1000,
+          },
+          {
+            name: "ESIC",
+            wfe_date: "2022-03-01",
+            acnt_no: "1234567890",
+            amount_in: 550,
           },
         ],
       },
