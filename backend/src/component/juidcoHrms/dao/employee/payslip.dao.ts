@@ -84,23 +84,61 @@ class PayslipDao {
     };
 
     const data: any = await prisma.employees.findFirst(query);
+    let allow_and_ded: any[] = [];
     const payroll = await prisma.$queryRaw`
       SELECT * FROM payroll_master WHERE emp_id=${emp_id} AND date=Date(${date});
     `;
-    const count_allow_and_deduction = await prisma.$queryRaw<any[]>`
-            SELECT 
-            SUM(emp_allow.amount_in) as total_allowance , SUM(emp_deduct.amount_in) as total_deductions
-            FROM 
-                employees as emp
-            JOIN 
-                employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-            JOIN 
-                employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-            JOIN
-                employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-             WHERE emp_id=${emp_id}
-        `;
-    data.total = { ...count_allow_and_deduction[0] };
+    try {
+      const [deductionsResult, allowanceResult]: [
+        deductionsResult: any,
+        allowanceResult: any
+      ] = await Promise.all([
+        prisma.$queryRaw`
+      SELECT 
+          emp.emp_id,
+          SUM(emp_deduct.amount_in) as total_deductions
+      FROM 
+          employees as emp
+      JOIN 
+          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+      JOIN
+          employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
+      WHERE 
+          emp_deduct.name != 'IT'
+      GROUP BY emp.emp_id
+      `,
+        prisma.$queryRaw`
+      SELECT 
+          emp.emp_id,
+          SUM(emp_allow.amount_in) as total_allowance
+      FROM 
+          employees as emp
+      JOIN 
+          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+      JOIN 
+          employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+      GROUP BY emp.emp_id
+      `,
+      ]);
+
+      // Merge results based on emp_id
+      const combinedResult = deductionsResult.map((deductionRow: any) => {
+        const allowanceRow = allowanceResult.find(
+          (row: any) => row.emp_id === deductionRow.emp_id
+        );
+        return {
+          emp_id: deductionRow.emp_id,
+          total_deductions: deductionRow.total_deductions,
+          total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
+        };
+      });
+
+      allow_and_ded = combinedResult;
+    } catch (err) {
+      console.error("Error executing queries:", err);
+    }
+
+    data.total = { ...allow_and_ded[0] };
     data.payroll = payroll;
     return generateRes(data);
   };

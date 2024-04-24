@@ -326,12 +326,6 @@ const employee_seeder = async () => {
           },
 
           {
-            name: "IT",
-            wfe_date: "2022-03-01",
-            acnt_no: "1234567890",
-            amount_in: 1000,
-          },
-          {
             name: "ESIC",
             wfe_date: "2022-03-01",
             acnt_no: "1234567890",

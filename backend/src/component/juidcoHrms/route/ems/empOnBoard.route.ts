@@ -45,7 +45,7 @@ class EmployeeOnBoardRoute {
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.getEmployeeCount(
             req,
-            res,
+            res, 
             next,
             "0103"
           ),
