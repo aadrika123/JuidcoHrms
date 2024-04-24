@@ -6,12 +6,19 @@
 
 "use client";
 import React from "react";
-import Login from "./Login";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
+// import Login from ".";
+// import Lottie from "lottie-react";
 
 import img from "../../lotties/loginImage.json";
 import lock from "../../lotties/lock.json";
+const LoginPage = dynamic(() => import("./Login"), {
+    ssr: false,
+  });
 
+const Lottie = dynamic(() => import("lottie-react"), {
+    ssr: false
+})
 const HeroLoginPage = () => {
   return (
     <>
@@ -48,7 +55,7 @@ const HeroLoginPage = () => {
             <div className="container mx-auto px-4 xl:max-w-6xl">
               <div className="flex flex-wrap -mx-4 flex-row ">
                 <div className="flex-shrink max-w-full px-4 w-full lg:w-1/2">
-                  <Login />
+                  <LoginPage />
                 </div>
                 <div className="flex-shrink max-w-full px-4 w-full lg:w-1/2">
                   <div className="text-center  lg:mt-0">

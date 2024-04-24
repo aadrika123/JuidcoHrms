@@ -24,167 +24,185 @@ import GrievanceIcon from "@/assets/icons/sidebar/grievance.svg";
 const url = "";
 
 export const sidebarLinks: SidebarLinksProps = {
-  modules: [
-    {
-      moduleName: "HRMS",
-      path: "/",
-      icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
-      dropdown: false,
-      subModules: [
+    modules: [
         {
-          moduleName: "Employee Management",
-          icon: (
-            <Image
-              src={EmployeeManagementIcon}
-              alt="masters"
-              width={100}
-              height={100}
-            />
-          ),
-          path: `${url}/ems/onboard`,
-          subModules: [
-            {
-              moduleName: "Dashboard",
-              path: `${url}/ems/dashboard`,
-              icon: (
-                <Image
-                  src={DashboardIcon}
-                  alt="masters"
-                  width={100}
-                  height={100}
-                />
-              ),
-            },
-            {
-              moduleName: "On Board",
-              path: `${url}/ems/onboard`,
-              icon: (
-                <Image
-                  src={OnBoardIcon}
-                  alt="masters"
-                  width={100}
-                  height={100}
-                />
-              ),
-            },
-          ],
+            moduleName: "HRMS",
+            path: "/",
+            icon: <Image src={HomeIcon} alt="finance" width={100} height={100} />,
+            dropdown: true,
+            subModules: [
+                {
+                    moduleName: "Employee Management",
+                    icon: (
+                        <Image
+                            src={EmployeeManagementIcon}
+                            alt="masters"
+                            width={100}
+                            height={100}
+                        />
+                    ),
+                    path: `${url}/ems/onboard`,
+                    dropdown: true,
+                    subModules: [
+                        {
+                            moduleName: "Dashboard",
+                            path: `${url}/ems/dashboard`,
+                            icon: (
+                                <Image
+                                    src={DashboardIcon}
+                                    alt="masters"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
+                        {
+                            moduleName: "On Board",
+                            path: `${url}/ems/onboard`,
+                            icon: (
+                                <Image
+                                    src={OnBoardIcon}
+                                    alt="masters"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
+                    ],
+                },
+                {
+                    moduleName: "Attendance Management",
+                    icon: (
+                        <Image
+                            src={AttendanceIcon}
+                            alt="masters"
+                            width={100}
+                            height={100}
+                        />
+                    ),
+                    path: `${url}`,
+                },
+                {
+                    moduleName: "Leave Management",
+                    icon: (
+                        <Image src={LeaveIcon} alt="masters" width={100} height={100} />
+                    ),
+                    path: `${url}`,
+                    dropdown: true,
+                    subModules: [
+                        {
+                            moduleName: "Leave Encashment",
+                            path: `${url}/pension/leave_encashment`,
+                            icon: (
+                                <Image
+                                    src={DashboardIcon}
+                                    alt="masters"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
+                    ],
+                },
+                {
+                    moduleName: "Payroll Management",
+                    icon: (
+                        <Image src={PayrollIcon} alt="masters" width={100} height={100} />
+                    ),
+                    path: `${url}`,
+                    dropdown: true,
+                    subModules: [
+                        {
+                            moduleName: "Payroll",
+                            path: `${url}/ems/payroll-management`,
+                            icon: (
+                                <Image
+                                    src={PayrollIcon}
+                                    alt="payroll"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
+                    ],
+                },
+                {
+                    moduleName: "Suspension Management",
+                    icon: (
+                        <Image
+                            src={SuspensionIcon}
+                            alt="masters"
+                            width={100}
+                            height={100}
+                        />
+                    ),
+                    path: `${url}`,
+                },
+                {
+                    moduleName: "Loan Management",
+                    icon: <Image src={LoanIcon} alt="masters" width={100} height={100} />,
+                    path: `${url}`,
+                },
+                {
+                    moduleName: "Termination Management",
+                    icon: (
+                        <Image
+                            src={TerminationIcon}
+                            alt="masters"
+                            width={100}
+                            height={100}
+                        />
+                    ),
+                    path: `${url}`,
+                },
+                {
+                    moduleName: "Pension Management",
+                    icon: (
+                        <Image src={PensionIcon} alt="masters" width={100} height={100} />
+                    ),
+                    path: `${url}`,
+                    dropdown: true,
+                    subModules: [
+                        {
+                            moduleName: "Pension Management",
+                            path: `${url}/ems/pension-management`,
+                            icon: (
+                                <Image
+                                    src={PensionIcon}
+                                    alt="pension"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
+                    ],
+
+                    // path: `${url}/pension/gratuity_from`,
+
+                    // subModules: [
+                    //   {
+                    //     moduleName: "Dashboard",
+                    //     path: `${url}/ems/dashboard`,
+                    //     icon: (
+                    //       <Image
+                    //         src={DashboardIcon}
+                    //         alt="masters"
+                    //         width={100}
+                    //         height={100}
+                    //       />
+                    //     ),
+                    //   },
+
+                    // ],
+                },
+                {
+                    moduleName: "Grievance Management",
+                    icon: (
+                        <Image src={GrievanceIcon} alt="masters" width={100} height={100} />
+                    ),
+                    path: `${url}`,
+                },
+            ],
         },
-        {
-          moduleName: "Attendance Management",
-          icon: (
-            <Image
-              src={AttendanceIcon}
-              alt="masters"
-              width={100}
-              height={100}
-            />
-          ),
-          path: `${url}`,
-        },
-        {
-          moduleName: "Leave Management",
-          icon: (
-            <Image src={LeaveIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}`,
-        },
-        {
-          moduleName: "Payroll Management",
-          icon: (
-            <Image src={PayrollIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}`,
-          subModules: [
-            {
-              moduleName: "Payroll",
-              path: `${url}/ems/payroll-management`,
-              icon: (
-                <Image
-                  src={PayrollIcon}
-                  alt="payroll"
-                  width={100}
-                  height={100}
-                />
-              ),
-            },
-          ],
-        },
-        {
-          moduleName: "Suspension Management",
-          icon: (
-            <Image
-              src={SuspensionIcon}
-              alt="masters"
-              width={100}
-              height={100}
-            />
-          ),
-          path: `${url}`,
-        },
-        {
-          moduleName: "Loan Management",
-          icon: <Image src={LoanIcon} alt="masters" width={100} height={100} />,
-          path: `${url}`,
-        },
-        {
-          moduleName: "Termination Management",
-          icon: (
-            <Image
-              src={TerminationIcon}
-              alt="masters"
-              width={100}
-              height={100}
-            />
-          ),
-          path: `${url}`,
-        },
-        {
-          moduleName: "Pension Management",
-          icon: (
-            <Image src={PensionIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}`,
-          subModules: [
-            {
-              moduleName: "Pension Management",
-              path: `${url}/ems/pension-management`,
-              icon: (
-                <Image
-                  src={PensionIcon}
-                  alt="pension"
-                  width={100}
-                  height={100}
-                />
-              ),
-            },
-          ],
-          
-          // path: `${url}/pension/gratuity_from`,
-          
-          // subModules: [
-          //   {
-          //     moduleName: "Dashboard",
-          //     path: `${url}/ems/dashboard`,
-          //     icon: (
-          //       <Image
-          //         src={DashboardIcon}
-          //         alt="masters"
-          //         width={100}
-          //         height={100}
-          //       />
-          //     ),
-          //   },
-           
-          // ],
-        },
-        {
-          moduleName: "Grievance Management",
-          icon: (
-            <Image src={GrievanceIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}`,
-        },
-      ],
-    },
-  ],
+    ],
 };

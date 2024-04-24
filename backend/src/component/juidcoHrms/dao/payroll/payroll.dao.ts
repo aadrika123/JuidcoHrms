@@ -6,6 +6,7 @@
 import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
+import netCalcLogger from '../../../../../loggers/netCalcLogger'
 const prisma = new PrismaClient();
 
 class PayrollDao {
@@ -32,101 +33,70 @@ class PayrollDao {
   cal_allowance_and_deduction = async () => {
     // ---------------------------------CALCULATING ALLOWANCES AND DEDUCTIONS-------------------------------//
     // this.allowances = await prisma.$queryRaw`
-    //   SELECT
+    //   SELECT 
     //     emp.emp_id,
     //     SUM(emp_allow.amount_in) as total_allowance , SUM(emp_deduct.amount_in) as total_deductions
-    //   FROM
+    //   FROM 
     //       employees as emp
-    //   JOIN
+    //   JOIN 
     //     employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-    //   JOIN
+    //   JOIN 
     //     employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
     //   JOIN
     //     employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
     //   GROUP BY emp.emp_id
-
+      
     // `;
-
-    // const allowances = await prisma.$queryRaw`
-    //   SELECT
-    //       emp.emp_id, emp_allow.employee_salary_details_id, SUM(amount_in)
-    //     FROM
-    //         employees AS emp
-    //     JOIN
-    //         employee_salary_details AS sal_details ON emp.emp_salary_details_id = sal_details.id
-    //     LEFT JOIN
-    //         employee_salary_allow AS emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-
-    //     GROUP BY
-    //       emp.emp_id, emp_allow.employee_salary_details_id
-    // `;
-    // const deduction = await prisma.$queryRaw`
-    //         SELECT
-    //             emp.emp_id, emp_deduct.employee_salary_details_id, SUM(amount_in)
-    //           FROM
-    //               employees AS emp
-    //           JOIN
-    //               employee_salary_details AS sal_details ON emp.emp_salary_details_id = sal_details.id
-    //           LEFT JOIN
-    //               employee_salary_deduction AS emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-    //           GROUP BY
-    //             emp.emp_id, emp_deduct.employee_salary_details_id
-    // `;
-
-    // console.log(this.allowances)
 
     // return generateRes(this.allowances);
 
     try {
-      const [deductionsResult, allowanceResult]: [
-        deductionsResult: any,
-        allowanceResult: any
-      ] = await Promise.all([
-        prisma.$queryRaw`
-      SELECT 
-          emp.emp_id,
-          SUM(emp_deduct.amount_in) as total_deductions
-      FROM 
-          employees as emp
-      JOIN 
-          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-      JOIN
-          employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-      WHERE 
-          emp_deduct.name != 'IT'
-      GROUP BY emp.emp_id
-      `,
-        prisma.$queryRaw`
-      SELECT 
-          emp.emp_id,
-          SUM(emp_allow.amount_in) as total_allowance
-      FROM 
-          employees as emp
-      JOIN 
-          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-      JOIN 
-          employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-      GROUP BY emp.emp_id
-      `,
-      ]);
+        const [deductionsResult, allowanceResult]: [deductionsResult: any, allowanceResult: any] = await Promise.all([
+            prisma.$queryRaw`
+        SELECT 
+            emp.emp_id,
+            SUM(emp_deduct.amount_in) as total_deductions
+        FROM 
+            employees as emp
+        JOIN 
+            employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+        JOIN
+            employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
+        WHERE 
+            emp_deduct.name != 'IT'
+        GROUP BY emp.emp_id
+        `,
+            prisma.$queryRaw`
+        SELECT 
+            emp.emp_id,
+            SUM(emp_allow.amount_in) as total_allowance
+        FROM 
+            employees as emp
+        JOIN 
+            employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+        JOIN 
+            employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+        GROUP BY emp.emp_id
+        `
+        ])
 
-      // Merge results based on emp_id
-      const combinedResult = deductionsResult.map((deductionRow: any) => {
-        const allowanceRow = allowanceResult.find(
-          (row: any) => row.emp_id === deductionRow.emp_id
-        );
-        return {
-          emp_id: deductionRow.emp_id,
-          total_deductions: deductionRow.total_deductions,
-          total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
-        };
-      });
+        // Merge results based on emp_id
+        const combinedResult = deductionsResult.map((deductionRow: any) => {
+            const allowanceRow = allowanceResult.find((row: any) => row.emp_id === deductionRow.emp_id);
+            return {
+                emp_id: deductionRow.emp_id,
+                total_deductions: deductionRow.total_deductions,
+                total_allowance: allowanceRow ? allowanceRow.total_allowance : 0
+            };
+        });
 
-      this.allowances = combinedResult;
-      return generateRes(this.allowances);
-    } catch (err) {
-      console.error("Error executing queries:", err);
+        this.allowances = combinedResult
+        return generateRes(this.allowances);
     }
+    catch (err) {
+        console.error('Error executing queries:', err);
+    }
+
   };
 
   calc_regular_pay = async () => {
@@ -238,6 +208,7 @@ class PayrollDao {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
+    let dataToSendForLogging: any = {}
 
     // collect gross
     this.gross.forEach((emp) => {
@@ -385,6 +356,15 @@ class PayrollDao {
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
         date: date,
       };
+
+      dataToSendForLogging = {
+        ...dataToSendForLogging,
+        [record.emp_id]: {
+            lwp_days_last_month: data[record.emp_id].lwp_days_last_month,
+            salary_per_hour
+        }
+    }
+
     });
     // !======================== EMPLOYEE SALARY CALCULATION =========================//
 

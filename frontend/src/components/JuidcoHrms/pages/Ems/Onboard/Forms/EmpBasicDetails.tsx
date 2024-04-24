@@ -6,7 +6,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik } from "formik";
 import type {
@@ -30,6 +30,31 @@ const EmployeeBasicDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
+  const [employeeName, setEmployeeName] = useState({
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("employee_full_name");
+      const emp_name = JSON.parse(res as string);
+
+      setEmployeeName({
+        first_name: emp_name.first_name,
+        middle_name: emp_name.middle_name,
+        last_name: emp_name.last_name,
+      });
+    }
+  }, []);
+
+  function handleChangeName(key: string, value: string) {
+    setEmployeeName((prev: any) => ({
+      ...prev,
+      [key]: value,
+    }));
+  }
 
   const fileInputRef = React.useRef(null);
 
@@ -42,7 +67,11 @@ const EmployeeBasicDetails: React.FC<
     values: EmployeeDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
+    sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
     if (typeof window !== "undefined") {
+      const fullName = Object.values(employeeName).join(" ");
+      console.log(fullName, "name");
+      values.emp_name = String(fullName);
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
 
@@ -64,19 +93,26 @@ const EmployeeBasicDetails: React.FC<
     <>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Details     
-             <i>
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <path d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z" fill="#6565DD" />
+          Employee Details
+          <i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <path
+                d="M9.07937 1.81587C13.0843 1.81587 16.3429 5.07446 16.3429 9.07937C16.3429 13.0843 13.0843 16.3429 9.07937 16.3429C5.07446 16.3429 1.81587 13.0843 1.81587 9.07937C1.81587 5.07446 5.07446 1.81587 9.07937 1.81587ZM9.07937 0C4.06483 0 0 4.06483 0 9.07937C0 14.0939 4.06483 18.1587 9.07937 18.1587C14.0939 18.1587 18.1587 14.0939 18.1587 9.07937C18.1587 4.06483 14.0939 0 9.07937 0ZM13.619 8.17143H9.9873V4.53968H8.17143V8.17143H4.53968V9.9873H8.17143V13.619H9.9873V9.9873H13.619V8.17143Z"
+                fill="#6565DD"
+              />
             </svg>
           </i>
         </SubHeading>
         <h5>Steps-2/11</h5>
-
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 pb-30 pt-20 shadow-md">
-
         <SubHeading className="text-[20px] py-4">Employee Details</SubHeading>
         <Formik
           initialValues={initialValues}
@@ -107,7 +143,6 @@ const EmployeeBasicDetails: React.FC<
                     required={true}
                   />
                 )}
-
                 {/* <InputBox
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -118,14 +153,14 @@ const EmployeeBasicDetails: React.FC<
                 label="image*"
                 name="emp_image"
               /> */}
-
                 <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-4">
-                  <p className="text-zinc-600 mt-2">Upload Employee Profile
-                  <span className="text-red-500">*</span>
+                  <p className="text-zinc-600 mt-2">
+                    Upload Employee Profile
+                    <span className="text-red-500">*</span>
                     {touched.emp_image && errors.emp_image && (
                       <div className="text-red-500">{errors.emp_image}</div>
                     )}
-                    </p>
+                  </p>
                   <div
                     className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
                     onClick={handleDivClick}
@@ -161,30 +196,97 @@ const EmployeeBasicDetails: React.FC<
                     />
                   </div>
                 </div>
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.emp_name}
-                  error={errors.emp_name}
-                  touched={touched.emp_name}
-                  label="Name"
-                  name="emp_name"
-                  placeholder={"Enter Name"}
-                  required={true}
-                  // maxLength={40}
-                  onKeyPress={(e:any) => {
-                    if (
-                      !(
-                        (e.key >= 'a' && e.key <= 'z') ||
-                        (e.key >= 'A' && e.key <= 'Z') ||
-                        e.key === ' '
-                      )
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
-                />
+                {/* ------------------------------------------------------- */}
+                <div>
+                  <p className="text-secondary text-sm">
+                    First Name <span className="text-red-500">*</span>
+                  </p>
 
+                  <input
+                    type="text"
+                    onChange={(e: React.ChangeEvent<any>) =>
+                      handleChangeName("first_name", e.target.value)
+                    }
+                    value={employeeName.first_name}
+                    onBlur={handleBlur}
+                    name="emp_name"
+                    placeholder={"Enter First Name"}
+                    required={true}
+                    className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 w-full`}
+                    // maxLength={40}
+                    onKeyPress={(e: any) => {
+                      if (
+                        !(
+                          (e.key >= "a" && e.key <= "z") ||
+                          (e.key >= "A" && e.key <= "Z") ||
+                          e.key === " "
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <p className="text-secondary text-sm">Middle Name</p>
+
+                  <input
+                    onChange={(e: React.ChangeEvent<any>) =>
+                      handleChangeName("middle_name", e.target.value)
+                    }
+                    value={employeeName.middle_name}
+                    onBlur={handleBlur}
+                    name="emp_name"
+                    placeholder={"Enter Middle Name"}
+                    className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 w-full`}
+                    // required={true}
+                    // maxLength={40}
+                    onKeyPress={(e: any) => {
+                      if (
+                        !(
+                          (e.key >= "a" && e.key <= "z") ||
+                          (e.key >= "A" && e.key <= "Z") ||
+                          e.key === " "
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <p className="text-secondary text-sm">
+                    Last Name <span className="text-red-500">*</span>
+                  </p>
+
+                  <input
+                    onChange={(e: React.ChangeEvent<any>) =>
+                      handleChangeName("last_name", e.target.value)
+                    }
+                    value={employeeName.last_name}
+                    onBlur={handleBlur}
+                    name="emp_name"
+                    placeholder={"Enter Last Name"}
+                    required={true}
+                    className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 w-full`}
+                    // maxLength={40}
+                    onKeyPress={(e: any) => {
+                      if (
+                        !(
+                          (e.key >= "a" && e.key <= "z") ||
+                          (e.key >= "A" && e.key <= "Z") ||
+                          e.key === " "
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
+
+                {/* ------------------------------------------------------- */}
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -239,13 +341,11 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
-
                 />
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -259,13 +359,10 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
-
-
-
                 />
                 <InputBox
                   onChange={handleChange}
@@ -280,7 +377,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -298,7 +395,12 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (!((e.key >= '0' || e.key >= 'A' ) &&( e.key <= '9' || e.key <= 'Z'))) {
+                    if (
+                      !(
+                        (e.key >= "0" || e.key >= "A") &&
+                        (e.key <= "9" || e.key <= "Z")
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -324,8 +426,8 @@ const EmployeeBasicDetails: React.FC<
                     },
                     {
                       id: 3,
-                      name: "Transgender"
-                    }
+                      name: "Transgender",
+                    },
                   ]}
                 />
                 <InputBox
@@ -341,7 +443,7 @@ const EmployeeBasicDetails: React.FC<
                   // required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -379,7 +481,6 @@ const EmployeeBasicDetails: React.FC<
                     },
                   ]}
                 />
-
                 <InputBox
                   onChange={handleChange}
                   // onBlur={handleBlur}
@@ -390,7 +491,7 @@ const EmployeeBasicDetails: React.FC<
                   type="text"
                   maxLength={3}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -405,12 +506,11 @@ const EmployeeBasicDetails: React.FC<
                   type="text"
                   maxLength={3}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
                 />
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -422,7 +522,7 @@ const EmployeeBasicDetails: React.FC<
                   // required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
@@ -440,7 +540,7 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={12}
                   onKeyPress={(e: any) => {
-                    if (!(e.key >= '0' && e.key <= '9')) {
+                    if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}

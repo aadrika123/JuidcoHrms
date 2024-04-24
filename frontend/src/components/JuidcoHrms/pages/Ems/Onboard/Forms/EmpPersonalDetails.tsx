@@ -279,7 +279,6 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 3, name: "Widowed" },
                   ]}
                 />
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -318,8 +317,12 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 2, name: "Muslim" },
                     { id: 3, name: "Sikh" },
                     { id: 4, name: "Christian" },
+                    { id: 5, name: "Jainism" },
+                    { id: 6, name: "Parsis" },
+                    { id: 7, name: "Buddhism" },
                   ]}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -361,7 +364,6 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 />
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -399,7 +401,6 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 24, name: "Khunti" },
                   ]}
                 />
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -421,7 +422,6 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 8, name: "O-" },
                   ]}
                 />
-
                 <div>
                   <div className="grid">
                     <SelectForNoApi
@@ -453,7 +453,6 @@ const EmpployeePersonalDetails: React.FC<
                     </div>
                   )}
                 </div>
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -498,7 +497,6 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 />
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -519,7 +517,6 @@ const EmpployeePersonalDetails: React.FC<
                     },
                   ]}
                 />
-
                 {/* <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -548,7 +545,6 @@ const EmpployeePersonalDetails: React.FC<
                   },
                 ]}
               />  */}
-
                 <div>
                   <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
                     {/* <SelectForNoApi
@@ -688,7 +684,6 @@ const EmpployeePersonalDetails: React.FC<
                       </div>
                     )}
                 </div>
-
                 <div className="flex items-center gap-5">
                   <div>
                     {empLang?.map((row, index: number) => {
@@ -815,7 +810,6 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 /> */}
-
                 {/* MOther Tounge */}
                 {/* <div className="flex items-center gap-5">
                   <div>

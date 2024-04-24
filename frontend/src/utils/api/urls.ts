@@ -9,6 +9,7 @@ type UrlKeys =
   | "EMP_COUNT"
   | "DEPARTMENT"
   | "DESIGNATION"
+  | "DISTRICT"
   | "LOGIN"
   | "ATTENDANCE"
   | "HOLIDAY"
@@ -23,7 +24,8 @@ type UrlKeys =
   | "CLAIM"
   | "NOMINEE"
   | "FAMILY"
-  | "OTP";
+  | "OTP"
+  | "LEAVE";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -52,6 +54,9 @@ export const HRMS_URL: Urls = {
   },
   DESIGNATION: {
     get: "/master/designation",
+  },
+  DISTRICT: {
+    get: "/master/district",
   },
   EMP_COUNT: {
     get: "/employee/count",
@@ -107,5 +112,9 @@ export const HRMS_URL: Urls = {
   OTP: {
     create: "/employee/otp-generated",
     validate: "/employee/otp-validate",
+  },
+  LEAVE: {
+    get: "/leave/approval",
+    update: "/leave/accept-deny",
   },
 };

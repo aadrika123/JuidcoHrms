@@ -219,11 +219,11 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
 export const employeeJoinValidationSchema = yup.object({
   department_id: yup.string().required("Please Choose the Correct Department"),
   // designation: yup.string().required("Please Choose the Correct Designation"),
-  task: yup
-    .string()
-    .min(3, "Must be at least 3 characters long")
-    .max(50, "Max 50 characters long")
-    .required("Please Choose Correct Task"),
+  // task: yup
+  //   .string()
+  //   .min(3, "Must be at least 3 characters long")
+  //   .max(50, "Max 50 characters long")
+  //   .required("Please Choose Correct Task"),
   // doj: yup.string().required("Please Enter the Correct Date Of Joining"),
   effective_pay_commision: yup
     .string()

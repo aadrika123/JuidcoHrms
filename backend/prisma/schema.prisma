@@ -44,6 +44,7 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
+  leave_encashment        leave_encashment[]
   pension_master          pension_master[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
@@ -453,28 +454,6 @@ model wf_roleusermaps {
     created_at   DateTime? @default(now()) @map("created_at")
     updated_at   DateTime? @updatedAt @map("updated_at")
 }
-model department {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model designation {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model holidays {
-  id  Int @id @default(autoincrement())
-  date String?
-  name String
-}
-
 // ----------------- CREATED AND MAINTAINED BY KRISH -------------------------- //
 
 model employee_attendance_history {
@@ -602,6 +581,28 @@ model employee_leave_type {
   updated_at             DateTime                 @updatedAt @map("updated_at")
 }
 
+model department {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model designation {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model holidays {
+  id  Int @id @default(autoincrement())
+  date String?
+  name String
+}
+
 // -------------- Created and maintained by Jaideep ----------------------- //
 model ulb {
   id         Int      @id @default(autoincrement())
@@ -675,5 +676,22 @@ model pension_master {
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")
   updated_at               DateTime                 @updatedAt @map("updated_at")
+}
+
+model leave_encashment {
+  id                      Int         @id @default(autoincrement())
+  application_id          String      @unique
+  employee_id             String
+  emp_name                String?
+  earned_leave            Int?        @default(0)
+  total_days_for_applied  Int?        @default(0)
+  leave_balance_after_apply Int?      @default(0)
+  per_basic_pay           Int?        @default(0)
+  grand_total_encashment_amount Int?  @default(0)
+  leave_encash_apply      Int
+  status                  Int?        @default(0)
+  employee                employees   @relation(fields: [employee_id], references: [emp_id])
+  created_at              DateTime    @default(now()) @map("created_at")
+  updated_at              DateTime    @updatedAt @map("updated_at")
 }
 

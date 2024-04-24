@@ -20,7 +20,8 @@ import {
   officeDetailsValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import { EmployeeDetailsProps } from "@/utils/types/employee.type";
-import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import DropDownList from "@/components/Helpers/DropDownList";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmployeeOfficeDetails: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
@@ -152,7 +153,7 @@ const EmployeeOfficeDetails: React.FC<
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
-                <SelectForNoApi
+                <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.district}
@@ -162,33 +163,9 @@ const EmployeeOfficeDetails: React.FC<
                   required={true}
                   name="district"
                   placeholder={"Choose District"}
-                  options={[
-                    { id: 1, name: "Deoghar" },
-                    { id: 2, name: "Dumka" },
-                    { id: 3, name: "Bokaro" },
-                    { id: 4, name: "Giridih" },
-                    { id: 5, name: "Koderma" },
-                    { id: 6, name: "Godda" },
-                    { id: 7, name: "Chatra" },
-                    { id: 8, name: "Dhanbad" },
-                    { id: 9, name: "Gharwha" },
-                    { id: 10, name: "East-Singhbhum" },
-                    { id: 11, name: "Jamtara" },
-                    { id: 12, name: "Saraikela-Kharsawan" },
-                    { id: 13, name: "Ranchi" },
-                    { id: 14, name: "Pakur" },
-                    { id: 15, name: "Latehar" },
-                    { id: 16, name: "Hazaribagh" },
-                    { id: 17, name: "Lohardaga" },
-                    { id: 18, name: "Palamu" },
-                    { id: 19, name: "Ramghar" },
-                    { id: 20, name: "Simdega" },
-                    { id: 21, name: "West-Singhbhum" },
-                    { id: 22, name: "Sahebganj" },
-                    { id: 23, name: "Gumla" },
-                    { id: 24, name: "Khunti" },
-                  ]}
+                  api={`${HRMS_URL.DISTRICT.get}`}
                 />
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}

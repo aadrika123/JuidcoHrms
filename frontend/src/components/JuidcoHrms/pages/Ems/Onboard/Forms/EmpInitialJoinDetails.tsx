@@ -219,7 +219,6 @@ const EmpInitialJoinDetails: React.FC<
                     },
                   ]}
                 /> */}
-
                 <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -232,7 +231,6 @@ const EmpInitialJoinDetails: React.FC<
                   api={`${HRMS_URL.DEPARTMENT.get}`}
                   required
                 />
-
                 <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -242,17 +240,16 @@ const EmpInitialJoinDetails: React.FC<
                   name="designation_id"
                   api={`${HRMS_URL.DESIGNATION.get}`}
                 />
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.task}
-                  error={errors.task}
-                  touched={touched.task}
+                  // error={errors.task}
+                  // touched={touched.task}
                   label="Task"
                   placeholder="Enter Task"
                   name="task"
-                  required={true}
+                  // required={true}
                   onKeyPress={(e: any) => {
                     if (
                       !(
@@ -265,6 +262,7 @@ const EmpInitialJoinDetails: React.FC<
                     }
                   }}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -311,7 +309,6 @@ const EmpInitialJoinDetails: React.FC<
                   ]}
                   required={true}
                 />
-
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center">
                     Whether Confirmation Order
@@ -370,7 +367,6 @@ const EmpInitialJoinDetails: React.FC<
                     )}
                   </div>
                 </div>
-
                 <div className="grid grid-cols-3 2xl:grid-cols-3  gap-2 ">
                   <InputBox
                     onChange={handleChange}
@@ -410,7 +406,6 @@ const EmpInitialJoinDetails: React.FC<
                     required={true}
                   />
                 </div>
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -438,7 +433,6 @@ const EmpInitialJoinDetails: React.FC<
                     }
                   }}
                 />
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -463,7 +457,6 @@ const EmpInitialJoinDetails: React.FC<
                   placeholder={"Enter Confirmation Order Date"}
                   type="date"
                 />
-
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center">Member of GIS or not</div>
                   <div className="flex items-center gap-5">
@@ -508,7 +501,6 @@ const EmpInitialJoinDetails: React.FC<
                     )}
                   </div>
                 </div>
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -526,7 +518,6 @@ const EmpInitialJoinDetails: React.FC<
                     { id: 5, name: "Employee Exchange" },
                   ]}
                 />
-
                 {values.appoint_authority === "ULB" && (
                   <SelectForNoApi
                     onChange={handleChange}
@@ -537,7 +528,6 @@ const EmpInitialJoinDetails: React.FC<
                     options={[{ id: 1, name: "Yes" }]}
                   />
                 )}
-
                 {values.appoint_authority !== "ULB" && (
                   <SelectForNoApi
                     onChange={handleChange}
@@ -552,7 +542,6 @@ const EmpInitialJoinDetails: React.FC<
                     ]}
                   />
                 )}
-
                 {/* <SelectForNoApi
                                     onChange={handleChange}
                                     onBlur={handleBlur}
