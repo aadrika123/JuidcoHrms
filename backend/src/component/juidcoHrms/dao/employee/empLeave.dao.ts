@@ -62,6 +62,9 @@ class EmployeeLeaveDao {
           lte: 3,
         },
       },
+      // orderBy: {
+      //   created_at: "desc",
+      // },
       select: {
         emp_leave_type: {
           select: {

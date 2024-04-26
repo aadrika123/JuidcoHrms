@@ -17,7 +17,7 @@ interface InputBoxProps {
   error?: string | undefined;
   touched?: boolean | undefined;
   className?: string;
-  onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void | any;
   onBlur?: (e?: React.FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
   maxLength?: number;

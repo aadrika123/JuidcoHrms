@@ -23,6 +23,9 @@ import {
   employeeValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import axios from "@/lib/axiosConfig";
+import { HRMS_URL } from "@/utils/api/urls";
+import toast, { Toaster } from "react-hot-toast";
 
 const EmployeeBasicDetails: React.FC<
   EmployeeDetailsProps<EmployeeDetailsType>
@@ -31,10 +34,28 @@ const EmployeeBasicDetails: React.FC<
   const router = useRouter();
   const empType = useSearchParams().get("emp");
   const [employeeName, setEmployeeName] = useState({
+    emp_id: "",
     first_name: "",
     middle_name: "",
     last_name: "",
   });
+  const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
+
+  const [selectedFileName, setSelectedFileName] = useState<any>();
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    setSelectedFileName(file ? file.name : "");
+  };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedFormData = sessionStorage.getItem("emp_basic_details");
+      if (storedFormData) {
+        const parsedData = JSON.parse(storedFormData);
+        setSelectedFileName(parsedData.emp_image);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,6 +63,7 @@ const EmployeeBasicDetails: React.FC<
       const emp_name = JSON.parse(res as string);
       if (emp_name)
         setEmployeeName({
+          emp_id: emp_name.emp_id || "",
           first_name: emp_name.first_name || "",
           middle_name: emp_name.middle_name || "",
           last_name: emp_name.last_name || "",
@@ -57,13 +79,6 @@ const EmployeeBasicDetails: React.FC<
     }));
   }
 
-  const fileInputRef = React.useRef(null);
-
-  const handleDivClick = () => {
-    // Trigger click on the hidden file input
-    (fileInputRef.current as unknown as HTMLInputElement).click();
-  };
-
   const handleSubmitFormik = (
     values: EmployeeDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -71,6 +86,7 @@ const EmployeeBasicDetails: React.FC<
     if (typeof window !== "undefined") {
       const fullName = Object.values(employeeName).join(" ");
       values.emp_name = String(fullName);
+      values.emp_id = employeeName.emp_id;
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
       setSubmitting(false);
 
@@ -87,6 +103,31 @@ const EmployeeBasicDetails: React.FC<
         ? JSON.parse(sessionStorage.getItem("emp_basic_details") ?? "{}")
         : initialEmployeeDetails
       : initialEmployeeDetails;
+
+  console.log(initialValues);
+
+  // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
+  const validateEmployeeId = async () => {
+    try {
+      const res = await axios({
+        url: `${HRMS_URL.EMS.validate}`,
+        method: "POST",
+        data: {
+          emp_id: employeeName.emp_id,
+        },
+      });
+
+      if (res.data.data.data[0].exists === true) {
+        setIsEmpExist(true);
+      } else {
+        setIsEmpExist(false);
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error("something went wrong while validating employee id!");
+    }
+  };
+  // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
 
   return (
     <>
@@ -128,14 +169,18 @@ const EmployeeBasicDetails: React.FC<
             handleReset,
           }) => (
             <form onSubmit={handleSubmit} className="relative">
+              <Toaster />
               <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
                 {empType === "old" && (
                   <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.emp_id}
-                    error={errors.emp_id}
-                    touched={touched.emp_id}
+                    // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
+                    onChange={(e: React.ChangeEvent<any> | undefined) =>
+                      handleChangeName("emp_id", e?.target.value)
+                    }
+                    onBlur={validateEmployeeId}
+                    value={employeeName.emp_id}
+                    error={"Employee Id Already Exist!"}
+                    touched={isEmpExist}
                     label="Employment ID"
                     name="emp_id"
                     placeholder={"Enter Employment ID"}
@@ -159,12 +204,17 @@ const EmployeeBasicDetails: React.FC<
                     {touched.emp_image && errors.emp_image && (
                       <div className="text-red-500">{errors.emp_image}</div>
                     )}
+                    <br></br>
+                    {selectedFileName && (
+                      <span className="ml-2">{selectedFileName}</span>
+                    )}
                   </p>
-                  <div
-                    className="w-[10rem] h-[8rem] bg-white border border-zinc-300 rounded-xl flex flex-col items-center justify-center"
-                    onClick={handleDivClick}
+
+                  <label
+                    htmlFor="emp_image"
+                    className="border border-zinc-200 p-6 rounded-xl"
                   >
-                    <span>
+                    <span className="cursor-pointer">
                       <svg
                         stroke="currentColor"
                         fill="none"
@@ -181,20 +231,23 @@ const EmployeeBasicDetails: React.FC<
                         <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
                         <polyline points="16 16 12 12 8 16"></polyline>
                       </svg>
+                      Upload Image
                     </span>
-                    <span>Upload Image</span>
+                  </label>
 
-                    {/* Hidden file input */}
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      style={{ display: "none" }}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="emp_image"
-                    />
-                  </div>
+                  {/* Hidden file input */}
+                  <input
+                    type="file"
+                    id="emp_image"
+                    name="emp_image"
+                    style={{ display: "none" }}
+                    onChange={(event) => {
+                      handleChange(event);
+                      handleFileChange(event);
+                    }}
+                  />
                 </div>
+
                 {/* ------------------------------------------------------- */}
                 <div>
                   <p className="text-secondary text-sm">
@@ -575,9 +628,21 @@ const EmployeeBasicDetails: React.FC<
                   Reset
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="submit" variant="primary">
-                  Next
-                </PrimaryButton>
+                {!isEmpExist ? (
+                  <PrimaryButton buttonType="submit" variant="primary">
+                    Next
+                  </PrimaryButton>
+                ) : (
+                  <PrimaryButton
+                    buttonType="button"
+                    onClick={() => {
+                      toast.error("Employee Id Already Exist!");
+                    }}
+                    variant="disabled"
+                  >
+                    Next
+                  </PrimaryButton>
+                )}
               </div>
             </form>
           )}

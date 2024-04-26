@@ -34,29 +34,20 @@ const EmpSalaryDetails: React.FC<
   const [basic_pay, setBasicPay] = useState(0);
   const [basic_pay1, setBasicPay1] = useState(0);
 
-  const initialDeductDetails = {
+  const initialDeductDetails = () => ({
     amount_in: "",
     name: "",
     wfe_date: "",
     acnt_no: "",
-  };
+  });
+
   const [employeeDeductionDetails, setEmployeeDeductionDetails] = useState<any>(
     [initialDeductDetails]
   );
 
   function storeEmployeeDeductionDetails() {
+    console.log(employeeDeductionDetails, "before");
     if (typeof window !== "undefined") {
-      employeeDeductionDetails?.forEach((element: any) => {
-        Object.keys(element).forEach((key) => {
-          const val = element[key as keyof typeof element];
-          if (
-            val ==
-            initialDeductDetails[key as keyof typeof initialDeductDetails]
-          ) {
-            delete element[key as keyof typeof element];
-          }
-        });
-      });
       sessionStorage.setItem(
         "emp_salary_deduction_details",
         JSON.stringify(employeeDeductionDetails)

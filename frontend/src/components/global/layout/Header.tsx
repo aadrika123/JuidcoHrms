@@ -56,14 +56,12 @@ const Header: React.FC<SideBarProps> = (props) => {
               id: user_id,
             },
           });
+
+          window.location.reload();
         } catch (error) {
           console.log(error);
         }
       })();
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
     }
   }
 
