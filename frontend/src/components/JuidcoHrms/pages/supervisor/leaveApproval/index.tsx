@@ -25,12 +25,17 @@ export default function LeaveApproval() {
     // const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
     const [leaveList, setLeaveList] = useState<any>([]);
     const [isUpdated, setIsUpdated] = useState(false);
+    let emp_id: string | null
 
+    useEffect(() => {
+        const userDetails = JSON.parse(sessionStorage.getItem('user_details') || '{}');
+        emp_id = userDetails?.emp_id
+    }, [])
 
     const fetchLeave = () => {
         try {
             setLoading(true);
-            axios(`${HRMS_URL.LEAVE.get}`)
+            axios(`${HRMS_URL.LEAVE.get}/${emp_id}`)
                 .then((response) => {
                     setLeaveList(response.data?.data);
                     console.log("Data is returned", response.data);

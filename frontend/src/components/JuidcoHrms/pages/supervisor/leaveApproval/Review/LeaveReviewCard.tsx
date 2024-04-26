@@ -36,7 +36,7 @@ export default function LeaveReviewCard(props: any) {
         <>
             {data && (
                 <div className="card shadow-lg rounded">
-                    <div className="card-body flex justify-start space-y-4">
+                    <div className="card-body flex justify-between space-y-4">
                         <div className='flex flex-row gap-2'>
                             <Image src={EmployeeIcon} alt="employee" width={25} height={10} />
                             <h2 className="card-title">{emp?.emp_basic_details?.emp_name}</h2>
@@ -56,8 +56,8 @@ export default function LeaveReviewCard(props: any) {
                                 </>
                             )}
                             {data?.leave_status !== 0 && (
-                                <div className={`flex flex-row justify-center items-center p-2  flex-1 rounded ${data?.leave_status === 1 ? 'bg-green-100' : data?.leave_status === -1 ? 'bg-red-100' : 'bg-blue-100'}`}>
-                                    <h5>{data?.leave_status === 1 ? 'Approved' : data?.leave_status === -1 ? 'Rejected' : 'Pending'}</h5>
+                                <div className={`flex flex-row justify-center items-center p-2  flex-1 rounded ${data?.leave_status === 3 ? 'bg-green-100' : data?.leave_status === -1 ? 'bg-red-100' : 'bg-blue-100'}`}>
+                                    <h5>{data?.leave_status === 3 ? 'Approved' : data?.leave_status === -1 ? 'Rejected' : 'Pending'}</h5>
                                 </div>
                             )}
                         </div>

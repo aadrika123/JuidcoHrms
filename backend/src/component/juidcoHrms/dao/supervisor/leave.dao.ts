@@ -29,10 +29,30 @@ class LeaveDao {
         // // this.offset = (1 - 1) * 2;
     }
 
-    fetch_pending_leave_list = async () => {
+    fetch_pending_leave_list = async (req: Request) => {
+        const { supervisor_id } = req.params
+        let hierarchyData: any = []
 
         try {
-            const data = prisma.$queryRaw`
+            const data = await prisma.employee_hierarchy.findMany({
+                select: {
+                    emp_id: true
+                },
+                where: {
+                    parent_emp: supervisor_id
+                }
+            })
+            data.forEach((item)=>{
+                hierarchyData.push(item.emp_id)
+            })
+        } catch (err) {
+            console.error('Error executing queries:', err);
+        }
+
+       const placeholder = hierarchyData.map((id:any) => `'${id}'`).join(', ');
+        console.log(placeholder)
+        try {
+            const data = prisma.$queryRawUnsafe(`
             SELECT 
             emp_details.emp_name as emp_name,
             dep.name as dep_name,
@@ -58,7 +78,8 @@ class LeaveDao {
                 department as dep ON join_details.department_id = dep.id
             WHERE 
                 leave_status = 0
-            `
+                AND emp.emp_id IN (${placeholder})
+            `)
 
             return generateRes(data);
         }

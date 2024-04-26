@@ -13,7 +13,7 @@ class LeaveRoute {
 
     configure(app: express.Application): void {
         app
-            .route(`${baseUrl}/leave/approval`)
+            .route(`${baseUrl}/leave/approval/:supervisor_id`)
             .get(
                 (req: Request, res: Response, next: NextFunction) =>
                     this.leaveController.pending_leave_list(req, res, next, "0601"),

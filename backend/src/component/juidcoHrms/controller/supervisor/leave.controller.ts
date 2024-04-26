@@ -23,7 +23,7 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.fetch_pending_leave_list();
+        const data = await this.leaveDao.fetch_pending_leave_list(req);
         return CommonRes.SUCCESS(
             resMessage("Pending list of leaves").FOUND,
             data,

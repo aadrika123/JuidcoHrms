@@ -36,7 +36,7 @@ export default function LeaveCard(props: any) {
     return (
         <>
             <div className="card shadow-lg rounded">
-                <div className="card-body flex justify-start space-y-4">
+                <div className="card-body flex justify-between space-y-4">
                     <div className='flex flex-row gap-2'>
                         <Image src={EmployeeIcon} alt="employee" width={25} height={10} />
                         <h2 className="card-title">{data.emp_name}</h2>
