@@ -96,5 +96,29 @@ span.react-calendar__navigation__label__labelText.react-calendar__navigation__la
 
 
 ::-webkit-scrollbar {
-    width: 0; /* Hide scrollbar for Chrome, Safari, and Opera */
+    width: 5px; /* Hide scrollbar for Chrome, Safari, and Opera */
   }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* color of the thumb */
+    border-radius: 5px; /* roundness of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the thumb on hover */
+}
+
+
+  @media print {
+    .page-break {
+      margin-top: 10rem;
+      display: block;
+      break-inside: auto;
+    }
+
+  }
+  

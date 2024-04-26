@@ -44,7 +44,9 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
+  leave_encashment        leave_encashment[]
   pension_master          pension_master[]
+  payroll_master          payroll_master[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -56,7 +58,7 @@ model employee_office_details {
   office_code     String
   ddo_designation String
   ddo_code        String
-  district        String
+  district        Int
   employee        employees[]
   created_at      DateTime    @default(now()) @map("created_at")
   updated_at      DateTime    @updatedAt @map("updated_at")
@@ -92,7 +94,7 @@ model employee_personal_details {
   religion                    String
   emp_categories              String
   emp_home_state              String
-  emp_district                String
+  emp_district                Int
   emp_blood_group             String
   emp_health_status           String
   emp_health_file             String?
@@ -143,7 +145,7 @@ model employee_address_details {
   village                     String
   post_office                 String?
   state                       String
-  district                    String
+  district                    Int
   block_ulb                   String?
   pin_code                    String
   police_station              String?
@@ -233,10 +235,10 @@ model employee_salary_allow {
 
 model employee_salary_deduction {
   id                         Int                     @id @default(autoincrement())
-  name                       String
-  wfe_date                   String
-  acnt_no                    String
-  amount_in                  Float
+  name                       String?
+  wfe_date                   String?
+  acnt_no                    String?
+  amount_in                  Float?
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")
@@ -262,7 +264,7 @@ model employee_join_details {
   grade_pay               Float?
   doc                     String?
   basic_pay               Float?
-  conf_order_number       Float?
+  conf_order_number       String?
   deduction_type          String?
   conf_order_date         String?
   member_gis              String?

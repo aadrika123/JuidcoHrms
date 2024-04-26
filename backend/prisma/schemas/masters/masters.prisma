@@ -26,3 +26,12 @@ model district {
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 }
+
+model ddo {
+  ddo_code        String   @unique
+  ddo_name        String
+  ddo_designation String
+  ddo_office      String
+  created_at      DateTime @default(now()) @map("created_at")
+  updated_at      DateTime @updatedAt @map("updated_at")
+}

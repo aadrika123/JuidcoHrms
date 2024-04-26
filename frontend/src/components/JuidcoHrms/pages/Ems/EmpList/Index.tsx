@@ -30,14 +30,14 @@ const EmployeeList = () => {
       HEADER: "Department",
       ACCESSOR: "name",
     },
-    {
-      HEADER: "Leave",
-      ACCESSOR: "emp_leave_count",
-    },
-    {
-      HEADER: "Present",
-      ACCESSOR: "emp_present_count",
-    },
+    // {
+    //   HEADER: "Leave",
+    //   ACCESSOR: "emp_leave_count",
+    // },
+    // {
+    //   HEADER: "Present",
+    //   ACCESSOR: "emp_present_count",
+    // },
   ];
 
   const [selectedFilter, setSelectedFilter] = useState<number | null>(null);

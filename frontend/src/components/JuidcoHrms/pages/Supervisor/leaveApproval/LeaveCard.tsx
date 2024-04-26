@@ -3,6 +3,7 @@ import EmployeeIcon from "@/assets/icons/employee 1.png";
 import Image from 'next/image';
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
+import Link from 'next/link';
 
 export default function LeaveCard(props: any) {
 
@@ -34,8 +35,8 @@ export default function LeaveCard(props: any) {
 
     return (
         <>
-            <div className="card shadow-lg rounded-sm">
-                <div className="card-body flex justify-start gap-2">
+            <div className="card shadow-lg rounded">
+                <div className="card-body flex justify-between space-y-4">
                     <div className='flex flex-row gap-2'>
                         <Image src={EmployeeIcon} alt="employee" width={25} height={10} />
                         <h2 className="card-title">{data.emp_name}</h2>
@@ -47,9 +48,10 @@ export default function LeaveCard(props: any) {
                         <p>{`Department : ${data.dep_name || ''}`}</p>
                         <p>{`Total day(s) of leave : ${data.total_days}`}</p>
                     </div>
-                    <div className="card-actions justify-end">
-                        <button disabled={isLoading} onClick={() => acceptOrDeny(1, data.id)} className="btn btn-primary">Accept</button>
-                        <button disabled={isLoading} onClick={() => acceptOrDeny(-1, data.id)} className="btn btn-ghost">Deny</button>
+                    <div className="card-actions justify-between">
+                        <Link href={`leave-approval/review/${data.emp_id}`} className="btn btn-outline flex-1">Review</Link>
+                        <button disabled={isLoading} onClick={() => acceptOrDeny(-1, data.id)} className="btn btn-outline btn-error flex-1">Deny</button>
+                        <button disabled={isLoading} onClick={() => acceptOrDeny(1, data.id)} className="btn btn-primary flex-1">Accept</button>
                     </div>
                 </div>
             </div>

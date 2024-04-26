@@ -23,7 +23,7 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.fetch_pending_leave_list();
+        const data = await this.leaveDao.fetch_pending_leave_list(req);
         return CommonRes.SUCCESS(
             resMessage("Pending list of leaves").FOUND,
             data,
@@ -46,6 +46,28 @@ class LeaveController {
         };
 
         const data = await this.leaveDao.accept_or_deny(req);
+        return CommonRes.SUCCESS(
+            resMessage("Leave status changed").FOUND,
+            data,
+            resObj,
+            res,
+            next
+        );
+    };
+
+    leaveListByEmpid = async (
+        req: Request,
+        res: Response,
+        next: NextFunction,
+        apiId: string
+    ) => {
+        const resObj: resObj = {
+            apiId,
+            action: "POST",
+            version: "1.0",
+        };
+
+        const data = await this.leaveDao.listbyEmpid(req);
         return CommonRes.SUCCESS(
             resMessage("Leave status changed").FOUND,
             data,

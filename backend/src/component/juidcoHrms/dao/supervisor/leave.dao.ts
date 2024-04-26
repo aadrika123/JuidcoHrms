@@ -1,38 +1,58 @@
 /**
- * | Author- Krish
- * | Created for- Payroll management
+ * | Author- Anil
+ * | Created for- Leave approval
  * | Status: open
  */
 import { Request } from "express";
-import {  PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 const prisma = new PrismaClient();
 
 class LeaveDao {
-    private regulary_pay: any[];
-    private allowances: any[];
-    private gross: any[];
-    private no_of_leave_approved: any[];
-    private total_working_hours: any;
-    private employee_payroll_data: any[];
-    private total_amount_released: number;
-    private lwp_days_last_month: any[];
+    // private regulary_pay: any[];
+    // private allowances: any[];
+    // private gross: any[];
+    // private no_of_leave_approved: any[];
+    // private total_working_hours: any;
+    // private employee_payroll_data: any[];
+    // private total_amount_released: number;
+    // private lwp_days_last_month: any[];
 
     constructor() {
-        this.regulary_pay = [];
-        this.allowances = [];
-        this.gross = [];
-        this.no_of_leave_approved = [];
-        this.employee_payroll_data = [];
-        this.total_amount_released = 0;
-        this.lwp_days_last_month = [];
-        // this.offset = (1 - 1) * 2;
+        // this.regulary_pay = [];
+        // this.allowances = [];
+        // this.gross = [];
+        // this.no_of_leave_approved = [];
+        // this.employee_payroll_data = [];
+        // this.total_amount_released = 0;
+        // this.lwp_days_last_month = [];
+        // // this.offset = (1 - 1) * 2;
     }
 
-    fetch_pending_leave_list = async () => {
+    fetch_pending_leave_list = async (req: Request) => {
+        const { supervisor_id } = req.params
+        const hierarchyData: any = []
 
         try {
-            const data = prisma.$queryRaw`
+            const data = await prisma.employee_hierarchy.findMany({
+                select: {
+                    emp_id: true
+                },
+                where: {
+                    parent_emp: supervisor_id
+                }
+            })
+            data.forEach((item)=>{
+                hierarchyData.push(item.emp_id)
+            })
+        } catch (err) {
+            console.error('Error executing queries:', err);
+        }
+
+       const placeholder = hierarchyData.map((id:any) => `'${id}'`).join(', ');
+        console.log(placeholder)
+        try {
+            const data = prisma.$queryRawUnsafe(`
             SELECT 
             emp_details.emp_name as emp_name,
             dep.name as dep_name,
@@ -58,7 +78,8 @@ class LeaveDao {
                 department as dep ON join_details.department_id = dep.id
             WHERE 
                 leave_status = 0
-            `
+                AND emp.emp_id IN (${placeholder})
+            `)
 
             return generateRes(data);
         }
@@ -77,6 +98,76 @@ class LeaveDao {
                 SET leave_status = ${status}
                 WHERE id=${id};
                 `
+            return generateRes(data);
+        }
+        catch (err) {
+            console.error('Error executing queries:', err);
+        }
+    }
+
+    listbyEmpid = async (req: Request) => {
+        const { emp_id } = req.params
+        const data: any = {
+            leaveList: []
+        }
+        try {
+            data.leaveList = await prisma.employee_leave_details.findMany({
+                where: {
+                    employee_id: emp_id
+                },
+                include: {
+                    emp_leave_type: true
+                },
+                orderBy: {
+                    created_at: 'desc'
+                }
+            })
+            data.currentLeaveRequest = await prisma.employee_leave_details.findFirst({
+                where: {
+                    employee_id: emp_id,
+                    leave_status: 0
+                },
+                include: {
+                    emp_leave_type: true
+                },
+                orderBy: {
+                    created_at: 'desc'
+                }
+            })
+            data.LastLeaveRequest = await prisma.employee_leave_details.findFirst({
+                where: {
+                    employee_id: emp_id,
+                },
+                include: {
+                    emp_leave_type: true
+                },
+                orderBy: {
+                    created_at: 'desc'
+                },
+                skip: 1
+            })
+            data.emp = await prisma.employees.findFirst({
+                select: {
+                    emp_basic_details: {
+                        select: {
+                            emp_name: true
+                        }
+                    },
+                    emp_join_details: {
+                        select: {
+                            department: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                },
+                where: {
+                    emp_id: emp_id,
+                },
+            })
+
             return generateRes(data);
         }
         catch (err) {

@@ -23,6 +23,8 @@ import {
   employeePersonalDetailsValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import DropDownList from "@/components/Helpers/DropDownList";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmpployeePersonalDetails: React.FC<
   EmployeeDetailsProps<EmployeePersonalDetailsType>
@@ -240,7 +242,7 @@ const EmpployeePersonalDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-3/11</h5>
+        <h5>Steps-3/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -279,7 +281,6 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 3, name: "Widowed" },
                   ]}
                 />
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -318,8 +319,12 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 2, name: "Muslim" },
                     { id: 3, name: "Sikh" },
                     { id: 4, name: "Christian" },
+                    { id: 5, name: "Jainism" },
+                    { id: 6, name: "Parsis" },
+                    { id: 7, name: "Buddhism" },
                   ]}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -361,8 +366,7 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 />
-
-                <SelectForNoApi
+                {/* <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.emp_district}
@@ -398,8 +402,20 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 23, name: "Gumla" },
                     { id: 24, name: "Khunti" },
                   ]}
-                />
+                /> */}
 
+                <DropDownList
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.emp_district}
+                  error={errors.emp_district}
+                  touched={touched.emp_district}
+                  label="District"
+                  name="emp_district"
+                  placeholder={"Enter District"}
+                  required={true}
+                  api={`${HRMS_URL.DISTRICT.get}`}
+                />
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -421,7 +437,6 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 8, name: "O-" },
                   ]}
                 />
-
                 <div>
                   <div className="grid">
                     <SelectForNoApi
@@ -453,7 +468,6 @@ const EmpployeePersonalDetails: React.FC<
                     </div>
                   )}
                 </div>
-
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -498,7 +512,6 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 />
-
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -519,7 +532,6 @@ const EmpployeePersonalDetails: React.FC<
                     },
                   ]}
                 />
-
                 {/* <SelectForNoApi
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -548,7 +560,6 @@ const EmpployeePersonalDetails: React.FC<
                   },
                 ]}
               />  */}
-
                 <div>
                   <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
                     {/* <SelectForNoApi
@@ -688,7 +699,6 @@ const EmpployeePersonalDetails: React.FC<
                       </div>
                     )}
                 </div>
-
                 <div className="flex items-center gap-5">
                   <div>
                     {empLang?.map((row, index: number) => {
@@ -815,7 +825,6 @@ const EmpployeePersonalDetails: React.FC<
                     }
                   }}
                 /> */}
-
                 {/* MOther Tounge */}
                 {/* <div className="flex items-center gap-5">
                   <div>

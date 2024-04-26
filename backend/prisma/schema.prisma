@@ -44,8 +44,9 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
-  leave_encashment        leave_encashment[]
   pension_master          pension_master[]
+  leave_encashment        leave_encashment[]
+  payroll_master          payroll_master[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -57,7 +58,7 @@ model employee_office_details {
   office_code     String
   ddo_designation String
   ddo_code        String
-  district        String
+  district        Int
   employee        employees[]
   created_at      DateTime    @default(now()) @map("created_at")
   updated_at      DateTime    @updatedAt @map("updated_at")
@@ -93,7 +94,7 @@ model employee_personal_details {
   religion                    String
   emp_categories              String
   emp_home_state              String
-  emp_district                String
+  emp_district                Int
   emp_blood_group             String
   emp_health_status           String
   emp_health_file             String?
@@ -144,7 +145,7 @@ model employee_address_details {
   village                     String
   post_office                 String?
   state                       String
-  district                    String
+  district                    Int
   block_ulb                   String?
   pin_code                    String
   police_station              String?
@@ -234,10 +235,10 @@ model employee_salary_allow {
 
 model employee_salary_deduction {
   id                         Int                     @id @default(autoincrement())
-  name                       String
-  wfe_date                   String
-  acnt_no                    String
-  amount_in                  Float
+  name                       String?
+  wfe_date                   String?
+  acnt_no                    String?
+  amount_in                  Float?
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")
@@ -263,7 +264,7 @@ model employee_join_details {
   grade_pay               Float?
   doc                     String?
   basic_pay               Float?
-  conf_order_number       Float?
+  conf_order_number       String?
   deduction_type          String?
   conf_order_date         String?
   member_gis              String?
@@ -454,6 +455,28 @@ model wf_roleusermaps {
     created_at   DateTime? @default(now()) @map("created_at")
     updated_at   DateTime? @updatedAt @map("updated_at")
 }
+model department {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model designation {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model holidays {
+  id  Int @id @default(autoincrement())
+  date String?
+  name String
+}
+
 // ----------------- CREATED AND MAINTAINED BY KRISH -------------------------- //
 
 model employee_attendance_history {
@@ -581,26 +604,22 @@ model employee_leave_type {
   updated_at             DateTime                 @updatedAt @map("updated_at")
 }
 
-model department {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model designation {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model holidays {
-  id  Int @id @default(autoincrement())
-  date String?
-  name String
+//  CREATED AND MAINTAINED BY ANJALI
+model leave_encashment {
+  id                            Int       @id @default(autoincrement())
+  application_id                String    @unique
+  employee_id                   String
+  emp_name                      String?
+  earned_leave                  Int?      @default(0)
+  total_days_for_applied        Int?      @default(0)
+  leave_balance_after_apply     Int?      @default(0)
+  per_basic_pay                 Int?      @default(0)
+  grand_total_encashment_amount Int?      @default(0)
+  leave_encash_apply            Int
+  status                        Int?      @default(0)
+  employee                      employees @relation(fields: [employee_id], references: [emp_id])
+  created_at                    DateTime  @default(now()) @map("created_at")
+  updated_at                    DateTime  @updatedAt @map("updated_at")
 }
 
 // -------------- Created and maintained by Jaideep ----------------------- //
@@ -632,29 +651,40 @@ model district {
   updated_at DateTime @updatedAt @map("updated_at")
 }
 
+model ddo {
+  ddo_code        String   @unique
+  ddo_name        String
+  ddo_designation String
+  ddo_office      String
+  created_at      DateTime @default(now()) @map("created_at")
+  updated_at      DateTime @updatedAt @map("updated_at")
+}
+
 
 // Created and Maintained by Krish
 model payroll_master {
-  id                       Int      @id @default(autoincrement())
-  emp_id                   String
+  id                       Int       @id @default(autoincrement())
+  emp_id                   String    @unique
   emp_name                 String
-  gross_pay                Float    @default(0)
-  leave_days               Int      @default(0)
-  working_hour             Int      @default(0)
-  total_allowance          Float    @default(0)
-  total_deductions         Float    @default(0)
-  non_billable             Int      @default(0)
-  present_days             Int      @default(0)
-  lwp_days                 Int      @default(0)
-  salary_deducted          Float    @default(0)
-  net_pay                  Float    @default(0)
-  last_month_lwp_deduction Float    @default(0)
+  gross_pay                Float     @default(0)
+  leave_days               Int       @default(0)
+  working_hour             Int       @default(0)
+  total_allowance          Float     @default(0)
+  total_deductions         Float     @default(0)
+  non_billable             Int       @default(0)
+  present_days             Int       @default(0)
+  lwp_days                 Int       @default(0)
+  salary_deducted          Float     @default(0)
+  net_pay                  Float     @default(0)
+  last_month_lwp_deduction Float     @default(0)
+  salary_per_hour          Float     @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
   month                    Int
   year                     Int
-  created_at               DateTime @default(now()) @map("created_at")
-  updated_at               DateTime @updatedAt @map("updated_at")
+  employees                employees @relation(fields: [emp_id], references: [emp_id])
+  created_at               DateTime  @default(now()) @map("created_at")
+  updated_at               DateTime  @updatedAt @map("updated_at")
 
   @@unique([emp_id, month, year])
 }
@@ -676,22 +706,5 @@ model pension_master {
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")
   updated_at               DateTime                 @updatedAt @map("updated_at")
-}
-
-model leave_encashment {
-  id                      Int         @id @default(autoincrement())
-  application_id          String      @unique
-  employee_id             String
-  emp_name                String?
-  earned_leave            Int?        @default(0)
-  total_days_for_applied  Int?        @default(0)
-  leave_balance_after_apply Int?      @default(0)
-  per_basic_pay           Int?        @default(0)
-  grand_total_encashment_amount Int?  @default(0)
-  leave_encash_apply      Int
-  status                  Int?        @default(0)
-  employee                employees   @relation(fields: [employee_id], references: [emp_id])
-  created_at              DateTime    @default(now()) @map("created_at")
-  updated_at              DateTime    @updatedAt @map("updated_at")
 }
 

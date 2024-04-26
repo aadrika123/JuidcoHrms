@@ -152,6 +152,73 @@ class PayrollController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
+  update_emp_payroll_with_sheet = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.payrollDao.update_emp_payroll_with_sheet(req);
+
+      return CommonRes.SUCCESS(
+        resMessage("Payroll").FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
+
+  // --------------------- DOWNLOADING PAYROLL FROM SHEET ------------------------------ //
+  // download_payroll = async (
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction,
+  //   apiId: string
+  // ) => {
+  //   const resObj: resObj = {
+  //     apiId,
+  //     action: "POST",
+  //     version: "1.0",
+  //   };
+
+  //   try {
+  //     const data = await this.payrollDao.download_payroll(req, res);
+
+  //     if (data) {
+  //       return CommonRes.NOT_FOUND(
+  //         resMessage("Payroll").NOT_FOUND,
+  //         data,
+  //         resObj,
+  //         res,
+  //         next
+  //       );
+  //     }
+  //     return CommonRes.SUCCESS(
+  //       resMessage("Payroll").FOUND,
+  //       data,
+  //       resObj,
+  //       res,
+  //       next
+  //     );
+  //   } catch (error) {
+  //     return CommonRes.SERVER_ERROR(error, resObj, res, next);
+  //   }
+  // };
+  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
 }
 
 export default PayrollController;

@@ -9,6 +9,7 @@ type UrlKeys =
   | "EMP_COUNT"
   | "DEPARTMENT"
   | "DESIGNATION"
+  | "DISTRICT"
   | "LOGIN"
   | "ATTENDANCE"
   | "HOLIDAY"
@@ -24,14 +25,18 @@ type UrlKeys =
   | "NOMINEE"
   | "FAMILY"
   | "OTP"
-  | "LEAVE";
+  | "LEAVE"
+  | "DDO"
+  | "TEAM";
 
 type Urls = {
   [key in UrlKeys]: {
     get?: string;
     create?: string;
     update?: string;
+    updateMany?: string;
     getById?: string;
+    getAllById?: string;
     delete?: string;
     getCodes?: string;
     getAll?: string;
@@ -45,7 +50,9 @@ export const HRMS_URL: Urls = {
     create: "/employee/create",
     update: "/employee/update",
     getById: "/employee/get-single",
+    getAllById: "/employee/get-all-single",
     delete: "/employee/remove",
+    validate: "/employee/validate",
   },
 
   DEPARTMENT: {
@@ -54,11 +61,17 @@ export const HRMS_URL: Urls = {
   DESIGNATION: {
     get: "/master/designation",
   },
+  DISTRICT: {
+    get: "/master/district",
+  },
   EMP_COUNT: {
     get: "/employee/count",
   },
   LOGIN: {
     create: "/api/login",
+  },
+  DDO: {
+    get: "/ddo/get",
   },
   ATTENDANCE: {
     create: "/employee/attendance/create",
@@ -70,6 +83,7 @@ export const HRMS_URL: Urls = {
   PAYROLL: {
     getAll: "/pay/payroll",
     update: "/pay/payroll/update",
+    updateMany: "/pay/payroll/update-many",
   },
 
   PAYROLL_TOTAL: {
@@ -111,6 +125,10 @@ export const HRMS_URL: Urls = {
   },
   LEAVE: {
     get: "/leave/approval",
-    update:"/leave/accept-deny"
+    update:"/leave/accept-deny",
+    getById:"/leave/list"
+  },
+  TEAM: {
+    get: "/team/list"
   },
 };

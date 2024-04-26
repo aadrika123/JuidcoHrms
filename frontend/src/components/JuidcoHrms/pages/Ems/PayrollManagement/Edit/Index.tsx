@@ -19,6 +19,7 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import PrimaryButton from "@/components/Helpers/Button";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [billNo, setBillNo] = useState(0);
@@ -87,8 +88,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
       throw error;
     }
   };
-
-  console.log("Saving...", totalDayDiff);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -349,10 +348,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   Permissible Leave
                 </div>
               </InnerHeading>
-              <div></div>
-              <InnerHeading className="mx-4 mt-5">
-                Date Range
-              </InnerHeading>{" "}
+
               <div>
                 <InnerHeading className="mx-4 mt-5">Date Range</InnerHeading>
                 <span className="mt-5">
@@ -370,13 +366,14 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     onChange={handleToDateChange}
                   />
                 </span>
-                <button
-                  type="button"
+                <PrimaryButton
+                  variant="primary"
+                  buttonType="button"
                   onClick={hanldeClick}
-                  className="w-20 mt-4 bg-blue-500 text-white rounded-md py-2 px-4"
+                  className=" float-end mt-[8rem]"
                 >
-                  Save
-                </button>
+                  Enter
+                </PrimaryButton>
                 {totalDayDiff !== 0 && (
                   <div className="mt-4">
                     Total: {totalDayDiff} {totalDayDiff === 1 ? "day" : "days"}
@@ -465,9 +462,27 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   <div className="flex place-content-center">
                     <table className="w-[375.833px] h-[168.333px] border-flex  m-5">
                       <tr className="border">
-                        <td className="font-bold px-4" colSpan={2}>
-                          ALLOWANCE
+                        <td className="font-bold px-4 uppercase" colSpan={2}>
+                          Earnings
                         </td>
+                      </tr>
+
+                      <tr className="border-1px">
+                        <>
+                          <td className="border w-[150px] pl-3">Grade Pay</td>
+                          <td className="border">
+                            {EmpProfile?.emp_join_details?.grade_pay || 0}
+                          </td>
+                        </>
+                      </tr>
+
+                      <tr className="border-1px">
+                        <>
+                          <td className="border w-[150px] pl-3">Basic Pay</td>
+                          <td className="border">
+                            {EmpProfile?.emp_join_details?.basic_pay || 0}
+                          </td>
+                        </>
                       </tr>
 
                       {empData?.emp_salary_details?.emp_salary_allow?.map(

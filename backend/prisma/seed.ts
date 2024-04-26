@@ -13,6 +13,7 @@ import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
 import { generate_attendance } from "./seeder/employee/attend.seed";
 import { attend_history_seed } from "./seeder/employee/attend_history";
 import { leave_encash_seed } from "./seeder/employee/encash.seed";
+import { ddoSeeder } from "./seeder/masters/ddo.seed";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -29,6 +30,7 @@ async function main() {
   await holidays_seeder();
   await empLeave_seeder();
   await leave_encash_seed();
+  await ddoSeeder();
 
   setTimeout(async () => {
     await employee_seeder();

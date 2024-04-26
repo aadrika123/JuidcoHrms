@@ -35,6 +35,9 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
 };
 
 const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+
   const initialTableData: EmployeeEducation[] = Array.from(
     { length: 4 },
     (_, index) => ({
@@ -136,6 +139,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       isRequired: true,
     },
   ];
+
   function onChangeTableDataHandler(
     id: number,
     value: string | number,
@@ -165,6 +169,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     ? ""
                     : "";
       }
+
       if (innerKey) {
         if (!row[key]) {
           row[key] = {};
@@ -175,6 +180,31 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       } else {
         row[key] = value;
       }
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      setIsTyping(true);
+
+      if (key === "passing_year") {
+        setTimeoutId(
+          setTimeout(() => {
+            if (!isTyping && id > 0) {
+              const prevRow = updatedData[id - 1];
+              if (row["passing_year"] < prevRow["passing_year"]) {
+                toast.error("Passing Year must be greator than previous year");
+              }
+            }
+          }, 1500)
+        );
+      }
+
+      // Reset typing status after 1500ms (1.5 seconds)
+      setTimeout(() => {
+        setIsTyping(false);
+      }, 1500);
+
       if (
         Object.values(row)
           .slice(1)
@@ -197,6 +227,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     setDataSesson();
     // props.setSession("emp_education", tableData);
     const lastRow = tableData[tableData.length - 1];
+
     const isLastRowEmpty = Object.values(lastRow).every(
       (row) =>
         row !== undefined &&
@@ -292,7 +323,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   />
                 </td>
                 {/* -----------------------Edu Level----------------------------------- */}
-
                 {/* ---------------------------STREAM----------------------------------- */}
                 <td className=" px-6">
                   <InputField
@@ -317,7 +347,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   />
                 </td>
                 {/* ---------------------------STREAM----------------------------------- */}
-
                 {/* ---------------------------BOARD----------------------------------- */}
                 <td className="px-6 ">
                   <React.Fragment>
@@ -331,8 +360,10 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       onKeyPress={(e: any) => {
                         if (
                           !(
-                            (e.key >= "a" || e.key >= "A") &&
-                            (e.key <= "z" || e.key <= "Z")
+                            ((e.key >= "a" || e.key >= "A") &&
+                              (e.key <= "z" || e.key <= "Z")) ||
+                            e.key === " " ||
+                            e.key === "."
                           )
                         ) {
                           e.preventDefault();
@@ -342,7 +373,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   </React.Fragment>
                 </td>
                 {/* ---------------------------BOARD----------------------------------- */}
-
                 {/* ---------------------------PASSING YEAR----------------------------------- */}
                 <td className=" px-6">
                   <InputField
@@ -366,7 +396,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   />
                 </td>
                 {/* ---------------------------PASSING YEAR----------------------------------- */}
-
                 {/* ---------------------------MARKS----------------------------------- */}
                 <td className=" px-6">
                   <InputField
@@ -390,7 +419,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   />
                 </td>
                 {/* ---------------------------MARKS----------------------------------- */}
-
                 {/* ---------------------------GRADE----------------------------------- */}
                 <td className=" px-6">
                   <InputField
@@ -404,7 +432,6 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   />
                 </td>
                 {/* ---------------------------GRADE----------------------------------- */}
-
                 {/* ---------------------------UPLOAD FILE----------------------------------- */}
                 <td className=" px-6">
                   <div className="flex gap-3 cursor-pointer mt-7 pb-2">

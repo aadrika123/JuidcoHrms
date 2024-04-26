@@ -22,6 +22,8 @@ import {
   employeePresentAddressValidationSchema,
 } from "@/utils/validation/Ems/ems.validation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
+import DropDownList from "@/components/Helpers/DropDownList";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmpPresentAddress: React.FC<
   EmployeeDetailsProps<EmployeePresentAddressDetailsType>
@@ -99,7 +101,7 @@ const EmpPresentAddress: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-4/11</h5>
+        <h5>Steps-4/10</h5>
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
@@ -225,7 +227,7 @@ const EmpPresentAddress: React.FC<
                     { id: 38, name: "Ladakh" },
                   ]}
                 />
-                <SelectForNoApi
+                <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.district}
@@ -235,32 +237,7 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   name="district"
                   placeholder={"Choose District"}
-                  options={[
-                    { id: 1, name: "Deoghar" },
-                    { id: 2, name: "Dumka" },
-                    { id: 3, name: "Bokaro" },
-                    { id: 4, name: "Giridih" },
-                    { id: 5, name: "Koderma" },
-                    { id: 6, name: "Godda" },
-                    { id: 7, name: "Chatra" },
-                    { id: 8, name: "Dhanbad" },
-                    { id: 9, name: "Gharwha" },
-                    { id: 10, name: "East-Singhbhum" },
-                    { id: 11, name: "Jamtara" },
-                    { id: 12, name: "Saraikela-Kharsawan" },
-                    { id: 13, name: "Ranchi" },
-                    { id: 14, name: "Pakur" },
-                    { id: 15, name: "Latehar" },
-                    { id: 16, name: "Hazaribagh" },
-                    { id: 17, name: "Lohardaga" },
-                    { id: 18, name: "Palamu" },
-                    { id: 19, name: "Ramghar" },
-                    { id: 20, name: "Simdega" },
-                    { id: 21, name: "West-Singhbhum" },
-                    { id: 22, name: "Sahebganj" },
-                    { id: 23, name: "Gumla" },
-                    { id: 24, name: "Khunti" },
-                  ]}
+                  api={`${HRMS_URL.DISTRICT.get}`}
                 />
 
                 <SelectForNoApi
@@ -504,42 +481,19 @@ const EmpPresentAddress: React.FC<
                     name="district_permanent"
                   /> */}
 
-                    <SelectForNoApi
+                    <DropDownList
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.district_permanent}
                       error={errors.district_permanent}
                       touched={touched.district_permanent}
                       label="District"
+                      required={true}
                       name="district_permanent"
                       placeholder={"Choose District"}
-                      options={[
-                        { id: 1, name: "Deoghar" },
-                        { id: 2, name: "Dumka" },
-                        { id: 3, name: "Bokaro" },
-                        { id: 4, name: "Giridih" },
-                        { id: 5, name: "Koderma" },
-                        { id: 6, name: "Godda" },
-                        { id: 7, name: "Chatra" },
-                        { id: 8, name: "Dhanbad" },
-                        { id: 9, name: "Gharwha" },
-                        { id: 10, name: "East-Singhbhum" },
-                        { id: 11, name: "Jamtara" },
-                        { id: 12, name: "Saraikela-Kharsawan" },
-                        { id: 13, name: "Ranchi" },
-                        { id: 14, name: "Pakur" },
-                        { id: 15, name: "Latehar" },
-                        { id: 16, name: "Hazaribagh" },
-                        { id: 17, name: "Lohardaga" },
-                        { id: 18, name: "Palamu" },
-                        { id: 19, name: "Ramghar" },
-                        { id: 20, name: "Simdega" },
-                        { id: 21, name: "West-Singhbhum" },
-                        { id: 22, name: "Sahebganj" },
-                        { id: 23, name: "Gumla" },
-                        { id: 24, name: "Khunti" },
-                      ]}
+                      api={`${HRMS_URL.DISTRICT.get}`}
                     />
+
                     {/* <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
