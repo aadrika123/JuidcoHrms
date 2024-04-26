@@ -97,6 +97,19 @@ class EmployeeOnBoardRoute {
         loggerMiddleware
       ); //0108
 
+    app
+      .route(`${baseUrl}/employee/validate`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.validate_emp_id(
+            req,
+            res,
+            next,
+            "0109"
+          ),
+        loggerMiddleware
+      ); //0109
+
       app
       .route(`${baseUrl}/employee/get-all-single/:emp_id`)
       .get(

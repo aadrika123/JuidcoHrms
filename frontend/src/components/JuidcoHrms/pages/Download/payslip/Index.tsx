@@ -28,65 +28,65 @@ const Download_payslip = () => {
         });
     };
 
-    // Function to convert number to words
-    const convertNumberToWords = (num: number): string => {
-        const ones = [
-            "",
-            "ONE",
-            "TWO",
-            "THREE",
-            "FOUR",
-            "FIVE",
-            "SIX",
-            "SEVEN",
-            "EIGHT",
-            "NINE",
-            "TEN",
-            "ELEVEN",
-            "TWELVE",
-            "THIRTEEN",
-            "FOURTEEN",
-            "FIFTEEN",
-            "SIXTEEN",
-            "SEVENTEEN",
-            "EIGHTEEN",
-            "NINETEEN",
-        ];
-        const tens = [
-            "",
-            "",
-            "TWENTY",
-            "THIRTY",
-            "FORTY",
-            "FIFTY",
-            "SIXTY",
-            "SEVENTY",
-            "EIGHTY",
-            "NINETY",
-        ];
+    // // Function to convert number to words
+    // const convertNumberToWords = (num: number): string => {
+    //     const ones = [
+    //         "",
+    //         "ONE",
+    //         "TWO",
+    //         "THREE",
+    //         "FOUR",
+    //         "FIVE",
+    //         "SIX",
+    //         "SEVEN",
+    //         "EIGHT",
+    //         "NINE",
+    //         "TEN",
+    //         "ELEVEN",
+    //         "TWELVE",
+    //         "THIRTEEN",
+    //         "FOURTEEN",
+    //         "FIFTEEN",
+    //         "SIXTEEN",
+    //         "SEVENTEEN",
+    //         "EIGHTEEN",
+    //         "NINETEEN",
+    //     ];
+    //     const tens = [
+    //         "",
+    //         "",
+    //         "TWENTY",
+    //         "THIRTY",
+    //         "FORTY",
+    //         "FIFTY",
+    //         "SIXTY",
+    //         "SEVENTY",
+    //         "EIGHTY",
+    //         "NINETY",
+    //     ];
 
-        if (num === 0) {
-            return "ZERO";
-        }
+    //     if (num === 0) {
+    //         return "ZERO";
+    //     }
 
-        if (num < 20) {
-            return ones[num];
-        }
+    //     if (num < 20) {
+    //         return ones[num];
+    //     }
 
-        if (num < 100) {
-            return tens[Math.floor(num / 10)] + " " + ones[num % 10];
-        }
+    //     if (num < 100) {
+    //         return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+    //     }
 
-        if (num < 1000) {
-            return (
-                ones[Math.floor(num / 100)] +
-                " HUNDRED " +
-                convertNumberToWords(num % 100)
-            );
-        }
+    //     if (num < 1000) {
+    //         return (
+    //             ones[Math.floor(num / 100)] +
+    //             " HUNDRED " +
+    //             convertNumberToWords(num % 100)
+    //         );
+    //     }
 
-        return "OUT OF RANGE";
-    };
+    //     return "OUT OF RANGE";
+    // };
 
 
     const formatDate = (date: any) => {
@@ -372,8 +372,8 @@ const Download_payslip = () => {
                 <div className="flex place-content-around mt-10">
                     <div className="">
                         <p>
-                            NET PAY : {empData?.payroll[0]?.net_pay} (
-                            {convertNumberToWords(empData?.payroll[0]?.net_pay)} ONLY)
+                            NET PAY : {empData?.payroll[0]?.net_pay} Only 
+                            {/* ({convertNumberToWords(empData?.payroll[0]?.net_pay)} ONLY) */}
                         </p>
                     </div>
                     <div>

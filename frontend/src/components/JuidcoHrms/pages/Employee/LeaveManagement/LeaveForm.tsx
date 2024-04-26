@@ -284,7 +284,6 @@ const LeaveForm = () => {
                               onChange={() => setTabIndex(1)}
                               name="radio-1"
                               className="radio border border-zinc-600"
-                              defaultChecked
                             />
                             <label
                               htmlFor="accounting"
@@ -301,6 +300,7 @@ const LeaveForm = () => {
                               type="radio"
                               name="radio-1"
                               className="radio  border-zinc-600"
+                              defaultChecked
                             />
                             <label
                               htmlFor="function"

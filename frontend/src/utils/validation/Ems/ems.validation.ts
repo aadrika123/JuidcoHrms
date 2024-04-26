@@ -10,14 +10,14 @@ import * as yup from "yup";
 
 /// ------------- Employee Office Details ---------------------///
 export const officeDetailsValidationSchema = yup.object({
-  office_name: yup
-    .string()
-    .min(3, "Must be at least 3 characters long")
-    .max(50, "Max 50 characters long")
-    .required("Please Enter the Office Name"),
-  office_code: yup.string().required("Please Enter the Office Code"),
-  ddo_designation: yup.string().required("Please Enter the DDO Designation"),
-  ddo_code: yup.string().required("Please Enter the DDO Code"),
+  // office_name: yup
+  //   .string()
+  //   .min(3, "Must be at least 3 characters long")
+  //   .max(50, "Max 50 characters long")
+  //   .required("Please Enter the Office Name"),
+  // office_code: yup.string().required("Please Enter the Office Code"),
+  // ddo_designation: yup.string().required("Please Enter the DDO Designation"),
+  // ddo_code: yup.string().required("Please Enter the DDO Code"),
   district: yup.string().required("Please Enter the District"),
 });
 
@@ -35,11 +35,11 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 export const employeeValidationSchema = yup.object({
   // emp_id: yup.string().required("Employee ID is required"),
   emp_image: yup.string().required("Employee image is required"),
-  emp_name: yup
-    .string()
-    .min(3, "Must be at least 3 characters long")
-    .max(50, "Max 50 characters long")
-    .required("Employee name is required"),
+  // emp_name: yup
+  //   .string()
+  //   .min(3, "Must be at least 3 characters long")
+  //   .max(50, "Max 50 characters long")
+  //   .required("Employee name is required"),
   // mode_of_recruitment: yup.mixed().required("Mode of recruitment is required"),
 
   contact_no: yup
@@ -144,7 +144,7 @@ export const initialEmployeePersonalDetails: EmployeePersonalDetailsType = {
   religion: "",
   emp_categories: "",
   emp_home_state: "",
-  emp_district: "",
+  emp_district: 0,
   emp_blood_group: "",
   emp_health_status: "",
   emp_ltc_home_town: "",
@@ -219,11 +219,11 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
 export const employeeJoinValidationSchema = yup.object({
   department_id: yup.string().required("Please Choose the Correct Department"),
   // designation: yup.string().required("Please Choose the Correct Designation"),
-  task: yup
-    .string()
-    .min(3, "Must be at least 3 characters long")
-    .max(50, "Max 50 characters long")
-    .required("Please Choose Correct Task"),
+  // task: yup
+  //   .string()
+  //   .min(3, "Must be at least 3 characters long")
+  //   .max(50, "Max 50 characters long")
+  //   .required("Please Choose Correct Task"),
   // doj: yup.string().required("Please Enter the Correct Date Of Joining"),
   effective_pay_commision: yup
     .string()

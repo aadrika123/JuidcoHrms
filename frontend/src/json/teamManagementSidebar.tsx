@@ -81,7 +81,7 @@ export const TMSidebarLinks: SidebarLinksProps = {
                             icon: (
                                 <Image src={HolidayIcon} alt="masters" width={100} height={100} />
                             ),
-                            path: `${url}`,
+                            path: `${url}/supervisor/time-sheet`,
                         },
                     ]
                 },

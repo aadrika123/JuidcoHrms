@@ -484,6 +484,42 @@ class EmployeeOnBoardController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  // !----------------------------- CHECK EMPLOYEE ID EXIST OR NOT ------------------------------//]
+  validate_emp_id = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+    try {
+      const data = await this.employeeOnBoardDao.validate_emp_id(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Failed `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        `${this.initMesg} FOUND Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
 }
 
 export default EmployeeOnBoardController;

@@ -6,7 +6,7 @@
 import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
-import netCalcLogger from '../../../../../loggers/netCalcLogger'
+
 const prisma = new PrismaClient();
 
 class PayrollDao {
@@ -32,27 +32,12 @@ class PayrollDao {
 
   cal_allowance_and_deduction = async () => {
     // ---------------------------------CALCULATING ALLOWANCES AND DEDUCTIONS-------------------------------//
-    // this.allowances = await prisma.$queryRaw`
-    //   SELECT 
-    //     emp.emp_id,
-    //     SUM(emp_allow.amount_in) as total_allowance , SUM(emp_deduct.amount_in) as total_deductions
-    //   FROM 
-    //       employees as emp
-    //   JOIN 
-    //     employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-    //   JOIN 
-    //     employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-    //   JOIN
-    //     employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-    //   GROUP BY emp.emp_id
-      
-    // `;
-
-    // return generateRes(this.allowances);
-
     try {
-        const [deductionsResult, allowanceResult]: [deductionsResult: any, allowanceResult: any] = await Promise.all([
-            prisma.$queryRaw`
+      const [deductionsResult, allowanceResult]: [
+        deductionsResult: any,
+        allowanceResult: any
+      ] = await Promise.all([
+        prisma.$queryRaw`
         SELECT 
             emp.emp_id,
             SUM(emp_deduct.amount_in) as total_deductions
@@ -66,7 +51,7 @@ class PayrollDao {
             emp_deduct.name != 'IT'
         GROUP BY emp.emp_id
         `,
-            prisma.$queryRaw`
+        prisma.$queryRaw`
         SELECT 
             emp.emp_id,
             SUM(emp_allow.amount_in) as total_allowance
@@ -77,26 +62,26 @@ class PayrollDao {
         JOIN 
             employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
         GROUP BY emp.emp_id
-        `
-        ])
+        `,
+      ]);
 
-        // Merge results based on emp_id
-        const combinedResult = deductionsResult.map((deductionRow: any) => {
-            const allowanceRow = allowanceResult.find((row: any) => row.emp_id === deductionRow.emp_id);
-            return {
-                emp_id: deductionRow.emp_id,
-                total_deductions: deductionRow.total_deductions,
-                total_allowance: allowanceRow ? allowanceRow.total_allowance : 0
-            };
-        });
+      // Merge results based on emp_id
+      const combinedResult = deductionsResult.map((deductionRow: any) => {
+        const allowanceRow = allowanceResult.find(
+          (row: any) => row.emp_id === deductionRow.emp_id
+        );
+        return {
+          emp_id: deductionRow.emp_id,
+          total_deductions: deductionRow.total_deductions,
+          total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
+        };
+      });
 
-        this.allowances = combinedResult
-        return generateRes(this.allowances);
+      this.allowances = combinedResult;
+      return generateRes(this.allowances);
+    } catch (err) {
+      console.error("Error executing queries:", err);
     }
-    catch (err) {
-        console.error('Error executing queries:', err);
-    }
-
   };
 
   calc_regular_pay = async () => {
@@ -208,7 +193,7 @@ class PayrollDao {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
-    let dataToSendForLogging: any = {}
+    let dataToSendForLogging: any = {};
 
     // collect gross
     this.gross.forEach((emp) => {
@@ -355,16 +340,16 @@ class PayrollDao {
         net_pay: Math.floor(calc_net_pay),
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
         date: date,
+        salary_per_hour: Math.round(salary_per_hour),
       };
 
       dataToSendForLogging = {
         ...dataToSendForLogging,
         [record.emp_id]: {
-            lwp_days_last_month: data[record.emp_id].lwp_days_last_month,
-            salary_per_hour
-        }
-    }
-
+          lwp_days_last_month: data[record.emp_id].lwp_days_last_month,
+          salary_per_hour,
+        },
+      };
     });
     // !======================== EMPLOYEE SALARY CALCULATION =========================//
 
@@ -377,14 +362,11 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    // console.log(this.employee_payroll_data);
+    console.log(this.employee_payroll_data);
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
-
-    //function call for logging the calculated data
-    netCalcLogger(this.employee_payroll_data, dataToSendForLogging)
 
     return generateRes(this.employee_payroll_data);
   };
@@ -420,6 +402,7 @@ class PayrollDao {
     return generateRes(data);
   };
 
+  // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
   update_emp_payroll = async (req: Request) => {
     const { status, id } = req.body;
 
@@ -434,6 +417,105 @@ class PayrollDao {
 
     return generateRes(data);
   };
+  // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
+
+  // // --------------------- DOWNLOAD PAYROLL EXCEL ------------------------------ //
+  // download_payroll = async (req: Request, res: Response) => {
+  //   // const record = await prisma.$queryRawUnsafe(`
+  //   // COPY (SELECT emp_id, working_hour, net_pay FROM payroll_master) TO '/tmp/payroll_data.csv' WITH CSV HEADER;
+  //   // `);
+  //   // console.log();
+
+  //   const data = await prisma.$queryRaw<any[]>`
+  //     SELECT emp_id, working_hour, net_pay FROM payroll_master
+  //   `;
+  //   // const fields = ["emp_id", "working_hour", "net_pay"];
+  //   // const fieldNames = ["Name", "Phone", "Mobile", "Email", "Address", "Notes"];
+  //   // const fileName = "demp.csv";
+  //   // // const parser = new AsyncParser({
+  //   // //   fields,
+  //   // // });
+  //   // Promise.all(data).then(
+  //   //   (data) => {
+  //   //     parseAsync(data, { fields, quote: "" })
+  //   //       .then((csv) => {
+  //   //         fs.writeFile(fileName, csv, function (err) {
+  //   //           if (err) throw err;
+  //   //           console.log("Stocks file saved to: " + fileName);
+  //   //         });
+  //   //       })
+  //   //       .catch((err) => console.error(err));
+  //   //   },
+  //   //   (reject) => {
+  //   //     reject("failed");
+  //   //     console.error("Error from calling APIs");
+  //   //   }
+  //   // );
+
+  //   // res.attachment("filename.csv");
+  //   // res.setHeader("Content-Type", "text/csv");
+  //   // res.setHeader(
+  //   //   "Content-Disposition",
+  //   //   'attachment; filename="payroll_data.csv"'
+  //   // );
+
+  //   return generateRes(res);
+  // };
+  // // --------------------- DOWNLOAD PAYROLL EXCEL ------------------------------ //
+
+  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
+  update_emp_payroll_with_sheet = async (req: Request) => {
+    try {
+      const data: any[] = req.body.data;
+      const record = await prisma.$transaction(async (tx) => {
+        const getEmployeePayroll = await prisma.$queryRaw<any[]>`
+        SELECT emp_id, salary_per_hour FROM payroll_master
+      `;
+
+        const returnNewSalary = (
+          emp_id_x: string,
+          getEmployeePayroll: any[]
+        ): number => {
+          const employee = getEmployeePayroll?.filter(
+            (emp) => emp.emp_id === emp_id_x
+          );
+
+          return employee[0].salary_per_hour;
+        };
+
+        for (const object of data) {
+          const existing_emp_id = await prisma.$queryRaw<
+            any[]
+          >`SELECT EXISTS (SELECT 1 FROM payroll_master WHERE emp_id = ${object.emp_id});`;
+
+          if (!existing_emp_id[0].exists === false) {
+            await tx.payroll_master.updateMany<Prisma.payroll_masterUpdateManyArgs>(
+              {
+                data: {
+                  working_hour: object.working_hour,
+                  net_pay:
+                    object.working_hour *
+                    returnNewSalary(object.emp_id, getEmployeePayroll),
+                },
+                where: {
+                  emp_id: {
+                    equals: object.emp_id,
+                  },
+                  month: object.month,
+                  year: object.year,
+                },
+              }
+            );
+          }
+        }
+      });
+      return generateRes(record);
+    } catch (error) {
+      return generateRes({ message: false });
+    }
+  };
+
+  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
 
   calc_total_amount_released = async () => {
     // await this.calc_net_pay();

@@ -57,15 +57,13 @@ class EmployeeOnBoardDao {
             },
         });
 
-        if (emp_id) {
-            const mailOptions = {
-                from: '"New Employee Onboarded 👻" <jgupta324@gmail.com>',
-                // from: 'jgupta324@gmail.com',
-                // to: 'gjai4341@gmail.com',
-                to: "gjai4341@gmail.com, kkrish7654@gmail.com, jharina070@gmail.com, rajeshguptaranchi123@gmail.com",
-                subject: "New Employee Onboarded",
-                text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
-            };
+    if (emp_id) {
+      const mailOptions = {
+        from: '"New Employee Onboarded" <jgupta324@gmail.com>',
+        to: "gjai4341@gmail.com, kkrish7654@gmail.com, jharina070@gmail.com, rajeshguptaranchi123@gmail.com",
+        subject: "New Employee Onboarded",
+        text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
+      };
 
             console.log("data", mailOptions);
             const data = await transporter.sendMail(mailOptions);
@@ -129,19 +127,19 @@ class EmployeeOnBoardDao {
             // empTransDetails = this.filterReqBody(emp_trans_details);
         }
 
-        let empSalaryAllowDetails: any = undefined;
-        let empSalaryDeductionDetails: any = undefined;
-        if (emp_salary_details !== undefined) {
-            const { emp_salary_allow_details, emp_salary_deduction_details } =
-                emp_salary_details;
-
-            empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
-            if (emp_salary_deduction_details !== undefined) {
-                empSalaryDeductionDetails = this.filterReqBody(
-                    emp_salary_deduction_details
-                );
-            }
-        }
+    let empSalaryAllowDetails: any = undefined;
+    let empSalaryDeductionDetails: any = undefined;
+    if (emp_salary_details !== undefined) {
+      const { emp_salary_allow_details, emp_salary_deduction_details } =
+        emp_salary_details;
+      console.log(emp_salary_deduction_details);
+      empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
+      if (emp_salary_deduction_details !== undefined) {
+        empSalaryDeductionDetails = this.filterReqBody(
+          emp_salary_deduction_details
+        );
+      }
+    }
 
         let empLoan: any = undefined;
         let empLoanPrincipal: any = undefined;
@@ -613,8 +611,21 @@ class EmployeeOnBoardDao {
       SELECT * FROM employee_family_details WHERE employees_id = ${emp_id}::text
     `;
 
-        return generateRes(data);
-    };
+    return generateRes(data);
+  };
+
+  // !----------------------------- CHECK EMPLOYEE ID EXIST OR NOT ------------------------------//
+  validate_emp_id = async (req: Request) => {
+    const emp_id = req.body.emp_id;
+
+    const exist = await prisma.$queryRaw`
+      SELECT EXISTS (SELECT 1 FROM employees WHERE emp_id = ${emp_id});
+    `;
+
+    console.log(exist);
+
+    return generateRes(exist);
+  };
 }
 
 export default EmployeeOnBoardDao;

@@ -50,7 +50,7 @@ class LeaveDao {
         }
 
        const placeholder = hierarchyData.map((id:any) => `'${id}'`).join(', ');
-        // console.log(placeholder)
+        console.log(placeholder)
         try {
             const data = prisma.$queryRawUnsafe(`
             SELECT 

@@ -34,17 +34,19 @@ const EmpSalaryDetails: React.FC<
   const [basic_pay, setBasicPay] = useState(0);
   const [basic_pay1, setBasicPay1] = useState(0);
 
-  const initialDeductDetails = {
+  const initialDeductDetails = () => ({
     amount_in: "",
     name: "",
     wfe_date: "",
     acnt_no: "",
-  };
+  });
+
   const [employeeDeductionDetails, setEmployeeDeductionDetails] = useState<any>(
     [initialDeductDetails]
   );
 
   function storeEmployeeDeductionDetails() {
+    console.log(employeeDeductionDetails, "before");
     if (typeof window !== "undefined") {
       sessionStorage.setItem(
         "emp_salary_deduction_details",
@@ -333,7 +335,7 @@ const EmpSalaryDetails: React.FC<
             </svg>
           </i>
         </SubHeading>
-        <h5>Steps-10/11</h5>
+        <h5>Steps-10/10</h5>
       </div>
 
       {/* -----------------------Radio option for salary ----------------------------------- */}

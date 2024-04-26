@@ -15,7 +15,7 @@ import Loader from "@/components/global/atoms/Loader";
 import Image from "next/image";
 import LeaveListIcon from "@/assets/icons/LeaveList.png";
 import PrimaryButton from "@/components/Helpers/Button";
-import LeaveList from "./LeaveList";
+import LeaveList from "@/components/JuidcoHrms/pages/supervisor/leaveApproval/LeaveList";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 
@@ -87,7 +87,7 @@ export default function LeaveApproval() {
                             </div>
                             <section className="flex items-end gap-2 justify-end">
                                 <div className="flex justify-center items-center flex-col w-20">
-                                    <h1 className="text-lg text-sky-600 font-bold">{leaveList.length || 0}</h1>
+                                    <h1 className="text-lg text-sky-600 font-bold">{leaveList?.length || 0}</h1>
                                     <p className="text-sm">Total no. of requested leave</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
@@ -132,7 +132,7 @@ export default function LeaveApproval() {
 
                     <div className="card w-full shadow-md rounded-sm">
                         <div className="card-body">
-                            {leaveList.length === 0 && (
+                            {leaveList?.length === 0 && (
                                 <h1>No pending leave requests</h1>
                             )}
                             <LeaveList data={leaveList} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />

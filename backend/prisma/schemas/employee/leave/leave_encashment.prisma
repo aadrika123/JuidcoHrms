@@ -1,0 +1,17 @@
+//  CREATED AND MAINTAINED BY ANJALI
+model leave_encashment {
+  id                            Int       @id @default(autoincrement())
+  application_id                String    @unique
+  employee_id                   String
+  emp_name                      String?
+  earned_leave                  Int?      @default(0)
+  total_days_for_applied        Int?      @default(0)
+  leave_balance_after_apply     Int?      @default(0)
+  per_basic_pay                 Int?      @default(0)
+  grand_total_encashment_amount Int?      @default(0)
+  leave_encash_apply            Int
+  status                        Int?      @default(0)
+  employee                      employees @relation(fields: [employee_id], references: [emp_id])
+  created_at                    DateTime  @default(now()) @map("created_at")
+  updated_at                    DateTime  @updatedAt @map("updated_at")
+}

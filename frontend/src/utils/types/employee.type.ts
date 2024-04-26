@@ -67,7 +67,7 @@ export interface EmployeePersonalDetailsType {
   religion: string | number;
   emp_categories: string | number;
   emp_home_state: string;
-  emp_district: string;
+  emp_district: number;
   emp_blood_group: string | number;
   emp_health_status: string | number;
   emp_health_file: string;
