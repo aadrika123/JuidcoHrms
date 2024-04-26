@@ -31,7 +31,7 @@ class LeaveDao {
 
     fetch_pending_leave_list = async (req: Request) => {
         const { supervisor_id } = req.params
-        let hierarchyData: any = []
+        const hierarchyData: any = []
 
         try {
             const data = await prisma.employee_hierarchy.findMany({
@@ -50,7 +50,7 @@ class LeaveDao {
         }
 
        const placeholder = hierarchyData.map((id:any) => `'${id}'`).join(', ');
-        console.log(placeholder)
+        // console.log(placeholder)
         try {
             const data = prisma.$queryRawUnsafe(`
             SELECT 
