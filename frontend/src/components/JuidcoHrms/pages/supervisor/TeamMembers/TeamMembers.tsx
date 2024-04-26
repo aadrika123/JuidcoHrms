@@ -1,7 +1,7 @@
 /***
  * Author: Anil
  * Status: Open
- * Uses: LEave approval page for supervisor.
+ * Uses: Team Members page for supervisor.
  */
 
 "use client"
@@ -15,24 +15,29 @@ import Loader from "@/components/global/atoms/Loader";
 import Image from "next/image";
 import LeaveListIcon from "@/assets/icons/LeaveList.png";
 import PrimaryButton from "@/components/Helpers/Button";
-import LeaveList from "./LeaveList";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
+import TeamCard from "./TeamCard";
 
-export default function LeaveApproval() {
+export default function TeamMembers() {
 
     const [loading, setLoading] = useState(false);
     // const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
-    const [leaveList, setLeaveList] = useState<any>([]);
-    const [isUpdated, setIsUpdated] = useState(false);
+    const [teamList, setTeamList] = useState<any>([]);
+    let emp_id: string | null
+
+    useEffect(() => {
+        const userDetails = JSON.parse(sessionStorage.getItem('user_details') || '{}');
+        emp_id = userDetails?.emp_id
+    }, [])
 
 
     const fetchLeave = () => {
         try {
             setLoading(true);
-            axios(`${HRMS_URL.LEAVE.get}`)
+            axios(`${HRMS_URL.TEAM.get}/${emp_id}`)
                 .then((response) => {
-                    setLeaveList(response.data?.data);
+                    setTeamList(response.data?.data?.data);
                     console.log("Data is returned", response.data);
                 })
                 .catch((error) => {
@@ -47,7 +52,7 @@ export default function LeaveApproval() {
 
     useEffect(() => {
         fetchLeave()
-    }, [isUpdated])
+    }, [])
 
 
     return (
@@ -57,7 +62,7 @@ export default function LeaveApproval() {
                 <BackButton />
                 <div>
                     <SubHeading className="mx-5 my-5 mb-0 text-4xl">
-                        Leave Approval
+                        Team Members
                     </SubHeading>
                 </div>
             </div>
@@ -77,13 +82,13 @@ export default function LeaveApproval() {
                             <div className="flex justify-between">
                                 <SubHeading>
                                     <Image src={LeaveListIcon} alt="employee" width={40} height={20} />
-                                    <span className="ml-4 text-lg">List of Total Requested Leave</span>
+                                    <span className="ml-4 text-lg">Search Team Members</span>
                                 </SubHeading>
                             </div>
                             <section className="flex items-end gap-2 justify-end">
                                 <div className="flex justify-center items-center flex-col w-20">
-                                    <h1 className="text-lg text-sky-600 font-bold">{leaveList.length || 0}</h1>
-                                    <p className="text-sm">Total no. of requested leave</p>
+                                    <h1 className="text-lg text-sky-600 font-bold">{teamList.length || 0}</h1>
+                                    <p className="text-sm">Total team members</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
                                 <div className="flex flex-col gap-2">
@@ -126,11 +131,13 @@ export default function LeaveApproval() {
                     </div>
 
                     <div className="card w-full shadow-md rounded-sm">
-                        <div className="card-body">
-                            {leaveList.length === 0 && (
+                        <div className="card-body grid grid-cols-3 gap-4">
+                            {teamList.length === 0 && (
                                 <h1>No pending leave requests</h1>
                             )}
-                            <LeaveList data={leaveList} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+                            {teamList.map((item: any, index: number) => (
+                                <TeamCard key={index} data={item} />
+                            ))}
                         </div>
                     </div>
 

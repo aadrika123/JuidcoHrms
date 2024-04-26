@@ -44,8 +44,8 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
-  leave_encashment        leave_encashment[]
   pension_master          pension_master[]
+  leave_encashment        leave_encashment[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -694,4 +694,3 @@ model leave_encashment {
   created_at              DateTime    @default(now()) @map("created_at")
   updated_at              DateTime    @updatedAt @map("updated_at")
 }
-

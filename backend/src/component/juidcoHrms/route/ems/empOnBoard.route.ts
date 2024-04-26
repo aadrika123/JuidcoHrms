@@ -96,6 +96,19 @@ class EmployeeOnBoardRoute {
           this.employeeOnBoardController.get_family(req, res, next, "0108"),
         loggerMiddleware
       ); //0108
+
+      app
+      .route(`${baseUrl}/employee/get-all-single/:emp_id`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeOnBoardController.getAllSingleEmpInfo(
+            req,
+            res,
+            next,
+            "0109"
+          ),
+        loggerMiddleware
+      ); //0109
   }
 }
 

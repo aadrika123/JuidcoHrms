@@ -88,7 +88,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     const TMSidebarOpen = (name: any) => {
         if (name === 'Team Management') {
             setIsTeamManagementOpen(true)
-            console.log(name)
+            // console.log(name)
         }
     }
 
@@ -134,7 +134,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                                                                             className={`${data === sub?.moduleName
                                                                                 ? "bg-[#4338CA] text-white m-2"
                                                                                 : "bg-transparent text-zinc-600"
-                                                                                } ml-2 text-[0.9375rem] p-1 pr-4 hover:bg-[#4338CA] hover:text-white font-semibold`}
+                                                                                } ml-2 text-[0.9375rem] p-1 pr-4 pl-2 hover:bg-[#4338CA] hover:text-white font-semibold`}
                                                                         >
                                                                             <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
                                                                                 {sub.icon}

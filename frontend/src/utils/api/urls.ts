@@ -24,7 +24,8 @@ type UrlKeys =
   | "NOMINEE"
   | "FAMILY"
   | "OTP"
-  | "LEAVE";
+  | "LEAVE"
+  | "TEAM";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -32,6 +33,7 @@ type Urls = {
     create?: string;
     update?: string;
     getById?: string;
+    getAllById?: string;
     delete?: string;
     getCodes?: string;
     getAll?: string;
@@ -45,6 +47,7 @@ export const HRMS_URL: Urls = {
     create: "/employee/create",
     update: "/employee/update",
     getById: "/employee/get-single",
+    getAllById: "/employee/get-all-single",
     delete: "/employee/remove",
   },
 
@@ -111,6 +114,10 @@ export const HRMS_URL: Urls = {
   },
   LEAVE: {
     get: "/leave/approval",
-    update:"/leave/accept-deny"
+    update:"/leave/accept-deny",
+    getById:"/leave/list"
+  },
+  TEAM: {
+    get: "/team/list"
   },
 };

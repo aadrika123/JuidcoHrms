@@ -23,6 +23,14 @@ export const TMSidebarLinks: SidebarLinksProps = {
             dropdown: true,
             subModules: [
                 {
+                    moduleName: "Team Members",
+                    icon: (
+                        <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+                    ),
+                    path: `${url}/supervisor/team-members`,
+                    dropdown: false,
+                },
+                {
                     moduleName: "Assign Task",
                     icon: (
                         <Image src={HolidayIcon} alt="masters" width={100} height={100} />

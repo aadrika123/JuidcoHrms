@@ -4,7 +4,7 @@ import LeaveCard from "./LeaveCard"
 
 export default function LeaveList(props: any) {
 
-    const { data, setIsUpdated, isUpdated } = props
+    const { data, setIsUpdated, isUpdated }: { data: any, setIsUpdated: any, isUpdated: boolean } = props
 
     return (
         <div className="grid grid-cols-3 gap-4">

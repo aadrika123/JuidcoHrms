@@ -297,6 +297,47 @@ class EmployeeOnBoardController {
     }
   };
 
+
+
+  getAllSingleEmpInfo = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ): Promise<object> => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.employeeOnBoardDao.getAllSingleEmpInfo(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Failed `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+
+      return CommonRes.SUCCESS(
+        `${this.initMesg} Found Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
+
+
   //! ------------- Remove an employee ----------------
   removeEmp = async (
     req: Request,

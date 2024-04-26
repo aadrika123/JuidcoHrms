@@ -1,7 +1,7 @@
 /***
  * Author: Anil
  * Status: Open
- * Uses: LEave approval page for supervisor.
+ * Uses: Leave review page for supervisor.
  */
 
 "use client"
@@ -15,11 +15,11 @@ import Loader from "@/components/global/atoms/Loader";
 import Image from "next/image";
 import LeaveListIcon from "@/assets/icons/LeaveList.png";
 import PrimaryButton from "@/components/Helpers/Button";
-import LeaveList from "./LeaveList";
+import LeaveReviewCard from "./LeaveReviewCard";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 
-export default function LeaveApproval() {
+export default function Review({ id }: { id: any }) {
 
     const [loading, setLoading] = useState(false);
     // const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
@@ -30,7 +30,7 @@ export default function LeaveApproval() {
     const fetchLeave = () => {
         try {
             setLoading(true);
-            axios(`${HRMS_URL.LEAVE.get}`)
+            axios(`${HRMS_URL.LEAVE.getById}/${id}`)
                 .then((response) => {
                     setLeaveList(response.data?.data);
                     console.log("Data is returned", response.data);
@@ -72,18 +72,35 @@ export default function LeaveApproval() {
             {!loading && (
                 <>
 
+                    <div className="card w-full shadow-md rounded-sm flex-row">
+                        <div className="card-body">
+                            <SubHeading>
+                                <Image src={LeaveListIcon} alt="employee" width={40} height={20} />
+                                <span className="ml-4 text-lg">Current Leave Request</span>
+                            </SubHeading>
+                            <LeaveReviewCard data={leaveList.currentLeaveRequest} emp={leaveList.emp} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+                        </div>
+                        <div className="card-body">
+                            <SubHeading>
+                                <Image src={LeaveListIcon} alt="employee" width={40} height={20} />
+                                <span className="ml-4 text-lg">Last Leave Request</span>
+                            </SubHeading>
+                            <LeaveReviewCard data={leaveList.LastLeaveRequest} emp={leaveList.emp} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+                        </div>
+                    </div>
+
                     <div className="card w-full shadow-md rounded-sm">
                         <div className="card-body flex flex-row justify-between">
                             <div className="flex justify-between">
                                 <SubHeading>
                                     <Image src={LeaveListIcon} alt="employee" width={40} height={20} />
-                                    <span className="ml-4 text-lg">List of Total Requested Leave</span>
+                                    <span className="ml-4 text-lg">Search Leave History</span>
                                 </SubHeading>
                             </div>
                             <section className="flex items-end gap-2 justify-end">
                                 <div className="flex justify-center items-center flex-col w-20">
-                                    <h1 className="text-lg text-sky-600 font-bold">{leaveList.length || 0}</h1>
-                                    <p className="text-sm">Total no. of requested leave</p>
+                                    <h1 className="text-lg text-sky-600 font-bold">{(leaveList?.leaveList)?.length || 0}</h1>
+                                    <p className="text-sm">Total no. of taken leave</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
                                 <div className="flex flex-col gap-2">
@@ -130,7 +147,9 @@ export default function LeaveApproval() {
                             {leaveList.length === 0 && (
                                 <h1>No pending leave requests</h1>
                             )}
-                            <LeaveList data={leaveList} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+                            {leaveList?.leaveList?.map((item: any, index: number) => (
+                                <LeaveReviewCard key={index} data={item} emp={leaveList.emp} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+                            ))}
                         </div>
                     </div>
 
