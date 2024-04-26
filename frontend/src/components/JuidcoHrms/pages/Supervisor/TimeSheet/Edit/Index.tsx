@@ -19,7 +19,6 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import PrimaryButton from "@/components/Helpers/Button";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [billNo, setBillNo] = useState(0);
@@ -366,14 +365,13 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     onChange={handleToDateChange}
                   />
                 </span>
-                <PrimaryButton
-                  variant="primary"
-                  buttonType="button"
+                <button
+                  type="button"
                   onClick={hanldeClick}
-                  className=" float-end mt-[8rem]"
+                  className="w-20 mt-4 bg-blue-500 text-white rounded-md py-2 px-4"
                 >
                   Enter
-                </PrimaryButton>
+                </button>
                 {totalDayDiff !== 0 && (
                   <div className="mt-4">
                     Total: {totalDayDiff} {totalDayDiff === 1 ? "day" : "days"}
