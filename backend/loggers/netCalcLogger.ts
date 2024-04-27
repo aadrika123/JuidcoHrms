@@ -2,6 +2,7 @@ import winston from "winston";
 const payrollLogger = winston.loggers.get('payrollLogger')
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import fs from "fs";
 
 export default async function netCalcLogger(netCalcData: any, additionalData: any) {
 
@@ -124,6 +125,12 @@ export default async function netCalcLogger(netCalcData: any, additionalData: an
             dataToLog.Deductions.push(temporaryObject);
         });
 
+        // fs.writeFileSync("payroll.json", dataToLog)
+        // fs.writeFile('Output.log', dataToLog.toString(), (err) => {
+ 
+        //     // In case of a error throw err.
+        //     if (err) throw err;
+        // })
 
         payrollLogger.info(`Calculated Net Pay`, { data: dataToLog })
     })

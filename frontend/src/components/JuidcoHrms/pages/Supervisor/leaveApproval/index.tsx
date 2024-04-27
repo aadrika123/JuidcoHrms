@@ -91,7 +91,7 @@ export default function LeaveApproval() {
                                     <p className="text-sm">Total no. of requested leave</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
-                                <div className="flex flex-col gap-2">
+                                {/* <div className="flex flex-col gap-2">
                                     <label htmlFor="search-by" className="text-secondary text-lg">
                                         Search By
                                     </label>
@@ -125,7 +125,7 @@ export default function LeaveApproval() {
                                         </svg>
                                     </span>
                                     Search record
-                                </PrimaryButton>
+                                </PrimaryButton> */}
                             </section>
                         </div>
                     </div>

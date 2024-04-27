@@ -5,12 +5,12 @@ export default function PersonalDetails(props: any) {
     const { data } = props
 
     const languageFormatter = (languageArray: any) => {
-        const formattedLanguages = languageArray.map((lang: any) => {
-            const capabilities = lang.emp_lang_do.join(', ');
+        const formattedLanguages = languageArray?.map((lang: any) => {
+            const capabilities = lang?.emp_lang_do?.join(', ');
             return `${lang.language}(${capabilities})`;
         });
 
-        const result = formattedLanguages.join(', ');
+        const result = formattedLanguages?.join(', ');
 
         return result
     }

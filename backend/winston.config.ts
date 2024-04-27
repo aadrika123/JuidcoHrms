@@ -25,6 +25,7 @@ winston.loggers.add('payrollLogger', {
         prettyPrint()
     ),
     transports: [
+        // new winston.transports.Console(),
         new winston.transports.File({
             filename: 'payroll.log',
             level: 'info'
