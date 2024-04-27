@@ -17,9 +17,9 @@ import { ddoSeeder } from "./seeder/masters/ddo.seed";
 
 const prisma = new PrismaClient();
 async function main() {
-  await prisma.$queryRaw`DROP TABLE users cascade`;
-  await prisma.$queryRaw`DROP TABLE wf_roles cascade`;
-  await prisma.$queryRaw`DROP TABLE wf_roleusermaps cascade`;
+  // await prisma.$queryRaw`DROP TABLE users cascade`;
+  // await prisma.$queryRaw`DROP TABLE wf_roles cascade`;
+  // await prisma.$queryRaw`DROP TABLE wf_roleusermaps cascade`;
 
   await designation_seeder();
   await department_seeder();

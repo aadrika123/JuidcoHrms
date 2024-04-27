@@ -1,59 +1,59 @@
 
-// ----- Managed and Used by Jaideep ---------------- //
-model users {
-  id                   Int      @id @default(autoincrement())
-  user_name            String?
-  mobile               String?
-  email                String
-  email_verified_at    DateTime?
-  user_type            String?
-  ulb_id               Int
-  password             String
-  suspended            Boolean
-  super_user           Boolean?
-  description          String?
-  remember_token       String
-  workflow_participant Boolean
-  photo_relative_path  String?
-  photo                String?
-  sign_relative_path   String?
-  signature            String?
-  old_ids              Int?
-  name                 String
-  old_password         String?
-  user_code            String?
-  alternate_mobile     String?
-  address              String?
-  wf_roleusermaps      wf_roleusermaps[]
+// // ----- Managed and Used by Jaideep ---------------- //
+// model users {
+//   id                   Int      @id @default(autoincrement())
+//   user_name            String?
+//   mobile               String?
+//   email                String
+//   email_verified_at    DateTime?
+//   user_type            String?
+//   ulb_id               Int
+//   password             String
+//   suspended            Boolean
+//   super_user           Boolean?
+//   description          String?
+//   remember_token       String
+//   workflow_participant Boolean
+//   photo_relative_path  String?
+//   photo                String?
+//   sign_relative_path   String?
+//   signature            String?
+//   old_ids              Int?
+//   name                 String
+//   old_password         String?
+//   user_code            String?
+//   alternate_mobile     String?
+//   address              String?
+//   wf_roleusermaps      wf_roleusermaps[]
 
-  created_at           DateTime? @default(now()) @map("created_at")
-  updated_at           DateTime @updatedAt @map("updated_at")
-}
+//   created_at           DateTime? @default(now()) @map("created_at")
+//   updated_at           DateTime @updatedAt @map("updated_at")
+// }
 
-/////// wf_roles Managed by: Sanjiv Kumar //////////////
+// /////// wf_roles Managed by: Sanjiv Kumar //////////////
 
-model wf_roles {
-    id              Int       @id @default(autoincrement())
-    role_name       String
-    is_suspended    Boolean
-    created_by      Int
-    stamp_date_time DateTime?
-    old_ids         String?
-    wf_roleusermaps wf_roleusermaps[]
-    created_at      DateTime? @default(now()) @map("created_at")
-    updated_at      DateTime? @updatedAt @map("updated_at")
-}
+// model wf_roles {
+//     id              Int       @id @default(autoincrement())
+//     role_name       String
+//     is_suspended    Boolean
+//     created_by      Int
+//     stamp_date_time DateTime?
+//     old_ids         String?
+//     wf_roleusermaps wf_roleusermaps[]
+//     created_at      DateTime? @default(now()) @map("created_at")
+//     updated_at      DateTime? @updatedAt @map("updated_at")
+// }
 
-/////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
+// /////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
 
-model wf_roleusermaps {
-    id           Int       @id @default(autoincrement())
-    wf_role_id   Int
-    wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
-    user_id      Int
-    user         users    @relation(fields: [user_id], references: [id])
-    is_suspended Boolean
-    created_by   Int?
-    created_at   DateTime? @default(now()) @map("created_at")
-    updated_at   DateTime? @updatedAt @map("updated_at")
-}
+// model wf_roleusermaps {
+//     id           Int       @id @default(autoincrement())
+//     wf_role_id   Int
+//     wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
+//     user_id      Int
+//     user         users    @relation(fields: [user_id], references: [id])
+//     is_suspended Boolean
+//     created_by   Int?
+//     created_at   DateTime? @default(now()) @map("created_at")
+//     updated_at   DateTime? @updatedAt @map("updated_at")
+// }

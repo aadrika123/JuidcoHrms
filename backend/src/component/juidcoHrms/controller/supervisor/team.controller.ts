@@ -1,17 +1,17 @@
 import { Request, NextFunction, Response } from "express";
 import { resObj } from "../../../../util/types";
-import LeaveDao from "../../dao/supervisor/leave.dao";
+import TeamDao from "../../dao/supervisor/team.dao";
 import CommonRes from "../../../../util/helper/commonResponse";
 import { resMessage } from "../../../../util/common";
 
-class LeaveController {
-    private leaveDao: LeaveDao;
+class TeamController {
+    private teamDao: TeamDao;
 
     constructor() {
-        this.leaveDao = new LeaveDao();
+        this.teamDao = new TeamDao();
     }
 
-    pending_leave_list = async (
+    team_members_list = async (
         req: Request,
         res: Response,
         next: NextFunction,
@@ -23,9 +23,9 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.fetch_pending_leave_list(req);
+        const data = await this.teamDao.fetch_team_member_list(req);
         return CommonRes.SUCCESS(
-            resMessage("Pending list of leaves").FOUND,
+            resMessage("List of team members").FOUND,
             data,
             resObj,
             res,
@@ -45,7 +45,7 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.accept_or_deny(req);
+        const data = await this.teamDao.accept_or_deny(req);
         return CommonRes.SUCCESS(
             resMessage("Leave status changed").FOUND,
             data,
@@ -67,7 +67,7 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.listbyEmpid(req);
+        const data = await this.teamDao.listbyEmpid(req);
         return CommonRes.SUCCESS(
             resMessage("Leave status changed").FOUND,
             data,
@@ -81,4 +81,4 @@ class LeaveController {
 
 }
 
-export default LeaveController;
+export default TeamController;
