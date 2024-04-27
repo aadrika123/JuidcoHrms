@@ -45,7 +45,7 @@ type PayrollCount = {
   total_employee: number;
   total_amount: number;
 };
-type TableData = EmployeePayrollData | PayrollCount;
+export type TableData = EmployeePayrollData | PayrollCount;
 
 const PayrollManagement = () => {
   const [selectedFilter, setSelectedFilter] = useState<number | null>(null);

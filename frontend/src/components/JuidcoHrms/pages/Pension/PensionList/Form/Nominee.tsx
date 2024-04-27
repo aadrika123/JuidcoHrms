@@ -29,7 +29,7 @@ export function returnEmpPension(payrollData: any, emp_id: string) {
 const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
   const router = useRouter();
   const pathName = usePathname();
-  const [payrollData, setPayrollData] = useState<any[]>();
+  const [payrollData] = useState<any[]>();
 
   const COLUMS_EMP_NOMINEE_DETAILS: COLUMNS[] = [
     {
@@ -81,13 +81,23 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
     onNext();
   };
 
+  //--------------------------- GET PAYROLL DETAILS ---------------------------//
+  const fetchPayroll: FetchAxios = {
+    url: `${HRMS_URL.PAYROLL.getAll}`,
+    url_extend: ``,
+    method: "GET",
+    res_type: 1,
+    query_key: "emp_payroll",
+    data: [],
+  };
+  const { data: payroll_details, error: p_error } =
+    useCodeQuery<any>(fetchPayroll);
+  if (p_error) toast.error("OOps! Failed to get employee details!");
+  //--------------------------- GET PAYROLL DETAILS ---------------------------//
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
-      setPayrollData(_data?.data);
-    }
-  }, []);
+    sessionStorage.setItem("payroll", JSON.stringify(payroll_details));
+  }, [payroll_details]);
 
   return (
     <>
