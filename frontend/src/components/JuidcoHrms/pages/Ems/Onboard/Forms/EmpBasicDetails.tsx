@@ -84,7 +84,10 @@ const EmployeeBasicDetails: React.FC<
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      const fullName = Object.values(employeeName).join(" ");
+      const fullName = Object.values(employeeName)
+        .filter((value, key: any) => key !== "emp_id") // Filter out emp_id
+        .join(" ");
+
       values.emp_name = String(fullName);
       values.emp_id = employeeName.emp_id;
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
@@ -104,7 +107,6 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
-  console.log(initialValues);
 
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
   const validateEmployeeId = async () => {

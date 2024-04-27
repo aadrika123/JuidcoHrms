@@ -283,8 +283,9 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                             onKeyPress={(e: any) => {
                               if (
                                 !(
-                                  (e.key >= "a" || e.key >= "A") &&
-                                  (e.key <= "z" || e.key <= "Z")
+                                  ((e.key >= "a" || e.key >= "A") &&
+                                    (e.key <= "z" || e.key <= "Z")) ||
+                                  e.key <= " "
                                 )
                               ) {
                                 e.preventDefault();

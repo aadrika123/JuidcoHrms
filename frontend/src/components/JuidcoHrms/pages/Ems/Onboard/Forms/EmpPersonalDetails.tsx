@@ -199,7 +199,7 @@ const EmpployeePersonalDetails: React.FC<
   }, []);
 
   const languages = [
-    { id: 1, name: "Assamese" },
+    { id: 1, name: "English" },
     { id: 2, name: "Bengali" },
     { id: 3, name: "Bodo" },
     { id: 4, name: "Dogri" },
@@ -221,6 +221,7 @@ const EmpployeePersonalDetails: React.FC<
     { id: 20, name: "Tamil" },
     { id: 21, name: "Telugu" },
     { id: 22, name: "Urdu" },
+    { id: 23, name: "Assamese" },
   ];
   return (
     <>
