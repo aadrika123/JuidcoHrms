@@ -2,7 +2,6 @@ import winston from "winston";
 const payrollLogger = winston.loggers.get('payrollLogger')
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-import fs from "fs";
 
 export default async function netCalcLogger(netCalcData: any, additionalData: any) {
 
