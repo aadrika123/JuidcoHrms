@@ -139,8 +139,10 @@ const validateDob = (e:any)=>{
     const isAtLeast18 = new Date(dob.getFullYear()+18, dob.getMonth()-1,dob.getDate()) <= new Date();
     if(isAtLeast18){
         setIsAdult(false)
+        // setIsEmpExist(true)
     }else{
         setIsAdult(true)
+        // setIsEmpExist(false)
     }
     console.log(isAtLeast18)
     // console.log(isAtLeast18)
@@ -649,7 +651,7 @@ const validateDob = (e:any)=>{
                   Reset
                 </PrimaryButton>
 
-                {!isEmpExist ? (
+                {!isEmpExist && !isAdult ? (
                   <PrimaryButton buttonType="submit" variant="primary">
                     Next
                   </PrimaryButton>
@@ -657,7 +659,11 @@ const validateDob = (e:any)=>{
                   <PrimaryButton
                     buttonType="button"
                     onClick={() => {
+                        if(isAdult){
                       toast.error("Employee Id Already Exist!");
+                    }else{
+                        toast.error("Age must be atleast 18");
+                    }
                     }}
                     variant="disabled"
                   >
@@ -665,7 +671,7 @@ const validateDob = (e:any)=>{
                   </PrimaryButton>
                 )}
 
-                {isAdult && (
+                {/* {isAdult && (
                     <PrimaryButton
                         buttonType="button"
                         onClick={() => {
@@ -675,7 +681,7 @@ const validateDob = (e:any)=>{
                     >
                         Next
                     </PrimaryButton>
-                )}
+                )} */}
 
               </div>
             </form>

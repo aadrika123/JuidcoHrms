@@ -202,13 +202,13 @@ const AttendanceManagement = () => {
       id: 2,
       label: "8 hour working",
       bgColor: "bg-[#FDF4FF]",
-      buttonColor: "bg-[#12743B]",
+      buttonColor: "bg-[#b0d7b2]",
     },
     {
       id: 3,
       label: "Absent",
       bgColor: "bg-[#FEF2F2]",
-      buttonColor: "bg-[#DC2626]",
+      buttonColor: "bg-[#fc828f]",
     },
     {
       id: 4,
