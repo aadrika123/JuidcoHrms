@@ -28,10 +28,12 @@ const Download_payslip = () => {
             date: value,
         });
     };
+    const [empProfile, setEmpProfile] = useState<any>({})
 
     useEffect(() => {
         setBillNo((prevBillNo) => prevBillNo + 1);
-      }, []);
+    }, []);
+
 
     // // Function to convert number to words
     // const convertNumberToWords = (num: number): string => {
@@ -107,7 +109,8 @@ const Download_payslip = () => {
         console.log(formatDate(date))
         try {
             const res = await axios({
-                url: `/pay/payslip?emp_id=${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}&date=${formatDate(date)}`,
+                // url: `/pay/payslip?emp_id=${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}&date=${formatDate(date)}`,
+                url: `/pay/payslip?emp_id=${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}&date=${'2024-04-30'}`,
                 method: "GET",
             });
             setEmpData(res.data?.data);
@@ -118,9 +121,23 @@ const Download_payslip = () => {
         }
     };
 
-    // useEffect(() => {
-    //   fetchEmpData();
-    // }, [emp]);
+    const fetchEmpProfile = async () => {
+        try {
+            const res = await axios({
+                url: `/employee/get-single/${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}`,
+                method: "GET",
+            });
+            //   return res.data?.data;
+            setEmpProfile(res.data?.data)
+            res.data?.data
+        } catch (error) {
+            console.error("Error fetching employee data:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchEmpProfile();
+    }, []);
 
 
     // const { payslipData } = values;
@@ -202,7 +219,7 @@ const Download_payslip = () => {
                                 <input
                                     id="monthYear"
                                     type="month"
-                                    className="border border-gray-300 rounded-md px-3 py-1 mr-2"
+                                    className="border bg-transparent border-gray-300 rounded-md px-3 py-1 mr-2"
                                     onChange={handleChange}
                                     value={values.monthYear}
                                     name="monthYear"
@@ -324,7 +341,11 @@ const Download_payslip = () => {
                                     )}
                                     <tr className="border-1px">
                                         <td className="border p-2 font-bold">Gross Salary</td>
-                                        <td className="border p-2 font-bold">12321</td>
+                                        <td className="border p-2 font-bold">{empData?.payroll[0]?.gross_pay}</td>
+                                    </tr>
+                                    <tr className="border-1px">
+                                        <td className="border p-2 font-bold">Basic Pay</td>
+                                        <td className="border p-2 font-bold">{empData?.payroll[0]?.gross_pay? empProfile?.emp_join_details?.basic_pay: ''}</td>
                                     </tr>
                                     <tr className="border-1px">
                                         <td className="border p-2 font-bold">Net Salary</td>
@@ -348,7 +369,7 @@ const Download_payslip = () => {
                                     )}
                                     <tr className="border-1px">
                                         <td className="border p-2 font-bold w-[20rem]">TOTAL COST TO COMPANY :</td>
-                                        <td className="border p-2">{empData?.payroll[0]?.net_pay} ONLY</td>
+                                        <td className="border p-2">{Math.round((empData?.payroll[0]?.gross_pay + ((empProfile?.emp_join_details?.basic_pay + empData?.emp_salary_details?.emp_salary_allow[0]?.amount_in) * 0.0367)) * 12) || ''} ONLY</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -364,8 +385,8 @@ const Download_payslip = () => {
                     <div>
                         <p>DDO’S SIGNATURE</p>
                         <PrimaryButton
-                           variant="primary" 
-                           onClick={handlePrint}
+                            variant="primary"
+                            onClick={handlePrint}
                         >
                             Print
                         </PrimaryButton>

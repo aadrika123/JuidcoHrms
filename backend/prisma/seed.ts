@@ -43,7 +43,7 @@ async function main() {
  
 
   setTimeout(async () => {
-    await payroll.calc_net_pay();
+    // await payroll.calc_net_pay();
     await hierarchy_seeder()
     await foreign_wrapper();
   }, 9000);

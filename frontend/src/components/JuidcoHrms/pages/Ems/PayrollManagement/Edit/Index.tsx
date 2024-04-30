@@ -592,7 +592,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [billNo, setBillNo] = useState(0);
-  const [empData, setEmpData] = useState<any>({});
+  const [empData, setEmpData] = useState<any>({payroll:[]});
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
   const [designation, setDesignation] = useState<any[]>([]);
@@ -686,10 +686,19 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
 
   // const [empData, setEmpData] = useState<any>({});
 
+//   const formatDate = (date: any) => {
+//     const year = date.getFullYear();
+//     const month = String(date.getMonth() + 1).padStart(2, '0');
+//     const day = String(date.getDate()).padStart(2, '0');
+//     return `${year}-${month}-${day}`;
+// };
+
+
   const fetchEmpData = async () => {
+    // const date = new Date()
     try {
       const res = await axios({
-        url: `/pay/payslip?emp_id=${emp}`,
+        url: `/pay/payslip?emp_id=${emp}&date=${'2024-04-30'}`,
         method: "GET",
       });
       setEmpData(res.data?.data);
@@ -1061,7 +1070,11 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       )}
                        <tr className="border-1px">
                         <td className="border p-2 font-bold">Gross Salary</td>
-                        <td className="border p-2 font-bold">12321</td>
+                        <td className="border p-2 font-bold">{empData?.payroll[0]?.gross_pay}</td>
+                      </tr>
+                      <tr className="border-1px">
+                        <td className="border p-2 font-bold">Basic Pay</td>
+                        <td className="border p-2 font-bold">{EmpProfile?.emp_join_details?.basic_pay}</td>
                       </tr>
                       <tr className="border-1px">
                         <td className="border p-2 font-bold">Net Salary</td>
@@ -1085,7 +1098,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       )}
                       <tr className="border-1px">
                         <td className="border p-2 font-bold w-[20rem]">TOTAL COST TO COMPANY :</td>
-                        <td className="border p-2">{employeePayrollData?.net_pay} ONLY</td>
+                        <td className="border p-2">{Math.round((empData?.payroll[0]?.gross_pay + ((EmpProfile?.emp_join_details?.basic_pay + empData?.emp_salary_details?.emp_salary_allow[0]?.amount_in) * 0.0367)) * 12)} ONLY</td>
                       </tr>
 
                     </table>
