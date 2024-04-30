@@ -40,6 +40,7 @@ const EmployeeBasicDetails: React.FC<
     last_name: "",
   });
   const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
+  const [isAdult, setIsAdult] = useState<boolean>(false);
 
   const [selectedFileName, setSelectedFileName] = useState<any>();
 
@@ -130,6 +131,24 @@ const EmployeeBasicDetails: React.FC<
     }
   };
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
+
+
+  //validation for dob
+const validateDob = (e:any)=>{
+    const dob = new Date(e.target.value)
+    const isAtLeast18 = new Date(dob.getFullYear()+18, dob.getMonth()-1,dob.getDate()) <= new Date();
+    if(isAtLeast18){
+        setIsAdult(false)
+    }else{
+        setIsAdult(true)
+    }
+    console.log(isAtLeast18)
+    // console.log(isAtLeast18)
+    // console.log(dob.getFullYear()+18)
+    // console.log(dob.getMonth()-1)
+    // console.log(dob.getDate())
+  }
+
 
   return (
     <>
@@ -601,10 +620,10 @@ const EmployeeBasicDetails: React.FC<
                 />
                 <InputBox
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={validateDob}
                   value={values.dob}
-                  error={errors.dob}
-                  touched={touched.dob}
+                  error={"Age must be atleast 18"}
+                  touched={isAdult}
                   label="D.O.B"
                   name="dob"
                   placeholder={"Enter D.O.B"}
@@ -645,6 +664,19 @@ const EmployeeBasicDetails: React.FC<
                     Next
                   </PrimaryButton>
                 )}
+
+                {isAdult && (
+                    <PrimaryButton
+                        buttonType="button"
+                        onClick={() => {
+                            toast.error("Age must be atleast 18");
+                        }}
+                        variant="disabled"
+                    >
+                        Next
+                    </PrimaryButton>
+                )}
+
               </div>
             </form>
           )}

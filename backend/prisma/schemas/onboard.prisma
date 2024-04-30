@@ -224,9 +224,9 @@ model employee_salary_details {
 
 model employee_salary_allow {
   id                         Int                     @id @default(autoincrement())
-  name                       String
-  wfe_date                   String
-  amount_in                  Float
+  name                       String?
+  wfe_date                   String?
+  amount_in                  Float?
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")

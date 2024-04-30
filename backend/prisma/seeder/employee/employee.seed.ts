@@ -9,11 +9,63 @@ import {
   employeePresentAddressDetailsRequestData,
   // employeePresentAddressDetailsRequestData,
 } from "../../../src/component/juidcoHrms/requests/ems/emp_pers_details.validation";
+const names = [
+  "BINEET KUMAR",
+  "AJAY KUMAR",
+  "BIJAY KUMAR MAHATO",
+  "KAUSHLESH KUMAR",
+  "DAVID ORIYA",
+  "UPENDRA THAKUR",
+  "MANGAL CHANDRA MARDY",
+  "DINESH PRASAD VERMA",
+  "PURNAMI DEVI",
+  "REKHA PANDEY",
+  "Anurag Mirash Toppo",
+  "DEBASHIS PRADHAN",
+  "JITENDRA KUMAR",
+  "MD.MAHFOOJ ALAM",
+  "RAHUL KUMAR",
+  "ROHIT RAHUL SAMAD",
+  "SHAFIUR RAHMAN",
+  "KUMARI LALITA MAHATO",
+  "RAMESH KUMAR",
+  "ANANJAY KUMAR",
+  "ANUP MISHRA",
+  "ARUN HARIJAN",
+  "DINESH MUKHI",
+  "JAGANNATH MUKHI",
+  "RAJENDRA MUKHI",
+  "RAJU HO",
+  "SADDE MUKHI",
+  "SHYAM MAHATO",
+  "RAVINDRA RAM",
+  "SHASHI SEKHAR",
+  "BANBIHARI LOHRA",
+  "BIRANG KUI",
+  "LAL MOHAN MAHATO",
+  "PHULCHAND LOHRA",
+  "BHUPENDRA NATH SINHA",
+  "Arpana choudhary",
+  "RAHUL KUMAR",
+  "Santosh Kumar mahato",
+  "SANTOSH KUMAR MAHATO",
+  "MANWENDRA PRASAD",
+  "PANKAJ KUMAR RAUT",
+  "AJMAL HUSSAIN ANSARI",
+  "SATISH KUMAR DAS",
+  "BRAMBHANAND MAHTO",
+  "Dhiraj kumar raw",
+  "sahddeo Raut",
+  "PRAVEEN KUMAR",
+  "ADITYA KUMAR SHARMA",
+  "Amir Das",
+  "Anil Ram Hari",
+];
 
 const prisma = new PrismaClient();
 
 const employee_seeder = async () => {
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 25; ++i) {
     const data = {
       emp_office_details: {
         emp_type: faker.number.int({ min: 0, max: 1 }),
@@ -21,13 +73,13 @@ const employee_seeder = async () => {
         office_code: faker.string.uuid(),
         ddo_designation: faker.name.jobType(),
         ddo_code: generateUnique("DDO"),
-        district:2,
+        district: 2,
       },
 
       emp_basic_details: {
         emp_id: `EMP912e4${i}`,
         emp_image: "path/to/image.jpg",
-        emp_name: faker.name.fullName(),
+        emp_name: names[i],
         mode_of_recruitment: "casd",
         contact_no: `${faker.number.int({
           min: 0o0000000000,
@@ -70,7 +122,7 @@ const employee_seeder = async () => {
           min: 0o0000,
           max: 9999,
         })}`,
-        dob: new Date().toISOString(),
+        dob: new Date("1994-04-18T00:00:00.000Z").toISOString(),
       },
 
       emp_personal_details: {
@@ -164,12 +216,12 @@ const employee_seeder = async () => {
         designation_id: i + 1,
         task: "Project Management",
         class: null,
-        doj: "2022-03-01",
+        doj: "2007-03-01",
         effective_pay_commision: "cwe",
         confirmation_order: null,
-        pay_scale: 12,
-        pay_band: 43,
-        grade_pay: 43,
+        pay_scale: faker.number.int({ min: 1000, max: 3000 }),
+        pay_band: faker.number.int({ min: 1000, max: 3000 }),
+        grade_pay: faker.number.int({ min: 1000, max: 3000 }),
         doc: null,
         basic_pay: faker.number.int({ min: 15000, max: 300000 }),
         conf_order_number: null,
@@ -216,64 +268,74 @@ const employee_seeder = async () => {
 
       emp_family_details: {
         emp_fam_details: [
-          { name: "g4twg", relation: "4g4", dob: "g5g", dependent: "yes" },
-          { name: "g4", relation: "g45", dob: "g45", dependent: "no" },
+          {
+            name: "Geeta kumari",
+            relation: "sister",
+            dob: "12/04/1994",
+            dependent: "yes",
+          },
+          {
+            name: "Rahul kumar",
+            relation: "brother",
+            dob: "28/06/1991",
+            dependent: "no",
+          },
         ],
         emp_nominee_details: [
           {
-            nominee_name: "John Doe",
+            nominee_name: "Lovely kumari",
             relation: "Spouse",
             percentage: 50.5,
-            address: "123 Main St",
+            address: "123 Main St, Ranchi",
             minor: "No",
           },
           {
-            nominee_name: "Jane Doe",
+            nominee_name: "Rahul kumar",
             relation: "Child",
             percentage: 49.5,
-            address: "456 Oak St",
+            address: "Chutia, Ranchi",
             minor: "yes",
           },
         ],
       },
 
-      emp_loan_details: {
-        emp_loan_inform: [
-          {
-            loan_name_det: "fear",
-            loan_account_num: "123456789",
-            sanc_order_num: "S123",
-            dos: "2022-03-01",
-            san_authority: "John Doe",
-            dod: "2022-12-31",
-            dis_treasury_name: "State Treasury",
-            voucher_date: "2022-03-02",
-            treasury_voc_num: " 322",
-          },
-        ],
-        emp_principal_inform: [
-          {
-            loan_name_principal: "faav",
-            tot_amt_released: "50000",
-            total_install: "12",
-            monthly_install: "4000",
-            last_paid_install: "6",
-            month_last_install: "2022-08-01",
-            total_amnt: 24000,
-          },
-        ],
-        emp_recovery_inform: [
-          {
-            loan_name_recovery: "ofiae",
-            total_int_amount: "2000",
-            total_install_recovery: "24",
-            monthly_install_recovery: "100",
-            last_paid_install_recovery: "12",
-            month_last_install_recovery: "2023-02-01",
-            total_amnt_recovery: "2400",
-          },
-        ],
-      },
+      // emp_loan_details: {
+      //   emp_loan_inform: [
+      //     {
+      //       loan_name_det: "fear",
+      //       loan_account_num: "123456789",
+      //       sanc_order_num: "S123",
+      //       dos: "2022-03-01",
+      //       san_authority: "John Doe",
+      //       dod: "2022-12-31",
+      //       dis_treasury_name: "State Treasury",
+      //       voucher_date: "2022-03-02",
+      //       treasury_voc_num: " 322",
+      //     },
+      //   ],
+      //   emp_principal_inform: [
+      //     {
+      //       loan_name_principal: "faav",
+      //       tot_amt_released: "50000",
+      //       total_install: "12",
+      //       monthly_install: "4000",
+      //       last_paid_install: "6",
+      //       month_last_install: "2022-08-01",
+      //       total_amnt: 24000,
+      //     },
+      //   ],
+      //   emp_recovery_inform: [
+      //     {
+      //       loan_name_recovery: "ofiae",
+      //       total_int_amount: "2000",
+      //       total_install_recovery: "24",
+      //       monthly_install_recovery: "100",
+      //       last_paid_install_recovery: "12",
+      //       month_last_install_recovery: "2023-02-01",
+      //       total_amnt_recovery: "2400",
+      //     },
+      //   ],
+      // },
 
       emp_salary_details: {
         emp_salary_allow_details: [

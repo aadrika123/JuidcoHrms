@@ -105,6 +105,7 @@ class PayslipDao {
           employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
       WHERE 
           emp_deduct.name != 'IT'
+          AND emp_id=${emp_id}
       GROUP BY emp.emp_id
       `,
         prisma.$queryRaw`
@@ -117,6 +118,8 @@ class PayslipDao {
           employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
       JOIN 
           employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+        WHERE
+        emp_id=${emp_id}
       GROUP BY emp.emp_id
       `,
       ]);

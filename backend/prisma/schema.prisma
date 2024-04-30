@@ -44,8 +44,8 @@ model employees {
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
   emp_claim               employee_claim[]
-  pension_master          pension_master[]
   leave_encashment        leave_encashment[]
+  pension_master          pension_master[]
   payroll_master          payroll_master[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
@@ -224,9 +224,9 @@ model employee_salary_details {
 
 model employee_salary_allow {
   id                         Int                     @id @default(autoincrement())
-  name                       String
-  wfe_date                   String
-  amount_in                  Float
+  name                       String?
+  wfe_date                   String?
+  amount_in                  Float?
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
   created_at                 DateTime                @default(now()) @map("created_at")
@@ -397,86 +397,64 @@ model employee_loan_recovery {
 //-------------- Employee LOAN Details ---------------------//
 
 
-// ----- Managed and Used by Jaideep ---------------- //
-model users {
-  id                   Int      @id @default(autoincrement())
-  user_name            String?
-  mobile               String?
-  email                String
-  email_verified_at    DateTime?
-  user_type            String?
-  ulb_id               Int
-  password             String
-  suspended            Boolean
-  super_user           Boolean?
-  description          String?
-  remember_token       String
-  workflow_participant Boolean
-  photo_relative_path  String?
-  photo                String?
-  sign_relative_path   String?
-  signature            String?
-  old_ids              Int?
-  name                 String
-  old_password         String?
-  user_code            String?
-  alternate_mobile     String?
-  address              String?
-  wf_roleusermaps      wf_roleusermaps[]
+// // ----- Managed and Used by Jaideep ---------------- //
+// model users {
+//   id                   Int      @id @default(autoincrement())
+//   user_name            String?
+//   mobile               String?
+//   email                String
+//   email_verified_at    DateTime?
+//   user_type            String?
+//   ulb_id               Int
+//   password             String
+//   suspended            Boolean
+//   super_user           Boolean?
+//   description          String?
+//   remember_token       String
+//   workflow_participant Boolean
+//   photo_relative_path  String?
+//   photo                String?
+//   sign_relative_path   String?
+//   signature            String?
+//   old_ids              Int?
+//   name                 String
+//   old_password         String?
+//   user_code            String?
+//   alternate_mobile     String?
+//   address              String?
+//   wf_roleusermaps      wf_roleusermaps[]
 
-  created_at           DateTime? @default(now()) @map("created_at")
-  updated_at           DateTime @updatedAt @map("updated_at")
-}
+//   created_at           DateTime? @default(now()) @map("created_at")
+//   updated_at           DateTime @updatedAt @map("updated_at")
+// }
 
-/////// wf_roles Managed by: Sanjiv Kumar //////////////
+// /////// wf_roles Managed by: Sanjiv Kumar //////////////
 
-model wf_roles {
-    id              Int       @id @default(autoincrement())
-    role_name       String
-    is_suspended    Boolean
-    created_by      Int
-    stamp_date_time DateTime?
-    old_ids         String?
-    wf_roleusermaps wf_roleusermaps[]
-    created_at      DateTime? @default(now()) @map("created_at")
-    updated_at      DateTime? @updatedAt @map("updated_at")
-}
+// model wf_roles {
+//     id              Int       @id @default(autoincrement())
+//     role_name       String
+//     is_suspended    Boolean
+//     created_by      Int
+//     stamp_date_time DateTime?
+//     old_ids         String?
+//     wf_roleusermaps wf_roleusermaps[]
+//     created_at      DateTime? @default(now()) @map("created_at")
+//     updated_at      DateTime? @updatedAt @map("updated_at")
+// }
 
-/////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
+// /////// wf_roleusermaps Managed by: Sanjiv Kumar //////////////
 
-model wf_roleusermaps {
-    id           Int       @id @default(autoincrement())
-    wf_role_id   Int
-    wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
-    user_id      Int
-    user         users    @relation(fields: [user_id], references: [id])
-    is_suspended Boolean
-    created_by   Int?
-    created_at   DateTime? @default(now()) @map("created_at")
-    updated_at   DateTime? @updatedAt @map("updated_at")
-}
-model department {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model designation {
-  id               Int                     @id @default(autoincrement())
-  name             String
-  emp_join_details employee_join_details[]
-  created_at       DateTime                @default(now()) @map("created_at")
-  updated_at       DateTime                @updatedAt @map("updated_at")
-}
-
-model holidays {
-  id  Int @id @default(autoincrement())
-  date String?
-  name String
-}
-
+// model wf_roleusermaps {
+//     id           Int       @id @default(autoincrement())
+//     wf_role_id   Int
+//     wf_role      wf_roles @relation(fields: [wf_role_id], references: [id])
+//     user_id      Int
+//     user         users    @relation(fields: [user_id], references: [id])
+//     is_suspended Boolean
+//     created_by   Int?
+//     created_at   DateTime? @default(now()) @map("created_at")
+//     updated_at   DateTime? @updatedAt @map("updated_at")
+// }
 // ----------------- CREATED AND MAINTAINED BY KRISH -------------------------- //
 
 model employee_attendance_history {
@@ -622,6 +600,28 @@ model leave_encashment {
   updated_at                    DateTime  @updatedAt @map("updated_at")
 }
 
+model department {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model designation {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
+}
+
+model holidays {
+  id  Int @id @default(autoincrement())
+  date String?
+  name String
+}
+
 // -------------- Created and maintained by Jaideep ----------------------- //
 model ulb {
   id         Int      @id @default(autoincrement())
@@ -695,6 +695,11 @@ model pension_master {
   id                       Int       @id @default(autoincrement())
   beneficery_id            Int
   emp_id                   String
+  emp_name                 String?
+  emp_department           Int?
+  doj                      String?
+  last_working_day         String?
+  status                   String? // --> Active, OnHold
   pension_amnt             Float?
   family_pension_amnt      Float?
   date_of_death            DateTime? @db.Date
@@ -705,6 +710,6 @@ model pension_master {
   employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")
-  updated_at               DateTime                 @updatedAt @map("updated_at")
+  updated_at               DateTime                 @default(now()) @map("updated_at")
 }
 

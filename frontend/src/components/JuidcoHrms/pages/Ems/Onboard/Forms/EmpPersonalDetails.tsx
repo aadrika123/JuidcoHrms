@@ -681,9 +681,9 @@ const EmpployeePersonalDetails: React.FC<
                             value={values.emp_office_name}
                             error={errors.emp_office_name}
                             touched={touched.emp_office_name}
-                            label="Office Name"
+                            label="Office Location"
                             name="emp_office_name"
-                            placeholder={"Enter Office Name"}
+                            placeholder={"Enter Office Location"}
                             onKeyPress={(e: any) => {
                               if (
                                 !(

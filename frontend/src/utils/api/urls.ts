@@ -27,7 +27,8 @@ type UrlKeys =
   | "OTP"
   | "LEAVE"
   | "DDO"
-  | "TEAM";
+  | "TEAM"
+  | "PENSION";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -130,5 +131,8 @@ export const HRMS_URL: Urls = {
   },
   TEAM: {
     get: "/team/list"
+  },
+  PENSION: {
+    getAll: "/employee/pension/get",
   },
 };

@@ -6,6 +6,7 @@
 import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
+import netCalcLogger from '../../../../../loggers/netCalcLogger'
 
 const prisma = new PrismaClient();
 
@@ -362,11 +363,14 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    console.log(this.employee_payroll_data);
+    // console.log(this.employee_payroll_data);
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
+
+       //function call for logging the calculated data
+    await netCalcLogger(this.employee_payroll_data, dataToSendForLogging)
 
     return generateRes(this.employee_payroll_data);
   };

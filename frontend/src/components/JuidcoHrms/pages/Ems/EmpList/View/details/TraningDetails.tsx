@@ -6,7 +6,7 @@ export default function TraningDetails(props: any) {
 
     return (
         <div className="rounded border-2 p-4">
-            <h5 className="text-xl"><b>Traning Details</b></h5>
+            <h5 className="text-xl"><b>Training Details</b></h5>
             <div className="divider"></div>
             {data?.map((item: any, index: number) => (
                 <div key={index} className={`flex flex-row justify-between gap-10 ${index !== 0 ? 'mt-5' : ''}`}>

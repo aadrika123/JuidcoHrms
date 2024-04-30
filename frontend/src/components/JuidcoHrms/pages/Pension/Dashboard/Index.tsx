@@ -32,7 +32,7 @@ import TableListContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableListContainer";
 
-import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
+// import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 import HorizontalStepperPension from "@/components/Helpers/Widgets/StepperPension";
 export const last_work_day: string = "2024-12-31";
 const Dashboard = () => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
     chart: {
       type: "donut",
     },
-    series: [100, 40],
+    series: [4, 1],
     labels: ["Approved", "Reject"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
@@ -57,7 +57,7 @@ const Dashboard = () => {
     chart: {
       type: "donut",
     },
-    series: [132, 104],
+    series: [2, 1],
     labels: ["Approved", "Reject"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
@@ -80,7 +80,7 @@ const Dashboard = () => {
     },
     {
       HEADER: "Department",
-      ACCESSOR: "name",
+      ACCESSOR: "deparment",
     },
     {
       HEADER: "Date Of Joining",
@@ -88,7 +88,7 @@ const Dashboard = () => {
     },
     {
       HEADER: "Last Date of Working",
-      ACCESSOR: "last_work_day",
+      ACCESSOR: "retiring_date",
     },
   ];
 
@@ -105,7 +105,7 @@ const Dashboard = () => {
   const [selectedFilter] = useState<number | null>(null);
   const [selectedData] = useState<number | null>(null);
 
-  const [page, setPage] = useState<number>(1);
+  const [page] = useState<number>(1);
   const [activeStep] = useState(0);
 
   const useCodeQuery = (endpoint: string) => {
@@ -114,18 +114,20 @@ const Dashboard = () => {
     );
   };
 
-  const { data: empLstData, error: empLstErr } = useCodeQuery(
-    `${HRMS_URL.EMS.get}&page=${page}&department=${selectedData}`
+  const { data: empPension, error: empLstErr } = useCodeQuery(
+    `${HRMS_URL.PENSION.getAll}`
   );
+
+  const { data: department } = useCodeQuery(`${HRMS_URL.DEPARTMENT.get}`);
+
   const pensionData = {
-    ...empLstData,
-    data: empLstData?.data.map((emp: any) => ({
+    ...empPension,
+    data: empPension?.data.map((emp: any) => ({
       ...emp,
-      last_work_day: last_work_day,
+      deparment: department?.data[emp.emp_department]?.name,
+      retiring_date: `${emp.last_working_day}-12-31`
     })),
   };
-
-  console.log(pensionData);
 
   if (empLstErr) toast.error("Failed to fetch data");
 
@@ -163,9 +165,9 @@ const Dashboard = () => {
     if (confirm) mutate(id);
   };
 
-  const handleChangePage = (direction: "prev" | "next") => {
-    setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
-  };
+  // const handleChangePage = (direction: "prev" | "next") => {
+  //   setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
+  // };
 
   const currentYear = new Date().getFullYear();
 
@@ -402,11 +404,11 @@ const Dashboard = () => {
         </div>
         <aside className="mt-16">
           <div>
-            <NextPrevPagination
+            {/* <NextPrevPagination
               page={empLstData?.currentPage}
               pageCount={empLstData?.totalPage}
               handlePageChange={handleChangePage}
-            />
+            /> */}
           </div>
         </aside>
       </section>

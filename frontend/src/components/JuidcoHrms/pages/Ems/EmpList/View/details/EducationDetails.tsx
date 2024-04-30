@@ -2,10 +2,10 @@ import React from 'react'
 
 export default function EducationDetails(props: any) {
 
-    const { data } = props
+    const { data, ref } = props
 
     return (
-        <div className="rounded border-2 p-4">
+        <div ref={ref} className="rounded border-2 p-4">
             <h5 className="text-xl"><b>Education Details</b></h5>
             <div className="divider"></div>
             {data?.map((item: any, index: number) => (
