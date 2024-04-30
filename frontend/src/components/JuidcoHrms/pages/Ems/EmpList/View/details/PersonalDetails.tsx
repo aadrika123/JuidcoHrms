@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function PersonalDetails(props: any) {
 
-    const { data } = props
+    const { data, ref } = props
 
     const languageFormatter = (languageArray: any) => {
         const formattedLanguages = languageArray?.map((lang: any) => {
@@ -16,7 +16,7 @@ export default function PersonalDetails(props: any) {
     }
 
     return (
-        <div className="rounded border-2 p-4">
+        <div ref={ref} className="rounded border-2 p-4">
             <h5 className="text-xl"><b>Personal Details</b></h5>
             <div className="divider"></div>
             <div className="flex flex-row justify-between gap-10">

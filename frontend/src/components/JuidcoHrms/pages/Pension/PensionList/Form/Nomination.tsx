@@ -27,9 +27,14 @@ interface EmployeeNomineeDetails {
 const Nomination: React.FC<NominationProps> = ({ onNext }) => {
   const pathName = usePathname();
   const router = useRouter();
-  const date = new Date();
-  const day: string = date.toDateString().split(" ")[0];
+//   const date = new Date();
+//   const day: string = date.toDateString().split(" ")[0];
   const queryClient = useQueryClient();
+
+  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+const d = new Date();
+const days = weekday[d.getDay()];
 
   //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
   const _nominee = queryClient.getQueryData<any>("emp_nominee_details");
@@ -45,7 +50,7 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
       emp_details?.emp_address_details.address_primary || not_provided,
     remarks: "",
     date_this: currentDate || not_provided,
-    day_of: day || not_provided,
+    day_of: days || not_provided,
     at_place: "Ranchi" || not_provided,
     nominee_age: "" || not_provided,
   };

@@ -167,13 +167,28 @@ class EmployeeFeatureRoute {
         loggerMiddleware
       ); //0314
 
-    app
+      app
       .route(`${baseUrl}/employee/pension/create`)
       .post(
         (req: Request, res: Response, next: NextFunction) =>
           this.employeePensionController.store(req, res, next, "0315"),
         loggerMiddleware
       ); //0315
+
+    app
+      .route(`${baseUrl}/employee/pension/update`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeePensionController.update(req, res, next, "0316"),
+        loggerMiddleware
+      ); //0316
+    app
+      .route(`${baseUrl}/employee/pension/get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeePensionController.get(req, res, next, "0317"),
+        loggerMiddleware
+      ); //0317
 
     // app
     //   .route(`${baseUrl}/employee/attendance/test`)

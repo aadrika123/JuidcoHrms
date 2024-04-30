@@ -89,7 +89,7 @@ const AttendanceManagement = () => {
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>("")
+  const [selectedDate, setSelectedDate] = useState<string>("");
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -100,11 +100,10 @@ const AttendanceManagement = () => {
     }
   }, []);
 
-
   // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
   function getSelectedDate(date: string) {
-    const _date = date.split("T")[0]
-    setSelectedDate(_date)
+    const _date = date.split("T")[0];
+    setSelectedDate(_date);
   }
 
   function getSelectedMonthFromCalendar(month: string) {
@@ -112,8 +111,6 @@ const AttendanceManagement = () => {
   }
 
   // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
-
-  
 
   // ----------->> EMPLOYEE ATTENDANCE DETAILS <<--------------------------------//
   const fetchAttendance = async (emp_id: string) => {
@@ -133,10 +130,7 @@ const AttendanceManagement = () => {
     setAttnd(data);
   };
 
-
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
-
-
 
   const filterAttendanceorCalendar = () => {
     const events: any = [];
@@ -259,7 +253,7 @@ const AttendanceManagement = () => {
     { title: "cscgf" },
     { title: "Mlkdvm" },
   ];
-  const activeStep = 1;
+  const activeStep = 0;
 
   //---------------------->> EMPLOYEE LOG TIME <<-----------------------------//
 
@@ -388,7 +382,7 @@ const AttendanceManagement = () => {
                   <HorizontalStepper steps={steps} activeStep={activeStep} />
                   <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
                     <h2>{userDetails?.name}</h2>
-                    <h2>sadads</h2>
+                    <h2>Raju Admin</h2>
                     <h2>Ijcasd</h2>
                     <h2>dca</h2>
                   </div>
