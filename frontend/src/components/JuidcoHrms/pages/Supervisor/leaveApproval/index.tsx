@@ -13,7 +13,7 @@ import Loader from "@/components/global/atoms/Loader";
 import Image from "next/image";
 import LeaveListIcon from "@/assets/icons/LeaveList.png";
 // import PrimaryButton from "@/components/Helpers/Button";
-import LeaveList from "@/components/JuidcoHrms/pages/supervisor/leaveApproval/LeaveList";
+import LeaveList from "@/components/JuidcoHrms/pages/Supervisor/leaveApproval/LeaveList";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 

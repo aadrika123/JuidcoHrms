@@ -1,5 +1,5 @@
 import React from "react";
-import LeaveCard from "@/components/JuidcoHrms/pages/supervisor/leaveApproval/LeaveCard";
+import LeaveCard from "@/components/JuidcoHrms/pages/Supervisor/leaveApproval/LeaveCard";
 
 export default function LeaveList(props: any) {
   const {
