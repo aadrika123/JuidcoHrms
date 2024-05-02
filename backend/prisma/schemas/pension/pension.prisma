@@ -4,6 +4,11 @@ model pension_master {
   id                       Int       @id @default(autoincrement())
   beneficery_id            Int
   emp_id                   String
+  emp_name                 String?
+  emp_department           Int?
+  doj                      String?
+  last_working_day         String?
+  status                   String? // --> Active, OnHold
   pension_amnt             Float?
   family_pension_amnt      Float?
   date_of_death            DateTime? @db.Date
@@ -14,5 +19,5 @@ model pension_master {
   employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")
-  updated_at               DateTime                 @updatedAt @map("updated_at")
+  updated_at               DateTime                 @default(now()) @map("updated_at")
 }

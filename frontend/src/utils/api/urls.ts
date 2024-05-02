@@ -27,7 +27,8 @@ type UrlKeys =
   | "OTP"
   | "LEAVE"
   | "DDO"
-  | "TEAM";
+  | "TEAM"
+  | "PENSION";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -86,6 +87,10 @@ export const HRMS_URL: Urls = {
     updateMany: "/pay/payroll/update-many",
   },
 
+  PENSION: {
+    getAll: "/employee/pension/get",
+  },
+
   PAYROLL_TOTAL: {
     getAll: "/pay/total",
   },
@@ -125,10 +130,10 @@ export const HRMS_URL: Urls = {
   },
   LEAVE: {
     get: "/leave/approval",
-    update:"/leave/accept-deny",
-    getById:"/leave/list"
+    update: "/leave/accept-deny",
+    getById: "/leave/list",
   },
   TEAM: {
-    get: "/team/list"
+    get: "/team/list",
   },
 };

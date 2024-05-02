@@ -159,8 +159,10 @@ const EmployeeServiceHistory: React.FC<
 
         <div className="border p-5 rounded-xl shadow mt-4">
           <EmployeeTransferDetailsTable
-            setData={() => {}}
+            setData={getStateData}
             setSession={session}
+            validate={setIsValidate}
+            resetTable={resetTable}
           />
         </div>
 
