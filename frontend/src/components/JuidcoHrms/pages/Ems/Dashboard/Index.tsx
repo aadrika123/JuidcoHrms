@@ -51,7 +51,7 @@ export const DashboardMain = () => {
     url_extend: ``,
     method: "GET",
     res_type: 2,
-    query_key: "emp_nominee_details",
+    query_key: "emp_dash_count",
     data: [],
   };
   const { data: count_attendance, error } =
