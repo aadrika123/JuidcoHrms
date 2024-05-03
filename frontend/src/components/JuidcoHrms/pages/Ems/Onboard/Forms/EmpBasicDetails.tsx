@@ -40,6 +40,7 @@ const EmployeeBasicDetails: React.FC<
     last_name: "",
   });
   const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
+  const [isAdult, setIsAdult] = useState<boolean>(false);
 
   const [selectedFileName, setSelectedFileName] = useState<any>();
 
@@ -84,7 +85,10 @@ const EmployeeBasicDetails: React.FC<
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
-      const fullName = Object.values(employeeName).join(" ");
+      const fullName = Object.values(employeeName)
+        .filter((value, key: any) => key !== "emp_id") // Filter out emp_id
+        .join(" ");
+
       values.emp_name = String(fullName);
       values.emp_id = employeeName.emp_id;
       sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
@@ -104,7 +108,6 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
-  console.log(initialValues);
 
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
   const validateEmployeeId = async () => {
@@ -128,6 +131,26 @@ const EmployeeBasicDetails: React.FC<
     }
   };
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
+
+
+  //validation for dob
+const validateDob = (e:any)=>{
+    const dob = new Date(e.target.value)
+    const isAtLeast18 = new Date(dob.getFullYear()+18, dob.getMonth()-1,dob.getDate()) <= new Date();
+    if(isAtLeast18){
+        setIsAdult(false)
+        // setIsEmpExist(true)
+    }else{
+        setIsAdult(true)
+        // setIsEmpExist(false)
+    }
+    console.log(isAtLeast18)
+    // console.log(isAtLeast18)
+    // console.log(dob.getFullYear()+18)
+    // console.log(dob.getMonth()-1)
+    // console.log(dob.getDate())
+  }
+
 
   return (
     <>
@@ -599,10 +622,10 @@ const EmployeeBasicDetails: React.FC<
                 />
                 <InputBox
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  onBlur={validateDob}
                   value={values.dob}
-                  error={errors.dob}
-                  touched={touched.dob}
+                  error={"Age must be atleast 18"}
+                  touched={isAdult}
                   label="D.O.B"
                   name="dob"
                   placeholder={"Enter D.O.B"}
@@ -628,7 +651,7 @@ const EmployeeBasicDetails: React.FC<
                   Reset
                 </PrimaryButton>
 
-                {!isEmpExist ? (
+                {!isEmpExist && !isAdult ? (
                   <PrimaryButton buttonType="submit" variant="primary">
                     Next
                   </PrimaryButton>
@@ -636,13 +659,30 @@ const EmployeeBasicDetails: React.FC<
                   <PrimaryButton
                     buttonType="button"
                     onClick={() => {
+                        if(isAdult){
                       toast.error("Employee Id Already Exist!");
+                    }else{
+                        toast.error("Age must be atleast 18");
+                    }
                     }}
                     variant="disabled"
                   >
                     Next
                   </PrimaryButton>
                 )}
+
+                {/* {isAdult && (
+                    <PrimaryButton
+                        buttonType="button"
+                        onClick={() => {
+                            toast.error("Age must be atleast 18");
+                        }}
+                        variant="disabled"
+                    >
+                        Next
+                    </PrimaryButton>
+                )} */}
+
               </div>
             </form>
           )}

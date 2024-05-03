@@ -87,7 +87,7 @@ export default function TeamMembers() {
                             </div>
                             <section className="flex items-end gap-2 justify-end">
                                 <div className="flex justify-center items-center flex-col w-20">
-                                    <h1 className="text-lg text-sky-600 font-bold">{teamList.length || 0}</h1>
+                                    <h1 className="text-lg text-sky-600 font-bold">{teamList?.length || 0}</h1>
                                     <p className="text-sm">Total team members</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
@@ -132,10 +132,10 @@ export default function TeamMembers() {
 
                     <div className="card w-full shadow-md rounded-sm">
                         <div className="card-body grid grid-cols-3 gap-4">
-                            {teamList.length === 0 && (
+                            {teamList?.length === 0 && (
                                 <h1>No pending leave requests</h1>
                             )}
-                            {teamList.map((item: any, index: number) => (
+                            {teamList?.map((item: any, index: number) => (
                                 <TeamCard key={index} data={item} />
                             ))}
                         </div>

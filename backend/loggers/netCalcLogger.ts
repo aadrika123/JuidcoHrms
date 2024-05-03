@@ -124,6 +124,12 @@ export default async function netCalcLogger(netCalcData: any, additionalData: an
             dataToLog.Deductions.push(temporaryObject);
         });
 
+        // fs.writeFileSync("payroll.json", dataToLog)
+        // fs.writeFile('Output.log', dataToLog.toString(), (err) => {
+ 
+        //     // In case of a error throw err.
+        //     if (err) throw err;
+        // })
 
         payrollLogger.info(`Calculated Net Pay`, { data: dataToLog })
     })

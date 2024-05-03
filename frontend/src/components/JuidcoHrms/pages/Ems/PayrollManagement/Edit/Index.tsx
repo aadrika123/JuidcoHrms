@@ -19,11 +19,12 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import PrimaryButton from "@/components/Helpers/Button";
+import { PayslipTypes } from "@/utils/types/payslip.type";
+import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [billNo, setBillNo] = useState(0);
-  const [empData, setEmpData] = useState<any>({});
+  // const [empData, setEmpData] = useState<PayslipTypes>();
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
   const [designation, setDesignation] = useState<any[]>([]);
@@ -89,6 +90,8 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
     }
   };
 
+  console.log("Saving...", totalDayDiff);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const _data = sessionStorage.getItem("day_diff");
@@ -115,22 +118,35 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
 
   // const [empData, setEmpData] = useState<any>({});
 
-  const fetchEmpData = async () => {
-    try {
-      const res = await axios({
-        url: `/pay/payslip?emp_id=${emp}`,
-        method: "GET",
-      });
-      setEmpData(res.data?.data);
-    } catch (error) {
-      console.error("Error fetching employee data:", error);
-      setEmpData(null);
-    }
-  };
+  // const fetchEmpData = async () => {
+  //   try {
+  //     const res = await axios({
+  //       url: `/pay/payslip?emp_id=${emp}&date=${"2024-04-29"}`,
+  //       method: "GET",
+  //     });
+  //     setEmpData(res.data?.data);
+  //   } catch (error) {
+  //     console.error("Error fetching employee data:", error);
+  //     setEmpData(null);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchEmpData();
-  }, [emp]);
+  // useEffect(() => {
+  //   fetchEmpData();
+  // }, [emp]);
+
+  //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
+  const fetchConfig: FetchAxios = {
+    url: `${HRMS_URL.PAYSLIP.getAll}`,
+    url_extend: `?emp_id=${emp}&date=${"2024-05-02"}`,
+    method: "GET",
+    res_type: 1,
+    query_key: "emp_payslip_details",
+    data: [],
+  };
+  const { data: empData, error } = useCodeQuery<PayslipTypes>(fetchConfig);
+  if (error) toast.error("OOps! Failed to get employee nominee details!");
+  //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
 
   useEffect(() => {
     setBillNo((prevBillNo) => prevBillNo + 1);
@@ -174,6 +190,46 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
       setDesignation(data);
     })();
   }, [EmpProfile?.emp_id]);
+
+  // ------------- date and month calculation -------------------- //
+
+  // ----------------------------GET TDS -------------------------//
+  const fetchTDS: FetchAxios = {
+    url: `${HRMS_URL.PAYSLIP.getAll}`,
+    url_extend: `?emp_id=${emp}&date=${"2024-04-29"}&name=TDS,EPF,ESIC`,
+    method: "GET",
+    res_type: 1,
+    query_key: "emp_tds_detail",
+    data: [],
+  };
+  const { data: deductions } = useCodeQuery<PayslipTypes>(fetchTDS);
+  if (error) toast.error("OOps! Failed to get employee nominee details!");
+
+  function extractAmountFromDeductions(data: any[], key: string): number {
+    const zxt = data?.filter((object) => object.name === key);
+    if (!zxt) return 0;
+    return zxt[0]?.amount_in;
+  }
+  // const TDS_AMOUNT = extractAmountFromDeductions(
+  //   deductions?.emp_salary_details.emp_salary_deduction,
+  //   "TDS"
+  // );
+
+  const EPF_AMOUNT = extractAmountFromDeductions(
+    deductions?.emp_salary_details.emp_salary_deduction,
+    "EPF"
+  );
+
+  const ESIC_AMOUNT = extractAmountFromDeductions(
+    deductions?.emp_salary_details.emp_salary_deduction,
+    "ESIC"
+  );
+  // ----------------------------GET TDS -------------------------//
+
+  const currentDate = new Date();
+  const newDate = new Date().getFullYear();
+  const monthName = currentDate.toLocaleString("en-US", { month: "long" });
+  const currentMonth = monthName.toUpperCase();
 
   return (
     <>
@@ -366,14 +422,13 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     onChange={handleToDateChange}
                   />
                 </span>
-                <PrimaryButton
-                  variant="primary"
-                  buttonType="button"
+                <button
+                  type="button"
                   onClick={hanldeClick}
-                  className=" float-end mt-[8rem]"
+                  className="w-20 mt-4 bg-[#4338CA] text-white rounded-md py-2 px-4"
                 >
                   Enter
-                </PrimaryButton>
+                </button>
                 {totalDayDiff !== 0 && (
                   <div className="mt-4">
                     Total: {totalDayDiff} {totalDayDiff === 1 ? "day" : "days"}
@@ -402,46 +457,18 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   </p>
                 </div>
                 <div className="w-full flex justify-center p-7">
-                  <span>SALARY SLIP - APRIL 2024 SALARY</span>
+                  <span>
+                    SALARY SLIP - {currentMonth} - {newDate} SALARY
+                  </span>
                 </div>
 
                 <div className="  ">
-                  <div className="flex place-content-center">
-                    <table className="w-[451px] h-[140px] border-flex  m-5 ">
-                      <tr className="border">
-                        <td className="border  w-[150px] pl-3">BILL NO.:</td>
-                        <td className="border"> {billNo}</td>
-                      </tr>
-                      <tr className="border-1px">
-                        <td className="border w-[250px] pl-3">
-                          EMPLOYEE PF NO:
-                        </td>
-                        <td className="border">
-                          {empData?.emp_basic_details?.emp_pf_no || 0}
-                        </td>
-                      </tr>
+                  <div className="flex w-full">
+                    <table className="w-full h-[140px] border-flex m-4">
                       <tr>
-                        <td className="border w-[150px] pl-3">EMPLOYEE NAME</td>
-
+                        <td className="border w-[200px] pl-3">NAME: </td>
                         <td className="border">
                           {empData?.emp_basic_details?.emp_name}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border w-[150px] pl-3">PAN NO. :</td>
-                        <td className="border">
-                          {empData?.emp_basic_details?.emp_pan_no || 0}
-                        </td>
-                      </tr>
-                    </table>
-                    {/* -------------------- */}
-                    <table className="w-[504.999px] h-[113.093px] border-flex  m-5">
-                      <tr className="border">
-                        <td className="border  w-[250px] pl-3">
-                          EMPLOYEE A/C NO.:
-                        </td>
-                        <td className="border">
-                          {empData?.emp_join_details?.acc_number || 0}
                         </td>
                       </tr>
                       <tr className="border-1px">
@@ -450,97 +477,238 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           {empData?.emp_join_details?.designation?.name}
                         </td>
                       </tr>
-                      <tr>
-                        <td className="border   w-[150px] pl-3">PAY SCALE:</td>
+                      <tr className="border-1px">
+                        <td className="border w-[150px] pl-3">DEPARTMENT:</td>
                         <td className="border">
-                          {empData?.emp_join_details?.pay_scale || 0}
+                          {empData?.emp_join_details?.department?.name}
                         </td>
+                      </tr>
+
+                      <tr className="border-1px">
+                        <td className="border w-[150px] pl-3">
+                          EMPLOYEE NUMBER:
+                        </td>
+                        <td className="border">{empData?.emp_id}</td>
                       </tr>
                     </table>
+                    {/* -------------------- */}
                   </div>
 
-                  <div className="flex place-content-center">
-                    <table className="w-[375.833px] h-[168.333px] border-flex  m-5">
+                  <div className="flex flex-col m-4">
+                    <table className="w-full border-flex">
                       <tr className="border">
-                        <td className="font-bold px-4 uppercase" colSpan={2}>
+                        <td className=" p-2 font-bold">SALARY DETAILS</td>
+                        <td className=" p-2"></td>
+                      </tr>
+
+                      <tr className="border-1px">
+                        <td className="border p-2 font-bold w-[25rem]">
                           Earnings
+                        </td>
+                        <td className="border p-2 font-bold w-[25rem]">
+                          Deductions
+                        </td>
+                        <td className="border p-2 font-bold w-[25rem]"></td>
+                        <td className="border p-2 font-bold w-[25rem]"></td>
+                      </tr>
+
+                      <tr className="border-1px">
+                        <td className="border p-2 font-bold ">
+                          {empData?.emp_salary_details?.emp_salary_allow?.map(
+                            (item: any, index: number) => (
+                              <tr key={index} className="border-1px ">
+                                <>
+                                  <td className="border w-[150rem] p-2">
+                                    {item?.name || null}
+                                  </td>
+                                  <td className="border p-2">
+                                    {item?.amount_in || 0}
+                                  </td>
+                                </>
+                              </tr>
+                            )
+                          )}
+                        </td>
+
+                        {/* <td className="border p-2 font-bold"></td> */}
+                        {/* <td className="border p-2 font-bold"></td> */}
+                        <td className="border p-2 font-bold">
+                          {empData?.emp_salary_details?.emp_salary_deduction?.map(
+                            (item: any, index: number) => (
+                              <tr key={index} className="border-1px">
+                                <>
+                                  <td className="border w-[150rem] p-2">
+                                    {item?.name || null}
+                                  </td>
+                                  <td className="border p-2">
+                                    {item?.amount_in || 0}
+                                  </td>
+                                </>
+                              </tr>
+                            )
+                          )}
                         </td>
                       </tr>
 
                       <tr className="border-1px">
-                        <>
-                          <td className="border w-[150px] pl-3">Grade Pay</td>
-                          <td className="border">
-                            {EmpProfile?.emp_join_details?.grade_pay || 0}
-                          </td>
-                        </>
-                      </tr>
-
-                      <tr className="border-1px">
-                        <>
-                          <td className="border w-[150px] pl-3">Basic Pay</td>
-                          <td className="border">
-                            {EmpProfile?.emp_join_details?.basic_pay || 0}
-                          </td>
-                        </>
-                      </tr>
-
-                      {empData?.emp_salary_details?.emp_salary_allow?.map(
-                        (item: any, index: number) => (
-                          <tr key={index} className="border-1px">
-                            <>
-                              <td className="border w-[150px] pl-3">
-                                {item?.name || null}
-                              </td>
-                              <td className="border">{item?.amount_in || 0}</td>
-                            </>
-                          </tr>
-                        )
-                      )}
-
-                      <tr>
-                        <td className="border w-[150px] pl-3">TOTAL</td>
-                        <td className="border">
+                        <td className="border p-2 font-bold">
+                          Total Allowance (B)
+                        </td>
+                        <td className="border p-2 font-bold">
                           {empData?.total?.total_allowance}
                         </td>
                       </tr>
-                    </table>
-
-                    {/* ------------------------ */}
-                    <table className="w-[375.833px] h-[168.333px]  border-flex m-5">
-                      <tr className="border">
-                        <td className="font-bold px-4" colSpan={2}>
-                          DEDUCTION
+                      <tr className="border-1px">
+                        <td className="border p-2 font-bold">Gross Salary</td>
+                        <td className="border p-2 font-bold">
+                          {empData?.payroll[0]?.gross_pay}
                         </td>
                       </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">
+                          Employer Contribution
+                        </td>
+                        <td className=" p-2"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className="border p-2 font-bold">PF Employer</td>
+                        <td className="border p-2">{EPF_AMOUNT}</td>
+                        <td className="border p-2">Deductions</td>
+                        <td className="border p-2">
+                          {empData?.total.total_deductions}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border p-2 font-bold">ESI Employer</td>
+                        <td className=" border p-2">{ESIC_AMOUNT}</td>
+                      </tr>
+                      {/* <tr className="border">
+                        <td className="border  p-2 font-bold">Exgratia</td>
+                        <td className=" border p-2"></td>
+                      </tr> */}
+                      <tr className="border">
+                        <td className=" border p-2 font-bold">
+                          Reimbursements:
+                        </td>
+                        <td className=" p-2 font-bold text-center"></td>
+                        <td className=" p-2 font-bold text-center">Summary</td>
+                      </tr>
 
-                      {empData?.emp_salary_details?.emp_salary_deduction?.map(
+                      <tr className="border">
+                        <td className=" border p-2 font-bold">
+                          Medical (Reimb)
+                        </td>
+                        <td className=" border p-2"></td>
+                        <td className="border p-2">Gross Salary</td>
+                        <td className="border p-2">
+                          {empData?.payroll[0]?.gross_pay}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border p-2 font-bold">Conv. (Reimb)</td>
+                        <td className="border p-2"></td>
+                        <td className="border p-2">
+                          Add: Reimbursed Allowances
+                        </td>
+                        <td className="border p-2"></td>
+                      </tr>
+                      <tr className=" border">
+                        <td className="border p-2 font-bold">
+                          Telephone. (Reimb)
+                        </td>
+                        <td className="border p-2 font-bold">
+                          {/* {empData?.emp_salary_details.emp_salary_deduction?.name} */}
+                        </td>
+                        <td className="border p-2">Less: Deductions</td>
+                        <td className="border p-2">
+                          {empData?.total.total_deductions}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">Other(Reimb)</td>
+                        <td className=" p-2"></td>
+                        <td className="border p-2">Less: TDS</td>
+                        <td className="border p-2">
+                          {empData?.payroll[0].tds_amount}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">Total Reimbursements</td>
+                        <td className=" p-2"></td>
+                        {/* <td className="border p-2">Less: FBT</td>
+                        <td className="border p-2">123213</td> */}
+                        <td className="border p-2">Less: Loans Emi</td>
+                        <td className="border p-2"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">Salary (CTC) / PM</td>
+                        <td className=" p-2">
+                          Rs.{" "}
+                          {(empData?.payroll[0]?.gross_pay as number) +
+                            EPF_AMOUNT +
+                            ESIC_AMOUNT}{" "}
+                          ONLY
+                        </td>
+                        <td className="border p-2">
+                          Net Salary Transfer Amount
+                        </td>
+                        <td className="border p-2">
+                          {(empData?.payroll[0].net_pay as number) -
+                            (empData?.payroll[0].tds_amount as number)}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">Salary (CTC) / PA</td>
+                        <td className=" p-2">
+                          Rs.{" "}
+                          {((empData?.payroll[0]?.gross_pay as number) +
+                            EPF_AMOUNT +
+                            ESIC_AMOUNT) *
+                            12}{" "}
+                          ONLY
+                        </td>
+                        <td className="border p-2">Authorised by</td>
+                        <td className="border p-2"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" p-2 font-bold">Prepared By</td>
+                        <td className=" p-2">Checked By</td>
+                      </tr>
+
+                      {/* {empData?.emp_salary_details?.emp_salary_deduction?.map(
                         (item: any, index: number) => (
                           <tr key={index} className="border-1px">
                             <>
-                              <td className="border w-[150px] pl-3">
+                              <td className="border w-[150px] p-2">
                                 {item?.name || null}
                               </td>
-                              <td className="border">{item?.amount_in || 0}</td>
+                              <td className="border p-2">
+                                {item?.amount_in || 0}
+                              </td>
                             </>
                           </tr>
                         )
-                      )}
-
-                      <tr>
-                        <td className="border w-[150px] pl-3">TOTAL</td>
-                        <td className="border">
-                          {empData?.total?.total_deductions}
+                      )} */}
+                      {/* <tr className="border-1px">
+                        <td className="border p-2 font-bold w-[20rem]">
+                          TOTAL COST TO COMPANY :
                         </td>
-                      </tr>
+                        <td className="border p-2">
+                          {empData?.payroll[0].net_pay} ONLY
+                        </td>
+                      </tr> */}
                     </table>
+
                     {/* -------------------------------- */}
                   </div>
                 </div>
               </div>
-              <div className="flex place-content-around mt-10">
+              <div className="flex justify-between  p-5">
                 <div className="">
-                  <p>NET PAY : {employeePayrollData?.net_pay} ONLY</p>
+                  <p>
+                    Note: <span className="text-[red]">* </span>This is a system
+                    generated Payslip
+                  </p>
                 </div>
                 <div>
                   <p>DDO’S SIGNATURE</p>

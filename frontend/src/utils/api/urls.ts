@@ -28,7 +28,8 @@ type UrlKeys =
   | "LEAVE"
   | "DDO"
   | "TEAM"
-  | "PENSION";
+  | "PENSION"
+  | "PAYSLIP";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -82,13 +83,17 @@ export const HRMS_URL: Urls = {
   },
 
   PAYROLL: {
-    getAll: "/pay/payroll",
+    getAll: "/pay/payroll?limit=10",
     update: "/pay/payroll/update",
     updateMany: "/pay/payroll/update-many",
   },
 
   PENSION: {
     getAll: "/employee/pension/get",
+  },
+
+  PAYSLIP: {
+    getAll: "/pay/payslip",
   },
 
   PAYROLL_TOTAL: {

@@ -50,7 +50,7 @@ async function fetchAxios<T>(
 export const useCodeQuery = <T>(config: FetchAxios) => {
   const queryClient = useQueryClient();
   const { url, url_extend, method, data, res_type, query_key } = config;
-  return useQuery<T>([query_key, url], async () => {
+  return useQuery<T>([query_key, url, url_extend], async () => {
     const _data = await fetchAxios<T>(url, url_extend, method, data, res_type);
     queryClient.setQueryData(query_key, _data);
     return Array.isArray(_data) ? _data[0] : _data;

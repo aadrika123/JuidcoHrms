@@ -6,6 +6,7 @@
 import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
+import netCalcLogger from "../../../../../loggers/netCalcLogger";
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,17 @@ class PayrollDao {
   private employee_payroll_data: any[];
   private total_amount_released: number;
   private lwp_days_last_month: any[];
+
+  private extractAmountFromDeductions(
+    emp_id: string,
+    data: any[],
+    key: string
+  ): number {
+    const emp = data?.filter((employee) => employee.emp_id === emp_id);
+    const zxt = emp?.filter((object) => object.name === key);
+    if (!zxt) return 0;
+    return zxt[0]?.amount_in;
+  }
 
   constructor() {
     this.regulary_pay = [];
@@ -48,7 +60,7 @@ class PayrollDao {
         JOIN
             employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
         WHERE 
-            emp_deduct.name != 'IT'
+            emp_deduct.name != 'TDS'
         GROUP BY emp.emp_id
         `,
         prisma.$queryRaw`
@@ -189,11 +201,18 @@ class PayrollDao {
   // calc_net_pay ===> Gross - calc_non_billable_hours
 
   // ---------------------------CALCULATING OF NET PAY------------------------------//
+
   calc_net_pay = async () => {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
     let dataToSendForLogging: any = {};
+
+    // DEDUCTIONS
+    const deductions = await prisma.$queryRaw<any[]>`
+      SELECT emp.emp_id, name, amount_in FROM employees as emp
+        LEFT JOIN employee_salary_details as emp_sal ON emp.emp_salary_details_id = emp_sal.id
+        LEFT JOIN employee_salary_deduction as emp_ded ON emp_sal.id = emp_ded.employee_salary_details_id`;
 
     // collect gross
     this.gross.forEach((emp) => {
@@ -314,6 +333,11 @@ class PayrollDao {
         employee_lwp_days = 0;
       }
 
+      // ------------------------ CALCULATING EMPLOYEE TDS ---------------------------//
+
+      // console.log(tds, 'tds')
+      // ------------------------ CALCULATING EMPLOYEE TDS ---------------------------//
+
       // ------------------------ CALCULATING EMPLOYEE NET PAY ---------------------------//
       const calc_non_billable_salary =
         salary_per_hour * calc_non_billable_hours;
@@ -327,6 +351,33 @@ class PayrollDao {
       if (calc_net_pay < 1) {
         calc_net_pay = 0;
       }
+      console.log(calc_net_pay, "net pay");
+      // GETTING DEDICTIONS -------------------------
+      deductions.forEach((record) => {
+        data[record.emp_id] = {
+          ...data[record.emp_id],
+          epf_amount:
+            this.extractAmountFromDeductions(
+              record.emp_id,
+              deductions,
+              "EPF"
+            ) || 0,
+          esic_amount:
+            this.extractAmountFromDeductions(
+              record.emp_id,
+              deductions,
+              "ESIC"
+            ) || 0,
+          tds_amount:
+            Math.round(
+              this.extractAmountFromDeductions(
+                record.emp_id,
+                deductions,
+                "TDS"
+              ) / 12
+            ) || 0,
+        };
+      });
 
       let date: any = `${new Date().toISOString()}`;
       date = new Date(date.split("T")[0]);
@@ -362,24 +413,30 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    console.log(this.employee_payroll_data);
+    // console.log(this.employee_payroll_data);
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
 
+    //function call for logging the calculated data
+    await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
+
     return generateRes(this.employee_payroll_data);
   };
 
   // --------------------- STORING PAYROLL ------------------------------ //
-  get_emp_payroll = async () => {
+  get_emp_payroll = async (req: Request) => {
     // await this.calc_net_pay();
     // console.log(this.employee_payroll_data);
-    // const page: number = Number(req.query.page);
-    // const limit: number = Number(req.query.limit);
-    // const department: string = String(req.query.department);
+    const page: number = Number(req.query.page);
+    const limit: number = Number(req.query.limit);
+
+    const search = req.query.search as string;
 
     const query: Prisma.payroll_masterFindManyArgs = {
+      skip: (page - 1) * limit,
+      take: limit,
       select: {
         id: true,
         emp_id: true,
@@ -400,57 +457,23 @@ class PayrollDao {
         emp_id: "asc",
       },
     };
-    // const query: Prisma.employeesFindManyArgs = {
-    //   skip: (page - 1) * limit,
-    //   take: limit,
-    //   select: {
-    //     payroll_master: {
-    //       select: {
-    //         id: true,
-    //         emp_id: true,
-    //         emp_name: true,
-    //         gross_pay: true,
-    //         leave_days: true,
-    //         working_hour: true,
-    //         total_allowance: true,
-    //         total_deductions: true,
-    //         non_billable: true,
-    //         present_days: true,
-    //         lwp_days: true,
-    //         salary_deducted: true,
-    //         status: true,
-    //         net_pay: true,
-    //       },
-    //       orderBy: {
-    //         emp_id: "asc",
-    //       },
-    //     },
-    //   },
-    // };
-    // if (
-    //   department !== "undefined" &&
-    //   department !== "" &&
-    //   department !== "null"
-    // ) {
-    //   query.where = {
-    //     OR: [
-    //       {
-    //         emp_join_details: {
-    //           department_id: {
-    //             equals: Number(department),
-    //           },
-    //         },
-    //       },
-    //     ],
-    //   };
-    // }
 
-    // const [data, count] = await prisma.$transaction([
-    //   prisma.employees.findMany(query),
-    //   prisma.employees.count(),
-    // ]);
-    const data = await prisma.payroll_master.findMany(query);
-    return generateRes(data);
+    if (search && typeof search === "string" && search.trim().length > 0) {
+      query.where = {
+        OR: [
+          { emp_name: { contains: search, mode: "insensitive" } },
+          { emp_id: { contains: search, mode: "insensitive" } },
+        ],
+      };
+    }
+
+    const [data, count] = await prisma.$transaction([
+      prisma.payroll_master.findMany(query),
+      prisma.payroll_master.count(),
+    ]);
+
+    // const data = await prisma.payroll_master.findMany(query);
+    return generateRes(data, count, page, limit);
   };
 
   // --------------------- UPDATING STATUS PAYROLL ------------------------------ //

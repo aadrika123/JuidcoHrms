@@ -53,14 +53,23 @@ class PayslipDao {
   // };
 
   get = async (req: Request) => {
-    const { emp_id, date } = req.query;
+    const { emp_id, date, name } = req.query;
 
     const query: Prisma.employeesFindFirstArgs = {
       select: {
+        emp_id: true,
         emp_salary_details: {
           select: {
             emp_salary_allow: true,
-            emp_salary_deduction: true,
+            emp_salary_deduction: {
+              where: {
+                NOT: {
+                  name: {
+                    contains: "TDS",
+                  },
+                },
+              },
+            },
           },
         },
 
@@ -68,6 +77,7 @@ class PayslipDao {
           select: {
             acc_number: true,
             designation: true,
+            department: true,
             pay_scale: true,
           },
         },
@@ -83,6 +93,23 @@ class PayslipDao {
       },
     };
 
+    if (name && typeof name === "string" && name !== "undefined") {
+      const arr_name = name.split(",");
+      // ['da', 'ba']
+      query.select = {
+        emp_salary_details: {
+          select: {
+            emp_salary_deduction: {
+              where: {
+                name: {
+                  in: arr_name,
+                },
+              },
+            },
+          },
+        },
+      };
+    }
     const data: any = await prisma.employees.findFirst(query);
     let allow_and_ded: any[] = [];
     const payroll = await prisma.$queryRaw`
@@ -104,7 +131,8 @@ class PayslipDao {
       JOIN
           employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
       WHERE 
-          emp_deduct.name != 'IT'
+          emp_deduct.name != 'TDS'
+          AND emp_id=${emp_id}
       GROUP BY emp.emp_id
       `,
         prisma.$queryRaw`
@@ -117,6 +145,8 @@ class PayslipDao {
           employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
       JOIN 
           employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+        WHERE
+        emp_id=${emp_id}
       GROUP BY emp.emp_id
       `,
       ]);

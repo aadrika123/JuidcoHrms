@@ -316,3 +316,4 @@ export type EmployeeEducationTrainingType = {
   end_to: string | number;
   tot_day_training: string | number;
 };
+

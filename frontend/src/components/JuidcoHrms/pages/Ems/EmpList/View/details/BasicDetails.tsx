@@ -3,10 +3,10 @@ import dateConvertor from '@/utils/formatter/dateFormatter';
 
 export default function BasicDetails(props: any) {
 
-    const { data } = props
+    const { data, ref } = props
 
     return (
-        <div className="rounded border-2 p-4">
+        <div ref={ref} className="rounded border-2 p-4">
             <h5 className="text-xl"><b>Basic Details</b></h5>
             <div className="divider"></div>
             <div className="flex flex-row justify-between gap-10">

@@ -199,7 +199,7 @@ const EmpployeePersonalDetails: React.FC<
   }, []);
 
   const languages = [
-    { id: 1, name: "Assamese" },
+    { id: 1, name: "English" },
     { id: 2, name: "Bengali" },
     { id: 3, name: "Bodo" },
     { id: 4, name: "Dogri" },
@@ -221,6 +221,7 @@ const EmpployeePersonalDetails: React.FC<
     { id: 20, name: "Tamil" },
     { id: 21, name: "Telugu" },
     { id: 22, name: "Urdu" },
+    { id: 23, name: "Assamese" },
   ];
   return (
     <>
@@ -680,9 +681,9 @@ const EmpployeePersonalDetails: React.FC<
                             value={values.emp_office_name}
                             error={errors.emp_office_name}
                             touched={touched.emp_office_name}
-                            label="Office Name"
+                            label="Office Location"
                             name="emp_office_name"
-                            placeholder={"Enter Office Name"}
+                            placeholder={"Enter Office Location"}
                             onKeyPress={(e: any) => {
                               if (
                                 !(

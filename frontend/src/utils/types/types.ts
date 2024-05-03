@@ -1,6 +1,7 @@
 declare global {
   interface Array<T> {
     resetData(): T[];
+    deleteObject(): void;
   }
 } // Pagination Types
 export interface Pagination {

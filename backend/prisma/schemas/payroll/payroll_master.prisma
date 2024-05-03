@@ -15,6 +15,10 @@ model payroll_master {
   net_pay                  Float     @default(0)
   last_month_lwp_deduction Float     @default(0)
   salary_per_hour          Float     @default(0)
+  lwp_days_last_month      Float     @default(0)
+  epf_amount               Float     @default(0)
+  esic_amount              Float     @default(0)
+  tds_amount               Float     @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
   month                    Int
