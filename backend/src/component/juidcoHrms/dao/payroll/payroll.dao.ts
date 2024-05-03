@@ -424,8 +424,9 @@ class PayrollDao {
 
     return generateRes(this.employee_payroll_data);
   };
-
   // --------------------- STORING PAYROLL ------------------------------ //
+
+  
   get_emp_payroll = async (req: Request) => {
     // await this.calc_net_pay();
     // console.log(this.employee_payroll_data);
