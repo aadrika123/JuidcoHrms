@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Image from "next/image";
 // import { usePathname } from "next/navigation";
 // import { formatString } from "@/utils/helper";
@@ -7,6 +7,8 @@ import { SubHeading } from "@/components/Helpers/Heading";
 import Cookies from "js-cookie";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
+import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
+import toast from "react-hot-toast";
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
@@ -36,6 +38,33 @@ const Header: React.FC<SideBarProps> = (props) => {
   //   });
   // _________ Bread Crumb ________________//
 
+  //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
+  const [ulbId, setUlbId] = useState<string>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user_det = sessionStorage.getItem("user_details");
+      if (user_det) {
+        const ulb_id = JSON.parse(user_det as string)?.ulb_id;
+        setUlbId(ulb_id);
+      }
+    }
+  }, [ulbId]);
+
+  const fetchConfig: FetchAxios = {
+    url: `${HRMS_URL.ULB.getById}`,
+    url_extend: `?id=${ulbId}`,
+    method: "GET",
+    res_type: 2,
+    query_key: "emp_nominee_details",
+    data: [],
+  };
+  const { data: ulb, error } = useCodeQuery<{ id: number; ulb_name: string }>(
+    fetchConfig
+  );
+  if (error) toast.error("OOps! Failed to get ulb!");
+
+  //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
+
   function logout() {
     const confirm = window.confirm("Are you sure want to logout?");
     const emp_id = "EMP912e43";
@@ -47,7 +76,6 @@ const Header: React.FC<SideBarProps> = (props) => {
         try {
           const user_attend = sessionStorage.getItem("attnd_details");
           const user_id = JSON.parse(user_attend as string)?.id;
-          console.log(user_id, "user_id");
           await axios({
             url: `${HRMS_URL.ATTENDANCE.update}`,
             method: "POST",
@@ -68,7 +96,12 @@ const Header: React.FC<SideBarProps> = (props) => {
   return (
     <div {...props}>
       <div className="flex items-center justify-center gap-3 mx-20">
-        <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
+        <div className="text-center">
+          <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
+          <h4 className="text-[1rem] text-blue-600 font-bold ">
+            {ulb?.ulb_name}
+          </h4>
+        </div>
 
         {/* <i>
           <svg

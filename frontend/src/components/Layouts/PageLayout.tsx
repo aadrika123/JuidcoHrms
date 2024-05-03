@@ -107,7 +107,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         .toggle-sidebar {
           position: absolute;
           top: 2.3rem;
-          left: 15rem;
+          left: 26rem;
           // left: ${isSidebarCollapsed ? "0" : "var(--sidebar-width)"};
           cursor: pointer;
           padding: 5px;

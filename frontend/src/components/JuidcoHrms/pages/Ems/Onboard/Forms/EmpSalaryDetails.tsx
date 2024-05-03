@@ -585,6 +585,7 @@
 
 "use client";
 // import TableFormContainer from "@/components/global/organisms/TableFormContainer";
+// import TableFormContainer from "@/components/global/organisms/TableFormContainer";
 import React, { useState, useEffect } from "react";
 import {
   EmployeeDetailsProps,
@@ -606,40 +607,40 @@ const EmpSalaryDetails: React.FC<
   const router = useRouter();
   const pathName = usePathname();
   const empType = useSearchParams().get("emp");
-//   const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([]);
-//   const [session, setSession] = useState<number>(0);
+  //   const [employeeSalaryDetails, setEmployeeSalaryDetails] = useState([]);
+  //   const [session, setSession] = useState<number>(0);
   const [isValidate, setIsValidate] = useState<boolean>(true);
   const [resetTable, setResetTable] = useState<number>(0);
   const [basic_pay, setBasicPay] = useState(0);
   const [basic_pay1, setBasicPay1] = useState(0);
   const [isDedWfeValid, setIsDedWfeValid] = useState<boolean>(true);
-  const[result , setResult]= useState<any>("")
+  const [result, setResult] = useState<any>("");
 
   const initialDeductDetails = {
     amount_in: "",
     name: "",
     wfe_date: "",
     acnt_no: "",
-  };   
-  
+  };
+
   const initialAllowDetails = {
     amount_in: "",
     name: "",
     wfe_date: "",
   };
-  
+
   const [employeeDeductionDetails, setEmployeeDeductionDetails] = useState<any>(
     [initialDeductDetails]
   );
 
-  const [employeeAllowDetails, setEmployeeAllowDetails] = useState<any>(
-    [initialAllowDetails]
-  );
+  const [employeeAllowDetails, setEmployeeAllowDetails] = useState<any[]>([
+    initialAllowDetails,
+  ]);
 
   function storeEmployeeAllowDetails() {
     if (typeof window !== "undefined") {
-      employeeAllowDetails?.forEach((element: any ) => {
-        delete element.selectedOption
+      employeeAllowDetails?.forEach((element: any) => {
+        delete element.selectedOption;
       });
       sessionStorage.setItem(
         "emp_salary_allow_details",
@@ -648,14 +649,14 @@ const EmpSalaryDetails: React.FC<
     }
   }
 
-// function storeEmployeeAllowDetails() {
-//     if (typeof window !== "undefined") {
-//       sessionStorage.setItem(
-//         "emp_salary_allowance_details",
-//         JSON.stringify(employeeAllowDetails)
-//       );
-//     }
-//   }
+  // function storeEmployeeAllowDetails() {
+  //     if (typeof window !== "undefined") {
+  //       sessionStorage.setItem(
+  //         "emp_salary_allowance_details",
+  //         JSON.stringify(employeeAllowDetails)
+  //       );
+  //     }
+  //   }
 
   function storeEmployeeDeductionDetails() {
     if (typeof window !== "undefined") {
@@ -668,21 +669,21 @@ const EmpSalaryDetails: React.FC<
 
   const handlePerChange = (e: any, index: number) => {
     let calculatedAmount = 0;
-  
+
     const currentBasicPay = basic_pay1;
-  
+
     calculatedAmount = (currentBasicPay * e.target.value) / 100;
-  
+
     setEmployeeAllowDetails((prev: any) => {
       const updatedDetails = [...prev];
       updatedDetails[index] = {
         ...updatedDetails[index],
         amount_in: Number(calculatedAmount),
       };
-  
+
       return updatedDetails;
     });
-  
+
     storeEmployeeAllowDetails();
     setResult(calculatedAmount);
   };
@@ -692,7 +693,7 @@ const EmpSalaryDetails: React.FC<
     index: number
   ) => {
     const selectedOption = e.target.value;
-  
+
     setEmployeeAllowDetails((prev: any) => {
       const updatedDetails = [...prev];
       updatedDetails[index] = {
@@ -700,19 +701,18 @@ const EmpSalaryDetails: React.FC<
         name: selectedOption,
         // amount_in:result
       };
-  
-    
+
       if (selectedOption === "DA") {
         updatedDetails[index].selectedOption = "amount";
-        updatedDetails[index].amount_in = result; 
+        updatedDetails[index].amount_in = result;
       } else {
-        updatedDetails[index].selectedOption = ""; 
-        updatedDetails[index].amount_in = ""; 
+        updatedDetails[index].selectedOption = "";
+        updatedDetails[index].amount_in = "";
       }
-  
+
       return updatedDetails;
     });
-  
+
     storeEmployeeAllowDetails();
   };
 
@@ -762,9 +762,9 @@ const EmpSalaryDetails: React.FC<
   ) => {
     const selectedOption = e.target.value;
     let calculatedAmount = 0;
-    let accountNumber = ""; 
+    let accountNumber = "";
 
-    const currentBasicPay = basic_pay1; 
+    const currentBasicPay = basic_pay1;
     console.log("currentBasicPay", currentBasicPay);
     switch (selectedOption) {
       case "PT":
@@ -802,48 +802,49 @@ const EmpSalaryDetails: React.FC<
         }
         break;
 
-      case "EPF": {
-        // const basicPay = basic_pay;
-        // const allowanceDataString =
-        //   sessionStorage.getItem("emp_salary_allow_details") || "";
-        // const allowanceData = JSON?.parse(allowanceDataString);
-        // const daAllowance = allowanceData.find(
-        //   (item: any) => item.name === "DA"
-        // );
-        // console.log("daAllowance", daAllowance);
-        // if (daAllowance) {
-        //   const daAmount = daAllowance.amount_in;
-        //   console.log("currentBasicPay", currentBasicPay);
-        //   const totalAmount = basicPay + daAmount;
-        //   console.log("totalAmount", totalAmount);
-        //   // Calculate EPF (12% of total amount)
-        //   calculatedAmount = Math.round(totalAmount * 0.12);
-        // } else {
-        //   console.error("DA allowance not found in allowance data");
-        // }
+      case "EPF":
+        {
+          // const basicPay = basic_pay;
+          // const allowanceDataString =
+          //   sessionStorage.getItem("emp_salary_allow_details") || "";
+          // const allowanceData = JSON?.parse(allowanceDataString);
+          // const daAllowance = allowanceData.find(
+          //   (item: any) => item.name === "DA"
+          // );
+          // console.log("daAllowance", daAllowance);
+          // if (daAllowance) {
+          //   const daAmount = daAllowance.amount_in;
+          //   console.log("currentBasicPay", currentBasicPay);
+          //   const totalAmount = basicPay + daAmount;
+          //   console.log("totalAmount", totalAmount);
+          //   // Calculate EPF (12% of total amount)
+          //   calculatedAmount = Math.round(totalAmount * 0.12);
+          // } else {
+          //   console.error("DA allowance not found in allowance data");
+          // }
 
-        // console.log("daAllowance", daAllowance);
-        // if (daAllowance) {
-        //   const daAmount = daAllowance.amount_in;
-        //   console.log("currentBasicPay", currentBasicPay);
-        //   const totalAmount = basic_pay1 + daAmount;
-        //   console.log("totalAmount", totalAmount);
-        //   // Calculate EPF (12% of total amount)
-        //   calculatedAmount = Math.round(totalAmount * 0.12);
-        // } else {
-        //   console.error("DA allowance not found in allowance data");
-        const currentBasicPay = basic_pay1;
-        console.log("currentBasicPay2342", currentBasicPay)
-        const daAmount = result;
+          // console.log("daAllowance", daAllowance);
+          // if (daAllowance) {
+          //   const daAmount = daAllowance.amount_in;
+          //   console.log("currentBasicPay", currentBasicPay);
+          //   const totalAmount = basic_pay1 + daAmount;
+          //   console.log("totalAmount", totalAmount);
+          //   // Calculate EPF (12% of total amount)
+          //   calculatedAmount = Math.round(totalAmount * 0.12);
+          // } else {
+          //   console.error("DA allowance not found in allowance data");
+          const currentBasicPay = basic_pay1;
+          console.log("currentBasicPay2342", currentBasicPay);
+          const daAmount = result;
           const totalAmount = currentBasicPay + daAmount;
           // Calculate EPF (12% of total amount)
           calculatedAmount = Math.round(totalAmount * 0.12);
         }
         break;
-          
+
       case "GPF":
-            accountNumber = gpf;
-            break;
+        accountNumber = gpf;
+        break;
 
       default:
         calculatedAmount = 0;
@@ -856,7 +857,7 @@ const EmpSalaryDetails: React.FC<
         ...updatedDetails[index],
         name: selectedOption,
         amount_in: calculatedAmount,
-        acnt_no: accountNumber, 
+        acnt_no: accountNumber,
       };
       return updatedDetails;
     });
@@ -872,38 +873,39 @@ const EmpSalaryDetails: React.FC<
     //     })
     //     delete element.selectedOption
     //   });
-    const lastElement = employeeAllowDetails[employeeAllowDetails.length - 1];
+    // const lastElement = employeeAllowDetails[employeeAllowDetails.length - 1];
 
-    let allValueEmpty = false;
-    Object.keys(lastElement).forEach((key) => {
-        if(lastElement[key] === ""){
-            allValueEmpty = true;
-        }
-    });
+    // let allValueEmpty = false;
+    // Object.keys(lastElement).forEach((key) => {
+    //     if(lastElement[key] === ""){
+    //         allValueEmpty = true;
+    //     }
+    // });
 
-    if(allValueEmpty) {
-       employeeAllowDetails.splice(employeeAllowDetails.length - 1, 1)
-    }
+    // if(allValueEmpty) {
+    //    employeeAllowDetails.splice(employeeAllowDetails.length - 1, 1)
+    // }
 
-    const lastElementDeduction = employeeDeductionDetails[employeeDeductionDetails.length - 1];
+    const lastElementDeduction =
+      employeeDeductionDetails[employeeDeductionDetails.length - 1];
 
     let allValueEmptyDeduc = false;
     Object.keys(lastElementDeduction).forEach((key) => {
-        if(lastElementDeduction[key] === ""){
-            allValueEmptyDeduc = true;
-        }
+      if (lastElementDeduction[key] === "") {
+        allValueEmptyDeduc = true;
+      }
     });
 
-    if(allValueEmptyDeduc) {
-        employeeDeductionDetails.splice(employeeDeductionDetails.length - 1, 1)
+    if (allValueEmptyDeduc) {
+      employeeDeductionDetails.splice(employeeDeductionDetails.length - 1, 1);
     }
 
-    console.log(employeeAllowDetails, "working");
+    console.log(employeeAllowDetails.deleteObject(), "working");
     // employeeAllowDetails[employeeAllowDetails.length ]
     if (typeof window !== "undefined") {
-        values.emp_salary_deduction_details = employeeDeductionDetails;
-        values.emp_salary_allow_details = employeeAllowDetails;
-        sessionStorage.setItem("emp_salary_details", JSON.stringify(values));
+      values.emp_salary_deduction_details = employeeDeductionDetails;
+      values.emp_salary_allow_details = employeeAllowDetails;
+      sessionStorage.setItem("emp_salary_details", JSON.stringify(values));
 
       if (props.setData) {
         props.setData("emp_salary_details", values, tabIndex);
@@ -1009,49 +1011,46 @@ const EmpSalaryDetails: React.FC<
     },
   ];
 
-//   function getStateData(key: string, values: any) {
-//     setEmployeeSalaryDetails((prev: any) => ({ ...prev, [key]: values }));
-//     setTabIndex(tabIndex);
-//   }
+  //   function getStateData(key: string, values: any) {
+  //     setEmployeeSalaryDetails((prev: any) => ({ ...prev, [key]: values }));
+  //     setTabIndex(tabIndex);
+  //   }
 
-//   function getDataSesson() {
-//     setSession(1);
-//   }
+  //   function getDataSesson() {
+  //     setSession(1);
+  //   }
   function resetData() {
     setResetTable(resetTable + 1);
   }
 
   /////////////////////////////////
 
+  const [gpf, setGpf] = useState("");
 
-  const[gpf , setGpf] = useState("")
-  
-  
   useEffect(() => {
     const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
     const storedJoinData = storedJoinDataString
       ? JSON.parse(storedJoinDataString)
       : null;
-    console.log("storedJoinData", storedJoinData?.gps)
-    setGpf(storedJoinData?.gps)
+    console.log("storedJoinData", storedJoinData?.gps);
+    setGpf(storedJoinData?.gps);
+  });
+  console.log("gpf", gpf);
 
-  })
-  console.log("gpf", gpf)
-
-  const validateDeductionWfeDate = (e:any)=>{
-    const date = new Date(e.target.value)
-    const joiningDate = new Date(JSON.parse(sessionStorage.getItem('emp_join_details') || '')?.doj)
-    console.log(joiningDate)
-    if(date >= joiningDate){
-        setIsDedWfeValid(true)
-        setIsValidate(true)
-    }else{
-        setIsDedWfeValid(false)
-        setIsValidate(false)
+  const validateDeductionWfeDate = (e: any) => {
+    const date = new Date(e.target.value);
+    const joiningDate = new Date(
+      JSON.parse(sessionStorage.getItem("emp_join_details") || "")?.doj
+    );
+    console.log(joiningDate);
+    if (date >= joiningDate) {
+      setIsDedWfeValid(true);
+      setIsValidate(true);
+    } else {
+      setIsDedWfeValid(false);
+      setIsValidate(false);
     }
-
-  }
-
+  };
 
   return (
     <div>
@@ -1127,7 +1126,7 @@ const EmpSalaryDetails: React.FC<
           </>
         )} */}
 
-{tabIndex === 1 && (
+        {tabIndex === 1 && (
           <>
             <div className="overflow-auto hide-scrollbar">
               <table className="overflow-x-hidden">
@@ -1136,9 +1135,7 @@ const EmpSalaryDetails: React.FC<
                     {COLUMNS_FOR_SLRY_INFRM_INFRM?.map(
                       (cols, index: number) => (
                         <>
-                          <th
-                            key={index}
-                          >
+                          <th key={index}>
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>
                             </div>
@@ -1186,11 +1183,11 @@ const EmpSalaryDetails: React.FC<
                           }
                         />
                       </td>
- 
-                    <td className="w-[20%]">
+
+                      <td className="w-[20%]">
                         {["DA"].includes(item.name) ? (
                           <select
-                          className="bg-transparent"
+                            className="bg-transparent"
                             onChange={(e) => {
                               if (e.target.value === "per") {
                                 setEmployeeAllowDetails((prev: any) => {
@@ -1220,7 +1217,9 @@ const EmpSalaryDetails: React.FC<
                             onChange={(e) =>
                               setEmployeeAllowDetails((prev: any) => {
                                 const updateData = [...prev];
-                                updateData[index].amount_in = Number(e.target.value);
+                                updateData[index].amount_in = Number(
+                                  e.target.value
+                                );
                                 return updateData;
                               })
                             }
@@ -1231,39 +1230,46 @@ const EmpSalaryDetails: React.FC<
                             }}
                           />
                         )}
-                        {["DA"].includes(item.name) && item.selectedOption === "per" && (
-                          <div className="flex">
-                            <input type="number" className="bg-transparent" placeholder="enter percentage" onBlur={(e) => handlePerChange(e, index)} />
-                          
-                            <span>{item?.amount_in}</span>
-                          </div>
-                        )}
-                        {["DA"].includes(item.name) && item.selectedOption === "amount" && (
-                          <div className="flex">
-                            <input 
-                            type="number"
-                            className="bg-transparent"
-                            value={item.amount_in}
-                            placeholder="Enter Amount"
-                            onChange={(e) =>
-                              setEmployeeAllowDetails((prev: any) => {
-                                const updateData = [...prev];
-                                updateData[index].amount_in = Number(e.target.value);
-                                return updateData;
-                              })
-                            }
-                            />
-                              {/* <span>{item?.amount_in}</span> */}
-                          </div>
-                          
+                        {["DA"].includes(item.name) &&
+                          item.selectedOption === "per" && (
+                            <div className="flex">
+                              <input
+                                type="number"
+                                className="bg-transparent"
+                                placeholder="enter percentage"
+                                onBlur={(e) => handlePerChange(e, index)}
+                              />
 
-                        )}
-                      </td>  
+                              <span>{item?.amount_in}</span>
+                            </div>
+                          )}
+                        {["DA"].includes(item.name) &&
+                          item.selectedOption === "amount" && (
+                            <div className="flex">
+                              <input
+                                type="number"
+                                className="bg-transparent"
+                                value={item.amount_in}
+                                placeholder="Enter Amount"
+                                onChange={(e) =>
+                                  setEmployeeAllowDetails((prev: any) => {
+                                    const updateData = [...prev];
+                                    updateData[index].amount_in = Number(
+                                      e.target.value
+                                    );
+                                    return updateData;
+                                  })
+                                }
+                              />
+                              {/* <span>{item?.amount_in}</span> */}
+                            </div>
+                          )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              
+
               <Button
                 className="float-end rounded-3xl"
                 onClick={() => {
@@ -1285,7 +1291,6 @@ const EmpSalaryDetails: React.FC<
             </div>
           </>
         )}
-
 
         {tabIndex === 2 && (
           <>
@@ -1379,7 +1384,7 @@ const EmpSalaryDetails: React.FC<
                           <span>{item.amount_in}</span>
                         ) : (
                           <input
-                          className="bg-transparent"
+                            className="bg-transparent"
                             type="number"
                             value={item.amount_in}
                             placeholder="Enter Amount"
@@ -1445,7 +1450,7 @@ const EmpSalaryDetails: React.FC<
             Reset
           </PrimaryButton>
 
-          {isValidate  ? (
+          {isValidate ? (
             // <PrimaryButton
             //   onClick={() => {
             //     getDataSesson();
@@ -1463,10 +1468,9 @@ const EmpSalaryDetails: React.FC<
               onClick={() => {
                 // getDataSesson();
                 handleSubmitForm({
-                    emp_salary_allow_details: employeeDeductionDetails,
-                emp_salary_deduction_details: employeeAllowDetails
+                  emp_salary_allow_details: employeeDeductionDetails,
+                  emp_salary_deduction_details: employeeAllowDetails,
                 });
-                
               }}
               buttonType="submit"
               variant="primary"
@@ -1476,10 +1480,12 @@ const EmpSalaryDetails: React.FC<
           ) : (
             <PrimaryButton
               onClick={() => {
-                if(isDedWfeValid){
-                    toast.error("Please fill the complete form!");
-                }else{
-                    toast.error(`WFE date must be greater than joining date ${JSON.parse(sessionStorage.getItem('emp_join_details') || '')?.doj}`);
+                if (isDedWfeValid) {
+                  toast.error("Please fill the complete form!");
+                } else {
+                  toast.error(
+                    `WFE date must be greater than joining date ${JSON.parse(sessionStorage.getItem("emp_join_details") || "")?.doj}`
+                  );
                 }
               }}
               variant="disabled"

@@ -223,7 +223,7 @@ const employee_seeder = async () => {
         pay_band: faker.number.int({ min: 1000, max: 3000 }),
         grade_pay: faker.number.int({ min: 1000, max: 3000 }),
         doc: null,
-        basic_pay: faker.number.int({ min: 15000, max: 300000 }),
+        basic_pay: faker.number.int({ min: 25000, max: 80000 }),
         conf_order_number: null,
         deduction_type: "cwe",
         conf_order_date: null,

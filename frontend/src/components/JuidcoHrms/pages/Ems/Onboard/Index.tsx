@@ -119,7 +119,7 @@ export const EmployeeOnBoard = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries("employee-onboard");
-    },
+},
   });
 
   return (

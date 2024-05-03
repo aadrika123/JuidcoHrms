@@ -22,12 +22,21 @@ import { ApexOptions } from "apexcharts";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import Link from "next/link";
+import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
+import { HRMS_URL } from "@/utils/api/urls";
+import toast from "react-hot-toast";
+
+// ----------------- TYPES -----------------------//
+type AttendanceCount = {
+  present_emp: number;
+  absent_emp: number;
+};
+// ----------------- TYPES -----------------------//
 
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef<DatePicker>(null);
-  const present = 1;
-  const absent = 9;
+
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
@@ -36,21 +45,27 @@ export const DashboardMain = () => {
 
   const emp_list_url: string = "/ems/emp-list";
 
-  // const dateFormatted = new Intl.DateTimeFormat('en-US', {
-  //   month: 'long',
-  //   day: 'numeric',
-  //   year: 'numeric',
-  // }).format(selectedDate);
+  //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
+  const fetchConfig: FetchAxios = {
+    url: `${HRMS_URL.ATTENDANCE.count}`,
+    url_extend: ``,
+    method: "GET",
+    res_type: 2,
+    query_key: "emp_nominee_details",
+    data: [],
+  };
+  const { data: count_attendance, error } =
+    useCodeQuery<AttendanceCount>(fetchConfig);
+  if (error) toast.error("OOps! Failed to get employee attendance details!");
 
-  {
-    /* -----------------------Chart Implementation   ----------------------------------- */
-  }
+  //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
 
+  /* -----------------------Chart Implementation   ----------------------------------- */
   const chartOptions = {
     chart: {
       type: "donut",
     },
-    series: [present, absent],
+    series: [count_attendance?.present_emp, count_attendance?.absent_emp],
     labels: ["Present", "Absent"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
@@ -228,7 +243,7 @@ export const DashboardMain = () => {
             >
               <ReactApexChart
                 options={chartOptions as ApexOptions}
-                series={chartOptions.series}
+                series={chartOptions.series as ApexOptions["series"]}
                 type="donut"
                 height={240}
                 width={200}
@@ -241,7 +256,7 @@ export const DashboardMain = () => {
                   className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                 >
                   <span className="text-[#574CDD] text-3xl font-bold">
-                    {present}
+                    {count_attendance?.present_emp}
                   </span>
                   <InnerTextHeading className="text-center">
                     Total No. of Present Employees
@@ -252,7 +267,7 @@ export const DashboardMain = () => {
                   className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                 >
                   <span className="text-[#098DA4] text-3xl font-bold">
-                    {absent}
+                    {count_attendance?.absent_emp}
                   </span>
                   <InnerTextHeading className="text-center">
                     Total No. of Absent Employees
