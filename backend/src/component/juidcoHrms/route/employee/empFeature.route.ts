@@ -190,7 +190,7 @@ class EmployeeFeatureRoute {
         loggerMiddleware
       ); //0317
 
-    app
+      app
       .route(`${baseUrl}/employee/attendance/count-daily`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>

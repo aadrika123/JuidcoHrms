@@ -733,7 +733,7 @@ model ddo {
 // Created and Maintained by Krish
 model payroll_master {
   id                       Int       @id @default(autoincrement())
-  emp_id                   String    @unique
+  emp_id                   String   
   emp_name                 String
   gross_pay                Float     @default(0)
   leave_days               Int       @default(0)

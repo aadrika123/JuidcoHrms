@@ -23,7 +23,6 @@ import { PayslipTypes } from "@/utils/types/payslip.type";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
-  const [billNo, setBillNo] = useState(0);
   // const [empData, setEmpData] = useState<PayslipTypes>();
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
@@ -135,10 +134,15 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //   fetchEmpData();
   // }, [emp]);
 
+  const currentDate = new Date();
+  const newDate = new Date().getFullYear();
+  const monthName = currentDate.toLocaleString("en-US", { month: "long" });
+  const currentMonth = monthName.toUpperCase();
+
   //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
   const fetchConfig: FetchAxios = {
     url: `${HRMS_URL.PAYSLIP.getAll}`,
-    url_extend: `?emp_id=${emp}&date=${"2024-05-02"}`,
+    url_extend: `?emp_id=${emp}&date=${currentDate.toISOString()}`,
     method: "GET",
     res_type: 1,
     query_key: "emp_payslip_details",
@@ -149,7 +153,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
 
   useEffect(() => {
-    setBillNo((prevBillNo) => prevBillNo + 1);
     setIsClient(true);
   }, []);
 
@@ -196,7 +199,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // ----------------------------GET TDS -------------------------//
   const fetchTDS: FetchAxios = {
     url: `${HRMS_URL.PAYSLIP.getAll}`,
-    url_extend: `?emp_id=${emp}&date=${"2024-04-29"}&name=TDS,EPF,ESIC`,
+    url_extend: `?emp_id=${emp}&date=${currentDate.toISOString()}&name=TDS,EPF,ESIC`,
     method: "GET",
     res_type: 1,
     query_key: "emp_tds_detail",
@@ -225,11 +228,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
     "ESIC"
   );
   // ----------------------------GET TDS -------------------------//
-
-  const currentDate = new Date();
-  const newDate = new Date().getFullYear();
-  const monthName = currentDate.toLocaleString("en-US", { month: "long" });
-  const currentMonth = monthName.toUpperCase();
 
   return (
     <>
@@ -575,7 +573,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         <td className="border p-2">{EPF_AMOUNT}</td>
                         <td className="border p-2">Deductions</td>
                         <td className="border p-2">
-                          {empData?.total.total_deductions}
+                          {empData?.total?.total_deductions}
                         </td>
                       </tr>
                       <tr className="border">
@@ -621,7 +619,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         </td>
                         <td className="border p-2">Less: Deductions</td>
                         <td className="border p-2">
-                          {empData?.total.total_deductions}
+                          {empData?.total?.total_deductions}
                         </td>
                       </tr>
                       <tr className="border">

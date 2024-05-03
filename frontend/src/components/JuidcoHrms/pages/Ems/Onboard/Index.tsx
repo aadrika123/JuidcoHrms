@@ -110,7 +110,7 @@ export const EmployeeOnBoard = () => {
       setShowCongratulations(true);
       hideWorkingAnimation();
       setTimeout(() => {
-        // removeSessionsAfterSubmit();
+        removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },
@@ -119,7 +119,7 @@ export const EmployeeOnBoard = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries("employee-onboard");
-    },
+},
   });
 
   return (

@@ -220,6 +220,7 @@ class EmployeeAttendanceController {
     }
   };
   // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
+
 }
 
 export default EmployeeAttendanceController;

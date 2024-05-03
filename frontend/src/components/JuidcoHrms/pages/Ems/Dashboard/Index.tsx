@@ -27,10 +27,10 @@ import { HRMS_URL } from "@/utils/api/urls";
 import toast from "react-hot-toast";
 
 // ----------------- TYPES -----------------------//
-type AttendanceCount = {
+interface AttendanceCount {
   present_emp: number;
   absent_emp: number;
-};
+}
 // ----------------- TYPES -----------------------//
 
 export const DashboardMain = () => {

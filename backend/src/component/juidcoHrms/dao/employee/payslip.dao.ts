@@ -1,12 +1,20 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 
 const prisma = new PrismaClient();
 
 class PayslipDao {
-  get = async (req: Request) => {
-    const { emp_id, date, name } = req.query;
+  get = async (req: Request, res: Response) => {
+    const { emp_id, date , name } = req.query;
+
+    const dateObject = new Date(String(date))
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1;
+
+    if (!emp_id) {
+        return res.status(400).json({ error: 'emp_id is required' });
+      }
 
     const query: Prisma.employeesFindFirstArgs = {
       select: {
@@ -65,9 +73,29 @@ class PayslipDao {
     }
     const data: any = await prisma.employees.findFirst(query);
     let allow_and_ded: any[] = [];
-    const payroll = await prisma.$queryRaw`
-      SELECT * FROM payroll_master WHERE emp_id=${emp_id} AND date=Date(${date});
-    `;
+//     const payroll = await prisma.$queryRaw`
+//       SELECT * FROM payroll_master 
+//       WHERE emp_id=${emp_id} 
+//       AND EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM ${date}) 
+//   AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM ${date});
+//     `;
+const payroll = await prisma.payroll_master.findMany({
+    where: {
+      emp_id: String(emp_id),
+      AND: [
+        {
+          date: {
+            gte: new Date(year, month - 1, 1), // Start of the specified month
+          },
+        },
+        {
+          date: {
+            lt: new Date(year, month, 1), // Start of the next month
+          },
+        },
+      ],
+    }
+  });
     try {
       const [deductionsResult, allowanceResult]: [
         deductionsResult: any,
