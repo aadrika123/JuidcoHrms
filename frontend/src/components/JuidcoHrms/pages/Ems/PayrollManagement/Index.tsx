@@ -19,6 +19,7 @@ import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 import PayrollTableContainer from "./Segments/PayrollTableContainer";
+import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 
 export type EmployeePayrollType = {
   id: number;
@@ -39,6 +40,9 @@ export type EmployeePayrollType = {
 
 type EmployeePayrollData = {
   data: EmployeePayrollType[];
+  currentPage: number;
+  count: number;
+  totalPage: number;
 };
 
 type PayrollCount = {
@@ -48,15 +52,21 @@ type PayrollCount = {
 export type TableData = EmployeePayrollData | PayrollCount;
 
 const PayrollManagement = () => {
-  const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
-  const [selectedData, setSelectedData] = useState<number | null>(null);
-  // const [page, setPage] = useState<number>(1);
+  // const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
+  // const [selectedData, setSelectedData] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [searchQuey, setSearchQuery] = useState<string>("");
+  const [hitSearch, setHitSearch] = useState<string>("false");
 
   // const queryClient = useQueryClient();
 
-  // const handleChangePage = (direction: "prev" | "next") => {
-  //   setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
-  // };
+  const handleChangePage = (direction: "prev" | "next") => {
+    setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
+  };
+
+  const handleHitSearch = (): void => {
+    setHitSearch(searchQuey);
+  };
 
   const fetchData = async <T extends TableData>(
     endpoint: string
@@ -70,18 +80,24 @@ const PayrollManagement = () => {
     return res.data?.data as T;
   };
 
-  const useCodeQuery = <T extends TableData>(endpoint: string) => {
-    return useQuery([endpoint, [selectedFilter, selectedData]], async () => {
+  const useCodeQuery = <T extends TableData>(endpoint: string, key: string) => {
+    return useQuery([key, [page, hitSearch]], async () => {
       const data = await fetchData<T>(endpoint);
       return Array.isArray(data) ? data[0] : data;
     });
   };
 
   const { data: empLstData, error: empLstErr } =
-    useCodeQuery<EmployeePayrollData>(`${HRMS_URL.PAYROLL.getAll}`);
+    useCodeQuery<EmployeePayrollData>(
+      `${HRMS_URL.PAYROLL.getAll}&page=${page}&search=${searchQuey}`,
+      "payroll-all"
+    );
 
   const { data: payrollCount, error: payrollCountErr } =
-    useCodeQuery<PayrollCount>(`${HRMS_URL.PAYROLL_TOTAL.getAll}`);
+    useCodeQuery<PayrollCount>(
+      `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
+      "payroll-total"
+    );
 
   useEffect(() => {
     sessionStorage.setItem("payroll", JSON.stringify(empLstData));
@@ -147,36 +163,19 @@ const PayrollManagement = () => {
       <section className="flex items-end gap-12 w-full pl-16 border-b border-zinc-300 pb-8">
         <div className="flex flex-col gap-2">
           <label htmlFor="search-by" className="text-secondary text-lg">
-            Search By
+            Search Employee
           </label>
-          <select
-            onChange={(e) => setSelectedFilter(parseInt(e.target.value))}
-            className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 bg-white"
-          >
-            <option disabled selected>
-              Select Search By
-            </option>
-            <option value={0}>Department</option>
-            <option value={1}>Designation</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="filter-by" className="text-secondary text-lg">
-            Filter By
-          </label>
-          <select
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setSelectedData(parseInt(e.target.value))
+          <input
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchQuery(e.target.value)
             }
-            className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 max-w-xs bg-white "
-          >
-            <option disabled selected>
-              Select Filter By
-            </option>
-          </select>
+            className="p-2.5 bg-transparent border border-gray-700 rounded-md"
+            placeholder="E.g. Bineet kumar, EMP912e44"
+          />
         </div>
         <PrimaryButton
+          onClick={handleHitSearch}
           variant="primary"
           className="flex items-center gap-2 text-lg"
         >
@@ -218,11 +217,11 @@ const PayrollManagement = () => {
         </div>
         <aside className="mt-16">
           <div>
-            {/* <NextPrevPagination
-              page={empLstData?.currentPage}
-              pageCount={empLstData?.totalPage}
+            <NextPrevPagination
+              page={empLstData?.currentPage || 0}
+              pageCount={empLstData?.totalPage || 0}
               handlePageChange={handleChangePage}
-            /> */}
+            />
           </div>
         </aside>
       </section>

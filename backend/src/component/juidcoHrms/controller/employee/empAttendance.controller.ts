@@ -182,6 +182,45 @@ class EmployeeAttendanceController {
       console.log(error);
     }
   };
+
+  // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
+  emp_attend_count_daily = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.employeeAttendanceDao.emp_attend_count_daily();
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          `${this.initMesg} Not Found `,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        `${this.initMesg} Found Successfully`,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+  // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
+
 }
 
 export default EmployeeAttendanceController;

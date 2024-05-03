@@ -49,7 +49,7 @@ class PayrollDao {
         JOIN
             employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
         WHERE 
-            emp_deduct.name != 'IT'
+            emp_deduct.name != 'TDS'
         GROUP BY emp.emp_id
         `,
         prisma.$queryRaw`
@@ -376,11 +376,17 @@ class PayrollDao {
   };
 
   // --------------------- STORING PAYROLL ------------------------------ //
-  get_emp_payroll = async () => {
+  get_emp_payroll = async (req: Request) => {
     // await this.calc_net_pay();
     // console.log(this.employee_payroll_data);
+    const page: number = Number(req.query.page);
+    const limit: number = Number(req.query.limit);
+
+    const search = req.query.search as string;
 
     const query: Prisma.payroll_masterFindManyArgs = {
+      skip: (page - 1) * limit,
+      take: limit,
       select: {
         id: true,
         emp_id: true,
@@ -398,12 +404,26 @@ class PayrollDao {
         net_pay: true,
       },
       orderBy: {
-        id: "asc",
+        emp_id: "asc",
       },
     };
 
-    const data = await prisma.payroll_master.findMany(query);
-    return generateRes(data);
+    if (search && typeof search === "string" && search.trim().length > 0) {
+      query.where = {
+        OR: [
+          { emp_name: { contains: search, mode: "insensitive" } },
+          { emp_id: { contains: search, mode: "insensitive" } },
+        ],
+      };
+    }
+
+    const [data, count] = await prisma.$transaction([
+      prisma.payroll_master.findMany(query),
+      prisma.payroll_master.count(),
+    ]);
+
+    // const data = await prisma.payroll_master.findMany(query);
+    return generateRes(data, count, page, limit);
   };
 
   // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
