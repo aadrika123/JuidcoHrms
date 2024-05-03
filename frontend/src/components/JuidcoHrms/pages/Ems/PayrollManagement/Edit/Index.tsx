@@ -629,7 +629,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         <td className=" p-2"></td>
                         <td className="border p-2">Less: TDS</td>
                         <td className="border p-2">
-                          {empData?.payroll[0].tds_amount}
+                          {empData?.payroll[0]?.tds_amount}
                         </td>
                       </tr>
                       <tr className="border">
@@ -653,8 +653,8 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           Net Salary Transfer Amount
                         </td>
                         <td className="border p-2">
-                          {(empData?.payroll[0].net_pay as number) -
-                            (empData?.payroll[0].tds_amount as number)}
+                          {(empData?.payroll[0]?.net_pay as number) -
+                            (empData?.payroll[0]?.tds_amount as number)}
                         </td>
                       </tr>
                       <tr className="border">
