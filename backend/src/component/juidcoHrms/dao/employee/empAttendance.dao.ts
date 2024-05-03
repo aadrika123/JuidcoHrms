@@ -184,7 +184,7 @@ class EmployeeAttendanceDao {
   emp_attend_count_daily = async () => {
     const currentDateTime = new Date().toISOString();
     const currentDate = currentDateTime.split("T")[0];
-    console.log(currentDate);
+   
     const data = await prisma.$queryRaw`
   SELECT 
     COUNT(CASE WHEN emp_in IS NOT NULL THEN employee_id END)::Int AS present_emp,
