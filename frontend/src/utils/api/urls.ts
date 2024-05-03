@@ -139,6 +139,6 @@ export const HRMS_URL: Urls = {
     getById: "/leave/list",
   },
   TEAM: {
-    get: "/team/list",
-  },
+    get: "/team/list"
+  }
 };
