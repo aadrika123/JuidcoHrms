@@ -23,7 +23,6 @@ import { PayslipTypes } from "@/utils/types/payslip.type";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
-  const [billNo, setBillNo] = useState(0);
   // const [empData, setEmpData] = useState<PayslipTypes>();
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
@@ -154,7 +153,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
 
   useEffect(() => {
-    setBillNo((prevBillNo) => prevBillNo + 1);
     setIsClient(true);
   }, []);
 
