@@ -92,7 +92,7 @@ class PayrollController {
     };
 
     try {
-      const data = await this.payrollDao.get_emp_payroll();
+      const data = await this.payrollDao.get_emp_payroll(req);
 
       if (!data) {
         return CommonRes.NOT_FOUND(

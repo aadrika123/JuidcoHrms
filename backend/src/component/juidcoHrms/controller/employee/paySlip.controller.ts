@@ -30,7 +30,7 @@ class PayslipController {
     };
 
     try {
-      const data = await this.payslipDao.get(req);
+      const data = await this.payslipDao.get(req, res);
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMsg).NOT_FOUND,
