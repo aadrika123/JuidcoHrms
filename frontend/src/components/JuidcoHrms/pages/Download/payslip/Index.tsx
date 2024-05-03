@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import PrimaryButton from "@/components/Helpers/Button";
 import { HRMS_URL } from "@/utils/api/urls";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 import { PayslipTypes } from "@/utils/types/payslip.type";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 
 const Download_payslip = () => {
@@ -22,13 +22,7 @@ const Download_payslip = () => {
     const [empData, setEmpData] = useState<any>({
         payroll: []
     });
-    const [billNo, setBillNo] = useState(0);
 
-    const [empProfile, setEmpProfile] = useState<any>({})
-
-    useEffect(() => {
-        setBillNo((prevBillNo) => prevBillNo + 1);
-    }, []);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +33,11 @@ const Download_payslip = () => {
 
     // ------------- date and month calculation -------------------- //
 
-    const currentDate = new Date()
+    // const currentDate = new Date()
 
-
-    const newDate = new Date().getFullYear()
-    const monthName = currentDate.toLocaleString('en-US', { month: 'long' });
-    const currentMonth = monthName.toUpperCase();
+    // const newDate = new Date().getFullYear()
+    // const monthName = currentDate.toLocaleString('en-US', { month: 'long' });
+    // const currentMonth = monthName.toUpperCase();
 
     const fetchTDS: FetchAxios = {
         url: `${HRMS_URL.PAYSLIP.getAll}`,
@@ -89,24 +82,6 @@ const Download_payslip = () => {
             setEmpData(null);
         }
     };
-
-    const fetchEmpProfile = async () => {
-        try {
-            const res = await axios({
-                url: `/employee/get-single/${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}`,
-                method: "GET",
-            });
-            //   return res.data?.data;
-            setEmpProfile(res.data?.data)
-            res.data?.data
-        } catch (error) {
-            console.error("Error fetching employee data:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchEmpProfile();
-    }, []);
 
 
     const componentRef = useRef(null);
