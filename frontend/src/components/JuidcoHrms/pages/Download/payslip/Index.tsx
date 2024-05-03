@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import Image from "next/image";
@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 const Download_payslip = () => {
 
     const [selectedDate, setSelectedDate] = useState<any>(null);
-
+    const [empId, setEmpId] = useState<string>("")
     const [empData, setEmpData] = useState<any>({
         payroll: []
     });
@@ -41,7 +41,7 @@ const Download_payslip = () => {
 
     const fetchTDS: FetchAxios = {
         url: `${HRMS_URL.PAYSLIP.getAll}`,
-        url_extend: `?emp_id=${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}&date=${new Date(selectedDate).toISOString()}&name=TDS,EPF,ESIC`,
+        url_extend: `?emp_id=${empId}&date=${new Date(selectedDate).toISOString()}&name=TDS,EPF,ESIC`,
         method: "GET",
         res_type: 1,
         query_key: "emp_tds_detail",
@@ -67,12 +67,22 @@ const Download_payslip = () => {
         "ESIC"
     );
 
+    useEffect(() => {
+        if(typeof window !== "undefined" ) {
+  
+            const user_details = sessionStorage.getItem('user_details') || " ";
+            const emp_id = JSON.parse(user_details as string)?.emp_id;
+            setEmpId(emp_id)
+        }
+      
+    },[empId])
 
     const fetchEmpData = async () => {
         const formattedDate = new Date(selectedDate)
         try {
+           
             const res = await axios({
-                url: `${HRMS_URL.PAYSLIP.getAll}?emp_id=${JSON.parse(sessionStorage.getItem('user_details') || " ")?.emp_id}&date=${formattedDate.toISOString()}`,
+                url: `${HRMS_URL.PAYSLIP.getAll}?emp_id=${empId}&date=${formattedDate.toISOString()}`,
                 method: "GET",
             });
             setEmpData(res.data?.data);

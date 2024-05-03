@@ -95,7 +95,8 @@ const EmployeeServiceHistory: React.FC<
 
   // ----------------------- TABLE COLUMNS --------------------------------//
 
-  function getStateData(key: string, values: any, index?: number) {
+  function getStateData(key: string, values: any[], index?: number) {
+    values.deleteObject();
     setEmloyeeServiceHistory((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }

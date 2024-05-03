@@ -7,6 +7,7 @@ import loggerMiddleware from "../../../../../middleware/logger.middleware";
 import DepartmentController from "../../../controller/master/department.controller";
 import DistrictController from "../../../controller/master/district.controller";
 import DdoController from "../../../controller/master/ddo.controller";
+import UlbMasterController from "../../../controller/master/ulb.controller";
 /**
  * | Route - 01
  */
@@ -23,11 +24,13 @@ class MasterDataRoute {
   private departmentController: DepartmentController;
   private districtController: DistrictController;
   private ddoController: DdoController;
+  private ulbMasterController: UlbMasterController;
   constructor() {
     this.designationController = new DesignationController();
     this.departmentController = new DepartmentController();
     this.districtController = new DistrictController();
     this.ddoController = new DdoController();
+    this.ulbMasterController = new UlbMasterController();
   }
 
   configure(app: express.Application): void {
@@ -62,6 +65,14 @@ class MasterDataRoute {
           this.ddoController.getDetailsByCode(req, res, next, "0204"),
         loggerMiddleware
       ); //204
+
+    app
+      .route(`${baseUrl}/ulb/get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.ulbMasterController.get(req, res, next, "0205"),
+        loggerMiddleware
+      ); //205
   }
 }
 

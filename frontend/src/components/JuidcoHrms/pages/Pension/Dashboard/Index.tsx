@@ -125,7 +125,7 @@ const Dashboard = () => {
     data: empPension?.data.map((emp: any) => ({
       ...emp,
       deparment: department?.data[emp.emp_department]?.name,
-      retiring_date: `${emp.last_working_day}-12-31`
+      retiring_date: `${emp.last_working_day}-12-31`,
     })),
   };
 

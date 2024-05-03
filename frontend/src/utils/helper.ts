@@ -99,3 +99,20 @@ Array.prototype.resetData = function () {
   return this;
 };
 
+// REMOVE OBJECTS WITH EMPTY KEY
+Array.prototype.deleteObject = function () {
+  const lastElement = this[this.length - 1];
+
+  let allValueEmpty = false;
+  if (lastElement) {
+    Object.keys(lastElement).forEach((key) => {
+      if (lastElement[key] === "") {
+        allValueEmpty = true;
+      }
+    });
+
+    if (allValueEmpty) {
+      this.splice(this.length - 1, 1);
+    }
+  } else null;
+};

@@ -29,7 +29,8 @@ type UrlKeys =
   | "DDO"
   | "TEAM"
   | "PENSION"
-  | "PAYSLIP";
+  | "PAYSLIP"
+  | "ULB";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -43,6 +44,7 @@ type Urls = {
     getCodes?: string;
     getAll?: string;
     validate?: string;
+    count?: string;
   };
 };
 
@@ -80,12 +82,24 @@ export const HRMS_URL: Urls = {
     update: "/employee/attendance/update",
     get: "/employee/attendance/get",
     getAll: "/employee/attendance-history/get",
+    count: "/employee/attendance/count-daily",
   },
 
   PAYROLL: {
     getAll: "/pay/payroll?limit=10",
     update: "/pay/payroll/update",
     updateMany: "/pay/payroll/update-many",
+  },
+
+  PENSION: {
+    getAll: "/employee/pension/get",
+  },
+  ULB: {
+    getById: "/ulb/get",
+  },
+
+  PAYSLIP: {
+    getAll: "/pay/payslip",
   },
 
   PAYROLL_TOTAL: {
@@ -127,16 +141,10 @@ export const HRMS_URL: Urls = {
   },
   LEAVE: {
     get: "/leave/approval",
-    update:"/leave/accept-deny",
-    getById:"/leave/list"
+    update: "/leave/accept-deny",
+    getById: "/leave/list",
   },
   TEAM: {
-    get: "/team/list"
-  },
-  PENSION: {
-    getAll: "/employee/pension/get",
-  },
-  PAYSLIP: {
-    getAll: "/pay/payslip",
+    get: "/team/list",
   },
 };

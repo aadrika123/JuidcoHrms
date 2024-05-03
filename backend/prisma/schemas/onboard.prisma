@@ -28,7 +28,7 @@ model employees {
   emp_address_details_id  Int
   emp_increment_details   employee_increment_details[]
   emp_promotion_details   employee_promotion_details[]
-  // // emp_transfer_details    employee_transfer_details[]
+  emp_transfer_details    employee_transfer_details[]
   emp_timebound_details   employee_timebound_details[]
   emp_join_details        employee_join_details         @relation(fields: [emp_join_details_id], references: [id])
   emp_join_details_id     Int
@@ -195,19 +195,19 @@ model employee_promotion_details {
   updated_at      DateTime  @updatedAt @map("updated_at")
 }
 
-// // model employee_transfer_details {
-// //   id                  Int       @id @default(autoincrement())
-// //   designation         Json
-// //   office              Json
-// //   join_date        String
-// //   vide_order_no       String
-// //   vide_order_date     String
-// //   transfer_after_prom String
-// //   employees           employees @relation(fields: [employees_id], references: [id])
-// //   employees_id        Int
-// //   created_at          DateTime  @default(now()) @map("created_at")
-// //   updated_at          DateTime  @updatedAt @map("updated_at")
-// // }
+model employee_transfer_details {
+  id                  Int       @id @default(autoincrement())
+  designation         Json
+  office              Json
+  join_date           String
+  vide_order_no       String
+  vide_order_date     String
+  transfer_after_prom String
+  employees           employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id        String
+  created_at          DateTime  @default(now()) @map("created_at")
+  updated_at          DateTime  @updatedAt @map("updated_at")
+}
 
 // // //-------------- Employee Service History---------------------//
 

@@ -53,14 +53,14 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedData = sessionStorage.getItem("emp_prom_details");
+      const storedData = sessionStorage.getItem("emp_trans_details");
       setTableData(storedData ? JSON.parse(storedData) : [{}]);
     }
   }, []);
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_prom_details", JSON.stringify(tableData));
+      sessionStorage.setItem("emp_trans_details", JSON.stringify(tableData));
     }
   }
 
@@ -101,7 +101,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
     setTableData((prev) => {
       const updatedData = [...prev];
       const row: Record<string, any> = { ...updatedData[id] };
-      2;
+
       if (innerKey) {
         if (!row[key]) {
           row[key] = {};
@@ -133,7 +133,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
             to: "",
           },
 
-          scale: {
+          office: {
             from: "",
             to: "",
           },
@@ -162,7 +162,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
   useEffect(() => {
     if (props.setData) {
       const filterTableData = removeObj(tableData);
-      props.setData("emp_prom_details", filterTableData);
+      props.setData("emp_trans_details", filterTableData);
     }
   }, [tableData]);
 
@@ -188,7 +188,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
     }
   }, [props.resetTable]);
 
-  const header = <InnerHeading>Employee Promotion Details </InnerHeading>;
+  const header = <InnerHeading>Employee Transfer Details </InnerHeading>;
   return (
     <>
       {header}
@@ -268,7 +268,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "scale",
+                          "office",
                           "from"
                         )
                       }
@@ -283,7 +283,7 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                         onChangeTableDataHandler(
                           index,
                           e.target.value,
-                          "scale",
+                          "office",
                           "to"
                         )
                       }
