@@ -19,6 +19,17 @@ configure(){
     cp ./staging/next.config.js ./frontend
 }
 
+migrate() {
+    cd backend
+    echo "creating/updating the env file ..."
+    echo "PORT=$SERVER_PORT\nDATABASE_URL=\"postgresql://postgres:$DB_PASSWORD@localhost:5432/hrms?schema=public\"" > .env
+    echo "TWILIO_ACCNT_SID=\"AC9568828d649d47f5865843700bbf0a8c\"" >> .env
+    echo "TWILIO_AUTH_TOKEN=\"bc3cc90e958f8a13f4e0b947553c43cf\"" >> .env
+    echo "TWILIO_PHONE=\"+16562269475\"">> .env
+    npx prisma migrate deploy
+    cd ..
+}
+
 
 buildThem(){
     echo "building backend ..."
@@ -46,6 +57,7 @@ startServices(){
 git pull
 installModules
 configure
+migrate
 buildThem
 startServices
 
