@@ -117,19 +117,19 @@ class EmployeeOnBoardDao {
       empNomineeDetails = this.filterReqBody(emp_nominee_details);
     }
 
-
     // ===================
-    console.log(emp_service_history, "service")
+    console.log(emp_service_history, "service");
     //
 
     let empIncDetails: any = undefined;
     let empPromDetails: any = undefined;
-    // // let empTransDetails: any = undefined;
+    let empTransDetails: any = undefined;
     if (emp_service_history !== undefined) {
-      const { emp_inc_details, emp_prom_details } = emp_service_history;
+      const { emp_inc_details, emp_prom_details, emp_trans_details } =
+        emp_service_history;
       empIncDetails = this.filterReqBody(emp_inc_details);
       empPromDetails = this.filterReqBody(emp_prom_details);
-      // empTransDetails = this.filterReqBody(emp_trans_details);
+      empTransDetails = this.filterReqBody(emp_trans_details);
     }
 
     let empSalaryAllowDetails: any = undefined;
@@ -258,9 +258,9 @@ class EmployeeOnBoardDao {
         emp_promotion_details: {
           create: empPromDetails,
         },
-        // emp_transfer_details: {
-        //   create: empTransDetails,
-        // },
+        emp_transfer_details: {
+          create: empTransDetails,
+        },
         emp_timebound_details: {
           create: empTimeBound,
         },
@@ -286,6 +286,8 @@ class EmployeeOnBoardDao {
     const page: number = Number(req.query.page);
     const limit: number = Number(req.query.limit);
     const department: string = String(req.query.department);
+    const designation: string = String(req.query.designation);
+    const emp_type: string = String(req.query.emp_type);
 
     const query: Prisma.employeesFindManyArgs = {
       skip: (page - 1) * limit,
@@ -316,21 +318,45 @@ class EmployeeOnBoardDao {
       },
     };
     if (
-      department !== "undefined" &&
-      department !== "" &&
-      department !== "null"
+      (department !== "undefined" && department !== "") ||
+      (designation !== "undefined" && designation !== "") ||
+      (emp_type !== "undefined" && emp_type !== "")
     ) {
-      query.where = {
-        OR: [
-          {
-            emp_join_details: {
-              department_id: {
-                equals: Number(department),
+      const empTypeNumber = Number(emp_type);
+      if (!isNaN(empTypeNumber)) {
+        query.where = {
+          OR: [
+            {
+              emp_basic_details: {
+                emp_type: {
+                  equals: Number(emp_type),
+                },
               },
             },
-          },
-        ],
-      };
+          ],
+        };
+      } else {
+        query.where = {
+          OR: [
+            {
+              emp_join_details: {
+                OR: [
+                  {
+                    department_id: {
+                      equals: Number(department),
+                    },
+                  },
+                  {
+                    designation_id: {
+                      equals: Number(designation),
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        };
+      }
     }
 
     const [data, count] = await prisma.$transaction([

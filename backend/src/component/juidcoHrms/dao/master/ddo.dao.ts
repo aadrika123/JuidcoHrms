@@ -28,8 +28,8 @@ class DdoDao {
       select: {
         ddo_code: true,
         ddo_name: true,
-        ddo_designation: true,
-        ddo_office: true,
+        designation: true,
+        office: true,
       },
       where: {
         ddo_code: {

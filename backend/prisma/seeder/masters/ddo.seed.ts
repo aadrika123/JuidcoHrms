@@ -5,7 +5,7 @@ import readXlsxFile from "read-excel-file/node";
 const prisma = new PrismaClient();
 
 export const ddoSeeder = async () => {
-  const file_path = "./prisma/data/ddo_code.xlsx";
+  const file_path = "./prisma/data/ddo_code3.csv";
 
   readXlsxFile(file_path).then(async (rows) => {
     const n = rows.length;

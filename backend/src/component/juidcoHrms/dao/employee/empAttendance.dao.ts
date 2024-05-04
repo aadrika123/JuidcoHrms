@@ -186,14 +186,14 @@ class EmployeeAttendanceDao {
     const currentDate = currentDateTime.split("T")[0];
    
     const data = await prisma.$queryRaw`
-  SELECT 
-    COUNT(CASE WHEN emp_in IS NOT NULL THEN employee_id END)::Int AS present_emp,
-    COUNT(CASE WHEN emp_in IS NULL THEN employee_id END)::Int AS absent_emp
-  FROM 
-    employee_attendance_history 
-  WHERE 
-    date = Date(${currentDate})
-`;
+      SELECT 
+        COUNT(CASE WHEN emp_in IS NOT NULL THEN employee_id END)::Int AS present_emp,
+        COUNT(CASE WHEN emp_in IS NULL THEN employee_id END)::Int AS absent_emp
+      FROM 
+        employee_attendance_history 
+      WHERE 
+        date = Date(${currentDate})
+    `;
 
     return generateRes(data);
   };

@@ -110,7 +110,7 @@ export const EmployeeOnBoard = () => {
       setShowCongratulations(true);
       hideWorkingAnimation();
       setTimeout(() => {
-        removeSessionsAfterSubmit();
+        // removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },

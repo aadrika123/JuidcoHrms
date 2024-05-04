@@ -14,8 +14,16 @@ model designation {
   updated_at       DateTime                @updatedAt @map("updated_at")
 }
 
+model employee_type_master {
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  employee_basic_details employee_basic_details[]
+  created_at             DateTime                 @default(now()) @map("created_at")
+  updated_at             DateTime                 @default(now()) @map("updated_at")
+}
+
 model holidays {
-  id  Int @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   date String?
   name String
 }

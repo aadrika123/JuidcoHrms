@@ -8,6 +8,7 @@ import DepartmentController from "../../../controller/master/department.controll
 import DistrictController from "../../../controller/master/district.controller";
 import DdoController from "../../../controller/master/ddo.controller";
 import UlbMasterController from "../../../controller/master/ulb.controller";
+import EmployeeTypeMasterController from "../../../controller/master/emp_type.controller";
 /**
  * | Route - 01
  */
@@ -25,12 +26,14 @@ class MasterDataRoute {
   private districtController: DistrictController;
   private ddoController: DdoController;
   private ulbMasterController: UlbMasterController;
+  private EmpTypeMasterController: EmployeeTypeMasterController;
   constructor() {
     this.designationController = new DesignationController();
     this.departmentController = new DepartmentController();
     this.districtController = new DistrictController();
     this.ddoController = new DdoController();
     this.ulbMasterController = new UlbMasterController();
+    this.EmpTypeMasterController = new EmployeeTypeMasterController();
   }
 
   configure(app: express.Application): void {
@@ -64,7 +67,7 @@ class MasterDataRoute {
         (req: Request, res: Response, next: NextFunction) =>
           this.ddoController.getDetailsByCode(req, res, next, "0204"),
         loggerMiddleware
-      ); //204
+      ); //0204
 
     app
       .route(`${baseUrl}/ulb/get`)
@@ -72,7 +75,15 @@ class MasterDataRoute {
         (req: Request, res: Response, next: NextFunction) =>
           this.ulbMasterController.get(req, res, next, "0205"),
         loggerMiddleware
-      ); //205
+      ); //0205
+
+    app
+      .route(`${baseUrl}/emp-type/get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.EmpTypeMasterController.get(req, res, next, "0206"),
+        loggerMiddleware
+      ); //0206
   }
 }
 

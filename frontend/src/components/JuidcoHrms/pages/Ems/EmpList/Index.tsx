@@ -68,14 +68,13 @@ const EmployeeList = () => {
   };
 
   const { data: dataList = [], error: dataError } = useCodeQuery(
-    `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : null}`
+    `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : selectedFilter === 2 ? HRMS_URL.EMPLOYEE_TYPE_MASTER.getAll : null}`
     // `${HRMS_URL.DEPARTMENT.get}`
   );
 
   const { data: empLstData, error: empLstErr } = useCodeQuery(
-    `${HRMS_URL.EMS.get}&page=${page}&department=${selectedData}`
+    `${HRMS_URL.EMS.get}&page=${page}${selectedFilter === 0 ? `&department=${selectedData}` : selectedFilter === 1 ? `&designation=${selectedData}` : selectedFilter === 2 ? `&emp_type=${selectedData}` : ""}`
   );
-
   const { data: empCount, error: empCountErr } = useCodeQuery(
     `${HRMS_URL.EMP_COUNT.get}`
   );
@@ -189,6 +188,7 @@ const EmployeeList = () => {
             </option>
             <option value={0}>Department</option>
             <option value={1}>Designation</option>
+            <option value={2}>Employee Type</option>
           </select>
         </div>
 

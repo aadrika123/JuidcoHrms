@@ -28,10 +28,10 @@ model district {
 }
 
 model ddo {
-  ddo_code        String   @unique
-  ddo_name        String
-  ddo_designation String
-  ddo_office      String
-  created_at      DateTime @default(now()) @map("created_at")
-  updated_at      DateTime @updatedAt @map("updated_at")
+  id            Int    @id @default(autoincrement())
+  treasury_name String
+  ddo_code      String
+  ddo_name      String
+  designation   String
+  office        String
 }

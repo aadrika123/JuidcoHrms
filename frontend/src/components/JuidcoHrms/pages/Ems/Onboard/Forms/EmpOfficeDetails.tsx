@@ -21,13 +21,26 @@ import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
 
+type DDOTYPE = {
+  data: [
+    {
+      id: number;
+      treasury_name: string;
+      ddo_code: string;
+      ddo_name: string;
+      designation: string;
+      office: string;
+    },
+  ];
+};
+
 const EmployeeOfficeDetails: React.FC<
   EmployeeDetailsProps<EmployeeOfficeDetaislType>
 > = (props) => {
   const [empType, setEmpType] = useState<number>(0);
   const pathName = usePathname();
   const router = useRouter();
-  const [ddoData, setDdoData] = useState<any>(null);
+  const [ddoData, setDdoData] = useState<DDOTYPE | undefined>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [input, setInput] = useState("");
 
@@ -38,15 +51,12 @@ const EmployeeOfficeDetails: React.FC<
         setDdoData(response.data?.data);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setDdoData(null);
       }
     };
 
     const debounce = setTimeout(() => {
       if (input.trim() !== "") {
         fetchData();
-      } else {
-        setDdoData(null);
       }
     }, 300);
 
@@ -69,9 +79,9 @@ const EmployeeOfficeDetails: React.FC<
 
     if (typeof window !== "undefined") {
       values.ddo_code = input;
-      values.ddo_designation = ddoData.data[0].ddo_designation;
-      values.office_code = ddoData.data[0].ddo_office;
-      values.office_name = ddoData.data[0].ddo_name;
+      values.ddo_designation = ddoData?.data[0].designation || "";
+      values.office_code = ddoData?.data[0].office || "";
+      values.office_name = ddoData?.data[0].ddo_name || "";
 
       sessionStorage.setItem("emp_office_details", JSON.stringify(values));
       sessionStorage.setItem("emp_type", JSON.stringify(empType));
@@ -221,14 +231,13 @@ const EmployeeOfficeDetails: React.FC<
                   // value={input.length > 7 ? ddoData?.data[0]?.ddo_office : ""}
                   value={
                     input.length > 7 && ddoData?.data && ddoData.data.length > 0
-                      ? ddoData.data[0].ddo_office
+                      ? ddoData.data[0].office
                       : ""
                   }
                   error={errors.office_code}
                   touched={touched.office_code}
                   label="Office Code"
                   name="office_code"
-                  required={true}
                   placeholder="Enter Office Code"
                   maxLength={20}
                   disabled
@@ -253,13 +262,12 @@ const EmployeeOfficeDetails: React.FC<
                   // value={input.length > 7 ? ddoData?.data[0]?.ddo_designation : ""}
                   value={
                     input.length > 7 && ddoData?.data && ddoData.data.length > 0
-                      ? ddoData.data[0].ddo_designation
+                      ? ddoData.data[0].designation
                       : ""
                   }
                   error={errors.ddo_designation}
                   touched={touched.ddo_designation}
                   label="DDO Designation"
-                  required={true}
                   name="ddo_designation"
                   disabled
                   placeholder={"Enter DDO Designation"}
@@ -324,7 +332,6 @@ const EmployeeOfficeDetails: React.FC<
                   touched={touched.office_name}
                   label="Office Name"
                   name="office_name"
-                  required={true}
                   disabled
                   placeholder={"Enter Office Name"}
                   maxLength={30}

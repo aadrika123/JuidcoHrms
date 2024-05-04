@@ -30,7 +30,8 @@ type UrlKeys =
   | "TEAM"
   | "PENSION"
   | "PAYSLIP"
-  | "ULB";
+  | "ULB"
+  | "EMPLOYEE_TYPE_MASTER";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -146,5 +147,8 @@ export const HRMS_URL: Urls = {
   },
   TEAM: {
     get: "/team/list",
+  },
+  EMPLOYEE_TYPE_MASTER: {
+    getAll: "/emp-type/get",
   },
 };

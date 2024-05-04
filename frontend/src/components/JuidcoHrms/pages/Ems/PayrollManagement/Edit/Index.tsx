@@ -138,11 +138,11 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const newDate = new Date().getFullYear();
   const monthName = currentDate.toLocaleString("en-US", { month: "long" });
   const currentMonth = monthName.toUpperCase();
-
+  const currDate = new Date().toISOString().split("T")[0];
   //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
   const fetchConfig: FetchAxios = {
     url: `${HRMS_URL.PAYSLIP.getAll}`,
-    url_extend: `?emp_id=${emp}&date=${currentDate.toISOString()}`,
+    url_extend: `?emp_id=${emp}&date=${currDate}`,
     method: "GET",
     res_type: 1,
     query_key: "emp_payslip_details",
@@ -197,16 +197,17 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // ------------- date and month calculation -------------------- //
 
   // ----------------------------GET TDS -------------------------//
-  const fetchTDS: FetchAxios = {
-    url: `${HRMS_URL.PAYSLIP.getAll}`,
-    url_extend: `?emp_id=${emp}&date=${currentDate.toISOString()}&name=TDS,EPF,ESIC`,
-    method: "GET",
-    res_type: 1,
-    query_key: "emp_tds_detail",
-    data: [],
-  };
-  const { data: deductions } = useCodeQuery<PayslipTypes>(fetchTDS);
-  if (error) toast.error("OOps! Failed to get employee nominee details!");
+  // const fetchTDS: FetchAxios = {
+  //   url: `${HRMS_URL.PAYSLIP.getAll}`,
+  //   url_extend: `?emp_id=${emp}&date=${currentDate.toISOString()}&name=TDS,EPF,ESIC`,
+  //   method: "GET",
+  //   res_type: 1,
+  //   query_key: "emp_tds_detail",
+  //   data: [],
+  // };
+  // const { data: deductions, error: err } = useCodeQuery<PayslipTypes>(fetchTDS);
+  // if (error) toast.error("OOps! Failed to get employee nominee details!");
+  // if (err) toast.error("OOps! Failed to get employee nominee details!");
 
   function extractAmountFromDeductions(data: any[], key: string): number {
     const zxt = data?.filter((object) => object.name === key);
@@ -219,12 +220,12 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // );
 
   const EPF_AMOUNT = extractAmountFromDeductions(
-    deductions?.emp_salary_details.emp_salary_deduction,
+    empData?.emp_salary_details.emp_salary_deduction,
     "EPF"
   );
 
   const ESIC_AMOUNT = extractAmountFromDeductions(
-    deductions?.emp_salary_details.emp_salary_deduction,
+    empData?.emp_salary_details.emp_salary_deduction,
     "ESIC"
   );
   // ----------------------------GET TDS -------------------------//

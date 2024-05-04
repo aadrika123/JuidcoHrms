@@ -102,10 +102,7 @@ const employee_seeder = async () => {
           min: 0o000000000000,
           max: 999999999999,
         })}`,
-        emp_type: `${faker.number.int({
-          min: 0,
-          max: 999,
-        })}`,
+        emp_type: 1,
         weight: `${faker.number.int({
           min: 0,
           max: 999,

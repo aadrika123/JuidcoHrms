@@ -65,7 +65,7 @@ model employee_office_details {
 }
 
 model employee_basic_details {
-  id                  Int         @id @default(autoincrement())
+  id                  Int                  @id @default(autoincrement())
   emp_id              String
   emp_image           String
   emp_name            String
@@ -76,15 +76,16 @@ model employee_basic_details {
   epic_no             String
   gender              String // Assuming you want to store it as a string, adjust as needed
   pran                String?
-  emp_type            String // Assuming you want to store it as a string, adjust as needed
   weight              String?
   height              String?
   cps                 String?
   gps                 String
+  emp_type_master     employee_type_master @relation(fields: [emp_type], references: [id])
+  emp_type            Int
   dob                 DateTime
   employee            employees[]
-  created_at          DateTime    @default(now()) @map("created_at")
-  updated_at          DateTime    @updatedAt @map("updated_at")
+  created_at          DateTime             @default(now()) @map("created_at")
+  updated_at          DateTime             @updatedAt @map("updated_at")
 }
 
 model employee_personal_details {

@@ -55,7 +55,7 @@ startServices(){
     cd ../frontend
     pm2 start npm --name "hrms-front" -- start
 
-    cd ..
+ krish_dev   cd ..
     pm2 list
 }
 

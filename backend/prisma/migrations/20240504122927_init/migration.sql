@@ -44,11 +44,11 @@ CREATE TABLE "employee_basic_details" (
     "epic_no" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
     "pran" TEXT,
-    "emp_type" TEXT NOT NULL,
     "weight" TEXT,
     "height" TEXT,
     "cps" TEXT,
     "gps" TEXT NOT NULL,
+    "emp_type" INTEGER NOT NULL,
     "dob" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -169,6 +169,22 @@ CREATE TABLE "employee_promotion_details" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "employee_promotion_details_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_transfer_details" (
+    "id" SERIAL NOT NULL,
+    "designation" JSONB NOT NULL,
+    "office" JSONB NOT NULL,
+    "join_date" TEXT NOT NULL,
+    "vide_order_no" TEXT NOT NULL,
+    "vide_order_date" TEXT NOT NULL,
+    "transfer_after_prom" TEXT NOT NULL,
+    "employees_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "employee_transfer_details_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -358,6 +374,45 @@ CREATE TABLE "employee_loan_recovery" (
 );
 
 -- CreateTable
+CREATE TABLE "department" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "department_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "designation" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "employee_type_master" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "employee_type_master_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "holidays" (
+    "id" SERIAL NOT NULL,
+    "date" TEXT,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "holidays_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "employee_attendance_history" (
     "id" SERIAL NOT NULL,
     "emp_in" TIMESTAMP(3),
@@ -393,7 +448,7 @@ CREATE TABLE "employee_hierarchy" (
     "emp_id" TEXT NOT NULL,
     "parent_emp" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "employee_hierarchy_pkey" PRIMARY KEY ("id")
 );
@@ -508,35 +563,6 @@ CREATE TABLE "leave_encashment" (
 );
 
 -- CreateTable
-CREATE TABLE "department" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "department_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "designation" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "designation_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "holidays" (
-    "id" SERIAL NOT NULL,
-    "date" TEXT,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "holidays_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "ulb" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -578,12 +604,11 @@ CREATE TABLE "district" (
 
 -- CreateTable
 CREATE TABLE "ddo" (
-    "ddo_code" TEXT NOT NULL,
-    "ddo_name" TEXT NOT NULL,
-    "ddo_designation" TEXT NOT NULL,
-    "ddo_office" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL
+    "TreasuryName" TEXT NOT NULL,
+    "DDOCODE" TEXT NOT NULL,
+    "DDONAME" TEXT NOT NULL,
+    "DESIGNATION" TEXT NOT NULL,
+    "OFFICE" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -603,6 +628,10 @@ CREATE TABLE "payroll_master" (
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "last_month_lwp_deduction" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "salary_per_hour" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "lwp_days_last_month" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "epf_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "esic_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "tds_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "status" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
     "month" INTEGER NOT NULL,
@@ -642,10 +671,7 @@ CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
 CREATE UNIQUE INDEX "leave_encashment_application_id_key" ON "leave_encashment"("application_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ddo_ddo_code_key" ON "ddo"("ddo_code");
-
--- CreateIndex
-CREATE UNIQUE INDEX "payroll_master_emp_id_key" ON "payroll_master"("emp_id");
+CREATE UNIQUE INDEX "ddo_DDOCODE_key" ON "ddo"("DDOCODE");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "payroll_master_emp_id_month_year_key" ON "payroll_master"("emp_id", "month", "year");
@@ -672,6 +698,9 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_loan_details_id_fkey" FORE
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_salary_details_id_fkey" FOREIGN KEY ("emp_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "employee_basic_details" ADD CONSTRAINT "employee_basic_details_emp_type_fkey" FOREIGN KEY ("emp_type") REFERENCES "employee_type_master"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "employee_family_details" ADD CONSTRAINT "employee_family_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -682,6 +711,9 @@ ALTER TABLE "employee_increment_details" ADD CONSTRAINT "employee_increment_deta
 
 -- AddForeignKey
 ALTER TABLE "employee_promotion_details" ADD CONSTRAINT "employee_promotion_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "employee_transfer_details" ADD CONSTRAINT "employee_transfer_details_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee_salary_allow" ADD CONSTRAINT "employee_salary_allow_employee_salary_details_id_fkey" FOREIGN KEY ("employee_salary_details_id") REFERENCES "employee_salary_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
