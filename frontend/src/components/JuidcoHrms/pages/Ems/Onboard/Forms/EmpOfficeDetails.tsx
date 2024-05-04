@@ -286,9 +286,7 @@ const EmployeeOfficeDetails: React.FC<
                 />
 
                 <div className="flex flex-col relative">
-                  <label className="text-sm text-secondary">
-                    DDO Code <span className="text-red-400">*</span>
-                  </label>
+                  <label className="text-sm text-secondary">DDO Code</label>
                   <input
                     placeholder="Type DDO code here"
                     value={input}

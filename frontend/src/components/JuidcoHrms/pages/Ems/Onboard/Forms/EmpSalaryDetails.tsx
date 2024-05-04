@@ -231,7 +231,7 @@
 //     },
 
 //     {
-//       HEADER: "WFE Date",
+//       HEADER: "WEF Date",
 //       ACCESSOR: "wfe_date",
 //       isRequired: true,
 //       type: "date",
@@ -279,7 +279,7 @@
 //     },
 
 //     {
-//       HEADER: "WFE Date",
+//       HEADER: "WEF Date",
 //       ACCESSOR: "wfe_date",
 //       isRequired: true,
 //       type: "date",
@@ -943,7 +943,7 @@ const EmpSalaryDetails: React.FC<
     },
 
     {
-      HEADER: "WFE Date",
+      HEADER: "WEF Date",
       ACCESSOR: "wfe_date",
       isRequired: true,
       type: "date",
@@ -991,7 +991,7 @@ const EmpSalaryDetails: React.FC<
     },
 
     {
-      HEADER: "WFE Date",
+      HEADER: "WEF Date",
       ACCESSOR: "wfe_date",
       isRequired: true,
       type: "date",
@@ -1181,6 +1181,7 @@ const EmpSalaryDetails: React.FC<
                               return updateData;
                             })
                           }
+                          onBlur={validateDeductionWfeDate}
                         />
                       </td>
 
@@ -1484,7 +1485,7 @@ const EmpSalaryDetails: React.FC<
                   toast.error("Please fill the complete form!");
                 } else {
                   toast.error(
-                    `WFE date must be greater than joining date ${JSON.parse(sessionStorage.getItem("emp_join_details") || "")?.doj}`
+                    `WEF date must be greater than joining date ${JSON.parse(sessionStorage.getItem("emp_join_details") || "")?.doj}`
                   );
                 }
               }}

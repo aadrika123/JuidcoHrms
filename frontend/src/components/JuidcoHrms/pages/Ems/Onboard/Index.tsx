@@ -110,7 +110,7 @@ export const EmployeeOnBoard = () => {
       setShowCongratulations(true);
       hideWorkingAnimation();
       setTimeout(() => {
-        // removeSessionsAfterSubmit();
+        removeSessionsAfterSubmit();
         router.push("/");
       }, 3000);
     },
@@ -119,7 +119,7 @@ export const EmployeeOnBoard = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries("employee-onboard");
-},
+    },
   });
 
   return (
@@ -230,27 +230,26 @@ export const EmployeeOnBoard = () => {
               <EmployeeFamilyDetails setData={getStateData} />
             </>
           ) : //
-            searchParam === "9" ? (
-              //
-              <EmpSalaryDetails setData={getStateData} />
-            ) : searchParam === "10" ? (
-              <>
-                <EmpTimeBound setData={getStateData} />
+          searchParam === "9" ? (
+            //
+            <EmpSalaryDetails setData={getStateData} />
+          ) : searchParam === "10" ? (
+            <>
+              <EmpTimeBound setData={getStateData} />
 
-                <aside className="flex w-full items-center justify-end mt-3">
-                  <Button
-                    buttontype="button"
-                    variant="primary"
-                    onClick={() => mutate(employeeOnBoardDetails)}
-                  >
-                    Save
-                  </Button>
-                </aside>
-              </>
-
-            ) : searchParam === "11" ? (
-              <>
-                {/* <EmpTimeBound setData={getStateData} />
+              <aside className="flex w-full items-center justify-end mt-3">
+                <Button
+                  buttontype="button"
+                  variant="primary"
+                  onClick={() => mutate(employeeOnBoardDetails)}
+                >
+                  Save
+                </Button>
+              </aside>
+            </>
+          ) : searchParam === "11" ? (
+            <>
+              {/* <EmpTimeBound setData={getStateData} />
 
               <aside className="flex w-full items-center justify-end mt-3">
                 <Button
@@ -261,10 +260,10 @@ export const EmployeeOnBoard = () => {
                   Save
                 </Button>
               </aside> */}
-              </>
-            ) : (
-              <></>
-            )}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </section>
     </>
