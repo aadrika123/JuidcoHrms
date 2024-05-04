@@ -21,7 +21,7 @@ configure(){
 }
 
 resetDatabases() {
-    # rm -rf ./backend/prisma/migrations
+    rm -rf ./backend/prisma/migrations
     cd backend
     echo "creating/updating the env file ..."
     echo "PORT=$SERVER_PORT\nDATABASE_URL=\"postgresql://postgres:$DB_PASSWORD@localhost:5432/hrms?schema=public\"" > .env
@@ -31,8 +31,6 @@ resetDatabases() {
     npx prisma migrate dev --name init
     cd ..
 }
-
-
 
 
 
