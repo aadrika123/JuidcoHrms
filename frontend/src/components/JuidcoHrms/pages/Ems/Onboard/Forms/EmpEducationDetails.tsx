@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -54,6 +54,28 @@ const EmpEducationDetails: React.FC<
     setResetTable(resetTable + 1);
   }
 
+
+    //////////////////////////////////////////////////////////////////
+
+    const [employeeType, setEmployeeType] = useState("");
+
+
+    useEffect(() => {
+    const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
+    const storedJoinData = storedJoinDataString
+      ? JSON.parse(storedJoinDataString)
+      : null;
+
+    const empType = storedJoinData.emp_type;
+    setEmployeeType(empType);
+
+    }, []);
+  
+
+  ////////////////////////////////////////////////////////////////
+
+
+
   return (
     <div>
       <div className="flex justify-between mb-10">
@@ -90,7 +112,16 @@ const EmpEducationDetails: React.FC<
           />
         </div>
 
-        <div className="border p-5 rounded-xl shadow mt-6 ">
+        {/* <div className="border p-5 rounded-xl shadow mt-6 ">
+          <EmployeeTrainingTable
+            setData={getStateData}
+            setSession={session}
+            validate={setIsValidate}
+            resetTable={resetTable}
+          />
+        </div> */}
+         {employeeType && employeeType !== "Daily Wages" && (
+          <div className="border p-5 rounded-xl shadow mt-6 ">
           <EmployeeTrainingTable
             setData={getStateData}
             setSession={session}
@@ -98,6 +129,7 @@ const EmpEducationDetails: React.FC<
             resetTable={resetTable}
           />
         </div>
+        )}  
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton

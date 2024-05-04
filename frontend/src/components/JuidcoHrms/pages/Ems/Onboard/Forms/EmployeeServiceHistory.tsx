@@ -6,7 +6,7 @@
  * Date: 24/02/2024
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import type { EmployeeServiceHistoryType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
@@ -108,6 +108,28 @@ const EmployeeServiceHistory: React.FC<
   function resetData() {
     setResetTable(resetTable + 1);
   }
+
+
+      //////////////////////////////////////////////////////////////////
+
+      const [employeeType, setEmployeeType] = useState("");
+
+
+      useEffect(() => {
+      const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
+      const storedJoinData = storedJoinDataString
+        ? JSON.parse(storedJoinDataString)
+        : null;
+  
+      const empType = storedJoinData.emp_type;
+      setEmployeeType(empType);
+  
+      }, []);
+    
+  
+  //////////////////////////////////////////////////////////////// 
+
+
   return (
     <>
       {/* <SubHeading className="text-[20px] pt-4">
@@ -158,6 +180,15 @@ const EmployeeServiceHistory: React.FC<
           />
         </div>
 
+        {/* <div className="border p-5 rounded-xl shadow mt-4">
+          <EmployeeTransferDetailsTable
+            setData={getStateData}
+            setSession={session}
+            validate={setIsValidate}
+            resetTable={resetTable}
+          />
+        </div> */}
+        {employeeType && employeeType !== "Daily Wages" && (
         <div className="border p-5 rounded-xl shadow mt-4">
           <EmployeeTransferDetailsTable
             setData={getStateData}
@@ -166,6 +197,8 @@ const EmployeeServiceHistory: React.FC<
             resetTable={resetTable}
           />
         </div>
+
+         )}
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton

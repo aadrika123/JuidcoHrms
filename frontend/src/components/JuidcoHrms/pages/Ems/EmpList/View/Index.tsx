@@ -58,6 +58,7 @@ const ViewEmpList: React.FC<ViewEmpListProps> = (props) => {
 
 
     useEffect(() => {
+        console.log(empData)
         if (empErr) {
             console.log('Error while fetching data', empErr)
         }
@@ -66,17 +67,6 @@ const ViewEmpList: React.FC<ViewEmpListProps> = (props) => {
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
     });
-
-    // const handleExport = useReactToPrint({
-    //     content: () => printRef.current,
-    //     print: async (printIframe) => {
-    //         await pdfGenerator(printIframe)
-    //     }
-    // });
-
-    // const pdfGenerator = async (printIframe: any) => {
-    //     console.log(printIframe)
-    // }
 
 
     return (

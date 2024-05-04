@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { Formik } from "formik";
 import {
@@ -24,6 +24,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { HRMS_URL } from "@/utils/api/urls";
+import toast from "react-hot-toast";
 
 const EmpInitialJoinDetails: React.FC<
   EmployeeDetailsProps<EmployeeJoinDetailsType>
@@ -33,6 +34,7 @@ const EmpInitialJoinDetails: React.FC<
   const [confirmationOrder, setConfirmationOrder] = useState("");
   const [gisOrder, setGisOrder] = useState("");
   const empType = useSearchParams().get("emp");
+
 
   const updateConfirmationOrder = (value: string) => {
     setConfirmationOrder(value);
@@ -82,6 +84,78 @@ const EmpInitialJoinDetails: React.FC<
         : initialEmployeeJoinDetails
       : initialEmployeeJoinDetails;
 
+
+      const handleOnblurForPayBand = (values:any, e:any)=>{
+        const payBandValue = e?.target?.value
+        if(values?.pay_scale){
+            if(Number(values.pay_scale)>=1 && Number(values.pay_scale)<=5){
+                if(!(Number(payBandValue) >= 5200 && Number(payBandValue) <= 20200)){
+                    toast.error(`Pay Band 5200 - 20200 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale)>=6 && Number(values.pay_scale)<=9){
+                if(!(Number(payBandValue) >= 9300 && Number(payBandValue) <= 34800)){
+                    toast.error(`Pay Band 9300 - 34800 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale)>=10 && Number(values.pay_scale)<=12){
+                if(!(Number(payBandValue) >= 15600 && Number(payBandValue) <= 39100)){
+                    toast.error(`Pay Band 15600 - 39100 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if((Number(values.pay_scale)>=13 && Number(values.pay_scale)<=14) ||  values.pay_scale === '13-A'){
+                if(!(Number(payBandValue) >= 37400 && Number(payBandValue) <= 67000)){
+                    toast.error(`Pay Band 37400 - 67000 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale) === 15){
+                if(!(Number(payBandValue) >= 67000 && Number(payBandValue) <= 79000)){
+                    toast.error(`Pay Band 6700 - 79000 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale) === 16){
+                if(!(Number(payBandValue) >= 75500 && Number(payBandValue) <= 80000)){
+                    toast.error(`Pay Band 75500 - 80000 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale) === 17){
+                if(!(Number(payBandValue) === 80000)){
+                    toast.error(`Pay Band 80000 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }else if(Number(values.pay_scale) === 18){
+                if(!(Number(payBandValue) === 90000)){
+                    toast.error(`Pay Band 90000 is allowed as Pay Scale is ${values?.pay_scale}`);
+                    values.pay_band = ''
+                }
+            }
+        }else{
+            toast.error("Please select Pay Scale before entering Pay Band");
+            values.pay_band = ''
+        }
+      }
+
+
+ //////////////////////////////////////////////////////////////////
+
+ const [employeeType, setEmployeeType] = useState("");
+
+
+ useEffect(() => {
+ const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
+ const storedJoinData = storedJoinDataString
+   ? JSON.parse(storedJoinDataString)
+   : null;
+
+ const empType = storedJoinData.emp_type;
+ setEmployeeType(empType);
+
+ }, []);
+
+
+////////////////////////////////////////////////////////////////
+
+
   return (
     <>
       <div className="flex justify-between mb-10">
@@ -111,7 +185,7 @@ const EmpInitialJoinDetails: React.FC<
         </SubHeading>
         <Formik
           initialValues={initialValues}
-          validationSchema={employeeJoinValidationSchema}
+          validationSchema={employeeType !== "Daily Wages" && employeeJoinValidationSchema}
           onSubmit={handleSubmitFormik}
         >
           {({
@@ -125,100 +199,9 @@ const EmpInitialJoinDetails: React.FC<
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
-                {/* <SelectForNoApi
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.department}
-                  error={errors.department}
-                  touched={touched.department}
-                  label="Department"
-                  name="department"
-                  placeholder={"Please Select"}
-                  required={true}
-                  options={[
-                    {
-                      id: 1,
-                      name: "Agriculture Animal Husbandry and Co-operative Department",
-                    },
-                    { id: 2, name: "Building Construction Department" },
-                    { id: 3, name: "Cabinet Election Department" },
-                    {
-                      id: 4,
-                      name: "Cabinet Secretaritat and Vigilance Department",
-                    },
-                    { id: 5, name: "Commercial Tax Department" },
-                    { id: 6, name: "Drinking Water and Sanitation Department" },
-                    { id: 7, name: "Energy Department" },
-                    { id: 8, name: "Excise and Prohibition Department" },
-                    { id: 9, name: "Finance Department" },
-                    {
-                      id: 10,
-                      name: "Food Public Distribution and Consumer Affairs Department",
-                    },
-                    {
-                      id: 11,
-                      name: "Forest Environment and Climate Change Department",
-                    },
-                    { id: 12, name: "Governor Secretariat" },
-                    {
-                      id: 13,
-                      name: "Health Medical Education and Family Welfare Department",
-                    },
-                    {
-                      id: 14,
-                      name: "Higher and Technical Education Department",
-                    },
-                    { id: 15, name: "Home Jail and Disaster Management" },
-                    { id: 16, name: "Industries Department" },
-                    {
-                      id: 17,
-                      name: "Information and Public Relation Department",
-                    },
-                    {
-                      id: 18,
-                      name: "Information Technology and e-Governance Department",
-                    },
-                    {
-                      id: 19,
-                      name: "Labour Employment Training and Skill Development Department",
-                    },
-                    { id: 20, name: "Law Department" },
-                    { id: 21, name: "Legisletive Assembly" },
-                    { id: 22, name: "Mines and Geology Department" },
-                    { id: 23, name: "Panchayati Raj Department" },
-                    {
-                      id: 24,
-                      name: "Personnel Administrative Reforms and Rajbhasha Department",
-                    },
-                    { id: 25, name: "Planning and Development Department" },
-                    {
-                      id: 26,
-                      name: "Revenue Registration and Land Reforms Department",
-                    },
-                    { id: 27, name: "Road Construction Department" },
-                    { id: 28, name: "Rural Development Department" },
-                    { id: 29, name: "Rural Works Department" },
-                    {
-                      id: 30,
-                      name: "School Education and Literacy Department",
-                    },
-                    {
-                      id: 31,
-                      name: "Tourism Art Culture Sports and Youth Afairs Department ",
-                    },
-                    { id: 32, name: "Transport Department" },
-                    {
-                      id: 33,
-                      name: "Urban Development and Housing Department",
-                    },
-                    { id: 34, name: "Water Resource Department" },
-                    { id: 35, name: "Welfare Department" },
-                    {
-                      id: 36,
-                      name: "Women Child Development and Social Security Department",
-                    },
-                  ]}
-                /> */}
+              {employeeType && employeeType === "Daily Wages" ? (
+                  null
+                ) : ( <>
                 <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -231,6 +214,7 @@ const EmpInitialJoinDetails: React.FC<
                   api={`${HRMS_URL.DEPARTMENT.get}`}
                   required
                 />
+
                 <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -239,28 +223,6 @@ const EmpInitialJoinDetails: React.FC<
                   placeholder="Please Select"
                   name="designation_id"
                   api={`${HRMS_URL.DESIGNATION.get}`}
-                />
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.task}
-                  // error={errors.task}
-                  // touched={touched.task}
-                  label="Task"
-                  placeholder="Enter Task"
-                  name="task"
-                  // required={true}
-                  onKeyPress={(e: any) => {
-                    if (
-                      !(
-                        (e.key >= "a" && e.key <= "z") ||
-                        (e.key >= "A" && e.key <= "Z") ||
-                        e.key === " "
-                      )
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
                 />
 
                 <SelectForNoApi
@@ -277,58 +239,16 @@ const EmpInitialJoinDetails: React.FC<
                     { id: 4, name: "4" },
                   ]}
                 />
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.doj}
-                  // error={errors.doj}
-                  // touched={touched.doj}
-                  label="Date Of Joining"
-                  name="doj"
-                  placeholder={"Enter Date Of Joining"}
-                  type="date"
-                  // required={true}
-                />
-                <SelectForNoApi
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.effective_pay_commision}
-                  error={errors.effective_pay_commision}
-                  touched={touched.effective_pay_commision}
-                  label="Effective Pay Commission (At the time of Joining)"
-                  name="effective_pay_commision"
-                  placeholder={"Please Select"}
-                  options={[
-                    { id: 1, name: "1" },
-                    { id: 2, name: "2" },
-                    { id: 3, name: "3" },
-                    { id: 4, name: "4" },
-                    { id: 5, name: "5" },
-                    { id: 6, name: "6" },
-                    { id: 7, name: "7" },
-                  ]}
-                  required={true}
-                />
+
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center">
                     Whether Confirmation Order
                   </div>
                   <div className="flex items-center gap-5">
                     <div className="flex items-center">
-                      {/* <input
-                                                onChange={() => updateConfirmationOrder('yes')}
-                                                checked={confirmationOrder === 'yes'}
-                                                // className={`mr-1 bg-white checkbox checked:bg-[#4338CA] border border-zinc-500`}
-                                                className={`mr-1 bg-white checkbox ${confirmationOrder === 'yes' ? 'checked:bg-red-500' : 'checked:bg-[#4338CA]'} border border-zinc-500`}
-
-                                                id="yes"
-                                                name="confirmation_order"
-                                                type="checkbox"
-                                            /> */}
                       <input
                         onChange={() => updateConfirmationOrder("yes")}
                         checked={confirmationOrder === "yes"}
-                        // className={`mr-1 bg-white checkbox border border-zinc-500 ${confirmationOrder === 'yes' ? 'checked-bg-red' : ''}`}
                         className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent"
                         id="yes"
                         name="confirmation_order"
@@ -342,8 +262,6 @@ const EmpInitialJoinDetails: React.FC<
                       <input
                         onChange={() => updateConfirmationOrder("no")}
                         checked={confirmationOrder === "no"}
-                        // className={`mr-1 bg-white checkbox checked:bg-[#4338CA] border border-zinc-500`}
-                        // className={`mr-1 bg-white checkbox ${confirmationOrder === 'yes' ? 'checked:bg-red-500' : 'checked:bg-[#4338CA]'} border border-zinc-500`}
                         className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent"
                         id="no"
                         name="confirmation_order"
@@ -367,57 +285,124 @@ const EmpInitialJoinDetails: React.FC<
                     )}
                   </div>
                 </div>
+
                 <div className="grid grid-cols-3 2xl:grid-cols-3  gap-2 ">
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.pay_scale}
-                    // error={errors.pay_scale}
-                    // touched={touched.pay_scale}
-                    label="Pay Scale"
-                    name="pay_scale"
-                    placeholder={"Enter Pay Scale"}
-                    type="number"
-                    // required={true}
-                    maxLength={10}
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.pay_band}
-                    // error={errors.pay_band}
-                    // touched={touched.pay_band}
-                    label="Pay Band"
-                    name="pay_band"
-                    placeholder={"Enter Pay Band"}
-                    type="number"
-                    // required={true}
-                  />
-                  <InputBox
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.grade_pay}
-                    error={errors.grade_pay}
-                    touched={touched.grade_pay}
-                    label="Grade Pay"
-                    name="grade_pay"
-                    placeholder={"Enter Grade Pay"}
-                    type="number"
-                    required={true}
-                  />
-                </div>
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.basic_pay}
-                  error={errors.basic_pay}
-                  touched={touched.basic_pay}
-                  label="Basic Pay"
-                  name="basic_pay"
-                  placeholder={"Enter Basic Pay"}
-                  type="number"
-                  required={true}
-                />
+                    
+                    {/* <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.pay_scale}
+                        // error={errors.pay_scale}
+                        // touched={touched.pay_scale}
+                        label="Pay Scale"
+                        name="pay_scale"
+                        placeholder={"Enter Pay Scale"}
+                        type="number"
+                        // required={true}
+                        maxLength={10}
+                      /> */}
+                      <SelectForNoApi
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.pay_scale}
+                      label="Pay Scale"
+                      name="pay_scale"
+                      placeholder={"Please Select"}
+                      options={[
+                        { id: 1, name: "1" },
+                        { id: 2, name: "2" },
+                        { id: 3, name: "3" },
+                        { id: 4, name: "4" },
+                        { id: 5, name: "5" },
+                        { id: 6, name: "6" },
+                        { id: 7, name: "7" },
+                        { id: 8, name: "8" },
+                        { id: 9, name: "9" },
+                        { id: 10, name: "10" },
+                        { id: 11, name: "11" },
+                        { id: 12, name: "12" },
+                        { id: 13, name: "13" },
+                        { id: 14, name: "13-A" },
+                        { id: 15, name: "14" },
+                        { id: 16, name: "15" },
+                        { id: 17, name: "16" },
+                        { id: 18, name: "17" },
+                        { id: 19, name: "18" },
+                      ]}
+                    />
+    
+                                       {/* <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.grade_pay}
+                        error={errors.grade_pay}
+                        touched={touched.grade_pay}
+                        label="Grade Pay"
+                        name="grade_pay"
+                        placeholder={"Enter Grade Pay"}
+                        type="number"
+                        required={true}
+                      /> */}
+                    <SelectForNoApi
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.grade_pay}
+                      error={errors.grade_pay}
+                      label="Grade Pay"
+                      name="grade_pay"
+                      placeholder={"Please Select"}
+                      options={
+                        Number(values.pay_scale)>=1 && Number(values.pay_scale)<=5?
+                        [
+                            { id: 1, name: "1800" },
+                            { id: 2, name: "1900" },
+                            { id: 3, name: "2000" },
+                            { id: 4, name: "2400" },
+                            { id: 5, name: "2800" },
+                        ]
+                        :
+                        Number(values.pay_scale)>=6 && Number(values.pay_scale)<=9?
+                        [
+                            { id: 1, name: "4200" },
+                            { id: 2, name: "4600" },
+                            { id: 3, name: "4800" },
+                            { id: 4, name: "5400" },
+                        ]
+                        :
+                        Number(values.pay_scale)>=10 && Number(values.pay_scale)<=12?
+                        [
+                            { id: 1, name: "5400" },
+                            { id: 2, name: "6600" },
+                            { id: 3, name: "7600" },
+                        ]
+                        :
+                        (Number(values.pay_scale)>=13 && Number(values.pay_scale)<=14) ||  values.pay_scale === '13-A' ?
+                        [
+                            { id: 1, name: "8700" },
+                            { id: 2, name: "8900" },
+                            { id: 3, name: "10000" },
+                        ]
+                        :
+                        []
+    
+                      }
+                    />
+    
+                    <InputBox
+                        onChange={handleChange}
+                        onBlur={(e)=>{handleOnblurForPayBand(values, e)}}
+                        value={values.pay_band}
+                        // error={errors.pay_band}
+                        // touched={touched.pay_band}
+                        label="Pay Band"
+                        name="pay_band"
+                        placeholder={"Enter Pay Band"}
+                        type="number"
+                        // required={true}
+                      />
+    
+                    </div>
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -433,22 +418,8 @@ const EmpInitialJoinDetails: React.FC<
                     }
                   }}
                 />
-                <SelectForNoApi
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.deduction_type}
-                  error={errors.deduction_type}
-                  touched={touched.deduction_type}
-                  label="Deduction Type"
-                  name="deduction_type"
-                  placeholder={"Please Select"}
-                  options={[
-                    { id: 1, name: "GPF" },
-                    { id: 2, name: "CPS" },
-                  ]}
-                  required={true}
-                />
-                <InputBox
+
+<InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.conf_order_date}
@@ -542,24 +513,7 @@ const EmpInitialJoinDetails: React.FC<
                     ]}
                   />
                 )}
-                {/* <SelectForNoApi
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.ulb}
-                                    label="Whether deputed to ULB"
-                                    name="ulb"
-                                    placeholder={"Please Select"}
-                                    options={[
-                                        { id: 1, name: "Yes" },
-                                        { id: 2, name: "No" },
-                                    ].filter((option) => {
-                                        return (
-                                            (values.appoint_authority === "ULB" &&
-                                                ["Yes"].includes(option.name)) ||
-                                            values.appoint_authority !== "ULB"
-                                        );
-                                    })}
-                                /> */}
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -597,6 +551,128 @@ const EmpInitialJoinDetails: React.FC<
                   placeholder={"Enter Last Increment order Date"}
                   type="date"
                 />
+
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.wef_date}
+                  label="WEF date"
+                  name="wef_date"
+                  type="date"
+                />
+
+                <SelectForNoApi
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.sen_grade_list}
+                  label="Employee fall under, Seniority in gradation list"
+                  name="sen_grade_list"
+                  placeholder={"Enter if Seniority in gradation list"}
+                  options={[
+                    { id: 1, name: "Gazette" },
+                    { id: 2, name: "Non-Gazette" },
+                  ]}
+                />
+
+
+                </>
+                )}
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.task}
+                  // error={errors.task}
+                  // touched={touched.task}
+                  label="Task"
+                  placeholder="Enter Task"
+                  name="task"
+                  // required={true}
+                  onKeyPress={(e: any) => {
+                    if (
+                      !(
+                        (e.key >= "a" && e.key <= "z") ||
+                        (e.key >= "A" && e.key <= "Z") ||
+                        e.key === " "
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+
+        
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.doj}
+                  // error={errors.doj}
+                  // touched={touched.doj}
+                  label="Date Of Joining"
+                  name="doj"
+                  placeholder={"Enter Date Of Joining"}
+                  type="date"
+                  // required={true}
+                />
+                <SelectForNoApi
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.effective_pay_commision}
+                  error={errors.effective_pay_commision}
+                  touched={touched.effective_pay_commision}
+                  label="Effective Pay Commission (At the time of Joining)"
+                  name="effective_pay_commision"
+                  placeholder={"Please Select"}
+                  options={[
+                    { id: 1, name: "1" },
+                    { id: 2, name: "2" },
+                    { id: 3, name: "3" },
+                    { id: 4, name: "4" },
+                    { id: 5, name: "5" },
+                    { id: 6, name: "6" },
+                    { id: 7, name: "7" },
+                  ]}
+                  required={employeeType && employeeType === "Daily Wages" ? false : true}
+                />
+                {/* <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.basic_pay}
+                  error={errors.basic_pay}
+                  touched={touched.basic_pay}
+                  label="Basic Pay"
+                  name="basic_pay"
+                  placeholder={"Enter Basic Pay"}
+                  type="number"
+                  required={true}
+                /> */}
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.basic_pay}
+                  error={errors.basic_pay}
+                  touched={touched.basic_pay}
+                  label= {employeeType && employeeType === "Daily Wages" ? "Effective Daily Wage" : " Basic Pay"}
+                  name="basic_pay"
+                  placeholder={employeeType && employeeType === "Daily Wages" ? "Enter Effective Daily Wage" : "Enter Basic Pay"}
+                  type="number"
+                  required={employeeType && employeeType === "Daily Wages" ? false : true}
+                />
+                <SelectForNoApi
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.deduction_type}
+                  error={errors.deduction_type}
+                  touched={touched.deduction_type}
+                  label="Deduction Type"
+                  name="deduction_type"
+                  placeholder={"Please Select"}
+                  options={[
+                    { id: 1, name: "GPF" },
+                    { id: 2, name: "CPS" },
+                  ]}
+                  required={employeeType && employeeType === "Daily Wages" ? false : true}
+                />
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -616,14 +692,7 @@ const EmpInitialJoinDetails: React.FC<
                     }
                   }}
                 />
-                <InputBox
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.wef_date}
-                  label="WEF date"
-                  name="wef_date"
-                  type="date"
-                />
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -647,7 +716,7 @@ const EmpInitialJoinDetails: React.FC<
                     { id: 5, name: "PPF" },
                   ]}
                 />
-                <InputBox
+                {/* <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.acc_number}
@@ -670,19 +739,36 @@ const EmpInitialJoinDetails: React.FC<
                   name="ifsc"
                   placeholder={"Enter IFSC Code"}
                   maxLength={12}
-                />
-                <SelectForNoApi
+                /> */}
+                <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.sen_grade_list}
-                  label="Employee fall under, Seniority in gradation list"
-                  name="sen_grade_list"
-                  placeholder={"Enter if Seniority in gradation list"}
-                  options={[
-                    { id: 1, name: "Gazette" },
-                    { id: 2, name: "Non-Gazette" },
-                  ]}
+                  value={values.acc_number}
+                  label="Account Number"
+                  name="acc_number"
+                  placeholder={"Enter Account Number"}
+                  type="text"
+                  maxLength={10}
+                  onKeyPress={(e: any) => {
+                    if (!(e.key >= "0" && e.key <= "9")) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
+                  {values.acc_number && (
+                    <div>
+                      <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.ifsc}
+                  label="IFSC Code"
+                  name="ifsc"
+                  placeholder={"Enter IFSC Code"}
+                  maxLength={12}
+                />
+                    </div>
+                  )}
+                
               </div>
 
               <div className="flex items-center justify-end mt-5 gap-5">

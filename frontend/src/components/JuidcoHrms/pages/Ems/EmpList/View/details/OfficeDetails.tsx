@@ -18,7 +18,7 @@ export default function OfficeDetails(props: any) {
                     <div className="flex flex-col justify-between items-end">
                         <p>{data?.office_name || 'N/A'}</p>
                         <p>{data?.ddo_code || 'N/A'}</p>
-                        <p>{data?.district || 'N/A'}</p>
+                        <p>{data?.district?.name || 'N/A'}</p>
                     </div>
                 </div>
                 <div className="divider divider-horizontal"></div>
