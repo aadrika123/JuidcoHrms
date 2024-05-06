@@ -43,7 +43,7 @@ class EmployeeAttendanceDao {
   empOutFail = async () => {
     const query: Prisma.employee_attendance_historyUpdateManyArgs = {
       data: {
-        emp_out: new Date().toISOString(),
+        emp_out: new Date().toISOString() ,
       },
       where: {
         // emp_in: new Date().toISOString(),

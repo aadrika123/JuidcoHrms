@@ -6,7 +6,7 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import Image from "next/image";
 import EmployeeIcon from "@/assets/icons/search_salary_slip.png";
 import { RiFilter2Line } from "react-icons/ri";
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from "react-to-print"; 
 import axios from "@/lib/axiosConfig";
 import PrimaryButton from "@/components/Helpers/Button";
 import { HRMS_URL } from "@/utils/api/urls";
@@ -423,3 +423,4 @@ const Download_payslip = () => {
 };
 
 export default Download_payslip;
+  
