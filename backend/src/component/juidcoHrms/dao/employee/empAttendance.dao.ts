@@ -144,12 +144,9 @@ class EmployeeAttendanceDao {
       group by  employee_id;
       `;
 
-    console.log(data11);
-
     if (data11)
       if (dayOfWeek === 0) {
         data11.forEach(async (record) => {
-          console.log(record);
           await prisma.$queryRaw`update employee_daily_attendance set working_hour=working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
         });
 
@@ -157,7 +154,6 @@ class EmployeeAttendanceDao {
         `;
       } else {
         data11.forEach(async (record) => {
-          console.log(record);
           await prisma.$queryRaw`update employee_daily_attendance set working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
         });
 
@@ -169,13 +165,14 @@ class EmployeeAttendanceDao {
     const data2 = await prisma.$queryRaw<
       []
     >`select emp_id from employees where emp_id not in (select distinct(employee_id) from employee_attendance_history where date = Date(${currentDate}))`;
-    console.log(data2);
 
     if (data2)
       data2.forEach(async (employee) => {
         const emp_id = employee["emp_id"];
         await prisma.$queryRaw`insert into employee_daily_attendance(employee_id, date) values(${emp_id},Date(${currentDate}))`;
       });
+
+    console.log(true);
 
     return generateRes(data11);
   };
@@ -184,7 +181,7 @@ class EmployeeAttendanceDao {
   emp_attend_count_daily = async () => {
     const currentDateTime = new Date().toISOString();
     const currentDate = currentDateTime.split("T")[0];
-   
+
     const data = await prisma.$queryRaw`
       SELECT 
         COUNT(CASE WHEN emp_in IS NOT NULL THEN employee_id END)::Int AS present_emp,

@@ -109,26 +109,21 @@ const EmployeeServiceHistory: React.FC<
     setResetTable(resetTable + 1);
   }
 
+  //////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////
+  const [employeeType, setEmployeeType] = useState<number>();
 
-      const [employeeType, setEmployeeType] = useState("");
+  useEffect(() => {
+    const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
+    const storedJoinData = storedJoinDataString
+      ? JSON.parse(storedJoinDataString)
+      : null;
 
+    const empType = storedJoinData?.emp_type;
+    setEmployeeType(empType);
+  }, []);
 
-      useEffect(() => {
-      const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
-      const storedJoinData = storedJoinDataString
-        ? JSON.parse(storedJoinDataString)
-        : null;
-  
-      const empType = storedJoinData.emp_type;
-      setEmployeeType(empType);
-  
-      }, []);
-    
-  
-  //////////////////////////////////////////////////////////////// 
-
+  ////////////////////////////////////////////////////////////////
 
   return (
     <>
@@ -188,8 +183,10 @@ const EmployeeServiceHistory: React.FC<
             resetTable={resetTable}
           />
         </div> */}
-        {employeeType && employeeType !== "Daily Wages" && (
-        <div className="border p-5 rounded-xl shadow mt-4">
+        {/* {employeeType && employeeType !== 4 && ( */}
+        <div
+          className={`border p-5 rounded-xl shadow mt-4 ${employeeType && employeeType !== 4 ? "block" : "hidden"}`}
+        >
           <EmployeeTransferDetailsTable
             setData={getStateData}
             setSession={session}
@@ -197,8 +194,7 @@ const EmployeeServiceHistory: React.FC<
             resetTable={resetTable}
           />
         </div>
-
-         )}
+        {/* )} */}
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton

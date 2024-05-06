@@ -1,19 +1,20 @@
 import cron from "node-cron";
 import EmployeeAttendanceController from "./component/juidcoHrms/controller/employee/empAttendance.controller";
-import PayrollController from "./component/juidcoHrms/controller/payroll/payroll.controller";
+// import PayrollController from "./component/juidcoHrms/controller/payroll/payroll.controller";
+import PayrollDao from "./component/juidcoHrms/dao/payroll/payroll.dao";
 
 class Scheduler {
   private empAttendcontroller: EmployeeAttendanceController;
-  private payrollController: PayrollController;
+  private payrollDao: PayrollDao;
 
   constructor() {
     this.empAttendcontroller = new EmployeeAttendanceController();
-    this.payrollController = new PayrollController();
+    this.payrollDao = new PayrollDao();
   }
 
   start() {
     const testJob = cron.schedule(
-      "0 14 14 * * *",
+      "0 0 23 * * *",
       async () => {
         this.empAttendcontroller.updateWorkOur();
       },
@@ -23,9 +24,9 @@ class Scheduler {
     );
 
     const calculateSalaryJob = cron.schedule(
-      "0 40 13 * * *",
+      "* * * 26 * *",
       async () => {
-        // this.payrollController.calc_net_pay();
+        this.payrollDao.calc_net_pay();
       },
       {
         timezone: "Asia/Kolkata",

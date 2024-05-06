@@ -67,7 +67,9 @@ const Header: React.FC<SideBarProps> = (props) => {
 
   function logout() {
     const confirm = window.confirm("Are you sure want to logout?");
-    const emp_id = "EMP912e43";
+    const emp_id = JSON.parse(
+      sessionStorage.getItem("user_details") || ""
+    )?.emp_id;
     if (confirm) {
       Cookies.remove("accesstoken");
       Cookies.remove("user_details");
@@ -88,6 +90,7 @@ const Header: React.FC<SideBarProps> = (props) => {
           window.location.reload();
         } catch (error) {
           console.log(error);
+          window.location.reload();
         }
       })();
     }

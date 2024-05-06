@@ -21,6 +21,10 @@ import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import { PayslipTypes } from "@/utils/types/payslip.type";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
+import {
+  allowanceFullForm,
+  deductionFullForm,
+} from "@/utils/formatter/fullForm";
 
 const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // const [empData, setEmpData] = useState<PayslipTypes>();
@@ -339,10 +343,18 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     <div
                       className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                     >
-                      <span className="text-[#098DA4] text-3xl font-bold">
+                      {/* <span className="text-[#098DA4] text-3xl font-bold">
                         {(((employeePayrollData?.leave_days as number) +
                           employeePayrollData?.lwp_days) as number) -
                           totalDayDiff}
+                      </span> */}
+                      <span className="text-[#098DA4] text-3xl font-bold">
+                        {Math.max(
+                          (((employeePayrollData?.leave_days as number) +
+                            employeePayrollData?.lwp_days) as number) -
+                            totalDayDiff,
+                          0
+                        )}
                       </span>
                       <InnerTextHeading className="text-center">
                         Total No. of Absent Days
@@ -518,7 +530,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                               <tr key={index} className="border-1px ">
                                 <>
                                   <td className="border w-[150rem] p-2">
-                                    {item?.name || null}
+                                    {allowanceFullForm(item?.name) || null}
                                   </td>
                                   <td className="border p-2">
                                     {item?.amount_in || 0}
@@ -537,7 +549,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                               <tr key={index} className="border-1px">
                                 <>
                                   <td className="border w-[150rem] p-2">
-                                    {item?.name || null}
+                                    {deductionFullForm(item?.name) || null}
                                   </td>
                                   <td className="border p-2">
                                     {item?.amount_in || 0}

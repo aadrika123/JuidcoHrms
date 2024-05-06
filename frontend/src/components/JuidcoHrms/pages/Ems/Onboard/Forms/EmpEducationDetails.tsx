@@ -54,27 +54,21 @@ const EmpEducationDetails: React.FC<
     setResetTable(resetTable + 1);
   }
 
+  //////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////
+  const [employeeType, setEmployeeType] = useState<number>();
 
-    const [employeeType, setEmployeeType] = useState("");
-
-
-    useEffect(() => {
+  useEffect(() => {
     const storedJoinDataString = sessionStorage.getItem("emp_basic_details");
     const storedJoinData = storedJoinDataString
       ? JSON.parse(storedJoinDataString)
       : null;
 
-    const empType = storedJoinData.emp_type;
+    const empType = storedJoinData?.emp_type;
     setEmployeeType(empType);
-
-    }, []);
-  
+  }, []);
 
   ////////////////////////////////////////////////////////////////
-
-
 
   return (
     <div>
@@ -120,16 +114,18 @@ const EmpEducationDetails: React.FC<
             resetTable={resetTable}
           />
         </div> */}
-         {employeeType && employeeType !== "Daily Wages" && (
-          <div className="border p-5 rounded-xl shadow mt-6 ">
-          <EmployeeTrainingTable
-            setData={getStateData}
-            setSession={session}
-            validate={setIsValidate}
-            resetTable={resetTable}
-          />
-        </div>
-        )}  
+        {
+          <div
+            className={`border p-5 rounded-xl shadow mt-6 ${employeeType && employeeType !== 4 ? "block" : "hidden"}`}
+          >
+            <EmployeeTrainingTable
+              setData={getStateData}
+              setSession={session}
+              validate={setIsValidate}
+              resetTable={resetTable}
+            />
+          </div>
+        }
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton

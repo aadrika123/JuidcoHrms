@@ -35,7 +35,7 @@ class PayrollController {
 
   calc_net_pay = async (
     req: Request,
-    res: Response,
+    res: Response, 
     next: NextFunction,
     apiId: string
   ) => {

@@ -26,6 +26,7 @@ import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import toast, { Toaster } from "react-hot-toast";
+import SelectForNoApiNew from "@/components/global/atoms/SelectForNoApiNew";
 
 const EmployeeBasicDetails: React.FC<
   EmployeeDetailsProps<EmployeeDetailsType>
@@ -108,7 +109,6 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
-
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
   const validateEmployeeId = async () => {
     try {
@@ -132,25 +132,25 @@ const EmployeeBasicDetails: React.FC<
   };
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
 
-
   //validation for dob
-const validateDob = (e:any)=>{
-    const dob = new Date(e.target.value)
-    const isAtLeast18 = new Date(dob.getFullYear()+18, dob.getMonth()-1,dob.getDate()) <= new Date();
-    if(isAtLeast18){
-        setIsAdult(false)
-        // setIsEmpExist(true)
-    }else{
-        setIsAdult(true)
-        // setIsEmpExist(false)
+  const validateDob = (e: any) => {
+    const dob = new Date(e.target.value);
+    const isAtLeast18 =
+      new Date(dob.getFullYear() + 18, dob.getMonth() - 1, dob.getDate()) <=
+      new Date();
+    if (isAtLeast18) {
+      setIsAdult(false);
+      // setIsEmpExist(true)
+    } else {
+      setIsAdult(true);
+      // setIsEmpExist(false)
     }
-    console.log(isAtLeast18)
+    console.log(isAtLeast18);
     // console.log(isAtLeast18)
     // console.log(dob.getFullYear()+18)
     // console.log(dob.getMonth()-1)
     // console.log(dob.getDate())
-  }
-
+  };
 
   return (
     <>
@@ -523,7 +523,7 @@ const validateDob = (e:any)=>{
                     }
                   }}
                 />
-                <SelectForNoApi
+                <SelectForNoApiNew
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.emp_type}
@@ -659,11 +659,11 @@ const validateDob = (e:any)=>{
                   <PrimaryButton
                     buttonType="button"
                     onClick={() => {
-                        if(isAdult){
-                      toast.error("Employee Id Already Exist!");
-                    }else{
+                      if (isAdult) {
+                        toast.error("Employee Id Already Exist!");
+                      } else {
                         toast.error("Age must be atleast 18");
-                    }
+                      }
                     }}
                     variant="disabled"
                   >
@@ -682,7 +682,6 @@ const validateDob = (e:any)=>{
                         Next
                     </PrimaryButton>
                 )} */}
-
               </div>
             </form>
           )}
