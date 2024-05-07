@@ -42,11 +42,12 @@ export default function LeaveCard(props: any) {
                         <h2 className="card-title">{data.emp_name}</h2>
                     </div>
                     <div className='text-sm'>
-                        <p>{`Employee ID : ${data.emp_id}`}</p>
-                        <p>{`Type of Leave : ${data.leave_type_name}`}</p>
-                        <p>{`Date of leave : ${data.leave_from} - ${data.leave_to}`}</p>
-                        <p>{`Department : ${data.dep_name || ''}`}</p>
-                        <p>{`Total day(s) of leave : ${data.total_days}`}</p>
+                        <p><strong>Employee ID :</strong> {data.emp_id}</p>
+                        <p><strong>Type of Leave : </strong>{data.leave_type_name}</p>
+                        <p><strong>Date of leave : </strong>{data.leave_from} - {data.leave_to}</p>
+                        <p><strong>Department : </strong>{data.dep_name || ''}</p>
+                        <p><strong>Total day(s) of leave : </strong>{data.total_days}</p>
+                        <p><strong>Approval Level : </strong> Level {data.leave_status}</p>
                     </div>
                     <div className="card-actions justify-between">
                         <Link href={`leave-approval/review/${data.emp_id}`} className="btn btn-outline flex-1">Review</Link>
