@@ -132,8 +132,8 @@ export default function TeamMembers() {
 
                     <div className="card w-full shadow-md rounded-sm">
                         <div className="card-body grid grid-cols-3 gap-4">
-                            {teamList?.length === 0 && (
-                                <h1>No pending leave requests</h1>
+                            {(teamList?.length === 0 || teamList === undefined) && (
+                                <h1>No team member for the user</h1>
                             )}
                             {teamList?.map((item: any, index: number) => (
                                 <TeamCard key={index} data={item} />

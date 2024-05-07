@@ -36,8 +36,8 @@ export default function LeaveApproval() {
       setLoading(true);
       axios(`${HRMS_URL.LEAVE.get}/${emp_id}`)
         .then((response) => {
-          setLeaveList(response.data?.data);
-          console.log("Data is returned", response.data);
+          setLeaveList(response.data?.data?.data);
+          console.log("Data is returned", response.data?.data?.data);
         })
         .catch((error) => {
           console.error("Error fetching data:", error.response.data);
