@@ -5,24 +5,26 @@
  */
 
 import PrimaryButton from "@/components/Helpers/Button";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import goBack from "@/utils/helper";
 import { InnerHeading } from "@/components/Helpers/Heading";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { usePathname, useRouter } from "next/navigation";
-import { statement, PayDrawData } from "./data";
 import { useQueryClient } from "react-query";
 import { EmployeeDetailsInterface } from "./Refund";
+import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
+import { HRMS_URL } from "@/utils/api/urls";
+import toast from "react-hot-toast";
+import { EmployeePayrollData } from "@/utils/types/payslip.type";
 interface StatementProps {
   onNext: () => void;
   emp_id: string;
 }
 
 const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
-  const [salaryStatement] = useState<PayDrawData[]>(statement);
   const router = useRouter();
   const pathName = usePathname();
-  const [payrollData, setPayrollData] = useState<any[]>();
+  // const [payrollData, setPayrollData] = useState<any[]>();
 
   const queryClient = useQueryClient();
 
@@ -63,20 +65,37 @@ const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
     Number(emp_details?.emp_join_details?.basic_pay) +
     Number(emp_details?.emp_join_details?.grade_pay);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
-      setPayrollData(_data.data);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const res = sessionStorage.getItem("payroll");
+  //     if (res !== "undefined") {
+  //       const _data = JSON.parse(res as string);
+  //       setPayrollData(_data.data);
+  //     }
+  //   }
+  // }, []);
 
-  function returnNetPay(payrollData: any, emp_id: string) {
-    if (!payrollData) return 0;
+  // function returnNetPay(payrollData: any, emp_id: string) {
+  //   if (!payrollData) return 0;
 
-    const emp: any = payrollData?.filter((emp: any) => emp.emp_id === emp_id);
-    return emp[0].net_pay;
-  }
+  //   const emp: any = payrollData?.filter((emp: any) => emp.emp_id === emp_id);
+  //   return emp[0].net_pay;
+  // }
+
+  //--------------------------- GET PAYROLL DETAILS ---------------------------//
+  const fetchPayroll: FetchAxios = {
+    url: `${HRMS_URL.PAYROLL.getAll}`,
+    url_extend: `&page=1&search=${emp_id}&lastMonth=true`,
+    method: "GET",
+    res_type: 1,
+    query_key: "emp_payroll",
+    data: [],
+  };
+  const { data: payroll_details, error: p_error } =
+    useCodeQuery<EmployeePayrollData>(fetchPayroll);
+  if (p_error) toast.error("OOps! Failed to get employee details!");
+
+  //--------------------------- GET PAYROLL DETAILS ---------------------------//
 
   return (
     <>
@@ -97,16 +116,14 @@ const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
               </tr>
             </thead>
             <tbody>
-              {salaryStatement?.map((k, i: number) => (
+              {payroll_details?.data?.map((k, i: number) => (
                 <tr className=" border-b" key={i}>
-                  <td className=" px-4 py-2 text-left">{k.month}</td>
+                  <td className=" px-4 py-2 text-left">
+                    {String(k.month).padStart(2, "0")}
+                  </td>
                   <td className=" px-4 py-2 text-left">{k.year}</td>
-                  <td className=" px-4 py-2 text-left">
-                    {k.no_of_days_present}
-                  </td>
-                  <td className=" px-4 py-2 text-left">
-                    {returnNetPay(payrollData, emp_id)}
-                  </td>
+                  <td className=" px-4 py-2 text-left">{k.present_days}</td>
+                  <td className=" px-4 py-2 text-left">{k.net_pay}</td>
                 </tr>
               ))}
             </tbody>

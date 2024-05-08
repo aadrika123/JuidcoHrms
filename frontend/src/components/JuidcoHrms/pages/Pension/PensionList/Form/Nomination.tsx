@@ -27,14 +27,22 @@ interface EmployeeNomineeDetails {
 const Nomination: React.FC<NominationProps> = ({ onNext }) => {
   const pathName = usePathname();
   const router = useRouter();
-//   const date = new Date();
-//   const day: string = date.toDateString().split(" ")[0];
+  //   const date = new Date();
+  //   const day: string = date.toDateString().split(" ")[0];
   const queryClient = useQueryClient();
 
-  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-const d = new Date();
-const days = weekday[d.getDay()];
+  const d = new Date();
+  const days = weekday[d.getDay()];
 
   //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
   const _nominee = queryClient.getQueryData<any>("emp_nominee_details");
@@ -42,7 +50,6 @@ const days = weekday[d.getDay()];
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
   const nominee = _nominee?.data[0];
 
-  console.log(emp_details);
   const not_provided: string = "not provided";
   const initialValues: EmployeeNomineeDetails = {
     relation: nominee?.relation || not_provided,

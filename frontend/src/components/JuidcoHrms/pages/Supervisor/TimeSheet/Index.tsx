@@ -1,82 +1,3 @@
-// "use client";
-
-// import PrimaryButton from "@/components/Helpers/Button";
-// import React, { useState } from "react";
-// import axios from "@/lib/axiosConfig";
-// import readXlsxFile from "read-excel-file";
-// import { HRMS_URL } from "@/utils/api/urls";
-// import { useMutation, useQueryClient } from "react-query";
-// import toast from "react-hot-toast";
-
-// // import * as XLSX from "xlsx";
-
-// const TimeSheet = () => {
-// const [excelData, setExcelData] = useState<any[]>([]);
-
-// const handleFileRead = (e: React.ChangeEvent<any>) => {
-//   const file = e.target.files[0];
-
-//   readXlsxFile(file).then(async (rows) => {
-//     const n = rows.length;
-//     const d: any[] = [];
-//     for (let i = 1; i < n; i++) {
-//       const row = rows[i];
-//       const record = {
-//         emp_id: row[0],
-//         working_hour: row[30],
-//       };
-
-//       d.push(record);
-//     }
-
-//     setExcelData(d);
-//   });
-// };
-
-// const uploadSheetAPI = async () => {
-//   try {
-//     const res = await axios({
-//       url: `${HRMS_URL.PAYROLL.updateMany}`,
-//       method: "POST",
-//       data: { data: excelData },
-//     });
-
-//     return res.data;
-//   } catch (error) {
-//     alert(error);
-//   }
-// };
-
-// const queryClient = useQueryClient();
-
-// const { mutate } = useMutation(uploadSheetAPI, {
-//   onError: () => {
-//     toast.error("Failed to update sheet");
-//   },
-//   onSuccess: () => {
-//     toast.success("Payroll Updated Successfully");
-//   },
-//   onSettled: () => {
-//     queryClient.invalidateQueries();
-//   },
-// });
-
-//   console.log(excelData);
-
-//   return (
-//     <>
-//       <div>
-//         <input type="file" onChange={handleFileRead} />
-//         <PrimaryButton onClick={mutate} variant="primary">
-//           Upload
-//         </PrimaryButton>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default TimeSheet;
-
 /***
  * Author: Jaideep
  * Status: Open
@@ -101,27 +22,8 @@ import axios from "@/lib/axiosConfig";
 import toast from "react-hot-toast";
 import readXlsxFile from "read-excel-file";
 import { useMutation, useQueryClient } from "react-query";
-
-export type EmployeePayrollType = {
-  id: number;
-  emp_id: string;
-  emp_name: string;
-  gross_pay: number;
-  leave_days: number;
-  working_hour: number;
-  total_allowance: number;
-  total_deductions: number;
-  non_billable: number;
-  present_days: number;
-  lwp_days: number;
-  salary_deducted: number;
-  status: string;
-  net_pay: number;
-};
-
-type EmployeePayrollData = {
-  data: EmployeePayrollType[];
-};
+import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
+import { EmployeePayrollData } from "@/utils/types/payslip.type";
 
 type PayrollCount = {
   total_employee: number;
@@ -130,11 +32,12 @@ type PayrollCount = {
 type TableData = EmployeePayrollData | PayrollCount;
 
 const TimeSheet = () => {
-  const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
-  const [selectedData, setSelectedData] = useState<number | null>(null);
   const [selectedFileName] = useState("");
   const [excelData, setExcelData] = useState<any[]>([]);
   const [showExcelConfMsg, setShowExcelConfMsg] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [searchQuey, setSearchQuery] = useState<string>("");
+  const [hitSearch, setHitSearch] = useState<string>("false");
 
   const handleFileRead = (e: React.ChangeEvent<any>) => {
     const file = e.target.files[0];
@@ -146,7 +49,7 @@ const TimeSheet = () => {
         const row = rows[i];
         const record = {
           emp_id: row[0],
-          working_hour: row[row.length-1],
+          working_hour: row[row.length - 1],
         };
 
         d.push(record);
@@ -202,18 +105,24 @@ const TimeSheet = () => {
     return res.data?.data as T;
   };
 
-  const useCodeQuery = <T extends TableData>(endpoint: string) => {
-    return useQuery([endpoint, [selectedFilter, selectedData]], async () => {
+  const useCodeQuery = <T extends TableData>(endpoint: string, key: string) => {
+    return useQuery([key, hitSearch, page], async () => {
       const data = await fetchData<T>(endpoint);
       return Array.isArray(data) ? data[0] : data;
     });
   };
 
   const { data: empLstData, error: empLstErr } =
-    useCodeQuery<EmployeePayrollData>(`${HRMS_URL.PAYROLL.getAll}`);
+    useCodeQuery<EmployeePayrollData>(
+      `${HRMS_URL.PAYROLL.getAll}&page=${page}&search=${searchQuey}`,
+      "payroll-all"
+    );
 
   const { data: payrollCount, error: payrollCountErr } =
-    useCodeQuery<PayrollCount>(`${HRMS_URL.PAYROLL_TOTAL.getAll}`);
+    useCodeQuery<PayrollCount>(
+      `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
+      "payroll-total"
+    );
 
   useEffect(() => {
     sessionStorage.setItem("payroll", JSON.stringify(empLstData));
@@ -230,6 +139,13 @@ const TimeSheet = () => {
   if (empLstErr) {
     toast.error("No data available!");
   }
+  const handleHitSearch = (): void => {
+    setHitSearch(searchQuey);
+  };
+
+  const handleChangePage = (direction: "prev" | "next") => {
+    setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
+  };
 
   // -----------------Employee Onboard report JSX----------------------//
   const employeeReports = (
@@ -287,40 +203,22 @@ const TimeSheet = () => {
         </div>
 
         {/* -----------------------------------Filter------------------------------------------ */}
-        <section className="flex items-end gap-12 w-full pl-16 pb-8">
-          <div className="flex flex-col gap-2 ">
-            <label htmlFor="search-by" className="text-secondary text-lg">
-              Search By
-            </label>
-            <select
-              onChange={(e) => setSelectedFilter(parseInt(e.target.value))}
-              className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-[20rem] bg-white "
-            >
-              <option disabled selected>
-                Select Search By
-              </option>
-              <option value={0}>Department</option>
-              <option value={1}>Designation</option>
-            </select>
-          </div>
-
+        <section className="flex items-end gap-12 w-full pl-16 border-b border-zinc-300 pb-8">
           <div className="flex flex-col gap-2">
-            <label htmlFor="filter-by" className="text-secondary text-lg">
-              Filter By
+            <label htmlFor="search-by" className="text-secondary text-lg">
+              Search Employee
             </label>
-            <select
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setSelectedData(parseInt(e.target.value))
+            <input
+              type="text"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchQuery(e.target.value)
               }
-              className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-[30rem] max-w-xs bg-white "
-            >
-              <option disabled selected>
-                Select Filter By
-              </option>
-            </select>
+              className="p-2.5 bg-transparent border border-gray-700 rounded-md"
+              placeholder="E.g. Bineet kumar, EMP912e44"
+            />
           </div>
-
           <PrimaryButton
+            onClick={handleHitSearch}
             variant="primary"
             className="flex items-center gap-2 text-lg"
           >
@@ -341,57 +239,56 @@ const TimeSheet = () => {
             Search record
           </PrimaryButton>
         </section>
-      </div>
-      {/* -----------------------------------Filter------------------------------------------ */}
+        {/* -----------------------------------Filter------------------------------------------ */}
 
-      {/* --------------------------------Excel -------------------------------------------- */}
+        {/* --------------------------------Excel -------------------------------------------- */}
 
-      <div className="flex justify-between mt-10 shadow-md p-5">
-        <SubHeading>
-          <Image src={ExcelIcon} alt="excel" width={40} height={20} />
-          <Image
-            src={Chronometer}
-            alt="Chronometer"
-            width={25}
-            height={20}
-            className="ml-[-1rem] mt-5"
-          />
-
-          <span className="ml-4">Time Sheet</span>
-        </SubHeading>
-        <div className="flex gap-10">
-          <div className="right-0 flex items-start gap-3 border bporder-zinc-200 rounded-md p-3">
-            Upload Time-sheet
-            <label htmlFor="file_upload">
-              <span className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z"
-                    fill="#969393"
-                  />
-                </svg>
-              </span>
-              {selectedFileName && (
-                <span className="ml-2">{selectedFileName}</span>
-              )}
-            </label>
-            {/* Hidden file input */}
-            <input
-              type="file"
-              id="file_upload"
-              name="file_upload"
-              style={{ display: "none" }}
-              onChange={handleFileRead}
+        <div className="flex justify-between mt-10 shadow-md p-5">
+          <SubHeading>
+            <Image src={ExcelIcon} alt="excel" width={40} height={20} />
+            <Image
+              src={Chronometer}
+              alt="Chronometer"
+              width={25}
+              height={20}
+              className="ml-[-1rem] mt-5"
             />
-          </div>
 
-          {/* <div className="right-0 flex items-start gap-3 border bporder-zinc-200 rounded-md p-3">
+            <span className="ml-4">Time Sheet</span>
+          </SubHeading>
+          <div className="flex gap-10">
+            <div className="right-0 flex items-start gap-3 border bporder-zinc-200 rounded-md p-3">
+              Upload Time-sheet
+              <label htmlFor="file_upload">
+                <span className="cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z"
+                      fill="#969393"
+                    />
+                  </svg>
+                </span>
+                {selectedFileName && (
+                  <span className="ml-2">{selectedFileName}</span>
+                )}
+              </label>
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="file_upload"
+                name="file_upload"
+                style={{ display: "none" }}
+                onChange={handleFileRead}
+              />
+            </div>
+
+            {/* <div className="right-0 flex items-start gap-3 border bporder-zinc-200 rounded-md p-3">
             Download Time-sheet
             <label htmlFor="file_upload">
               <span className="cursor-pointer">
@@ -422,30 +319,40 @@ const TimeSheet = () => {
               onChange={handleFileChange}
             />
           </div> */}
+          </div>
         </div>
+
+        {/* --------------------------------Excel -------------------------------------------- */}
+
+        {/* -----------------------------------Employee TimeSheet Reports------------------------------------------ */}
+        <section className="mx-16 mt-[3rem]">
+          {employeeReports}
+          <div className="mt-[5rem]">
+            {filterEmpListData && filterEmpListData?.length < 1 ? (
+              <span className="flex items-center justify-center text-2xl font-semibold ">
+                Oops! No Data Found
+              </span>
+            ) : (
+              <PayrollTableContainer
+                tableData={filterEmpListData || []}
+                actionBtn
+                actionName="Status"
+                sl_no={false}
+              />
+            )}
+          </div>
+          <aside className="mt-16">
+            <div>
+              <NextPrevPagination
+                page={empLstData?.currentPage || 0}
+                pageCount={empLstData?.totalPage || 0}
+                handlePageChange={handleChangePage}
+              />
+            </div>
+          </aside>
+        </section>
+        {/* -----------------------------------Employee TimeSheet Reports------------------------------------------ */}
       </div>
-
-      {/* --------------------------------Excel -------------------------------------------- */}
-
-      {/* -----------------------------------Employee TimeSheet Reports------------------------------------------ */}
-      <section className="mx-16 mt-[3rem]">
-        {employeeReports}
-        <div className="mt-[5rem]">
-          {filterEmpListData && filterEmpListData?.length < 1 ? (
-            <span className="flex items-center justify-center text-2xl font-semibold ">
-              Oops! No Data Found
-            </span>
-          ) : (
-            <PayrollTableContainer
-              tableData={filterEmpListData || []}
-              actionBtn
-              actionName="Status"
-              sl_no={false}
-            />
-          )}
-        </div>
-      </section>
-      {/* -----------------------------------Employee TimeSheet Reports------------------------------------------ */}
     </>
   );
 };

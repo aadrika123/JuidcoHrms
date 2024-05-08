@@ -164,7 +164,6 @@ const EmployeeFamilyDetails: React.FC<
               session_key={"emp_fam_details"}
               setSession={session}
               validate={setIsValidate}
-              // resetTable={resetTable}
             />
           </div>
           <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
@@ -176,7 +175,6 @@ const EmployeeFamilyDetails: React.FC<
               session_key={"emp_nominee_details"}
               setSession={session}
               validate={setIsValidate}
-              // resetTable={resetTable}
             />
           </div>
         </div>

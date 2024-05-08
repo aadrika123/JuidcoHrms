@@ -248,6 +248,7 @@ const EmployeeList = () => {
             actionName="Status"
             setEmpId={removeEmployee}
             sl_no={false}
+            action_type={["delete", "readonly", "edit"]}
           />
         </div>
         <aside className="mt-16">
