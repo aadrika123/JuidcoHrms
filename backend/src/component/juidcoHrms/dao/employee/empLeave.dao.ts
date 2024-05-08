@@ -115,6 +115,7 @@ class EmployeeLeaveDao {
       emp_leave_chart_id,
       leave_type,
     } = req.body as EditEmpList;
+    console.log(req)
 
     const leaveRequest: any = await prisma.$transaction(async (tx) => {
       if (leave_status === 3) {
