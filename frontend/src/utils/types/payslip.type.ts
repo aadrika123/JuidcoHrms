@@ -1,4 +1,4 @@
-export type PayrollTypes = {
+export type EmployeePayrollType = {
     id: number;
     emp_id: string;
     emp_name: string;
@@ -22,6 +22,13 @@ export type PayrollTypes = {
     epf_amount: number;
     esic_amount: number;
     tds_amount: number;
+  };
+  
+  export type EmployeePayrollData = {
+    data: EmployeePayrollType[];
+    currentPage: number;
+    count: number;
+    totalPage: number;
   };
   
   export type PayslipTypes = {
@@ -51,6 +58,6 @@ export type PayrollTypes = {
       total_deductions: number;
       total_allowance: number;
     };
-    payroll: PayrollTypes[];
+    payroll: EmployeePayrollType[];
   };
   

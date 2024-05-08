@@ -7,7 +7,7 @@
 import React from "react";
 import { COLUMNS } from "@/components/global/organisms/TableListContainer";
 import PrimaryButton from "@/components/Helpers/Button";
-import { EmployeePayrollType } from "../Index";
+import { EmployeePayrollType } from "@/utils/types/payslip.type";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";

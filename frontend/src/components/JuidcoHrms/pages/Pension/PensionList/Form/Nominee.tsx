@@ -84,7 +84,7 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
   //--------------------------- GET PAYROLL DETAILS ---------------------------//
   const fetchPayroll: FetchAxios = {
     url: `${HRMS_URL.PAYROLL.getAll}`,
-    url_extend: ``,
+    url_extend: `&page=1&search=${emp_id}`,
     method: "GET",
     res_type: 1,
     query_key: "emp_payroll",

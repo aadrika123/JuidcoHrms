@@ -178,8 +178,10 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
-      setPayrollData(_data.data);
+      if (res !== "undefined") {
+        const _data = JSON.parse(res as string);
+        setPayrollData(_data.data);
+      }
     }
   }, []);
 

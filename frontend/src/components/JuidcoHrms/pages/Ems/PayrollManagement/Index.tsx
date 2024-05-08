@@ -20,31 +20,7 @@ import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 import PayrollTableContainer from "./Segments/PayrollTableContainer";
 import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
-
-export type EmployeePayrollType = {
-  id: number;
-  emp_id: string;
-  emp_name: string;
-  gross_pay: number;
-  leave_days: number;
-  working_hour: number;
-  total_allowance: number;
-  total_deductions: number;
-  non_billable: number;
-  present_days: number;
-  lwp_days: number;
-  salary_deducted: number;
-  status: string;
-  net_pay: number;
-};
-
-type EmployeePayrollData = {
-  data: EmployeePayrollType[];
-  currentPage: number;
-  count: number;
-  totalPage: number;
-};
-
+import type { EmployeePayrollData } from "@/utils/types/payslip.type";
 type PayrollCount = {
   total_employee: number;
   total_amount: number;

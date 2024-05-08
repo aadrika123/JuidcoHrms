@@ -400,6 +400,7 @@ const Dashboard = () => {
             actionName="Status"
             setEmpId={removeEmployee}
             sl_no={false}
+            action_type={["edit"]}
           />
         </div>
         <aside className="mt-16">

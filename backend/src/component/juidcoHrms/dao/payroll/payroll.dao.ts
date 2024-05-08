@@ -6,7 +6,7 @@
 import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
-import netCalcLogger from '../../../../../loggers/netCalcLogger'
+import netCalcLogger from "../../../../../loggers/netCalcLogger";
 
 const prisma = new PrismaClient();
 
@@ -87,7 +87,8 @@ class PayrollDao {
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
-    const curr_month: string = (currentDate.getMonth() + 1)
+    const curr_month: string = currentDate
+      .getMonth()
       .toString()
       .padStart(2, "0"); // Adding 1 to get the correct month index
     const curr_year: string = currentDate.getFullYear().toString();
@@ -243,7 +244,7 @@ class PayrollDao {
       const currentYear = currentDate.getFullYear();
       const numberOfDaysInMonth = new Date(
         currentYear,
-        currentMonth + 1,
+        currentMonth,
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
@@ -329,8 +330,9 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
-      let date: any = `${new Date().toISOString()}`;
-      date = new Date(date.split("T")[0]);
+      // let date: any = `${new Date().toISOString()}`;
+      // date = new Date(date.split("T")[0]);
+      const date = new Date("2024-04-26 00:00:00");
 
       data[record.emp_id] = {
         ...data[record.emp_id],
@@ -369,20 +371,33 @@ class PayrollDao {
       data: this.employee_payroll_data,
     });
 
-       //function call for logging the calculated data
-    await netCalcLogger(this.employee_payroll_data, dataToSendForLogging)
+    //function call for logging the calculated data
+    await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
 
     return generateRes(this.employee_payroll_data);
   };
-
   // --------------------- STORING PAYROLL ------------------------------ //
+
   get_emp_payroll = async (req: Request) => {
     // await this.calc_net_pay();
     // console.log(this.employee_payroll_data);
     const page: number = Number(req.query.page);
     const limit: number = Number(req.query.limit);
-
     const search = req.query.search as string;
+    const lastMonth: string = String(req.query.lastMonth);
+    // 2024-05-04 00:00:00
+    const date = new Date();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    const pastDate = new Date(date);
+    pastDate.setMonth(pastDate.getMonth() - 12);
+    const pastMonth = pastDate.getMonth() + 1;
+    const pastYear = pastDate.getFullYear();
+
+    const d = new Date(
+      `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
+    ).toISOString();
 
     const query: Prisma.payroll_masterFindManyArgs = {
       skip: (page - 1) * limit,
@@ -402,9 +417,16 @@ class PayrollDao {
         salary_deducted: true,
         status: true,
         net_pay: true,
+        month: true,
+        year: true,
       },
       orderBy: {
         emp_id: "asc",
+      },
+
+      where: {
+        month: month,
+        year: year,
       },
     };
 
@@ -417,6 +439,19 @@ class PayrollDao {
       };
     }
 
+    if (lastMonth && lastMonth !== "" && lastMonth !== "undefined") {
+      query.where = {
+        OR: [
+          {
+            date: {
+              gte: d,
+            },
+            emp_id: { contains: search, mode: "insensitive" },
+          },
+        ],
+      };
+    }
+
     const [data, count] = await prisma.$transaction([
       prisma.payroll_master.findMany(query),
       prisma.payroll_master.count(),
@@ -425,6 +460,38 @@ class PayrollDao {
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
   };
+
+  // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
+  // get_emp_payroll_by_id = async (req: Request) => {
+  //   const emp_id = req.query.emp_id as string;
+
+  //   const query: Prisma.payroll_masterFindFirstArgs = {
+  //     select: {
+  //       id: true,
+  //       emp_id: true,
+  //       emp_name: true,
+  //       gross_pay: true,
+  //       leave_days: true,
+  //       working_hour: true,
+  //       total_allowance: true,
+  //       total_deductions: true,
+  //       non_billable: true,
+  //       present_days: true,
+  //       lwp_days: true,
+  //       salary_deducted: true,
+  //       status: true,
+  //       net_pay: true,
+  //     },
+
+  //     where: {
+  //       emp_id: emp_id,
+  //     },
+  //   };
+
+  //   const data = await prisma.payroll_master.findFirst(query);
+  //   return generateRes(data);
+  // };
+  // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
 
   // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
   update_emp_payroll = async (req: Request) => {
