@@ -6,7 +6,10 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
+import EmployeeLeaveDao from "../employee/empLeave.dao";
 const prisma = new PrismaClient();
+
+const leaveDao = new EmployeeLeaveDao()
 
 class LeaveDao {
     // private regulary_pay: any[];
@@ -114,17 +117,51 @@ class LeaveDao {
     accept_or_deny = async (req: Request) => {
         const { status, id } = req.body;
         let updatedStatus = status;
+        let currentStatus: any = {}
         if (status !== -1) {
-            const currentStatus = await prisma.employee_leave_details.findFirst({
-                select: {
-                    leave_status: true
-                },
+            currentStatus = await prisma.employee_leave_details.findFirst({
                 where: {
                     id: id
                 }
             })
             updatedStatus = Number(currentStatus?.leave_status) + 1
         }
+
+        if (updatedStatus === 3) {
+            let leavChartid: any = {}
+            let totalLeaveDays: any = 0
+            try {
+                leavChartid = await prisma.employee_leave_chart.findFirst({
+                    select: {
+                        id: true
+                    },
+                    where: {
+                        employee_id: currentStatus?.employee_id
+                    }
+                })
+                totalLeaveDays = await prisma.employee_leave_details.aggregate({
+                    where: {
+                        employee_id: currentStatus?.employee_id
+                    },
+                    _sum: {
+                        total_days: true
+                    }
+                });
+            } catch (err) {
+                console.log(err)
+            }
+            const dataToSend: any = {
+                body: {
+                    employee_id: currentStatus?.employee_id,
+                    leave_status: updatedStatus,
+                    total_days: totalLeaveDays?._sum?.total_days,
+                    emp_leave_chart_id: leavChartid.id,
+                    leave_type: currentStatus?.emp_leave_type_id
+                }
+            }
+            await leaveDao.update(dataToSend)
+        }
+
         try {
             const data = prisma.$queryRaw`
                 UPDATE employee_leave_details
