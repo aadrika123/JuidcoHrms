@@ -632,6 +632,26 @@ const EmployeeBasicDetails: React.FC<
                   type="date"
                   required={true}
                 />
+                 <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.pan_no}
+                  label="PAN No."
+                  name="pan_no"
+                  placeholder={"Enter PAN Number"}
+                  type="text"
+                  maxLength={10}
+                  onKeyPress={(e: any) => {
+                    if (
+                      !(
+                        (e.key >= "0" || e.key >= "9") &&
+                        (e.key <= "A" || e.key <= "Z")
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
               </div>
 
               <div className="flex items-center justify-end mt-5 gap-5">

@@ -67,6 +67,7 @@ export const employeeBasicDetailRequestData = (
     cps: empBasicDetails.cps,
     gps: empBasicDetails.gps,
     dob: empBasicDetails.dob,
+    pan_no:empBasicDetails.pan_no
   };
 };
 

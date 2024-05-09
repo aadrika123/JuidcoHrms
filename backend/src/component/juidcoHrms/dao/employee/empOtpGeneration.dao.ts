@@ -38,7 +38,7 @@ class EmployeeOtpGenDao {
         from: process.env.TWILIO_PHONE,
       });
 
-      console.log("Twilio Message:", message);
+    //   console.log("Twilio Message:", message);
 
       this.otpMap.set(mobileNumber, { otp, attempts: 0 });
 

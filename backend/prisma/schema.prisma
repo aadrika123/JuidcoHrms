@@ -74,6 +74,7 @@ model employee_basic_details {
     emg_contact_no      String
     aadhar_no           String
     epic_no             String
+    pan_no              String? 
     gender              String // Assuming you want to store it as a string, adjust as needed
     pran                String?
     weight              String?

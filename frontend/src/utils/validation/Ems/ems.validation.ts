@@ -93,6 +93,7 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
   cps: "",
   gps: "",
   dob: "",
+  pan_no:"",
 };
 /// ------------- Employee  Basic Details ---------------------///
 

@@ -59,6 +59,7 @@ export interface EmployeeDetailsType {
   cps: string;
   gps: string;
   dob: string;
+  pan_no:string | number;
 }
 
 export interface EmployeePersonalDetailsType {
