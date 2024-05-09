@@ -37,6 +37,7 @@ import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
 import CorrectIcon from "@/assets/icons/correct.png";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
+import NavTab from "./Tables/NavTab";
 
 // Imports // ----------------------------------------------------------------
 
@@ -207,6 +208,7 @@ export const EmployeeOnBoard = () => {
       <section className="">
         {/* <section className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md" > */}
 
+        {/* <NavTab/> */}
         <div className="mt-8">
           {searchParam === "1" || !searchParam ? (
             <EmployeeOfficeDetails setData={getStateData} />

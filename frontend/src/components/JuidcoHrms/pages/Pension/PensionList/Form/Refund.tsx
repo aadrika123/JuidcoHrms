@@ -83,7 +83,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
   const handleSubmitOTP = async () => {
     try {
       const res = await axios({
-        url: `${HRMS_URL.OTP.create}`,
+       url: `${HRMS_URL.OTP.create}`,
         method: "POST",
         data: {
           mobileNumber: mobileNo,
@@ -132,6 +132,8 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
       setButtonText("Validate OTP");
     }
   };
+
+  console.log("otpSent", otpSent)
   // --------------------------- OTP VERFICATION -----------------------------//
 
   //--------------------------- GET EMPLOYEE DETAILS ---------------------------//
