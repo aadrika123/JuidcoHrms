@@ -208,7 +208,7 @@ export const EmployeeOnBoard = () => {
       <section className="">
         {/* <section className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md" > */}
 
-        {/* <NavTab/> */}
+        <NavTab/>
         <div className="mt-8">
           {searchParam === "1" || !searchParam ? (
             <EmployeeOfficeDetails setData={getStateData} />
