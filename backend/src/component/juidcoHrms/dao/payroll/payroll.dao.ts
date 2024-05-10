@@ -87,8 +87,7 @@ class PayrollDao {
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
-    const curr_month: string = currentDate
-      .getMonth()
+    const curr_month: string = (currentDate.getMonth() + 1)
       .toString()
       .padStart(2, "0"); // Adding 1 to get the correct month index
     const curr_year: string = currentDate.getFullYear().toString();
@@ -244,7 +243,7 @@ class PayrollDao {
       const currentYear = currentDate.getFullYear();
       const numberOfDaysInMonth = new Date(
         currentYear,
-        currentMonth,
+        currentMonth + 1,
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
@@ -330,9 +329,8 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
-      // let date: any = `${new Date().toISOString()}`;
-      // date = new Date(date.split("T")[0]);
-      const date = new Date("2024-04-26 00:00:00");
+      let date: any = `${new Date().toISOString()}`;
+      date = new Date(date.split("T")[0]);
 
       data[record.emp_id] = {
         ...data[record.emp_id],
@@ -387,7 +385,7 @@ class PayrollDao {
     const lastMonth: string = String(req.query.lastMonth);
     // 2024-05-04 00:00:00
     const date = new Date();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
     const pastDate = new Date(date);
@@ -399,6 +397,22 @@ class PayrollDao {
       `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
     ).toISOString();
 
+    const is_month_passed = await prisma.$queryRaw<any[]>`
+      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
+    `;
+    let _month: number = 0;
+    let _year: number = year;
+    if (is_month_passed[0].exists === false) {
+      _month = month - 1;
+      if (_month == 0 || _month == -1) {
+        _month = 12;
+        _year = year - 1;
+      }
+    } else {
+      _month = month;
+    }
+
+    console.log(_year, _month, year);
     const query: Prisma.payroll_masterFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
@@ -425,8 +439,8 @@ class PayrollDao {
       },
 
       where: {
-        month: month,
-        year: year,
+        month: _month,
+        year: _year,
       },
     };
 
@@ -605,28 +619,35 @@ class PayrollDao {
       return generateRes({ message: false });
     }
   };
-
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
 
+  // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
   calc_total_amount_released = async () => {
-    // await this.calc_net_pay();
-    // let sumNetPay = 0;
-    // this.employee_payroll_data.forEach((item) => {
-    //   sumNetPay += item.net_pay;
-    // });
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const is_month_passed = await prisma.$queryRaw<any[]>`
+      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
+    `;
 
-    // const totalEmp = await prisma.employees.count();
-    // const data = {
-    //   total_employee: totalEmp,
-    //   total_amount: sumNetPay,
-    // };
-
+    let _month: number = 0;
+    let _year: number = year;
+    if (is_month_passed[0].exists === false) {
+      _month = month - 1;
+      if (_month == 0 || _month == -1) {
+        _month = 12;
+        _year = year - 1;
+      }
+    } else {
+      _month = month;
+    }
     const data = await prisma.$queryRaw<any[]>`
-      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master
+      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master WHERE month = ${_month} AND year = ${_year}
     `;
 
     return generateRes(data[0]);
   };
+  // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
 }
 
 export default PayrollDao;

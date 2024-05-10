@@ -64,7 +64,7 @@ const Thead: React.FC<{
     <>
       {props.index === 0 ? (
         <>
-          <th className="px-4 w-16">
+          <th className="px-4 w-16 whitespace-nowrap">
             {props.SL_NO ? (
               <div key={props.index} className={`p-5 text-xl font-light`}>
                 <div className="flex gap-2">
@@ -81,7 +81,7 @@ const Thead: React.FC<{
           </th>
           <th
             key={props.index}
-            className={`p-5 text-xl font-light w-[${props.WIDTH}]`}
+            className={`p-5 text-xl font-light whitespace-nowrap w-[${props.WIDTH}]`}
           >
             <div className="flex gap-2">
               <span>{props.HEADER}</span>
@@ -91,7 +91,7 @@ const Thead: React.FC<{
       ) : (
         <th
           key={props.index}
-          className={`p-5 text-xl font-light w-[${props.WIDTH}]`}
+          className={`p-5 text-xl font-light whitespace-nowrap w-[${props.WIDTH}]`}
         >
           <div className="flex gap-2">
             <span>{props.HEADER}</span>
@@ -155,7 +155,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
     <div>
       <table className="mt-4 w-full">
         <thead
-          className={`text-[1rem] border-t border-b border-zinc-400 text-[#211F35] bg-[${props.thead_bg}]`}
+          className={`text-[1rem] border-t border-b border-zinc-400 text-[#211F35] bg-[${props.thead_bg}] w-full`}
         >
           <tr>
             {props.columns?.map((cols, index: number) => (
@@ -168,7 +168,7 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
               />
             ))}
             {props.actionBtn && (
-              <th className="p-5 text-xl font-light w-[${props.WIDTH}]">
+              <th className="p-5 text-xl font-light w-[10%]">
                 <span>{props.actionName}</span>
               </th>
             )}

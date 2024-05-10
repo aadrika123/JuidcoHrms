@@ -116,7 +116,7 @@ const EmpEducationDetails: React.FC<
         </div> */}
         {
           <div
-            className={`border p-5 rounded-xl shadow mt-6 ${employeeType && employeeType !== 4 ? "block" : "hidden"}`}
+            className={`border p-5 rounded-xl shadow mt-6 ${employeeType && employeeType === 4 ? "hidden" : "block"}`}
           >
             <EmployeeTrainingTable
               setData={getStateData}

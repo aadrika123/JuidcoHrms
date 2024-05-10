@@ -39,7 +39,7 @@ async function main() {
   // await ddoSeeder();
   await employee_seeder();
   await generate_attendance();
-  await attend_history_seed();
+  // await attend_history_seed();
 
   setTimeout(async () => {
     await payroll.calc_net_pay();
