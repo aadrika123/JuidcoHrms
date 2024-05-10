@@ -87,8 +87,7 @@ class PayrollDao {
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
-    const curr_month: string = currentDate
-      .getMonth()
+    const curr_month: string = (currentDate.getMonth() + 1)
       .toString()
       .padStart(2, "0"); // Adding 1 to get the correct month index
     const curr_year: string = currentDate.getFullYear().toString();
@@ -244,7 +243,7 @@ class PayrollDao {
       const currentYear = currentDate.getFullYear();
       const numberOfDaysInMonth = new Date(
         currentYear,
-        currentMonth,
+        currentMonth + 1,
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
@@ -330,9 +329,8 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
-      // let date: any = `${new Date().toISOString()}`;
-      // date = new Date(date.split("T")[0]);
-      const date = new Date("2024-04-26 00:00:00");
+      let date: any = `${new Date().toISOString()}`;
+      date = new Date(date.split("T")[0]);
 
       data[record.emp_id] = {
         ...data[record.emp_id],
@@ -387,7 +385,7 @@ class PayrollDao {
     const lastMonth: string = String(req.query.lastMonth);
     // 2024-05-04 00:00:00
     const date = new Date();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
     const pastDate = new Date(date);

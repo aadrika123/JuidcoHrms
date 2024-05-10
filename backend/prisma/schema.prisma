@@ -3,211 +3,211 @@
 // !status: Open
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model employees {
-    // id                      Int                           @id @default(autoincrement())
-    emp_id                  String                        @id @unique
-    emp_type                Int // 0 existing, 1 New
-    emp_del                 Int                           @default(0)
-    emp_office_details      employee_office_details       @relation(fields: [emp_office_details_id], references: [id])
-    emp_office_details_id   Int
-    emp_basic_details       employee_basic_details        @relation(fields: [emp_basic_details_id], references: [id])
-    emp_basic_details_id    Int
-    emp_personal_details    employee_personal_details     @relation(fields: [emp_personal_details_id], references: [id])
-    emp_personal_details_id Int
-    emp_family_details      employee_family_details[]
-    emp_nominee_details     employee_nominee_details[]
-    emp_address_details     employee_address_details      @relation(fields: [emp_address_details_id], references: [id])
-    emp_address_details_id  Int
-    emp_increment_details   employee_increment_details[]
-    emp_promotion_details   employee_promotion_details[]
-    emp_transfer_details    employee_transfer_details[]
-    emp_timebound_details   employee_timebound_details[]
-    emp_join_details        employee_join_details         @relation(fields: [emp_join_details_id], references: [id])
-    emp_join_details_id     Int
-    emp_education_details   employee_education_details[]
-    emp_training_details    employee_training_details[]
-    emp_loan_details        employee_loan_details         @relation(fields: [emp_loan_details_id], references: [id])
-    emp_loan_details_id     Int
-    emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
-    emp_salary_details_id   Int
-    emp_attendance          employee_attendance_history[]
-    emp_hierarchy           employee_hierarchy[]
-    emp_leave_details       employee_leave_details[]
-    emp_leave_chart         employee_leave_chart[]
-    emp_daily_attendance    employee_daily_attendance[]
-    emp_claim               employee_claim[]
-    leave_encashment        leave_encashment[]
-    pension_master          pension_master[]
-    payroll_master          payroll_master[]
-    created_at              DateTime                      @default(now()) @map("created_at")
-    updated_at              DateTime                      @updatedAt @map("updated_at")
+  // id                      Int                           @id @default(autoincrement())
+  emp_id                  String                        @id @unique
+  emp_type                Int // 0 existing, 1 New
+  emp_del                 Int                           @default(0)
+  emp_office_details      employee_office_details       @relation(fields: [emp_office_details_id], references: [id])
+  emp_office_details_id   Int
+  emp_basic_details       employee_basic_details        @relation(fields: [emp_basic_details_id], references: [id])
+  emp_basic_details_id    Int
+  emp_personal_details    employee_personal_details     @relation(fields: [emp_personal_details_id], references: [id])
+  emp_personal_details_id Int
+  emp_family_details      employee_family_details[]
+  emp_nominee_details     employee_nominee_details[]
+  emp_address_details     employee_address_details      @relation(fields: [emp_address_details_id], references: [id])
+  emp_address_details_id  Int
+  emp_increment_details   employee_increment_details[]
+  emp_promotion_details   employee_promotion_details[]
+  emp_transfer_details    employee_transfer_details[]
+  emp_timebound_details   employee_timebound_details[]
+  emp_join_details        employee_join_details         @relation(fields: [emp_join_details_id], references: [id])
+  emp_join_details_id     Int
+  emp_education_details   employee_education_details[]
+  emp_training_details    employee_training_details[]
+  emp_loan_details        employee_loan_details         @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id     Int
+  emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
+  emp_salary_details_id   Int
+  emp_attendance          employee_attendance_history[]
+  emp_hierarchy           employee_hierarchy[]
+  emp_leave_details       employee_leave_details[]
+  emp_leave_chart         employee_leave_chart[]
+  emp_daily_attendance    employee_daily_attendance[]
+  emp_claim               employee_claim[]
+  leave_encashment        leave_encashment[]
+  pension_master          pension_master[]
+  payroll_master          payroll_master[]
+  created_at              DateTime                      @default(now()) @map("created_at")
+  updated_at              DateTime                      @updatedAt @map("updated_at")
 }
 
 model employee_office_details {
-    id              Int         @id @default(autoincrement())
-    emp_type        Int
-    office_name     String
-    office_code     String
-    ddo_designation String
-    ddo_code        String
-    district        Int
-    employee        employees[]
-    created_at      DateTime    @default(now()) @map("created_at")
-    updated_at      DateTime    @updatedAt @map("updated_at")
+  id              Int         @id @default(autoincrement())
+  emp_type        Int
+  office_name     String
+  office_code     String
+  ddo_designation String
+  ddo_code        String
+  district        Int
+  employee        employees[]
+  created_at      DateTime    @default(now()) @map("created_at")
+  updated_at      DateTime    @updatedAt @map("updated_at")
 }
 
 model employee_basic_details {
-    id                  Int                  @id @default(autoincrement())
-    emp_id              String
-    emp_image           String
-    emp_name            String
-    mode_of_recruitment String? // Assuming you want to store it as a string, adjust as needed
-    contact_no          String
-    emg_contact_no      String
-    aadhar_no           String
-    epic_no             String
-    gender              String // Assuming you want to store it as a string, adjust as needed
-    pran                String?
-    weight              String?
-    height              String?
-    cps                 String?
-    gps                 String
-    emp_type_master     employee_type_master @relation(fields: [emp_type], references: [id])
-    emp_type            Int
-    dob                 DateTime
-    employee            employees[]
-    created_at          DateTime             @default(now()) @map("created_at")
-    updated_at          DateTime             @updatedAt @map("updated_at")
+  id                  Int                  @id @default(autoincrement())
+  emp_id              String
+  emp_image           String
+  emp_name            String
+  mode_of_recruitment String? // Assuming you want to store it as a string, adjust as needed
+  contact_no          String
+  emg_contact_no      String
+  aadhar_no           String
+  epic_no             String
+  gender              String // Assuming you want to store it as a string, adjust as needed
+  pran                String?
+  weight              String?
+  height              String?
+  cps                 String?
+  gps                 String
+  emp_type_master     employee_type_master @relation(fields: [emp_type], references: [id])
+  emp_type            Int
+  dob                 DateTime
+  employee            employees[]
+  created_at          DateTime             @default(now()) @map("created_at")
+  updated_at          DateTime             @updatedAt @map("updated_at")
 }
 
 model employee_personal_details {
-    id                          Int         @id @default(autoincrement())
-    married_status              String
-    identification_marks        String
-    religion                    String
-    emp_categories              String
-    emp_home_state              String
-    emp_district                Int
-    emp_blood_group             String
-    emp_health_status           String
-    emp_health_file             String?
-    emp_ltc_home_town           String
-    emp_nearest_railway_station String
-    emp_phy_health_type         String?
-    emp_family                  String?
-    emp_family_name             String?
-    emp_office_name             String?
-    emp_org_name                String?
-    emp_lang                    Json
-    employee                    employees[]
-    created_at                  DateTime    @default(now()) @map("created_at")
-    updated_at                  DateTime    @updatedAt @map("updated_at")
+  id                          Int         @id @default(autoincrement())
+  married_status              String
+  identification_marks        String
+  religion                    String
+  emp_categories              String
+  emp_home_state              String
+  emp_district                Int
+  emp_blood_group             String
+  emp_health_status           String
+  emp_health_file             String?
+  emp_ltc_home_town           String
+  emp_nearest_railway_station String
+  emp_phy_health_type         String?
+  emp_family                  String?
+  emp_family_name             String?
+  emp_office_name             String?
+  emp_org_name                String?
+  emp_lang                    Json
+  employee                    employees[]
+  created_at                  DateTime    @default(now()) @map("created_at")
+  updated_at                  DateTime    @updatedAt @map("updated_at")
 }
 
 model employee_family_details {
-    id           Int       @id @default(autoincrement())
-    name         String
-    relation     String
-    dob          String
-    dependent    String
-    employees    employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id String
-    created_at   DateTime  @default(now()) @map("created_at")
-    updated_at   DateTime  @updatedAt @map("updated_at")
+  id           Int       @id @default(autoincrement())
+  name         String
+  relation     String
+  dob          String
+  dependent    String
+  employees    employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id String
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_nominee_details {
-    id             Int              @id @default(autoincrement())
-    nominee_name   String
-    relation       String
-    percentage     Float
-    address        String
-    minor          String
-    employees      employees        @relation(fields: [employee_id], references: [emp_id])
-    pension_master pension_master[]
-    employee_id    String
-    created_at     DateTime         @default(now()) @map("created_at")
-    updated_at     DateTime         @updatedAt @map("updated_at")
+  id             Int              @id @default(autoincrement())
+  nominee_name   String
+  relation       String
+  percentage     Float
+  address        String
+  minor          String
+  employees      employees        @relation(fields: [employee_id], references: [emp_id])
+  pension_master pension_master[]
+  employee_id    String
+  created_at     DateTime         @default(now()) @map("created_at")
+  updated_at     DateTime         @updatedAt @map("updated_at")
 }
 
 model employee_address_details {
-    id                          Int         @id @default(autoincrement())
-    // type                        String
-    address_primary             String
-    address_secondary           String?
-    village                     String
-    post_office                 String?
-    state                       String
-    district                    Int
-    block_ulb                   String?
-    pin_code                    String
-    police_station              String?
-    emp_address_same            String?
-    address_primary_permanent   String?
-    address_secondary_permanent String?
-    village_permanent           String?
-    post_office_permanent       String?
-    state_permanent             String?
-    district_permanent          String?
-    block_ulb_permanent         String?
-    pin_code_permanent          String?
-    police_station_permanent    String?
-    emp_address_same_permanent  String?
-    employee                    employees[]
-    // employees                   employees @relation(fields: [employees_id], references: [id])
-    // employees_id                Int
-    created_at                  DateTime    @default(now()) @map("created_at")
-    updated_at                  DateTime    @updatedAt @map("updated_at")
+  id                          Int         @id @default(autoincrement())
+  // type                        String
+  address_primary             String
+  address_secondary           String?
+  village                     String
+  post_office                 String?
+  state                       String
+  district                    Int
+  block_ulb                   String?
+  pin_code                    String
+  police_station              String?
+  emp_address_same            String?
+  address_primary_permanent   String?
+  address_secondary_permanent String?
+  village_permanent           String?
+  post_office_permanent       String?
+  state_permanent             String?
+  district_permanent          String?
+  block_ulb_permanent         String?
+  pin_code_permanent          String?
+  police_station_permanent    String?
+  emp_address_same_permanent  String?
+  employee                    employees[]
+  // employees                   employees @relation(fields: [employees_id], references: [id])
+  // employees_id                Int
+  created_at                  DateTime    @default(now()) @map("created_at")
+  updated_at                  DateTime    @updatedAt @map("updated_at")
 }
 
 // -------------Employee Service History-----------------//
 model employee_increment_details {
-    id                  Int       @id @default(autoincrement())
-    scale               String
-    inc_date            String
-    inc_amount          Float
-    basic_pay_after_inc Float
-    vide_order_no       String
-    vide_order_date     String
-    employees           employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id        String
-    created_at          DateTime  @default(now()) @map("created_at")
-    updated_at          DateTime  @updatedAt @map("updated_at")
+  id                  Int       @id @default(autoincrement())
+  scale               String
+  inc_date            String
+  inc_amount          Float
+  basic_pay_after_inc Float
+  vide_order_no       String
+  vide_order_date     String
+  employees           employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id        String
+  created_at          DateTime  @default(now()) @map("created_at")
+  updated_at          DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_promotion_details {
-    id              Int       @id @default(autoincrement())
-    designation     Json
-    scale           Json
-    vide_order_no   String
-    vide_order_date String
-    transfer        String
-    employees       employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id    String
-    created_at      DateTime  @default(now()) @map("created_at")
-    updated_at      DateTime  @updatedAt @map("updated_at")
+  id              Int       @id @default(autoincrement())
+  designation     Json
+  scale           Json
+  vide_order_no   String
+  vide_order_date String
+  transfer        String
+  employees       employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id    String
+  created_at      DateTime  @default(now()) @map("created_at")
+  updated_at      DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_transfer_details {
-    id                  Int       @id @default(autoincrement())
-    designation         Json
-    office              Json
-    join_date           String
-    vide_order_no       String
-    vide_order_date     String
-    transfer_after_prom String
-    employees           employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id        String
-    created_at          DateTime  @default(now()) @map("created_at")
-    updated_at          DateTime  @updatedAt @map("updated_at")
+  id                  Int       @id @default(autoincrement())
+  designation         Json
+  office              Json
+  join_date           String
+  vide_order_no       String
+  vide_order_date     String
+  transfer_after_prom String
+  employees           employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id        String
+  created_at          DateTime  @default(now()) @map("created_at")
+  updated_at          DateTime  @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Service History---------------------//
@@ -215,187 +215,188 @@ model employee_transfer_details {
 // // //-------------- Employee SALARY DETAILS ---------------------//
 
 model employee_salary_details {
-    id                   Int                         @id @default(autoincrement())
-    emp_salary_allow     employee_salary_allow[]
-    emp_salary_deduction employee_salary_deduction[]
-    employee             employees[]
-    created_at           DateTime                    @default(now()) @map("created_at")
-    updated_at           DateTime                    @updatedAt @map("updated_at")
+  id                   Int                         @id @default(autoincrement())
+  emp_salary_allow     employee_salary_allow[]
+  emp_salary_deduction employee_salary_deduction[]
+  employee             employees[]
+  created_at           DateTime                    @default(now()) @map("created_at")
+  updated_at           DateTime                    @updatedAt @map("updated_at")
 }
 
 model employee_salary_allow {
-    id                         Int                     @id @default(autoincrement())
-    name                       String?
-    wfe_date                   String?
-    amount_in                  Float?
-    employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
-    employee_salary_details_id Int
-    created_at                 DateTime                @default(now()) @map("created_at")
-    updated_at                 DateTime                @updatedAt @map("updated_at")
+  id                         Int                     @id @default(autoincrement())
+  name                       String?
+  wfe_date                   String?
+  amount_in                  Float?
+  employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
+  employee_salary_details_id Int
+  created_at                 DateTime                @default(now()) @map("created_at")
+  updated_at                 DateTime                @updatedAt @map("updated_at")
 }
 
 model employee_salary_deduction {
-    id                         Int                     @id @default(autoincrement())
-    name                       String?
-    wfe_date                   String?
-    acnt_no                    String?
-    amount_in                  Float?
-    employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
-    employee_salary_details_id Int
-    created_at                 DateTime                @default(now()) @map("created_at")
-    updated_at                 DateTime                @updatedAt @map("updated_at")
+  id                         Int                     @id @default(autoincrement())
+  name                       String?
+  wfe_date                   String?
+  acnt_no                    String?
+  amount_in                  Float?
+  employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
+  employee_salary_details_id Int
+  created_at                 DateTime                @default(now()) @map("created_at")
+  updated_at                 DateTime                @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee SALARY DETAILS ---------------------//
 
 // // //-------------- Employee Join Details ---------------------//
 model employee_join_details {
-    id                      Int          @id @default(autoincrement())
-    department              department?  @relation(fields: [department_id], references: [id])
-    department_id           Int?
-    designation             designation? @relation(fields: [designation_id], references: [id])
-    designation_id          Int?
-    task                    String?
-    class                   String?
-    doj                     String?
-    effective_pay_commision String?
-    confirmation_order      String?
-    pay_scale               Float?
-    pay_band                Float?
-    grade_pay               Float?
-    doc                     String?
-    basic_pay               Float?
-    conf_order_number       String?
-    deduction_type          String?
-    conf_order_date         String?
-    member_gis              String?
-    appoint_authority       String?
-    gis_account             Float?
-    ulb                     String?
-    last_inc_order          String?
-    name_of_service         String?
-    last_inc_order_date     String?
-    bank_name               String?
-    wef_date                String?
-    branch_name             String?
-    pf_category             String?
-    acc_number              String?
-    ifsc                    String?
-    sen_grade_list          String?
-    employee                employees[]
-    created_at              DateTime     @default(now()) @map("created_at")
-    updated_at              DateTime     @updatedAt @map("updated_at")
+  id                      Int          @id @default(autoincrement())
+  department              department?  @relation(fields: [department_id], references: [id])
+  department_id           Int?
+  designation             designation? @relation(fields: [designation_id], references: [id])
+  designation_id          Int?
+  task                    String?
+  class                   String?
+  doj                     String?
+  effective_pay_commision String?
+  confirmation_order      String?
+  pay_scale               Float?
+  pay_band                Float?
+  grade_pay               Float?
+  doc                     String?
+  basic_pay               Float?
+  conf_order_number       String?
+  deduction_type          String?
+  conf_order_date         String?
+  member_gis              String?
+  appoint_authority       String?
+  gis_account             Float?
+  ulb                     String?
+  last_inc_order          String?
+  name_of_service         String?
+  last_inc_order_date     String?
+  bank_name               String?
+  wef_date                String?
+  branch_name             String?
+  pf_category             String?
+  acc_number              String?
+  ifsc                    String?
+  sen_grade_list          String?
+  employee                employees[]
+  created_at              DateTime     @default(now()) @map("created_at")
+  updated_at              DateTime     @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Join Details ---------------------//
 
 // // //-------------- Employee Education & TRAINING Details ---------------------//
 model employee_education_details {
-    id           Int       @id @default(autoincrement())
-    edu_level    String?
-    stream       String?
-    board        String?
-    passing_year String?
-    marks        Int?
-    grade        String?
-    upload_edu   String?
-    employee     employees @relation(fields: [employee_id], references: [emp_id])
-    employee_id  String
-    created_at   DateTime  @default(now()) @map("created_at")
-    updated_at   DateTime  @updatedAt @map("updated_at")
+  id           Int       @id @default(autoincrement())
+  edu_level    String?
+  stream       String?
+  board        String?
+  passing_year String?
+  marks        Int?
+  grade        String?
+  upload_edu   String?
+  employee     employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id  String
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_training_details {
-    id               Int       @id @default(autoincrement())
-    name_of_training String?
-    training_type    String?
-    name_of_inst     String?
-    starting_from    Json?
-    end_to           Json?
-    tot_day_training String?
-    upload_edu       String?
-    employee         employees @relation(fields: [employee_id], references: [emp_id])
-    employee_id      String
-    created_at       DateTime  @default(now()) @map("created_at")
-    updated_at       DateTime  @updatedAt @map("updated_at")
+  id               Int       @id @default(autoincrement())
+  name_of_training String?
+  training_type    String?
+  name_of_inst     String?
+  starting_from    Json?
+  end_to           Json?
+  tot_day_training String?
+  upload_edu       String?
+  employee         employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id      String
+  created_at       DateTime  @default(now()) @map("created_at")
+  updated_at       DateTime  @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee Education & TRAINING Details ---------------------//
 
 model employee_timebound_details {
-    id              Int       @id @default(autoincrement())
-    pay_scale       Json
-    inc_amt         String
-    b_after_pay     String
-    vide_order_no   String
-    vide_order_date String
-    remarks         String
-    employees       employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id    String
-    created_at      DateTime  @default(now()) @map("created_at")
-    updated_at      DateTime  @updatedAt @map("updated_at")
+  id              Int       @id @default(autoincrement())
+  pay_scale       Json
+  inc_amt         String
+  b_after_pay     String
+  vide_order_no   String
+  vide_order_date String
+  remarks         String
+  employees       employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id    String
+  created_at      DateTime  @default(now()) @map("created_at")
+  updated_at      DateTime  @updatedAt @map("updated_at")
 }
 
 // // //-------------- Employee LOAN Details ---------------------//
 
 model employee_loan_details {
-    id                 Int                       @id @default(autoincrement())
-    emp_loan           employee_loan[]
-    emp_loan_Principal employee_loan_Principal[]
-    emp_loan_recovery  employee_loan_recovery[]
-    employee           employees[]
-    created_at         DateTime                  @default(now()) @map("created_at")
-    updated_at         DateTime                  @updatedAt @map("updated_at")
+  id                 Int                       @id @default(autoincrement())
+  emp_loan           employee_loan[]
+  emp_loan_Principal employee_loan_Principal[]
+  emp_loan_recovery  employee_loan_recovery[]
+  employee           employees[]
+  created_at         DateTime                  @default(now()) @map("created_at")
+  updated_at         DateTime                  @updatedAt @map("updated_at")
 }
 
 model employee_loan {
-    id                  Int                   @id @default(autoincrement())
-    loan_name_det       String?
-    loan_account_num    String?
-    sanc_order_num      String?
-    dos                 String?
-    san_authority       String?
-    dod                 String?
-    dis_treasury_name   String?
-    voucher_date        String?
-    treasury_voc_num    String?
-    emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
-    emp_loan_details_id Int
-    created_at          DateTime              @default(now()) @map("created_at")
-    updated_at          DateTime              @updatedAt @map("updated_at")
+  id                  Int                   @id @default(autoincrement())
+  loan_name_det       String?
+  loan_account_num    String?
+  sanc_order_num      String?
+  dos                 String?
+  san_authority       String?
+  dod                 String?
+  dis_treasury_name   String?
+  voucher_date        String?
+  treasury_voc_num    String?
+  emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id Int
+  created_at          DateTime              @default(now()) @map("created_at")
+  updated_at          DateTime              @updatedAt @map("updated_at")
 }
 
 model employee_loan_Principal {
-    id                  Int                   @id @default(autoincrement())
-    loan_name_principal String?
-    tot_amt_released    String?
-    total_install       String?
-    monthly_install     String?
-    last_paid_install   String?
-    month_last_install  String?
-    total_amnt          Float?
-    emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
-    emp_loan_details_id Int
-    created_at          DateTime              @default(now()) @map("created_at")
-    updated_at          DateTime              @updatedAt @map("updated_at")
+  id                  Int                   @id @default(autoincrement())
+  loan_name_principal String?
+  tot_amt_released    String?
+  total_install       String?
+  monthly_install     String?
+  last_paid_install   String?
+  month_last_install  String?
+  total_amnt          Float?
+  emp_loan_details    employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id Int
+  created_at          DateTime              @default(now()) @map("created_at")
+  updated_at          DateTime              @updatedAt @map("updated_at")
 }
 
 model employee_loan_recovery {
-    id                          Int                   @id @default(autoincrement())
-    loan_name_recovery          String?
-    total_int_amount            String?
-    total_install_recovery      String?
-    monthly_install_recovery    String?
-    last_paid_install_recovery  String?
-    month_last_install_recovery String?
-    total_amnt_recovery         String?
-    emp_loan_details            employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
-    emp_loan_details_id         Int
-    created_at                  DateTime              @default(now()) @map("created_at")
-    updated_at                  DateTime              @updatedAt @map("updated_at")
+  id                          Int                   @id @default(autoincrement())
+  loan_name_recovery          String?
+  total_int_amount            String?
+  total_install_recovery      String?
+  monthly_install_recovery    String?
+  last_paid_install_recovery  String?
+  month_last_install_recovery String?
+  total_amnt_recovery         String?
+  emp_loan_details            employee_loan_details @relation(fields: [emp_loan_details_id], references: [id])
+  emp_loan_details_id         Int
+  created_at                  DateTime              @default(now()) @map("created_at")
+  updated_at                  DateTime              @updatedAt @map("updated_at")
 }
 
 //-------------- Employee LOAN Details ---------------------//
+
 
 // // ----- Managed and Used by Jaideep ---------------- //
 // model users {
@@ -456,281 +457,273 @@ model employee_loan_recovery {
 //     updated_at   DateTime? @updatedAt @map("updated_at")
 // }
 model department {
-    id               Int                     @id @default(autoincrement())
-    name             String
-    emp_join_details employee_join_details[]
-    created_at       DateTime                @default(now()) @map("created_at")
-    updated_at       DateTime                @updatedAt @map("updated_at")
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
 }
 
 model designation {
-    id               Int                     @id @default(autoincrement())
-    name             String
-    emp_join_details employee_join_details[]
-    created_at       DateTime                @default(now()) @map("created_at")
-    updated_at       DateTime                @updatedAt @map("updated_at")
+  id               Int                     @id @default(autoincrement())
+  name             String
+  emp_join_details employee_join_details[]
+  created_at       DateTime                @default(now()) @map("created_at")
+  updated_at       DateTime                @updatedAt @map("updated_at")
 }
 
 model employee_type_master {
-    id                     Int                      @id @default(autoincrement())
-    name                   String
-    employee_basic_details employee_basic_details[]
-    created_at             DateTime                 @default(now()) @map("created_at")
-    updated_at             DateTime                 @default(now()) @map("updated_at")
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  employee_basic_details employee_basic_details[]
+  created_at             DateTime                 @default(now()) @map("created_at")
+  updated_at             DateTime                 @default(now()) @map("updated_at")
 }
 
 model holidays {
-    id   Int     @id @default(autoincrement())
-    date String?
-    name String
+  id   Int     @id @default(autoincrement())
+  date String?
+  name String
 }
 
 // ----------------- CREATED AND MAINTAINED BY KRISH -------------------------- //
 
 model employee_attendance_history {
-    id          Int       @id @default(autoincrement())
-    emp_in      DateTime?
-    emp_out     DateTime?
-    date        DateTime  @db.Date
-    lat         Float?
-    lang        Float?
-    employee    employees @relation(fields: [employee_id], references: [emp_id])
-    employee_id String
-    created_at  DateTime  @default(now()) @map("created_at")
-    updated_at  DateTime  @default(now()) @updatedAt @map("updated_at")
+  id          Int       @id @default(autoincrement())
+  emp_in      DateTime?
+  emp_out     DateTime?
+  date        DateTime  @db.Date
+  lat         Float?
+  lang        Float?
+  employee    employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id String
+  created_at  DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime  @default(now()) @updatedAt @map("updated_at")
 }
 
 model employee_daily_attendance {
-    id           Int       @id @default(autoincrement())
-    employee_id  String
-    date         DateTime  @db.Date
-    emp_in       DateTime?
-    emp_out      DateTime?
-    working_hour Int       @default(0)
+  id           Int       @id @default(autoincrement())
+  employee_id  String
+  date         DateTime  @db.Date
+  emp_in       DateTime?
+  emp_out      DateTime?
+  working_hour Int       @default(0)
 
-    status Int @default(0) // false -> absend , true -> present
+  status Int @default(0) // false -> absend , true -> present
 
-    employee employees @relation(fields: [employee_id], references: [emp_id])
+  employee employees @relation(fields: [employee_id], references: [emp_id])
 
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @default(now()) @updatedAt @map("updated_at")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @updatedAt @map("updated_at")
 
-    // @@unique([employee_id, date])
+  // @@unique([employee_id, date])
 }
 
 model employee_hierarchy {
-    id         Int       @id @default(autoincrement())
-    employee   employees @relation(fields: [emp_id], references: [emp_id])
-    emp_id     String
-    parent_emp String
+  id         Int       @id @default(autoincrement())
+  employee   employees @relation(fields: [emp_id], references: [emp_id])
+  emp_id     String
+  parent_emp String
 
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @default(now()) @updatedAt @map("updated_at")
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime  @default(now()) @updatedAt @map("updated_at")
 }
 
 // CREATE AND MAINTAINED BY ANJALI 
 model employee_claim {
-    id                      Int       @id @default(autoincrement())
-    employees               employees @relation(fields: [employees_id], references: [emp_id])
-    employees_id            String
-    claimType               String // Assuming claim type can be a string, modify as needed
-    orderNo                 String?
-    fromDate                DateTime? // Assuming dates are stored as DateTime, modify as needed
-    toDate                  DateTime?
-    travelExpenses          Float? // Assuming travel expenses are in float, modify as needed
-    distance                Float? // Assuming distance is in float, modify as needed
-    foodExpenses            Float? // Assuming food expenses are in float, modify as needed
-    totalAmount             Float? // Assuming total amount is in float, modify as needed
-    hotelExpenses           Float? // Assuming hotel expenses are in float, modify as needed
-    description             String?
-    location                String?
-    witnessInformation      String?
-    supervisorSelection     String? // Assuming supervisor selection is a string, modify as needed
-    thirdPartyInformation   String?
-    claimSupervisor         String? // Assuming claim supervisor is a string, modify as needed
-    status                  Int       @default(0)
-    thirdPartyStatus        Int       @default(0)
-    travelExpenseAttachment String?
-    foodExpensesAttachment  String?
-    hotelExpenseAttachment  String?
-    descriptionAttachment   String?
-    createdAt               DateTime  @default(now()) @map("created_at")
-    updatedAt               DateTime  @updatedAt @map("updated_at")
+  id                      Int       @id @default(autoincrement())
+  employees               employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id            String
+  claimType               String // Assuming claim type can be a string, modify as needed
+  orderNo                 String?
+  fromDate                DateTime? // Assuming dates are stored as DateTime, modify as needed
+  toDate                  DateTime?
+  travelExpenses          Float? // Assuming travel expenses are in float, modify as needed
+  distance                Float? // Assuming distance is in float, modify as needed
+  foodExpenses            Float? // Assuming food expenses are in float, modify as needed
+  totalAmount             Float? // Assuming total amount is in float, modify as needed
+  hotelExpenses           Float? // Assuming hotel expenses are in float, modify as needed
+  description             String?
+  location                String?
+  witnessInformation      String?
+  supervisorSelection     String? // Assuming supervisor selection is a string, modify as needed
+  thirdPartyInformation   String?
+  claimSupervisor         String? // Assuming claim supervisor is a string, modify as needed
+  status                  Int       @default(0)
+  thirdPartyStatus        Int       @default(0)
+  travelExpenseAttachment String?
+  foodExpensesAttachment  String?
+  hotelExpenseAttachment  String?
+  descriptionAttachment   String?
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_leave_details {
-    id                Int                 @id @default(autoincrement())
-    emp_leave_type    employee_leave_type @relation(fields: [emp_leave_type_id], references: [id])
-    emp_leave_type_id Int
-    leave_from        String?
-    leave_to          String?
-    total_days        Int?
-    leave_reason      String?
-    file_upload       String?
-    half_day          Boolean?
-    leave_status      Int                 @default(0)
-    employee          employees           @relation(fields: [employee_id], references: [emp_id])
-    employee_id       String
-    created_at        DateTime            @default(now()) @map("created_at")
-    updated_at        DateTime            @updatedAt @map("updated_at")
+  id                Int                 @id @default(autoincrement())
+  emp_leave_type    employee_leave_type @relation(fields: [emp_leave_type_id], references: [id])
+  emp_leave_type_id Int
+  leave_from        String?
+  leave_to          String?
+  total_days        Int?
+  leave_reason      String?
+  file_upload       String?
+  half_day          Boolean?
+  leave_status      Int                 @default(0)
+  employee          employees           @relation(fields: [employee_id], references: [emp_id])
+  employee_id       String
+  created_at        DateTime            @default(now()) @map("created_at")
+  updated_at        DateTime            @updatedAt @map("updated_at")
 }
 
 model employee_leave_chart {
-    id                              Int       @id @default(autoincrement())
-    tot_leave_allow_year            Int?
-    tot_bal_leave_year              Int?
-    tot_prev_leave_approv           Int?
-    sick_leave                      Int?      @default(20)
-    earned_leave                    Int?      @default(10)
-    personal_leave                  Int?      @default(30)
-    commuted_leave                  Int?      @default(20)
-    leave_not_due                   Int?      @default(10)
-    extraordinary_leave             Int?      @default(10)
-    privileged_leave                Int?      @default(10)
-    leave_entitlements_for_vacation Int?      @default(20)
-    leave_on_adoption               Int?      @default(10)
-    leave_to_female_on_adoption     Int?      @default(10)
-    child_care_leave                Int?      @default(10)
-    wrill                           Int?      @default(20)
-    special_leave_on_enquiry        Int?      @default(10)
-    study_leave                     Int?      @default(10)
-    ad_hoc_employees                Int?      @default(10)
-    leave_salary                    Int?      @default(10)
-    special_casual_leave            Int?      @default(10)
-    paternity_leave                 Int?      @default(10)
-    employee                        employees @relation(fields: [employee_id], references: [emp_id])
-    employee_id                     String
+  id                              Int       @id @default(autoincrement())
+  tot_leave_allow_year            Int?
+  tot_bal_leave_year              Int?
+  tot_prev_leave_approv           Int?
+  sick_leave                      Int?      @default(20)
+  earned_leave                    Int?      @default(10)
+  personal_leave                  Int?      @default(30)
+  commuted_leave                  Int?      @default(20)
+  leave_not_due                   Int?      @default(10)
+  extraordinary_leave             Int?      @default(10)
+  privileged_leave                Int?      @default(10)
+  leave_entitlements_for_vacation Int?      @default(20)
+  leave_on_adoption               Int?      @default(10)
+  leave_to_female_on_adoption     Int?      @default(10)
+  child_care_leave                Int?      @default(10)
+  wrill                           Int?      @default(20)
+  special_leave_on_enquiry        Int?      @default(10)
+  study_leave                     Int?      @default(10)
+  ad_hoc_employees                Int?      @default(10)
+  leave_salary                    Int?      @default(10)
+  special_casual_leave            Int?      @default(10)
+  paternity_leave                 Int?      @default(10)
+  employee                        employees @relation(fields: [employee_id], references: [emp_id])
+  employee_id                     String
 
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @updatedAt @map("updated_at")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 model employee_leave_type {
-    id                     Int                      @id @default(autoincrement())
-    name                   String
-    employee_leave_details employee_leave_details[]
-    created_at             DateTime                 @default(now()) @map("created_at")
-    updated_at             DateTime                 @updatedAt @map("updated_at")
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  employee_leave_details employee_leave_details[]
+  created_at             DateTime                 @default(now()) @map("created_at")
+  updated_at             DateTime                 @updatedAt @map("updated_at")
 }
 
 //  CREATED AND MAINTAINED BY ANJALI
 model leave_encashment {
-    id                            Int       @id @default(autoincrement())
-    application_id                String    @unique
-    employee_id                   String
-    emp_name                      String?
-    earned_leave                  Int?      @default(0)
-    total_days_for_applied        Int?      @default(0)
-    leave_balance_after_apply     Int?      @default(0)
-    per_basic_pay                 Int?      @default(0)
-    grand_total_encashment_amount Int?      @default(0)
-    leave_encash_apply            Int
-    status                        Int?      @default(0)
-    employee                      employees @relation(fields: [employee_id], references: [emp_id])
-    created_at                    DateTime  @default(now()) @map("created_at")
-    updated_at                    DateTime  @updatedAt @map("updated_at")
+  id                            Int       @id @default(autoincrement())
+  application_id                String    @unique
+  employee_id                   String
+  emp_name                      String?
+  earned_leave                  Int?      @default(0)
+  total_days_for_applied        Int?      @default(0)
+  leave_balance_after_apply     Int?      @default(0)
+  per_basic_pay                 Int?      @default(0)
+  grand_total_encashment_amount Int?      @default(0)
+  leave_encash_apply            Int
+  status                        Int?      @default(0)
+  employee                      employees @relation(fields: [employee_id], references: [emp_id])
+  created_at                    DateTime  @default(now()) @map("created_at")
+  updated_at                    DateTime  @updatedAt @map("updated_at")
 }
 
 // -------------- Created and maintained by Jaideep ----------------------- //
 model ulb {
-    id         Int      @id @default(autoincrement())
-    name       String
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @updatedAt @map("updated_at")
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 model indianstates {
-    id         Int      @id @default(autoincrement())
-    name       String
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @updatedAt @map("updated_at")
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 model language {
-    id         Int      @id @default(autoincrement())
-    name       String
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @updatedAt @map("updated_at")
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 model district {
-    id         Int      @id @default(autoincrement())
-    name       String
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @updatedAt @map("updated_at")
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 model ddo {
-    id            Int    @id @default(autoincrement())
-    treasury_name String
-    ddo_code      String
-    ddo_name      String
-    designation   String
-    office        String
+  id            Int    @id @default(autoincrement())
+  treasury_name String
+  ddo_code      String
+  ddo_name      String
+  designation   String
+  office        String
 }
+
 
 // Created and Maintained by Krish
 model payroll_master {
-    id                       Int       @id @default(autoincrement())
-    emp_id                   String
-    emp_name                 String
-    gross_pay                Float     @default(0)
-    leave_days               Int       @default(0)
-    working_hour             Int       @default(0)
-    total_allowance          Float     @default(0)
-    total_deductions         Float     @default(0)
-    non_billable             Int       @default(0)
-    present_days             Int       @default(0)
-    lwp_days                 Int       @default(0)
-    salary_deducted          Float     @default(0)
-    net_pay                  Float     @default(0)
-    last_month_lwp_deduction Float     @default(0)
-    salary_per_hour          Float     @default(0)
-    lwp_days_last_month      Float     @default(0)
-    epf_amount               Float     @default(0)
-    esic_amount              Float     @default(0)
-    tds_amount               Float     @default(0)
-    status                   String? // 0 -> Reject || 1 -> Approved
-    date                     DateTime
-    month                    Int
-    year                     Int
-    employees                employees @relation(fields: [emp_id], references: [emp_id])
-    created_at               DateTime  @default(now()) @map("created_at")
-    updated_at               DateTime  @updatedAt @map("updated_at")
+  id                       Int       @id @default(autoincrement())
+  emp_id                   String   
+  emp_name                 String
+  gross_pay                Float     @default(0)
+  leave_days               Int       @default(0)
+  working_hour             Int       @default(0)
+  total_allowance          Float     @default(0)
+  total_deductions         Float     @default(0)
+  non_billable             Int       @default(0)
+  present_days             Int       @default(0)
+  lwp_days                 Int       @default(0)
+  salary_deducted          Float     @default(0)
+  net_pay                  Float     @default(0)
+  last_month_lwp_deduction Float     @default(0)
+  salary_per_hour          Float     @default(0)
+  lwp_days_last_month      Float     @default(0)
+  epf_amount               Float     @default(0)
+  esic_amount              Float     @default(0)
+  tds_amount               Float     @default(0)
+  status                   String? // 0 -> Reject || 1 -> Approved
+  date                     DateTime
+  month                    Int
+  year                     Int
+  employees                employees @relation(fields: [emp_id], references: [emp_id])
+  created_at               DateTime  @default(now()) @map("created_at")
+  updated_at               DateTime  @updatedAt @map("updated_at")
 
-    @@unique([emp_id, month, year])
+  @@unique([emp_id, month, year])
 }
 
 // CREATED AND MAINTAINED BY KRISH  
 
 model pension_master {
-    id                       Int       @id @default(autoincrement())
-    beneficery_id            Int
-    emp_id                   String
-    emp_name                 String?
-    emp_department           Int?
-    doj                      String?
-    last_working_day         String?
-    status                   String? // --> Active, OnHold
-    pension_amnt             Float?
-    family_pension_amnt      Float?
-    date_of_death            DateTime? @db.Date
-    summary                  String?
-    communi_sent_acc_officer String?
-    pensioncol               String?
+  id                       Int       @id @default(autoincrement())
+  beneficery_id            Int
+  emp_id                   String
+  emp_name                 String?
+  emp_department           Int?
+  doj                      String?
+  last_working_day         String?
+  status                   String? // --> Active, OnHold
+  pension_amnt             Float?
+  family_pension_amnt      Float?
+  date_of_death            DateTime? @db.Date
+  summary                  String?
+  communi_sent_acc_officer String?
+  pensioncol               String?
 
-    employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
-    employees                employees                @relation(fields: [emp_id], references: [emp_id])
-    created_at               DateTime                 @default(now()) @map("created_at")
-    updated_at               DateTime                 @default(now()) @map("updated_at")
+  employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
+  employees                employees                @relation(fields: [emp_id], references: [emp_id])
+  created_at               DateTime                 @default(now()) @map("created_at")
+  updated_at               DateTime                 @default(now()) @map("updated_at")
 }
 
-model fileUpload {
-    id         Int      @id @default(autoincrement())
-    name       String?
-    mimeType   String?
-    buffer     Bytes?
-    size       String?
-    created_at DateTime @default(now()) @map("created_at")
-    updated_at DateTime @default(now()) @map("updated_at")
-}

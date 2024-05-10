@@ -298,6 +298,8 @@ class EmployeeOnBoardDao {
           select: {
             emp_name: true,
             dob: true,
+            emp_type: true,
+            emp_type_master: true,
           },
         },
         emp_join_details: {
@@ -317,46 +319,50 @@ class EmployeeOnBoardDao {
         emp_del: 0,
       },
     };
-    if (
-      (department !== "undefined" && department !== "") ||
-      (designation !== "undefined" && designation !== "") ||
-      (emp_type !== "undefined" && emp_type !== "")
-    ) {
-      const empTypeNumber = Number(emp_type);
-      if (!isNaN(empTypeNumber)) {
-        query.where = {
-          OR: [
-            {
-              emp_basic_details: {
-                emp_type: {
-                  equals: Number(emp_type),
+    if (emp_type !== "undefined" && emp_type !== "") {
+      query.where = {
+        OR: [
+          {
+            emp_basic_details: {
+              emp_type: {
+                equals: Number(emp_type),
+              },
+            },
+          },
+        ],
+      };
+    } else if (department !== "undefined" && department !== "") {
+      query.where = {
+        OR: [
+          {
+            emp_join_details: {
+              OR: [
+                {
+                  department_id: {
+                    equals: Number(department),
+                  },
                 },
-              },
+              ],
             },
-          ],
-        };
-      } else {
-        query.where = {
-          OR: [
-            {
-              emp_join_details: {
-                OR: [
-                  {
-                    department_id: {
-                      equals: Number(department),
-                    },
+          },
+        ],
+      };
+    } else if (designation !== "undefined" && designation !== "") {
+      query.where = {
+        OR: [
+          {
+            emp_join_details: {
+              OR: [
+                {
+                  designation_id: {
+                    equals: Number(designation),
                   },
-                  {
-                    designation_id: {
-                      equals: Number(designation),
-                    },
-                  },
-                ],
-              },
+                },
+              ],
             },
-          ],
-        };
-      }
+          },
+        ],
+      };
     }
 
     const [data, count] = await prisma.$transaction([
@@ -543,17 +549,17 @@ class EmployeeOnBoardDao {
       },
     };
 
-    const data:any = await prisma.employees.findFirst(query);
-    const districtName:any = await prisma.district.findFirst({
-        select:{
-            name:true
-        },
-        where:{
-            id:data?.emp_office_details?.district
-        }
-    })
-    if(data){
-        data.emp_office_details.district = districtName
+    const data: any = await prisma.employees.findFirst(query);
+    const districtName: any = await prisma.district.findFirst({
+      select: {
+        name: true,
+      },
+      where: {
+        id: data?.emp_office_details?.district,
+      },
+    });
+    if (data) {
+      data.emp_office_details.district = districtName;
     }
 
     return generateRes(data);
