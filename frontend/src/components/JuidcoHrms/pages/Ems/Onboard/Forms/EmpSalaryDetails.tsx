@@ -585,15 +585,14 @@ const EmpSalaryDetails: React.FC<
                           className="w-[20rem] border rounded-xl p-2 mt-2 bg-transparent"
                         >
                           <option value="">Please Select</option>
-                          <option value="DA">DA</option>
-                          <option value="HRA">HRA</option>
-                          <option value="DP(A)">DP(A)</option>
-                          <option value="ADA(A)">ADA(A)</option>
-                          <option value="IR(A)">IR(A)</option>
-                          <option value="CA(A)">CA(A)</option>
-                          <option value="SP(A)">SP(A)</option>
-                          <option value="MA(A)">MA(A)</option>
-                          <option value="SA(A)">SA(A)</option>
+                          <option value="DA">Dearness Allowance (DA)</option>
+                          <option value="HRA">House Rent Allowance (HRA)</option>
+                          <option value="DP(A)">Dearness Pay (DP(A))</option>
+                          <option value="IR(A)">Interim Relief (IR(A))</option>
+                          <option value="CA(A)">Conveyance Allowance (CA(A))</option>
+                          <option value="SP(A)">Special Allowance (SP(A))</option>
+                          <option value="MA(A)">Medical Allowance (MA(A))</option>
+                          <option value="SA(A)">Statutory Allowance (SA(A))</option>
                         </select>
                       </td>
 
@@ -756,12 +755,11 @@ const EmpSalaryDetails: React.FC<
                           className="w-[20rem] border rounded-xl p-2 mt-2 bg-transparent"
                         >
                           <option value="">Please Select</option>
-                          <option value="GPF">GPF</option>
-                          <option value="EPF">EPF</option>
-                          <option value="PT">PT</option>
-                          <option value="IT">TDS</option>
-                          <option value="Vol EPF(A)"> Vol EPF(A)</option>
-                          <option value="QR(A)">QR(A)</option>
+                          <option value="GPF">Government Provident Fund (GPF)</option>
+                          <option value="EPF">Employee Provident Fund (EPF)</option>
+                          <option value="PT">Professional Tax (PT)</option>
+                          <option value="IT">Tax Deduction at Source (TDS)</option>
+                          <option value="Vol EPF(A)"> voluntary Employee Provident Fund (Vol EPF(A))</option>
                           <option value="LIC Policy- 1">LIC Policy- 1</option>
                           <option value="LIC Policy- 2">LIC Policy- 2</option>
                           <option value="LIC Policy- 3">LIC Policy- 3</option>
@@ -773,7 +771,7 @@ const EmpSalaryDetails: React.FC<
                           <option value="Telephone Bills">
                             Telephone Bills
                           </option>
-                          <option value="ESIC">ESIC</option>
+                          <option value="ESIC">Employees' State Insurance Corporation (ESIC)</option>
                         </select>
                       </td>
 

@@ -396,3 +396,14 @@ model employee_loan_recovery {
 }
 
 //-------------- Employee LOAN Details ---------------------//
+
+
+model fileUpload {
+    id         Int      @id @default(autoincrement())
+    name       String?
+    mimeType   String?
+    buffer     Bytes?
+    size       String?
+    created_at DateTime @default(now()) @map("created_at")
+    updated_at DateTime @default(now()) @map("updated_at")
+}
