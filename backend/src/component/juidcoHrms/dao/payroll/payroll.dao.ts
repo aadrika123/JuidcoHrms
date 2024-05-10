@@ -397,6 +397,22 @@ class PayrollDao {
       `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
     ).toISOString();
 
+    const is_month_passed = await prisma.$queryRaw<any[]>`
+      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
+    `;
+    let _month: number = 0;
+    let _year: number = year;
+    if (is_month_passed[0].exists === false) {
+      _month = month - 1;
+      if (_month == 0 || _month == -1) {
+        _month = 12;
+        _year = year - 1;
+      }
+    } else {
+      _month = month;
+    }
+
+    console.log(_year, _month, year);
     const query: Prisma.payroll_masterFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
@@ -423,8 +439,8 @@ class PayrollDao {
       },
 
       where: {
-        month: month,
-        year: year,
+        month: _month,
+        year: _year,
       },
     };
 
@@ -603,28 +619,35 @@ class PayrollDao {
       return generateRes({ message: false });
     }
   };
-
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
 
+  // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
   calc_total_amount_released = async () => {
-    // await this.calc_net_pay();
-    // let sumNetPay = 0;
-    // this.employee_payroll_data.forEach((item) => {
-    //   sumNetPay += item.net_pay;
-    // });
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const is_month_passed = await prisma.$queryRaw<any[]>`
+      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
+    `;
 
-    // const totalEmp = await prisma.employees.count();
-    // const data = {
-    //   total_employee: totalEmp,
-    //   total_amount: sumNetPay,
-    // };
-
+    let _month: number = 0;
+    let _year: number = year;
+    if (is_month_passed[0].exists === false) {
+      _month = month - 1;
+      if (_month == 0 || _month == -1) {
+        _month = 12;
+        _year = year - 1;
+      }
+    } else {
+      _month = month;
+    }
     const data = await prisma.$queryRaw<any[]>`
-      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master
+      SELECT SUM(net_pay) AS total_amount,  CAST(COUNT(id) AS INTEGER) as total_employee FROM payroll_master WHERE month = ${_month} AND year = ${_year}
     `;
 
     return generateRes(data[0]);
   };
+  // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
 }
 
 export default PayrollDao;
