@@ -18,8 +18,12 @@ const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
       initialView="dayGridMonth"
       events={eventList}
       eventClick={(e) => {
-        props.setSelectedDate(e.event.start?.toISOString() as string)
+        const selectedDate = e.event.start?.toLocaleDateString();
+        if (selectedDate) {
+          props.setSelectedDate(selectedDate);
+        }
       }}
+      
       headerToolbar={{
         right: "prev,next",
         left: "title",

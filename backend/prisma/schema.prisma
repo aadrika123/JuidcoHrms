@@ -64,7 +64,7 @@ model employee_office_details {
   updated_at      DateTime    @updatedAt @map("updated_at")
 }
 
-model employee_basic_details {
+model employee_basic_details { 
   id                  Int                  @id @default(autoincrement())
   emp_id              String
   emp_image           String
@@ -74,6 +74,7 @@ model employee_basic_details {
   emg_contact_no      String
   aadhar_no           String
   epic_no             String
+  pan_no              String?
   gender              String // Assuming you want to store it as a string, adjust as needed
   pran                String?
   weight              String?
@@ -397,6 +398,16 @@ model employee_loan_recovery {
 
 //-------------- Employee LOAN Details ---------------------//
 
+
+model fileUpload {
+    id         Int      @id @default(autoincrement())
+    name       String?
+    mimeType   String?
+    buffer     Bytes?
+    size       String?
+    created_at DateTime @default(now()) @map("created_at")
+    updated_at DateTime @default(now()) @map("updated_at")
+}
 
 // // ----- Managed and Used by Jaideep ---------------- //
 // model users {

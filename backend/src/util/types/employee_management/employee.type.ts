@@ -31,6 +31,7 @@ export interface EmployeeBasicDetailsType {
   cps: string;
   gps: string;
   dob: string;
+  pan_no:string
 }
 
 export interface EmployeePersonalDetailsType {
