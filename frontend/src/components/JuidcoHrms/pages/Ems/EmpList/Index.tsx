@@ -79,19 +79,19 @@ const EmployeeList = () => {
       emp_join_details: {
         ...obj.emp_join_details,
         department: {
-          ...obj.emp_join_details.department,
-          dep_name: obj.emp_join_details.department.name,
+          ...obj.emp_join_details?.department,
+          dep_name: obj.emp_join_details?.department?.name,
         },
         designation: {
-          ...obj.emp_join_details.designation,
-          des_name: obj.emp_join_details.designation.name,
+          ...obj.emp_join_details?.designation,
+          des_name: obj.emp_join_details?.designation?.name,
         },
       },
       emp_basic_details: {
         ...obj.emp_basic_details,
         emp_type_master: {
-          ...obj.emp_basic_details.emp_type_master,
-          emp_type_name: obj.emp_basic_details.emp_type_master.name,
+          ...obj.emp_basic_details?.emp_type_master,
+          emp_type_name: obj.emp_basic_details?.emp_type_master?.name,
         },
       },
     };
