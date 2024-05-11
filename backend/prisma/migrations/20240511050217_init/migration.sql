@@ -42,6 +42,7 @@ CREATE TABLE "employee_basic_details" (
     "emg_contact_no" TEXT NOT NULL,
     "aadhar_no" TEXT NOT NULL,
     "epic_no" TEXT NOT NULL,
+    "pan_no" TEXT,
     "gender" TEXT NOT NULL,
     "pran" TEXT,
     "weight" TEXT,
@@ -612,6 +613,19 @@ CREATE TABLE "ddo" (
     "office" TEXT NOT NULL,
 
     CONSTRAINT "ddo_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "fileUpload" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT,
+    "mimeType" TEXT,
+    "buffer" BYTEA,
+    "size" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "fileUpload_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
