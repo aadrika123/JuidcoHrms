@@ -771,7 +771,7 @@ const EmpSalaryDetails: React.FC<
                           <option value="Telephone Bills">
                             Telephone Bills
                           </option>
-                          <option value="ESIC">Employees' State Insurance Corporation (ESIC)</option>
+                          <option value="ESIC">Employees&apos; State Insurance Corporation (ESIC)</option>
                         </select>
                       </td>
 
