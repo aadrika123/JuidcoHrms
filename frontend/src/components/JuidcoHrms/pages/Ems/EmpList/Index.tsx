@@ -1,6 +1,12 @@
+/**
+ * | Author- Krish
+ * | Created for- Employee LIST
+ * | Status: closed
+ */
+
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import Image from "next/image";
@@ -16,6 +22,11 @@ import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 
 const EmployeeList = () => {
+  const [selectedFilter, setSelectedFilter] = useState<number | string>("");
+  const [selectedData, setSelectedData] = useState<number | string>("");
+  const [page, setPage] = useState<number>(1);
+  const [dataList, setDataList] = useState<any[]>([]);
+
   const EMP_LIST_COLS: COLUMNS[] = [
     {
       HEADER: "Employee Name",
@@ -27,22 +38,10 @@ const EmployeeList = () => {
       ACCESSOR: "emp_id",
     },
     {
-      HEADER: "Department",
-      ACCESSOR: "name",
+      HEADER: `${selectedFilter === "" || selectedFilter === 0 ? "Department" : selectedFilter === 1 ? "Designation" : selectedFilter === 2 ? "Employee Type" : ""}`,
+      ACCESSOR: `${selectedFilter === "" || selectedFilter === 0 ? "dep_name" : selectedFilter === 1 ? "des_name" : selectedFilter === 2 ? "emp_type_name" : ""}`,
     },
-    // {
-    //   HEADER: "Leave",
-    //   ACCESSOR: "emp_leave_count",
-    // },
-    // {
-    //   HEADER: "Present",
-    //   ACCESSOR: "emp_present_count",
-    // },
   ];
-
-  const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
-  const [selectedData, setSelectedData] = useState<number | null>(null);
-  const [page, setPage] = useState<number>(1);
 
   const queryClient = useQueryClient();
 
@@ -67,17 +66,49 @@ const EmployeeList = () => {
     );
   };
 
-  const { data: dataList = [], error: dataError } = useCodeQuery(
-    `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : selectedFilter === 2 ? HRMS_URL.EMPLOYEE_TYPE_MASTER.getAll : null}`
-    // `${HRMS_URL.DEPARTMENT.get}`
-  );
-
   const { data: empLstData, error: empLstErr } = useCodeQuery(
     `${HRMS_URL.EMS.get}&page=${page}${selectedFilter === 0 ? `&department=${selectedData}` : selectedFilter === 1 ? `&designation=${selectedData}` : selectedFilter === 2 ? `&emp_type=${selectedData}` : ""}`
   );
   const { data: empCount, error: empCountErr } = useCodeQuery(
     `${HRMS_URL.EMP_COUNT.get}`
   );
+
+  const newEmpLst = empLstData?.data.map((obj: any) => {
+    return {
+      ...obj,
+      emp_join_details: {
+        ...obj?.emp_join_details,
+        department: {
+          ...obj.emp_join_details?.department,
+          dep_name: obj?.emp_join_details?.department?.name,
+        },
+        designation: {
+          ...obj.emp_join_details?.designation,
+          des_name: obj?.emp_join_details?.designation?.name,
+        },
+      },
+      emp_basic_details: {
+        ...obj.emp_basic_details,
+        emp_type_master: {
+          ...obj.emp_basic_details?.emp_type_master,
+          emp_type_name: obj.emp_basic_details?.emp_type_master?.name,
+        },
+      },
+    };
+  });
+
+  // FILTER BY DEPARTMENT , DESIGNATION, EMPLOYEE TYPE
+  useEffect(() => {
+    (async () => {
+      const res = await axios({
+        url: `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : selectedFilter === 2 ? HRMS_URL.EMPLOYEE_TYPE_MASTER.getAll : ""}`,
+        method: "GET",
+      });
+
+      setDataList(res.data?.data?.data);
+      setSelectedData("");
+    })();
+  }, [selectedFilter]);
 
   // REMOVE EMPLOYEE
   const remEmployee = async (id: number) => {
@@ -111,10 +142,6 @@ const EmployeeList = () => {
     const confirm = window.confirm("Are you sure want to delete this Employee");
     if (confirm) mutate(id);
   };
-
-  if (dataError) {
-    return <div>Failed to fetch data</div>;
-  }
 
   if (empCountErr) {
     throw Error;
@@ -205,7 +232,7 @@ const EmployeeList = () => {
             <option disabled selected>
               Select Filter By
             </option>
-            {dataList?.data?.map((k: any) => {
+            {dataList?.map((k: any) => {
               return (
                 <option key={k.id} value={k.id}>
                   {k.name}
@@ -243,7 +270,7 @@ const EmployeeList = () => {
         <div className="mt-[5rem]">
           <TableListContainer
             columns={EMP_LIST_COLS}
-            tableData={empLstData?.data || []}
+            tableData={newEmpLst || []}
             actionBtn
             actionName="Status"
             setEmpId={removeEmployee}

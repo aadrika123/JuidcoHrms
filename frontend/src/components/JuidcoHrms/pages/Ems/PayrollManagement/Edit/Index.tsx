@@ -100,7 +100,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
       const _data = sessionStorage.getItem("day_diff");
       if (_data === "null") setTotalDayDiff(0);
       const data = JSON.parse(_data as string);
-      console.log(data, "dfif");
       setTotalDayDiff(data);
     }
   }, []);
@@ -138,10 +137,10 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //   fetchEmpData();
   // }, [emp]);
 
-  const currentDate = new Date();
+  // const currentDate = new Date();
   const newDate = new Date().getFullYear();
-  const monthName = currentDate.toLocaleString("en-US", { month: "long" });
-  const currentMonth = monthName.toUpperCase();
+  // const monthName = currentDate.toLocaleString("en-US", { month: "long" });
+  // const currentMonth = monthName.toUpperCase();
   const currDate = new Date().toISOString().split("T")[0];
   //--------------------------- GET EMPLOYEE PAYSLIP DETAILS ---------------------------//
   const fetchConfig: FetchAxios = {
@@ -469,7 +468,9 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                 </div>
                 <div className="w-full flex justify-center p-7">
                   <span>
-                    SALARY SLIP - {currentMonth} - {newDate} SALARY
+                    SALARY SLIP -{" "}
+                    {String(empData?.payroll[0]?.month).padStart(2, "0")}-
+                    {newDate} SALARY
                   </span>
                 </div>
 
