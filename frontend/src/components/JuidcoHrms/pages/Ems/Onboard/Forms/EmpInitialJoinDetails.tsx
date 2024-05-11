@@ -360,50 +360,7 @@ const EmpInitialJoinDetails: React.FC<
                         type="number"
                         required={true}
                       /> */}
-                      <SelectForNoApiNew
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.grade_pay}
-                        error={errors.grade_pay}
-                        label="Grade Pay"
-                        name="grade_pay"
-                        placeholder={"Please Select"}
-                        options={
-                          Number(values.pay_scale) >= 1 &&
-                          Number(values.pay_scale) <= 5
-                            ? [
-                                { id: 1, name: "1800" },
-                                { id: 2, name: "1900" },
-                                { id: 3, name: "2000" },
-                                { id: 4, name: "2400" },
-                                { id: 5, name: "2800" },
-                              ]
-                            : Number(values.pay_scale) >= 6 &&
-                                Number(values.pay_scale) <= 9
-                              ? [
-                                  { id: 1, name: "4200" },
-                                  { id: 2, name: "4600" },
-                                  { id: 3, name: "4800" },
-                                  { id: 4, name: "5400" },
-                                ]
-                              : Number(values.pay_scale) >= 10 &&
-                                  Number(values.pay_scale) <= 12
-                                ? [
-                                    { id: 1, name: "5400" },
-                                    { id: 2, name: "6600" },
-                                    { id: 3, name: "7600" },
-                                  ]
-                                : (Number(values.pay_scale) >= 13 &&
-                                      Number(values.pay_scale) <= 14) ||
-                                    values.pay_scale === "13-A"
-                                  ? [
-                                      { id: 1, name: "8700" },
-                                      { id: 2, name: "8900" },
-                                      { id: 3, name: "10000" },
-                                    ]
-                                  : []
-                        }
-                      />
+                    
 
                       <InputBox
                         onChange={handleChange}
@@ -419,6 +376,52 @@ const EmpInitialJoinDetails: React.FC<
                         type="number"
                         // required={true}
                       />
+
+                    <SelectForNoApiNew
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.grade_pay}
+                        error={errors.grade_pay}
+                        label="Grade Pay"
+                        name="grade_pay"
+                        placeholder={"Please Select"}
+                        options={
+                          Number(values.pay_scale) >= 1 &&
+                          Number(values.pay_scale) <= 5
+                            ? [
+                                { id: 1800, name: "1800" },
+                                { id: 1900, name: "1900" },
+                                { id: 2000, name: "2000" },
+                                { id: 2400, name: "2400" },
+                                { id: 2800, name: "2800" },
+                              ]
+                            : Number(values.pay_scale) >= 6 &&
+                                Number(values.pay_scale) <= 9
+                              ? [
+                                  { id: 4200, name: "4200" },
+                                  { id: 4600, name: "4600" },
+                                  { id: 4800, name: "4800" },
+                                  { id: 5400, name: "5400" },
+                                ]
+                              : Number(values.pay_scale) >= 10 &&
+                                  Number(values.pay_scale) <= 12
+                                ? [
+                                    { id: 5400, name: "5400" },
+                                    { id: 6600, name: "6600" },
+                                    { id: 7600, name: "7600" },
+                                  ]
+                                : (Number(values.pay_scale) >= 13 &&
+                                      Number(values.pay_scale) <= 14) ||
+                                    values.pay_scale === "13-A"
+                                  ? [
+                                      { id: 8700, name: "8700" },
+                                      { id: 8900, name: "8900" },
+                                      { id: 10000, name: "10000" },
+                                    ]
+                                  : []
+                        }
+                      /> 
+
                     </div>
 
                     <InputBox

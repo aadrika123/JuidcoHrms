@@ -36,6 +36,7 @@ const EmpSalaryDetails: React.FC<
   const [basic_pay1, setBasicPay1] = useState(0);
   const [isDedWfeValid, setIsDedWfeValid] = useState<boolean>(true);
   const [result, setResult] = useState<any>("");
+  const [pay_band, setPayBand] = useState(0);
 
   const initialDeductDetails = {
     amount_in: "",
@@ -157,7 +158,34 @@ const EmpSalaryDetails: React.FC<
 
   // console.log("employeeDeductionDetails", employeeDeductionDetails)
 
-  useEffect(() => {
+//   useEffect(() => {
+//     const storedJoinDataString = sessionStorage.getItem("emp_join_details");
+//     const storedJoinData = storedJoinDataString
+//       ? JSON.parse(storedJoinDataString)
+//       : null;
+
+//     const storedAllowanceDataString = sessionStorage.getItem(
+//       "emp_salary_allow_details"
+//     );
+//     const storedAllowanceData = storedAllowanceDataString
+//       ? JSON.parse(storedAllowanceDataString)
+//       : null;
+
+//     if (storedJoinData && storedJoinData.basic_pay) {
+//       const totalAllowances = storedAllowanceData?.reduce(
+//         (sum: number, item: any) => sum + item.amount_in,
+//         0
+//       );
+
+//       const newBasicPay2 = storedJoinData.basic_pay;
+//       console.log("newBasicPay2", newBasicPay2);
+//       setBasicPay1(newBasicPay2);
+//       const newBasicPay = storedJoinData.basic_pay + totalAllowances;
+//       console.log("newBasicPay", newBasicPay);
+//       setBasicPay(newBasicPay);
+//     }
+//   }, [basic_pay, employeeDeductionDetails]);
+useEffect(() => {
     const storedJoinDataString = sessionStorage.getItem("emp_join_details");
     const storedJoinData = storedJoinDataString
       ? JSON.parse(storedJoinDataString)
@@ -177,13 +205,20 @@ const EmpSalaryDetails: React.FC<
       );
 
       const newBasicPay2 = storedJoinData.basic_pay;
+      const newGradePay = storedJoinData.grade_pay;
+
+      console.log("newGradePay", newGradePay)
+      setPayBand(newGradePay)
+      
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
+
       const newBasicPay = storedJoinData.basic_pay + totalAllowances;
-      console.log("newBasicPay", newBasicPay);
+      // console.log("newBasicPay", newBasicPay);
       setBasicPay(newBasicPay);
     }
   }, [basic_pay, employeeDeductionDetails]);
+
 
   const handleSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -193,8 +228,9 @@ const EmpSalaryDetails: React.FC<
     let calculatedAmount = 0;
     let accountNumber = "";
 
-    const currentBasicPay = basic_pay1;
+    const currentBasicPay = basic_pay + pay_band;
     console.log("currentBasicPay", currentBasicPay);
+
     switch (selectedOption) {
       case "PT":
         if (currentBasicPay <= 25000) {
@@ -214,12 +250,12 @@ const EmpSalaryDetails: React.FC<
         if (annualBasicPay <= 250000) {
           calculatedAmount = 0;
         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
-          calculatedAmount = Math.round((annualBasicPay * 5) / 100);
+          calculatedAmount = Math.round((annualBasicPay * 5) / 100) /12;
           console.log("calculatedAmount12323", calculatedAmount);
         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * 20) / 100);
+          calculatedAmount = Math.round((annualBasicPay * 20) / 100) /12;
         } else if (annualBasicPay > 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * 30) / 100);
+          calculatedAmount = Math.round((annualBasicPay * 30) / 100) /12;
         }
         break;
       }
@@ -233,41 +269,11 @@ const EmpSalaryDetails: React.FC<
 
       case "EPF":
         {
-          // const basicPay = basic_pay;
-          // const allowanceDataString =
-          //   sessionStorage.getItem("emp_salary_allow_details") || "";
-          // const allowanceData = JSON?.parse(allowanceDataString);
-          // const daAllowance = allowanceData.find(
-          //   (item: any) => item.name === "DA"
-          // );
-          // console.log("daAllowance", daAllowance);
-          // if (daAllowance) {
-          //   const daAmount = daAllowance.amount_in;
-          //   console.log("currentBasicPay", currentBasicPay);
-          //   const totalAmount = basicPay + daAmount;
-          //   console.log("totalAmount", totalAmount);
-          //   // Calculate EPF (12% of total amount)
-          //   calculatedAmount = Math.round(totalAmount * 0.12);
-          // } else {
-          //   console.error("DA allowance not found in allowance data");
-          // }
-
-          // console.log("daAllowance", daAllowance);
-          // if (daAllowance) {
-          //   const daAmount = daAllowance.amount_in;
-          //   console.log("currentBasicPay", currentBasicPay);
-          //   const totalAmount = basic_pay1 + daAmount;
-          //   console.log("totalAmount", totalAmount);
-          //   // Calculate EPF (12% of total amount)
-          //   calculatedAmount = Math.round(totalAmount * 0.12);
-          // } else {
-          //   console.error("DA allowance not found in allowance data");
-          const currentBasicPay = basic_pay1;
-          console.log("currentBasicPay2342", currentBasicPay);
+          const currentBasicPay = basic_pay;
           const daAmount = result;
           const totalAmount = currentBasicPay + daAmount;
           // Calculate EPF (12% of total amount)
-          calculatedAmount = Math.round(totalAmount * 0.12);
+          calculatedAmount = Math.round(totalAmount * 0.12 || 0);
         }
         break;
 
@@ -291,6 +297,112 @@ const EmpSalaryDetails: React.FC<
       return updatedDetails;
     });
   };
+//   const handleSelectChange = (
+//     e: React.ChangeEvent<HTMLSelectElement>,
+//     index: number
+//   ) => {
+//     const selectedOption = e.target.value;
+//     let calculatedAmount = 0;
+//     let accountNumber = "";
+
+//     const currentBasicPay = basic_pay1;
+//     console.log("currentBasicPay", currentBasicPay);
+//     switch (selectedOption) {
+//       case "PT":
+//         if (currentBasicPay <= 25000) {
+//           calculatedAmount = 0;
+//         } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
+//           calculatedAmount = 100;
+//         } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
+//           calculatedAmount = 150;
+//         } else if (currentBasicPay >= 66667) {
+//           calculatedAmount = 200;
+//         }
+//         break;
+
+//       case "IT": {
+//         const annualBasicPay = currentBasicPay * 12;
+//         console.log("annualBasicPay12", annualBasicPay);
+//         if (annualBasicPay <= 250000) {
+//           calculatedAmount = 0;
+//         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
+//           calculatedAmount = Math.round((annualBasicPay * 5) / 100);
+//           console.log("calculatedAmount12323", calculatedAmount);
+//         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
+//           calculatedAmount = Math.round((annualBasicPay * 20) / 100);
+//         } else if (annualBasicPay > 1000000) {
+//           calculatedAmount = Math.round((annualBasicPay * 30) / 100);
+//         }
+//         break;
+//       }
+
+//       case "ESIC":
+//         console.log("currentBasicPayESIC", currentBasicPay);
+//         if (currentBasicPay >= 21000) {
+//           calculatedAmount = Math.round(currentBasicPay * 0.0175);
+//         }
+//         break;
+
+//       case "EPF":
+//         {
+//           // const basicPay = basic_pay;
+//           // const allowanceDataString =
+//           //   sessionStorage.getItem("emp_salary_allow_details") || "";
+//           // const allowanceData = JSON?.parse(allowanceDataString);
+//           // const daAllowance = allowanceData.find(
+//           //   (item: any) => item.name === "DA"
+//           // );
+//           // console.log("daAllowance", daAllowance);
+//           // if (daAllowance) {
+//           //   const daAmount = daAllowance.amount_in;
+//           //   console.log("currentBasicPay", currentBasicPay);
+//           //   const totalAmount = basicPay + daAmount;
+//           //   console.log("totalAmount", totalAmount);
+//           //   // Calculate EPF (12% of total amount)
+//           //   calculatedAmount = Math.round(totalAmount * 0.12);
+//           // } else {
+//           //   console.error("DA allowance not found in allowance data");
+//           // }
+
+//           // console.log("daAllowance", daAllowance);
+//           // if (daAllowance) {
+//           //   const daAmount = daAllowance.amount_in;
+//           //   console.log("currentBasicPay", currentBasicPay);
+//           //   const totalAmount = basic_pay1 + daAmount;
+//           //   console.log("totalAmount", totalAmount);
+//           //   // Calculate EPF (12% of total amount)
+//           //   calculatedAmount = Math.round(totalAmount * 0.12);
+//           // } else {
+//           //   console.error("DA allowance not found in allowance data");
+//           const currentBasicPay = basic_pay1;
+//           console.log("currentBasicPay2342", currentBasicPay);
+//           const daAmount = result;
+//           const totalAmount = currentBasicPay + daAmount;
+//           // Calculate EPF (12% of total amount)
+//           calculatedAmount = Math.round(totalAmount * 0.12);
+//         }
+//         break;
+
+//       case "GPF":
+//         accountNumber = gpf;
+//         break;
+
+//       default:
+//         calculatedAmount = 0;
+//         break;
+//     }
+
+//     setEmployeeDeductionDetails((prev: any) => {
+//       const updatedDetails = [...prev];
+//       updatedDetails[index] = {
+//         ...updatedDetails[index],
+//         name: selectedOption,
+//         amount_in: calculatedAmount,
+//         acnt_no: accountNumber,
+//       };
+//       return updatedDetails;
+//     });
+//   };
 
   //////////////////////////////
   const handleSubmitForm = (values: any) => {
@@ -693,6 +805,8 @@ const EmpSalaryDetails: React.FC<
                               {/* <span>{item?.amount_in}</span> */}
                             </div>
                           )}
+                          {["DA"].includes(item.name) ?
+                          <span>{item?.amount_in}</span> : null} 
                       </td>
                     </tr>
                   ))}

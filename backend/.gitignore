@@ -5,3 +5,4 @@ build
 hrms_error.log
 ./prisma/migrations
 
+./prisma/migrations
