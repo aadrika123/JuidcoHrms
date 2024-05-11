@@ -3,4 +3,5 @@ node_modules
 .env
 build
 hrms_error.log
+./prisma/migrations
 
