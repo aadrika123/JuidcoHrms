@@ -185,7 +185,7 @@ const EmployeeServiceHistory: React.FC<
         </div> */}
         {/* {employeeType && employeeType !== 4 && ( */}
         <div
-          className={`border p-5 rounded-xl shadow mt-4 ${employeeType && employeeType !== 4 ? "block" : "hidden"}`}
+          className={`border p-5 rounded-xl shadow mt-4 ${employeeType && employeeType === 4 ? "hidden" : "block"}`}
         >
           <EmployeeTransferDetailsTable
             setData={getStateData}
