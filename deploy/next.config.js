@@ -2,7 +2,7 @@
 const nextConfig = {
   basePath: "/hrms",
   env: {
-    backend: "https://aadrikainfomedia.com/auth",
+    backend: "https://egov.rsccl.in/auth",
   },
 };
 

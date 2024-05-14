@@ -1,6 +1,7 @@
 #!/bin/sh
 SERVER_PORT=7001
 DB_PASSWORD="Secure@2023%3F"
+GITHUB_TOKEN="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"
 
 installModules () {
     echo "Installing frontend node modules ..."
@@ -19,16 +20,18 @@ configure(){
     cp ./staging/next.config.js ./frontend
 }
 
-migrate() {
+resetDatabases() {
+    rm -rf ./backend/prisma/migrations
     cd backend
     echo "creating/updating the env file ..."
-    echo "PORT=$SERVER_PORT\nDATABASE_URL=\"postgresql://postgres:$DB_PASSWORD@localhost:5433/hrms?schema=public\"" > .env
+    echo "PORT=$SERVER_PORT\nDATABASE_URL=\"postgresql://postgres:$DB_PASSWORD@localhost:5432/hrms?schema=public\"" > .env
     echo "TWILIO_ACCNT_SID=\"AC9568828d649d47f5865843700bbf0a8c\"" >> .env
     echo "TWILIO_AUTH_TOKEN=\"8c288639cacd7f5162fc7c99a7ad2a74\"" >> .env
     echo "TWILIO_PHONE=\"+16562269475\"">> .env
-    npx prisma run migrate
+    npx prisma migrate dev --name init
     cd ..
 }
+
 
 
 buildThem(){
@@ -50,14 +53,17 @@ startServices(){
     cd ../frontend
     pm2 start npm --name "hrms-front" -- start
 
-    cd ..
+ krish_dev   cd ..
     pm2 list
 }
 
-git pull
+# git clone -b krish_dev https://Kkrish7654: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@github.com/aadrika123/JuidcoHrms.git
+
+# git clone -b krish_dev https://Kkrish7654:$GITHUB_TOKEN@github.com/aadrika123/JuidcoHrms.git
+
 installModules
 configure
-migrate
+resetDatabases
 buildThem
 startServices
 
