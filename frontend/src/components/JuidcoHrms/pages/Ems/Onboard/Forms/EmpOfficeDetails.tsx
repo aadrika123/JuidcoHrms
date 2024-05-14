@@ -293,6 +293,7 @@ const EmployeeOfficeDetails: React.FC<
                     onChange={handleInputChange}
                     className="border border-zinc-400 h-12 rounded-lg pl-3 bg-transparent mt-1"
                   />
+
                   {isTyping && (
                     <div className="absolute top-[5rem] left-0 w-[20rem] h-[30rem] rounded-md overflow-scroll">
                       <ul

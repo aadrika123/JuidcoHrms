@@ -116,3 +116,4 @@ Array.prototype.deleteObject = function () {
     }
   } else null;
 };
+

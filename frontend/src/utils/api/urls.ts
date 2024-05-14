@@ -31,7 +31,9 @@ type UrlKeys =
   | "PENSION"
   | "PAYSLIP"
   | "ULB"
-  | "EMPLOYEE_TYPE_MASTER";
+  | "EMPLOYEE_TYPE_MASTER"
+  | "FILE_UPLOAD_EMPLOYEE"
+  | "FILE_UPLOAD_EMPLOYEE_SINGLE";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -150,5 +152,15 @@ export const HRMS_URL: Urls = {
   },
   EMPLOYEE_TYPE_MASTER: {
     getAll: "/emp-type/get",
+  },
+
+  FILE_UPLOAD_EMPLOYEE: {
+    create: "/joint/emp-img-upload",
+    get: "/joint/emp-img-list",
+  },
+
+  FILE_UPLOAD_EMPLOYEE_SINGLE: {
+    create: "/single/img-upload",
+    get: "/single/img-list-get",
   },
 };

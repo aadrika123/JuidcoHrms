@@ -27,7 +27,6 @@ import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import toast, { Toaster } from "react-hot-toast";
 import SelectForNoApiNew from "@/components/global/atoms/SelectForNoApiNew";
-
 const EmployeeBasicDetails: React.FC<
   EmployeeDetailsProps<EmployeeDetailsType>
 > = (props) => {
@@ -47,7 +46,14 @@ const EmployeeBasicDetails: React.FC<
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
-    setSelectedFileName(file ? file.name : "");
+    const size = event.target.files[0].size;
+
+    console.log(size)
+    if (size / 1024 >= 2548) {
+      alert("Cannot upload more than 2MB data!");
+    } else {
+      setSelectedFileName(file ? file.name : "");
+    }
   };
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -264,6 +270,7 @@ const EmployeeBasicDetails: React.FC<
                     id="emp_image"
                     name="emp_image"
                     style={{ display: "none" }}
+                    accept="image/*"
                     onChange={(event) => {
                       handleChange(event);
                       handleFileChange(event);
@@ -632,7 +639,7 @@ const EmployeeBasicDetails: React.FC<
                   type="date"
                   required={true}
                 />
-                 <InputBox
+                <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.pan_no}

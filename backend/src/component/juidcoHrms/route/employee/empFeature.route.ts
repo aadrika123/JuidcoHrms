@@ -8,7 +8,9 @@ import LeaveChartController from "../../controller/employee/empLeaveChart.contro
 import LeaveTypeController from "../../controller/employee/empLeaveType.controller";
 import EmployeeOtpController from "../../controller/employee/empOtpGeneration.controller";
 import PensionController from "../../controller/pension/pension.controller";
-
+import FileUploadJointController from "../../controller/fileupload/fileupload.controller";
+import FileUploadSingleController from "../../controller/fileupload/fileuploadSingle.controller";
+import upload from "../../../../middleware/imageUploadConfig";
 class EmployeeFeatureRoute {
   private employeeAttendanceController: EmployeeAttendanceController;
   private employeeLeaveController: EmployeeLeaveController;
@@ -17,6 +19,8 @@ class EmployeeFeatureRoute {
   private employeeHolidaysController: HolidaysController;
   private employeeOtpController: EmployeeOtpController;
   private employeePensionController: PensionController;
+  private fileUploadJointController: FileUploadJointController;
+  private fileUploadSingleController: FileUploadSingleController;
 
   constructor() {
     this.employeeAttendanceController = new EmployeeAttendanceController();
@@ -26,6 +30,8 @@ class EmployeeFeatureRoute {
     this.employeeLeaveTypeController = new LeaveTypeController();
     this.employeeOtpController = new EmployeeOtpController();
     this.employeePensionController = new PensionController();
+    this.fileUploadJointController = new FileUploadJointController();
+    this.fileUploadSingleController = new FileUploadSingleController();
   }
 
   configure(app: express.Application): void {
@@ -167,7 +173,7 @@ class EmployeeFeatureRoute {
         loggerMiddleware
       ); //0314
 
-      app
+    app
       .route(`${baseUrl}/employee/pension/create`)
       .post(
         (req: Request, res: Response, next: NextFunction) =>
@@ -190,7 +196,7 @@ class EmployeeFeatureRoute {
         loggerMiddleware
       ); //0317
 
-      app
+    app
       .route(`${baseUrl}/employee/attendance/count-daily`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>
@@ -202,6 +208,40 @@ class EmployeeFeatureRoute {
           ),
         loggerMiddleware
       ); //0318
+
+    app
+      .route(`${baseUrl}/joint/emp-img-upload`)
+      .post(
+        upload.single("img"),
+        (req: Request, res: Response, next: NextFunction) =>
+          this.fileUploadJointController.imageUpload(req, res, next, "69.0"),
+        loggerMiddleware
+      );
+
+    app
+      .route(`${baseUrl}/joint/emp-img-list`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.fileUploadJointController.getImageList(req, res, next, "69.1"),
+        loggerMiddleware
+      );
+
+    app
+      .route(`${baseUrl}/single/img-upload`)
+      .post(
+        upload.single("img"),
+        (req: Request, res: Response, next: NextFunction) =>
+          this.fileUploadSingleController.imageUpload(req, res, next, "69.0"),
+        loggerMiddleware
+      );
+
+    app
+      .route(`${baseUrl}/single/img-list-get`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.fileUploadSingleController.getImageList(req, res, next, "69.1"),
+        loggerMiddleware
+      );
   }
 }
 

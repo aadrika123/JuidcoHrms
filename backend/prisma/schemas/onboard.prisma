@@ -47,6 +47,8 @@ model employees {
   leave_encashment        leave_encashment[]
   pension_master          pension_master[]
   payroll_master          payroll_master[]
+  fileUpload              fileUpload[]                
+  fileUploadEmp           fileUploadEmp[] 
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
