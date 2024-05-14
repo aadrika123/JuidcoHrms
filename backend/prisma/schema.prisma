@@ -54,10 +54,10 @@ model employees {
 model employee_office_details {
   id              Int         @id @default(autoincrement())
   emp_type        Int
-  office_name     String
-  office_code     String
-  ddo_designation String
-  ddo_code        String
+  office_name     String?
+  office_code     String?
+  ddo_designation String?
+  ddo_code        String?
   district        Int
   employee        employees[]
   created_at      DateTime    @default(now()) @map("created_at")
