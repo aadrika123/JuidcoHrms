@@ -47,6 +47,8 @@ model employees {
   leave_encashment        leave_encashment[]
   pension_master          pension_master[]
   payroll_master          payroll_master[]
+  fileUpload              fileUpload[]                
+  fileUploadEmp           fileUploadEmp[] 
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -54,10 +56,10 @@ model employees {
 model employee_office_details {
   id              Int         @id @default(autoincrement())
   emp_type        Int
-  office_name     String
-  office_code     String
-  ddo_designation String
-  ddo_code        String
+  office_name     String?
+  office_code     String?
+  ddo_designation String?
+  ddo_code        String?
   district        Int
   employee        employees[]
   created_at      DateTime    @default(now()) @map("created_at")
@@ -673,14 +675,29 @@ model ddo {
 
 
 model fileUpload {
-  id         Int      @id @default(autoincrement())
-  name       String?
-  mimeType   String?
-  buffer     Bytes?
-  size       String?
-  created_at DateTime @default(now()) @map("created_at")
-  updated_at DateTime @default(now()) @map("updated_at")
+  id          Int        @id @default(autoincrement())
+  name        String?
+  mimeType    String?
+  buffer      Bytes?
+  size        String?
+  created_at  DateTime   @default(now()) @map("created_at")
+  updated_at  DateTime   @default(now()) @map("updated_at")
+  employees   employees? @relation(fields: [employee_id], references: [emp_id])
+  employee_id String?
 }
+
+model fileUploadEmp {
+  id          Int        @id @default(autoincrement())
+  name        String?
+  mimeType    String?
+  buffer      Bytes?
+  size        String?
+  created_at  DateTime   @default(now()) @map("created_at")
+  updated_at  DateTime   @default(now()) @map("updated_at")
+  employees   employees? @relation(fields: [employee_id], references: [emp_id])
+  employee_id String?
+}
+
 // Created and Maintained by Krish
 model payroll_master {
   id                       Int       @id @default(autoincrement())

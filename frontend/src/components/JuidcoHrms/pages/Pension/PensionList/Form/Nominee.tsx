@@ -3,7 +3,6 @@ import PrimaryButton from "@/components/Helpers/Button";
 import React, { useEffect, useState } from "react";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import goBack from "@/utils/helper";
-import ProfileIcon from "@/assets/icons/profile_new.png";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import TableListContainer from "@/components/global/organisms/TableListContainer";
@@ -12,6 +11,7 @@ import { HRMS_URL } from "@/utils/api/urls";
 import toast, { Toaster } from "react-hot-toast";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { ulb_name } from "../Index";
+import axios from "@/lib/axiosConfig";
 
 interface NomineeProps {
   onNext: () => void;
@@ -99,11 +99,110 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
     sessionStorage.setItem("payroll", JSON.stringify(payroll_details));
   }, [payroll_details]);
 
+  // ----------------------- FILE UPLOAD IMAGE EMPLOYEE --------------------------//
+
+  const [imageList, setImageList] = useState<any>();
+  const [imageEmpList, setEmpImageList] = useState<any>();
+  const [, setImage] = useState<any>();
+  const [imageRaw, setImageRaw] = useState<any>();
+  const [, setIsChanged] = useState<boolean>(false);
+  const [, setIsLoading] = useState<boolean>(false);
+
+  const bufferToBase64 = (data: any) => {
+    if (!data) {
+      return "";
+    }
+    const bufferData = Buffer.from(data, "utf-8");
+    return bufferData.toString("base64");
+  };
+
+  const handleOnchange = (e: any) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    setImageRaw(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!imageRaw) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("img", imageRaw);
+
+    try {
+      const res = await axios({
+        url: `${HRMS_URL.FILE_UPLOAD_EMPLOYEE_SINGLE.create}?employee_id=${emp_id}`,
+        method: "POST",
+        data: formData,
+      });
+
+      if (res) {
+        setIsChanged((prev) => !prev);
+        setImage("");
+        alert("File uploaded");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleFamilyUpload = async () => {
+    if (!imageRaw) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("img", imageRaw);
+
+    try {
+      const res = await axios({
+        url: `${HRMS_URL.FILE_UPLOAD_EMPLOYEE.create}?employee_id=${emp_id}`,
+        method: "POST",
+        data: formData,
+      });
+
+      if (res) {
+        setIsChanged((prev) => !prev);
+        setImage("");
+        alert("File uploaded");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const fetchImageList = async () => {
+    setIsLoading(true);
+    const res = await axios({
+      url: `${HRMS_URL.FILE_UPLOAD_EMPLOYEE_SINGLE.get}?employee_id=${emp_id}`,
+      method: "GET",
+    });
+    setImageList(res.data?.data);
+    setIsLoading(false);
+  };
+
+  const fetchEmpImageList = async () => {
+    const res = await axios({
+      url: `${HRMS_URL.FILE_UPLOAD_EMPLOYEE.get}?employee_id=${emp_id}`,
+      method: "GET",
+    });
+    setEmpImageList(res.data?.data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchImageList();
+  }, []);
+
+  useEffect(() => {
+    fetchEmpImageList();
+  }, []);
+
   return (
     <>
       <Toaster />
       <div className="p-10 shadow-lg">
-        <div className="flex gap-10 m-5">
+        {/* <div className="flex gap-10 m-5">
           <div className="flex flex-col items-center gap-1">
             <Image src={ProfileIcon} width={100} height={100} alt="logo" />
 
@@ -114,6 +213,65 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
             <Image src={ProfileIcon} width={100} height={100} alt="logo" />
 
             <h4>Joint Image</h4>
+          </div>
+        </div> */}
+        <div className="flex justify-between">
+          <div className="flex">
+            {imageList && (
+              <div className="flex flex-col justify-center items-center ">
+                <Image
+                  src={`data:${imageList?.mimeType};base64,${bufferToBase64(imageList?.buffer?.data)}`}
+                  alt="img"
+                  width={100}
+                  height={70}
+                  className="m-3"
+                />
+                <h3>Single Photo</h3>
+              </div>
+            )}
+
+            {imageEmpList && (
+              <div className=" justify-center items-center">
+                <Image
+                  src={`data:${imageEmpList?.mimeType};base64,${bufferToBase64(imageEmpList?.buffer?.data)}`}
+                  alt="img"
+                  width={100}
+                  height={70}
+                  className="m-3"
+                />
+                <h3>Joint Photo</h3>
+              </div>
+            )}
+          </div>
+
+          <div className="flex  justify-between pl-[5rem]">
+            <div className="flex items-center gap-2 mt-5 justify-end">
+              <h3>Single-</h3>
+
+              <input
+                type="file"
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                onChange={handleOnchange}
+              />
+              <button className="btn btn-primary gap-4" onClick={handleUpload}>
+                Upload
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 mt-5 justify-end">
+              <h3>Joint</h3>
+              <input
+                type="file"
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                onChange={handleOnchange}
+              />
+              <button
+                className="btn btn-primary gap-4"
+                onClick={handleFamilyUpload}
+              >
+                Upload
+              </button>
+            </div>
           </div>
         </div>
         <div className="p-10 shadow-lg mb-10">
