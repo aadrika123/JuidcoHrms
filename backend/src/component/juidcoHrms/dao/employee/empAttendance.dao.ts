@@ -1,5 +1,5 @@
-/**
- * | Author- Krish
+ /*
+  | Author- Krish
  * | Created for- Employee Attendance Management
  * | Status: open
  */
@@ -135,7 +135,6 @@ class EmployeeAttendanceDao {
     const today = new Date();
     const dayOfWeek = today.getDay();
     const currentDate = new Date().toISOString();
-
     // compute number of hours
     const data11 = await prisma.$queryRaw<
       []
@@ -150,7 +149,7 @@ class EmployeeAttendanceDao {
           await prisma.$queryRaw`update employee_daily_attendance set working_hour=working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
         });
 
-        await prisma.$queryRaw`update employee_daily_attendance set status=4;
+        await prisma.$queryRaw`update employee_daily_attendance set status=4 where date = Date(${currentDate});
         `;
       } else {
         data11.forEach(async (record) => {
@@ -178,7 +177,7 @@ class EmployeeAttendanceDao {
   };
 
   emp_attend_count_daily = async () => {
-  // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
+    // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
     const currentDateTime = new Date().toISOString();
     const currentDate = currentDateTime.split("T")[0];
 
@@ -198,3 +197,4 @@ class EmployeeAttendanceDao {
 }
 
 export default EmployeeAttendanceDao;
+ 

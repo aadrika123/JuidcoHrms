@@ -11,7 +11,7 @@ import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 import employee_seeder from "./seeder/employee/employee.seed";
 // import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
 import { generate_attendance } from "./seeder/employee/attend.seed";
-import { attend_history_seed } from "./seeder/employee/attend_history";
+// import { attend_history_seed } from "./seeder/employee/attend_history";
 import { leave_encash_seed } from "./seeder/employee/encash.seed";
 // import { ddoSeeder } from "./seeder/masters/ddo.seed";
 import hierarchy_seeder from "./seeder/supervisor/hierarchy.seed";
