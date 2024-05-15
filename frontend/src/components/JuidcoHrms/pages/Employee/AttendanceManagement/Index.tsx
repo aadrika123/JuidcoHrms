@@ -100,7 +100,7 @@ const AttendanceManagement = () => {
     }
   }, []);
 
-  console.log(selectedDate, "date")
+  console.log(selectedDate, "date");
 
   // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
   function getSelectedDate(date: string) {
