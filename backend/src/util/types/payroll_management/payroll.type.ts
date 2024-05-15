@@ -11,6 +11,7 @@ export type EmployeePayrollType = {
   lwp_days: number;
   salary_deducted: number;
   status: number;
+  salary_per_hour: number;
   net_pay: number;
   date: Date;
 };

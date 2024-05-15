@@ -1,4 +1,4 @@
- /*
+/*
   | Author- Krish
  * | Created for- Employee Attendance Management
  * | Status: open
@@ -58,7 +58,11 @@ class EmployeeAttendanceDao {
   //---------------------- Get Employee Attendance Details----------------------
   getEmpAttendanceHistory = async (req: Request) => {
     const { emp_id, date } = req.query as { emp_id: string; date: string };
+    const splitDate = date.split("/");
+    const reverse = splitDate.reverse();
+    const _date = reverse.join("-");
 
+    console.log(_date);
     let query: Prisma.employee_attendance_historyFindManyArgs = {
       select: {
         id: true,
@@ -81,7 +85,7 @@ class EmployeeAttendanceDao {
     } else if (date && date !== "" && date !== "undefined" && emp_id) {
       query.where = {
         employee_id: String(emp_id),
-        date: new Date(date),
+        date: new Date(_date),
       };
     }
 
@@ -92,6 +96,7 @@ class EmployeeAttendanceDao {
 
   getEmpAttendance = async (req: Request) => {
     const emp_id = req.query.emp_id;
+    1;
 
     let query: Prisma.employee_daily_attendanceFindManyArgs;
     if (emp_id && emp_id !== "" && emp_id !== "undefined") {
@@ -197,4 +202,3 @@ class EmployeeAttendanceDao {
 }
 
 export default EmployeeAttendanceDao;
- 

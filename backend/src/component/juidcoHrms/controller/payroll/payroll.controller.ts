@@ -35,7 +35,7 @@ class PayrollController {
 
   calc_net_pay = async (
     req: Request,
-    res: Response, 
+    res: Response,
     next: NextFunction,
     apiId: string
   ) => {
@@ -152,6 +152,44 @@ class PayrollController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
+  update_payroll_permissible = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ) => {
+    const resObj: resObj = {
+      apiId,
+      action: "POST",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.payrollDao.update_payroll_permissible(req);
+
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage("Payroll").NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+      return CommonRes.SUCCESS(
+        resMessage("Payroll").FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
 
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
   update_emp_payroll_with_sheet = async (

@@ -21,6 +21,7 @@ export const employeePayrollDataRequestBody = (
     salary_deducted: empPayrollData.salary_deducted,
     net_pay: empPayrollData.net_pay,
     date: empPayrollData.date,
+    salary_per_hour: empPayrollData.salary_per_hour,
   };
 };
 

@@ -89,6 +89,19 @@ class PayrollRoute {
         loggerMiddleware
       ); //0408
 
+    app
+      .route(`${baseUrl}/pay/payroll/update-permissible`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.update_payroll_permissible(
+            req,
+            res,
+            next,
+            "0409"
+          ),
+        loggerMiddleware
+      ); //0409
+
     // app
     //   .route(`${baseUrl}/pay/payroll/download`)
     //   .post(

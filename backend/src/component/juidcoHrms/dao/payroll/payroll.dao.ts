@@ -7,6 +7,7 @@ import { Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 import netCalcLogger from "../../../../../loggers/netCalcLogger";
+import { EmployeePayrollType } from "../../../../util/types/payroll_management/payroll.type";
 
 const prisma = new PrismaClient();
 
@@ -28,7 +29,6 @@ class PayrollDao {
     this.employee_payroll_data = [];
     this.total_amount_released = 0;
     this.lwp_days_last_month = [];
-    // this.offset = (1 - 1) * 2;
   }
 
   cal_allowance_and_deduction = async () => {
@@ -87,7 +87,8 @@ class PayrollDao {
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
-    const curr_month: string = (currentDate.getMonth() + 1)
+    const curr_month: string = currentDate
+      .getMonth()
       .toString()
       .padStart(2, "0"); // Adding 1 to get the correct month index
     const curr_year: string = currentDate.getFullYear().toString();
@@ -243,7 +244,7 @@ class PayrollDao {
       const currentYear = currentDate.getFullYear();
       const numberOfDaysInMonth = new Date(
         currentYear,
-        currentMonth + 1,
+        currentMonth,
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
@@ -329,8 +330,8 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
-      let date: any = `${new Date().toISOString()}`;
-      date = new Date(date.split("T")[0]);
+      // let date: any = `${new Date().toISOString()}`;
+      // date = new Date(date.split("T")[0]);
 
       data[record.emp_id] = {
         ...data[record.emp_id],
@@ -340,7 +341,7 @@ class PayrollDao {
         salary_deducted: Math.floor(calc_non_billable_salary),
         net_pay: Math.floor(calc_net_pay),
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
-        date: date,
+        date: new Date("2024-04-28"),
         salary_per_hour: Math.round(salary_per_hour),
       };
 
@@ -385,7 +386,7 @@ class PayrollDao {
     const lastMonth: string = String(req.query.lastMonth);
     // 2024-05-04 00:00:00
     const date = new Date();
-    const month = date.getMonth() + 1;
+    const month = date.getMonth();
     const year = date.getFullYear();
 
     const pastDate = new Date(date);
@@ -474,6 +475,38 @@ class PayrollDao {
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
   };
+
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
+  update_payroll_permissible = async (req: Request) => {
+    const { emp_id } = req.body;
+    const no_of_days = req.body.no_of_days;
+
+    const prev_data = await prisma.$queryRaw<EmployeePayrollType[]>`
+      SELECT emp_id, lwp_days, net_pay, salary_per_hour, present_days FROM payroll_master WHERE emp_id = ${emp_id} 
+    `;
+
+    console.log(prev_data, "prev data");
+    const salary_per_day = prev_data[0].salary_per_hour * 8;
+    const lwp_days: number = prev_data[0].lwp_days - parseInt(no_of_days);
+    const net_pay =
+      prev_data[0].net_pay + salary_per_day * parseInt(no_of_days);
+    const present_days = prev_data[0].present_days + no_of_days;
+
+    const query: Prisma.payroll_masterUpdateManyArgs = {
+      data: {
+        lwp_days: lwp_days,
+        net_pay: net_pay,
+        present_days: present_days,
+      },
+      where: {
+        emp_id: emp_id,
+      },
+    };
+
+    const data = await prisma.payroll_master.updateMany(query);
+    return generateRes(data);
+  };
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
 
   // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
   // get_emp_payroll_by_id = async (req: Request) => {
