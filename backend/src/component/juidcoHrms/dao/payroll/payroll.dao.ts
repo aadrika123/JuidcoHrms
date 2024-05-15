@@ -339,7 +339,7 @@ class PayrollDao {
         present_days: employee_present_days,
         lwp_days: employee_lwp_days,
         salary_deducted: Math.floor(calc_non_billable_salary),
-        net_pay: Math.floor(calc_net_pay),
+        net_pay: Math.floor(calc_net_pay) || 0,
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
         date: new Date("2024-04-28"),
         salary_per_hour: Math.round(salary_per_hour),
@@ -359,7 +359,7 @@ class PayrollDao {
     this.employee_payroll_data = [];
 
     keys.forEach((key) => {
-      data[key]["month"] = data[key].date.getMonth();
+      data[key]["month"] = data[key].date.getMonth() + 1;
       data[key]["year"] = data[key].date.getFullYear();
       this.employee_payroll_data.push(data[key]);
     });
