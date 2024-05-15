@@ -48,7 +48,7 @@ const EmployeeBasicDetails: React.FC<
     const file = event.target.files[0];
     const size = event.target.files[0].size;
 
-    console.log(size)
+    console.log(size);
     if (size / 1024 >= 2548) {
       alert("Cannot upload more than 2MB data!");
     } else {
@@ -479,8 +479,8 @@ const EmployeeBasicDetails: React.FC<
                   onKeyPress={(e: any) => {
                     if (
                       !(
-                        (e.key >= "0" || e.key >= "A") &&
-                        (e.key <= "9" || e.key <= "Z")
+                        (e.key >= "0" || e.key >= "A" || e.key >= "a") &&
+                        (e.key <= "9" || e.key <= "Z" || e.key <= "z")
                       )
                     ) {
                       e.preventDefault();

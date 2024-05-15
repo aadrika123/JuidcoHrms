@@ -78,10 +78,19 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
         method: "POST",
         data: data,
       });
+      const res2 = await axios({
+        url: `${HRMS_URL.PERMISSIBLE_PAYROLL.update}`,
+        method: "POST",
+        data: {
+          emp_id: emp,
+          no_of_days: totalDayDiff,
+        },
+      });
 
-      sessionStorage.setItem("day_diff", JSON.stringify(totalDayDiff));
+      if (res2) {
+        toast.success("Employee Leave updated");
+      }
 
-      toast.success("Employee Leave updated");
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -92,8 +101,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
       throw error;
     }
   };
-
-  console.log("Saving...", totalDayDiff);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -233,6 +240,8 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   );
   // ----------------------------GET TDS -------------------------//
 
+  // UPDATE PAYROLL AS PER PERMISSIBLE LEAVE
+
   return (
     <>
       <Toaster />
@@ -332,7 +341,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                     >
                       <span className="text-[#574CDD] text-3xl font-bold">
-                        {employeePayrollData?.present_days + totalDayDiff}
+                        {employeePayrollData?.present_days}
                       </span>
                       <InnerTextHeading className="text-center">
                         Total No. of Present Days
@@ -349,10 +358,8 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       </span> */}
                       <span className="text-[#098DA4] text-3xl font-bold">
                         {Math.max(
-                          (((employeePayrollData?.leave_days as number) +
-                            employeePayrollData?.lwp_days) as number) -
-                            totalDayDiff,
-                          0
+                          ((employeePayrollData?.leave_days as number) +
+                            employeePayrollData?.lwp_days) as number
                         )}
                       </span>
                       <InnerTextHeading className="text-center">

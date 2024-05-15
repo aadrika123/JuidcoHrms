@@ -33,7 +33,8 @@ type UrlKeys =
   | "ULB"
   | "EMPLOYEE_TYPE_MASTER"
   | "FILE_UPLOAD_EMPLOYEE"
-  | "FILE_UPLOAD_EMPLOYEE_SINGLE";
+  | "FILE_UPLOAD_EMPLOYEE_SINGLE"
+  | "PERMISSIBLE_PAYROLL";
 
 type Urls = {
   [key in UrlKeys]: {
@@ -162,5 +163,8 @@ export const HRMS_URL: Urls = {
   FILE_UPLOAD_EMPLOYEE_SINGLE: {
     create: "/single/img-upload",
     get: "/single/img-list-get",
+  },
+  PERMISSIBLE_PAYROLL: {
+    update: "/pay/payroll/update-permissible",
   },
 };

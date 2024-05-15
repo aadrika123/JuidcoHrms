@@ -18,7 +18,15 @@ body {
   background: var(--fc-bg-event-color);
   opacity: 0.5 !important;
 }
-
+.fc .fc-daygrid-day-frame {
+  position: relative;
+  min-height: 2px;
+  width: 10px;
+  margin: 20px;
+  height: 10px;
+  border: 2px solid #00000057;
+  border-radius: 100px;
+}
 table tbody::-webkit-scrollbar {
   /* Set display to none */
   display: none;
