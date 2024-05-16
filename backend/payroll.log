@@ -7173,3 +7173,1028 @@
   message: 'Calculated Net Pay',
   timestamp: '15/5/2024, 4:24:59 pm'
 }
+{
+  data: {
+    'Employee ID': 'EMP912e44',
+    Name: 'DAVID ORIYA',
+    'Gross Pay': 30267,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 145.51442307692307)',
+    'Salary Deducted': 0,
+    'Net Pay': 26197,
+    'Basic Pay': 29657,
+    'Grade Pay': 2290,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 29657 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 29657 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 29657 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e420',
+    Name: 'ANUP MISHRA',
+    'Gross Pay': 33002,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 158.66346153846155)',
+    'Salary Deducted': 0,
+    'Net Pay': 28932,
+    'Basic Pay': 32392,
+    'Grade Pay': 2769,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 32392 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 32392 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 32392 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e419',
+    Name: 'ANANJAY KUMAR',
+    'Gross Pay': 70259,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 337.78365384615387)',
+    'Salary Deducted': 0,
+    'Net Pay': 66189,
+    'Basic Pay': 69649,
+    'Grade Pay': 2295,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 69649 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 69649 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 69649 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e423',
+    Name: 'JAGANNATH MUKHI',
+    'Gross Pay': 61266,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 294.5480769230769)',
+    'Salary Deducted': 0,
+    'Net Pay': 57196,
+    'Basic Pay': 60656,
+    'Grade Pay': 2973,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 60656 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 60656 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 60656 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e416',
+    Name: 'SHAFIUR RAHMAN',
+    'Gross Pay': 37912,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 182.26923076923077)',
+    'Salary Deducted': 0,
+    'Net Pay': 33842,
+    'Basic Pay': 37302,
+    'Grade Pay': 2733,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 37302 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 37302 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 37302 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e45',
+    Name: 'UPENDRA THAKUR',
+    'Gross Pay': 36799,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 176.91826923076923)',
+    'Salary Deducted': 0,
+    'Net Pay': 32729,
+    'Basic Pay': 36189,
+    'Grade Pay': 2372,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 36189 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 36189 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 36189 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e413',
+    Name: 'MD.MAHFOOJ ALAM',
+    'Gross Pay': 59324,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 285.21153846153845)',
+    'Salary Deducted': 0,
+    'Net Pay': 55254,
+    'Basic Pay': 58714,
+    'Grade Pay': 2037,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 58714 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 58714 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 58714 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e48',
+    Name: 'PURNAMI DEVI',
+    'Gross Pay': 25872,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 124.38461538461539)',
+    'Salary Deducted': 0,
+    'Net Pay': 21802,
+    'Basic Pay': 25262,
+    'Grade Pay': 2080,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 25262 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 25262 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 25262 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'BIJAY KUMAR MAHATO',
+    'Gross Pay': 35954,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 172.85576923076923)',
+    'Salary Deducted': 0,
+    'Net Pay': 31884,
+    'Basic Pay': 35344,
+    'Grade Pay': 1438,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 35344 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 35344 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 35344 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e41',
+    Name: 'AJAY KUMAR',
+    'Gross Pay': 46962,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 225.77884615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 42892,
+    'Basic Pay': 46352,
+    'Grade Pay': 1376,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 46352 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 46352 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 46352 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e415',
+    Name: 'ROHIT RAHUL SAMAD',
+    'Gross Pay': 68588,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 329.75)',
+    'Salary Deducted': 0,
+    'Net Pay': 64518,
+    'Basic Pay': 67978,
+    'Grade Pay': 1926,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 67978 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 67978 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 67978 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e410',
+    Name: 'Anurag Mirash Toppo',
+    'Gross Pay': 30794,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 148.04807692307693)',
+    'Salary Deducted': 0,
+    'Net Pay': 26724,
+    'Basic Pay': 30184,
+    'Grade Pay': 2036,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 30184 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 30184 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 30184 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e421',
+    Name: 'ARUN HARIJAN',
+    'Gross Pay': 77649,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 373.3125)',
+    'Salary Deducted': 0,
+    'Net Pay': 73579,
+    'Basic Pay': 77039,
+    'Grade Pay': 2916,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 77039 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 77039 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 77039 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e40',
+    Name: 'BINEET KUMAR',
+    'Gross Pay': 71494,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 343.72115384615387)',
+    'Salary Deducted': 0,
+    'Net Pay': 67424,
+    'Basic Pay': 70884,
+    'Grade Pay': 2849,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 70884 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 70884 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 70884 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e47',
+    Name: 'DINESH PRASAD VERMA',
+    'Gross Pay': 77974,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 374.875)',
+    'Salary Deducted': 0,
+    'Net Pay': 73904,
+    'Basic Pay': 77364,
+    'Grade Pay': 2819,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 77364 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 77364 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 77364 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e412',
+    Name: 'JITENDRA KUMAR',
+    'Gross Pay': 59127,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 284.2644230769231)',
+    'Salary Deducted': 0,
+    'Net Pay': 55057,
+    'Basic Pay': 58517,
+    'Grade Pay': 1366,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 58517 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 58517 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 58517 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e422',
+    Name: 'DINESH MUKHI',
+    'Gross Pay': 60617,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 291.42788461538464)',
+    'Salary Deducted': 0,
+    'Net Pay': 56547,
+    'Basic Pay': 60007,
+    'Grade Pay': 1648,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 60007 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 60007 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 60007 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e418',
+    Name: 'RAMESH KUMAR',
+    'Gross Pay': 36424,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 175.1153846153846)',
+    'Salary Deducted': 0,
+    'Net Pay': 32354,
+    'Basic Pay': 35814,
+    'Grade Pay': 1982,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 35814 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 35814 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 35814 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e49',
+    Name: 'REKHA PANDEY',
+    'Gross Pay': 45498,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 218.7403846153846)',
+    'Salary Deducted': 0,
+    'Net Pay': 41428,
+    'Basic Pay': 44888,
+    'Grade Pay': 1277,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 44888 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 44888 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 44888 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e411',
+    Name: 'DEBASHIS PRADHAN',
+    'Gross Pay': 35687,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 171.5721153846154)',
+    'Salary Deducted': 0,
+    'Net Pay': 31617,
+    'Basic Pay': 35077,
+    'Grade Pay': 1124,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 35077 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 35077 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 35077 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e46',
+    Name: 'MANGAL CHANDRA MARDY',
+    'Gross Pay': 61971,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 297.9375)',
+    'Salary Deducted': 0,
+    'Net Pay': 57901,
+    'Basic Pay': 61361,
+    'Grade Pay': 2159,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 61361 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 61361 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 61361 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e43',
+    Name: 'KAUSHLESH KUMAR',
+    'Gross Pay': 79099,
+    'Leave Days': 0,
+    'Non billable hours': '40 hr',
+    'Present Days': 21,
+    'LWP Days': 5,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 380.28365384615387)',
+    'Salary Deducted': 15211,
+    'Net Pay': 59817,
+    'Basic Pay': 78489,
+    'Grade Pay': 2936,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 78489 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 78489 is above 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 78489 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e414',
+    Name: 'RAHUL KUMAR',
+    'Gross Pay': 36542,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 175.68269230769232)',
+    'Salary Deducted': 0,
+    'Net Pay': 32472,
+    'Basic Pay': 35932,
+    'Grade Pay': 1766,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 35932 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 35932 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 35932 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e417',
+    Name: 'KUMARI LALITA MAHATO',
+    'Gross Pay': 40218,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 193.35576923076923)',
+    'Salary Deducted': 0,
+    'Net Pay': 36148,
+    'Basic Pay': 39608,
+    'Grade Pay': 1297,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 39608 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 39608 is between 25001 and 41666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 39608 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e424',
+    Name: 'RAJENDRA MUKHI',
+    'Gross Pay': 44839,
+    'Leave Days': 0,
+    'Non billable hours': '0 hr',
+    'Present Days': 26,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 215.5721153846154)',
+    'Salary Deducted': 0,
+    'Net Pay': 40769,
+    'Basic Pay': 44229,
+    'Grade Pay': 1047,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'DP(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'IR(A)', 'Allowance Amount': 122 },
+      { 'Allowance Name': 'SP(A)', 'Allowance Amount': 122 }
+    ],
+    Deductions: [
+      { 'Deduction Name': 'GPF', 'Deduction Amount': 500 },
+      {
+        'Deduction Name': 'EPF (12% of Basic Pay: 44229 + DA amount: 122)',
+        'Deduction Amount': 2900
+      },
+      {
+        'Deduction Name': 'PT (Basic Pay: 44229 is between 41667 and 66666)',
+        'Deduction Amount': 120
+      },
+      {
+        'Deduction Name': 'ESIC (Basic Pay: 44229 * 0.0175)',
+        'Deduction Amount': 550
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '15/5/2024, 6:26:07 pm'
+}

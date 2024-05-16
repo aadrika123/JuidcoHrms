@@ -240,8 +240,6 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   );
   // ----------------------------GET TDS -------------------------//
 
-  // UPDATE PAYROLL AS PER PERMISSIBLE LEAVE
-
   return (
     <>
       <Toaster />

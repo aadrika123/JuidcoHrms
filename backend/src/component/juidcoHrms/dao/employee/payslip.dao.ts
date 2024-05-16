@@ -10,7 +10,7 @@ class PayslipDao {
 
     const dateObject = new Date(String(date));
     const year = dateObject.getFullYear();
-    const month = dateObject.getMonth();
+    const month = dateObject.getMonth() + 1;
 
     if (!emp_id) {
       return res.status(400).json({ error: "emp_id is required" });
