@@ -5,7 +5,9 @@ import data from "./json/protected_rroutes";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const tok3n = request.cookies.get("accesstoken")?.value;
-  const user: any = JSON.parse(request.cookies.get("loginData")?.value as any);
+  const user: any = request.cookies.get("loginData")
+    ? JSON.parse(request.cookies.get("loginData")?.value as any)
+    : {};
 
   if (!tok3n) {
     return NextResponse.redirect(new URL("/hrms/auth/login", request.url));
@@ -15,7 +17,7 @@ export function middleware(request: NextRequest) {
     request.url === "http://localhost:7000/" ||
     request.url === "http://localhost:7000/hrms"
   ) {
-    return NextResponse.redirect(new URL("/hrms/ems/dashboard", request.url));
+    return NextResponse.redirect(new URL("/hrms/auth/login", request.url));
   }
 
   const paths = data.find(
@@ -25,7 +27,9 @@ export function middleware(request: NextRequest) {
   const u = paths?.find((i) => request.url.includes(i));
 
   if (!u) {
-    return NextResponse.redirect(new URL("/hrms/404", request.url));
+    return NextResponse.redirect(
+      new URL("/hrms/404", request.url)
+    );
   }
 }
 

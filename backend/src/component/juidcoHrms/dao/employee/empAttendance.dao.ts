@@ -58,11 +58,48 @@ class EmployeeAttendanceDao {
   //---------------------- Get Employee Attendance Details----------------------
   getEmpAttendanceHistory = async (req: Request) => {
     const { emp_id, date } = req.query as { emp_id: string; date: string };
-    const splitDate = date.split("/");
-    const reverse = splitDate.reverse();
-    const _date = reverse.join("-");
+    console.log(date, 'dda')
+    function convertToISODate(dateString: string): string {
+      // Check if the date is in mm/dd/yyyy or dd/mm/yyyy format
+      const datePattern1 = /^\d{2}\/\d{2}\/\d{4}$/; // mm/dd/yyyy or dd/mm/yyyy
+      if (!datePattern1.test(dateString)) {
+        throw new Error(
+          "Invalid date format. Expected mm/dd/yyyy or dd/mm/yyyy"
+        );
+      }
 
-    console.log(_date);
+      const parts = dateString.split("/");
+      let month, day;
+
+      // Determine if the format is mm/dd/yyyy or dd/mm/yyyy
+      // This assumes that the format is consistent and well-defined
+      // You might need additional checks based on your specific use case
+      if (parseInt(parts[0]) > 12) {
+        // This is likely dd/mm/yyyy
+        day = parts[0];
+        month = parts[1];
+      } else {
+        // This is likely mm/dd/yyyy
+        month = parts[0];
+        day = parts[1];
+      }
+      const year = parts[2];
+
+      // Convert to ISO format yyyy-mm-dd
+      const isoDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+        2,
+        "0"
+      )}`;
+
+      return isoDate;
+    }
+
+    const _date = convertToISODate(date);
+    console.log(_date)
+    // const splitDate = date.split("/");
+    // const reverse = splitDate.reverse();
+    // const _date = reverse.join("-");
+
     let query: Prisma.employee_attendance_historyFindManyArgs = {
       select: {
         id: true,
