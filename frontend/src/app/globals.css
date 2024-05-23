@@ -18,7 +18,7 @@ body {
   background: var(--fc-bg-event-color);
   opacity: 0.5 !important;
 }
-.fc .fc-daygrid-day-frame {
+/* .fc .fc-daygrid-day-frame {
   position: relative;
   min-height: 2px;
   width: 10px;
@@ -26,7 +26,26 @@ body {
   height: 10px;
   border: 2px solid #00000057;
   border-radius: 100px;
+} */
+
+.fc .fc-daygrid-day-frame {
+  position: relative;
+  min-height: 0px;
+  width: 15px;
+  margin: 10px;
+  height: 15px;
+  border: 2px solid #00000057;
+  border-radius: 100px;
 }
+
+.fc .fc-daygrid-day-number {
+  padding: 4px;
+  position: relative;
+  z-index: 4;
+  margin-right: -35px;
+  margin-top: 20px;
+}
+
 table tbody::-webkit-scrollbar {
   /* Set display to none */
   display: none;

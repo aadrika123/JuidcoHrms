@@ -43,6 +43,7 @@ const EmployeeBasicDetails: React.FC<
   const [isAdult, setIsAdult] = useState<boolean>(false);
 
   const [selectedFileName, setSelectedFileName] = useState<any>();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -53,6 +54,7 @@ const EmployeeBasicDetails: React.FC<
       alert("Cannot upload more than 2MB data!");
     } else {
       setSelectedFileName(file ? file.name : "");
+      setImagePreview(URL.createObjectURL(file));
     }
   };
   useEffect(() => {
@@ -227,6 +229,13 @@ const EmployeeBasicDetails: React.FC<
                 name="emp_image"
               /> */}
                 <div className="absolute top-[-9rem] right-0 flex items-start gap-3 cursor-pointer mt-4">
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="mt-2 w-20 h-20 rounded-full object-cover border border-gray-300"
+                    />
+                  )}
                   <p className="text-zinc-600 mt-2">
                     Upload Employee Profile
                     <span className="text-red-500">*</span>
