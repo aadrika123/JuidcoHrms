@@ -717,6 +717,7 @@ model payroll_master {
   epf_amount               Float     @default(0)
   esic_amount              Float     @default(0)
   tds_amount               Float     @default(0)
+  basic_pay                Float?    @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
   month                    Int

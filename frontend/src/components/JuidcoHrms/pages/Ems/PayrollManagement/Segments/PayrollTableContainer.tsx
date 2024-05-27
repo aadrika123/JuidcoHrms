@@ -71,6 +71,8 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
   const dispatch = useDispatch();
   const pathName = usePathname();
 
+  console.log(props.tableData, "table data");
+
   const EMP_LIST_COLS: COLUMNS[] = [
     {
       HEADER: "Employee Details",
@@ -187,10 +189,12 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                       {item.total_deductions}/-
                     </p>
                   </div>
-                  {/* <div className="grid grid-cols-2">
-                    <p>Claims-</p>
-                    <p className="text-zinc-700 font-medium">0/-</p>
-                  </div> */}
+                  <div className="grid grid-cols-2">
+                    <p>Basic-</p>
+                    <p className="text-zinc-700 font-medium">
+                      {item?.basic_pay}/-
+                    </p>
+                  </div>
                 </div>
               </td>
 

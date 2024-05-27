@@ -20,6 +20,7 @@ class PayrollDao {
   private employee_payroll_data: any[];
   private total_amount_released: number;
   private lwp_days_last_month: any[];
+  private basic_pay: any[];
 
   constructor() {
     this.regulary_pay = [];
@@ -29,6 +30,7 @@ class PayrollDao {
     this.employee_payroll_data = [];
     this.total_amount_released = 0;
     this.lwp_days_last_month = [];
+    this.basic_pay = [];
     // this.offset = (1 - 1) * 2;
   }
 
@@ -114,7 +116,7 @@ class PayrollDao {
 
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
-      SELECT emp.emp_id,  emp_basic_details.emp_name, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
+      SELECT emp.emp_id,  emp_basic_details.emp_name, basic_pay, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
       FROM 
         employees as emp    
       JOIN 
@@ -374,6 +376,8 @@ class PayrollDao {
       data: this.employee_payroll_data,
     });
 
+    console.log(this.employee_payroll_data);
+
     // console.log(p_data, "pp");
 
     //function call for logging the calculated data
@@ -386,6 +390,7 @@ class PayrollDao {
   get_emp_payroll = async (req: Request) => {
     // await this.calc_net_pay();
     // console.log(this.employee_payroll_data);
+
     const page: number = Number(req.query.page);
     const limit: number = Number(req.query.limit);
     const search = req.query.search as string;
@@ -442,6 +447,7 @@ class PayrollDao {
         net_pay: true,
         month: true,
         year: true,
+        basic_pay: true,
       },
       orderBy: {
         emp_id: "asc",
@@ -617,7 +623,7 @@ class PayrollDao {
       const data: any[] = req.body.data;
       const record = await prisma.$transaction(async (tx) => {
         const getEmployeePayroll = await prisma.$queryRaw<any[]>`
-        SELECT emp_id, salary_per_hour, total_allowance FROM payroll_master
+        SELECT emp_id, salary_per_hour, total_allowance, basic_pay FROM payroll_master
       `;
 
         // console.log(data, "data");
@@ -642,6 +648,18 @@ class PayrollDao {
           );
           return employee[0]?.total_allowance;
         };
+
+        const returnNewBasicPay = (
+          emp_id_x: string,
+          getEmployeePayroll: any[]
+        ): number => {
+          const employee = getEmployeePayroll?.filter(
+            (emp) => emp.emp_id === emp_id_x
+          );
+          return employee[0]?.basic_pay;
+        };
+
+        // no.of_hrs / 26
 
         // update present day and absent day
         for (const object of data) {
@@ -678,6 +696,14 @@ class PayrollDao {
           const hourly_allowance: number = prev_allowances / 208;
           const new_allowance: number = hourly_allowance * object.working_hour;
 
+          const prev_basic_pay = returnNewBasicPay(
+            object.emp_id,
+            getEmployeePayroll
+          );
+
+          const hourly_basic: number = prev_basic_pay / 208;
+          const new_basic: number = hourly_basic * object.working_hour;
+
           // console.log(`LWP Days: ${lwp_days}, Present Days: ${present_days}`);
           if (!existing_emp_id[0].exists === false) {
             await tx.payroll_master.updateMany<Prisma.payroll_masterUpdateManyArgs>(
@@ -687,6 +713,7 @@ class PayrollDao {
                   present_days: Number(present_days),
                   lwp_days: Number(lwp_days),
                   total_allowance: Number(new_allowance.toFixed(2)),
+                  basic_pay: Math.floor(new_basic),
                   net_pay:
                     object.working_hour *
                     returnNewSalary(object.emp_id, getEmployeePayroll),

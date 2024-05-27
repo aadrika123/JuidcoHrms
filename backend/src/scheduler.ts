@@ -24,7 +24,7 @@ class Scheduler {
     );
 
     const calculateSalaryJob = cron.schedule(
-      "* * * 26 * *",
+      "0 36 18 * * *",
       async () => {
         this.payrollDao.calc_net_pay();
       },

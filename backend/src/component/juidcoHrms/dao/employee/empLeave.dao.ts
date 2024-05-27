@@ -33,7 +33,7 @@ class EmployeeLeaveDao {
   //     emp_leave_type_id,
   //     half_day,
   //   } = req.body;
-    
+
   //   const query: Prisma.employee_leave_detailsCreateArgs = {
   //     data: {
   //       employee_id: employee_id,
@@ -52,8 +52,7 @@ class EmployeeLeaveDao {
   //   return generateRes(leaveRequest);
   // };
 
-
- post = async (req: Request) => {
+  post = async (req: Request) => {
     const {
       employee_id,
       leave_from,
@@ -65,48 +64,46 @@ class EmployeeLeaveDao {
       emp_leave_type_id,
       half_day,
     } = req.body;
-    
+
     const overlappingLeave = await prisma.employee_leave_details.findFirst({
-        where: {
-            employee_id: employee_id,
-            leave_from: {
-                lte: leave_to 
-            },
-            leave_to: {
-                gte: leave_from 
-            }
-        }
+      where: {
+        employee_id: employee_id,
+        leave_from: {
+          lte: leave_to,
+        },
+        leave_to: {
+          gte: leave_from,
+        },
+      },
     });
 
     if (overlappingLeave) {
-        return generateRes("Leave request overlaps with existing leave request.");
+      return generateRes("Leave request overlaps with existing leave request.");
     }
 
     const query: Prisma.employee_leave_detailsCreateArgs = {
-        data: {
-            employee_id: employee_id,
-            emp_leave_type_id: emp_leave_type_id,
-            leave_from: leave_from,
-            leave_to: leave_to,
-            total_days: total_days,
-            leave_reason: leave_reason,
-            file_upload: file_upload,
-            half_day: half_day,
-            leave_status: leave_status,
-        },
+      data: {
+        employee_id: employee_id,
+        emp_leave_type_id: emp_leave_type_id,
+        leave_from: leave_from,
+        leave_to: leave_to,
+        total_days: parseFloat(total_days),
+        leave_reason: leave_reason,
+        file_upload: file_upload,
+        half_day: half_day,
+        leave_status: leave_status,
+      },
     };
 
-   const leaveRequest = await prisma.employee_leave_details.create(query);
-   console.log("query", query)
+    const leaveRequest = await prisma.employee_leave_details.create(query);
+    console.log("query", query);
     return generateRes(leaveRequest);
-};
-
-
+  };
 
   // !-----------------------------Get Employee Leave List------------------------------//
 
   get = async (req: Request) => {
-    const employee_id = req.query.employee_id as string
+    const employee_id = req.query.employee_id as string;
 
     const leaveRequest = await prisma.employee_leave_details.findFirst({
       where: {
@@ -138,13 +135,10 @@ class EmployeeLeaveDao {
     return generateRes(leaveRequest);
   };
 
-
   //-----------------------------------Get all leave List -------------------------------------//
 
-
-  getAll = async (req: Request) => { 
- 
-    const employee_id = req.query.employee_id as string
+  getAll = async (req: Request) => {
+    const employee_id = req.query.employee_id as string;
     const leaveRequest = await prisma.employee_leave_details.findMany({
       where: {
         employee_id: employee_id,
@@ -152,9 +146,7 @@ class EmployeeLeaveDao {
       orderBy: {
         created_at: "desc",
       },
-      
     });
-
 
     return generateRes(leaveRequest);
   };
@@ -188,9 +180,9 @@ class EmployeeLeaveDao {
       total_days,
       emp_leave_chart_id,
       leave_type,
-      id
+      id,
     } = req.body as EditEmpList;
-    console.log(req)
+    console.log(req);
 
     const leaveRequest: any = await prisma.$transaction(async (tx) => {
       if (leave_status === 3) {
@@ -285,11 +277,11 @@ class EmployeeLeaveDao {
         where: {
           // employee_id: employee_id,
           // leave_status: 2,
-          id:id
+          id: id,
         },
         data: {
           leave_status: leave_status,
-          total_days: total_days,
+          total_days: Number(total_days),
         },
       });
 
