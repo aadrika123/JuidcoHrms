@@ -114,49 +114,27 @@ const TimeSheet = () => {
 
   const { data: empLstData, error: empLstErr } =
     useCodeQuery<EmployeePayrollData>(
-      `/pay/payroll?limit=100&page=${page}&search=${searchQuey}`,
+      `${HRMS_URL.PAYROLL.getAll}&page=${page}&search=${searchQuey}`,
       "payroll-all"
     );
 
-  // const { data: payrollCount, error: payrollCountErr } =
-  //   useCodeQuery<PayrollCount>(
-  //     `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
-  //     "payroll-total"
-  //   );
+  const { data: payrollCount, error: payrollCountErr } =
+    useCodeQuery<PayrollCount>(
+      `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
+      "payroll-total"
+    );
 
   useEffect(() => {
     sessionStorage.setItem("payroll", JSON.stringify(empLstData));
   }, [empLstData]);
 
-  // ############################################################################## //
-  const parent_emp = [
-    {
-      emp_id: "EMP912e43",
-    },
-    {
-      emp_id: "EMP912e45",
-    },
-  ];
-  // ############################################################################## //
-
   const filterEmpListData = empLstData?.data?.filter(
     (elem: any) => elem.status === null
   );
 
-  console.log(filterEmpListData);
-  const parentEmpIds = new Set(parent_emp.map((emp) => emp.emp_id));
-
-  console.log(parentEmpIds);
-
-  const filterEmployeeList = filterEmpListData?.filter((elem: any) =>
-    parentEmpIds.has(elem.emp_id)
-  );
-
-  console.log(filterEmployeeList);
-
-  // if (payrollCountErr) {
-  //   throw Error;
-  // }
+  if (payrollCountErr) {
+    throw Error;
+  }
 
   if (empLstErr) {
     toast.error("No data available!");
@@ -170,29 +148,29 @@ const TimeSheet = () => {
   };
 
   // -----------------Employee Onboard report JSX----------------------//
-  // const employeeReports = (
-  //   <section className="flex items-center justify-between mt-5">
-  //     <div>
-  //       <h2 className="text-[2rem] text-secondary font-medium">
-  //         Payroll Management System
-  //       </h2>
-  //     </div>
-  //     <div className="flex items-start gap-8">
-  //       <div className=" w-40 flex flex-col gap-3">
-  //         <span className="text-primary_blue text-[1.63544rem]">
-  //           {payrollCount?.total_employee}
-  //         </span>
-  //         <span>Total No. of Employee</span>
-  //       </div>
-  //       <div className="w-40 flex flex-col gap-3">
-  //         <span className="text-[#63ADCB] text-[1.63544rem]">
-  //           {payrollCount?.total_amount}/-
-  //         </span>
-  //         <span>Total No. of Amount</span>
-  //       </div>
-  //     </div>
-  //   </section>
-  // );
+  const employeeReports = (
+    <section className="flex items-center justify-between mt-5">
+      <div>
+        <h2 className="text-[2rem] text-secondary font-medium">
+          Payroll Management System
+        </h2>
+      </div>
+      <div className="flex items-start gap-8">
+        <div className=" w-40 flex flex-col gap-3">
+          <span className="text-primary_blue text-[1.63544rem]">
+            {payrollCount?.total_employee}
+          </span>
+          <span>Total No. of Employee</span>
+        </div>
+        <div className="w-40 flex flex-col gap-3">
+          <span className="text-[#63ADCB] text-[1.63544rem]">
+            {payrollCount?.total_amount}/-
+          </span>
+          <span>Total No. of Amount</span>
+        </div>
+      </div>
+    </section>
+  );
 
   // -----------------Employee Onboard report JSX----------------------//
 
@@ -348,7 +326,7 @@ const TimeSheet = () => {
 
         {/* -----------------------------------Employee TimeSheet Reports------------------------------------------ */}
         <section className="mx-16 mt-[3rem]">
-          {/* {employeeReports} */}
+          {employeeReports}
           <div className="mt-[5rem]">
             {filterEmpListData && filterEmpListData?.length < 1 ? (
               <span className="flex items-center justify-center text-2xl font-semibold ">
@@ -356,7 +334,7 @@ const TimeSheet = () => {
               </span>
             ) : (
               <PayrollTableContainer
-                tableData={filterEmployeeList || []}
+                tableData={filterEmpListData || []}
                 actionBtn
                 actionName="Status"
                 sl_no={false}
