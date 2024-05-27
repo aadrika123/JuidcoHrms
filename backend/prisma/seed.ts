@@ -11,7 +11,7 @@ import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
 import employee_seeder from "./seeder/employee/employee.seed";
 // import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
 import { generate_attendance } from "./seeder/employee/attend.seed";
-// import { attend_history_seed } from "./seeder/employee/attend_history";
+import { attend_history_seed } from "./seeder/employee/attend_history";
 import { leave_encash_seed } from "./seeder/employee/encash.seed";
 // import { ddoSeeder } from "./seeder/masters/ddo.seed";
 import hierarchy_seeder from "./seeder/supervisor/hierarchy.seed";
@@ -23,9 +23,6 @@ const prisma = new PrismaClient();
 const payroll = new PayrollDao();
 
 async function main() {
-  // await prisma.$queryRaw`DROP TABLE users cascade`;
-  // await prisma.$queryRaw`DROP TABLE wf_roles cascade`;
-  // await prisma.$queryRaw`DROP TABLE wf_roleusermaps cascade`;
   await emp_type_seeder();
   await designation_seeder();
   await department_seeder();
@@ -39,7 +36,7 @@ async function main() {
   // await ddoSeeder();
   await employee_seeder();
   await generate_attendance();
-  // await attend_history_seed();
+  await attend_history_seed();
 
   setTimeout(async () => {
     await payroll.calc_net_pay();

@@ -29,6 +29,7 @@ class PayrollDao {
     this.employee_payroll_data = [];
     this.total_amount_released = 0;
     this.lwp_days_last_month = [];
+    // this.offset = (1 - 1) * 2;
   }
 
   cal_allowance_and_deduction = async () => {
@@ -87,8 +88,7 @@ class PayrollDao {
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
-    const curr_month: string = currentDate
-      .getMonth()
+    const curr_month: string = (currentDate.getMonth() + 1)
       .toString()
       .padStart(2, "0"); // Adding 1 to get the correct month index
     const curr_year: string = currentDate.getFullYear().toString();
@@ -170,11 +170,13 @@ class PayrollDao {
         SELECT employee_id as emp_id, COUNT(employee_id)::Int as last_month_lwp FROM employee_daily_attendance WHERE EXTRACT(DAY FROM date) > 26 AND EXTRACT(MONTH FROM date) = ${last_month} AND EXTRACT(YEAR FROM date) = ${last_year} AND status = 0  GROUP BY employee_id
     `;
 
-    console.log(this.lwp_days_last_month, "last_lwp");
-
+    const c_month = parseInt(curr_month, 10);
     this.no_of_leave_approved = await prisma.$queryRaw`
       SELECT employee_id as emp_id, total_days as days_leave_approved FROM employee_leave_details 
+      where EXTRACT(month from created_at)::INT = ${c_month}::INT AND leave_status = 3
     `;
+
+    console.log(this.no_of_leave_approved, "leave_approved");
   };
 
   // total_hours = 26 * 8
@@ -244,7 +246,7 @@ class PayrollDao {
       const currentYear = currentDate.getFullYear();
       const numberOfDaysInMonth = new Date(
         currentYear,
-        currentMonth,
+        currentMonth + 1,
         0
       ).getDate();
       let numberOfWeekdaysInMonth: number = 0;
@@ -306,7 +308,7 @@ class PayrollDao {
       // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
       let employee_present_days =
         (data[record.emp_id].working_hour as number) / 8 - leave_days;
-      if (isNaN(employee_present_days)) {
+      if (isNaN(employee_present_days) || employee_present_days < 0) {
         employee_present_days = 0;
       }
 
@@ -330,8 +332,10 @@ class PayrollDao {
         calc_net_pay = 0;
       }
 
-      // let date: any = `${new Date().toISOString()}`;
-      // date = new Date(date.split("T")[0]);
+      console.log(calc_net_pay, "net_pay");
+
+      let date: any = `${new Date().toISOString()}`;
+      date = new Date(date.split("T")[0]);
 
       data[record.emp_id] = {
         ...data[record.emp_id],
@@ -339,9 +343,9 @@ class PayrollDao {
         present_days: employee_present_days,
         lwp_days: employee_lwp_days,
         salary_deducted: Math.floor(calc_non_billable_salary),
-        net_pay: Math.floor(calc_net_pay) || 0,
+        net_pay: Math.floor(calc_net_pay),
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
-        date: new Date("2024-04-28"),
+        date: date,
         salary_per_hour: Math.round(salary_per_hour),
       };
 
@@ -364,16 +368,18 @@ class PayrollDao {
       this.employee_payroll_data.push(data[key]);
     });
 
-    // console.log(this.employee_payroll_data);
+    console.log(this.employee_payroll_data);
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
 
+    // console.log(p_data, "pp");
+
     //function call for logging the calculated data
     await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
 
-    return generateRes(this.employee_payroll_data);
+    return generateRes(data);
   };
   // --------------------- STORING PAYROLL ------------------------------ //
 
@@ -386,8 +392,10 @@ class PayrollDao {
     const lastMonth: string = String(req.query.lastMonth);
     // 2024-05-04 00:00:00
     const date = new Date();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
+
+    console.log(month);
 
     const pastDate = new Date(date);
     pastDate.setMonth(pastDate.getMonth() - 12);
@@ -440,7 +448,7 @@ class PayrollDao {
       },
 
       where: {
-        month: _month,
+        month: 5,
         year: _year,
       },
     };
@@ -451,6 +459,8 @@ class PayrollDao {
           { emp_name: { contains: search, mode: "insensitive" } },
           { emp_id: { contains: search, mode: "insensitive" } },
         ],
+        month: 5,
+        year: _year,
       };
     }
 
@@ -475,38 +485,6 @@ class PayrollDao {
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
   };
-
-  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
-  update_payroll_permissible = async (req: Request) => {
-    const { emp_id } = req.body;
-    const no_of_days = req.body.no_of_days;
-
-    const prev_data = await prisma.$queryRaw<EmployeePayrollType[]>`
-      SELECT emp_id, lwp_days, net_pay, salary_per_hour, present_days FROM payroll_master WHERE emp_id = ${emp_id} 
-    `;
-
-    console.log(prev_data, "prev data");
-    const salary_per_day = prev_data[0].salary_per_hour * 8;
-    const lwp_days: number = prev_data[0].lwp_days - parseInt(no_of_days);
-    const net_pay =
-      prev_data[0].net_pay + salary_per_day * parseInt(no_of_days);
-    const present_days = prev_data[0].present_days + no_of_days;
-
-    const query: Prisma.payroll_masterUpdateManyArgs = {
-      data: {
-        lwp_days: lwp_days,
-        net_pay: net_pay,
-        present_days: present_days,
-      },
-      where: {
-        emp_id: emp_id,
-      },
-    };
-
-    const data = await prisma.payroll_master.updateMany(query);
-    return generateRes(data);
-  };
-  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
 
   // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
   // get_emp_payroll_by_id = async (req: Request) => {
@@ -601,14 +579,48 @@ class PayrollDao {
   // };
   // // --------------------- DOWNLOAD PAYROLL EXCEL ------------------------------ //
 
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
+  update_payroll_permissible = async (req: Request) => {
+    const { emp_id } = req.body;
+    const no_of_days = req.body.no_of_days;
+
+    const prev_data = await prisma.$queryRaw<EmployeePayrollType[]>`
+        SELECT emp_id, lwp_days, net_pay, salary_per_hour, present_days FROM payroll_master WHERE emp_id = ${emp_id} 
+      `;
+
+    console.log(prev_data, "prev data");
+    const salary_per_day = prev_data[0].salary_per_hour * 8;
+    const lwp_days: number = prev_data[0].lwp_days - parseInt(no_of_days);
+    const net_pay =
+      prev_data[0].net_pay + salary_per_day * parseInt(no_of_days);
+    const present_days = prev_data[0].present_days + no_of_days;
+
+    const query: Prisma.payroll_masterUpdateManyArgs = {
+      data: {
+        lwp_days: lwp_days,
+        net_pay: net_pay,
+        present_days: present_days,
+      },
+      where: {
+        emp_id: emp_id,
+      },
+    };
+
+    const data = await prisma.payroll_master.updateMany(query);
+    return generateRes(data);
+  };
+  // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
+
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
   update_emp_payroll_with_sheet = async (req: Request) => {
     try {
       const data: any[] = req.body.data;
       const record = await prisma.$transaction(async (tx) => {
         const getEmployeePayroll = await prisma.$queryRaw<any[]>`
-        SELECT emp_id, salary_per_hour FROM payroll_master
+        SELECT emp_id, salary_per_hour, total_allowance FROM payroll_master
       `;
+
+        // console.log(data, "data");
 
         const returnNewSalary = (
           emp_id_x: string,
@@ -621,32 +633,74 @@ class PayrollDao {
           return employee[0].salary_per_hour;
         };
 
-        for (const object of data) {
-          const existing_emp_id = await prisma.$queryRaw<
-            any[]
-          >`SELECT EXISTS (SELECT 1 FROM payroll_master WHERE emp_id = ${object.emp_id});`;
+        const returnNewAllowance = (
+          emp_id_x: string,
+          getEmployeePayroll: any[]
+        ): number => {
+          const employee = getEmployeePayroll?.filter(
+            (emp) => emp.emp_id === emp_id_x
+          );
+          return employee[0]?.total_allowance;
+        };
 
+        // update present day and absent day
+        for (const object of data) {
+          const existing_emp_id = await prisma.$queryRaw<any[]>`
+            SELECT EXISTS (SELECT 1 FROM payroll_master WHERE emp_id = ${object.emp_id});
+          `;
+
+          const workingHoursPerDay = 8;
+          const totalDays = 26;
+
+          const workingHours = parseInt(object.working_hour);
+
+          let present_days = Math.floor(workingHours / workingHoursPerDay);
+          let lwp_days = totalDays - present_days;
+
+          const roundToNearestHalf = (num: number) => Math.round(num * 2) / 2;
+
+          present_days = roundToNearestHalf(present_days);
+          lwp_days = roundToNearestHalf(lwp_days);
+
+          if (present_days > totalDays) {
+            present_days = totalDays;
+            lwp_days = 0;
+          } else if (lwp_days < 0) {
+            lwp_days = 0;
+            present_days = totalDays;
+          }
+
+          const prev_allowances = returnNewAllowance(
+            object.emp_id,
+            getEmployeePayroll
+          );
+
+          const hourly_allowance: number = prev_allowances / 208;
+          const new_allowance: number = hourly_allowance * object.working_hour;
+
+          // console.log(`LWP Days: ${lwp_days}, Present Days: ${present_days}`);
           if (!existing_emp_id[0].exists === false) {
             await tx.payroll_master.updateMany<Prisma.payroll_masterUpdateManyArgs>(
               {
                 data: {
                   working_hour: object.working_hour,
+                  present_days: Number(present_days),
+                  lwp_days: Number(lwp_days),
+                  total_allowance: Number(new_allowance.toFixed(2)),
                   net_pay:
                     object.working_hour *
                     returnNewSalary(object.emp_id, getEmployeePayroll),
                 },
                 where: {
-                  emp_id: {
-                    equals: object.emp_id,
-                  },
-                  month: object.month,
-                  year: object.year,
+                  emp_id: object.emp_id,
                 },
               }
             );
           }
         }
       });
+
+      console.log(record);
       return generateRes(record);
     } catch (error) {
       return generateRes({ message: false });

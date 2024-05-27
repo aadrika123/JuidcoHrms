@@ -151,17 +151,20 @@ class EmployeeAttendanceDao {
     if (data11)
       if (dayOfWeek === 0) {
         data11.forEach(async (record) => {
-          await prisma.$queryRaw`update employee_daily_attendance set working_hour=working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
+          await prisma.$queryRaw`update employee_daily_attendance set working_hour=working_hour=${record["working_hour"]} 
+          where employee_id=${record["employee_id"]}`;
         });
 
         await prisma.$queryRaw`update employee_daily_attendance set status=4 where date = Date(${currentDate});
         `;
       } else {
         data11.forEach(async (record) => {
-          await prisma.$queryRaw`update employee_daily_attendance set working_hour=${record["working_hour"]} where employee_id=${record["employee_id"]}`;
+          await prisma.$queryRaw`update employee_daily_attendance set working_hour=${record["working_hour"]}
+          where employee_id=${record["employee_id"]} AND date = Date(${currentDate})`;
         });
 
-        await prisma.$queryRaw`update employee_daily_attendance set status=2 where date = Date(${currentDate}) and working_hour>=8;
+        await prisma.$queryRaw`update employee_daily_attendance set status=2 
+        where date = Date(${currentDate}) and working_hour>=8;
         `;
       }
 

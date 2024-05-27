@@ -187,10 +187,10 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                       {item.total_deductions}/-
                     </p>
                   </div>
-                  <div className="grid grid-cols-2">
+                  {/* <div className="grid grid-cols-2">
                     <p>Claims-</p>
                     <p className="text-zinc-700 font-medium">0/-</p>
-                  </div>
+                  </div> */}
                 </div>
               </td>
 

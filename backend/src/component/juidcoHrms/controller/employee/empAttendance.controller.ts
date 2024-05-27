@@ -177,7 +177,6 @@ class EmployeeAttendanceController {
   updateWorkOur = async () => {
     try {
       await this.employeeAttendanceDao.updateWorkOur();
-      console.log("working");
     } catch (error) {
       console.log(error);
     }
@@ -220,7 +219,6 @@ class EmployeeAttendanceController {
     }
   };
   // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
-
 }
 
 export default EmployeeAttendanceController;

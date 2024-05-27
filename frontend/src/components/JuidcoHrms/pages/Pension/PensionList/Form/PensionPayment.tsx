@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import PrimaryButton from "@/components/Helpers/Button";
 import InputBox from "@/components/Helpers/InputBox";
 import { Formik } from "formik";
 import goBack from "@/utils/helper";
-import { HRMS_URL } from "@/utils/api/urls";
-import axios from "@/lib/axiosConfig";
+
 interface PensionPaymentProps {
   onNext: () => void;
 }
@@ -13,10 +12,7 @@ interface PensionPaymentProps {
 const PensionPayment: React.FC<PensionPaymentProps> = () => {
   const pathName = usePathname();
   const router = useRouter();
-  const [mobileNo, setMobileNo] = useState<string>("");
-  const [otpSent, setOtpSent] = useState<boolean>(false);
-  const [otpValue, setOtpValue] = useState<string>("");
-  const [buttonText, setButtonText] = useState<string>("");
+
   const handleSubmitFormik = () => {
     console.log("click");
     router.push(`${pathName}?page=8`);
@@ -27,60 +23,6 @@ const PensionPayment: React.FC<PensionPaymentProps> = () => {
     emp_name: "",
   };
 
-  // --------------------------- OTP VERFICATION -----------------------------//
-  const handleSubmitOTP = async () => {
-    try {
-      const res = await axios({
-        url: `${HRMS_URL.OTP.create}`,
-        method: "POST",
-        data: {
-          mobileNumber: mobileNo,
-        },
-      });
-      alert("OTP sent successfully!");
-      setOtpSent(true);
-      setButtonText("Validate OTP");
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
-
-  const handleValidateOTP = async () => {
-    try {
-      // const res = await axios(`${HRMS_URL.OTP.validate}`, {
-      //   mobileNumber: mobileNo,
-      //   enteredOtp: otpValue,
-      // });
-
-      const res = await axios({
-        url: `${HRMS_URL.OTP.validate}`,
-        method: "POST",
-        data: {
-          mobileNumber: mobileNo,
-          enteredOtp: otpValue,
-        },
-      });
-
-      const { status } = res.data.data;
-
-      if (status) {
-        // OTP is valid
-        alert("OTP verified successfully!");
-        setButtonText("Successfully Verified");
-      } else {
-        // OTP is invalid
-        alert("Invalid OTP. Please try again.");
-        setButtonText("Invalid OTP. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error validating OTP:", error);
-      alert("Failed to verify OTP");
-      setButtonText("Validate OTP");
-    }
-  };
-  // --------------------------- OTP VERFICATION -----------------------------//
   return (
     <>
       <div>
@@ -109,64 +51,6 @@ const PensionPayment: React.FC<PensionPaymentProps> = () => {
                   label="Net Amount"
                   name="emp_name"
                 />
-                {/* --------------------------- OTP --------------------- */}
-                <div>
-                  <div className="flex flex-col gap-1">
-                    <label
-                      htmlFor="mobileNo"
-                      className="text-secondary text-sm"
-                    >
-                      Enter Mobile No.
-                    </label>
-                    <input
-                      type="text"
-                      id="mobileNo"
-                      value={mobileNo}
-                      className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400`}
-                      onChange={(e) => {
-                        let formattedNumber = e.target.value.trim();
-                        if (!formattedNumber.startsWith("+91")) {
-                          formattedNumber = "+91" + formattedNumber;
-                        }
-                        setMobileNo(formattedNumber);
-                      }}
-                      placeholder="Enter Mobile No."
-                    />
-                  </div>
-
-                  {/* OTP input section */}
-
-                  {otpSent && (
-                    <div className="mt-5">
-                      <label htmlFor="otpValue">Enter OTP- </label>
-                      <input
-                        type="text"
-                        id="otpValue"
-                        value={otpValue}
-                        onChange={(e) => setOtpValue(e.target.value)}
-                        placeholder="Enter OTP"
-                        className="border rounded-xl p-2 mb-2 bg-transparent"
-                      />
-
-                      <button
-                        type="button"
-                        onClick={handleValidateOTP}
-                        className="bg-[#4245D9] text-white text-md px-4 p-1 rounded-md mt-2 ml-5"
-                      >
-                        Validate OTP
-                      </button>
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={otpSent ? handleValidateOTP : handleSubmitOTP}
-                    className="bg-[#4245D9] text-white text-md px-4 p-1 rounded-md mt-2"
-                  >
-                    {otpSent ? buttonText : "Send OTP"}
-                  </button>
-                </div>
-                {/* --------------------------- OTP --------------------- */}
               </div>
               <div className="mt-5">
                 <input type="checkbox" className="mb-5" /> Declaration*

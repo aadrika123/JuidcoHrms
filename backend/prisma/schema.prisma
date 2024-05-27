@@ -47,8 +47,8 @@ model employees {
   leave_encashment        leave_encashment[]
   pension_master          pension_master[]
   payroll_master          payroll_master[]
-  fileUpload              fileUpload[]                
-  fileUploadEmp           fileUploadEmp[] 
+  fileUpload              fileUpload[]
+  fileUploadEmp           fileUploadEmp[]
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }
@@ -400,7 +400,6 @@ model employee_loan_recovery {
 
 //-------------- Employee LOAN Details ---------------------//
 
-
 // // ----- Managed and Used by Jaideep ---------------- //
 // model users {
 //   id                   Int      @id @default(autoincrement())
@@ -528,8 +527,8 @@ model employee_hierarchy {
   emp_id     String
   parent_emp String
 
-  created_at DateTime  @default(now()) @map("created_at")
-  updated_at DateTime  @default(now()) @updatedAt @map("updated_at")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @updatedAt @map("updated_at")
 }
 
 // CREATE AND MAINTAINED BY ANJALI 
@@ -673,7 +672,6 @@ model ddo {
   office        String
 }
 
-
 model fileUpload {
   id          Int        @id @default(autoincrement())
   name        String?
@@ -701,7 +699,7 @@ model fileUploadEmp {
 // Created and Maintained by Krish
 model payroll_master {
   id                       Int       @id @default(autoincrement())
-  emp_id                   String   
+  emp_id                   String
   emp_name                 String
   gross_pay                Float     @default(0)
   leave_days               Int       @default(0)
@@ -709,8 +707,8 @@ model payroll_master {
   total_allowance          Float     @default(0)
   total_deductions         Float     @default(0)
   non_billable             Int       @default(0)
-  present_days             Int       @default(0)
-  lwp_days                 Int       @default(0)
+  present_days             Float     @default(0)
+  lwp_days                 Float     @default(0)
   salary_deducted          Float     @default(0)
   net_pay                  Float     @default(0)
   last_month_lwp_deduction Float     @default(0)
@@ -753,4 +751,3 @@ model pension_master {
   created_at               DateTime                 @default(now()) @map("created_at")
   updated_at               DateTime                 @default(now()) @map("updated_at")
 }
-

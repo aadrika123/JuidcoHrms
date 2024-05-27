@@ -250,17 +250,17 @@ const currentYear = currentDate.getFullYear() - 1;
 
 export async function generate_attendance() {
   for (let x = 0; x <= 24; ++x) {
-    for (let y = 1; y <= 30; ++y) {
-      const date = new Date(currentYear,4, y);
+    for (let y = 1; y <= 31; ++y) {
+      const date = new Date(currentYear, 5, y);
       const dayOfWeek = date.getDay();
-      if (dayOfWeek !== 0) {
+      if (dayOfWeek !== 1) {
         const formattedDay = y < 10 ? `0${y}` : `${y}`;
 
         const data = {
           employee_id: `EMP912e4${x}`,
-          date: `2024-04-${formattedDay}T00:00:00.000Z`,
-          emp_in: `2024-04-${formattedDay}T10:00:00.000Z`,
-          emp_out: `2024-04-${formattedDay}T19:00:00.000Z`,
+          date: `2024-05-${formattedDay}T00:00:00.000Z`,
+          emp_in: `2024-05-${formattedDay}T10:00:00.000Z`,
+          emp_out: `2024-05-${formattedDay}T19:00:00.000Z`,
           working_hour: 8,
           status: 2,
         };
@@ -269,9 +269,9 @@ export async function generate_attendance() {
         const formattedDay = y < 10 ? `0${y}` : `${y}`;
         const data = {
           employee_id: `EMP912e4${x}`,
-          date: `2024-04-${formattedDay}T00:00:00.000Z`,
+          date: `2024-05-${formattedDay}T00:00:00.000Z`,
           emp_in: null,
-          emp_out:null,
+          emp_out: null,
           working_hour: 0,
           status: 4,
         };
