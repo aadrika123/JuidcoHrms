@@ -1,9 +1,3 @@
-/**
- * | Author- Jaideep
- * | Created for- Employee Leave Chart Dao
- * | Status: open
- */
-
 import { PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 import { Request } from "express";
@@ -39,33 +33,34 @@ class LeaveChartDao {
       paternity_leave,
     } = req.body;
 
+    const validatedData = {
+      employee_id: employee_id || "",
+      // tot_leave_allow_year: tot_leave_allow_year ?? 0,
+      tot_leave_allow_year: tot_leave_allow_year,
+      tot_bal_leave_year: tot_bal_leave_year ?? 0.0,
+      tot_prev_leave_approv: tot_prev_leave_approv ?? 0.0,
+      sick_leave: sick_leave ?? 0.0,
+      earned_leave: earned_leave ?? 0.0,
+      personal_leave: personal_leave ?? 0.0,
+      commuted_leave: commuted_leave ?? 0.0,
+      leave_not_due: leave_not_due ?? 0.0,
+      extraordinary_leave: extraordinary_leave ?? 0.0,
+      privileged_leave: privileged_leave ?? 0.0,
+      leave_entitlements_for_vacation: leave_entitlements_for_vacation ?? 0.0,
+      leave_on_adoption: leave_on_adoption ?? 0.0,
+      leave_to_female_on_adoption: leave_to_female_on_adoption ?? 0.0,
+      child_care_leave: child_care_leave ?? 0.0,
+      wrill: wrill ?? 0.0,
+      special_leave_on_enquiry: special_leave_on_enquiry ?? 0.0,
+      study_leave: study_leave ?? 0.0,
+      ad_hoc_employees: ad_hoc_employees ?? 0.0,
+      leave_salary: leave_salary ?? 0.0,
+      special_casual_leave: special_casual_leave ?? 0.0,
+      paternity_leave: paternity_leave ?? 0.0,
+    };
+
     const leaveRequest = await prisma.employee_leave_chart.create({
-      data: {
-        employee_id: employee_id,
-        tot_leave_allow_year,
-        tot_prev_leave_approv: parseFloat(tot_prev_leave_approv),
-        tot_bal_leave_year: parseFloat(tot_bal_leave_year),
-        sick_leave: parseFloat(sick_leave),
-        earned_leave: parseFloat(earned_leave),
-        personal_leave: parseFloat(personal_leave),
-        commuted_leave: parseFloat(commuted_leave),
-        leave_not_due: parseFloat(leave_not_due),
-        extraordinary_leave: parseFloat(extraordinary_leave),
-        privileged_leave: parseFloat(privileged_leave),
-        leave_entitlements_for_vacation: parseFloat(
-          leave_entitlements_for_vacation
-        ),
-        leave_on_adoption: parseFloat(leave_on_adoption),
-        leave_to_female_on_adoption: parseFloat(leave_to_female_on_adoption),
-        child_care_leave: parseFloat(child_care_leave),
-        wrill: parseFloat(wrill),
-        special_leave_on_enquiry: parseFloat(special_leave_on_enquiry),
-        study_leave: parseFloat(study_leave),
-        ad_hoc_employees: parseFloat(ad_hoc_employees),
-        leave_salary: parseFloat(leave_salary),
-        special_casual_leave: parseFloat(special_casual_leave),
-        paternity_leave: parseFloat(paternity_leave),
-      },
+      data: validatedData,
     });
     return generateRes(leaveRequest);
   };
@@ -111,37 +106,36 @@ class LeaveChartDao {
       paternity_leave,
     } = req.body;
 
+    const validatedData = {
+      tot_prev_leave_approv: tot_prev_leave_approv ?? 0.0,
+      tot_bal_leave_year: tot_bal_leave_year ?? 0.0,
+      tot_leave_allow_year: tot_leave_allow_year ?? 0.0,
+      sick_leave: sick_leave ?? 0.0,
+      earned_leave: earned_leave ?? 0.0,
+      personal_leave: personal_leave ?? 0.0,
+      commuted_leave: commuted_leave ?? 0.0,
+      leave_not_due: leave_not_due ?? 0.0,
+      extraordinary_leave: extraordinary_leave ?? 0.0,
+      privileged_leave: privileged_leave ?? 0.0,
+      leave_entitlements_for_vacation: leave_entitlements_for_vacation ?? 0.0,
+      leave_on_adoption: leave_on_adoption ?? 0.0,
+      leave_to_female_on_adoption: leave_to_female_on_adoption ?? 0.0,
+      child_care_leave: child_care_leave ?? 0.0,
+      wrill: wrill ?? 0.0,
+      special_leave_on_enquiry: special_leave_on_enquiry ?? 0.0,
+      study_leave: study_leave ?? 0.0,
+      ad_hoc_employees: ad_hoc_employees ?? 0.0,
+      leave_salary: leave_salary ?? 0.0,
+      special_casual_leave: special_casual_leave ?? 0.0,
+      paternity_leave: paternity_leave ?? 0.0,
+    };
+
     const leaveRequest = await prisma.employee_leave_chart.update({
       where: {
         id: Number(id),
       },
-      data: {
-        tot_leave_allow_year,
-        tot_prev_leave_approv: parseFloat(tot_prev_leave_approv),
-        tot_bal_leave_year: parseFloat(tot_bal_leave_year),
-        sick_leave: parseFloat(sick_leave),
-        earned_leave: parseFloat(earned_leave),
-        personal_leave: parseFloat(personal_leave),
-        commuted_leave: parseFloat(commuted_leave),
-        leave_not_due: parseFloat(leave_not_due),
-        extraordinary_leave: parseFloat(extraordinary_leave),
-        privileged_leave: parseFloat(privileged_leave),
-        leave_entitlements_for_vacation: parseFloat(
-          leave_entitlements_for_vacation
-        ),
-        leave_on_adoption: parseFloat(leave_on_adoption),
-        leave_to_female_on_adoption: parseFloat(leave_to_female_on_adoption),
-        child_care_leave: parseFloat(child_care_leave),
-        wrill: parseFloat(wrill),
-        special_leave_on_enquiry: parseFloat(special_leave_on_enquiry),
-        study_leave: parseFloat(study_leave),
-        ad_hoc_employees: parseFloat(ad_hoc_employees),
-        leave_salary: parseFloat(leave_salary),
-        special_casual_leave: parseFloat(special_casual_leave),
-        paternity_leave: parseFloat(paternity_leave),
-      },
+      data: validatedData,
     });
-    // return true;
 
     return generateRes(leaveRequest);
   };
