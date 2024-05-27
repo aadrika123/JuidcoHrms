@@ -136,6 +136,7 @@ class LeaveDao {
         leavChartid = await prisma.employee_leave_chart.findFirst({
           select: {
             id: true,
+            tot_prev_leave_approv: true,
           },
           where: {
             employee_id: currentStatus?.employee_id,
@@ -144,7 +145,7 @@ class LeaveDao {
         totalLeaveDays = await prisma.employee_leave_details.aggregate({
           where: {
             employee_id: currentStatus?.employee_id,
-            leave_status: 3,
+            leave_status: 2,
           },
           _sum: {
             total_days: true,
@@ -160,6 +161,7 @@ class LeaveDao {
           total_days: totalLeaveDays?._sum?.total_days,
           emp_leave_chart_id: leavChartid.id,
           leave_type: currentStatus?.emp_leave_type_id,
+          id: id,
         },
       };
       await leaveDao.update(dataToSend);

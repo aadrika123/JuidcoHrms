@@ -21,7 +21,39 @@ interface EditEmpList {
 class EmployeeLeaveDao {
   // !-----------------------------Post Employee ------------------------------//
 
-  post = async (req: Request) => {
+  // post = async (req: Request) => {
+  //   const {
+  //     employee_id,
+  //     leave_from,
+  //     leave_to,
+  //     total_days,
+  //     leave_reason,
+  //     file_upload,
+  //     leave_status,
+  //     emp_leave_type_id,
+  //     half_day,
+  //   } = req.body;
+    
+  //   const query: Prisma.employee_leave_detailsCreateArgs = {
+  //     data: {
+  //       employee_id: employee_id,
+  //       emp_leave_type_id: emp_leave_type_id,
+  //       leave_from: leave_from,
+  //       leave_to: leave_to,
+  //       total_days: total_days,
+  //       leave_reason: leave_reason,
+  //       file_upload: file_upload,
+  //       half_day: half_day,
+  //       leave_status: leave_status,
+  //     },
+  //   };
+
+  //   const leaveRequest = await prisma.employee_leave_details.create(query);
+  //   return generateRes(leaveRequest);
+  // };
+
+
+ post = async (req: Request) => {
     const {
       employee_id,
       leave_from,
@@ -33,31 +65,52 @@ class EmployeeLeaveDao {
       emp_leave_type_id,
       half_day,
     } = req.body;
+    
+    const overlappingLeave = await prisma.employee_leave_details.findFirst({
+        where: {
+            employee_id: employee_id,
+            leave_from: {
+                lte: leave_to 
+            },
+            leave_to: {
+                gte: leave_from 
+            }
+        }
+    });
+
+    if (overlappingLeave) {
+        return generateRes("Leave request overlaps with existing leave request.");
+    }
 
     const query: Prisma.employee_leave_detailsCreateArgs = {
-      data: {
-        employee_id: employee_id,
-        emp_leave_type_id: emp_leave_type_id,
-        leave_from: leave_from,
-        leave_to: leave_to,
-        total_days: total_days,
-        leave_reason: leave_reason,
-        file_upload: file_upload,
-        half_day: half_day,
-        leave_status: leave_status,
-      },
+        data: {
+            employee_id: employee_id,
+            emp_leave_type_id: emp_leave_type_id,
+            leave_from: leave_from,
+            leave_to: leave_to,
+            total_days: total_days,
+            leave_reason: leave_reason,
+            file_upload: file_upload,
+            half_day: half_day,
+            leave_status: leave_status,
+        },
     };
 
-    const leaveRequest = await prisma.employee_leave_details.create(query);
+   const leaveRequest = await prisma.employee_leave_details.create(query);
+   console.log("query", query)
     return generateRes(leaveRequest);
-  };
+};
+
+
 
   // !-----------------------------Get Employee Leave List------------------------------//
 
   get = async (req: Request) => {
+    const employee_id = req.query.employee_id as string
+
     const leaveRequest = await prisma.employee_leave_details.findFirst({
       where: {
-        employee_id: req.body.emp_id,
+        employee_id: employee_id,
         leave_status: {
           lte: 3,
         },
@@ -82,6 +135,27 @@ class EmployeeLeaveDao {
         half_day: true,
       },
     });
+    return generateRes(leaveRequest);
+  };
+
+
+  //-----------------------------------Get all leave List -------------------------------------//
+
+
+  getAll = async (req: Request) => { 
+ 
+    const employee_id = req.query.employee_id as string
+    const leaveRequest = await prisma.employee_leave_details.findMany({
+      where: {
+        employee_id: employee_id,
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+      
+    });
+
+
     return generateRes(leaveRequest);
   };
 
@@ -114,12 +188,13 @@ class EmployeeLeaveDao {
       total_days,
       emp_leave_chart_id,
       leave_type,
+      id
     } = req.body as EditEmpList;
     console.log(req)
 
     const leaveRequest: any = await prisma.$transaction(async (tx) => {
       if (leave_status === 3) {
-        let updateFields = `tot_bal_leave_year = tot_leave_allow_year - ${total_days}`;
+        let updateFields = `tot_bal_leave_year = tot_leave_allow_year - ${`(tot_prev_leave_approv + ${total_days})`} , tot_prev_leave_approv = tot_prev_leave_approv + ${total_days}`;
         if (leave_type) {
           const leave: any = await tx.employee_leave_type.findFirst({
             where: {
@@ -206,9 +281,11 @@ class EmployeeLeaveDao {
       }
       // ====================== UPDATE ATTENDANCE STATUS ===============================//
 
-      const updated_leave_details = await tx.employee_leave_details.updateMany({
+      const updated_leave_details = await tx.employee_leave_details.update({
         where: {
-          employee_id: employee_id,
+          // employee_id: employee_id,
+          // leave_status: 2,
+          id:id
         },
         data: {
           leave_status: leave_status,

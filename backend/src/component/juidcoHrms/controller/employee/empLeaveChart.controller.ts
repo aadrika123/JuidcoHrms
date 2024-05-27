@@ -69,7 +69,7 @@ class LeaveChartController {
     };
 
     try {
-      const data = await this.leaveChartDao.get();
+      const data = await this.leaveChartDao.get(req);
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMsgGet).NOT_FOUND,

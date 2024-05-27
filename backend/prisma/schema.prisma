@@ -567,7 +567,7 @@ model employee_leave_details {
   emp_leave_type_id Int
   leave_from        String?
   leave_to          String?
-  total_days        Int?
+  total_days        Float?
   leave_reason      String?
   file_upload       String?
   half_day          Boolean?
@@ -581,26 +581,26 @@ model employee_leave_details {
 model employee_leave_chart {
   id                              Int       @id @default(autoincrement())
   tot_leave_allow_year            Int?
-  tot_bal_leave_year              Int?
-  tot_prev_leave_approv           Int?
-  sick_leave                      Int?      @default(20)
-  earned_leave                    Int?      @default(10)
-  personal_leave                  Int?      @default(30)
-  commuted_leave                  Int?      @default(20)
-  leave_not_due                   Int?      @default(10)
-  extraordinary_leave             Int?      @default(10)
-  privileged_leave                Int?      @default(10)
-  leave_entitlements_for_vacation Int?      @default(20)
-  leave_on_adoption               Int?      @default(10)
-  leave_to_female_on_adoption     Int?      @default(10)
-  child_care_leave                Int?      @default(10)
-  wrill                           Int?      @default(20)
-  special_leave_on_enquiry        Int?      @default(10)
-  study_leave                     Int?      @default(10)
-  ad_hoc_employees                Int?      @default(10)
-  leave_salary                    Int?      @default(10)
-  special_casual_leave            Int?      @default(10)
-  paternity_leave                 Int?      @default(10)
+  tot_bal_leave_year              Float?
+  tot_prev_leave_approv           Float?
+  sick_leave                      Float?    @default(20)
+  earned_leave                    Float?    @default(10)
+  personal_leave                  Float?    @default(30)
+  commuted_leave                  Float?    @default(20)
+  leave_not_due                   Float?    @default(10)
+  extraordinary_leave             Float?    @default(10)
+  privileged_leave                Float?    @default(10)
+  leave_entitlements_for_vacation Float?    @default(20)
+  leave_on_adoption               Float?    @default(10)
+  leave_to_female_on_adoption     Float?    @default(10)
+  child_care_leave                Float?    @default(10)
+  wrill                           Float?    @default(20)
+  special_leave_on_enquiry        Float?    @default(10)
+  study_leave                     Float?    @default(10)
+  ad_hoc_employees                Float?    @default(10)
+  leave_salary                    Float?    @default(10)
+  special_casual_leave            Float?    @default(10)
+  paternity_leave                 Float?    @default(10)
   employee                        employees @relation(fields: [employee_id], references: [emp_id])
   employee_id                     String
 
@@ -622,7 +622,7 @@ model leave_encashment {
   application_id                String    @unique
   employee_id                   String
   emp_name                      String?
-  earned_leave                  Int?      @default(0)
+  earned_leave                  Float?    @default(0)
   total_days_for_applied        Int?      @default(0)
   leave_balance_after_apply     Int?      @default(0)
   per_basic_pay                 Int?      @default(0)

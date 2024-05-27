@@ -210,6 +210,14 @@ class EmployeeFeatureRoute {
       ); //0318
 
     app
+      .route(`${baseUrl}/employee/leave-all`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeLeaveController.getLeaveAll(req, res, next, "0319"),
+        loggerMiddleware
+      ); //0319
+
+    app
       .route(`${baseUrl}/joint/emp-img-upload`)
       .post(
         upload.single("img"),

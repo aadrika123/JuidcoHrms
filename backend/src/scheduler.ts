@@ -14,7 +14,7 @@ class Scheduler {
 
   start() {
     const testJob = cron.schedule(
-      "30 24 15 * * *",
+      "* 59 23 * * *",
       async () => {
         this.empAttendcontroller.updateWorkOur();
       },
@@ -24,7 +24,7 @@ class Scheduler {
     );
 
     const calculateSalaryJob = cron.schedule(
-      "0 2 16 * * *",
+      "* * * 26 * *",
       async () => {
         this.payrollDao.calc_net_pay();
       },

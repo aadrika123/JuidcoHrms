@@ -70,8 +70,14 @@ class LeaveChartDao {
 
   // !-----------------------------Get Leave Chart Employee ------------------------------//
 
-  get = async () => {
-    const leaveRequest = await prisma.employee_leave_chart.findFirst();
+  get = async (req: Request) => {
+    const employee_id = req.query.employee_id as string;
+    console.log("employee_id", employee_id);
+    const leaveRequest = await prisma.employee_leave_chart.findFirst({
+      where: {
+        employee_id: employee_id,
+      },
+    });
     return generateRes(leaveRequest);
   };
 
