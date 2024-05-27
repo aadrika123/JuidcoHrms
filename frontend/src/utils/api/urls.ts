@@ -118,6 +118,7 @@ export const HRMS_URL: Urls = {
   LEAVEGET: {
     get: "/employee/leave-get",
     create: "/employee/leave",
+    getAll: "/employee/leave-all"
   },
   LEAVECHART: {
     get: "/employee/leave-chart-get",

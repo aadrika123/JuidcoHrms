@@ -49,6 +49,15 @@ const EmployeeBasicDetails: React.FC<
     const file = event.target.files[0];
     const size = event.target.files[0].size;
 
+    const fileType = file.type;
+
+    const acceptedFileTypes = ["image/png", "image/jpeg"];
+
+    if (!acceptedFileTypes.includes(fileType)) {
+      alert("Please upload a PNG or JPEG file.");
+      return;
+    }
+
     console.log(size);
     if (size / 1024 >= 2548) {
       alert("Cannot upload more than 2MB data!");

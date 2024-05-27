@@ -80,7 +80,7 @@ export const sidebarLinks: SidebarLinksProps = {
                             height={100}
                         />
                     ),
-                    path: `${url}`,
+                    path: `${url}/comingsoon`,
                 },
                 {
                     moduleName: "Leave Management",
@@ -136,12 +136,12 @@ export const sidebarLinks: SidebarLinksProps = {
                             height={100}
                         />
                     ),
-                    path: `${url}`,
+                    path: `${url}/comingsoon`,
                 },
                 {
                     moduleName: "Loan Management",
                     icon: <Image src={LoanIcon} alt="masters" width={100} height={100} />,
-                    path: `${url}`,
+                    path: `${url}/comingsoon`,
                 },
                 {
                     moduleName: "Termination Management",
@@ -153,7 +153,7 @@ export const sidebarLinks: SidebarLinksProps = {
                             height={100}
                         />
                     ),
-                    path: `${url}`,
+                    path: `${url}/comingsoon`,
                 },
                 {
                     moduleName: "Pension Management",
@@ -200,7 +200,7 @@ export const sidebarLinks: SidebarLinksProps = {
                     icon: (
                         <Image src={GrievanceIcon} alt="masters" width={100} height={100} />
                     ),
-                    path: `${url}`,
+                    path: `${url}/comingsoon`,
                 },
             ],
         },

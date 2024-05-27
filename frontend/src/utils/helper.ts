@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * | Author- Krish
  * | Created On- 25-02-2024
@@ -116,4 +118,3 @@ Array.prototype.deleteObject = function () {
     }
   } else null;
 };
-

@@ -6,8 +6,8 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import DatePicker from "react-datepicker";
+import React, { useState, useEffect } from "react";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   InnerHeading,
@@ -35,6 +35,7 @@ interface LeaveData {
   leave_reason: string | number;
   file_upload: string | number;
   leave_status: number;
+  half_day: boolean;
 }
 
 interface LeaveTotalData {
@@ -63,65 +64,88 @@ interface LeaveTotalData {
 }
 
 const LeaveReq = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [manData, setManData] = useState<LeaveData>();
   const [leaveData, setLeaveData] = useState<LeaveTotalData>();
   const [activeStep, setActiveStep] = useState(0);
-  const datePickerRef = useRef<DatePicker>(null);
-
+  const [leaveAllData, setLeaveAllData] = useState<any>([]);
   const [showMore, setShowMore] = useState(false);
+  const [showMoreLeave, setShowMoreLeave] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const handleDateChange = (date: Date | null) => {
-    if (date) {
-      setSelectedDate(date);
-    }
-  };
+  const [userDetails, setUserDetails] = useState<any>();
 
   useEffect(() => {
-    try {
-      axios(`${HRMS_URL.LEAVECHART.get}`)
-        .then((response) => {
-          setLeaveData(response.data?.data);
-          console.log("Data is returned", response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error.response.data);
-        });
-    } catch (error) {
-      console.log("Error in useEffect:", error);
-    } finally {
-      setLoading(false);
+    if (typeof window !== "undefined") {
+      const data = sessionStorage.getItem("user_details");
+      const user_details = JSON.parse(data as string);
+      setUserDetails(user_details);
     }
   }, []);
 
+  const empId = userDetails?.emp_id;
+
   useEffect(() => {
-    try {
-      axios(`${HRMS_URL.LEAVEGET.get}`)
-        .then((response) => {
-          setManData(response.data?.data);
-          console.log("Data is returned", response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error.response.data);
-        });
-    } catch (error) {
-      console.log("Error in useEffect:", error);
+    if (empId) {
+      try {
+        axios(`${HRMS_URL.LEAVECHART.get}?employee_id=${empId}`)
+          .then((response) => {
+            setLeaveData(response.data?.data);
+            console.log("Data is returned", response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response.data);
+          });
+      } catch (error) {
+        console.log("Error in useEffect:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }, []);
+  }, [empId]);
 
-  // ================UPDATE LEAVE===================//
+  useEffect(() => {
+    if (empId) {
+      try {
+        axios(`${HRMS_URL.LEAVEGET.get}?employee_id=${empId}`)
+          .then((response) => {
+            setManData(response?.data?.data);
+            console.log("Data is returned", response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response.data);
+          });
+      } catch (error) {
+        console.log("Error in useEffect:", error);
+      }
+    }
+  }, [empId]);
 
-  // async function leaveUpdate() {
-  //   try {
-  //     const res = await axios ({
+  console.log("manData", manData);
 
-  //     })
-  //   } catch (error) {
-      
-  //   }
-  // }
-  // ===================================//
+  useEffect(() => {
+    if (empId) {
+      try {
+        axios
+          .get(`${HRMS_URL.LEAVEGET.getAll}?employee_id=${empId}`)
+          .then((response) => {
+            setLeaveAllData(response?.data?.data);
+            console.log("Data is returned", response.data.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response?.data);
+          });
+      } catch (error) {
+        console.log("Error in useEffect:", error);
+      }
+    }
+  }, [empId]);
+
+  console.log("leaveAllData", leaveAllData);
+
+  useEffect(() => {
+    if (manData?.leave_status !== -1) {
+      setActiveStep(Number(manData?.leave_status));
+    }
+  }, [manData?.leave_status]);
 
   const steps = [
     { title: "Employee" },
@@ -130,18 +154,6 @@ const LeaveReq = () => {
     { title: "Manager-3" },
   ];
 
-  useEffect(() => {
-    if (manData?.leave_status !== -1) {
-      setActiveStep(Number(manData?.leave_status));
-    }
-  }, [manData?.leave_status]);
-
-  // useEffect(() => {
-  //     if (leaveData && manData) {
-  //         setDataLoaded(true);
-  //     }
-  // }, [leaveData, manData]);
-
   const togglePopup = () => {
     setShowMore(!showMore);
   };
@@ -149,6 +161,41 @@ const LeaveReq = () => {
   const closePopup = () => {
     setShowMore(false);
   };
+
+  const togglePopup2 = () => {
+    setShowMoreLeave(!showMoreLeave);
+  };
+
+  const closePopup2 = () => {
+    setShowMoreLeave(false);
+  };
+
+  const dates = new Date().toLocaleDateString();
+  const [month, day, year] = dates.split("/");
+
+  const formattedDay = day.padStart(2, "0");
+  const formattedMonth = month.padStart(2, "0");
+
+  const dateObject = new Date(`${year}-${formattedMonth}-${formattedDay}`);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const monthName = monthNames[dateObject.getMonth()];
+
+  const formattedDate = `${formattedDay} ${monthName}, ${year}`;
+
+  console.log("manData", manData?.half_day);
 
   return (
     <>
@@ -194,37 +241,7 @@ const LeaveReq = () => {
                   </i>
                   Leave Chart
                 </div>
-                <div className="flex items-center">
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="d MMMM , yyyy"
-                    ref={datePickerRef}
-                    className="w-[160px] outline-none"
-                  />
-
-                  <i
-                    className="cursor-pointer "
-                    onClick={() => {
-                      if (datePickerRef.current) {
-                        datePickerRef.current.setOpen(true);
-                      }
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M3.48879 4.89772C3.69213 4.69244 4.02178 4.69103 4.22512 4.89913L8.76386 9.53237C8.9672 9.73977 8.9665 10.0748 8.76247 10.2808C8.66115 10.3831 8.5279 10.4353 8.39535 10.4353C8.2614 10.4353 8.12816 10.3831 8.02683 10.2794L3.4881 5.64618C3.28476 5.43878 3.28545 5.1037 3.48879 4.89772ZM12.565 4.8992C12.7684 4.6911 13.098 4.69251 13.3013 4.89779C13.5054 5.10378 13.5061 5.43885 13.3034 5.64625L10.2894 8.72332C10.1881 8.82702 10.0541 8.87922 9.92089 8.87922C9.78833 8.87922 9.65509 8.82702 9.55376 8.72473C9.34973 8.51875 9.34904 8.18367 9.55168 7.97627L12.565 4.8992Z"
-                        fill="black"
-                      />
-                    </svg>
-                  </i>
-                </div>
+                <div className="flex items-center">{formattedDate}</div>
 
                 <div className="menu flex items-center  top-0 right-0 ">
                   <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
@@ -281,7 +298,6 @@ const LeaveReq = () => {
                 <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
                   {leaveData?.earned_leave} Earned Leave
                 </span>
-                {/* <span className='bg-[#F0FFF5] text-xs rounded-xl p-2 m-1'>{leaveData?.personal_leave} Personal Leave</span> */}
                 <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
                   {leaveData?.leave_entitlements_for_vacation} Vacation Leave
                 </span>
@@ -326,7 +342,7 @@ const LeaveReq = () => {
                   </button>
 
                   {showMore && (
-                    <div className="fixed top-0 right-0 w-auto h-auto p-4 bg-gray-100 border border-gray-300 shadow-md z-50 bg-white">
+                    <div className="fixed top-0 right-0 w-auto h-auto p-4  border border-gray-300 shadow-md z-50 bg-white">
                       {/* Close button */}
                       <button
                         className="absolute top-2 right-2"
@@ -441,30 +457,6 @@ const LeaveReq = () => {
                 <div
                   className={` md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5xl`}
                 >
-                  {/* <Stepper
-                                        steps={steps.map((step, index) => ({
-                                            ...step,
-                                            title: (
-                                                <span className={activeStep === index ? 'animate-blink' : ''}>
-                                                    {step.title}
-                                                </span>
-                                            ),
-                                            style: {
-                                                background: activeStep === index ? '#1659DD' : 'transparent',
-                                                color: activeStep === index ? '#fff' : '#000',
-                                            },
-
-                                        }))}
-                                        activeStep={activeStep}
-                                        completeColor="#80808059"
-                                        completeBarColor="#10B981"
-                                        circleFontColor="#fff"
-                                        activeTitleColor="#000"
-                                        size={25}
-                                        circleFontSize={0}
-                                        activeStepCircleSize={25}
-                                    /> */}
-
                   <div className="mt-12">
                     <HorizontalStepper steps={steps} activeStep={activeStep} />
                     <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
@@ -490,23 +482,139 @@ const LeaveReq = () => {
                   </span>
                   <span className="text-sm">
                     Status of leave-{" "}
-                    <span className="text-green-600">
-                      {manData ? (
-                        <>
-                          {manData.leave_status === 3 ? "Approve" : "Pending"}
-                        </>
-                      ) : (
-                        <></>
+                    {manData?.leave_status === -1 ? (
+                      <span className="text-red-600">
+                        {manData ? (
+                          <>{manData.leave_status === -1 ? "Rejected" : ""}</>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <span className="text-green-600">
+                        {manData ? (
+                          <>
+                            {manData.leave_status === 3 ? "Approve" : "Pending"}
+                          </>
+                        ) : null}
+                      </span>
+                    )}
+                  </span>
+
+                  <div className="">
+                    <span className="flex justify-end">
+                      <button
+                        onClick={togglePopup2}
+                        className="flex items-center bg-[#F1F1F1] text-xs rounded-xl p-[6px] m-1 "
+                      >
+                        <i className="m-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="11"
+                            height="11"
+                            viewBox="0 0 11 11"
+                            fill="none"
+                          >
+                            <ellipse
+                              cx="5.52235"
+                              cy="5.16062"
+                              rx="5.0663"
+                              ry="4.88035"
+                              fill="#92A0A8"
+                            />
+                          </svg>
+                        </i>
+                        More
+                        <i className="mx-4">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="9"
+                            height="9"
+                            viewBox="0 0 9 9"
+                            fill="none"
+                          >
+                            <path
+                              d="M4.07116 8.09102L7.2356 4.64648L3.82005 1.50868L4.52326 0.743223L8.69782 4.57831L4.83017 8.78831L4.07116 8.09102ZM0.415608 8.26144L3.58005 4.81689L0.164501 1.67909L0.86771 0.913637L5.04227 4.74873L1.17462 8.95873L0.415608 8.26144Z"
+                              fill="#555555"
+                            />
+                          </svg>
+                        </i>
+                      </button>
+
+                      {showMoreLeave && (
+                        <div className="absolute mt-10 p-4 border border-gray-300 shadow-md z-50 bg-white">
+                          {/* Close button */}
+                          <button className="" onClick={closePopup2}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6 text-gray-500"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+
+                          {leaveAllData?.data ? (
+                            <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                              {leaveAllData?.data
+                                ?.slice(0, 3)
+                                ?.map((leave: any) => (
+                                  <div
+                                    className="flex flex-col justify-start border border-1 p-2"
+                                    key={leave.id}
+                                  >
+                                    <span className="text-xs">
+                                      Date of Leave - <br /> {leave.leave_from}{" "}
+                                      to {leave.leave_to}
+                                    </span>
+                                    <span className="text-xs">
+                                      Total days of Leave -{leave.total_days}
+                                    </span>
+                                    <span className="text-xs">
+                                      Status of Leave -
+                                      {leave.leave_status === 0 ? (
+                                        <span className="text-yellow-600">
+                                          Pending
+                                        </span>
+                                      ) : leave.leave_status === 1 ? (
+                                        <span className="text-yellow-600">
+                                          Pending
+                                        </span>
+                                      ) : leave.leave_status === 2 ? (
+                                        <span className="text-yellow-600">
+                                          Pending
+                                        </span>
+                                      ) : leave.leave_status === 3 ? (
+                                        <span className="text-green-600">
+                                          {" "}
+                                          Approved
+                                        </span>
+                                      ) : leave.leave_status === -1 ? (
+                                        <span className="text-red-600">
+                                          Rejected
+                                        </span>
+                                      ) : null}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          ) : (
+                            <h3>No Previous Leave Found</h3>
+                          )}
+                        </div>
                       )}
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
           {/* form design fields */}
-
           <div className="w-full flex flex-col sm:flex-row justify-between">
             <LeaveForm />
           </div>

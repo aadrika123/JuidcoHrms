@@ -8,6 +8,7 @@ const data = [
       "/hrms/payroll/claim_form",
       "/hrms/pension/gratuity_form",
       "/hrms/pension/leave_encashment",
+      "/hrms/comingsoon",
     ],
   },
   {
@@ -32,6 +33,7 @@ const data = [
       "/hrms/ems/payroll-management",
       "/hrms/ems/pension-management",
       "/hrms/ems/emp-list",
+      "/hrms/comingsoon",
 
       // '/hrms/employee/attendance-management',
       // '/hrms/employee/leave-management',

@@ -360,7 +360,6 @@ const EmpInitialJoinDetails: React.FC<
                         type="number"
                         required={true}
                       /> */}
-                    
 
                       <InputBox
                         onChange={handleChange}
@@ -375,9 +374,16 @@ const EmpInitialJoinDetails: React.FC<
                         placeholder={"Enter Pay Band"}
                         type="number"
                         // required={true}
+                        onKeyPress={(e: any) => {
+                          if (
+                            !((e.key >= "0" && e.key <= "9") || e.key === " ")
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
 
-                    <SelectForNoApiNew
+                      <SelectForNoApiNew
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.grade_pay}
@@ -420,8 +426,7 @@ const EmpInitialJoinDetails: React.FC<
                                     ]
                                   : []
                         }
-                      /> 
-
+                      />
                     </div>
 
                     <InputBox

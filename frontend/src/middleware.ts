@@ -27,16 +27,14 @@ export function middleware(request: NextRequest) {
   const u = paths?.find((i) => request.url.includes(i));
 
   if (!u) {
-    return NextResponse.redirect(
-      new URL("/hrms/404", request.url)
-    );
+    return NextResponse.redirect(new URL("/hrms/404", request.url));
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|johar.png|Juidco.png|Jhar_logo.png|favicon.ico|auth/login|404).*)",
+    "/((?!api|_next/static|_next/image|johar.png|Juidco.png|Jhar_logo.png|favicon.ico|auth/login|404|employee/comingsoon|ems/comingsoon|supervisor/comingsoon).*)",
     "/",
     "/hrms",
   ],

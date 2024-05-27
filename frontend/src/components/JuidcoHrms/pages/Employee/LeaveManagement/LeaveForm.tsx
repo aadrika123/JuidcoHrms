@@ -17,6 +17,7 @@ import goBack from "@/utils/helper";
 import axios from "@/lib/axiosConfig";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { HRMS_URL } from "@/utils/api/urls";
+import toast, { Toaster } from "react-hot-toast";
 
 interface LeaveInitialData {
   emp_leave_type_id: string | number;
@@ -28,48 +29,14 @@ interface LeaveInitialData {
   file_upload: string | number;
 }
 
-// interface LeaveTotalData {
-//   id: number;
-//   tot_leave_allow_year: number;
-//   tot_bal_leave_year: number;
-//   tot_prev_leave_approv: number;
-//   sick_leave: number;
-//   earned_leave: number;
-//   personal_leave: number;
-//   commuted_leave: number;
-//   leave_not_due: number;
-//   extraordinary_leave: number;
-//   privileged_leave: number;
-//   leave_entitlements_for_vacation: number;
-//   leave_on_adoption: number;
-//   leave_to_female_on_adoption: number;
-//   child_care_leave: number;
-//   wrill: number;
-//   special_leave_on_enquiry: number;
-//   study_leave: number;
-//   ad_hoc_employees: number;
-//   leave_salary: number;
-//   special_casual_leave: number;
-//   paternity_leave: number;
-//   leave_status: number;
-// }
-
 const LeaveForm = () => {
   const [value] = useState(new Date());
   const [tabIndex, setTabIndex] = useState<number>(1);
-  const [totalDays, setTotalDays] = useState<number>(0);
+  const [, setTotalDays] = useState<number>(0);
   const [daysDiff, setDaysDiff] = useState<number>(0);
   const [leaveData, setLeaveData] = useState<any>();
+  const [leaveChartData, setLeaveChartData] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
-
-  // function formatDate(timestamp: string) {
-  //   const date = new Date(timestamp);
-  //   const year = date.getFullYear();
-  //   const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const formattedDate = `${year}-${month}-${day}`;
-  //   return formattedDate;
-  // }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -79,7 +46,24 @@ const LeaveForm = () => {
     }
   }, []);
 
-  console.log(userDetails, "detaild");
+  const empId = userDetails?.emp_id;
+
+  useEffect(() => {
+    if (empId) {
+      try {
+        axios(`${HRMS_URL.LEAVECHART.get}?employee_id=${empId}`)
+          .then((response) => {
+            setLeaveChartData(response.data?.data);
+            console.log("Data is returned", response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response.data);
+          });
+      } catch (error) {
+        console.log("Error in useEffect:", error);
+      }
+    }
+  }, [empId]);
 
   // logic to handle total days calculation
   const calculateDaysDiff = (values: LeaveInitialData) => {
@@ -88,50 +72,94 @@ const LeaveForm = () => {
       const firstDate = new Date(leave_from);
       const secondDate = new Date(leave_to);
 
-      // Set hours to 0 for accurate calculation
       firstDate.setHours(0, 0, 0, 0);
       secondDate.setHours(0, 0, 0, 0);
+
+      if (secondDate < firstDate) {
+        toast.error("Leave 'to' date must be greater than leave 'from' date.");
+        return;
+      }
 
       const differenceBtwDates = secondDate.getTime() - firstDate.getTime();
       const aDayInMs = 24 * 60 * 60 * 1000;
 
       const diff = Math.round(differenceBtwDates / aDayInMs) + 1;
+
+      if (
+        (leaveChartData && diff > leaveChartData.sick_leave) ||
+        diff > leaveChartData.earned_leave ||
+        diff > leaveChartData.personal_leave ||
+        diff > leaveChartData.commuted_leave ||
+        diff > leaveChartData.leave_not_due ||
+        diff > leaveChartData.extraordinary_leave ||
+        diff > leaveChartData.privileged_leave ||
+        diff > leaveChartData.leave_entitlements_for_vacation ||
+        diff > leaveChartData.child_care_leave ||
+        diff > leaveChartData.wrill ||
+        diff > leaveChartData.special_leave_on_enquiry ||
+        diff > leaveChartData.study_leave ||
+        diff > leaveChartData.ad_hoc_employees ||
+        diff > leaveChartData.leave_salary ||
+        diff > leaveChartData.special_casual_leave ||
+        diff > leaveChartData.paternity_leave
+      ) {
+        // toast.error(`Total leave days must not exceed from balance leave - ${leaveChartData.tot_bal_leave_year} days.`);
+        toast.error(`Total leave days must not exceed from balance leave.`);
+
+        return;
+      }
+
       setDaysDiff(diff);
       setTotalDays(diff);
     }
   };
 
   useEffect(() => {
-    try {
-      axios(`${HRMS_URL.LEAVEGET.get}`)
-        .then((response) => {
-          setLeaveData(response.data?.data);
-          console.log("Data is returned", response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error.response.data);
-        });
-    } catch (error) {
-      console.log("Error in useEffect:", error);
+    if (empId) {
+      try {
+        axios(`${HRMS_URL.LEAVEGET.get}?employee_id=${empId}`)
+          .then((response) => {
+            setLeaveData(response?.data?.data);
+            console.log("Data is returned", response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response.data);
+          });
+      } catch (error) {
+        console.log("Error in useEffect:", error);
+      }
     }
-  }, []);
+  }, [empId]);
 
   const handleLogin = async (values: LeaveInitialData) => {
+    const actualTotalDays = tabIndex === 1 ? daysDiff : daysDiff * 0.5;
+
     try {
       const res = await axios({
         url: `${HRMS_URL.LEAVEGET.create}`,
         method: "POST",
         data: {
           ...values,
-          total_days: totalDays,
-          half_day: tabIndex === 1 ? true : false,
+          employee_id: empId,
+          total_days: actualTotalDays,
+          half_day: tabIndex === 0 ? true : false,
           file_upload: selectedFileName,
         },
       });
-      res.data.status && window.location.reload();
+
+      if (
+        res.data.data.data ===
+        "Leave request overlaps with existing leave request."
+      ) {
+        toast.error("Leave request overlaps with existing leave request.");
+      } else {
+        toast.success("Leave Applied Successfully");
+        window.location.reload();
+      }
       console.log("Submitted values:", res.data);
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error("Leave Apply Failed");
     }
   };
 
@@ -154,7 +182,11 @@ const LeaveForm = () => {
             className="highlighted-date"
             style={{
               backgroundColor:
-                leaveData.leave_status === 3 ? "green" : "orange",
+                leaveData.leave_status === 3
+                  ? "green"
+                  : leaveData.leave_status === -1
+                    ? "red"
+                    : "orange",
               borderRadius: "50%",
               width: "10px",
               height: "10px",
@@ -169,10 +201,40 @@ const LeaveForm = () => {
   };
 
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
-    setSelectedFileName(file ? file.name : "");
+    const size = file.size;
+    const fileType = file.type;
+
+    const acceptedFileTypes = ["image/png", "image/jpeg"];
+
+    if (!acceptedFileTypes.includes(fileType)) {
+      alert("Please upload a PNG or JPEG file.");
+      return;
+    }
+
+    if (size / 1024 >= 2048) {
+      alert("Cannot upload more than 2MB data!");
+    } else {
+      setSelectedFileName(file ? file.name : "");
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(e.target.value);
+    const currentDate = new Date();
+
+    currentDate.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < currentDate) {
+      alert("Cannot select past dates!");
+      return false;
+    }
+    return true;
   };
 
   const initialValues = {
@@ -185,8 +247,24 @@ const LeaveForm = () => {
     file_upload: "",
   };
 
+  const tileDisabled = ({ date }: any) => {
+    if (leaveData && leaveData.leave_from && leaveData.leave_to) {
+      const leaveFromDate = new Date(leaveData.leave_from);
+      const leaveToDate = new Date(leaveData.leave_to);
+      leaveFromDate.setHours(0, 0, 0, 0);
+      leaveToDate.setHours(0, 0, 0, 0);
+
+      const currentDate = new Date(date);
+      currentDate.setHours(0, 0, 0, 0);
+
+      return currentDate >= leaveFromDate && currentDate <= leaveToDate;
+    }
+    return false;
+  };
+
   return (
     <>
+      <Toaster />
       <div
         className={`w-full sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg`}
       >
@@ -258,22 +336,29 @@ const LeaveForm = () => {
                         <Input
                           label="From"
                           placeholder="From"
-                          onChange={handleChange}
+                          onChange={(e) => {
+                            if (handleDateChange(e)) {
+                              handleChange(e);
+                            }
+                          }}
                           type="date"
                           onBlur={() => calculateDaysDiff(values)}
                           value={values.leave_from}
                           name="leave_from"
-                          // className="border-0 focus:outline-none w-full"
                         />
+
                         <Input
                           label="To"
                           placeholder="To"
-                          onChange={handleChange}
+                          onChange={(e) => {
+                            if (handleDateChange(e)) {
+                              handleChange(e);
+                            }
+                          }}
                           type="date"
                           onBlur={() => calculateDaysDiff(values)}
                           value={values.leave_to}
                           name="leave_to"
-                          // className="border-0 focus:outline-none w-full"
                         />
 
                         <div className="flex">
@@ -281,7 +366,7 @@ const LeaveForm = () => {
                             <input
                               id="halfDay"
                               type="radio"
-                              onChange={() => setTabIndex(1)}
+                              onChange={() => setTabIndex(0)}
                               name="radio-1"
                               className="radio border border-zinc-600"
                             />
@@ -296,7 +381,7 @@ const LeaveForm = () => {
                           <div className="flex-all-center m-5">
                             <input
                               id="fullDay"
-                              onChange={() => setTabIndex(2)}
+                              onChange={() => setTabIndex(1)}
                               type="radio"
                               name="radio-1"
                               className="radio  border-zinc-600"
@@ -353,9 +438,18 @@ const LeaveForm = () => {
                                 />
                               </svg>
                             </span>
-                            {selectedFileName && (
-                              <span className="ml-2">{selectedFileName}</span>
-                            )}
+                            <div className="flex justify-between items-center">
+                              {imagePreview && (
+                                <img
+                                  src={imagePreview}
+                                  alt="Preview"
+                                  className="ml-1 w-5 h-5 rounded-full object-cover border border-gray-300"
+                                />
+                              )}
+                              {selectedFileName && (
+                                <span className="ml-2">{selectedFileName}</span>
+                              )}
+                            </div>
                           </label>
                           {/* Hidden file input */}
                           <input
@@ -375,12 +469,28 @@ const LeaveForm = () => {
                         variant={"cancel"}
                         onClick={goBack}
                       >
-                        Cancel
+                        Back
                       </PrimaryButton>
 
-                      <PrimaryButton buttonType="submit" variant="primary">
-                        Apply
-                      </PrimaryButton>
+                      {daysDiff && daysDiff != 0 ? (
+                        <PrimaryButton buttonType="submit" variant="primary">
+                          Apply
+                        </PrimaryButton>
+                      ) : (
+                        <PrimaryButton
+                          buttonType="button"
+                          onClick={() => {
+                            if (!daysDiff) {
+                              toast.error("Failed to send Leave Request");
+                            } else {
+                              toast.error("Kindly fill complete Leave Form");
+                            }
+                          }}
+                          variant="disabled"
+                        >
+                          Apply
+                        </PrimaryButton>
+                      )}
                     </div>
                   </form>
                 )}
@@ -392,7 +502,11 @@ const LeaveForm = () => {
 
           <div className="md:w-2/5">
             <div className="m-5 w-full">
-              <Calendar value={value} tileContent={tileContent} />
+              <Calendar
+                value={value}
+                tileContent={tileContent}
+                tileDisabled={tileDisabled}
+              />
 
               <div className="flex flex-col mt-5">
                 <div className="text-sm">
@@ -404,23 +518,30 @@ const LeaveForm = () => {
                     {leaveData?.leave_to}
                   </span>
                 </div>
+
                 <div className="text-sm">
-                  <span>Total day of leave -{leaveData?.total_days}</span>
+                  <span>Total days of leave - {leaveData?.total_days}</span>
                 </div>
                 <div className="text-sm">
                   <span className="text-sm">
                     Status of leave-{" "}
-                    <span className="text-green-600">
-                      {leaveData ? (
-                        <>
-                          {leaveData.leave_status === 3 ? "Approve" : "Pending"}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-
-                      {/* {leaveData?.leave_status ? "Approve" : "Pending"} */}
-                    </span>
+                    {leaveData?.leave_status === -1 ? (
+                      <span className="text-red-600">
+                        {leaveData ? (
+                          <>{leaveData.leave_status === -1 ? "Rejected" : ""}</>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <span className="text-green-600">
+                        {leaveData ? (
+                          <>
+                            {leaveData.leave_status === 3
+                              ? "Approve"
+                              : "Pending"}
+                          </>
+                        ) : null}
+                      </span>
+                    )}
                   </span>
                 </div>
               </div>

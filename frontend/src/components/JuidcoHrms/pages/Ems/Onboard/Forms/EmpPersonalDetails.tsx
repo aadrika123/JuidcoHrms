@@ -479,6 +479,7 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_ltc_home_town"
                   placeholder={"Enter LTC Home Town"}
                   required={true}
+                  maxLength={20}
                   onKeyPress={(e: any) => {
                     if (
                       !(
@@ -714,7 +715,6 @@ const EmpployeePersonalDetails: React.FC<
                             label={`${index === 0 ? "Language" : ""}`}
                             name="emp_lang"
                             placeholder={`${index === 0 ? "Select Mother Tongue" : "Select Language"}`}
-                            required={index === 0 ? true : false}
                             options={languages}
                           />
 
