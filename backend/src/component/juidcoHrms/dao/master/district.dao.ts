@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 class DistrictDao {
   get = async () => {
-    const data = await prisma.district.findMany();
+    const data = await prisma.district.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
     return generateRes(data);
   };
 }
