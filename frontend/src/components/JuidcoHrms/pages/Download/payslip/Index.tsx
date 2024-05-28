@@ -296,7 +296,7 @@ const Download_payslip = () => {
                     <tr className="border-1px">
                       <td className="border p-2 font-bold">Basic Pay</td>
                       <td className="border p-2 font-bold">
-                        {/* {empData?.payroll[0]?.basic_pay} */}
+                        {empData?.payroll[0]?.basic_pay}
                       </td>
                     </tr>
                     <tr className="border">

@@ -38,6 +38,19 @@ const TimeSheet = () => {
   const [page, setPage] = useState<number>(1);
   const [searchQuey, setSearchQuery] = useState<string>("");
   const [hitSearch, setHitSearch] = useState<string>("false");
+  const [selfId, setSelfId] = useState<string>("");
+
+  useEffect(() => {
+    const emp_id = JSON.parse(
+      sessionStorage.getItem("user_details") || ""
+    )?.emp_id;
+
+    console.log(emp_id);
+
+    setSelfId(emp_id);
+  }, []);
+
+  console.log(selfId);
 
   const handleFileRead = (e: React.ChangeEvent<any>) => {
     const file = e.target.files[0];
@@ -106,7 +119,7 @@ const TimeSheet = () => {
   };
 
   const useCodeQuery = <T extends TableData>(endpoint: string, key: string) => {
-    return useQuery([key, hitSearch, page], async () => {
+    return useQuery([key, hitSearch, page, selfId], async () => {
       const data = await fetchData<T>(endpoint);
       return Array.isArray(data) ? data[0] : data;
     });
@@ -114,15 +127,17 @@ const TimeSheet = () => {
 
   const { data: empLstData, error: empLstErr } =
     useCodeQuery<EmployeePayrollData>(
-      `${HRMS_URL.PAYROLL.getAll}&page=${page}&search=${searchQuey}`,
+      `${HRMS_URL.PAYROLL.getAll}&page=${page}&supervisor_id=${selfId}`,
       "payroll-all"
     );
 
-  const { data: payrollCount, error: payrollCountErr } =
-    useCodeQuery<PayrollCount>(
-      `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
-      "payroll-total"
-    );
+  console.log(empLstData);
+  // &search=${searchQuey}
+  // const { data: payrollCount, error: payrollCountErr } =
+  //   useCodeQuery<PayrollCount>(
+  //     `${HRMS_URL.PAYROLL_TOTAL.getAll}`,
+  //     "payroll-total"
+  //   );
 
   useEffect(() => {
     sessionStorage.setItem("payroll", JSON.stringify(empLstData));
@@ -132,9 +147,9 @@ const TimeSheet = () => {
     (elem: any) => elem.status === null
   );
 
-  if (payrollCountErr) {
-    throw Error;
-  }
+  // if (payrollCountErr) {
+  //   throw Error;
+  // }
 
   if (empLstErr) {
     toast.error("No data available!");
@@ -155,7 +170,7 @@ const TimeSheet = () => {
           Payroll Management System
         </h2>
       </div>
-      <div className="flex items-start gap-8">
+      {/* <div className="flex items-start gap-8">
         <div className=" w-40 flex flex-col gap-3">
           <span className="text-primary_blue text-[1.63544rem]">
             {payrollCount?.total_employee}
@@ -168,7 +183,7 @@ const TimeSheet = () => {
           </span>
           <span>Total No. of Amount</span>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 
