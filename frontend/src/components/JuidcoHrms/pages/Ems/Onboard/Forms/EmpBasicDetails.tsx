@@ -150,25 +150,23 @@ const EmployeeBasicDetails: React.FC<
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
 
   //validation for dob
+  const [old, setOld] = useState(false);
   const validateDob = (e: any) => {
     const dob = new Date(e.target.value);
+    const now = new Date();
+
     const isAtLeast18 =
-      new Date(dob.getFullYear() + 18, dob.getMonth() - 1, dob.getDate()) <=
-      new Date();
-    if (isAtLeast18) {
+      new Date(dob.getFullYear() + 18, dob.getMonth(), dob.getDate()) <= now;
+    const isNotOlderThan60 =
+      new Date(dob.getFullYear() + 60, dob.getMonth(), dob.getDate()) >= now;
+
+    if (isAtLeast18 && isNotOlderThan60) {
       setIsAdult(false);
-      // setIsEmpExist(true)
     } else {
       setIsAdult(true);
-      // setIsEmpExist(false)
     }
-    console.log(isAtLeast18);
-    // console.log(isAtLeast18)
-    // console.log(dob.getFullYear()+18)
-    // console.log(dob.getMonth()-1)
-    // console.log(dob.getDate())
+    setOld(isNotOlderThan60);
   };
-
   return (
     <>
       <div className="flex justify-between mb-10">
@@ -649,7 +647,11 @@ const EmployeeBasicDetails: React.FC<
                   onChange={handleChange}
                   onBlur={validateDob}
                   value={values.dob}
-                  error={"Age must be atleast 18"}
+                  error={
+                    old
+                      ? "Age must be atleast 18"
+                      : "Age must be less than or equal to 60 year"
+                  }
                   touched={isAdult}
                   label="D.O.B"
                   name="dob"

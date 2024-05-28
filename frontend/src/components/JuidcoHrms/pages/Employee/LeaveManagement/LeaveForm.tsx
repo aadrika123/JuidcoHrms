@@ -37,6 +37,7 @@ const LeaveForm = () => {
   const [leaveData, setLeaveData] = useState<any>();
   const [leaveChartData, setLeaveChartData] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
+  const [checkLeaveCount, setCheckLeaveCount] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -67,7 +68,8 @@ const LeaveForm = () => {
 
   // logic to handle total days calculation
   const calculateDaysDiff = (values: LeaveInitialData) => {
-    const { leave_from, leave_to } = values;
+    const { leave_from, leave_to, emp_leave_type_id } = values;
+
     if (leave_from && leave_to) {
       const firstDate = new Date(leave_from);
       const secondDate = new Date(leave_to);
@@ -86,34 +88,41 @@ const LeaveForm = () => {
       const diff = Math.round(differenceBtwDates / aDayInMs) + 1;
 
       if (
-        (leaveChartData && diff > leaveChartData.sick_leave) ||
-        diff > leaveChartData.earned_leave ||
-        diff > leaveChartData.personal_leave ||
-        diff > leaveChartData.commuted_leave ||
-        diff > leaveChartData.leave_not_due ||
-        diff > leaveChartData.extraordinary_leave ||
-        diff > leaveChartData.privileged_leave ||
-        diff > leaveChartData.leave_entitlements_for_vacation ||
-        diff > leaveChartData.child_care_leave ||
-        diff > leaveChartData.wrill ||
-        diff > leaveChartData.special_leave_on_enquiry ||
-        diff > leaveChartData.study_leave ||
-        diff > leaveChartData.ad_hoc_employees ||
-        diff > leaveChartData.leave_salary ||
-        diff > leaveChartData.special_casual_leave ||
-        diff > leaveChartData.paternity_leave
+        (emp_leave_type_id === 1 && diff > leaveChartData.sick_leave) ||
+        (emp_leave_type_id === 2 && diff > leaveChartData.earned_leave) ||
+        (emp_leave_type_id === 3 && diff > leaveChartData.personal_leave) ||
+        (emp_leave_type_id === 4 && diff > leaveChartData.commuted_leave) ||
+        (emp_leave_type_id === 5 && diff > leaveChartData.leave_not_due) ||
+        (emp_leave_type_id === 6 &&
+          diff > leaveChartData.extraordinary_leave) ||
+        (emp_leave_type_id === 7 && diff > leaveChartData.privileged_leave) ||
+        (emp_leave_type_id === 8 &&
+          diff > leaveChartData.leave_entitlements_for_vacation) ||
+        (emp_leave_type_id === 9 && diff > leaveChartData.leave_on_adoption) ||
+        (emp_leave_type_id === 10 &&
+          diff > leaveChartData.leave_to_female_on_adoption) ||
+        (emp_leave_type_id === 11 && diff > leaveChartData.child_care_leave) ||
+        (emp_leave_type_id === 12 && diff > leaveChartData.wrill) ||
+        (emp_leave_type_id === 13 &&
+          diff > leaveChartData.special_casual_leave) ||
+        (emp_leave_type_id === 14 && diff > leaveChartData.study_leave) ||
+        (emp_leave_type_id === 15 && diff > leaveChartData.ad_hoc_employees) ||
+        (emp_leave_type_id === 16 && diff > leaveChartData.leave_salary) ||
+        (emp_leave_type_id === 17 &&
+          diff > leaveChartData.special_casual_leave) ||
+        (emp_leave_type_id === 18 && diff > leaveChartData.paternity_leave)
       ) {
-        // toast.error(`Total leave days must not exceed from balance leave - ${leaveChartData.tot_bal_leave_year} days.`);
+        setCheckLeaveCount(true);
         toast.error(`Total leave days must not exceed from balance leave.`);
-
         return;
+      } else {
+        setCheckLeaveCount(false);
       }
 
       setDaysDiff(diff);
       setTotalDays(diff);
     }
   };
-
   useEffect(() => {
     if (empId) {
       try {
@@ -472,7 +481,7 @@ const LeaveForm = () => {
                         Back
                       </PrimaryButton>
 
-                      {daysDiff && daysDiff != 0 ? (
+                      {daysDiff && daysDiff != 0 && !checkLeaveCount ? (
                         <PrimaryButton buttonType="submit" variant="primary">
                           Apply
                         </PrimaryButton>

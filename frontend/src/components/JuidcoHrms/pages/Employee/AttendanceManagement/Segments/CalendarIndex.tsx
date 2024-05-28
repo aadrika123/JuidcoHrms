@@ -23,13 +23,13 @@ const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
           props.setSelectedDate(selectedDate);
         }
       }}
-      
       headerToolbar={{
         right: "prev,next",
         left: "title",
       }}
       // height="400px"
       firstDay={1}
+      rerenderDelay={1}
       aspectRatio={0.88}
       dayCellContent={(arg) => {
         return (
@@ -56,7 +56,6 @@ const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
         if (currentStart instanceof Date) {
           currentStart.setMonth(currentStart.getMonth() + 1);
           setSelectedMonth(currentStart.toISOString().slice(0, 7) as any);
-          console.log(currentStart.toISOString().slice(0, 7));
         }
       }}
     />

@@ -90,6 +90,17 @@ const AttendanceManagement = () => {
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selfId, setSelfId] = useState<string>("");
+
+  useEffect(() => {
+    const emp_id = JSON.parse(
+      sessionStorage.getItem("user_details") || ""
+    )?.emp_id;
+
+    console.log(emp_id);
+
+    setSelfId(emp_id);
+  }, []);
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -121,7 +132,7 @@ const AttendanceManagement = () => {
     });
 
     const res2 = await axios({
-      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}&date=${selectedDate}`,
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}`,
       method: "GET",
     });
 

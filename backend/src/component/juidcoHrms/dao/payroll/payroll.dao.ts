@@ -424,7 +424,6 @@ class PayrollDao {
       _month = month;
     }
 
-    console.log(_year, _month, year);
     const query: Prisma.payroll_masterFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
@@ -452,7 +451,7 @@ class PayrollDao {
       },
 
       where: {
-        month: 5,
+        month: _month,
         year: _year,
       },
     };
@@ -463,7 +462,7 @@ class PayrollDao {
           { emp_name: { contains: search, mode: "insensitive" } },
           { emp_id: { contains: search, mode: "insensitive" } },
         ],
-        month: 5,
+        month: _month,
         year: _year,
       };
     }
@@ -481,10 +480,12 @@ class PayrollDao {
       };
     }
 
+    console.log(supervisor_id, "sup_id")
+
     if (
       supervisor_id &&
       typeof supervisor_id === "string" &&
-      supervisor_id.trim().length > 0
+      supervisor_id.trim().length > 0 && supervisor_id !== "undefined"
     ) {
       // ###################### HEIRARCHY ############################### //
       const hierarchyData: any = [];
@@ -528,40 +529,12 @@ class PayrollDao {
       prisma.payroll_master.count(),
     ]);
 
+    console.log(data, "datata")
+
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
   };
 
-  // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
-  // get_emp_payroll_by_id = async (req: Request) => {
-  //   const emp_id = req.query.emp_id as string;
-
-  //   const query: Prisma.payroll_masterFindFirstArgs = {
-  //     select: {
-  //       id: true,
-  //       emp_id: true,
-  //       emp_name: true,
-  //       gross_pay: true,
-  //       leave_days: true,
-  //       working_hour: true,
-  //       total_allowance: true,
-  //       total_deductions: true,
-  //       non_billable: true,
-  //       present_days: true,
-  //       lwp_days: true,
-  //       salary_deducted: true,
-  //       status: true,
-  //       net_pay: true,
-  //     },
-
-  //     where: {
-  //       emp_id: emp_id,
-  //     },
-  //   };
-
-  //   const data = await prisma.payroll_master.findFirst(query);
-  //   return generateRes(data);
-  // };
   // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
 
   // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
@@ -580,50 +553,6 @@ class PayrollDao {
     return generateRes(data);
   };
   // --------------------- UPDATING STATUS PAYROLL ------------------------------ //
-
-  // // --------------------- DOWNLOAD PAYROLL EXCEL ------------------------------ //
-  // download_payroll = async (req: Request, res: Response) => {
-  //   // const record = await prisma.$queryRawUnsafe(`
-  //   // COPY (SELECT emp_id, working_hour, net_pay FROM payroll_master) TO '/tmp/payroll_data.csv' WITH CSV HEADER;
-  //   // `);
-  //   // console.log();
-
-  //   const data = await prisma.$queryRaw<any[]>`
-  //     SELECT emp_id, working_hour, net_pay FROM payroll_master
-  //   `;
-  //   // const fields = ["emp_id", "working_hour", "net_pay"];
-  //   // const fieldNames = ["Name", "Phone", "Mobile", "Email", "Address", "Notes"];
-  //   // const fileName = "demp.csv";
-  //   // // const parser = new AsyncParser({
-  //   // //   fields,
-  //   // // });
-  //   // Promise.all(data).then(
-  //   //   (data) => {
-  //   //     parseAsync(data, { fields, quote: "" })
-  //   //       .then((csv) => {
-  //   //         fs.writeFile(fileName, csv, function (err) {
-  //   //           if (err) throw err;
-  //   //           console.log("Stocks file saved to: " + fileName);
-  //   //         });
-  //   //       })
-  //   //       .catch((err) => console.error(err));
-  //   //   },
-  //   //   (reject) => {
-  //   //     reject("failed");
-  //   //     console.error("Error from calling APIs");
-  //   //   }
-  //   // );
-
-  //   // res.attachment("filename.csv");
-  //   // res.setHeader("Content-Type", "text/csv");
-  //   // res.setHeader(
-  //   //   "Content-Disposition",
-  //   //   'attachment; filename="payroll_data.csv"'
-  //   // );
-
-  //   return generateRes(res);
-  // };
-  // // --------------------- DOWNLOAD PAYROLL EXCEL ------------------------------ //
 
   // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
   update_payroll_permissible = async (req: Request) => {

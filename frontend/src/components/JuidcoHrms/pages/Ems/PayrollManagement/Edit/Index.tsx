@@ -576,17 +576,18 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         </td>
                       </tr>
                       <tr className="border-1px">
-                        <td className="border p-2 font-bold">Gross Salary</td>
-                        <td className="border p-2 font-bold">
-                          {empData?.payroll[0]?.gross_pay}
-                        </td>
-                      </tr>
-                      <tr className="border-1px">
                         <td className="border p-2 font-bold">Basic Pay</td>
                         <td className="border p-2 font-bold">
                           {empData?.payroll[0]?.basic_pay}
                         </td>
                       </tr>
+                      <tr className="border-1px">
+                        <td className="border p-2 font-bold">Gross Salary</td>
+                        <td className="border p-2 font-bold">
+                          {empData?.payroll[0]?.gross_pay}
+                        </td>
+                      </tr>
+
                       <tr className="border">
                         <td className=" p-2 font-bold">
                           Employer Contribution
