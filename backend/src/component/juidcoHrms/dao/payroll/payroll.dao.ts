@@ -388,9 +388,7 @@ class PayrollDao {
   // --------------------- STORING PAYROLL ------------------------------ //
 
   get_emp_payroll = async (req: Request) => {
-    // await this.calc_net_pay();
-    // console.log(this.employee_payroll_data);
-
+    const supervisor_id = String(req.query.supervisor_id);
     const page: number = Number(req.query.page);
     const limit: number = Number(req.query.limit);
     const search = req.query.search as string;
@@ -481,6 +479,48 @@ class PayrollDao {
           },
         ],
       };
+    }
+
+    if (
+      supervisor_id &&
+      typeof supervisor_id === "string" &&
+      supervisor_id.trim().length > 0
+    ) {
+      // ###################### HEIRARCHY ############################### //
+      const hierarchyData: any = [];
+      const fetchTeam = async (supervisor_id: string, level = 0) => {
+        const data = await prisma.employee_hierarchy.findMany({
+          select: {
+            emp_id: true,
+          },
+          where: {
+            parent_emp: supervisor_id,
+          },
+        });
+        if (data.length > 0) {
+          // hierarchyData[level] = [];
+          await Promise.all(
+            data.map(async (item) => {
+              hierarchyData.push(item.emp_id);
+              await fetchTeam(item.emp_id, level + 1);
+            })
+          );
+        } else {
+          return;
+        }
+      };
+      await fetchTeam(supervisor_id);
+
+      console.log(hierarchyData, "hrdata");
+
+      query.where = {
+        OR: [
+          {
+            emp_id: { in: hierarchyData },
+          },
+        ],
+      };
+      // ###################### HEIRARCHY ############################### //
     }
 
     const [data, count] = await prisma.$transaction([

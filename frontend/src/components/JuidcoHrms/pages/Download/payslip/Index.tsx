@@ -6,7 +6,7 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import Image from "next/image";
 import EmployeeIcon from "@/assets/icons/search_salary_slip.png";
 import { RiFilter2Line } from "react-icons/ri";
-import { useReactToPrint } from "react-to-print"; 
+import { useReactToPrint } from "react-to-print";
 import axios from "@/lib/axiosConfig";
 import PrimaryButton from "@/components/Helpers/Button";
 import { HRMS_URL } from "@/utils/api/urls";
@@ -40,7 +40,9 @@ const Download_payslip = () => {
 
   const fetchTDS: FetchAxios = {
     url: `${HRMS_URL.PAYSLIP.getAll}`,
-    url_extend: `?emp_id=${empId}&date=${new Date(selectedDate).toISOString()}&name=TDS,EPF,ESIC`,
+    url_extend: selectedDate
+      ? `?emp_id=${empId}&date=${new Date(selectedDate).toISOString()}&name=TDS,EPF,ESIC`
+      : `?emp_id=${empId}&name=TDS,EPF,ESIC`,
     method: "GET",
     res_type: 1,
     query_key: "emp_tds_detail",
@@ -291,6 +293,12 @@ const Download_payslip = () => {
                         {empData?.payroll[0]?.gross_pay}
                       </td>
                     </tr>
+                    <tr className="border-1px">
+                      <td className="border p-2 font-bold">Basic Pay</td>
+                      <td className="border p-2 font-bold">
+                        {/* {empData?.payroll[0]?.basic_pay} */}
+                      </td>
+                    </tr>
                     <tr className="border">
                       <td className=" p-2 font-bold">Employer Contribution</td>
                       <td className=" p-2"></td>
@@ -423,4 +431,3 @@ const Download_payslip = () => {
 };
 
 export default Download_payslip;
-  

@@ -258,11 +258,9 @@ class EmployeeLeaveDao {
               date <= endDate;
               date.setDate(date.getDate() + 1)
             ) {
-              await tx.employee_daily_attendance.updateMany({
+              await tx.employee_daily_attendance.createMany({
                 data: {
                   status: 3,
-                },
-                where: {
                   employee_id: employee_id,
                   date: date,
                 },

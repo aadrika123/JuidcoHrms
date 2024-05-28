@@ -59,9 +59,41 @@ class EmployeeAttendanceDao {
   getEmpAttendanceHistory = async (req: Request) => {
     const { emp_id, date } = req.query as { emp_id: string; date: string };
 
-    const splitDate = date.split("/");
-    const reverse = splitDate.reverse();
-    const _date = reverse.join("-");
+    function convertToISODate(dateString: string) {
+      let dateObject;
+
+      if (dateString.includes("/")) {
+        const parts = dateString.split("/").map(Number);
+
+        if (parts[0] > 12) {
+          // This is in the format "DD/MM/YYYY"
+          const [day, month, year] = parts;
+          dateObject = new Date(year, month - 1, day);
+        } else if (parts[1] > 12) {
+          // This is in the format "MM/DD/YYYY"
+          const [month, day, year] = parts;
+          dateObject = new Date(year, month - 1, day);
+        } else {
+          // Ambiguous, let's assume "MM/DD/YYYY" by default
+          const [month, day, year] = parts;
+          dateObject = new Date(year, month - 1, day);
+        }
+      } else {
+        throw new Error("Invalid date format");
+      }
+
+      // Format the Date object to "YYYY-MM-DD"
+      const formattedDate = dateObject.toISOString().split("T")[0];
+      return formattedDate;
+    }
+
+    // const new_date = ;
+
+    // console.log(new_date, "date");
+
+    // const splitDate = date.split("/");
+    // const reverse = splitDate.reverse();
+    // const _date = reverse.join("-");
 
     let query: Prisma.employee_attendance_historyFindManyArgs = {
       select: {
@@ -85,7 +117,7 @@ class EmployeeAttendanceDao {
     } else if (date && date !== "" && date !== "undefined" && emp_id) {
       query.where = {
         employee_id: String(emp_id),
-        date: new Date(_date),
+        date: new Date(convertToISODate(date)),
       };
     }
 
@@ -147,6 +179,10 @@ class EmployeeAttendanceDao {
       FROM employee_attendance_history where Date(date) = Date(${currentDate})
       group by  employee_id;
       `;
+
+    // const existing_attendance = await prisma.$queryRawUnsafe(`
+    //   SELECT EXISTS (SELECT 1 FROM employee_attendance_history WHERE date = '${currentDate}');
+    // `);
 
     if (data11)
       if (dayOfWeek === 0) {
