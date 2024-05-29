@@ -65,6 +65,8 @@ export const EmployeeOnBoard = () => {
       sessionStorage.clear();
     }
   }
+
+
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
 
@@ -112,7 +114,7 @@ export const EmployeeOnBoard = () => {
       hideWorkingAnimation();
       setTimeout(() => {
         removeSessionsAfterSubmit();
-        router.push("/");
+        router.push("/ems/dashboard");
       }, 3000);
     },
     onError: () => {
@@ -208,7 +210,7 @@ export const EmployeeOnBoard = () => {
       <section className="">
         {/* <section className="border rounded-lg bg-white border-[#D9E4FB] p-6 px-10 shadow-md" > */}
 
-        <NavTab/>
+        <NavTab />
         <div className="mt-8">
           {searchParam === "1" || !searchParam ? (
             <EmployeeOfficeDetails setData={getStateData} />

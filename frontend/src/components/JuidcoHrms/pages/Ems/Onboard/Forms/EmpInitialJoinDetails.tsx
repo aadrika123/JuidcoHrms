@@ -367,13 +367,13 @@ const EmpInitialJoinDetails: React.FC<
                           handleOnblurForPayBand(values, e);
                         }}
                         value={values.pay_band}
-                        // error={errors.pay_band}
-                        // touched={touched.pay_band}
+                        error={errors.pay_band}
+                        touched={touched.pay_band}
                         label="Pay Band"
                         name="pay_band"
                         placeholder={"Enter Pay Band"}
                         type="number"
-                        // required={true}
+                        required={true}
                         onKeyPress={(e: any) => {
                           if (
                             !((e.key >= "0" && e.key <= "9") || e.key === " ")
