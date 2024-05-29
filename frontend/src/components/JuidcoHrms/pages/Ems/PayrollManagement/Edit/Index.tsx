@@ -681,7 +681,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                             (empData?.payroll[0]?.tds_amount as number)}
                         </td>
                       </tr>
-                      <tr className="border">
+                      {/* <tr className="border">
                         <td className=" p-2 font-bold">Salary (CTC) / PA</td>
                         <td className=" p-2">
                           Rs.{" "}
@@ -693,7 +693,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         </td>
                         <td className="border p-2">Authorised by</td>
                         <td className="border p-2"></td>
-                      </tr>
+                      </tr> */}
                       <tr className="border">
                         <td className=" p-2 font-bold">Prepared By</td>
                         <td className=" p-2">Checked By</td>

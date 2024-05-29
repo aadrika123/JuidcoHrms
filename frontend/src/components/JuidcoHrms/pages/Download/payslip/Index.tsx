@@ -383,7 +383,7 @@ const Download_payslip = () => {
                           (empData?.payroll[0]?.tds_amount as number)}
                       </td>
                     </tr>
-                    <tr className="border">
+                    {/* <tr className="border">
                       <td className=" p-2 font-bold">Salary (CTC) / PA</td>
                       <td className=" p-2">
                         Rs.{" "}
@@ -395,7 +395,7 @@ const Download_payslip = () => {
                       </td>
                       <td className="border p-2">Authorised by</td>
                       <td className="border p-2"></td>
-                    </tr>
+                    </tr> */}
                     <tr className="border">
                       <td className=" p-2 font-bold">Prepared By</td>
                       <td className=" p-2">Checked By</td>
