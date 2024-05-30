@@ -93,7 +93,7 @@ export const initialEmployeeDetails: EmployeeDetailsType = {
   cps: "",
   gps: "",
   dob: "",
-  pan_no:"",
+  pan_no: "",
 };
 /// ------------- Employee  Basic Details ---------------------///
 
@@ -110,7 +110,7 @@ export const employeePersonalDetailsValidationSchema = yup.object({
     .min(5, "Must be at least 5 characters long")
     .max(50, "Max 50 characters long")
     .required("Please Enter the Home State"),
-  emp_district: yup.string().required("Please Enter the Home District"),
+  emp_district: yup.string().trim().required("Please Enter the District"),
   emp_blood_group: yup.mixed().required("Please Enter the Blood Group"),
   emp_health_status: yup.mixed().required("Please Enter the Health Status"),
   emp_ltc_home_town: yup

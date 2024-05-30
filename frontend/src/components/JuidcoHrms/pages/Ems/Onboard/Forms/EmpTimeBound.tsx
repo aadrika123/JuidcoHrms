@@ -299,7 +299,14 @@ export const EmpTimeBound: React.FC<
                             }
                             maxLength={10}
                             onKeyPress={(e: any) => {
-                              if (!(e.key >= "0" && e.key <= "9")) {
+                              if (
+                                !(
+                                  (e.key >= "a" && e.key <= "z") ||
+                                  (e.key >= "A" && e.key <= "Z") ||
+                                  (e.key >= "0" && e.key <= "9") ||
+                                  e.key === " "
+                                )
+                              ) {
                                 e.preventDefault();
                               }
                             }}

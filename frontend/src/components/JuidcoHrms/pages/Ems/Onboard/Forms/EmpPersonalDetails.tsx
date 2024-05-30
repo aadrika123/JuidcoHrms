@@ -413,8 +413,8 @@ const EmpployeePersonalDetails: React.FC<
                   touched={touched.emp_district}
                   label="District"
                   name="emp_district"
-                  placeholder={"Enter District"}
-                  required={true}
+                  placeholder={"Select District"}
+                  required
                   api={`${HRMS_URL.DISTRICT.get}`}
                 />
                 <SelectForNoApi

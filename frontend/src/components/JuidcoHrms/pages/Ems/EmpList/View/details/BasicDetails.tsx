@@ -17,7 +17,7 @@ export default function BasicDetails(props: any) {
                         <p><b>Aadhar No. : </b></p>
                         <p><b>DOB : </b></p>
                         <p><b>Epic No. (Voter ID) : </b></p>
-                        <p><b>GPS : </b></p>
+                        <p><b>GPF : </b></p>
                         <p><b>Weight : </b></p>
                         <p><b>Mode of Recruitment : </b></p>
                         <p><b>Employee Type : </b></p>
@@ -40,7 +40,7 @@ export default function BasicDetails(props: any) {
                         <p><b>Name : </b></p>
                         <p><b>Emergency Contact No. : </b></p>
                         <p><b>Gender : </b></p>
-                        <p><b>Aadhar No. : </b></p>
+                        {/* <p><b>Aadhar No. : </b></p> */}
                         <p><b>CPS : </b></p>
                         <p><b>Height : </b></p>
                         <p><b>PRAN : </b></p>
@@ -50,7 +50,7 @@ export default function BasicDetails(props: any) {
                         <p>{data?.emp_basic_details.emp_name || 'N/A'}</p>
                         <p>{data?.emp_basic_details.emg_contact_no || 'N/A'}</p>
                         <p>{data?.emp_basic_details.gender || 'N/A'}</p>
-                        <p>{data?.emp_basic_details.aadhar_no || 'N/A'}</p>
+                        {/* <p>{data?.emp_basic_details.aadhar_no || 'N/A'}</p> */}
                         <p>{data?.emp_basic_details.cps || 'N/A'}</p>
                         <p>{data?.emp_basic_details.height || 'N/A'}</p>
                         <p>{data?.emp_basic_details.pran || 'N/A'}</p>

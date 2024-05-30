@@ -20,7 +20,7 @@ export default function AddressDetails(props: any) {
             <div className="flex flex-row justify-between gap-10">
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col justify-between">
-                        <p><b>Address Line 1 : </b></p>
+                        <p><b>Address : </b></p>
                         <p><b>Post Office : </b></p>
                         <p><b>District : </b></p>
                         <p><b>Pin Code : </b></p>
@@ -37,7 +37,7 @@ export default function AddressDetails(props: any) {
                         )}
                     </div>
                     <div className="flex flex-col justify-between items-end">
-                        <p>{data?.address_primary || 'N/A'}</p>
+                        <p className='gap-2'>{data?.address_primary} {data?.address_secondary}</p>
                         <p>{data?.post_office || 'N/A'}</p>
                         <p>{data?.district || 'N/A'}</p>
                         <p>{data?.pin_code || 'N/A'}</p>
@@ -57,7 +57,7 @@ export default function AddressDetails(props: any) {
                 <div className="divider divider-horizontal"></div>
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col justify-between">
-                        <p><b>Address Line 2 : </b></p>
+                        {/* <p><b>Address Line 2 : </b></p> */}
                         <p><b>State : </b></p>
                         <p><b>Block ULB : </b></p>
                         <p><b>Police Station : </b></p>
@@ -74,7 +74,7 @@ export default function AddressDetails(props: any) {
                         )}
                     </div>
                     <div className="flex flex-col justify-between items-end">
-                        <p>{data?.address_secondary || 'N/A'}</p>
+                        {/* <p>{data?.address_secondary || 'N/A'}</p> */}
                         <p>{data?.state || 'N/A'}</p>
                         <p>{data?.block_ulb || 'N/A'}</p>
                         <p>{data?.police_station || 'N/A'}</p>

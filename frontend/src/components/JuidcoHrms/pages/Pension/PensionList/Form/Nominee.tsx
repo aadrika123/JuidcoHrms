@@ -309,10 +309,6 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
             Back
           </PrimaryButton>
 
-          <PrimaryButton buttonType="button" variant={"cancel"}>
-            Reset
-          </PrimaryButton>
-
           <PrimaryButton
             buttonType="submit"
             variant="primary"

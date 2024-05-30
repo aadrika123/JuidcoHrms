@@ -137,7 +137,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
           onSubmit={handleSubmitFormik}
           enableReinitialize
         >
-          {({ values, handleChange, handleSubmit, handleReset }) => (
+          {({ values, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit} className="relative">
               <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
                 <InputBox
@@ -269,13 +269,6 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
                   Back
                 </PrimaryButton>
 
-                <PrimaryButton
-                  onClick={handleReset}
-                  buttonType="button"
-                  variant={"cancel"}
-                >
-                  Reset
-                </PrimaryButton>
 
                 <PrimaryButton buttonType="submit" variant="primary">
                   Next

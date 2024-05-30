@@ -272,14 +272,6 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                         Back
                     </PrimaryButton>
 
-                    <PrimaryButton
-                        // onClick={handleReset}
-                        buttonType="button"
-                        variant={"cancel"}
-                    >
-                        Reset
-                    </PrimaryButton>
-
                     <PrimaryButton buttonType="submit" variant="primary" onClick={handleClick}>
                         Next
                     </PrimaryButton>

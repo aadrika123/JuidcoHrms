@@ -152,14 +152,6 @@ const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
           </PrimaryButton>
 
           <PrimaryButton
-            //   onClick={handleReset}
-            buttonType="button"
-            variant={"cancel"}
-          >
-            Reset
-          </PrimaryButton>
-
-          <PrimaryButton
             buttonType="submit"
             variant="primary"
             onClick={handleClick}
