@@ -14,9 +14,9 @@ export default function AddressDetails(props: any) {
     }, [data, isAddressSame])
 
     return (
-        <div className="rounded border-2 p-4">
+        <div className="rounded border-2 p-4 border-neutral">
             <h5 className="text-xl"><b>Address Details</b></h5>
-            <div className="divider"></div>
+            <div className="divider divider-neutral"></div>
             <div className="flex flex-row justify-between gap-10">
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col justify-between">

@@ -299,7 +299,7 @@ const LeaveReq = () => {
                   {leaveData?.earned_leave} Earned Leave
                 </span>
                 <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
-                  {leaveData?.leave_entitlements_for_vacation} Vacation Leave
+                {leaveData?.personal_leave} Personal Leave
                 </span>
 
                 <span>
