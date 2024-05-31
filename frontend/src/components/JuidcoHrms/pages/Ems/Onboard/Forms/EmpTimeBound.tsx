@@ -94,11 +94,12 @@ export const EmpTimeBound: React.FC<
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
-      if (updatedData[0]?.inc_amt !== "") {
-        updatedData[0].b_after_pay = String(
-          parseInt(updatedData[0]?.inc_amt) + parseInt(basicPay)
-        );
-      } else {
+      // if (updatedData[0]?.inc_amt !== "") {
+      updatedData[0].b_after_pay = String(
+        parseInt(updatedData[0]?.inc_amt) + parseInt(basicPay)
+      );
+
+      if (updatedData[0]?.inc_amt === "") {
         updatedData[0].b_after_pay = "";
       }
 
