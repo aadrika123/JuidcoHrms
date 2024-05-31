@@ -25,6 +25,7 @@ export const EmpTimeBound: React.FC<
   // const pathName = usePathname();
   // const router = useRouter();
   const [addedRows, setAddedRows] = useState<number>(0);
+  const [basicPay, setBasicPay] = useState<string>("");
 
   const COLUMNS_FOR_EMP_TRNG_INFRM = [
     {
@@ -77,6 +78,12 @@ export const EmpTimeBound: React.FC<
     if (storedData) {
       setTableData(JSON.parse(storedData));
     }
+
+    const joinDetails = sessionStorage.getItem("emp_join_details");
+    if (joinDetails) {
+      const d = JSON.parse(joinDetails);
+      setBasicPay(d?.basic_pay);
+    }
   }, []);
 
   const handleInputChange = (
@@ -87,6 +94,14 @@ export const EmpTimeBound: React.FC<
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
+      if (updatedData[0]?.inc_amt !== "") {
+        updatedData[0].b_after_pay = String(
+          parseInt(updatedData[0]?.inc_amt) + basicPay
+        );
+      } else {
+        updatedData[0].b_after_pay = "";
+      }
+
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
           updatedData[rowIndex][fieldName] = { [nestedKey]: value };
@@ -96,12 +111,13 @@ export const EmpTimeBound: React.FC<
       } else {
         updatedData[rowIndex as any][fieldName] = value;
       }
+      saveDataToSessionStorage();
       return updatedData;
     });
   };
 
   const saveDataToSessionStorage = () => {
-    if (typeof window !== "undefined") { 
+    if (typeof window !== "undefined") {
       sessionStorage.setItem(
         "emp_timebound_details",
         JSON.stringify(tableData)
@@ -268,6 +284,7 @@ export const EmpTimeBound: React.FC<
                             className="w-full h-full bg-transparent outline-none"
                             placeholder={`Enter ${column.placeholder}`}
                             value={rowData[stateKey]}
+                            disabled
                             onChange={(e) =>
                               handleInputChange(
                                 stateKey,

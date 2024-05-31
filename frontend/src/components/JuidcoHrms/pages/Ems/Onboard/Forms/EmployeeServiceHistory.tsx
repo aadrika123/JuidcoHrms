@@ -71,6 +71,7 @@ const EmployeeServiceHistory: React.FC<
       ACCESSOR: "inc_amount",
       isRequired: true,
       type: "number",
+      max_number: 6,
     },
 
     {
@@ -78,12 +79,14 @@ const EmployeeServiceHistory: React.FC<
       ACCESSOR: "basic_pay_after_inc",
       isRequired: true,
       type: "number",
+      max_number: 6,
     },
 
     {
       HEADER: "Vide Order No.",
       ACCESSOR: "vide_order_no",
       isRequired: true,
+      max_text: 8,
     },
     {
       HEADER: "Vide Order Date",
