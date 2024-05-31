@@ -94,13 +94,17 @@ export const EmpTimeBound: React.FC<
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
-      // if (updatedData[0]?.inc_amt !== "") {
-      updatedData[0].b_after_pay = String(
-        parseInt(updatedData[0]?.inc_amt) + parseInt(basicPay)
-      );
+      const parsedBasicPay = parseInt(basicPay) || 0;
 
+      if (fieldName === "inc_amt" && rowIndex === 0) {
+        updatedData[0].inc_amt = value;
+      }
+
+      const parsedIncAmt = parseInt(updatedData[0]?.inc_amt) || 0;
       if (updatedData[0]?.inc_amt === "") {
         updatedData[0].b_after_pay = "";
+      } else {
+        updatedData[0].b_after_pay = String(parsedIncAmt + parsedBasicPay);
       }
 
       if (nestedKey !== undefined && rowIndex !== undefined) {
