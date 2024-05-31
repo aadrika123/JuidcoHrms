@@ -96,7 +96,7 @@ export const EmpTimeBound: React.FC<
       const updatedData = [...prevFormData];
       if (updatedData[0]?.inc_amt !== "") {
         updatedData[0].b_after_pay = String(
-          parseInt(updatedData[0]?.inc_amt) + basicPay
+          parseInt(updatedData[0]?.inc_amt) + parseInt(basicPay)
         );
       } else {
         updatedData[0].b_after_pay = "";
