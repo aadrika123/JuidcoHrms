@@ -387,7 +387,7 @@ class PayrollDao {
     //function call for logging the calculated data
     await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
 
-    return generateRes(data);
+    return generateRes(this.employee_payroll_data);
   };
   // --------------------- STORING PAYROLL ------------------------------ //
 
