@@ -367,14 +367,14 @@ class PayrollDao {
     this.employee_payroll_data = [];
 
     keys?.forEach((key) => {
-      if (data[key]["employee_id"]) {
+      if (data[key]["emp_id"]) {
         data[key]["month"] = data[key].date.getMonth() + 1;
         data[key]["year"] = data[key].date.getFullYear();
         this.employee_payroll_data.push(data[key]);
       }
     });
 
-    console.log(this.employee_payroll_data);
+    console.log(this.employee_payroll_data, "payroll");
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
