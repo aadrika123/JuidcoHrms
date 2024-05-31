@@ -95,7 +95,7 @@ class EmployeeOnBoardDao {
       emp_basic_details,
       emp_personal_details,
       emp_family_details,
-      emp_address_details,
+      emp_address_details, 
       emp_service_history,
       emp_timebound_details,
       emp_salary_details,
@@ -118,7 +118,7 @@ class EmployeeOnBoardDao {
     }
 
     // ===================
-    console.log(emp_service_history, "service");
+    console.log(emp_join_details, "service");
     //
 
     let empIncDetails: any = undefined;

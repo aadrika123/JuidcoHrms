@@ -349,6 +349,8 @@ class PayrollDao {
         last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
         date: date,
         salary_per_hour: Math.round(salary_per_hour),
+        month: 0,
+        year: 0,
       };
 
       dataToSendForLogging = {
@@ -364,10 +366,12 @@ class PayrollDao {
     const keys = Object.keys(data);
     this.employee_payroll_data = [];
 
-    keys.forEach((key) => {
-      data[key]["month"] = data[key].date.getMonth() + 1;
-      data[key]["year"] = data[key].date.getFullYear();
-      this.employee_payroll_data.push(data[key]);
+    keys?.forEach((key) => {
+      if (data[key]["employee_id"]) {
+        data[key]["month"] = data[key].date.getMonth() + 1;
+        data[key]["year"] = data[key].date.getFullYear();
+        this.employee_payroll_data.push(data[key]);
+      }
     });
 
     console.log(this.employee_payroll_data);
@@ -480,12 +484,13 @@ class PayrollDao {
       };
     }
 
-    console.log(supervisor_id, "sup_id")
+    console.log(supervisor_id, "sup_id");
 
     if (
       supervisor_id &&
       typeof supervisor_id === "string" &&
-      supervisor_id.trim().length > 0 && supervisor_id !== "undefined"
+      supervisor_id.trim().length > 0 &&
+      supervisor_id !== "undefined"
     ) {
       // ###################### HEIRARCHY ############################### //
       const hierarchyData: any = [];
@@ -529,7 +534,7 @@ class PayrollDao {
       prisma.payroll_master.count(),
     ]);
 
-    console.log(data, "datata")
+    console.log(data, "datata");
 
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
