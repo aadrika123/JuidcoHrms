@@ -94,18 +94,18 @@ export const EmpTimeBound: React.FC<
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
-      // const parsedBasicPay = parseInt(basicPay) || 0;
+      const parsedBasicPay = parseInt(basicPay) || 0;
 
-      // if (fieldName === "inc_amt" && rowIndex === 0) {
-      //   updatedData[0].inc_amt = value;
-      // }
+      if (fieldName === "inc_amt" && rowIndex === 0) {
+        updatedData[0].inc_amt = value;
+      }
 
-      // const parsedIncAmt = parseInt(updatedData[0]?.inc_amt) || 0;
-      // if (updatedData[0]?.inc_amt === "") {
-      //   updatedData[0].b_after_pay = "";
-      // } else {
-      //   updatedData[0].b_after_pay = String(parsedIncAmt + parsedBasicPay);
-      // }
+      const parsedIncAmt = parseInt(updatedData[0]?.inc_amt) || 0;
+      if (updatedData[0]?.inc_amt === "") {
+        updatedData[0].b_after_pay = "";
+      } else {
+        updatedData[0].b_after_pay = String(parsedIncAmt + parsedBasicPay);
+      }
 
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
@@ -289,6 +289,7 @@ export const EmpTimeBound: React.FC<
                             className="w-full h-full bg-transparent outline-none"
                             placeholder={`Enter ${column.placeholder}`}
                             value={rowData[stateKey]}
+                            disabled
                             onChange={(e) =>
                               handleInputChange(
                                 stateKey,
