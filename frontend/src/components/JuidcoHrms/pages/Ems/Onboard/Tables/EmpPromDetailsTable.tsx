@@ -327,6 +327,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "vide_order_no"
                         )
                       }
+                      
                       value={row?.vide_order_no}
                       placeholder={"Enter "}
                       isRequired={true}
