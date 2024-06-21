@@ -136,15 +136,11 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
       </div>
 
       <div className="flex items-center justify-end mt-5 gap-5">
-        <PrimaryButton buttonType="button" variant={"cancel"} onClick={goBack}>
+        <PrimaryButton buttontype="button" variant={"cancel"} onClick={goBack}>
           Back
         </PrimaryButton>
 
-        <PrimaryButton buttonType="button" variant={"cancel"}>
-          Reset
-        </PrimaryButton>
-
-        <PrimaryButton onClick={storePensionData} buttonType="submit" variant="primary">
+        <PrimaryButton onClick={storePensionData} buttontype="submit" variant="primary">
           Save
         </PrimaryButton>
       </div>

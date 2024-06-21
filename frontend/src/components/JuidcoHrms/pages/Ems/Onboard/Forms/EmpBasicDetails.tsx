@@ -683,7 +683,7 @@ const EmployeeBasicDetails: React.FC<
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                   onClick={goBack}
                 >
@@ -692,19 +692,19 @@ const EmployeeBasicDetails: React.FC<
 
                 <PrimaryButton
                   onClick={handleReset}
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                 >
                   Reset
                 </PrimaryButton>
 
                 {!isEmpExist && !isAdult ? (
-                  <PrimaryButton buttonType="submit" variant="primary">
+                  <PrimaryButton buttontype="submit" variant="primary">
                     Next
                   </PrimaryButton>
                 ) : (
                   <PrimaryButton
-                    buttonType="button"
+                    buttontype="button"
                     onClick={() => {
                       if (isAdult) {
                         toast.error("Employee Id Already Exist!");
@@ -720,7 +720,7 @@ const EmployeeBasicDetails: React.FC<
 
                 {/* {isAdult && (
                     <PrimaryButton
-                        buttonType="button"
+                        buttontype="button"
                         onClick={() => {
                             toast.error("Age must be atleast 18");
                         }}

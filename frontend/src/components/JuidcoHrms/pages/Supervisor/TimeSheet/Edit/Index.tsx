@@ -403,7 +403,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   <span>SALARY SLIP - APRIL 2024 SALARY</span>
                 </div>
 
-                <div className="  ">
+                <div className="text-black ">
                   <div className="flex place-content-center">
                     <table className="w-[451px] h-[140px] border-flex  m-5 ">
                       <tr className="border">

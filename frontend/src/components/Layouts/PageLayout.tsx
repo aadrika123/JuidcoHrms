@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Header from "../global/layout/Header";
 import Sidebar from "../global/layout/Sidebar";
+import { AnimatePresence, motion } from "framer-motion";
 interface PageLayoutProps {
   children: React.ReactNode;
 }
@@ -14,70 +15,55 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };
   return (
-    // <>
-    //   <main>
-    //     {/* <div className="grid grid-cols-10">
-    //       <Sidebar className="col-span-2 border-r border-[#12743B] rounded-tr-2xl w-full min-h-screen " />
-    //       <div className="col-span-8">
-    //         <Header className="border-b  w-full h-[6.5rem] flex items-center justify-between px-5 " />
-    //         <section className="p-8 h-screen bg-[#FCFDFF] ">{children}</section>
-    //       </div>
-    //     </div> */}
-    //     <div className="grid grid-cols-10 h-screen">
-    //       <div className="col-span-10">
-    //         <Header className="bg-white border-b border-b-slate-100 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
-    //       </div>
-    //       <div className="col-span-2 border-r border-slate-300 rounded-br-2xl shadow-xl mx-1">
-    //         <Sidebar className="w-full min-h-screen" />
-    //       </div>
-    //       <div className="col-span-8">
-    //         <section className="p-8 h-full bg-[#FCFDFF] overflow-y-auto">
-    //           {children}
-    //         </section>
-    //       </div>
-    //     </div>
-    //   </main>
-    // </>
-
     <>
       <main>
-        {/* <div className={`grid grid-cols-10 h-screen ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-          
-          <div className="col-span-10">
-            <Header className="bg-white border-b border-b-slate-100 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
-          </div>
-
-
-          <div className="col-span-2 border-r border-slate-300 rounded-br-2xl shadow-xl mx-1">
-            <Sidebar className="w-full min-h-screen" />
-          </div>
-
-          <div className="col-span-8" style={{ width: isSidebarCollapsed ? 'calc(100% - 0px)' : 'calc(100% - var(--sidebar-width))' }}>
-            <section className={`p-8 h-full bg-[#FCFDFF] overflow-y-auto`}>
-              {children}
-            </section>
-          </div>
-
-        </div> */}
         <div
           className={`grid grid-cols-10  ${isSidebarCollapsed ? "sidebar-collapsed h-0" : ""}`}
         >
           <div className="col-span-10">
-            <Header className="bg-white border-b border-b-slate-400 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
+            <Header className="bg-white w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1 z-50" />
           </div>
-          <div
-            className={`col-span-2 border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}
+          {/* <motion.div
+            initial={{ x: "-100%" }} // Start fully off-screen to the right
+            animate={{ x: 0 }} // Move to its natural position
+            exit={{ x: "100%" }} // Move back off-screen when exiting
+            transition={{ duration: 0.4, ease: [0.42, 1, 0.58, 1] }} // Custom cubic-bezier for smoothness
+            className={`col-span-2  shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}
           >
             <Sidebar className="w-full min-h-screen" />
-          </div>
+          </motion.div> */}
+
+          <AnimatePresence>
+            <div className="col-span-2 w-full">
+              {!isSidebarCollapsed && (
+                <motion.div
+                  key="sidebar"
+                  initial={{ opacity: 0, x: "-30%" }} // Start fully off-screen to the left
+                  animate={{ opacity: 1, x: 0 }} // Move to its natural position
+                  exit={{ opacity: 0, x: "-30%" }} // Move back off-screen when exiting
+                  transition={{ duration: 0.5, ease: [0.5, 0.52, 0.1, 1.2] }}
+                  className={`col-span-2 h-full shadow-xl w-full`}
+                >
+                  <Sidebar className="w-full min-h-screen" />
+                </motion.div>
+              )}
+            </div>
+          </AnimatePresence>
           <div
             className={`col-span-8 ${isSidebarCollapsed ? "col-span-full p-0" : ""}`}
           >
-            <section
-              className={`p-8 h-full bg-[#FCFDFF] overflow-y-auto ${isSidebarCollapsed ? "content-collapsed" : ""}`}
+            <motion.div
+              initial={{ opacity: 0, y: "-10%" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ y: "100%" }} // M
+              transition={{ duration: 0.4, ease: [0.42, 1, 0.58, 1] }}
             >
-              {children}
-            </section>
+              <section
+                className={`p-8 h-full overflow-y-auto ${isSidebarCollapsed ? "content-collapsed" : ""}`}
+              >
+                {children}
+              </section>
+            </motion.div>
           </div>
         </div>
 

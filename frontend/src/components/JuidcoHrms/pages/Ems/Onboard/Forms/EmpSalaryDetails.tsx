@@ -977,7 +977,7 @@ useEffect(() => {
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
           >
@@ -985,7 +985,7 @@ useEffect(() => {
           </PrimaryButton>
 
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={resetData}
           >
@@ -1001,7 +1001,7 @@ useEffect(() => {
             //       employeeDeductionDetails
             //     );
             //   }}
-            //   buttonType="submit"
+            //   buttontype="submit"
             //   variant="primary"
             // >
             //   Next
@@ -1014,7 +1014,7 @@ useEffect(() => {
                   emp_salary_deduction_details: employeeAllowDetails,
                 });
               }}
-              buttonType="submit"
+              buttontype="submit"
               variant="primary"
             >
               Next

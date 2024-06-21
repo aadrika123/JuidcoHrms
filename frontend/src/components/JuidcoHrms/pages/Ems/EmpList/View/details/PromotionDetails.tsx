@@ -5,9 +5,9 @@ export default function PromotionDetails(props: any) {
     const { data } = props
 
     return (
-        <div className="rounded border-2 p-4">
+        <div className="rounded border-2 p-4 border-neutral">
             <h5 className="text-xl"><b>Promotion Details</b></h5>
-            <div className="divider"></div>
+            <div className="divider divider-neutral"></div>
             {data?.map((item: any, index: number) => (
                 <div key={index}>
                     <h6 className="text-lg mb-5"><b><u>Designation</u></b></h6>

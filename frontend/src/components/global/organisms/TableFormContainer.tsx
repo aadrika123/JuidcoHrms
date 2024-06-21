@@ -24,7 +24,8 @@ export interface COLUMNS {
   select_options?: OptionProps[];
   placeholder?: string;
   sl_no?: boolean;
-  
+  max_number?: number;
+  max_text?: number;
 }
 
 interface TableFormProps {
@@ -90,15 +91,20 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
         // Check if any field in the row is non-empty (excluding sl_no)
         const isEmptyRow = Object.values(row).every((value, index) => {
           const key = Object.keys(row)[index];
-          return key !== 'sl_no' && (value === null || value === undefined || value === '');
+          return (
+            key !== "sl_no" &&
+            (value === null || value === undefined || value === "")
+          );
         });
         return !isEmptyRow;
       });
 
-      sessionStorage.setItem(`${props.session_key}`, JSON.stringify(filteredData));
+      sessionStorage.setItem(
+        `${props.session_key}`,
+        JSON.stringify(filteredData)
+      );
     }
   }
-
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -106,15 +112,20 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
       const parsedData = storedData ? JSON.parse(storedData) : [];
 
       // Filter out any empty rows before setting tableData
-      const filteredParsedData = parsedData.filter((row : any) => {
-        const isEmptyRow = Object.values(row).every((value) => value === null || value === undefined || value === '');
+      const filteredParsedData = parsedData.filter((row: any) => {
+        const isEmptyRow = Object.values(row).every(
+          (value) => value === null || value === undefined || value === ""
+        );
         return !isEmptyRow;
       });
 
-      setTableData(filteredParsedData.length > 0 ? filteredParsedData : Array.from({ length: tableLabels?.length || 1 }, () => ({})));
+      setTableData(
+        filteredParsedData.length > 0
+          ? filteredParsedData
+          : Array.from({ length: tableLabels?.length || 1 }, () => ({}))
+      );
     }
   }, [props.session_key]);
-
 
   useEffect(() => {
     // if (isObjectEmpty)
@@ -274,6 +285,20 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               name={col.ACCESSOR}
                               placeholder={"Enter " + col.HEADER}
                               isRequired={col.isRequired}
+                              maxLength={col.max_text}
+                              onKeyPress={(e: any) => {
+                                if (col.max_text)
+                                  if (
+                                    !(
+                                      (e.key >= "a" && e.key <= "z") ||
+                                      (e.key >= "A" && e.key <= "Z") ||
+                                      (e.key >= "0" && e.key <= "9") ||
+                                      e.key === " "
+                                    )
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                              }}
                             />
                           )
                         ) : col.type === "number" ? (
@@ -296,6 +321,17 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             type="number"
                             placeholder={"Enter " + col.HEADER}
                             isRequired={col.isRequired}
+                            onKeyDown={(e: any) => {
+                              if (col.max_number) {
+                                if (
+                                  e.key.length === 1 &&
+                                  e.key !== "Backspace" &&
+                                  e.target.value.length >= col.max_number
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }
+                            }}
                           />
                         ) : col.type === "radio" ? (
                           <div className="flex flex-col gap-3 pl-5 items-start">

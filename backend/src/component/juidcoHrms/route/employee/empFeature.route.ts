@@ -6,7 +6,6 @@ import HolidaysController from "../../controller/employee/holidays.controller";
 import EmployeeLeaveController from "../../controller/employee/empLeave.controller";
 import LeaveChartController from "../../controller/employee/empLeaveChart.controller";
 import LeaveTypeController from "../../controller/employee/empLeaveType.controller";
-import EmployeeOtpController from "../../controller/employee/empOtpGeneration.controller";
 import PensionController from "../../controller/pension/pension.controller";
 import FileUploadJointController from "../../controller/fileupload/fileupload.controller";
 import FileUploadSingleController from "../../controller/fileupload/fileuploadSingle.controller";
@@ -17,7 +16,6 @@ class EmployeeFeatureRoute {
   private employeeLeaveChartController: LeaveChartController;
   private employeeLeaveTypeController: LeaveTypeController;
   private employeeHolidaysController: HolidaysController;
-  private employeeOtpController: EmployeeOtpController;
   private employeePensionController: PensionController;
   private fileUploadJointController: FileUploadJointController;
   private fileUploadSingleController: FileUploadSingleController;
@@ -28,7 +26,6 @@ class EmployeeFeatureRoute {
     this.employeeLeaveController = new EmployeeLeaveController();
     this.employeeLeaveChartController = new LeaveChartController();
     this.employeeLeaveTypeController = new LeaveTypeController();
-    this.employeeOtpController = new EmployeeOtpController();
     this.employeePensionController = new PensionController();
     this.fileUploadJointController = new FileUploadJointController();
     this.fileUploadSingleController = new FileUploadSingleController();
@@ -157,21 +154,21 @@ class EmployeeFeatureRoute {
 
     //  otp generation for employee
 
-    app
-      .route(`${baseUrl}/employee/otp-generated`)
-      .post(
-        (req: Request, res: Response, next: NextFunction) =>
-          this.employeeOtpController.createOtp(req, res, next, "0313"),
-        loggerMiddleware
-      ); //0313
+    // app
+    //   .route(`${baseUrl}/employee/otp-generated`)
+    //   .post(
+    //     (req: Request, res: Response, next: NextFunction) =>
+    //       this.employeeOtpController.createOtp(req, res, next, "0313"),
+    //     loggerMiddleware
+    //   ); //0313
 
-    app
-      .route(`${baseUrl}/employee/otp-validate`)
-      .post(
-        (req: Request, res: Response, next: NextFunction) =>
-          this.employeeOtpController.validateOtp(req, res, next, "0314"),
-        loggerMiddleware
-      ); //0314
+    // app
+    //   .route(`${baseUrl}/employee/otp-validate`)
+    //   .post(
+    //     (req: Request, res: Response, next: NextFunction) =>
+    //       this.employeeOtpController.validateOtp(req, res, next, "0314"),
+    //     loggerMiddleware
+    //   ); //0314
 
     app
       .route(`${baseUrl}/employee/pension/create`)

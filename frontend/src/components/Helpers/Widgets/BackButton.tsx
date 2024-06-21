@@ -9,7 +9,7 @@ const BackButton = () => {
   return (
     <div className="flex items-center">
       <PrimaryButton
-        buttonType="button"
+        buttontype="button"
         variant={"cancel"}
         onClick={goBack}
         className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"

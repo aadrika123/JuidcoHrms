@@ -118,7 +118,7 @@ const ViewLeaveEncashForm = () => {
           (<div className="flex items-center justify-end mt-5 gap-5">
             <Link href={`leave_encashment`}>
               <PrimaryButton
-                buttonType="button"
+                buttontype="button"
                 variant={"cancel"}
                 onClick={() => {encashLeaveStatus(2)}}
               >
@@ -126,7 +126,7 @@ const ViewLeaveEncashForm = () => {
               </PrimaryButton>
             </Link>
             <Link href={`leave_encashment`}>
-              <PrimaryButton buttonType="submit" variant="primary" onClick={() => {encashLeaveStatus(1)}}>
+              <PrimaryButton buttontype="submit" variant="primary" onClick={() => {encashLeaveStatus(1)}}>
                 Approve
               </PrimaryButton>
             </Link>

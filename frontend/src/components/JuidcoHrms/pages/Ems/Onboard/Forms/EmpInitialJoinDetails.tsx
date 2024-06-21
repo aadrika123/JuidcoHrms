@@ -807,7 +807,7 @@ const EmpInitialJoinDetails: React.FC<
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                   onClick={goBack}
                 >
@@ -816,13 +816,13 @@ const EmpInitialJoinDetails: React.FC<
 
                 <PrimaryButton
                   onClick={handleReset}
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                 >
                   Reset
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="submit" variant="primary">
+                <PrimaryButton buttontype="submit" variant="primary">
                   Next
                 </PrimaryButton>
               </div>

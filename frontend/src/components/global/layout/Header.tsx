@@ -67,13 +67,12 @@ const Header: React.FC<SideBarProps> = (props) => {
 
   function logout() {
     const confirm = window.confirm("Are you sure want to logout?");
-    const emp_id = JSON.parse(
-      sessionStorage.getItem("user_details") || ""
-    )?.emp_id;
-    if (confirm) {
-      Cookies.remove("accesstoken");
-      Cookies.remove("user_details");
+    // const emp_id = JSON.parse(
+    //   sessionStorage.getItem("user_details") || ""
+    // )?.emp_id;
 
+    const emp_id = Cookies.get("emp_id");
+    if (confirm) {
       (async () => {
         try {
           const user_attend = sessionStorage.getItem("attnd_details");
@@ -86,7 +85,10 @@ const Header: React.FC<SideBarProps> = (props) => {
               id: user_id,
             },
           });
-
+          Cookies.remove("accesstoken");
+          Cookies.remove("user_details");
+          Cookies.remove("emp_id");
+          Cookies.remove("loginData");
           window.location.reload();
         } catch (error) {
           console.log(error);
@@ -268,7 +270,7 @@ const Header: React.FC<SideBarProps> = (props) => {
             height={100}
             alt="profile"
           /> */}
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="34"
             height="34"
@@ -327,7 +329,7 @@ const Header: React.FC<SideBarProps> = (props) => {
                 />
               </filter>
             </defs>
-          </svg>
+          </svg> */}
         </span>
       </div>
     </div>

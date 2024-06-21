@@ -146,8 +146,12 @@ span.react-calendar__navigation__label__labelText.react-calendar__navigation__la
 
 @media print {
   .page-break {
-    margin-top: 10rem;
+    margin-top: 5rem;
     display: block;
     break-inside: auto;
+  }
+
+  .custom-print {
+    font-size: 0.7rem;
   }
 }

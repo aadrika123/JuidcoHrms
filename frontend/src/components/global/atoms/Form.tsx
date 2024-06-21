@@ -146,7 +146,7 @@ export default function Form(props: FormProps) {
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                   onClick={() => {
                     goBack();
@@ -155,11 +155,11 @@ export default function Form(props: FormProps) {
                   Back
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="reset" variant={"cancel"}>
+                <PrimaryButton buttontype="reset" variant={"cancel"}>
                   Reset
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="submit" variant="primary">
+                <PrimaryButton buttontype="submit" variant="primary">
                   Save
                 </PrimaryButton>
               </div>

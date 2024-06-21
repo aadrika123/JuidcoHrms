@@ -5,9 +5,9 @@ export default function OfficeDetails(props: any) {
     const { data } = props
 
     return (
-        <div className="rounded border-2 p-4">
+        <div className="rounded border-2 p-4 border-neutral">
             <h5 className="text-xl"><b>Office Details</b></h5>
-            <div className="divider"></div>
+            <div className="divider divider-neutral"></div>
             <div className="flex flex-row justify-between gap-10">
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col justify-between">

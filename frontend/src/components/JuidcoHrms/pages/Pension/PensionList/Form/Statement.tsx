@@ -144,7 +144,7 @@ const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
           >
@@ -152,15 +152,7 @@ const Statement: React.FC<StatementProps> = ({ onNext, emp_id }) => {
           </PrimaryButton>
 
           <PrimaryButton
-            //   onClick={handleReset}
-            buttonType="button"
-            variant={"cancel"}
-          >
-            Reset
-          </PrimaryButton>
-
-          <PrimaryButton
-            buttonType="submit"
+            buttontype="submit"
             variant="primary"
             onClick={handleClick}
           >

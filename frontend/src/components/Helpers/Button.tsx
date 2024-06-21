@@ -6,7 +6,7 @@ interface PrimaryButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-  buttonType?: string;
+  buttontype?: string;
   variant: "primary" | "danger" | "cancel" | "disabled";
 }
 
@@ -36,7 +36,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
   return (
     <button
-      type={props.buttonType as "submit" | "reset" | "button" | undefined}
+      type={props.buttontype as "submit" | "reset" | "button" | undefined}
       className={cn(buttonVariants({ className, variant }))}
       {...props}
     >

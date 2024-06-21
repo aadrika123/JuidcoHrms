@@ -53,6 +53,7 @@ export const EmployeeOnBoard = () => {
   // ----------Employee All Detail states------------ //
   const [tabIndex, setTabIndex] = useState<number>(1);
   const [showCongratulations, setShowCongratulations] = useState(false);
+
   const [employeeOnBoardDetails, setEmployeeOnBoardDetails] = useState<any>(
     () =>
       typeof window !== "undefined"
@@ -65,7 +66,6 @@ export const EmployeeOnBoard = () => {
       sessionStorage.clear();
     }
   }
-
 
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
@@ -156,7 +156,7 @@ export const EmployeeOnBoard = () => {
       <div className="flex items-center justify-between border-b-2 pb-7 mb-10">
         <div className="flex items-center">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
             className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"

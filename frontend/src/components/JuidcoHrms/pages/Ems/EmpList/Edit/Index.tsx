@@ -259,7 +259,7 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                   onClick={goBack}
                 >
@@ -268,13 +268,13 @@ const EditEmpList: React.FC<EditEmpListProps> = (props) => {
 
                 <PrimaryButton
                   onClick={handleReset}
-                  buttonType="submit"
+                  buttontype="submit"
                   variant={"cancel"}
                 >
                   Reset
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="submit" variant="primary">
+                <PrimaryButton buttontype="submit" variant="primary">
                   Save
                 </PrimaryButton>
               </div>

@@ -25,6 +25,7 @@ export const EmpTimeBound: React.FC<
   // const pathName = usePathname();
   // const router = useRouter();
   const [addedRows, setAddedRows] = useState<number>(0);
+  const [basicPay, setBasicPay] = useState<string>("");
 
   const COLUMNS_FOR_EMP_TRNG_INFRM = [
     {
@@ -77,6 +78,12 @@ export const EmpTimeBound: React.FC<
     if (storedData) {
       setTableData(JSON.parse(storedData));
     }
+
+    const joinDetails = sessionStorage.getItem("emp_join_details");
+    if (joinDetails) {
+      const d = JSON.parse(joinDetails);
+      setBasicPay(d?.basic_pay);
+    }
   }, []);
 
   const handleInputChange = (
@@ -87,6 +94,19 @@ export const EmpTimeBound: React.FC<
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
+      const parsedBasicPay = parseInt(basicPay) || 0;
+
+      if (fieldName === "inc_amt" && rowIndex === 0) {
+        updatedData[0].inc_amt = value;
+      }
+
+      const parsedIncAmt = parseInt(updatedData[0]?.inc_amt) || 0;
+      if (updatedData[0]?.inc_amt === "") {
+        updatedData[0].b_after_pay = "";
+      } else {
+        updatedData[0].b_after_pay = String(parsedIncAmt + parsedBasicPay);
+      }
+
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
           updatedData[rowIndex][fieldName] = { [nestedKey]: value };
@@ -96,12 +116,13 @@ export const EmpTimeBound: React.FC<
       } else {
         updatedData[rowIndex as any][fieldName] = value;
       }
+      saveDataToSessionStorage();
       return updatedData;
     });
   };
 
   const saveDataToSessionStorage = () => {
-    if (typeof window !== "undefined") { 
+    if (typeof window !== "undefined") {
       sessionStorage.setItem(
         "emp_timebound_details",
         JSON.stringify(tableData)
@@ -268,6 +289,7 @@ export const EmpTimeBound: React.FC<
                             className="w-full h-full bg-transparent outline-none"
                             placeholder={`Enter ${column.placeholder}`}
                             value={rowData[stateKey]}
+                            disabled
                             onChange={(e) =>
                               handleInputChange(
                                 stateKey,
@@ -299,7 +321,14 @@ export const EmpTimeBound: React.FC<
                             }
                             maxLength={10}
                             onKeyPress={(e: any) => {
-                              if (!(e.key >= "0" && e.key <= "9")) {
+                              if (
+                                !(
+                                  (e.key >= "a" && e.key <= "z") ||
+                                  (e.key >= "A" && e.key <= "Z") ||
+                                  (e.key >= "0" && e.key <= "9") ||
+                                  e.key === " "
+                                )
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -358,20 +387,20 @@ export const EmpTimeBound: React.FC<
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
           >
             Back
           </PrimaryButton>
           {/* 
-        <PrimaryButton buttonType="button" variant={"cancel"}>
+        <PrimaryButton buttontype="button" variant={"cancel"}>
           Reset
         </PrimaryButton> */}
 
           {/* <PrimaryButton
           onClick={saveDataToSessionStorage}
-          buttonType="submit"
+          buttontype="submit"
           variant="primary"
         >
           Save

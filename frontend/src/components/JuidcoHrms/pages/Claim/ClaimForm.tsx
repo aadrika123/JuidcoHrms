@@ -312,14 +312,14 @@ const ClaimForm = () => {
 
                                 <div className="flex items-center justify-end mt-5 gap-5">
                                     <PrimaryButton
-                                        buttonType="button"
+                                        buttontype="button"
                                         variant={"cancel"}
                                         onClick={goBack}
                                     >
                                         Cancel
                                     </PrimaryButton>
 
-                                    <PrimaryButton buttonType="submit" variant="primary">
+                                    <PrimaryButton buttontype="submit" variant="primary">
                                         Apply
                                     </PrimaryButton>
                                 </div>

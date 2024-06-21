@@ -72,7 +72,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                 <div className="flex items-center justify-end mt-5 gap-5">
 
                     <PrimaryButton
-                        buttonType="button"
+                        buttontype="button"
                         variant={"cancel"}
                         onClick={goBack}
                     >
@@ -81,13 +81,13 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
 
                     <PrimaryButton
                         // onClick={handleReset}
-                        buttonType="button"
+                        buttontype="button"
                         variant={"cancel"}
                     >
                         Reset
                     </PrimaryButton>
 
-                    <PrimaryButton buttonType="submit" variant="primary">
+                    <PrimaryButton buttontype="submit" variant="primary">
                         Next
                     </PrimaryButton>
                 </div>
@@ -228,7 +228,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                 <div className="flex items-center justify-end mt-5 gap-5">
 
                     <PrimaryButton
-                        buttonType="button"
+                        buttontype="button"
                         variant={"cancel"}
                         onClick={goBack}
                     >
@@ -237,13 +237,13 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
 
                     <PrimaryButton
                         // onClick={handleReset}
-                        buttonType="button"
+                        buttontype="button"
                         variant={"cancel"}
                     >
                         Reset
                     </PrimaryButton>
 
-                    <PrimaryButton buttonType="submit" variant="primary">
+                    <PrimaryButton buttontype="submit" variant="primary">
                         Next
                     </PrimaryButton>
                 </div>
@@ -265,22 +265,14 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                 <div className="flex items-center justify-end mt-5 gap-5">
 
                     <PrimaryButton
-                        buttonType="button"
+                        buttontype="button"
                         variant={"cancel"}
                         onClick={goBack}
                     >
                         Back
                     </PrimaryButton>
 
-                    <PrimaryButton
-                        // onClick={handleReset}
-                        buttonType="button"
-                        variant={"cancel"}
-                    >
-                        Reset
-                    </PrimaryButton>
-
-                    <PrimaryButton buttonType="submit" variant="primary" onClick={handleClick}>
+                    <PrimaryButton buttontype="submit" variant="primary" onClick={handleClick}>
                         Next
                     </PrimaryButton>
                 </div>

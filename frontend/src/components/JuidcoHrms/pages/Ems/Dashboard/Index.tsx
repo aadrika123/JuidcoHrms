@@ -25,7 +25,7 @@ import Link from "next/link";
 import { FetchAxios, useCodeQuery } from "@/utils/fetchAxios";
 import { HRMS_URL } from "@/utils/api/urls";
 import toast from "react-hot-toast";
-
+import CountUp from "react-countup";
 // ----------------- TYPES -----------------------//
 interface AttendanceCount {
   present_emp: number;
@@ -130,7 +130,7 @@ export const DashboardMain = () => {
       <div className="flex items-center justify-between border-b-2 pb-7 mb-10">
         <div className="flex items-center">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
             className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"
@@ -256,7 +256,10 @@ export const DashboardMain = () => {
                   className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative border-r-2 border-[#C1C9EB] `}
                 >
                   <span className="text-[#574CDD] text-3xl font-bold">
-                    {count_attendance?.present_emp}
+                    <CountUp
+                      end={count_attendance?.present_emp || 0}
+                      duration={3}
+                    />
                   </span>
                   <InnerTextHeading className="text-center">
                     Total No. of Present Employees
@@ -267,7 +270,10 @@ export const DashboardMain = () => {
                   className={`w-full md:w-[48.5%]  flex flex-col items-center justify-center relative`}
                 >
                   <span className="text-[#098DA4] text-3xl font-bold">
-                    {count_attendance?.absent_emp}
+                    <CountUp
+                      end={count_attendance?.absent_emp || 0}
+                      duration={3}
+                    />
                   </span>
                   <InnerTextHeading className="text-center">
                     Total No. of Absent Employees

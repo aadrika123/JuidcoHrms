@@ -87,7 +87,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
               height={100}
             />
           ),
-          path: `${url}/payroll/claim_form`,
+          path: `${url}/comingsoon`,
           subModules: [
             {
               moduleName: "Claims",
@@ -99,7 +99,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
                   height={100}
                 />
               ),
-              path: `${url}/payroll/claim_form`,
+              path: `${url}/comingsoon`,
             },
           ],
         },
@@ -135,7 +135,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={HolidayIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}/pension/gratuity_form`,
+          path: `${url}/comingsoon`,
         },
 
         {
@@ -143,7 +143,7 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           icon: (
             <Image src={HolidayIcon} alt="masters" width={100} height={100} />
           ),
-          path: `${url}/pension/leave_encashment`,
+          path: `${url}/comingsoon`,
         },
         {
           moduleName: "Team Management",

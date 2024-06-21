@@ -78,7 +78,7 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
 
         <div>
           <Formik initialValues={initialValues} onSubmit={handleSubmitFormik}>
-            {({ values, handleChange, handleSubmit, handleReset }) => (
+            {({ values, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit} className="relative">
                 <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
                   <InputBox
@@ -175,22 +175,14 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
 
                 <div className="flex items-center justify-end mt-5 gap-5">
                   <PrimaryButton
-                    buttonType="button"
+                    buttontype="button"
                     variant={"cancel"}
                     onClick={goBack}
                   >
                     Back
                   </PrimaryButton>
 
-                  <PrimaryButton
-                    onClick={handleReset}
-                    buttonType="button"
-                    variant={"cancel"}
-                  >
-                    Reset
-                  </PrimaryButton>
-
-                  <PrimaryButton buttonType="submit" variant="primary">
+                  <PrimaryButton buttontype="submit" variant="primary">
                     Next
                   </PrimaryButton>
                 </div>

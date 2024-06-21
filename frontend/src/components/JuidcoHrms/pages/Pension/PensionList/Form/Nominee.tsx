@@ -302,19 +302,15 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
         </div>
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
           >
             Back
           </PrimaryButton>
 
-          <PrimaryButton buttonType="button" variant={"cancel"}>
-            Reset
-          </PrimaryButton>
-
           <PrimaryButton
-            buttonType="submit"
+            buttontype="submit"
             variant="primary"
             onClick={hanldeClick}
           >

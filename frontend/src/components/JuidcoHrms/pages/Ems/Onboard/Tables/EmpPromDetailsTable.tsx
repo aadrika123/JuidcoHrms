@@ -274,6 +274,17 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                       value={row?.scale?.from}
                       placeholder={"Enter "}
                       isRequired={true}
+                      maxLength={2}
+                      onKeyPress={(e: any) => {
+                        if (
+                          !(
+                            (e.key >= "0" && e.key <= "9") ||
+                            e.key === " "
+                          )
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
 
                     <p>To:</p>
@@ -289,6 +300,17 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                       value={row?.scale?.to}
                       placeholder={"Enter "}
                       isRequired={true}
+                      maxLength={2}
+                      onKeyPress={(e: any) => {
+                        if (
+                          !(
+                            (e.key >= "0" && e.key <= "9") ||
+                            e.key === " "
+                          )
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </React.Fragment>
                 </td>
@@ -305,6 +327,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "vide_order_no"
                         )
                       }
+                      
                       value={row?.vide_order_no}
                       placeholder={"Enter "}
                       isRequired={true}

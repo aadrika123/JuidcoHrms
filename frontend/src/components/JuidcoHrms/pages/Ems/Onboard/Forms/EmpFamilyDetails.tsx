@@ -181,7 +181,7 @@ const EmployeeFamilyDetails: React.FC<
 
         <div className="flex items-center justify-end mt-5 gap-5">
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             onClick={goBack}
           >
@@ -189,7 +189,7 @@ const EmployeeFamilyDetails: React.FC<
           </PrimaryButton>
 
           <PrimaryButton
-            buttonType="button"
+            buttontype="button"
             variant={"cancel"}
             // onClick={resetData}
           >
@@ -202,7 +202,7 @@ const EmployeeFamilyDetails: React.FC<
                 getDataSesson();
                 handleSubmitForm(employeeFamilyDetails);
               }}
-              buttonType="submit"
+              buttontype="submit"
               variant="primary"
             >
               Next

@@ -20,12 +20,15 @@ import { HRMS_URL } from "@/utils/api/urls";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const EmployeeList = () => {
   const [selectedFilter, setSelectedFilter] = useState<number | string>("");
   const [selectedData, setSelectedData] = useState<number | string>("");
   const [page, setPage] = useState<number>(1);
   const [dataList, setDataList] = useState<any[]>([]);
+  const [isDelayOver, setIsDelayOver] = useState(true);
 
   const EMP_LIST_COLS: COLUMNS[] = [
     {
@@ -66,7 +69,11 @@ const EmployeeList = () => {
     );
   };
 
-  const { data: empLstData, error: empLstErr } = useCodeQuery(
+  const {
+    data: empLstData,
+    error: empLstErr,
+    isLoading,
+  } = useCodeQuery(
     `${HRMS_URL.EMS.get}&page=${page}${selectedFilter === 0 ? `&department=${selectedData}` : selectedFilter === 1 ? `&designation=${selectedData}` : selectedFilter === 2 ? `&emp_type=${selectedData}` : ""}`
   );
   const { data: empCount, error: empCountErr } = useCodeQuery(
@@ -151,6 +158,11 @@ const EmployeeList = () => {
     toast.error("No data available!");
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsDelayOver(false);
+    }, 1000);
+  }, []);
   // -----------------Employee Onboard report JSX----------------------//
   const employeeReports = (
     <section className="flex items-center justify-between mt-5">
@@ -268,15 +280,22 @@ const EmployeeList = () => {
       <section className="mx-16 mt-[3rem]">
         {employeeReports}
         <div className="mt-[5rem]">
-          <TableListContainer
-            columns={EMP_LIST_COLS}
-            tableData={newEmpLst || []}
-            actionBtn
-            actionName="Status"
-            setEmpId={removeEmployee}
-            sl_no={false}
-            action_type={["delete", "readonly", "edit"]}
-          />
+          {isDelayOver && !isLoading ? (
+            <>
+              <Skeleton className="h-16" />
+              <Skeleton className="h-10 mt-6" count={8} />
+            </>
+          ) : (
+            <TableListContainer
+              columns={EMP_LIST_COLS}
+              tableData={newEmpLst || []}
+              actionBtn
+              actionName="Status"
+              setEmpId={removeEmployee}
+              sl_no={false}
+              action_type={["delete", "readonly", "edit"]}
+            />
+          )}
         </div>
         <aside className="mt-16">
           <div>

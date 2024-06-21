@@ -413,8 +413,8 @@ const EmpployeePersonalDetails: React.FC<
                   touched={touched.emp_district}
                   label="District"
                   name="emp_district"
-                  placeholder={"Enter District"}
-                  required={true}
+                  placeholder={"Select District"}
+                  required
                   api={`${HRMS_URL.DISTRICT.get}`}
                 />
                 <SelectForNoApi
@@ -939,7 +939,7 @@ const EmpployeePersonalDetails: React.FC<
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                   onClick={goBack}
                 >
@@ -948,13 +948,13 @@ const EmpployeePersonalDetails: React.FC<
 
                 <PrimaryButton
                   onClick={handleReset}
-                  buttonType="button"
+                  buttontype="button"
                   variant={"cancel"}
                 >
                   Reset
                 </PrimaryButton>
 
-                <PrimaryButton buttonType="submit" variant="primary">
+                <PrimaryButton buttontype="submit" variant="primary">
                   Next
                 </PrimaryButton>
               </div>
