@@ -126,6 +126,9 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
+  const storedEmpOfficeData = JSON.parse(sessionStorage.getItem("emp_office_details") || '{}');
+  
+
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
   const validateEmployeeId = async () => {
     try {
@@ -209,7 +212,7 @@ const EmployeeBasicDetails: React.FC<
             <form onSubmit={handleSubmit} className="relative">
               <Toaster />
               <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
-                {empType === "old" && (
+                {storedEmpOfficeData?.emp_type === 0 && (
                   <InputBox
                     // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
                     onChange={(e: React.ChangeEvent<any> | undefined) =>

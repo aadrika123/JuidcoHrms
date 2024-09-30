@@ -93,7 +93,7 @@ const PayrollManagement = () => {
 
   // -----------------Employee Onboard report JSX----------------------//
   const employeeReports = (
-    <section className="flex items-center justify-between mt-5">
+    <section className="flex items-center justify-between">
       <div>
         <h2 className="text-[2rem] text-secondary font-medium">
           Payroll Management System
@@ -123,7 +123,7 @@ const PayrollManagement = () => {
       <div className="flex items-end justify-between border-b-2 pb-7 mb-10">
         <BackButton />
         <div>
-          <SubHeading className="mx-5 my-5 mb-0 text-4xl">
+          <SubHeading className="mx-5 mb-0 text-4xl">
             Payroll Management
           </SubHeading>
         </div>
@@ -175,9 +175,9 @@ const PayrollManagement = () => {
       {/* -----------------------------------Filter------------------------------------------ */}
 
       {/* -----------------------------------Employee Onboard Reports------------------------------------------ */}
-      <section className="mx-16 mt-[3rem]">
+      <section className="mx-16 mt-2">
         {employeeReports}
-        <div className="mt-[5rem]">
+        <div className="mt-2">
           {filterEmpListData && filterEmpListData?.length < 1 ? (
             <span className="flex items-center justify-center text-2xl font-semibold ">
               Oops! No Data Found
