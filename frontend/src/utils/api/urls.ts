@@ -34,7 +34,9 @@ type UrlKeys =
   | "EMPLOYEE_TYPE_MASTER"
   | "FILE_UPLOAD_EMPLOYEE"
   | "FILE_UPLOAD_EMPLOYEE_SINGLE"
-  | "PERMISSIBLE_PAYROLL";
+  | "PERMISSIBLE_PAYROLL"
+  | "TREASURY"
+  ;
 
 type Urls = {
   [key in UrlKeys]: {
@@ -80,6 +82,9 @@ export const HRMS_URL: Urls = {
   },
   DDO: {
     get: "/ddo/get",
+  },
+  TREASURY: {
+    get: "/ddo/treasury",
   },
   ATTENDANCE: {
     create: "/employee/attendance/create",

@@ -70,6 +70,14 @@ class MasterDataRoute {
       ); //0204
 
     app
+      .route(`${baseUrl}/ddo/treasury`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.ddoController.getTreasury(req, res, next, "02041"),
+        loggerMiddleware
+      ); //0204
+
+    app
       .route(`${baseUrl}/ulb/get`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>

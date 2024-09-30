@@ -5,11 +5,15 @@ import { generateRes } from "../../../../util/generateRes";
 const prisma = new PrismaClient();
 class DdoDao {
   get = async (req: Request) => {
-    const { search } = req.query;
+    const { search, treasury } = req.query;
     try {
       let data;
 
-      if (search && typeof search === "string" && search.trim().length > 0) {
+      if (search && typeof search === "string" && search.trim().length > 0 && treasury != undefined) {
+        data = await prisma.$queryRaw`
+      SELECT * FROM ddo WHERE LOWER(treasury_name) = LOWER(${treasury}) and ddo_code LIKE '%' || ${search.toUpperCase()} || '%'
+    `;
+      } else if (search && typeof search === "string" && search.trim().length > 0) {
         data = await prisma.$queryRaw`
       SELECT * FROM ddo WHERE ddo_code LIKE '%' || ${search.toUpperCase()} || '%'
     `;
@@ -40,6 +44,17 @@ class DdoDao {
     const data = await prisma.ddo.findMany(query);
     return generateRes(data);
   };
+
+  getTreasury = async () => {
+    const data = await prisma.ddo.findMany({
+      distinct: 'treasury_name',
+      select: {
+        treasury_name: true
+      }
+    });
+    return generateRes(data);
+  };
+
 }
 
 export default DdoDao;

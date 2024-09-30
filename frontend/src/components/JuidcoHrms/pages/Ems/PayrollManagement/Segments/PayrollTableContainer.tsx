@@ -175,7 +175,29 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
 
               {/* =================== Salary Details ======================== */}
 
-              <td className="py-3 text-xl text-zinc-600 font-light">
+              <td className=" text-sm xl:text-xl text-zinc-600 font-light h-full">
+                <div className="pl-5 ">
+                  <div className="flex flex-row justify-between">
+                    <p>Allowances-</p>
+                    <p className="text-[#0E9D4A] font-medium">
+                      {item.total_allowance}/-
+                    </p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p>Deductions-</p>
+                    <p className="text-red-600 font-medium">
+                      {item.total_deductions}/-
+                    </p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p>Basic-</p>
+                    <p className="text-zinc-700 font-medium">
+                      {item?.basic_pay}/-
+                    </p>
+                  </div>
+                </div>
+              </td>
+              {/* <td className="py-3 text-sm xl:text-xl text-zinc-600 font-light">
                 <div className="pl-5">
                   <div className="grid grid-cols-2">
                     <p>Allowances-</p>
@@ -196,10 +218,30 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                     </p>
                   </div>
                 </div>
-              </td>
+              </td> */}
 
               {/* =================== Attendance Details ======================== */}
-              <td className="py-3 text-xl text-zinc-600 font-light">
+              <td className="py-3 text-sm xl:text-xl text-zinc-600 font-light">
+                <div className="pl-5">
+                  <div className="flex flex-row justify-between">
+                    <p>Total Present days-</p>
+                    <p className="text-[#0E9D4A] font-medium">
+                      {item.present_days}
+                    </p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p>Total Absent days-</p>
+                    <p className="text-red-600 font-medium">
+                      {item.leave_days}
+                    </p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p>LWP-</p>
+                    <p className="text-zinc-700 font-medium">{item.lwp_days}</p>
+                  </div>
+                </div>
+              </td>
+              {/* <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5">
                   <div className="grid grid-cols-2 whitespace-nowrap">
                     <p>Total Present days-</p>
@@ -218,7 +260,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                     <p className="text-zinc-700 font-medium">{item.lwp_days}</p>
                   </div>
                 </div>
-              </td>
+              </td> */}
 
               {/* =================== Net Salary ======================== */}
               <td className="py-3 text-xl text-zinc-600 font-light">

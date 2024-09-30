@@ -94,8 +94,16 @@ export const DashboardMain = () => {
     xaxis: {
       categories: ["2021", "2022", "2023", "2024"],
     },
+    // legend: {
+    //   show: false,
+    // },
     legend: {
-      show: false,
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      labels: {
+        useSeriesColors: true
+      }
     },
     dataLabels: {
       enabled: false,

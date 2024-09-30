@@ -63,7 +63,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           className={`grid grid-cols-10  ${isSidebarCollapsed ? "sidebar-collapsed h-0" : ""}`}
         >
           <div className="col-span-10">
-            <Header className="bg-white border-b border-b-slate-400 w-full h-[6.5rem] flex items-center justify-between px-5 shadow-md mb-1" />
+            <Header className="bg-white border-b border-b-slate-400 w-full h-20 flex items-center justify-between px-5 shadow-md mb-1" />
           </div>
           <div
             className={`col-span-2 border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}

@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { Formik } from "formik";
 import type { EmployeeOfficeDetaislType } from "@/utils/types/employee.type";
@@ -20,6 +20,7 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
+import { Autocomplete, TextField } from '@mui/material';
 
 type DDOTYPE = {
   data: [
@@ -43,12 +44,21 @@ const EmployeeOfficeDetails: React.FC<
   const [ddoData, setDdoData] = useState<DDOTYPE | undefined>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [input, setInput] = useState("");
+  const [treasuryList, setTreasuryList] = useState([]);
+  const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
+  const formikRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios(`${HRMS_URL.DDO.get}?search=${input}`);
-        setDdoData(response.data?.data);
+        if (selectedTreasury) {
+          const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
+          setDdoData(response.data?.data);
+        } else {
+          if (formikRef?.current?.values?.ddo_code === '') {
+            alert('Please select a treasury name')
+          }
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -64,6 +74,28 @@ const EmployeeOfficeDetails: React.FC<
 
     // fetchData();
   }, [input]);
+
+  const fetchTreasuryList = async () => {
+    try {
+      const response = await axios(`${HRMS_URL.TREASURY.get}`);
+      const result = response.data?.data?.data
+      const formattedResult = result.map((item: any) => item?.treasury_name)
+      // console.log(formattedResult, 'trsr')
+      setTreasuryList(formattedResult);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const treasuryHandle = (e: any, value: string) => {
+    setSelectedTreasury(value)
+  }
+
+  useEffect(() => {
+    if (treasuryList.length === 0) {
+      fetchTreasuryList()
+    }
+  }, [])
 
   const handleInputChange = (e: any) => {
     setIsTyping(true);
@@ -197,6 +229,7 @@ const EmployeeOfficeDetails: React.FC<
         </section>
         <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
         <Formik
+          innerRef={formikRef}
           initialValues={initialValues}
           validationSchema={officeDetailsValidationSchema}
           onSubmit={handleSubmitFormik}
@@ -224,6 +257,59 @@ const EmployeeOfficeDetails: React.FC<
                   placeholder={"Choose District"}
                   api={`${HRMS_URL.DISTRICT.get}`}
                 />
+
+                <div className="flex flex-col gap-1">
+                  <label className="text-secondary text-sm">
+                    Treasury Name
+                  </label>
+                  <Autocomplete
+                    disablePortal
+                    size="small"
+                    options={treasuryList}
+                    sx={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} placeholder="Select Treasury Name" />}
+                    value={selectedTreasury || ''}
+                    onChange={treasuryHandle}
+                  />
+                </div>
+
+                <div className="flex flex-col relative">
+                  <label className="text-sm text-secondary">DDO Code</label>
+                  <input
+                    placeholder="Type DDO code here"
+                    value={input}
+                    onChange={handleInputChange}
+                    onBlur={() =>
+                      setTimeout(() => {
+                        setIsTyping(false)
+                      }, 250)
+                    }
+                    className="border border-zinc-400 h-12 rounded-lg pl-3 bg-transparent mt-1"
+                  />
+
+                  {isTyping && (
+                    <div className="absolute top-[5rem] left-0 w-[20rem] h-[30rem] rounded-md overflow-scroll">
+                      <ul
+                        className={`${isTyping ? "border bg-white" : "bg-transparent border-0	"}`}
+                      >
+                        {/* <ul className={`bg-${isTyping ? "white" : "transparent"} p-2 border`}> */}
+                        {ddoData?.data?.map((item: any, i: number) => (
+                          <li
+                            onClick={() => {
+                              setInput(item.ddo_code);
+                              setIsTyping(false);
+                            }}
+                            className="text-sm font-semibold p-2 border-b cursor-pointer"
+                            key={i}
+                          >
+                            {item.ddo_code}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
                 <InputBox
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -284,38 +370,6 @@ const EmployeeOfficeDetails: React.FC<
                     }
                   }}
                 />
-
-                <div className="flex flex-col relative">
-                  <label className="text-sm text-secondary">DDO Code</label>
-                  <input
-                    placeholder="Type DDO code here"
-                    value={input}
-                    onChange={handleInputChange}
-                    className="border border-zinc-400 h-12 rounded-lg pl-3 bg-transparent mt-1"
-                  />
-
-                  {isTyping && (
-                    <div className="absolute top-[5rem] left-0 w-[20rem] h-[30rem] rounded-md overflow-scroll">
-                      <ul
-                        className={`${isTyping ? "border bg-white" : "bg-transparent border-0	"}`}
-                      >
-                        {/* <ul className={`bg-${isTyping ? "white" : "transparent"} p-2 border`}> */}
-                        {ddoData?.data?.map((item: any, i: number) => (
-                          <li
-                            onClick={() => {
-                              setInput(item.ddo_code);
-                              setIsTyping(false);
-                            }}
-                            className="text-sm font-semibold p-2 border-b cursor-pointer"
-                            key={i}
-                          >
-                            {item.ddo_code}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
 
                 <InputBox
                   onChange={handleChange}
