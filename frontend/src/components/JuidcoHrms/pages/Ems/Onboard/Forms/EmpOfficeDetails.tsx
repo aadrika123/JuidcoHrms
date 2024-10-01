@@ -46,7 +46,7 @@ const EmployeeOfficeDetails: React.FC<
   const [input, setInput] = useState("");
   const [treasuryList, setTreasuryList] = useState([]);
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
-  const formikRef = useRef();
+  const formikRef: any = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +55,10 @@ const EmployeeOfficeDetails: React.FC<
           const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
           setDdoData(response.data?.data);
         } else {
-          if (formikRef?.current?.values?.ddo_code === '') {
-            alert('Please select a treasury name')
+          if (formikRef) {
+            if (formikRef?.current?.values?.ddo_code === '') {
+              alert('Please select a treasury name')
+            }
           }
         }
       } catch (error) {
@@ -87,8 +89,10 @@ const EmployeeOfficeDetails: React.FC<
     }
   };
 
-  const treasuryHandle = (e: any, value: string) => {
-    setSelectedTreasury(value)
+  const treasuryHandle = (e: React.SyntheticEvent, value: string | null) => {
+    if (value) {
+      setSelectedTreasury(value)
+    }
   }
 
   useEffect(() => {
@@ -268,8 +272,7 @@ const EmployeeOfficeDetails: React.FC<
                     options={treasuryList}
                     sx={{ width: '100%' }}
                     renderInput={(params) => <TextField {...params} placeholder="Select Treasury Name" />}
-                    value={selectedTreasury || ''}
-                    onChange={treasuryHandle}
+                    onChange={(e, value) => { treasuryHandle(e, value) }}
                   />
                 </div>
 
