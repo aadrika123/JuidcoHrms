@@ -4,6 +4,7 @@ const data = [
     paths: [
       "/hrms/employee/attendance-management",
       "/hrms/employee/leave-management",
+      "/hrms/employee/regularization",
       "/hrms/download/payslip_from",
       "/hrms/payroll/claim_form",
       "/hrms/pension/gratuity_form",
