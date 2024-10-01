@@ -104,6 +104,7 @@ class EmployeeLeaveDao {
 
   get = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
+    const isRegularization = req.query.regularization === 'true' ? true : false;
 
     const leaveRequest = await prisma.employee_leave_details.findFirst({
       where: {
@@ -111,6 +112,11 @@ class EmployeeLeaveDao {
         leave_status: {
           lte: 3,
         },
+        ...(isRegularization ? { emp_leave_type_id: 19 } : {
+          emp_leave_type_id: {
+            not: 19
+          }
+        })
       },
       orderBy: {
         created_at: "desc",
@@ -139,9 +145,15 @@ class EmployeeLeaveDao {
 
   getAll = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
+    const isRegularization = req.query.regularization === 'true' ? true : false;
     const leaveRequest = await prisma.employee_leave_details.findMany({
       where: {
         employee_id: employee_id,
+        ...(isRegularization ? { emp_leave_type_id: 19 } : {
+          emp_leave_type_id: {
+            not: 19
+          }
+        })
       },
       orderBy: {
         created_at: "desc",

@@ -69,10 +69,16 @@ class LeaveChartDao {
 
   get = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
+    const isRegularization = req.query.regularization === 'true' ? true : false;
     console.log("employee_id", employee_id);
     const leaveRequest = await prisma.employee_leave_chart.findFirst({
       where: {
         employee_id: employee_id,
+        ...(isRegularization ? { emp_leave_type_id: 19 } : {
+          emp_leave_type_id: {
+            not: 19
+          }
+        })
       },
     });
     return generateRes(leaveRequest);

@@ -31,7 +31,7 @@ class LeaveTypeController {
     };
 
     try {
-      const data = await this.leaveTypeDao.get();
+      const data = await this.leaveTypeDao.get(req); //edited by Anil
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMsg).NOT_FOUND,

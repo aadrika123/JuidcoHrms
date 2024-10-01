@@ -17,6 +17,10 @@ class DdoDao {
         data = await prisma.$queryRaw`
       SELECT * FROM ddo WHERE ddo_code LIKE '%' || ${search.toUpperCase()} || '%'
     `;
+      } else if (treasury != undefined) {
+        data = await prisma.$queryRaw`
+      SELECT * FROM ddo WHERE LOWER(treasury_name) = LOWER(${treasury})
+  `;
       } else {
         data = await prisma.ddo.findMany();
       }

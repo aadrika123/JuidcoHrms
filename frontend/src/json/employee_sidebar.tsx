@@ -41,13 +41,13 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}/employee/attendance-management`,
         },
-        {
-          moduleName: "Apply for Leave",
-          icon: (
-            <Image src={LeaveIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/employee/leave-management`,
-        },
+        // {
+        //   moduleName: "Apply for Leave",
+        //   icon: (
+        //     <Image src={LeaveIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/employee/leave-management`,
+        // },
         {
           moduleName: "Payroll",
           icon: (
@@ -87,8 +87,23 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
               height={100}
             />
           ),
-          path: `${url}/comingsoon`,
+          path: ``,
+          dropdown: true,
           subModules: [
+            {
+              moduleName: "Apply for Leave",
+              icon: (
+                <Image src={LeaveIcon} alt="masters" width={100} height={100} />
+              ),
+              path: `${url}/employee/leave-management`,
+            },
+            {
+              moduleName: "Regularization",
+              icon: (
+                <Image src={LeaveIcon} alt="masters" width={100} height={100} />
+              ),
+              path: `${url}/employee/regularization`,
+            },
             {
               moduleName: "Claims",
               icon: (

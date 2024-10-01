@@ -42,40 +42,64 @@ const EmployeeOfficeDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
   const [ddoData, setDdoData] = useState<DDOTYPE | undefined>();
-  const [isTyping, setIsTyping] = useState<boolean>(false);
+  // const [isTyping, setIsTyping] = useState<boolean>(false);
   const [input, setInput] = useState("");
   const [treasuryList, setTreasuryList] = useState([]);
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
-  const formikRef: any = useRef();
+  const formikRef:any = useRef();
+  const [alertShown, setAlertShown] = useState(false);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (selectedTreasury) {
+  //         const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
+  //         setDdoData(response.data?.data);
+  //       } else {
+  //         if (formikRef) {
+  //           if (formikRef?.current?.values?.ddo_code === '') {
+  //             alert('Please select a treasury name')
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   const debounce = setTimeout(() => {
+  //     if (input.trim() !== "") {
+  //       fetchData();
+  //     }
+  //   }, 300);
+
+  //   return () => clearTimeout(debounce);
+
+  //   // fetchData();
+  // }, [input]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (selectedTreasury) {
           const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
+          // console.log(response.data?.data)
           setDdoData(response.data?.data);
-        } else {
-          if (formikRef) {
-            if (formikRef?.current?.values?.ddo_code === '') {
-              alert('Please select a treasury name')
-            }
-          }
         }
+        // else {
+        //   if (formikRef) {
+        //     if (formikRef?.current?.values?.ddo_code === '') {
+        //       alert('Please select a treasury name')
+        //     }
+        //   }
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    const debounce = setTimeout(() => {
-      if (input.trim() !== "") {
-        fetchData();
-      }
-    }, 300);
-
-    return () => clearTimeout(debounce);
-
-    // fetchData();
-  }, [input]);
+    fetchData();
+  }, [selectedTreasury]);
 
   const fetchTreasuryList = async () => {
     try {
@@ -101,11 +125,11 @@ const EmployeeOfficeDetails: React.FC<
     }
   }, [])
 
-  const handleInputChange = (e: any) => {
-    setIsTyping(true);
-    const inputValue: string = e.target.value;
-    setInput(inputValue);
-  };
+  // const handleInputChange = (e: any) => {
+  //   setIsTyping(true);
+  //   const inputValue: string = e.target.value;
+  //   setInput(inputValue);
+  // };
 
   const handleSubmitFormik = (
     values: EmployeeOfficeDetaislType,
@@ -276,7 +300,30 @@ const EmployeeOfficeDetails: React.FC<
                   />
                 </div>
 
-                <div className="flex flex-col relative">
+                <div className="flex flex-col gap-1">
+                  <label className="text-secondary text-sm">
+                    DDO Code
+                  </label>
+                  <Autocomplete
+                    disablePortal
+                    size="small"
+                    options={ddoData ? ddoData?.data : []}
+                    getOptionLabel={(option) => option?.ddo_code || ''}
+                    sx={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} placeholder="Select DDO Code" />}
+                    onChange={(e, value) => { if (value) setInput(value.ddo_code) }}
+                    onFocus={() => {
+                      if (formikRef) {
+                        if (formikRef?.current?.values?.ddo_code === '' && !alertShown) {
+                          alert('Please select a treasury name')
+                          setAlertShown(true)
+                        }
+                      }
+                    }}
+                  />
+                </div>
+
+                {/* <div className="flex flex-col relative">
                   <label className="text-sm text-secondary">DDO Code</label>
                   <input
                     placeholder="Type DDO code here"
@@ -295,7 +342,6 @@ const EmployeeOfficeDetails: React.FC<
                       <ul
                         className={`${isTyping ? "border bg-white" : "bg-transparent border-0	"}`}
                       >
-                        {/* <ul className={`bg-${isTyping ? "white" : "transparent"} p-2 border`}> */}
                         {ddoData?.data?.map((item: any, i: number) => (
                           <li
                             onClick={() => {
@@ -311,7 +357,7 @@ const EmployeeOfficeDetails: React.FC<
                       </ul>
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 <InputBox
                   onChange={handleChange}
@@ -403,7 +449,7 @@ const EmployeeOfficeDetails: React.FC<
                     }
                   }}
                 />
-              </div>
+              </div >
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
@@ -426,10 +472,10 @@ const EmployeeOfficeDetails: React.FC<
                   Next
                 </PrimaryButton>
               </div>
-            </form>
+            </form >
           )}
-        </Formik>
-      </div>
+        </Formik >
+      </div >
     </>
   );
 };
