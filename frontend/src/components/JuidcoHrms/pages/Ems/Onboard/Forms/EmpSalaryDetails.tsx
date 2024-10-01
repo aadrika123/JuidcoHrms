@@ -705,6 +705,7 @@ useEffect(() => {
                           <option value="SP(A)">Special Allowance (SP(A))</option>
                           <option value="MA(A)">Medical Allowance (MA(A))</option>
                           <option value="SA(A)">Statutory Allowance (SA(A))</option>
+                          <option value="EA">Emoluments allowance (EA)</option>
                         </select>
                       </td>
 
