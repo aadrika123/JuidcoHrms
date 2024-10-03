@@ -16,7 +16,8 @@
     "dev": "nodemon src/server.ts",
     "migrate": "rm -rf ./prisma/migrations && npx prisma migrate dev --name init",
     "migrate_win": "npx prisma migrate dev --name init",
-    "magic": "node magic/index.js"
+    "magic": "node magic/index.js",
+    "postbuild":"node buildproperties.js"
   },
   "author": "Aadrika Enterprises",
   "license": "ISC",
