@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
 const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.resolve(__dirname, 'src');
-const buildDir = path.resolve(__dirname, 'build');
+const buildDir = path.resolve(__dirname, 'build/src');
 
 function copyPropertiesFiles(src, dest) {
     if (!fs.existsSync(dest)) {
