@@ -20,6 +20,8 @@ import { useRouter } from "next/navigation";
 import { SubHeading } from "@/components/Helpers/Heading";
 import toast from "react-hot-toast";
 import Button from "@/components/global/atoms/Button";
+import axios from "@/lib/axiosConfig";
+import { HRMS_URL } from "@/utils/api/urls";
 
 const EmpSalaryDetails: React.FC<
   EmployeeDetailsProps<EmployeeSalaryDetailType>
@@ -37,6 +39,7 @@ const EmpSalaryDetails: React.FC<
   const [isDedWfeValid, setIsDedWfeValid] = useState<boolean>(true);
   const [result, setResult] = useState<any>("");
   const [pay_band, setPayBand] = useState(0);
+  const [calcProperties, setCalcProperties] = useState<any>({});
 
   const initialDeductDetails = {
     amount_in: "",
@@ -158,34 +161,34 @@ const EmpSalaryDetails: React.FC<
 
   // console.log("employeeDeductionDetails", employeeDeductionDetails)
 
-//   useEffect(() => {
-//     const storedJoinDataString = sessionStorage.getItem("emp_join_details");
-//     const storedJoinData = storedJoinDataString
-//       ? JSON.parse(storedJoinDataString)
-//       : null;
+  //   useEffect(() => {
+  //     const storedJoinDataString = sessionStorage.getItem("emp_join_details");
+  //     const storedJoinData = storedJoinDataString
+  //       ? JSON.parse(storedJoinDataString)
+  //       : null;
 
-//     const storedAllowanceDataString = sessionStorage.getItem(
-//       "emp_salary_allow_details"
-//     );
-//     const storedAllowanceData = storedAllowanceDataString
-//       ? JSON.parse(storedAllowanceDataString)
-//       : null;
+  //     const storedAllowanceDataString = sessionStorage.getItem(
+  //       "emp_salary_allow_details"
+  //     );
+  //     const storedAllowanceData = storedAllowanceDataString
+  //       ? JSON.parse(storedAllowanceDataString)
+  //       : null;
 
-//     if (storedJoinData && storedJoinData.basic_pay) {
-//       const totalAllowances = storedAllowanceData?.reduce(
-//         (sum: number, item: any) => sum + item.amount_in,
-//         0
-//       );
+  //     if (storedJoinData && storedJoinData.basic_pay) {
+  //       const totalAllowances = storedAllowanceData?.reduce(
+  //         (sum: number, item: any) => sum + item.amount_in,
+  //         0
+  //       );
 
-//       const newBasicPay2 = storedJoinData.basic_pay;
-//       console.log("newBasicPay2", newBasicPay2);
-//       setBasicPay1(newBasicPay2);
-//       const newBasicPay = storedJoinData.basic_pay + totalAllowances;
-//       console.log("newBasicPay", newBasicPay);
-//       setBasicPay(newBasicPay);
-//     }
-//   }, [basic_pay, employeeDeductionDetails]);
-useEffect(() => {
+  //       const newBasicPay2 = storedJoinData.basic_pay;
+  //       console.log("newBasicPay2", newBasicPay2);
+  //       setBasicPay1(newBasicPay2);
+  //       const newBasicPay = storedJoinData.basic_pay + totalAllowances;
+  //       console.log("newBasicPay", newBasicPay);
+  //       setBasicPay(newBasicPay);
+  //     }
+  //   }, [basic_pay, employeeDeductionDetails]);
+  useEffect(() => {
     const storedJoinDataString = sessionStorage.getItem("emp_join_details");
     const storedJoinData = storedJoinDataString
       ? JSON.parse(storedJoinDataString)
@@ -209,7 +212,7 @@ useEffect(() => {
 
       console.log("newGradePay", newGradePay)
       setPayBand(newGradePay)
-      
+
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
 
@@ -234,13 +237,13 @@ useEffect(() => {
     switch (selectedOption) {
       case "PT":
         if (currentBasicPay <= 25000) {
-          calculatedAmount = 0;
+          calculatedAmount = Number(calcProperties['calc.pt.l1']);
         } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
-          calculatedAmount = 100;
+          calculatedAmount = Number(calcProperties['calc.pt.l2']);
         } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
-          calculatedAmount = 150;
+          calculatedAmount = Number(calcProperties['calc.pt.l3']);
         } else if (currentBasicPay >= 66667) {
-          calculatedAmount = 200;
+          calculatedAmount = Number(calcProperties['calc.pt.l4']);
         }
         break;
 
@@ -248,22 +251,23 @@ useEffect(() => {
         const annualBasicPay = currentBasicPay * 12;
         console.log("annualBasicPay12", annualBasicPay);
         if (annualBasicPay <= 250000) {
-          calculatedAmount = 0;
+          calculatedAmount = Number(calcProperties['calc.it.l1']);
         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
-          calculatedAmount = Math.round((annualBasicPay * 5) / 100) /12;
+          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l2'])) / 100) / 12;
           console.log("calculatedAmount12323", calculatedAmount);
         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * 20) / 100) /12;
+          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l3'])) / 100) / 12;
         } else if (annualBasicPay > 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * 30) / 100) /12;
+          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l4'])) / 100) / 12;
         }
         break;
       }
 
       case "ESIC":
         console.log("currentBasicPayESIC", currentBasicPay);
-        if (currentBasicPay >= 21000) {
-          calculatedAmount = Math.round(currentBasicPay * 0.0175);
+        if (currentBasicPay >= Number(calcProperties['calc.esic.basicpaylimit'])) {
+          const calcPercentage = Number(calcProperties['calc.esic']) / 100
+          calculatedAmount = Math.round(currentBasicPay * calcPercentage);
         }
         break;
 
@@ -273,7 +277,8 @@ useEffect(() => {
           const daAmount = result;
           const totalAmount = currentBasicPay + daAmount;
           // Calculate EPF (12% of total amount)
-          calculatedAmount = Math.round(totalAmount * 0.12 || 0);
+          const calcPercentage = Number(calcProperties['calc.epf']) / 100
+          calculatedAmount = Math.round(totalAmount * calcPercentage || 0);
         }
         break;
 
@@ -297,112 +302,112 @@ useEffect(() => {
       return updatedDetails;
     });
   };
-//   const handleSelectChange = (
-//     e: React.ChangeEvent<HTMLSelectElement>,
-//     index: number
-//   ) => {
-//     const selectedOption = e.target.value;
-//     let calculatedAmount = 0;
-//     let accountNumber = "";
+  //   const handleSelectChange = (
+  //     e: React.ChangeEvent<HTMLSelectElement>,
+  //     index: number
+  //   ) => {
+  //     const selectedOption = e.target.value;
+  //     let calculatedAmount = 0;
+  //     let accountNumber = "";
 
-//     const currentBasicPay = basic_pay1;
-//     console.log("currentBasicPay", currentBasicPay);
-//     switch (selectedOption) {
-//       case "PT":
-//         if (currentBasicPay <= 25000) {
-//           calculatedAmount = 0;
-//         } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
-//           calculatedAmount = 100;
-//         } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
-//           calculatedAmount = 150;
-//         } else if (currentBasicPay >= 66667) {
-//           calculatedAmount = 200;
-//         }
-//         break;
+  //     const currentBasicPay = basic_pay1;
+  //     console.log("currentBasicPay", currentBasicPay);
+  //     switch (selectedOption) {
+  //       case "PT":
+  //         if (currentBasicPay <= 25000) {
+  //           calculatedAmount = 0;
+  //         } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
+  //           calculatedAmount = 100;
+  //         } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
+  //           calculatedAmount = 150;
+  //         } else if (currentBasicPay >= 66667) {
+  //           calculatedAmount = 200;
+  //         }
+  //         break;
 
-//       case "IT": {
-//         const annualBasicPay = currentBasicPay * 12;
-//         console.log("annualBasicPay12", annualBasicPay);
-//         if (annualBasicPay <= 250000) {
-//           calculatedAmount = 0;
-//         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
-//           calculatedAmount = Math.round((annualBasicPay * 5) / 100);
-//           console.log("calculatedAmount12323", calculatedAmount);
-//         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
-//           calculatedAmount = Math.round((annualBasicPay * 20) / 100);
-//         } else if (annualBasicPay > 1000000) {
-//           calculatedAmount = Math.round((annualBasicPay * 30) / 100);
-//         }
-//         break;
-//       }
+  //       case "IT": {
+  //         const annualBasicPay = currentBasicPay * 12;
+  //         console.log("annualBasicPay12", annualBasicPay);
+  //         if (annualBasicPay <= 250000) {
+  //           calculatedAmount = 0;
+  //         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
+  //           calculatedAmount = Math.round((annualBasicPay * 5) / 100);
+  //           console.log("calculatedAmount12323", calculatedAmount);
+  //         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
+  //           calculatedAmount = Math.round((annualBasicPay * 20) / 100);
+  //         } else if (annualBasicPay > 1000000) {
+  //           calculatedAmount = Math.round((annualBasicPay * 30) / 100);
+  //         }
+  //         break;
+  //       }
 
-//       case "ESIC":
-//         console.log("currentBasicPayESIC", currentBasicPay);
-//         if (currentBasicPay >= 21000) {
-//           calculatedAmount = Math.round(currentBasicPay * 0.0175);
-//         }
-//         break;
+  //       case "ESIC":
+  //         console.log("currentBasicPayESIC", currentBasicPay);
+  //         if (currentBasicPay >= 21000) {
+  //           calculatedAmount = Math.round(currentBasicPay * 0.0175);
+  //         }
+  //         break;
 
-//       case "EPF":
-//         {
-//           // const basicPay = basic_pay;
-//           // const allowanceDataString =
-//           //   sessionStorage.getItem("emp_salary_allow_details") || "";
-//           // const allowanceData = JSON?.parse(allowanceDataString);
-//           // const daAllowance = allowanceData.find(
-//           //   (item: any) => item.name === "DA"
-//           // );
-//           // console.log("daAllowance", daAllowance);
-//           // if (daAllowance) {
-//           //   const daAmount = daAllowance.amount_in;
-//           //   console.log("currentBasicPay", currentBasicPay);
-//           //   const totalAmount = basicPay + daAmount;
-//           //   console.log("totalAmount", totalAmount);
-//           //   // Calculate EPF (12% of total amount)
-//           //   calculatedAmount = Math.round(totalAmount * 0.12);
-//           // } else {
-//           //   console.error("DA allowance not found in allowance data");
-//           // }
+  //       case "EPF":
+  //         {
+  //           // const basicPay = basic_pay;
+  //           // const allowanceDataString =
+  //           //   sessionStorage.getItem("emp_salary_allow_details") || "";
+  //           // const allowanceData = JSON?.parse(allowanceDataString);
+  //           // const daAllowance = allowanceData.find(
+  //           //   (item: any) => item.name === "DA"
+  //           // );
+  //           // console.log("daAllowance", daAllowance);
+  //           // if (daAllowance) {
+  //           //   const daAmount = daAllowance.amount_in;
+  //           //   console.log("currentBasicPay", currentBasicPay);
+  //           //   const totalAmount = basicPay + daAmount;
+  //           //   console.log("totalAmount", totalAmount);
+  //           //   // Calculate EPF (12% of total amount)
+  //           //   calculatedAmount = Math.round(totalAmount * 0.12);
+  //           // } else {
+  //           //   console.error("DA allowance not found in allowance data");
+  //           // }
 
-//           // console.log("daAllowance", daAllowance);
-//           // if (daAllowance) {
-//           //   const daAmount = daAllowance.amount_in;
-//           //   console.log("currentBasicPay", currentBasicPay);
-//           //   const totalAmount = basic_pay1 + daAmount;
-//           //   console.log("totalAmount", totalAmount);
-//           //   // Calculate EPF (12% of total amount)
-//           //   calculatedAmount = Math.round(totalAmount * 0.12);
-//           // } else {
-//           //   console.error("DA allowance not found in allowance data");
-//           const currentBasicPay = basic_pay1;
-//           console.log("currentBasicPay2342", currentBasicPay);
-//           const daAmount = result;
-//           const totalAmount = currentBasicPay + daAmount;
-//           // Calculate EPF (12% of total amount)
-//           calculatedAmount = Math.round(totalAmount * 0.12);
-//         }
-//         break;
+  //           // console.log("daAllowance", daAllowance);
+  //           // if (daAllowance) {
+  //           //   const daAmount = daAllowance.amount_in;
+  //           //   console.log("currentBasicPay", currentBasicPay);
+  //           //   const totalAmount = basic_pay1 + daAmount;
+  //           //   console.log("totalAmount", totalAmount);
+  //           //   // Calculate EPF (12% of total amount)
+  //           //   calculatedAmount = Math.round(totalAmount * 0.12);
+  //           // } else {
+  //           //   console.error("DA allowance not found in allowance data");
+  //           const currentBasicPay = basic_pay1;
+  //           console.log("currentBasicPay2342", currentBasicPay);
+  //           const daAmount = result;
+  //           const totalAmount = currentBasicPay + daAmount;
+  //           // Calculate EPF (12% of total amount)
+  //           calculatedAmount = Math.round(totalAmount * 0.12);
+  //         }
+  //         break;
 
-//       case "GPF":
-//         accountNumber = gpf;
-//         break;
+  //       case "GPF":
+  //         accountNumber = gpf;
+  //         break;
 
-//       default:
-//         calculatedAmount = 0;
-//         break;
-//     }
+  //       default:
+  //         calculatedAmount = 0;
+  //         break;
+  //     }
 
-//     setEmployeeDeductionDetails((prev: any) => {
-//       const updatedDetails = [...prev];
-//       updatedDetails[index] = {
-//         ...updatedDetails[index],
-//         name: selectedOption,
-//         amount_in: calculatedAmount,
-//         acnt_no: accountNumber,
-//       };
-//       return updatedDetails;
-//     });
-//   };
+  //     setEmployeeDeductionDetails((prev: any) => {
+  //       const updatedDetails = [...prev];
+  //       updatedDetails[index] = {
+  //         ...updatedDetails[index],
+  //         name: selectedOption,
+  //         amount_in: calculatedAmount,
+  //         acnt_no: accountNumber,
+  //       };
+  //       return updatedDetails;
+  //     });
+  //   };
 
   //////////////////////////////
   const handleSubmitForm = (values: any) => {
@@ -592,6 +597,20 @@ useEffect(() => {
       setIsValidate(false);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${HRMS_URL.PROPERTIES.get}/calc`);
+        // console.log(response.data?.data, 'calc')
+        setCalcProperties(response.data?.data)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -806,8 +825,8 @@ useEffect(() => {
                               {/* <span>{item?.amount_in}</span> */}
                             </div>
                           )}
-                          {["DA"].includes(item.name) ?
-                          <span>{item?.amount_in}</span> : null} 
+                        {["DA"].includes(item.name) ?
+                          <span>{item?.amount_in}</span> : null}
                       </td>
                     </tr>
                   ))}
@@ -847,8 +866,8 @@ useEffect(() => {
                         <>
                           <th
                             key={index}
-                            // className="w-full"
-                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                          // className="w-full"
+                          // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
                           >
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>

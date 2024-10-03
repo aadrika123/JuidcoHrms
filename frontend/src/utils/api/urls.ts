@@ -36,6 +36,7 @@ type UrlKeys =
   | "FILE_UPLOAD_EMPLOYEE_SINGLE"
   | "PERMISSIBLE_PAYROLL"
   | "TREASURY"
+  | "PROPERTIES"
   ;
 
 type Urls = {
@@ -172,5 +173,8 @@ export const HRMS_URL: Urls = {
   },
   PERMISSIBLE_PAYROLL: {
     update: "/pay/payroll/update-permissible",
+  },
+  PROPERTIES: {
+    get: "/properties",
   },
 };
