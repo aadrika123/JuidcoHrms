@@ -8,7 +8,7 @@ import path from "path";
 import PropertiesReader from 'properties-reader'
 
 // const properties = PropertiesReader('./config.properties');
-const propertiesPath = path.resolve(__dirname, '../../../../../conf.properties');
+const propertiesPath = path.resolve(__dirname, '../../../../conf.properties');
 
 class TestController {
     private properties: any;
