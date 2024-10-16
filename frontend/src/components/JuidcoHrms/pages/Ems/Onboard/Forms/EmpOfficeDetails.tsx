@@ -20,7 +20,7 @@ import { EmployeeDetailsProps } from "@/utils/types/employee.type";
 import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField } from "@mui/material";
 
 type DDOTYPE = {
   data: [
@@ -46,7 +46,7 @@ const EmployeeOfficeDetails: React.FC<
   const [input, setInput] = useState("");
   const [treasuryList, setTreasuryList] = useState([]);
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
-  const formikRef:any = useRef();
+  const formikRef: any = useRef();
   const [alertShown, setAlertShown] = useState(false);
 
   // useEffect(() => {
@@ -82,7 +82,9 @@ const EmployeeOfficeDetails: React.FC<
     const fetchData = async () => {
       try {
         if (selectedTreasury) {
-          const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
+          const response = await axios(
+            `${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`
+          );
           // console.log(response.data?.data)
           setDdoData(response.data?.data);
         }
@@ -104,8 +106,8 @@ const EmployeeOfficeDetails: React.FC<
   const fetchTreasuryList = async () => {
     try {
       const response = await axios(`${HRMS_URL.TREASURY.get}`);
-      const result = response.data?.data?.data
-      const formattedResult = result.map((item: any) => item?.treasury_name)
+      const result = response.data?.data?.data;
+      const formattedResult = result.map((item: any) => item?.treasury_name);
       // console.log(formattedResult, 'trsr')
       setTreasuryList(formattedResult);
     } catch (error) {
@@ -115,15 +117,15 @@ const EmployeeOfficeDetails: React.FC<
 
   const treasuryHandle = (e: React.SyntheticEvent, value: string | null) => {
     if (value) {
-      setSelectedTreasury(value)
+      setSelectedTreasury(value);
     }
-  }
+  };
 
   useEffect(() => {
     if (treasuryList.length === 0) {
-      fetchTreasuryList()
+      fetchTreasuryList();
     }
-  }, [])
+  }, []);
 
   // const handleInputChange = (e: any) => {
   //   setIsTyping(true);
@@ -284,6 +286,7 @@ const EmployeeOfficeDetails: React.FC<
                   name="district"
                   placeholder={"Choose District"}
                   api={`${HRMS_URL.DISTRICT.get}`}
+                  stateValue={values.district}
                 />
 
                 <div className="flex flex-col gap-1">
@@ -294,29 +297,41 @@ const EmployeeOfficeDetails: React.FC<
                     disablePortal
                     size="small"
                     options={treasuryList}
-                    sx={{ width: '100%' }}
-                    renderInput={(params) => <TextField {...params} placeholder="Select Treasury Name" />}
-                    onChange={(e, value) => { treasuryHandle(e, value) }}
+                    sx={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select Treasury Name"
+                      />
+                    )}
+                    onChange={(e, value) => {
+                      treasuryHandle(e, value);
+                    }}
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-secondary text-sm">
-                    DDO Code
-                  </label>
+                  <label className="text-secondary text-sm">DDO Code</label>
                   <Autocomplete
                     disablePortal
                     size="small"
                     options={ddoData ? ddoData?.data : []}
-                    getOptionLabel={(option) => option?.ddo_code || ''}
-                    sx={{ width: '100%' }}
-                    renderInput={(params) => <TextField {...params} placeholder="Select DDO Code" />}
-                    onChange={(e, value) => { if (value) setInput(value.ddo_code) }}
+                    getOptionLabel={(option) => option?.ddo_code || ""}
+                    sx={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextField {...params} placeholder="Select DDO Code" />
+                    )}
+                    onChange={(e, value) => {
+                      if (value) setInput(value.ddo_code);
+                    }}
                     onFocus={() => {
                       if (formikRef) {
-                        if (formikRef?.current?.values?.ddo_code === '' && !alertShown) {
-                          alert('Please select a treasury name')
-                          setAlertShown(true)
+                        if (
+                          formikRef?.current?.values?.ddo_code === "" &&
+                          !alertShown
+                        ) {
+                          alert("Please select a treasury name");
+                          setAlertShown(true);
                         }
                       }
                     }}
@@ -449,7 +464,7 @@ const EmployeeOfficeDetails: React.FC<
                     }
                   }}
                 />
-              </div >
+              </div>
 
               <div className="flex items-center justify-end mt-5 gap-5">
                 <PrimaryButton
@@ -472,10 +487,10 @@ const EmployeeOfficeDetails: React.FC<
                   Next
                 </PrimaryButton>
               </div>
-            </form >
+            </form>
           )}
-        </Formik >
-      </div >
+        </Formik>
+      </div>
     </>
   );
 };
