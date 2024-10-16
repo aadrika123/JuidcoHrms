@@ -60,7 +60,7 @@ model employee_office_details {
   office_code     String?
   ddo_designation String?
   ddo_code        String?
-  district        Int
+  district        Int?
   employee        employees[]
   created_at      DateTime    @default(now()) @map("created_at")
   updated_at      DateTime    @updatedAt @map("updated_at")
@@ -71,18 +71,19 @@ model employee_basic_details {
   emp_id              String
   emp_image           String
   emp_name            String
-  mode_of_recruitment String? // Assuming you want to store it as a string, adjust as needed
+  mode_of_recruitment String?
   contact_no          String
   emg_contact_no      String
   aadhar_no           String
   epic_no             String
   pan_no              String?
-  gender              String // Assuming you want to store it as a string, adjust as needed
+  gender              String
   pran                String?
   weight              String?
   height              String?
   cps                 String?
   gps                 String
+  email               String?
   emp_type_master     employee_type_master @relation(fields: [emp_type], references: [id])
   emp_type            Int
   dob                 DateTime
@@ -98,7 +99,7 @@ model employee_personal_details {
   religion                    String
   emp_categories              String
   emp_home_state              String
-  emp_district                Int
+  emp_district                Int?
   emp_blood_group             String
   emp_health_status           String
   emp_health_file             String?
@@ -109,7 +110,7 @@ model employee_personal_details {
   emp_family_name             String?
   emp_office_name             String?
   emp_org_name                String?
-  emp_lang                    Json
+  emp_lang                    Json?
   employee                    employees[]
   created_at                  DateTime    @default(now()) @map("created_at")
   updated_at                  DateTime    @updatedAt @map("updated_at")
@@ -117,10 +118,10 @@ model employee_personal_details {
 
 model employee_family_details {
   id           Int       @id @default(autoincrement())
-  name         String
-  relation     String
-  dob          String
-  dependent    String
+  name         String?
+  relation     String?
+  dob          String?
+  dependent    String?
   employees    employees @relation(fields: [employees_id], references: [emp_id])
   employees_id String
   created_at   DateTime  @default(now()) @map("created_at")
@@ -129,11 +130,11 @@ model employee_family_details {
 
 model employee_nominee_details {
   id             Int              @id @default(autoincrement())
-  nominee_name   String
-  relation       String
-  percentage     Float
-  address        String
-  minor          String
+  nominee_name   String?
+  relation       String?
+  percentage     Float?
+  address        String?
+  minor          String?
   employees      employees        @relation(fields: [employee_id], references: [emp_id])
   pension_master pension_master[]
   employee_id    String
@@ -149,7 +150,7 @@ model employee_address_details {
   village                     String
   post_office                 String?
   state                       String
-  district                    Int
+  district                    Int?
   block_ulb                   String?
   pin_code                    String
   police_station              String?
@@ -174,12 +175,12 @@ model employee_address_details {
 // -------------Employee Service History-----------------//
 model employee_increment_details {
   id                  Int       @id @default(autoincrement())
-  scale               String
-  inc_date            String
-  inc_amount          Float
-  basic_pay_after_inc Float
-  vide_order_no       String
-  vide_order_date     String
+  scale               String?
+  inc_date            String?
+  inc_amount          Float?
+  basic_pay_after_inc Float?
+  vide_order_no       String?
+  vide_order_date     String?
   employees           employees @relation(fields: [employees_id], references: [emp_id])
   employees_id        String
   created_at          DateTime  @default(now()) @map("created_at")
@@ -188,11 +189,11 @@ model employee_increment_details {
 
 model employee_promotion_details {
   id              Int       @id @default(autoincrement())
-  designation     Json
-  scale           Json
-  vide_order_no   String
-  vide_order_date String
-  transfer        String
+  designation     Json?
+  scale           Json?
+  vide_order_no   String?
+  vide_order_date String?
+  transfer        String?
   employees       employees @relation(fields: [employees_id], references: [emp_id])
   employees_id    String
   created_at      DateTime  @default(now()) @map("created_at")
@@ -201,12 +202,12 @@ model employee_promotion_details {
 
 model employee_transfer_details {
   id                  Int       @id @default(autoincrement())
-  designation         Json
-  office              Json
-  join_date           String
-  vide_order_no       String
-  vide_order_date     String
-  transfer_after_prom String
+  designation         Json?
+  office              Json?
+  join_date           String?
+  vide_order_no       String?
+  vide_order_date     String?
+  transfer_after_prom String?
   employees           employees @relation(fields: [employees_id], references: [emp_id])
   employees_id        String
   created_at          DateTime  @default(now()) @map("created_at")
@@ -230,6 +231,7 @@ model employee_salary_allow {
   id                         Int                     @id @default(autoincrement())
   name                       String?
   wfe_date                   String?
+  selected_option            String?
   amount_in                  Float?
   employee_salary_details    employee_salary_details @relation(fields: [employee_salary_details_id], references: [id])
   employee_salary_details_id Int
@@ -327,12 +329,12 @@ model employee_training_details {
 
 model employee_timebound_details {
   id              Int       @id @default(autoincrement())
-  pay_scale       Json
-  inc_amt         String
-  b_after_pay     String
-  vide_order_no   String
-  vide_order_date String
-  remarks         String
+  pay_scale       Json?
+  inc_amt         String?
+  b_after_pay     String?
+  vide_order_no   String?
+  vide_order_date String?
+  remarks         String?
   employees       employees @relation(fields: [employees_id], references: [emp_id])
   employees_id    String
   created_at      DateTime  @default(now()) @map("created_at")
@@ -522,13 +524,16 @@ model employee_daily_attendance {
 }
 
 model employee_hierarchy {
-  id         Int       @id @default(autoincrement())
-  employee   employees @relation(fields: [emp_id], references: [emp_id])
-  emp_id     String
-  parent_emp String
+  id                   Int       @id @default(autoincrement())
+  emp_id               String    @unique
+  employee             employees @relation(fields: [emp_id], references: [emp_id])
+  parent_emp           String
+  supervisor_level     String?
+  immediate_supervisor String?
+  task                 String?
 
   created_at DateTime @default(now()) @map("created_at")
-  updated_at DateTime @default(now()) @updatedAt @map("updated_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 }
 
 // CREATE AND MAINTAINED BY ANJALI 
@@ -659,6 +664,7 @@ model language {
 model district {
   id         Int      @id @default(autoincrement())
   name       String
+  state      String?
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 }

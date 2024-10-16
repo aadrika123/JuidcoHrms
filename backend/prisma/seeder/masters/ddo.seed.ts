@@ -1,24 +1,32 @@
 import { PrismaClient } from "@prisma/client";
-
 import readXlsxFile from "read-excel-file/node";
 
 const prisma = new PrismaClient();
 
 export const ddoSeeder = async () => {
-  const file_path = "./prisma/data/ddo_code3.csv";
+  const file_path = "../../data/ddo_code3.csv";
 
-  readXlsxFile(file_path).then(async (rows) => {
+  try {
+    const rows = await readXlsxFile(file_path);
     const n = rows.length;
+
     for (let i = 1; i < n; i++) {
       const row = rows[i];
       const record = {
-        ddo_code: row[0] == null ? "" : row[0].toString(),
-        ddo_name: row[1] == null ? "" : row[1].toString(),
-        ddo_designation: row[2] == null ? "" : row[2].toString(),
-        ddo_office: row[3] == null ? "" : row[3].toString(),
+        treasury_name: row[0] == null ? "" : row[0].toString(), 
+        ddo_code: row[1] == null ? "" : row[1].toString(), 
+        ddo_name: row[2] == null ? "" : row[2].toString(),
+        designation: row[3] == null ? "" : row[3].toString(), 
+        office: row[4] == null ? "" : row[4].toString(),
       };
 
-      await prisma.ddo.create({ data: record });
+      try {
+        await prisma.ddo.create({ data: record });
+      } catch (error) {
+        console.error(`Error inserting record ${JSON.stringify(record)}:`, error);
+      }
     }
-  });
+  } catch (error) {
+    console.error("Error occurred while reading the file:", error);
+  }
 };

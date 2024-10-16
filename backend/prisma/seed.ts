@@ -13,7 +13,7 @@ import employee_seeder from "./seeder/employee/employee.seed";
 import { generate_attendance } from "./seeder/employee/attend.seed";
 import { attend_history_seed } from "./seeder/employee/attend_history";
 import { leave_encash_seed } from "./seeder/employee/encash.seed";
-// import { ddoSeeder } from "./seeder/masters/ddo.seed";
+import { ddoSeeder } from "./seeder/masters/ddo.seed";
 import hierarchy_seeder from "./seeder/supervisor/hierarchy.seed";
 import PayrollDao from "../src/component/juidcoHrms/dao/payroll/payroll.dao";
 import { emp_type_seeder } from "./seeder/masters/emp_type.seed";
@@ -33,7 +33,7 @@ async function main() {
   await holidays_seeder();
   await empLeave_seeder();
   await leave_encash_seed();
-  // await ddoSeeder();
+  await ddoSeeder();
   await employee_seeder();
   await generate_attendance();
   await attend_history_seed();
