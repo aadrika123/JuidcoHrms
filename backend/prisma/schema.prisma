@@ -1,6 +1,7 @@
 //!-----------------------------------------------------------------//
 // !Author: Krish
 // !status: Open
+// !modified_by: kaushal_dev
 
 generator client {
   provider = "prisma-client-js"
