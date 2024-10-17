@@ -261,7 +261,7 @@ const EmployeeOfficeDetails: React.FC<
         <Formik
           innerRef={formikRef}
           initialValues={initialValues}
-          validationSchema={officeDetailsValidationSchema}
+          // validationSchema={officeDetailsValidationSchema}
           onSubmit={handleSubmitFormik}
         >
           {({
