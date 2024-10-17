@@ -88,29 +88,29 @@ const RegularizationForm = () => {
       const diff = Math.round(differenceBtwDates / aDayInMs) + 1;
 
       if (
-        (emp_leave_type_id === 1 && diff > leaveChartData.sick_leave) ||
-        (emp_leave_type_id === 2 && diff > leaveChartData.earned_leave) ||
-        (emp_leave_type_id === 3 && diff > leaveChartData.personal_leave) ||
-        (emp_leave_type_id === 4 && diff > leaveChartData.commuted_leave) ||
-        (emp_leave_type_id === 5 && diff > leaveChartData.leave_not_due) ||
+        (emp_leave_type_id === 1 && diff > leaveChartData?.sick_leave) ||
+        (emp_leave_type_id === 2 && diff > leaveChartData?.earned_leave) ||
+        (emp_leave_type_id === 3 && diff > leaveChartData?.personal_leave) ||
+        (emp_leave_type_id === 4 && diff > leaveChartData?.commuted_leave) ||
+        (emp_leave_type_id === 5 && diff > leaveChartData?.leave_not_due) ||
         (emp_leave_type_id === 6 &&
-          diff > leaveChartData.extraordinary_leave) ||
-        (emp_leave_type_id === 7 && diff > leaveChartData.privileged_leave) ||
+          diff > leaveChartData?.extraordinary_leave) ||
+        (emp_leave_type_id === 7 && diff > leaveChartData?.privileged_leave) ||
         (emp_leave_type_id === 8 &&
-          diff > leaveChartData.leave_entitlements_for_vacation) ||
-        (emp_leave_type_id === 9 && diff > leaveChartData.leave_on_adoption) ||
+          diff > leaveChartData?.leave_entitlements_for_vacation) ||
+        (emp_leave_type_id === 9 && diff > leaveChartData?.leave_on_adoption) ||
         (emp_leave_type_id === 10 &&
-          diff > leaveChartData.leave_to_female_on_adoption) ||
-        (emp_leave_type_id === 11 && diff > leaveChartData.child_care_leave) ||
-        (emp_leave_type_id === 12 && diff > leaveChartData.wrill) ||
+          diff > leaveChartData?.leave_to_female_on_adoption) ||
+        (emp_leave_type_id === 11 && diff > leaveChartData?.child_care_leave) ||
+        (emp_leave_type_id === 12 && diff > leaveChartData?.wrill) ||
         (emp_leave_type_id === 13 &&
-          diff > leaveChartData.special_casual_leave) ||
-        (emp_leave_type_id === 14 && diff > leaveChartData.study_leave) ||
-        (emp_leave_type_id === 15 && diff > leaveChartData.ad_hoc_employees) ||
-        (emp_leave_type_id === 16 && diff > leaveChartData.leave_salary) ||
+          diff > leaveChartData?.special_casual_leave) ||
+        (emp_leave_type_id === 14 && diff > leaveChartData?.study_leave) ||
+        (emp_leave_type_id === 15 && diff > leaveChartData?.ad_hoc_employees) ||
+        (emp_leave_type_id === 16 && diff > leaveChartData?.leave_salary) ||
         (emp_leave_type_id === 17 &&
-          diff > leaveChartData.special_casual_leave) ||
-        (emp_leave_type_id === 18 && diff > leaveChartData.paternity_leave)
+          diff > leaveChartData?.special_casual_leave) ||
+        (emp_leave_type_id === 18 && diff > leaveChartData?.paternity_leave)
       ) {
         setCheckLeaveCount(true);
         toast.error(`Total leave days must not exceed from balance leave.`);
@@ -149,7 +149,7 @@ const RegularizationForm = () => {
         method: "POST",
         data: {
           ...values,
-          emp_leave_type_id:19,
+          emp_leave_type_id: 19,
           employee_id: empId,
           total_days: actualTotalDays,
           half_day: tabIndex === 0 ? true : false,
