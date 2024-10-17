@@ -10,6 +10,7 @@ type UrlKeys =
   | "DEPARTMENT"
   | "DESIGNATION"
   | "DISTRICT"
+  | "DISTRICT2"
   | "LOGIN"
   | "ATTENDANCE"
   | "HOLIDAY"
@@ -74,6 +75,9 @@ export const HRMS_URL: Urls = {
   },
   DISTRICT: {
     get: "/master/district",
+  },
+  DISTRICT2: {
+    get: "/master/district-by-state",
   },
   EMP_COUNT: {
     get: "/employee/count",

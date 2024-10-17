@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "@/lib/axiosConfig";
 import { useField } from "formik";
 
@@ -23,6 +23,7 @@ interface DropDownListProps {
   onBlur?: (e?: React.FocusEvent<HTMLSelectElement>) => void;
   required?: boolean;
   disabled?: boolean;
+  stateValue: string | "";
 }
 
 interface DropDownList {
@@ -47,7 +48,11 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
     return res.data?.data?.data;
   };
 
-  const { data: dataList = [], isError: dataError } = useQuery({
+  const {
+    data: dataList = [],
+    isError: dataError,
+    refetch,
+  } = useQuery({
     queryKey: [props.name],
     queryFn: fetchData,
   });
@@ -55,6 +60,10 @@ const DropDownList: React.FC<DropDownListProps> = (props) => {
   if (dataError) {
     throw new Error("Fatal Error!");
   }
+
+  useEffect(() => {
+    refetch();
+  }, [props?.stateValue]);
 
   return (
     <>

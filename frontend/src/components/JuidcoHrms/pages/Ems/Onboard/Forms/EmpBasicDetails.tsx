@@ -126,8 +126,9 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
-  const storedEmpOfficeData = JSON.parse(sessionStorage.getItem("emp_office_details") || '{}');
-  
+  const storedEmpOfficeData = JSON.parse(
+    sessionStorage.getItem("emp_office_details") || "{}"
+  );
 
   // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
   const validateEmployeeId = async () => {
@@ -681,6 +682,15 @@ const EmployeeBasicDetails: React.FC<
                       e.preventDefault();
                     }
                   }}
+                />
+                <InputBox
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  label="Email"
+                  name="email"
+                  placeholder={"Enter Email Address"}
+                  type="text"
                 />
               </div>
 
