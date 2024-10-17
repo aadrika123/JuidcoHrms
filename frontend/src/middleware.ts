@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
   }
 
   const paths = data.find(
-    (i: any) => i.user_type.toLowerCase() === user?.user_type.toLowerCase()
+    (i: any) => i.user_type.toLowerCase() === user?.user_type?.toLowerCase()
   )?.paths;
 
   const u = paths?.find((i) => request.url.includes(i));

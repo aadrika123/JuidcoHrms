@@ -23,6 +23,7 @@ const data = [
       "/hrms/pension/leave_encashment",
       "/hrms/supervisor/leave-approval",
       "/hrms/supervisor/team-members",
+      "/hrms/supervisor/add-members",
       "/hrms/supervisor/time-sheet",
     ],
   },
