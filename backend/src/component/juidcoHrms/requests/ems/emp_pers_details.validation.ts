@@ -389,7 +389,7 @@ export const employeeJoinDetailsRequestData = (
     wef_date: empJoinDetails.wef_date,
     branch_name: empJoinDetails.branch_name,
     pf_category: empJoinDetails.pf_category,
-    acc_no: empJoinDetails.acc_no,
+    acc_number: empJoinDetails.acc_number,
     ifsc: empJoinDetails.ifsc,
     sen_grade_list: empJoinDetails.sen_grade_list,
   };
@@ -404,7 +404,8 @@ export const employeeJoinValidationSchema = Joi.object({
   pay_band: Joi.number().required(),
   grade_pay: Joi.number().allow(null, ""),
   basic_pay: Joi.number().required(),
-  acc_no: Joi.string().allow(null, ""), // Changed to string to match Prisma
+  acc_no: Joi.string().allow(null, ""),
+  acc_number: Joi.string().allow(null, ""), // Changed to string to match Prisma
   deduction_type: Joi.string().required(), // Changed to string to match Prisma
 
   // Optional fields
@@ -481,7 +482,7 @@ export const employeeEducationRequestData = (item: EmployeeEducation[]) => {
   });
 };
 const employeeEducationTrainingTypeSchema = Joi.object({
-  name_of_training: Joi.string().allow("", null), 
+  name_of_training: Joi.string().allow("", null),
   training_type: Joi.string().allow("", null),
   name_of_inst: Joi.string().allow("", null),
   starting_from: Joi.string().allow("", null), // Changed to string if it's a date

@@ -50,6 +50,7 @@ model employees {
   payroll_master          payroll_master[]
   fileUpload              fileUpload[]
   fileUploadEmp           fileUploadEmp[]
+  ulb_id                  Int                           @default(2)
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
 }

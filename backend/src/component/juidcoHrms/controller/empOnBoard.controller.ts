@@ -219,6 +219,7 @@ class EmployeeOnBoardController {
         next
       );
     } catch (error: any) {
+      console.log(error)
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };

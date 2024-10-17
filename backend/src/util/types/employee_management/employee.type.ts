@@ -204,7 +204,7 @@ export interface EmployeeJoinDetailsType {
   wef_date: string;
   branch_name: string | number;
   pf_category: string | number;
-  acc_no: string | number;
+  acc_number: string | number;
   ifsc: string | number;
   sen_grade_list: string | number;
 }

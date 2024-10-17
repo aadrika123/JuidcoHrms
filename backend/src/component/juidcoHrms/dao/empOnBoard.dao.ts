@@ -239,7 +239,7 @@ class EmployeeOnBoardDao {
         emp_id:
           emp_basic_details.emp_id && emp_basic_details.emp_id !== ""
             ? emp_basic_details.emp_id
-            : generateUnique("EMP"),
+            : empBasic?.emp_id,
         emp_type: emp_office_details.emp_type,
         emp_personal_details_id: empPersonal.id,
         emp_address_details_id: empAddress.id,
