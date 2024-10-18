@@ -1,6 +1,6 @@
 import React from "react";
 import check from "@/Components/assets/check.svg";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import ThemeStyle from "./ThemeStyle";
 
 // Define the props interface
@@ -19,17 +19,17 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   requestNoMsg,
   refNo,
   loadingState,
-  setSuccessModal,
+  // setSuccessModal,
 }) => {
   const { loading } = ThemeStyle();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleClick = () => {
-    if (setSuccessModal) {
-      setSuccessModal(false);
-    }
-    // navigate(`/sr-inventory-proposal`);
-  };
+  // const handleClick = () => {
+  //   if (setSuccessModal) {
+  //     setSuccessModal(false);
+  //   }
+  //   // navigate(`/sr-inventory-proposal`);
+  // };
 
   return (
     <>

@@ -52,7 +52,7 @@ export default function AddMembers() {
 
   const handleSubmit = (
     values: formValuesAddMember,
-    actions: FormikHelpers<formValuesAddMember>
+    // actions: FormikHelpers<formValuesAddMember>
 
   ) => {
     setConfModal(false);
@@ -80,7 +80,7 @@ export default function AddMembers() {
   const approveHandler = () => {
     if (formValues) {
       setIsLoading(true);
-      handleSubmit(formValues, {} as FormikHelpers<formValuesAddMember>);
+      handleSubmit(formValues);
       setIsLoading(false);
     }
   };
