@@ -20,6 +20,14 @@ class TeamRoute {
                 loggerMiddleware
             );
 
+        app
+            .route(`${baseUrl}/team/heirarchy/:supervisor_id`)
+            .get(
+                (req: Request, res: Response, next: NextFunction) =>
+                    this.TeamController.fetchTeamHeirarchy(req, res, next, "0802"),
+                loggerMiddleware
+            );
+
     }
 }
 

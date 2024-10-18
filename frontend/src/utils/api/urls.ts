@@ -38,6 +38,7 @@ type UrlKeys =
   | "PERMISSIBLE_PAYROLL"
   | "TREASURY"
   | "PROPERTIES"
+  | "EMP"
   ;
 
 type Urls = {
@@ -161,6 +162,8 @@ export const HRMS_URL: Urls = {
   },
   TEAM: {
     get: "/team/list",
+    getById: "/team/heirarchy",
+    create:'/employee-hierarchy'
   },
   EMPLOYEE_TYPE_MASTER: {
     getAll: "/emp-type/get",
@@ -180,5 +183,8 @@ export const HRMS_URL: Urls = {
   },
   PROPERTIES: {
     get: "/properties",
+  },
+  EMP: {
+    get: "/employee-details",
   },
 };

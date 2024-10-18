@@ -36,9 +36,10 @@ export default function TeamMembers() {
   const fetchLeave = () => {
     try {
       setLoading(true);
-      axios(`${HRMS_URL.TEAM.get}/${emp_id}`)
+      axios(`${HRMS_URL.TEAM.getById}/${emp_id}`)
         .then((response) => {
-          setTeamList(response.data?.data?.data);
+          const flattenedData = response?.data?.data?.flat(Infinity);
+          setTeamList(flattenedData);
           console.log("Data is returned", response.data);
         })
         .catch((error) => {
@@ -142,7 +143,7 @@ export default function TeamMembers() {
             <PrimaryButton
               variant="primary"
               className="flex items-center gap-2"
-              onClick={()=> addMemberRoute()}
+              onClick={() => addMemberRoute()}
             >
               Add Member
             </PrimaryButton>{" "}
