@@ -1,5 +1,5 @@
 export default function ThemeStyle() {
-  let style = {
+  const style = {
     saveButtonColor:
       "bg-[#6AB783] px-7 py-2 text-white font-semibold rounded leading-5 shadow-lg",
     addButtonColor:

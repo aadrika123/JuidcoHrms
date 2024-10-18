@@ -25,11 +25,11 @@ import {
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { HRMS_URL } from "@/utils/api/urls";
-import { string } from "yup";
+// import { string } from "yup";
 
-interface stateType {
-  state: string;
-}
+// interface stateType {
+//   state: string;
+// }
 
 const EmpployeePersonalDetails: React.FC<
   EmployeeDetailsProps<EmployeePersonalDetailsType>
