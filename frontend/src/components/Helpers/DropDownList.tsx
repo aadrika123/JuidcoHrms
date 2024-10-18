@@ -23,7 +23,7 @@ interface DropDownListProps {
   onBlur?: (e?: React.FocusEvent<HTMLSelectElement>) => void;
   required?: boolean;
   disabled?: boolean;
-  stateValue: string | "";
+  stateValue?: string | "";
 }
 
 interface DropDownList {

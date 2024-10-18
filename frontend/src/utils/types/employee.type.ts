@@ -60,7 +60,7 @@ export interface EmployeeDetailsType {
   gps: string;
   dob: string;
   pan_no:string | number;
-  email:string;
+  email?:string;
 }
 
 export interface EmployeePersonalDetailsType {
