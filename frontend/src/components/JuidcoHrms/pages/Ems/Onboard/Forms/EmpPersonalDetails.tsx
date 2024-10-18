@@ -25,6 +25,11 @@ import {
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { HRMS_URL } from "@/utils/api/urls";
+import { string } from "yup";
+
+interface stateType {
+  state: string;
+}
 
 const EmpployeePersonalDetails: React.FC<
   EmployeeDetailsProps<EmployeePersonalDetailsType>
@@ -46,6 +51,8 @@ const EmpployeePersonalDetails: React.FC<
       lang_type: [],
     },
   ]);
+
+  const [stateValue, setStateValue] = useState("Jharkhand");
 
   // const [empMotherLang, setEmpMotherLang] = useState<
   //   [
@@ -223,6 +230,7 @@ const EmpployeePersonalDetails: React.FC<
     { id: 22, name: "Urdu" },
     { id: 23, name: "Assamese" },
   ];
+
   return (
     <>
       <div className="flex justify-between mb-10">
@@ -345,7 +353,11 @@ const EmpployeePersonalDetails: React.FC<
                   ]}
                 />
                 <InputBox
-                  onChange={handleChange}
+                  // onChange={handleChange}
+                  onChange={(e: any) => {
+                    handleChange(e); // Formik will update the value
+                    setStateValue(e.target.value); // Custom logic, e.g., logging
+                  }}
                   onBlur={handleBlur}
                   value={values.emp_home_state}
                   error={errors.emp_home_state}
@@ -355,7 +367,9 @@ const EmpployeePersonalDetails: React.FC<
                   placeholder={"Enter Home State"}
                   required={true}
                   // maxLength={20}
+                  // onChange={(e: any) => setStateValue(e.target.value)}
                   onKeyPress={(e: any) => {
+                    // setStateValue(e.target.value);
                     if (
                       !(
                         (e.key >= "a" && e.key <= "z") ||
@@ -415,8 +429,10 @@ const EmpployeePersonalDetails: React.FC<
                   name="emp_district"
                   placeholder={"Select District"}
                   required
-                  api={`${HRMS_URL.DISTRICT.get}`}
+                  api={`${HRMS_URL.DISTRICT2.get}?state=${stateValue}`}
+                  stateValue={stateValue}
                 />
+
                 <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}

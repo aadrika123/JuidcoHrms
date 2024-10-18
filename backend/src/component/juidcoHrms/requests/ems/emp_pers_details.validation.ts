@@ -26,7 +26,7 @@ export const employeeOfficeDetailRequestData = (
 ): EmployeeOfficeDetaislType => {
   return {
     emp_type: empOfficeDetails.emp_type,
-    office_name: empOfficeDetails.office_code,
+    office_name: empOfficeDetails.office_name,
     office_code: empOfficeDetails.office_code,
     ddo_code: empOfficeDetails.ddo_code,
     ddo_designation: empOfficeDetails.ddo_designation,
@@ -35,11 +35,12 @@ export const employeeOfficeDetailRequestData = (
 };
 
 export const employeeOfficeDetailsSchema = Joi.object({
-  office_name: Joi.string().required(),
-  office_code: Joi.string().required(),
-  ddo_designation: Joi.string().required(),
-  ddo_code: Joi.string().required(),
-  district: Joi.string().required(),
+  emp_type: Joi.number().required(),                   // Emp type is required and should be an integer
+  office_name: Joi.string().allow(null, ''),           // Office name can be null or an empty string
+  office_code: Joi.string().allow(null, ''),           // Office code can be null or an empty string
+  ddo_designation: Joi.string().allow(null, ''),       // DDO designation can be null or an empty string
+  ddo_code: Joi.string().allow(null, ''),              // DDO code can be null or an empty string
+  district: Joi.number().allow(null),                  // District can be null or an integer
 });
 //------------------ EMPLOYEE OFFICE DETAILS ------------------------------//
 
@@ -48,10 +49,7 @@ export const employeeBasicDetailRequestData = (
   empBasicDetails: EmployeeBasicDetailsType
 ): EmployeeBasicDetailsType => {
   return {
-    emp_id:
-      empBasicDetails.emp_id && empBasicDetails.emp_id !== ""
-        ? empBasicDetails.emp_id
-        : generateUnique("EMP"),
+    emp_id: empBasicDetails.emp_id ? empBasicDetails.emp_id : generateUnique("EMP"),
     emp_image: empBasicDetails.emp_image,
     emp_name: empBasicDetails.emp_name,
     mode_of_recruitment: empBasicDetails.mode_of_recruitment,
@@ -67,29 +65,31 @@ export const employeeBasicDetailRequestData = (
     cps: empBasicDetails.cps,
     gps: empBasicDetails.gps,
     dob: empBasicDetails.dob,
-    pan_no:empBasicDetails.pan_no
+    pan_no: empBasicDetails.pan_no,
+    email: empBasicDetails.email, // Include email field
   };
 };
 
+// Validation Schema
 export const employeeBasicDetailsSchema = Joi.object({
-  emp_id: Joi.string().required(),
+  emp_id: Joi.string().required().allow(null, ''),
   emp_image: Joi.string().required(),
   emp_name: Joi.string().required(),
-  mode_of_recruitment: Joi.alternatives()
-    .try(Joi.number(), Joi.string())
-    .required(),
-  contact_no: Joi.number().required(),
-  emg_contact_no: Joi.number().required(),
-  aadhar_no: Joi.number().required(),
-  epic_no: Joi.number().required(),
-  gender: Joi.number().required(),
-  pran: Joi.number().required(),
-  emp_type: Joi.number().required(),
-  weight: Joi.number().required(),
-  height: Joi.number().required(),
-  cps: Joi.number().required(),
-  gps: Joi.number().required(),
-  dob: Joi.string().required(),
+  mode_of_recruitment: Joi.string().allow(null, ''),    // Optional
+  contact_no: Joi.string().required(),
+  emg_contact_no: Joi.string().required(),
+  aadhar_no: Joi.string().required(),
+  epic_no: Joi.string().required(),
+  gender: Joi.string().required(),
+  pran: Joi.string().allow(null, ''),                  // Optional
+  emp_type: Joi.number().required(),                   // Integer and required
+  weight: Joi.string().allow(null, ''),                // Optional
+  height: Joi.string().allow(null, ''),                // Optional
+  cps: Joi.string().allow(null, ''),                   // Optional
+  gps: Joi.string().required(),
+  dob: Joi.date().required(),                          // Validate as date
+  pan_no: Joi.string().allow(null, ''),                // Optional
+  email: Joi.string().email().allow(null, ''),         // Optional email
 });
 //------------------ EMPLOYEE BASIC DETAILS ------------------------------//
 
@@ -118,23 +118,23 @@ export const employeePersonalDetailsRequestData = (
 };
 
 export const employeePersonalDetailsSchema = Joi.object({
-  married_status: Joi.number().integer().required(),
+  married_status: Joi.string().required(), // Matches 'String' in the model
   identification_marks: Joi.string().required(),
-  religion: Joi.number().integer().required(),
-  emp_categories: Joi.number().integer().required(),
+  religion: Joi.string().required(), // Matches 'String' in the model
+  emp_categories: Joi.string().required(), // Matches 'String' in the model
   emp_home_state: Joi.string().required(),
-  emp_district: Joi.number().required(),
-  emp_blood_group: Joi.number().integer().required(),
-  emp_health_status: Joi.number().integer().required(),
+  emp_district: Joi.number().integer().allow(null), // Nullable integer field
+  emp_blood_group: Joi.string().required(),
+  emp_health_status: Joi.string().required(),
+  emp_health_file: Joi.string().allow(null, ''), // Nullable health file
   emp_ltc_home_town: Joi.string().required(),
   emp_nearest_railway_station: Joi.string().required(),
-  emp_phy_health_type: Joi.number().integer().required(),
-  emp_family: Joi.number().integer().required(),
-  emp_family_name: Joi.string().required(),
-  emp_office_name: Joi.string().allow("", null),
-  emp_org_name: Joi.string().allow("", null),
-  emp_lang: Joi.number().integer().required(),
-  emp_lang_do: Joi.array().items().required(),
+  emp_phy_health_type: Joi.string().allow(null, ''), // Nullable physical health type
+  emp_family: Joi.string().allow(null, ''), // Nullable family details
+  emp_family_name: Joi.string().allow(null, ''), // Nullable family name
+  emp_office_name: Joi.string().allow(null, ''), // Nullable office name
+  emp_org_name: Joi.string().allow(null, ''), // Nullable organization name
+  emp_lang: Joi.any().allow(null, ''), // Matches 'Json?' field in the model
 });
 //------------------ EMPLOYEE PERSONAL DETAILS ------------------------------//
 
@@ -153,16 +153,15 @@ export const employeeFamilyDetailsRequestData = (
   });
 };
 const employeeFamilyDetails = Joi.object({
-  name: Joi.string().required(),
-  relation: Joi.string().required(),
-  dob: Joi.string().required(),
-  dependent: Joi.string().required(),
+  name: Joi.string().allow(null, ''),
+  relation: Joi.string().allow(null, ''),
+  dob: Joi.string().allow(null, ''), // Date as string (as per model)
+  dependent: Joi.string().allow(null, ''), // Nullable string for dependent field
 });
-
 export const employeeNomineeDetailsRequestData = (
   empNomineeDetails: EmpNomineeDetailsType[]
 ) => {
-  empNomineeDetails?.map((item) => {
+  return empNomineeDetails?.map((item) => {
     return {
       nominee_name: item.nominee_name,
       relation: item.relation,
@@ -173,13 +172,12 @@ export const employeeNomineeDetailsRequestData = (
   });
 };
 const employeeNomineeDetails = Joi.object({
-  nominee_name: Joi.string().required(),
-  relation: Joi.string().required(),
-  percentage: Joi.number().required(),
-  address: Joi.string().required(),
-  minor: Joi.string().required(),
+  nominee_name: Joi.string().allow(null, ''),
+  relation: Joi.string().allow(null, ''),
+  percentage: Joi.number().allow(null, ''), // Float in the model, number here
+  address: Joi.string().allow(null, ''),
+  minor: Joi.string().allow(null, ''), // Nullable string for minor field
 });
-
 export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
   employeeFamilyDetails,
   employeeNomineeDetails
@@ -189,43 +187,60 @@ export const employeeFamilyAndNomineeeDetailsSchema = Joi.array().items(
 
 //------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
 export const employeePresentAddressDetailsSchema = Joi.object({
-  type: Joi.string().required(),
   address_primary: Joi.string().required(),
-  address_secondary: Joi.string().required(),
+  address_secondary: Joi.string().allow("", null),
   village: Joi.string().required(),
-  post_office: Joi.string().required(),
+  post_office: Joi.string().allow("", null),
   state: Joi.string().required(),
-  district: Joi.string().required(),
-  block_ulb: Joi.string().required(),
-  pin_code: Joi.number().required(),
-  police_station: Joi.string().required(),
-  emp_address_same: Joi.string().valid("yes", "no").required(),
+  district: Joi.number().integer().allow(null), // Assuming district is Int in the model
+  block_ulb: Joi.string().allow("", null),
+  pin_code: Joi.string().required(), // pin_code is String in the model
+  police_station: Joi.string().allow("", null),
+  emp_address_same: Joi.string().valid("yes", "no").allow("", null),
+  address_primary_permanent: Joi.string().allow("", null),  // Add this field
+  address_secondary_permanent: Joi.string().allow("", null), // Add this field
+  block_ulb_permanent: Joi.string().allow("", null), // Add this field
+  district_permanent: Joi.number().integer().allow(null), // Add this field
+  pin_code_permanent: Joi.string().allow("", null), // Add this field
+  police_station_permanent: Joi.string().allow("", null), // Add this field
+  post_office_permanent: Joi.string().allow("", null), // Add this field
+  state_permanent: Joi.string().allow("", null), // Add this field
+  village_permanent: Joi.string().allow("", null), // Add this field
+  emp_address_same_permanent: Joi.string().valid("yes", "no").allow("", null)
 });
 
 export const employeePresentAddressDetailsRequestData = (
   empPresentAddress: EmployeePresentAddressDetailsType
 ): EmployeePresentAddressDetailsType => {
   return {
-    type: empPresentAddress.type,
     address_primary: empPresentAddress.address_primary,
     address_secondary: empPresentAddress.address_secondary,
     village: empPresentAddress.village,
     post_office: empPresentAddress.post_office,
     state: empPresentAddress.state,
-    district: empPresentAddress.district,
+    district: empPresentAddress.district, // Int in the model
     block_ulb: empPresentAddress.block_ulb,
-    pin_code: empPresentAddress.pin_code,
+    pin_code: empPresentAddress.pin_code, // String in the model
     police_station: empPresentAddress.police_station,
     emp_address_same: empPresentAddress.emp_address_same,
+    address_primary_permanent: empPresentAddress.address_primary_permanent, // Include this field
+    address_secondary_permanent: empPresentAddress.address_secondary_permanent, // Include this field
+    block_ulb_permanent: empPresentAddress.block_ulb_permanent, // Include this field
+    district_permanent: empPresentAddress.district_permanent, // Include this field
+    pin_code_permanent: empPresentAddress.pin_code_permanent, // Include this field
+    police_station_permanent: empPresentAddress.police_station_permanent, // Include this field
+    post_office_permanent: empPresentAddress.post_office_permanent, // Include this field
+    state_permanent: empPresentAddress.state_permanent, // Include this field
+    village_permanent: empPresentAddress.village_permanent // Include this field
   };
 };
 //------------------ EMPLOYEE ADDRESS DETAILS ------------------------------//
 
 //------------------ EMPLOYEE SERVICE HISTORY DETAILS ------------------------------//
 export const employeeIncrementDetailsRequestData = (
-  empFamilyDetails: EmpIncDetails[]
-) => {
-  return empFamilyDetails?.map((item): EmpIncDetails => {
+  empIncrementDetails: EmpIncDetails[]
+): EmpIncDetails[] => {
+  return empIncrementDetails?.map((item): EmpIncDetails => {
     return {
       scale: item.scale,
       inc_date: item.inc_date,
@@ -237,21 +252,21 @@ export const employeeIncrementDetailsRequestData = (
   });
 };
 const employeeIncrementDetails = Joi.object({
-  scale: Joi.string().required(),
-  inc_date: Joi.string().isoDate().required(),
-  inc_amount: Joi.number().required(),
-  basic_pay_after_inc: Joi.number().required(),
-  vide_order_no: Joi.string().required(),
-  vide_order_date: Joi.string().isoDate().required(),
+  scale: Joi.string().allow("", null),
+  inc_date: Joi.string().isoDate().allow("", null), // Expecting ISO date format as per the model
+  inc_amount: Joi.number().allow("", null), // Float in the model, so we allow numbers
+  basic_pay_after_inc: Joi.number().allow("", null), // Float, so should allow numbers
+  vide_order_no: Joi.string().allow("", null), // String, but can be null or empty
+  vide_order_date: Joi.string().isoDate().allow("", null), // Expecting ISO date format
 });
 
 export const employeePromDetailsRequestData = (
-  empFamilyDetails: EmpPromDetails[]
-) => {
-  return empFamilyDetails?.map((item): EmpPromDetails => {
+  empPromDetails: EmpPromDetails[]
+): EmpPromDetails[] => {
+  return empPromDetails?.map((item): EmpPromDetails => {
     return {
-      designation: item.designation,
-      scale: item.scale,
+      designation: item.designation, // Expecting JSON object or null
+      scale: item.scale, // Expecting JSON object or null
       vide_order_no: item.vide_order_no,
       vide_order_date: item.vide_order_date,
       transfer: item.transfer,
@@ -259,34 +274,34 @@ export const employeePromDetailsRequestData = (
   });
 };
 const employeePromDetails = Joi.object({
-  designation: Joi.object().required(),
-  scale: Joi.object().required(),
-  vide_order_no: Joi.string().required(),
-  vide_order_date: Joi.string().isoDate().required(),
-  transfer: Joi.string().required(),
+  designation: Joi.object().allow(null, ""), // JSON object validation, nullable
+  scale: Joi.object().allow(null, ""), // JSON object validation, nullable
+  vide_order_no: Joi.string().allow(null, ""), // Allow string or null
+  vide_order_date: Joi.string().isoDate().allow(null, ""), // ISO date validation
+  transfer: Joi.string().allow(null, ""), // Allow string or null
 });
 
 export const employeeTransDetailsRequestData = (
-  empFamilyDetails: EmpTransDetails[]
-) => {
-  return empFamilyDetails?.map((item): EmpTransDetails => {
+  empTransDetails: EmpTransDetails[]
+): EmpTransDetails[] => {
+  return empTransDetails?.map((item): EmpTransDetails => {
     return {
-      designation: item.designation,
-      office: item.office,
-      joining_date: item.joining_date,
-      vide_order_no: item.vide_order_no,
-      vide_order_date: item.vide_order_date,
-      transfer_after_prom: item.transfer_after_prom,
+      designation: item.designation, // Expecting a JSON object or null
+      office: item.office, // Expecting a JSON object or null
+      joining_date: item.joining_date, // Date in string format
+      vide_order_no: item.vide_order_no, // Order number as a string
+      vide_order_date: item.vide_order_date, // Date in string format
+      transfer_after_prom: item.transfer_after_prom, // Transfer details as a string
     };
   });
 };
 const employeeTransDetails = Joi.object({
-  designation: Joi.object().required(),
-  office: Joi.object().required(),
-  joining_date: Joi.string().isoDate().required(),
-  vide_order_no: Joi.string().required(),
-  vide_order_date: Joi.string().isoDate().required(),
-  transfer_after_prom: Joi.string().required(),
+  designation: Joi.object().allow(null, ""), // JSON object validation, nullable
+  office: Joi.object().allow(null, ""), // JSON object validation, nullable
+  joining_date: Joi.string().isoDate().allow(null, ""), // ISO date validation, nullable
+  vide_order_no: Joi.string().allow(null, ""), // Allow string or null
+  vide_order_date: Joi.string().isoDate().allow(null, ""), // ISO date validation, nullable
+  transfer_after_prom: Joi.string().allow(null, ""), // Allow string or null
 });
 
 export const employeeServiceHistrorySchema = Joi.array().items(
@@ -300,39 +315,39 @@ export const employeeServiceHistrorySchema = Joi.array().items(
 //------------------ EMPLOYEE SALARY DETAILS ------------------------------//
 
 export const employeeSalaryAllowRequestData = (
-  empFamilyDetails: EmployeeSalaryAllowType[]
-) => {
-  return empFamilyDetails?.map((item): EmployeeSalaryAllowType => {
+  empSalaryAllowDetails: EmployeeSalaryAllowType[]
+): EmployeeSalaryAllowType[] => {
+  return empSalaryAllowDetails?.map((item): EmployeeSalaryAllowType => {
     return {
       name: item.name,
       wfe_date: item.wfe_date,
-      amount_in: item.amount_in,
+      amount_in: item.amount_in, // Change to number if necessary
     };
   });
 };
 const employeeSalaryAllowSchema = Joi.object({
-  name: Joi.string().required(),
-  wfe_date: Joi.string().required(),
-  amount_in: Joi.string().required(),
+  name: Joi.string().allow(null, ""), // Allow string or null
+  wfe_date: Joi.string().isoDate().allow(null, ""), // ISO date format, nullable
+  amount_in: Joi.number().allow(null, ""), // Allow number or null, adjust type as necessary
 });
 
 export const employeeSalaryDeductionRequestData = (
-  empFamilyDetails: EmployeeSalaryDeductionType[]
-) => {
-  return empFamilyDetails?.map((item): EmployeeSalaryDeductionType => {
+  empSalaryDeductionDetails: EmployeeSalaryDeductionType[]
+): EmployeeSalaryDeductionType[] => {
+  return empSalaryDeductionDetails?.map((item): EmployeeSalaryDeductionType => {
     return {
       name: item.name,
       wfe_date: item.wfe_date,
       acnt_no: item.acnt_no,
-      amount_in: item.amount_in,
+      amount_in: item.amount_in, // Change to number if necessary
     };
   });
 };
 const employeeSalaryDeductionSchema = Joi.object({
-  name: Joi.string().required(),
-  wfe_date: Joi.string().required(),
-  acnt_no: Joi.string().required(),
-  amount_in: Joi.string().required(),
+  name: Joi.string().allow(null, ""), // Allow string or null
+  wfe_date: Joi.string().isoDate().allow(null, ""), // ISO date format, nullable
+  acnt_no: Joi.string().allow(null, ""), // Allow string or null
+  amount_in: Joi.number().allow(null, ""), // Allow number or null, adjust type as necessary
 });
 
 export const employeeSalaryDetailsSchema = Joi.array().items(
@@ -374,66 +389,70 @@ export const employeeJoinDetailsRequestData = (
     wef_date: empJoinDetails.wef_date,
     branch_name: empJoinDetails.branch_name,
     pf_category: empJoinDetails.pf_category,
-    acc_no: empJoinDetails.acc_no,
+    acc_number: empJoinDetails.acc_number,
     ifsc: empJoinDetails.ifsc,
     sen_grade_list: empJoinDetails.sen_grade_list,
   };
 };
 export const employeeJoinValidationSchema = Joi.object({
-  department: Joi.number().required(),
-  designation: Joi.string().required(),
-  task: Joi.string().required(),
-  doj: Joi.string().required(),
-  effective_pay_commision: Joi.number().required(),
-  pay_scale: Joi.number().required(),
+  department_id: Joi.number().required(), // Use department_id for the field
+  designation_id: Joi.number().allow(null), // Changed to designation_id
+  task: Joi.string().allow(null, ""),
+  doj: Joi.string().allow(null, ""),
+  effective_pay_commision: Joi.string().allow(null, ""), // Adjusted to match Prisma
+  pay_scale: Joi.number().allow(null, ""),
   pay_band: Joi.number().required(),
-  grade_pay: Joi.number().required(),
+  grade_pay: Joi.number().allow(null, ""),
   basic_pay: Joi.number().required(),
-  acc_no: Joi.number().required(),
-  deduction_type: Joi.number().required(),
+  acc_no: Joi.string().allow(null, ""),
+  acc_number: Joi.string().allow(null, ""), // Changed to string to match Prisma
+  deduction_type: Joi.string().required(), // Changed to string to match Prisma
 
-  // Make these fields optional
-  class: Joi.number().allow("", null),
-  doc: Joi.string().allow("", null),
-  conf_order_number: Joi.number().allow("", null),
-  conf_order_date: Joi.string().allow("", null),
-  appoint_authority: Joi.number().allow("", null),
-  gis_account: Joi.number().allow("", null),
-  ulb: Joi.number().allow("", null),
-  last_inc_order: Joi.string().allow("", null),
-  name_of_service: Joi.string().allow("", null),
-  last_inc_order_date: Joi.string().allow("", null),
-  bank_name: Joi.string().allow("", null),
-  wef_date: Joi.string().allow("", null),
-  branch_name: Joi.string().allow("", null),
-  pf_category: Joi.number().allow("", null),
-  ifsc: Joi.string().allow("", null),
-  sen_grade_list: Joi.string().allow("", null),
-  member_gis: Joi.string().allow("", null),
-  confirmation_order: Joi.string().allow("", null),
+  // Optional fields
+  class: Joi.string().allow(null, ""),
+  doc: Joi.string().allow(null, ""),
+  conf_order_number: Joi.string().allow(null, ""),
+  conf_order_date: Joi.string().allow(null, ""),
+  appoint_authority: Joi.string().allow(null, ""),
+  gis_account: Joi.number().allow(null, ""),
+  ulb: Joi.string().allow(null, ""),
+  last_inc_order: Joi.string().allow(null, ""),
+  name_of_service: Joi.string().allow(null, ""),
+  last_inc_order_date: Joi.string().allow(null, ""),
+  bank_name: Joi.string().allow(null, ""),
+  wef_date: Joi.string().allow(null, ""),
+  branch_name: Joi.string().allow(null, ""),
+  pf_category: Joi.string().allow(null, ""),
+  ifsc: Joi.string().allow(null, ""),
+  sen_grade_list: Joi.string().allow(null, ""),
+  member_gis: Joi.string().allow(null, ""),
+  confirmation_order: Joi.string().allow(null, ""),
 });
 //------------------ EMPLOYEE JOIN VALIDATION ------------------------------//
 
 //------------------ EMPLOYEE TIME BOUND ------------------------------//
 export const employeeTimeBound = Joi.object({
-  pay_scale: Joi.object().required(),
-  inc_amount: Joi.number().required(),
-  bpay_aft_inc: Joi.string().required(),
-  vide_ord_no: Joi.string().required(),
-  vide_order_date: Joi.string().required(),
-  remarks: Joi.string().required(),
+  pay_scale: Joi.object().allow("", null), // Adjust if you know the specific structure or type
+  inc_amount: Joi.string().allow("", null), // Adjusted to string since the Prisma model uses String?
+  bpay_aft_inc: Joi.string().allow("", null), // Ensuring type matches Prisma model
+  vide_ord_no: Joi.string().allow("", null),
+  vide_order_date: Joi.string().allow("", null),
+  remarks: Joi.string().allow("", null),
 });
+
 export const employeeTimeBoundSchema = Joi.array().items(employeeTimeBound);
+
+
 export const employeeTimeBoundRequestData = (
   item: EmpTimeBoundDetailType[]
-) => {
+): EmpTimeBoundDetailType[] => {
   return item?.map((i): EmpTimeBoundDetailType => {
     return {
       pay_scale: i.pay_scale,
       inc_amount: i.inc_amount,
       bpay_aft_inc: i.bpay_aft_inc,
       vide_ord_no: i.vide_ord_no,
-      vide_ord_date: i.vide_ord_date,
+      vide_ord_date: i.vide_ord_date, // Correct property name used here
       remarks: i.remarks,
     };
   });
@@ -446,11 +465,11 @@ const employeeEducationSchema = Joi.object({
   stream: Joi.string().required(),
   board: Joi.string().required(),
   passing_year: Joi.string().required(),
-  marks: Joi.string().required(),
+  marks: Joi.number().required(), // Assuming marks should be a number
   grade: Joi.string().required(),
 });
 
-export const employeeEducaitonRequestData = (item: EmployeeEducation[]) => {
+export const employeeEducationRequestData = (item: EmployeeEducation[]) => {
   return item?.map((i): EmployeeEducation => {
     return {
       edu_level: i.edu_level,
@@ -462,14 +481,13 @@ export const employeeEducaitonRequestData = (item: EmployeeEducation[]) => {
     };
   });
 };
-
 const employeeEducationTrainingTypeSchema = Joi.object({
-  name_of_training: Joi.string().required(),
-  training_type: Joi.string().required(),
-  name_of_inst: Joi.string().required(),
-  starting_from: Joi.string().required(),
-  end_to: Joi.string().required(),
-  tot_day_training: Joi.string().required(),
+  name_of_training: Joi.string().allow("", null),
+  training_type: Joi.string().allow("", null),
+  name_of_inst: Joi.string().allow("", null),
+  starting_from: Joi.string().allow("", null), // Changed to string if it's a date
+  end_to: Joi.string().allow("", null),        // Changed to string if it's a date
+  tot_day_training: Joi.string().allow("", null),
 });
 
 export const employeeTrainingRequestData = (
@@ -554,3 +572,22 @@ export const employeeLoanDetailsSchema = Joi.array().items(
 );
 
 //------------------ EMPLOYEE LOAN DETAILS ------------------------------//
+
+
+//------------------ EMPLOYEE COMBINE DETAILS ------------------------------//
+
+
+export const employeeDetailsSchema = Joi.object({
+  emp_office_details: employeeOfficeDetailsSchema,    // Office details validation
+  emp_basic_details: employeeBasicDetailsSchema,      // Basic details validation
+  emp_personal_details: employeePersonalDetailsSchema,// Personal details validation
+  emp_address_details: employeePresentAddressDetailsSchema, // Address details validation
+  emp_service_history: Joi.object({
+    emp_prom_details: employeeServiceHistrorySchema,   // Service history validation (Promotion details)    
+  }),
+  emp_loan_details: Joi.object({
+    emp_loan: employeeLoanDetailsSchema,               // Loan details validation
+  }),
+  emp_join_details: employeeJoinValidationSchema,      // Joining details validation
+  emp_time_bound: employeeTimeBoundSchema,             // Time-bound details validation
+});

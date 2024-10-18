@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { SubHeading } from "@/components/Helpers/Heading";
 import Image from "next/image";
@@ -9,47 +9,64 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/components/Helpers/Modal/ConfirmationModal";
 import * as Yup from "yup";
+import axios from "@/lib/axiosConfig";
+import { HRMS_URL } from "@/utils/api/urls";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 interface formValuesAddMember {
   emp_id: string;
   supervisor_level: string;
-  immediate_supervisor: string;
+  parent_emp: string;
   task: string;
 }
 
+const empId = Cookies.get('emp_id')
+const userDetails = sessionStorage.getItem('user_details') ? JSON.parse(String(sessionStorage.getItem('user_details'))) : {}
+
 const validationSchema = Yup.object({
   emp_id: Yup.string().required("Employee ID is required"),
-  immediate_supervisor: Yup.string().required(
+  parent_emp: Yup.string().required(
     "Immediate Supervisor is required"
   ),
 });
 
 export default function AddMembers() {
-  const [empId, setEmpId] = useState<string>("");
+  const [empLoading, setEmpLoading] = useState<boolean>(false);
   const [confModal, setConfModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<formValuesAddMember | null>(
     null
   );
+  const [empData, setEmpData] = useState<any>({});
+  const [heirarchyData, setHeirarchyData] = useState<any[]>([]);
 
   const router = useRouter();
 
   const initialValues: formValuesAddMember = {
     emp_id: "",
     supervisor_level: "",
-    immediate_supervisor: "",
+    parent_emp: empId as string,
     task: "",
   };
 
   const handleSubmit = (
     values: formValuesAddMember,
     actions: FormikHelpers<formValuesAddMember>
-    
+
   ) => {
-    console.log("Form values:", values);
     setConfModal(false);
-    router.push('/supervisor/team-members')
-   
+    axios.post(`${HRMS_URL.TEAM.create}`, values)
+      .then((response) => {
+        console.log(response?.data)
+        toast.success('Team meber added successfully')
+        router.push('/supervisor/team-members')
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.response.data);
+      })
+      .finally(() => setEmpLoading(false))
+
   };
 
   const backRoute = () => {
@@ -67,6 +84,39 @@ export default function AddMembers() {
       setIsLoading(false);
     }
   };
+
+  const fetchEmployee = (emp_id: string) => {
+    setEmpLoading(true)
+    axios(`${HRMS_URL.EMP.get}?emp_id=${emp_id}`)
+      .then((response) => {
+        // console.log("ababababab", response?.data?.data);
+        setEmpData(response?.data?.data)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.response.data);
+      })
+      .finally(() => setEmpLoading(false))
+  }
+
+  const fetchHeirarchy = (emp_id: string) => {
+    setEmpLoading(true)
+    axios(`${HRMS_URL.TEAM.getById}/${emp_id}`)
+      .then((response) => {
+        const flattenedData = response?.data?.data?.flat(Infinity);
+        // console.log("ababababab", flattenedData);
+        setHeirarchyData(flattenedData)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.response.data);
+      })
+      .finally(() => setEmpLoading(false))
+  }
+
+  useEffect(() => {
+    if (heirarchyData?.length === 0 && empId) {
+      fetchHeirarchy(empId)
+    }
+  }, [empId])
 
   return (
     <>
@@ -99,16 +149,16 @@ export default function AddMembers() {
           />
         </div>
         <div className="w-[35%] pt-12 space-y-2">
-          <h1 className="text-2xl pb-4">Jaydeep Gupta</h1>
-          <h1>Employee ID - </h1>
-          <h1>PAN No - </h1>
-          <h1>Role - </h1>
-          <h1>Task - </h1>
-          <h1>Department - </h1>
+          <h1 className="text-2xl pb-4">{empData?.emp_basic_details?.emp_name}</h1>
+          <h1>Employee ID - {empData?.emp_id} </h1>
+          <h1>PAN No - {empData?.emp_basic_details?.pan_no}</h1>
+          <h1>Role - {empData?.emp_join_details?.designation?.name}</h1>
+          <h1>Task - {empData?.emp_join_details?.task || 'N/A'}</h1>
+          <h1>Department - {empData?.emp_join_details?.department?.name}</h1>
         </div>
         <div className="pt-24 space-y-2">
-          <h1>Account No - </h1>
-          <h1>IFSC Code - </h1>
+          <h1>Account No - {empData?.emp_join_details?.ifsc}</h1>
+          <h1>IFSC Code - {empData?.emp_join_details?.acc_number}</h1>
           <h1>UAN No - </h1>
         </div>
       </div>
@@ -129,10 +179,7 @@ export default function AddMembers() {
               {({
                 values,
                 resetForm,
-                errors,
-                touched,
                 validateForm,
-                isValid,
               }) => (
                 <Form className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4">
                   <div className="flex flex-col text-black text-xl w-full">
@@ -153,9 +200,9 @@ export default function AddMembers() {
                       <button
                         type="button"
                         className="bg-blue-800 mt-2 px-5 py-1 h-10 text-base text-white rounded hover:bg-gray-600"
-                        onClick={() => setEmpId(values.emp_id)}
+                        onClick={() => fetchEmployee(values.emp_id)}
                       >
-                        Continue
+                        {empLoading ? 'Fetching...' : 'Search'}
                       </button>
                     </span>
                   </div>
@@ -163,20 +210,67 @@ export default function AddMembers() {
                   <div className="flex flex-col text-black text-xl">
                     <label htmlFor="supervisor_level">Supervisor Level</label>
                     <span className="flex flex-col">
-                    <Field
-                      className="bg-gray-200 h-10 rounded mt-2"
-                      name="supervisor_level"
-                      type="text"
-                    />
-                    <ErrorMessage
-                      name="supervisor_level"
-                      component="div"
-                      className="text-red-600"
-                    />
+                      <Field
+                        className="bg-gray-200 h-10 rounded mt-2"
+                        name="supervisor_level"
+                        as='select'
+                        default={1}
+                      >
+                        {[1, 2, 3, 4].map((item, index) => (
+                          <option key={index} value={item} >
+                            {item}
+                          </option>
+                        ))}
+                      </Field>
+                      <ErrorMessage
+                        name="supervisor_level"
+                        component="div"
+                        className="text-red-600"
+                      />
                     </span>
                   </div>
+                  {/* <div className="flex flex-col text-black text-xl">
+                    <label htmlFor="supervisor_level">Supervisor Level</label>
+                    <span className="flex flex-col">
+                      <Field
+                        className="bg-gray-200 h-10 rounded mt-2"
+                        name="supervisor_level"
+                        type="text"
+                      />
+                      <ErrorMessage
+                        name="supervisor_level"
+                        component="div"
+                        className="text-red-600"
+                      />
+                    </span>
+                  </div> */}
 
                   <div className="flex flex-col text-black text-xl">
+                    <label htmlFor="immediate_supervisor">
+                      Immediate Supervisor
+                    </label>
+                    <Field
+                      as='select'
+                      className="bg-gray-200 h-10 rounded mt-2"
+                      name="parent_emp"
+                      default={empId}
+                    >
+                      <option value={empId} >
+                        {empId} ({userDetails?.name})
+                      </option>
+                      {heirarchyData?.map((item, index) => (
+                        <option key={index} value={item?.emp_basic_details?.emp_id} >
+                          {item?.emp_basic_details?.emp_id} ({item?.emp_basic_details?.emp_name})
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="parent_emp"
+                      component="div"
+                      className="text-red-600 text-sm"
+                    />
+                  </div>
+                  {/* <div className="flex flex-col text-black text-xl">
                     <label htmlFor="immediate_supervisor">
                       Immediate Supervisor
                     </label>
@@ -190,7 +284,7 @@ export default function AddMembers() {
                       component="div"
                       className="text-red-600 text-sm"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="flex flex-col text-black text-xl">
                     <label htmlFor="task">Task</label>
@@ -205,9 +299,9 @@ export default function AddMembers() {
                       className="text-red-600"
                     />
                   </div>
-                  
+
                   <div className="flex flex-col text-black text-xl">
-                  
+
                   </div>
 
                   <div className="flex justify-end gap-2 text-black text-xl mt-10 mb-10">
@@ -236,7 +330,7 @@ export default function AddMembers() {
                       }}
                       className="bg-blue-800 px-8 py-1 text-base text-white rounded hover:bg-gray-600"
                     >
-                      Update
+                      Create
                     </button>
                   </div>
                 </Form>

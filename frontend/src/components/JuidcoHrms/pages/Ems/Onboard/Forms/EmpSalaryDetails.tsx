@@ -65,7 +65,7 @@ const EmpSalaryDetails: React.FC<
   function storeEmployeeAllowDetails() {
     if (typeof window !== "undefined") {
       employeeAllowDetails?.forEach((element: any) => {
-        delete element.selectedOption;
+        delete element.selected_option;
       });
       sessionStorage.setItem(
         "emp_salary_allow_details",
@@ -117,21 +117,21 @@ const EmpSalaryDetails: React.FC<
     e: React.ChangeEvent<HTMLSelectElement>,
     index: number
   ) => {
-    const selectedOption = e.target.value;
+    const selected_option = e.target.value;
 
     setEmployeeAllowDetails((prev: any) => {
       const updatedDetails = [...prev];
       updatedDetails[index] = {
         ...updatedDetails[index],
-        name: selectedOption,
+        name: selected_option,
         // amount_in:result
       };
 
-      if (selectedOption === "DA") {
-        updatedDetails[index].selectedOption = "amount";
+      if (selected_option === "DA") {
+        updatedDetails[index].selected_option = "amount";
         updatedDetails[index].amount_in = result;
       } else {
-        updatedDetails[index].selectedOption = "";
+        updatedDetails[index].selected_option = "";
         updatedDetails[index].amount_in = "";
       }
 
@@ -210,8 +210,8 @@ const EmpSalaryDetails: React.FC<
       const newBasicPay2 = storedJoinData.basic_pay;
       const newGradePay = storedJoinData.grade_pay;
 
-      console.log("newGradePay", newGradePay)
-      setPayBand(newGradePay)
+      console.log("newGradePay", newGradePay);
+      setPayBand(newGradePay);
 
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
@@ -222,28 +222,27 @@ const EmpSalaryDetails: React.FC<
     }
   }, [basic_pay, employeeDeductionDetails]);
 
-
   const handleSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     index: number
   ) => {
-    const selectedOption = e.target.value;
+    const selected_option = e.target.value;
     let calculatedAmount = 0;
     let accountNumber = "";
 
     const currentBasicPay = basic_pay + pay_band;
     console.log("currentBasicPay", currentBasicPay);
 
-    switch (selectedOption) {
+    switch (selected_option) {
       case "PT":
         if (currentBasicPay <= 25000) {
-          calculatedAmount = Number(calcProperties['calc.pt.l1']);
+          calculatedAmount = Number(calcProperties["calc.pt.l1"]);
         } else if (currentBasicPay >= 25001 && currentBasicPay <= 41666) {
-          calculatedAmount = Number(calcProperties['calc.pt.l2']);
+          calculatedAmount = Number(calcProperties["calc.pt.l2"]);
         } else if (currentBasicPay >= 41667 && currentBasicPay <= 66666) {
-          calculatedAmount = Number(calcProperties['calc.pt.l3']);
+          calculatedAmount = Number(calcProperties["calc.pt.l3"]);
         } else if (currentBasicPay >= 66667) {
-          calculatedAmount = Number(calcProperties['calc.pt.l4']);
+          calculatedAmount = Number(calcProperties["calc.pt.l4"]);
         }
         break;
 
@@ -251,22 +250,33 @@ const EmpSalaryDetails: React.FC<
         const annualBasicPay = currentBasicPay * 12;
         console.log("annualBasicPay12", annualBasicPay);
         if (annualBasicPay <= 250000) {
-          calculatedAmount = Number(calcProperties['calc.it.l1']);
+          calculatedAmount = Number(calcProperties["calc.it.l1"]);
         } else if (annualBasicPay >= 250001 && annualBasicPay <= 500000) {
-          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l2'])) / 100) / 12;
+          calculatedAmount =
+            Math.round(
+              (annualBasicPay * Number(calcProperties["calc.it.l2"])) / 100
+            ) / 12;
           console.log("calculatedAmount12323", calculatedAmount);
         } else if (annualBasicPay >= 500001 && annualBasicPay <= 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l3'])) / 100) / 12;
+          calculatedAmount =
+            Math.round(
+              (annualBasicPay * Number(calcProperties["calc.it.l3"])) / 100
+            ) / 12;
         } else if (annualBasicPay > 1000000) {
-          calculatedAmount = Math.round((annualBasicPay * Number(calcProperties['calc.it.l4'])) / 100) / 12;
+          calculatedAmount =
+            Math.round(
+              (annualBasicPay * Number(calcProperties["calc.it.l4"])) / 100
+            ) / 12;
         }
         break;
       }
 
       case "ESIC":
         console.log("currentBasicPayESIC", currentBasicPay);
-        if (currentBasicPay >= Number(calcProperties['calc.esic.basicpaylimit'])) {
-          const calcPercentage = Number(calcProperties['calc.esic']) / 100
+        if (
+          currentBasicPay >= Number(calcProperties["calc.esic.basicpaylimit"])
+        ) {
+          const calcPercentage = Number(calcProperties["calc.esic"]) / 100;
           calculatedAmount = Math.round(currentBasicPay * calcPercentage);
         }
         break;
@@ -277,7 +287,7 @@ const EmpSalaryDetails: React.FC<
           const daAmount = result;
           const totalAmount = currentBasicPay + daAmount;
           // Calculate EPF (12% of total amount)
-          const calcPercentage = Number(calcProperties['calc.epf']) / 100
+          const calcPercentage = Number(calcProperties["calc.epf"]) / 100;
           calculatedAmount = Math.round(totalAmount * calcPercentage || 0);
         }
         break;
@@ -295,7 +305,7 @@ const EmpSalaryDetails: React.FC<
       const updatedDetails = [...prev];
       updatedDetails[index] = {
         ...updatedDetails[index],
-        name: selectedOption,
+        name: selected_option,
         amount_in: calculatedAmount,
         acnt_no: accountNumber,
       };
@@ -306,13 +316,13 @@ const EmpSalaryDetails: React.FC<
   //     e: React.ChangeEvent<HTMLSelectElement>,
   //     index: number
   //   ) => {
-  //     const selectedOption = e.target.value;
+  //     const selected_option = e.target.value;
   //     let calculatedAmount = 0;
   //     let accountNumber = "";
 
   //     const currentBasicPay = basic_pay1;
   //     console.log("currentBasicPay", currentBasicPay);
-  //     switch (selectedOption) {
+  //     switch (selected_option) {
   //       case "PT":
   //         if (currentBasicPay <= 25000) {
   //           calculatedAmount = 0;
@@ -401,7 +411,7 @@ const EmpSalaryDetails: React.FC<
   //       const updatedDetails = [...prev];
   //       updatedDetails[index] = {
   //         ...updatedDetails[index],
-  //         name: selectedOption,
+  //         name: selected_option,
   //         amount_in: calculatedAmount,
   //         acnt_no: accountNumber,
   //       };
@@ -417,7 +427,7 @@ const EmpSalaryDetails: React.FC<
     //             employeeAllowDetails.splice(index, 1)
     //         }
     //     })
-    //     delete element.selectedOption
+    //     delete element.selected_option
     //   });
     // const lastElement = employeeAllowDetails[employeeAllowDetails.length - 1];
 
@@ -603,7 +613,7 @@ const EmpSalaryDetails: React.FC<
       try {
         const response = await axios.get(`${HRMS_URL.PROPERTIES.get}/calc`);
         // console.log(response.data?.data, 'calc')
-        setCalcProperties(response.data?.data)
+        setCalcProperties(response.data?.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -717,13 +727,23 @@ const EmpSalaryDetails: React.FC<
                         >
                           <option value="">Please Select</option>
                           <option value="DA">Dearness Allowance (DA)</option>
-                          <option value="HRA">House Rent Allowance (HRA)</option>
+                          <option value="HRA">
+                            House Rent Allowance (HRA)
+                          </option>
                           <option value="DP(A)">Dearness Pay (DP(A))</option>
                           <option value="IR(A)">Interim Relief (IR(A))</option>
-                          <option value="CA(A)">Conveyance Allowance (CA(A))</option>
-                          <option value="SP(A)">Special Allowance (SP(A))</option>
-                          <option value="MA(A)">Medical Allowance (MA(A))</option>
-                          <option value="SA(A)">Statutory Allowance (SA(A))</option>
+                          <option value="CA(A)">
+                            Conveyance Allowance (CA(A))
+                          </option>
+                          <option value="SP(A)">
+                            Special Allowance (SP(A))
+                          </option>
+                          <option value="MA(A)">
+                            Medical Allowance (MA(A))
+                          </option>
+                          <option value="SA(A)">
+                            Statutory Allowance (SA(A))
+                          </option>
                           <option value="EA">Emoluments allowance (EA)</option>
                         </select>
                       </td>
@@ -753,13 +773,13 @@ const EmpSalaryDetails: React.FC<
                               if (e.target.value === "per") {
                                 setEmployeeAllowDetails((prev: any) => {
                                   const updateData = [...prev];
-                                  updateData[index].selectedOption = "per";
+                                  updateData[index].selected_option = "per";
                                   return updateData;
                                 });
                               } else {
                                 setEmployeeAllowDetails((prev: any) => {
                                   const updateData = [...prev];
-                                  updateData[index].selectedOption = "amount";
+                                  updateData[index].selected_option = "amount";
                                   return updateData;
                                 });
                               }
@@ -792,7 +812,7 @@ const EmpSalaryDetails: React.FC<
                           />
                         )}
                         {["DA"].includes(item.name) &&
-                          item.selectedOption === "per" && (
+                          item.selected_option === "per" && (
                             <div className="flex">
                               <input
                                 type="number"
@@ -805,7 +825,7 @@ const EmpSalaryDetails: React.FC<
                             </div>
                           )}
                         {["DA"].includes(item.name) &&
-                          item.selectedOption === "amount" && (
+                          item.selected_option === "amount" && (
                             <div className="flex">
                               <input
                                 type="number"
@@ -825,8 +845,9 @@ const EmpSalaryDetails: React.FC<
                               {/* <span>{item?.amount_in}</span> */}
                             </div>
                           )}
-                        {["DA"].includes(item.name) ?
-                          <span>{item?.amount_in}</span> : null}
+                        {["DA"].includes(item.name) ? (
+                          <span>{item?.amount_in}</span>
+                        ) : null}
                       </td>
                     </tr>
                   ))}
@@ -866,8 +887,8 @@ const EmpSalaryDetails: React.FC<
                         <>
                           <th
                             key={index}
-                          // className="w-full"
-                          // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                            // className="w-full"
+                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
                           >
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>
@@ -889,11 +910,20 @@ const EmpSalaryDetails: React.FC<
                           className="w-[20rem] border rounded-xl p-2 mt-2 bg-transparent"
                         >
                           <option value="">Please Select</option>
-                          <option value="GPF">Government Provident Fund (GPF)</option>
-                          <option value="EPF">Employee Provident Fund (EPF)</option>
+                          <option value="GPF">
+                            Government Provident Fund (GPF)
+                          </option>
+                          <option value="EPF">
+                            Employee Provident Fund (EPF)
+                          </option>
                           <option value="PT">Professional Tax (PT)</option>
-                          <option value="IT">Tax Deduction at Source (TDS)</option>
-                          <option value="Vol EPF(A)"> voluntary Employee Provident Fund (Vol EPF(A))</option>
+                          <option value="IT">
+                            Tax Deduction at Source (TDS)
+                          </option>
+                          <option value="Vol EPF(A)">
+                            {" "}
+                            voluntary Employee Provident Fund (Vol EPF(A))
+                          </option>
                           <option value="LIC Policy- 1">LIC Policy- 1</option>
                           <option value="LIC Policy- 2">LIC Policy- 2</option>
                           <option value="LIC Policy- 3">LIC Policy- 3</option>
@@ -905,7 +935,9 @@ const EmpSalaryDetails: React.FC<
                           <option value="Telephone Bills">
                             Telephone Bills
                           </option>
-                          <option value="ESIC">Employees&apos; State Insurance Corporation (ESIC)</option>
+                          <option value="ESIC">
+                            Employees&apos; State Insurance Corporation (ESIC)
+                          </option>
                         </select>
                       </td>
 

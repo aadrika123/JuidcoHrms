@@ -77,7 +77,37 @@ class TeamController {
         );
     };
 
+    fetchTeamHeirarchy = async (
+        req: Request,
+        res: Response,
+        next: NextFunction,
+        apiId: string
+    ) => {
+        const resObj: resObj = {
+            apiId,
+            action: "POST",
+            version: "1.0",
+        };
+        try {
+            const { supervisor_id } = req.params;
+            const data = await this.teamDao.fetchTeamHeirarchy(supervisor_id);
+            return CommonRes.SUCCESS(
+                resMessage("Leave status changed").FOUND,
+                data,
+                resObj,
+                res,
+                next
+            );
+        } catch (err: any) {
+            return CommonRes.SERVER_ERROR(
+                err,
+                resObj,
+                res,
+                next
+            );
+        }
 
+    };
 
 }
 

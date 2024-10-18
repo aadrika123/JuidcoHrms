@@ -147,6 +147,58 @@ class TeamDao {
       console.error("Error executing queries:", err);
     }
   };
+
+  fetchTeamHeirarchy = async (supervisor_id: string) => {
+    const hierarchyData: any = [];
+    const fetchTeam = async (supervisor_id: string, level = 0) => {
+      const data = await prisma.employee_hierarchy.findMany({
+        select: {
+          emp_id: true,
+          employee: {
+            select: {
+              emp_basic_details: {
+                select: {
+                  emp_id: true,
+                  emp_name: true
+                }
+              },
+              emp_join_details: {
+                select: {
+                  department: {
+                    select: {
+                      name: true
+                    }
+                  },
+                  designation: {
+                    select: {
+                      name: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        where: {
+          parent_emp: supervisor_id,
+        },
+      });
+      if (data.length > 0) {
+        hierarchyData[level] = [];
+        await Promise.all(
+          data.map(async (item) => {
+            hierarchyData[level].push(item?.employee);
+            await fetchTeam(item.emp_id, level + 1);
+          })
+        );
+      } else {
+        return;
+      }
+    };
+    await fetchTeam(supervisor_id)
+    return hierarchyData
+  }
+
 }
 
 export default TeamDao;

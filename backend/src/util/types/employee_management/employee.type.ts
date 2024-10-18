@@ -31,7 +31,8 @@ export interface EmployeeBasicDetailsType {
   cps: string;
   gps: string;
   dob: string;
-  pan_no:string
+  pan_no?: string;
+  email?: string; 
 }
 
 export interface EmployeePersonalDetailsType {
@@ -119,7 +120,7 @@ export interface EmployeeFamilyDetailsType {
 //------------------------- Employee Permanent Address Types -----------------------------//
 export interface EmployeePresentAddressDetailsType {
   id?: string | number;
-  type: string;
+  
   address_primary: string | number;
   address_secondary: string | number;
   village: string;
@@ -130,6 +131,17 @@ export interface EmployeePresentAddressDetailsType {
   pin_code: number;
   police_station: string;
   emp_address_same: "yes" | "no";
+
+  // Add the permanent address fields
+  address_primary_permanent?: string; // Optional
+  address_secondary_permanent?: string; // Optional
+  block_ulb_permanent?: string; // Optional
+  district_permanent?: string; // Optional
+  pin_code_permanent?: string; // Optional
+  police_station_permanent?: string; // Optional
+  post_office_permanent?: string; // Optional
+  state_permanent?: string; // Optional
+  village_permanent?: string; // Optional
 }
 //------------------------- Employee Permanent Address Types -----------------------------//
 
@@ -192,7 +204,7 @@ export interface EmployeeJoinDetailsType {
   wef_date: string;
   branch_name: string | number;
   pf_category: string | number;
-  acc_no: string | number;
+  acc_number: string | number;
   ifsc: string | number;
   sen_grade_list: string | number;
 }

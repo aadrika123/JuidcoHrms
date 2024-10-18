@@ -9,6 +9,8 @@ import DistrictController from "../../../controller/master/district.controller";
 import DdoController from "../../../controller/master/ddo.controller";
 import UlbMasterController from "../../../controller/master/ulb.controller";
 import EmployeeTypeMasterController from "../../../controller/master/emp_type.controller";
+import EmployeeController from "../../../controller/employee/employeeDetails.controller";
+import EmployeeHierarchyController from "../../../controller/employee/EmployeeHierarchy.controller";
 /**
  * | Route - 01
  */
@@ -27,6 +29,8 @@ class MasterDataRoute {
   private ddoController: DdoController;
   private ulbMasterController: UlbMasterController;
   private EmpTypeMasterController: EmployeeTypeMasterController;
+  private employeeController: EmployeeController;
+  private employeeHierarchyController: EmployeeHierarchyController;
   constructor() {
     this.designationController = new DesignationController();
     this.departmentController = new DepartmentController();
@@ -34,6 +38,8 @@ class MasterDataRoute {
     this.ddoController = new DdoController();
     this.ulbMasterController = new UlbMasterController();
     this.EmpTypeMasterController = new EmployeeTypeMasterController();
+    this.employeeController = new EmployeeController();
+    this.employeeHierarchyController = new EmployeeHierarchyController();
   }
 
   configure(app: express.Application): void {
@@ -60,6 +66,15 @@ class MasterDataRoute {
           this.districtController.get(req, res, next, "0203"),
         loggerMiddleware
       ); //0203
+
+       // New route to get districts based on a state
+    app
+      .route(`${baseUrl}/master/district-by-state`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.districtController.getByState(req, res, next, "0204"),
+        loggerMiddleware
+      );
 
     app
       .route(`${baseUrl}/ddo/get`)
@@ -92,6 +107,22 @@ class MasterDataRoute {
           this.EmpTypeMasterController.get(req, res, next, "0206"),
         loggerMiddleware
       ); //0206
+
+      app
+  .route(`${baseUrl}/employee-details`)
+  .get(
+    (req: Request, res: Response, next: NextFunction) =>
+      this.employeeController.getEmployeeDetails(req, res, next, "0207"),
+    loggerMiddleware
+  ); //0207
+
+  app
+    .route(`${baseUrl}/employee-hierarchy`)
+    .post(
+      (req: Request, res: Response, next: NextFunction) =>
+        this.employeeHierarchyController.upsertEmployeeHierarchy(req, res, next),
+      loggerMiddleware
+    );
   }
 }
 
