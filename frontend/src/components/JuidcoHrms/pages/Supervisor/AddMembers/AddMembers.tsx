@@ -46,7 +46,7 @@ export default function AddMembers() {
   const initialValues: formValuesAddMember = {
     emp_id: "",
     supervisor_level: "",
-    parent_emp: empId as string,
+    parent_emp: "",
     task: "",
   };
 
@@ -214,8 +214,10 @@ export default function AddMembers() {
                         className="bg-gray-200 h-10 rounded mt-2"
                         name="supervisor_level"
                         as='select'
-                        default={1}
                       >
+                        <option value={""} >
+                          Select
+                        </option>
                         {[1, 2, 3, 4].map((item, index) => (
                           <option key={index} value={item} >
                             {item}
@@ -253,8 +255,10 @@ export default function AddMembers() {
                       as='select'
                       className="bg-gray-200 h-10 rounded mt-2"
                       name="parent_emp"
-                      default={empId}
                     >
+                      <option value={""} >
+                        Select
+                      </option>
                       <option value={empId} >
                         {empId} ({userDetails?.name})
                       </option>
