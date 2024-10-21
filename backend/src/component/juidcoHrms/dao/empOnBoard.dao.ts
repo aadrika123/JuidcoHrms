@@ -14,7 +14,7 @@ import {
   employeePresentAddressDetailsRequestData,
   // employeePresentAddressDetailsRequestData,
 } from "../requests/ems/emp_pers_details.validation";
-import { generateUnique } from "../../../util/helper/generateUniqueNo";
+// import { generateUnique } from "../../../util/helper/generateUniqueNo";
 import { generateRes } from "../../../util/generateRes";
 import nodemailer from "nodemailer";
 interface EditEmpList {
@@ -95,7 +95,7 @@ class EmployeeOnBoardDao {
       emp_basic_details,
       emp_personal_details,
       emp_family_details,
-      emp_address_details, 
+      emp_address_details,
       emp_service_history,
       emp_timebound_details,
       emp_salary_details,
@@ -103,6 +103,8 @@ class EmployeeOnBoardDao {
       emp_join_details,
       emp_loan_details,
     } = req.body;
+
+    const { ulb_id } = req.body.auth
 
     const { emp_education, emp_training } = emp_education_details;
 
@@ -270,6 +272,7 @@ class EmployeeOnBoardDao {
         emp_training_details: {
           create: empTrainData,
         },
+        ulb_id: Number(ulb_id)
       };
 
       return await this.createEmployeeDetails(tx, "employees", employeeDatas);
@@ -288,6 +291,7 @@ class EmployeeOnBoardDao {
     const department: string = String(req.query.department);
     const designation: string = String(req.query.designation);
     const emp_type: string = String(req.query.emp_type);
+    const { ulb_id } = req.body.auth
 
     const query: Prisma.employeesFindManyArgs = {
       skip: (page - 1) * limit,
@@ -317,6 +321,7 @@ class EmployeeOnBoardDao {
       },
       where: {
         emp_del: 0,
+        ulb_id: ulb_id
       },
     };
     if (emp_type !== "undefined" && emp_type !== "") {

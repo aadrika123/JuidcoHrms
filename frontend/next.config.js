@@ -12,6 +12,7 @@
 const nextConfig = {
   basePath: "/hrms",
   env: {
+    // backend: "https://aadrikainfomedia.com/auth",
     backend: "http://localhost:8000",
   },
   // async rewrites() {
