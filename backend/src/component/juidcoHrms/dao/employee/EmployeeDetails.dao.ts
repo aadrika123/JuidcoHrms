@@ -39,6 +39,7 @@ class EmployeeDetailsDao {
             select: {
               emp_name: true,
               email: true,
+              contact_no:true,
               pan_no: true,   // Fetching pan_no from employee_basic_details
               gps: true
             },
