@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 
 import React, { useEffect, useState } from "react";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
@@ -22,7 +23,6 @@ interface formValuesAddMember {
 }
 
 const empId = Cookies.get('emp_id')
-const userDetails = sessionStorage.getItem('user_details') ? JSON.parse(String(sessionStorage.getItem('user_details'))) : {}
 
 const validationSchema = Yup.object({
   emp_id: Yup.string().required("Employee ID is required"),
@@ -40,6 +40,13 @@ export default function AddMembers() {
   );
   const [empData, setEmpData] = useState<any>({});
   const [heirarchyData, setHeirarchyData] = useState<any[]>([]);
+  let userDetails: any
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      userDetails = sessionStorage.getItem('user_details') ? JSON.parse(String(sessionStorage.getItem('user_details'))) : {}
+    }
+  }, [])
 
   const router = useRouter();
 
