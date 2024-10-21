@@ -111,13 +111,13 @@ class EmployeeOnBoardController {
         return CommonRes.VALIDATION_ERROR(familyDetailsError, resObj, res, next);
       }
 
-      const da1: any = this.filterReqBody(
-        req.body.emp_service_history.emp_prom_details
-      );
+      // const da1: any = this.filterReqBody(
+      //   req.body.emp_service_history.emp_prom_details
+      // );
 
-      const empIncDetails = this.filterReqBody(
-        req.body.emp_service_history.emp_inc_details
-      );
+      // const empIncDetails = this.filterReqBody(
+      //   req.body.emp_service_history.emp_inc_details
+      // );
 
       const empPromDetails = this.filterReqBody(
         req.body.emp_service_history.emp_prom_details
