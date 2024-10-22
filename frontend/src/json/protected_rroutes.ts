@@ -10,6 +10,7 @@ const data = [
       "/hrms/pension/gratuity_form",
       "/hrms/pension/leave_encashment",
       "/hrms/comingsoon",
+      "/hrms/employee/regularization",
     ],
   },
   {
@@ -25,6 +26,7 @@ const data = [
       "/hrms/supervisor/team-members",
       "/hrms/supervisor/add-members",
       "/hrms/supervisor/time-sheet",
+      "/hrms/employee/regularization",
     ],
   },
   {

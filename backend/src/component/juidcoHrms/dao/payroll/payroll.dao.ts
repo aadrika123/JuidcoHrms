@@ -154,8 +154,10 @@ class PayrollDao {
     //  AND EXTRACT(MONTH FROM date)::text=${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}
 
     this.total_working_hours = await prisma.$queryRaw`
-      SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 AND EXTRACT(MONTH FROM date)::text = ${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}::text group by employee_id;
+      SELECT employee_id as emp_id, sum(working_hour)::int as working_hour, COUNT(DISTINCT date_trunc('day', date))::int FROM employee_daily_attendance WHERE status=1 AND EXTRACT(MONTH FROM date)::text = ${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}::text group by employee_id;
     `;
+
+    console.log(this.total_working_hours, 'now69')
 
     // this.total_working_hours = await prisma.$queryRaw`
     // SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 group by employee_id;
@@ -178,7 +180,7 @@ class PayrollDao {
       where EXTRACT(month from created_at)::INT = ${c_month}::INT AND leave_status = 3
     `;
 
-    console.log(this.no_of_leave_approved, "leave_approved");
+    // console.log(this.no_of_leave_approved, "leave_approved");
   };
 
   // total_hours = 26 * 8
@@ -195,10 +197,12 @@ class PayrollDao {
   // calc_net_pay ===> Gross - calc_non_billable_hours
 
   // ---------------------------CALCULATING OF NET PAY------------------------------//
+
   calc_net_pay = async () => {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
     const data: any = {};
+    const presentDays: any = {};
     let dataToSendForLogging: any = {};
 
     // collect gross
@@ -218,6 +222,12 @@ class PayrollDao {
         ...data[record.emp_id],
         working_hour: working_hour,
       };
+
+      presentDays[record.emp_id] = {
+        ...presentDays[record.emp_id],
+        working_days: record?.count
+      };
+
     });
 
     this.lwp_days_last_month.forEach((record: any) => {
@@ -284,12 +294,15 @@ class PayrollDao {
       const total_hours: number = numberOfWeekdaysInMonth * 8;
       const leave_days = data[record.emp_id].leave_days;
       const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
+      const salary_per_day = data[record.emp_id].gross_pay / numberOfWeekdaysInMonth; //#############
       const days_leave_approved = leave_days;
       const no_of_hours_leave_approved = days_leave_approved * 8;
 
       // ------------------------CALCULATING NON BILLABLE HOURS ---------------------------//
+      // let lwp_last_month_salary: number =
+      //   data[record.emp_id].lwp_days_last_month * 8 * salary_per_hour;
       let lwp_last_month_salary: number =
-        data[record.emp_id].lwp_days_last_month * 8 * salary_per_hour;
+        data[record.emp_id].lwp_days_last_month * salary_per_day;
 
       if (isNaN(lwp_last_month_salary)) {
         lwp_last_month_salary = 0;
@@ -308,27 +321,34 @@ class PayrollDao {
       }
 
       // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
-      let employee_present_days =
-        (data[record.emp_id].working_hour as number) / 8 - leave_days;
+      // let employee_present_days =
+      //   (data[record.emp_id].working_hour as number) / 8 - leave_days;
+      let employee_present_days = presentDays[record.emp_id]?.working_days as number
       if (isNaN(employee_present_days) || employee_present_days < 0) {
         employee_present_days = 0;
       }
+      // console.log(employee_present_days, 'now3')
 
       // ----------------------- CALCULATING EMPLOYEE LWP DAYS ---------------------------//
-      let employee_lwp_days = calc_non_billable_hours / 8;
+      // let employee_lwp_days = calc_non_billable_hours / 8;
+      let employee_lwp_days = numberOfWeekdaysInMonth - presentDays[record.emp_id]?.working_days;
       if (isNaN(employee_lwp_days)) {
         employee_lwp_days = 0;
       }
 
       // ------------------------ CALCULATING EMPLOYEE NET PAY ---------------------------//
+      // const calc_non_billable_salary =
+      //   salary_per_hour * calc_non_billable_hours;
       const calc_non_billable_salary =
-        salary_per_hour * calc_non_billable_hours;
+        salary_per_day * employee_lwp_days;
 
-      let calc_net_pay =
+      let calc_net_pay = Number((
         data[record.emp_id].gross_pay -
         calc_non_billable_salary -
         data[record.emp_id].total_deductions -
-        lwp_last_month_salary;
+        lwp_last_month_salary).toFixed(2))
+
+      // console.log(record.emp_id, data[record.emp_id].gross_pay, calc_non_billable_salary, data[record.emp_id].total_deductions, lwp_last_month_salary, 'now')
 
       if (calc_net_pay < 1) {
         calc_net_pay = 0;
@@ -360,6 +380,7 @@ class PayrollDao {
           salary_per_hour,
         },
       };
+      // console.log(data[record.emp_id]?.lwp_days, 'now2')
     });
     // !======================== EMPLOYEE SALARY CALCULATION =========================//
 
@@ -374,13 +395,13 @@ class PayrollDao {
       }
     });
 
-    console.log(this.employee_payroll_data, "payroll");
+    // console.log(this.employee_payroll_data, "payroll")
 
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
 
-    console.log(this.employee_payroll_data);
+    // console.log(this.employee_payroll_data);
 
     // console.log(p_data, "pp");
 
@@ -389,6 +410,201 @@ class PayrollDao {
 
     return generateRes(this.employee_payroll_data);
   };
+
+  // calc_net_pay = async () => {
+  //   await this.calc_regular_pay();
+  //   await this.cal_allowance_and_deduction();
+  //   const data: any = {};
+  //   let dataToSendForLogging: any = {};
+
+  //   // collect gross
+  //   this.gross.forEach((emp) => {
+  //     data[emp.emp_id] = {
+  //       ...emp,
+  //       leave_days: 0,
+  //     };
+  //   });
+
+  //   // collect working hours
+  //   this.total_working_hours.forEach((record: any) => {
+  //     //      console.log(record);
+  //     const working_hour = Number(record.working_hour);
+
+  //     data[record.emp_id] = {
+  //       ...data[record.emp_id],
+  //       working_hour: working_hour,
+  //     };
+  //   });
+
+  //   this.lwp_days_last_month.forEach((record: any) => {
+  //     //      console.log(record);
+  //     const lwp_days = Number(record.last_month_lwp);
+
+  //     data[record.emp_id] = {
+  //       ...data[record.emp_id],
+  //       lwp_days_last_month: lwp_days,
+  //     };
+  //   });
+
+  //   // update leave days based on employee leave data if any
+  //   this.no_of_leave_approved.forEach((record) => {
+  //     data[record.emp_id].leave_days = Number(record.days_leave_approved);
+  //   });
+
+  //   this.allowances.forEach((record) => {
+  //     data[record.emp_id] = {
+  //       ...data[record.emp_id],
+  //       ...record,
+  //     };
+  //   });
+
+  //   this.gross.forEach((record: any) => {
+  //     const currentDate = new Date();
+  //     const currentMonth = currentDate.getMonth();
+  //     const currentYear = currentDate.getFullYear();
+  //     const numberOfDaysInMonth = new Date(
+  //       currentYear,
+  //       currentMonth + 1,
+  //       0
+  //     ).getDate();
+  //     let numberOfWeekdaysInMonth: number = 0;
+  //     // let after_days: number = 0;
+
+  //     // let after_days_last: number = 0; // previous month lwp absent
+
+  //     // ----------check no_of_working_days in a month----------------//
+  //     for (let day = 1; day <= numberOfDaysInMonth; day++) {
+  //       const date = new Date(currentYear, currentMonth, day);
+  //       const dayOfWeek = date.getDay();
+
+  //       // Check if the day is not Sunday (0 represents Sunday)
+  //       if (dayOfWeek !== 0) {
+  //         numberOfWeekdaysInMonth++;
+  //       }
+  //     }
+
+  //     //---------check no_of_working_days after date 26th-----------------//
+  //     // for (let day = 27; day <= numberOfDaysInMonth; day++) {
+  //     //   const date = new Date(currentYear, currentMonth, day);
+  //     //   const dayOfWeek = date.getDay();
+
+  //     //   // Check if the day is not Sunday (0 represents Sunday)
+  //     //   if (dayOfWeek !== 0) {
+  //     //     after_days++;
+  //     //   }
+  //     // }
+
+  //     // const after_days_hours = after_days * 8;
+
+  //     // !======================== EMPLOYEE SALARY CALCULATION =========================//
+  //     const total_hours: number = numberOfWeekdaysInMonth * 8;
+  //     const leave_days = data[record.emp_id].leave_days;
+  //     const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
+  //     const days_leave_approved = leave_days;
+  //     const no_of_hours_leave_approved = days_leave_approved * 8;
+
+  //     // ------------------------CALCULATING NON BILLABLE HOURS ---------------------------//
+  //     let lwp_last_month_salary: number =
+  //       data[record.emp_id].lwp_days_last_month * 8 * salary_per_hour;
+
+  //     if (isNaN(lwp_last_month_salary)) {
+  //       lwp_last_month_salary = 0;
+  //     }
+  //     const non_bill =
+  //       data[record.emp_id].working_hour + no_of_hours_leave_approved;
+
+  //     let calc_non_billable_hours = total_hours - non_bill;
+  //     // 208 - 196 - 32
+  //     if (isNaN(calc_non_billable_hours)) {
+  //       calc_non_billable_hours = total_hours;
+  //     }
+
+  //     if (calc_non_billable_hours < 1) {
+  //       calc_non_billable_hours = 0;
+  //     }
+
+  //     // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
+  //     let employee_present_days =
+  //       (data[record.emp_id].working_hour as number) / 8 - leave_days;
+  //     if (isNaN(employee_present_days) || employee_present_days < 0) {
+  //       employee_present_days = 0;
+  //     }
+
+  //     // ----------------------- CALCULATING EMPLOYEE LWP DAYS ---------------------------//
+  //     let employee_lwp_days = calc_non_billable_hours / 8;
+  //     if (isNaN(employee_lwp_days)) {
+  //       employee_lwp_days = 0;
+  //     }
+
+  //     // ------------------------ CALCULATING EMPLOYEE NET PAY ---------------------------//
+  //     const calc_non_billable_salary =
+  //       salary_per_hour * calc_non_billable_hours;
+
+  //     let calc_net_pay =
+  //       data[record.emp_id].gross_pay -
+  //       calc_non_billable_salary -
+  //       data[record.emp_id].total_deductions -
+  //       lwp_last_month_salary;
+
+  //     if (calc_net_pay < 1) {
+  //       calc_net_pay = 0;
+  //     }
+
+  //     console.log(calc_net_pay, "net_pay");
+
+  //     let date: any = `${new Date().toISOString()}`;
+  //     date = new Date(date.split("T")[0]);
+
+  //     data[record.emp_id] = {
+  //       ...data[record.emp_id],
+  //       non_billable: calc_non_billable_hours,
+  //       present_days: employee_present_days,
+  //       lwp_days: employee_lwp_days,
+  //       salary_deducted: Math.floor(calc_non_billable_salary),
+  //       net_pay: Math.floor(calc_net_pay) || 0,
+  //       last_month_lwp_deduction: Math.floor(lwp_last_month_salary),
+  //       date: date,
+  //       salary_per_hour: Math.round(salary_per_hour),
+  //       month: 0,
+  //       year: 0,
+  //     };
+
+  //     dataToSendForLogging = {
+  //       ...dataToSendForLogging,
+  //       [record.emp_id]: {
+  //         lwp_days_last_month: data[record.emp_id].lwp_days_last_month,
+  //         salary_per_hour,
+  //       },
+  //     };
+  //   });
+  //   // !======================== EMPLOYEE SALARY CALCULATION =========================//
+
+  //   const keys = Object.keys(data);
+  //   this.employee_payroll_data = [];
+
+  //   keys?.forEach((key) => {
+  //     if (data[key]["emp_id"]) {
+  //       data[key]["month"] = data[key].date.getMonth() + 1;
+  //       data[key]["year"] = data[key].date.getFullYear();
+  //       this.employee_payroll_data.push(data[key]);
+  //     }
+  //   });
+
+  //   console.log(this.employee_payroll_data, "payroll");
+
+  //   await prisma.payroll_master.createMany({
+  //     data: this.employee_payroll_data,
+  //   });
+
+  //   console.log(this.employee_payroll_data);
+
+  //   // console.log(p_data, "pp");
+
+  //   //function call for logging the calculated data
+  //   await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
+
+  //   return generateRes(this.employee_payroll_data);
+  // };
   // --------------------- STORING PAYROLL ------------------------------ //
 
   get_emp_payroll = async (req: Request) => {
