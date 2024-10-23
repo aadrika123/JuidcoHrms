@@ -39,6 +39,7 @@ type UrlKeys =
   | "TREASURY"
   | "PROPERTIES"
   | "EMP"
+  | "TEAM_PARENT"
   ;
 
 type Urls = {
@@ -163,7 +164,10 @@ export const HRMS_URL: Urls = {
   TEAM: {
     get: "/team/list",
     getById: "/team/heirarchy",
-    create:'/employee-hierarchy'
+    create: '/employee-hierarchy'
+  },
+  TEAM_PARENT: {
+    getById: "/team/heirarchy-superior",
   },
   EMPLOYEE_TYPE_MASTER: {
     getAll: "/emp-type/get",

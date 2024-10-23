@@ -261,12 +261,6 @@ const AttendanceManagement = () => {
     )
     : [];
 
-  function truncateString(str: string) {
-    if (str?.length > 5) {
-      return str.substring(0, 8) + '...';
-    }
-    return str;
-  }
 
   // const steps = [
   //   { title: truncateString(userDetails?.name) },
@@ -276,9 +270,9 @@ const AttendanceManagement = () => {
   // ];
   const constructSteps = (data: any[]) => {
     const flattenArray = data?.flat()
-    const constructedSteps = flattenArray.map((item: any) => ({ title: truncateString(item?.emp_basic_details?.emp_name) }))
+    const constructedSteps = flattenArray.map((item: any) => ({ title: item?.emp_basic_details?.emp_name }))
     setSteps([
-      { title: truncateString(userDetails?.name) },
+      { title: userDetails?.name },
       ...constructedSteps
     ])
   }
@@ -286,7 +280,7 @@ const AttendanceManagement = () => {
 
   const fetchTeam = async (emp: string) => {
     const res = await axios({
-      url: `${HRMS_URL.TEAM.getById}/${emp}`,
+      url: `${HRMS_URL.TEAM_PARENT.getById}/${emp}`,
       method: "GET",
     });
     setParentTeam(res?.data?.data)
