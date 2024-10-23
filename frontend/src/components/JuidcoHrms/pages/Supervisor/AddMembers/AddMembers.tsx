@@ -40,11 +40,12 @@ export default function AddMembers() {
   );
   const [empData, setEmpData] = useState<any>({});
   const [heirarchyData, setHeirarchyData] = useState<any[]>([]);
-  let userDetails: any
+  const [userDetails, setUserDetails] = useState<any>({});
+  // let userDetails: any
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      userDetails = sessionStorage.getItem('user_details') ? JSON.parse(String(sessionStorage.getItem('user_details'))) : {}
+      setUserDetails(sessionStorage.getItem('user_details') ? JSON.parse(String(sessionStorage.getItem('user_details'))) : {})
     }
   }, [])
 

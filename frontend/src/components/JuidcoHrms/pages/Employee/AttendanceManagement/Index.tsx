@@ -91,6 +91,8 @@ const AttendanceManagement = () => {
   const [department, setDepartment] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selfId, setSelfId] = useState<string>("");
+  const [parentTeam, setParentTeam] = useState<any>([]);
+  const [steps, setSteps] = useState<any>([]);
 
   useEffect(() => {
     const emp_id = JSON.parse(
@@ -255,17 +257,53 @@ const AttendanceManagement = () => {
 
   const filterHolidays = selectedMonth
     ? holidays2024.filter(
-        (holidays: any) => holidays.date.substring(0, 7) === selectedMonth
-      )
+      (holidays: any) => holidays.date.substring(0, 7) === selectedMonth
+    )
     : [];
 
-  const steps = [
-    { title: "Rina Jha" },
-    { title: "csdc" },
-    { title: "cscgf" },
-    { title: "Mlkdvm" },
-  ];
+  function truncateString(str: string) {
+    if (str?.length > 5) {
+      return str.substring(0, 8) + '...';
+    }
+    return str;
+  }
+
+  // const steps = [
+  //   { title: truncateString(userDetails?.name) },
+  //   { title: "csdc" },
+  //   { title: "cscgf" },
+  //   { title: "Mlkdvm" },
+  // ];
+  const constructSteps = (data: any[]) => {
+    const flattenArray = data?.flat()
+    const constructedSteps = flattenArray.map((item: any) => ({ title: truncateString(item?.emp_basic_details?.emp_name) }))
+    setSteps([
+      { title: truncateString(userDetails?.name) },
+      ...constructedSteps
+    ])
+  }
   const activeStep = 0;
+
+  const fetchTeam = async (emp: string) => {
+    const res = await axios({
+      url: `${HRMS_URL.TEAM.getById}/${emp}`,
+      method: "GET",
+    });
+    setParentTeam(res?.data?.data)
+  }
+
+
+  useEffect(() => {
+    if (userDetails?.emp_id) {
+      fetchTeam(userDetails?.emp_id)
+    }
+  }, [userDetails])
+
+  useEffect(() => {
+    if (parentTeam?.length > 0) {
+      constructSteps(parentTeam)
+    }
+  }, [parentTeam])
 
   //---------------------->> EMPLOYEE LOG TIME <<-----------------------------//
 
@@ -369,6 +407,11 @@ const AttendanceManagement = () => {
                 </span>
               </button>
             </div>
+            <div className="w-full ">
+              <div className="mt-12">
+                <HorizontalStepper steps={steps} activeStep={activeStep} />
+              </div>
+            </div>
             <section className="flex gap-3 ">
               <aside className="w-[55%] mt-12 flex flex-col gap-3 font-medium">
                 <h4 className="text-secondary ">
@@ -384,43 +427,12 @@ const AttendanceManagement = () => {
                   Department-{" "}
                   {employeeDetails
                     ? department[
-                        employeeDetails?.emp_join_details?.department_id
-                      ]?.name
+                      employeeDetails?.emp_join_details?.department_id
+                    ]?.name
                     : ""}
                 </h4>
               </aside>
-              <div className="w-full ">
-                <div className="mt-12">
-                  <HorizontalStepper steps={steps} activeStep={activeStep} />
-                  <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
-                    <h2>{userDetails?.name}</h2>
-                    <h2>Raju Admin</h2>
-                    <h2>Ijcasd</h2>
-                    <h2>dca</h2>
-                  </div>
-                </div>
 
-                {/* <div className="w-full mt-6  flex border-b-2 border-primary_blue items-end justify-between">
-                  <span>
-                    <Image src={EmployeeIcon} alt="emp" />
-                  </span>
-                  <span>
-                    <Image className="w-[3.5em]" src={ManagerIcon} alt="emp" />
-                  </span>
-                  <span>
-                    <Image className="w-[4em]" src={ManagerIcon} alt="emp" />
-                  </span>
-                  <span>
-                    <Image className="w-[4.5em]" src={ManagerIcon} alt="emp" />
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs text-secondary">
-                  <h2>Employee</h2>
-                  <h2>Manager-1</h2>
-                  <h2>Manager-2</h2>
-                  <h2>Manager-3</h2>
-                </div> */}
-              </div>
             </section>
           </div>
           <div className="w-full h-full overflow-hidden rounded-lg">
