@@ -40,7 +40,7 @@ model employees {
   emp_salary_details      employee_salary_details       @relation(fields: [emp_salary_details_id], references: [id])
   emp_salary_details_id   Int
   emp_attendance          employee_attendance_history[]
-  emp_hierarchy           employee_hierarchy[]
+  emp_hierarchy           employee_hierarchy[]          @relation("EmployeeRelation")
   emp_leave_details       employee_leave_details[]
   emp_leave_chart         employee_leave_chart[]
   emp_daily_attendance    employee_daily_attendance[]
@@ -53,6 +53,7 @@ model employees {
   ulb_id                  Int                           @default(2)
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
+  employee_hierarchy      employee_hierarchy[]          @relation("ParentRelation")
 }
 
 model employee_office_details {
@@ -528,8 +529,9 @@ model employee_daily_attendance {
 model employee_hierarchy {
   id                   Int       @id @default(autoincrement())
   emp_id               String    @unique
-  employee             employees @relation(fields: [emp_id], references: [emp_id])
+  employee             employees @relation("EmployeeRelation", fields: [emp_id], references: [emp_id])
   parent_emp           String
+  parent               employees @relation("ParentRelation", fields: [parent_emp], references: [emp_id])
   supervisor_level     String?
   immediate_supervisor String?
   task                 String?
