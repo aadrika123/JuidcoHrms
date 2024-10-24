@@ -169,7 +169,7 @@ const Dashboard = () => {
   //   setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));
   // };
 
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   const steps = [
     { title: "Head of Office" },
