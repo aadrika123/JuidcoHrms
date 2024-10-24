@@ -26,7 +26,7 @@ class PensionController {
 
     try {
       const data = await this.pensionDao.store();
-      console.log(data, "dd")
+      // console.log(data, "dd")
       if (data === null) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMesg).NOT_FOUND,
