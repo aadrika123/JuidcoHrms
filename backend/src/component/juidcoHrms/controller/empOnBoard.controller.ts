@@ -237,7 +237,7 @@ class EmployeeOnBoardController {
     };
 
     try {
-      const data = await this.employeeOnBoardDao.getEmployeeCount();
+      const data = await this.employeeOnBoardDao.getEmployeeCount(req);
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMesg).NOT_FOUND,
