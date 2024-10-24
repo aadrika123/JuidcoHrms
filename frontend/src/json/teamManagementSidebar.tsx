@@ -56,7 +56,7 @@ export const TMSidebarLinks: SidebarLinksProps = {
                     dropdown: true,
                     subModules: [
                         {
-                            moduleName: "Leave",
+                            moduleName: "Leave and Regularization",
                             icon: (
                                 <Image src={HolidayIcon} alt="masters" width={100} height={100} />
                             ),

@@ -161,9 +161,9 @@ const RegularizationForm = () => {
         res.data.data.data ===
         "Leave request overlaps with existing leave request."
       ) {
-        toast.error("Leave request overlaps with existing leave request.");
+        toast.error("overlaps with existing request.");
       } else {
-        toast.success("Leave Applied Successfully");
+        toast.success("Regularization Applied Successfully");
         window.location.reload();
       }
       console.log("Submitted values:", res.data);

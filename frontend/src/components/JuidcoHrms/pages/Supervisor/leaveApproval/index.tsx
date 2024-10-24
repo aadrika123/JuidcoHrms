@@ -78,13 +78,13 @@ export default function LeaveApproval() {
                             <div className="flex justify-between">
                                 <SubHeading>
                                     <Image src={LeaveListIcon} alt="employee" width={40} height={20} />
-                                    <span className="ml-4 text-lg">List of Total Requested Leave</span>
+                                    <span className="ml-4 text-lg">List of Total Requests</span>
                                 </SubHeading>
                             </div>
                             <section className="flex items-end gap-2 justify-end">
                                 <div className="flex justify-center items-center flex-col w-20">
                                     <h1 className="text-lg text-sky-600 font-bold">{leaveList?.length || 0}</h1>
-                                    <p className="text-sm">Total no. of requested leave</p>
+                                    <p className="text-sm">Total no. of requests</p>
                                 </div>
                                 <div className="divider lg:divider-horizontal" />
                                 {/* <div className="flex flex-col gap-2">
