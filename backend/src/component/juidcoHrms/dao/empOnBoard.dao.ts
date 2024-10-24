@@ -379,19 +379,26 @@ class EmployeeOnBoardDao {
   };
 
   // get total, existing and new employee //
-  getEmployeeCount = async () => {
+  getEmployeeCount = async (req: Request) => {
+    const { ulb_id } = req.body.auth
     const [existingEmp, newEmp, totalEmp] = await prisma.$transaction([
       prisma.employees.count({
         where: {
           emp_type: 0,
+          ulb_id: ulb_id
         },
       }),
       prisma.employees.count({
         where: {
           emp_type: 1,
+          ulb_id: ulb_id
         },
       }),
-      prisma.employees.count(),
+      prisma.employees.count({
+        where: {
+          ulb_id: ulb_id
+        }
+      }),
     ]);
 
     return generateRes({ existingEmp, newEmp, totalEmp });
