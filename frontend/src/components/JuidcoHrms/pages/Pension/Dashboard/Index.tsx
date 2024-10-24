@@ -389,8 +389,8 @@ const Dashboard = () => {
 
       <section className="m-5 p-10 shadow-lg">
         <h2 className="text-[2rem] text-secondary font-medium">
-          No. of Employees to be Retired in Last Year{" "}
-          <span className="text-primary_blue"> {currentYear} </span>
+          Employees to be Retired in Next Year{" "}
+          {/* <span className="text-primary_blue"> {currentYear} </span> */}
         </h2>
         <div className="mt-[3rem]">
           <TableListContainer
