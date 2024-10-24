@@ -22,6 +22,7 @@ import axios from "@/lib/axiosConfig";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { HRMS_URL } from "@/utils/api/urls";
 import Loader from "@/components/global/atoms/Loader";
+import { CircularProgress } from "@mui/material";
 
 interface LeaveData {
   emp_leave_type: {
@@ -71,7 +72,10 @@ const LeaveReq = () => {
   const [showMore, setShowMore] = useState(false);
   const [showMoreLeave, setShowMoreLeave] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [leaveLoading, setLeaveLoading] = useState(true);
   const [userDetails, setUserDetails] = useState<any>();
+  const [parentTeam, setParentTeam] = useState<any>([]);
+  const [steps, setSteps] = useState<any>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -123,15 +127,18 @@ const LeaveReq = () => {
 
   useEffect(() => {
     if (empId) {
+      setLeaveLoading(true)
       try {
         axios
           .get(`${HRMS_URL.LEAVEGET.getAll}?employee_id=${empId}`)
           .then((response) => {
             setLeaveAllData(response?.data?.data);
             console.log("Data is returned", response.data.data);
+            setLeaveLoading(false)
           })
           .catch((error) => {
             console.error("Error fetching data:", error.response?.data);
+            setLeaveLoading(false)
           });
       } catch (error) {
         console.log("Error in useEffect:", error);
@@ -147,12 +154,12 @@ const LeaveReq = () => {
     }
   }, [manData?.leave_status]);
 
-  const steps = [
-    { title: "Employee" },
-    { title: "Manager-1" },
-    { title: "Manager-2" },
-    { title: "Manager-3" },
-  ];
+  // const steps = [
+  //   { title: "Employee" },
+  //   { title: "Manager-1" },
+  //   { title: "Manager-2" },
+  //   { title: "Manager-3" },
+  // ];
 
   const togglePopup = () => {
     setShowMore(!showMore);
@@ -195,7 +202,38 @@ const LeaveReq = () => {
 
   const formattedDate = `${formattedDay} ${monthName}, ${year}`;
 
-  console.log("manData", manData?.half_day);
+  // console.log("manData", manData?.half_day);
+
+  const constructSteps = (data: any[]) => {
+    const flattenArray = data?.flat()
+    const constructedSteps = flattenArray.map((item: any) => ({ title: item?.emp_basic_details?.emp_name }))
+    setSteps([
+      { title: userDetails?.name },
+      ...constructedSteps
+    ])
+  }
+  // const activeStep = 0;
+
+  const fetchTeam = async (emp: string) => {
+    const res = await axios({
+      url: `${HRMS_URL.TEAM_PARENT.getById}/${emp}`,
+      method: "GET",
+    });
+    setParentTeam(res?.data?.data)
+  }
+
+
+  useEffect(() => {
+    if (userDetails?.emp_id) {
+      fetchTeam(userDetails?.emp_id)
+    }
+  }, [userDetails])
+
+  useEffect(() => {
+    if (parentTeam?.length > 0) {
+      constructSteps(parentTeam)
+    }
+  }, [parentTeam])
 
   return (
     <>
@@ -299,7 +337,7 @@ const LeaveReq = () => {
                   {leaveData?.earned_leave} Earned Leave
                 </span>
                 <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
-                {leaveData?.personal_leave} Personal Leave
+                  {leaveData?.personal_leave} Personal Leave
                 </span>
 
                 <span>
@@ -453,7 +491,12 @@ const LeaveReq = () => {
                 </div>
               </InnerHeading>
               <div></div>
-              <div className="w-full flex flex-col sm:flex-row justify-between">
+              {leaveLoading && (
+                <div className="flex justify-center items-center h-full">
+                  <CircularProgress />
+                </div>
+              )}
+              {!leaveLoading && (<div className="w-full flex flex-col sm:flex-row justify-between">
                 <div
                   className={` md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5xl`}
                 >
@@ -461,10 +504,10 @@ const LeaveReq = () => {
                     <HorizontalStepper steps={steps} activeStep={activeStep} />
                     <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
                       {/* <h2>{userDetails?.name}</h2> */}
-                      <h2>Employee</h2>
+                      {/* <h2>Employee</h2>
                       <h2>Manager-1</h2>
                       <h2>Manager-2</h2>
-                      <h2>Manager-3 </h2>
+                      <h2>Manager-3 </h2> */}
                     </div>
                   </div>
                   <br />
@@ -611,7 +654,7 @@ const LeaveReq = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div>)}
             </div>
           </div>
           {/* form design fields */}

@@ -22,6 +22,7 @@ import axios from "@/lib/axiosConfig";
 import BackButton from "@/components/Helpers/Widgets/BackButton";
 import { HRMS_URL } from "@/utils/api/urls";
 import Loader from "@/components/global/atoms/Loader";
+import { CircularProgress } from "@mui/material";
 
 interface LeaveData {
   emp_leave_type: {
@@ -71,7 +72,10 @@ const Regularization = () => {
   // const [showMore, setShowMore] = useState(false);
   // const [showMoreLeave, setShowMoreLeave] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [leaveLoading, setLeaveLoading] = useState(true);
   const [userDetails, setUserDetails] = useState<any>();
+  const [parentTeam, setParentTeam] = useState<any>([]);
+  const [steps, setSteps] = useState<any>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -123,14 +127,17 @@ const Regularization = () => {
 
   useEffect(() => {
     if (empId) {
+      setLeaveLoading(true)
       try {
         axios
           .get(`${HRMS_URL.LEAVEGET.getAll}?employee_id=${empId}&regularization=true`)
           .then((response) => {
             setLeaveAllData(response?.data?.data);
             console.log("Data is returned", response.data.data);
+            setLeaveLoading(false)
           })
           .catch((error) => {
+            setLeaveLoading(false)
             console.error("Error fetching data:", error.response?.data);
           });
       } catch (error) {
@@ -147,12 +154,12 @@ const Regularization = () => {
     }
   }, [manData?.leave_status]);
 
-  const steps = [
-    { title: "Employee" },
-    { title: "Manager-1" },
-    { title: "Manager-2" },
-    { title: "Manager-3" },
-  ];
+  // const steps = [
+  //   { title: "Employee" },
+  //   { title: "Manager-1" },
+  //   { title: "Manager-2" },
+  //   { title: "Manager-3" },
+  // ];
 
   // const togglePopup = () => {
   //   setShowMore(!showMore);
@@ -196,6 +203,37 @@ const Regularization = () => {
   const formattedDate = `${formattedDay} ${monthName}, ${year}`;
 
   console.log("manData", manData?.half_day);
+
+  const constructSteps = (data: any[]) => {
+    const flattenArray = data?.flat()
+    const constructedSteps = flattenArray.map((item: any) => ({ title: item?.emp_basic_details?.emp_name }))
+    setSteps([
+      { title: userDetails?.name },
+      ...constructedSteps
+    ])
+  }
+  // const activeStep = 0;
+
+  const fetchTeam = async (emp: string) => {
+    const res = await axios({
+      url: `${HRMS_URL.TEAM_PARENT.getById}/${emp}`,
+      method: "GET",
+    });
+    setParentTeam(res?.data?.data)
+  }
+
+
+  useEffect(() => {
+    if (userDetails?.emp_id) {
+      fetchTeam(userDetails?.emp_id)
+    }
+  }, [userDetails])
+
+  useEffect(() => {
+    if (parentTeam?.length > 0) {
+      constructSteps(parentTeam)
+    }
+  }, [parentTeam])
 
   return (
     <>
@@ -290,137 +328,9 @@ const Regularization = () => {
                   </div>
                 </div>
               </div>
-
-              {/* <div className="flex">
-                <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
-                  {leaveData?.sick_leave} Sick Leave
-                </span>
-                <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
-                  {leaveData?.earned_leave} Earned Leave
-                </span>
-                <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1">
-                  {leaveData?.personal_leave} Personal Leave
-                </span>
-
-                <span>
-                  <button
-                    onClick={togglePopup}
-                    className="flex items-center bg-[#F1F1F1] text-xs rounded-xl p-[6px] m-1 "
-                  >
-                    <i className="m-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="11"
-                        height="11"
-                        viewBox="0 0 11 11"
-                        fill="none"
-                      >
-                        <ellipse
-                          cx="5.52235"
-                          cy="5.16062"
-                          rx="5.0663"
-                          ry="4.88035"
-                          fill="#92A0A8"
-                        />
-                      </svg>
-                    </i>
-                    More
-                    <i className="mx-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="9"
-                        height="9"
-                        viewBox="0 0 9 9"
-                        fill="none"
-                      >
-                        <path
-                          d="M4.07116 8.09102L7.2356 4.64648L3.82005 1.50868L4.52326 0.743223L8.69782 4.57831L4.83017 8.78831L4.07116 8.09102ZM0.415608 8.26144L3.58005 4.81689L0.164501 1.67909L0.86771 0.913637L5.04227 4.74873L1.17462 8.95873L0.415608 8.26144Z"
-                          fill="#555555"
-                        />
-                      </svg>
-                    </i>
-                  </button>
-
-                  {showMore && (
-                    <div className="fixed top-0 right-0 w-auto h-auto p-4  border border-gray-300 shadow-md z-50 bg-white">
-                      <button
-                        className="absolute top-2 right-2"
-                        onClick={closePopup}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6 text-gray-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                      <div className="col col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.sick_leave} Sick Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.earned_leave} Earned Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.personal_leave} Personal Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.commuted_leave} Commuted Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.leave_not_due} Leave Not Due
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.extraordinary_leave} Extraordinary Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.privileged_leave} Privileged Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.leave_entitlements_for_vacation} Leave
-                          Entitlement for Vacation
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.child_care_leave} Child Care Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.wrill} Wrill{" "}
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.special_leave_on_enquiry} Special Leave on
-                          Enquiry
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.study_leave} Study Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.ad_hoc_employees} AD Hoc Employees
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.leave_salary} Leave Salary
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.special_casual_leave} Special Casual Leave
-                        </span>
-                        <span className="bg-[#F0FFF5] text-xs rounded-xl p-2 m-1 leading-5">
-                          {leaveData?.paternity_leave} Paternity Leave
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </span>
-              </div> */}
             </div>
 
-            {/* Leave Status Code */}
+            {/* Regularization Status Code */}
             <div
               className={`w-auto md:w-6/12 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg`}
             >
@@ -451,19 +361,17 @@ const Regularization = () => {
                 </div>
               </InnerHeading>
               <div></div>
-              <div className="w-full flex flex-col sm:flex-row justify-between">
+              {leaveLoading && (
+                <div className="flex justify-center items-center h-full">
+                  <CircularProgress />
+                </div>
+              )}
+              {!leaveLoading && (<div className="w-full flex flex-col sm:flex-row justify-between">
                 <div
                   className={` md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5xl`}
                 >
                   <div className="mt-12">
                     <HorizontalStepper steps={steps} activeStep={activeStep} />
-                    <div className="mt-2 px-2  pr-4 flex items-center justify-between text-xs text-secondary">
-                      {/* <h2>{userDetails?.name}</h2> */}
-                      <h2>Employee</h2>
-                      <h2>Manager-1</h2>
-                      <h2>Manager-2</h2>
-                      <h2>Manager-3 </h2>
-                    </div>
                   </div>
                   <br />
                   <span className="text-sm">
@@ -496,119 +404,8 @@ const Regularization = () => {
                       </span>
                     )}
                   </span>
-
-                  {/* <div className="">
-                    <span className="flex justify-end">
-                      <button
-                        onClick={togglePopup2}
-                        className="flex items-center bg-[#F1F1F1] text-xs rounded-xl p-[6px] m-1 "
-                      >
-                        <i className="m-1">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="11"
-                            height="11"
-                            viewBox="0 0 11 11"
-                            fill="none"
-                          >
-                            <ellipse
-                              cx="5.52235"
-                              cy="5.16062"
-                              rx="5.0663"
-                              ry="4.88035"
-                              fill="#92A0A8"
-                            />
-                          </svg>
-                        </i>
-                        More
-                        <i className="mx-4">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="9"
-                            height="9"
-                            viewBox="0 0 9 9"
-                            fill="none"
-                          >
-                            <path
-                              d="M4.07116 8.09102L7.2356 4.64648L3.82005 1.50868L4.52326 0.743223L8.69782 4.57831L4.83017 8.78831L4.07116 8.09102ZM0.415608 8.26144L3.58005 4.81689L0.164501 1.67909L0.86771 0.913637L5.04227 4.74873L1.17462 8.95873L0.415608 8.26144Z"
-                              fill="#555555"
-                            />
-                          </svg>
-                        </i>
-                      </button>
-
-                      {showMoreLeave && (
-                        <div className="absolute mt-10 p-4 border border-gray-300 shadow-md z-50 bg-white">
-                          <button className="" onClick={closePopup2}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 text-gray-500"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M6 18L18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </button>
-
-                          {leaveAllData?.data ? (
-                            <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                              {leaveAllData?.data
-                                ?.slice(0, 3)
-                                ?.map((leave: any) => (
-                                  <div
-                                    className="flex flex-col justify-start border border-1 p-2"
-                                    key={leave.id}
-                                  >
-                                    <span className="text-xs">
-                                      Date of Leave - <br /> {leave.leave_from}{" "}
-                                      to {leave.leave_to}
-                                    </span>
-                                    <span className="text-xs">
-                                      Total days of Leave -{leave.total_days}
-                                    </span>
-                                    <span className="text-xs">
-                                      Status of Leave -
-                                      {leave.leave_status === 0 ? (
-                                        <span className="text-yellow-600">
-                                          Pending
-                                        </span>
-                                      ) : leave.leave_status === 1 ? (
-                                        <span className="text-yellow-600">
-                                          Pending
-                                        </span>
-                                      ) : leave.leave_status === 2 ? (
-                                        <span className="text-yellow-600">
-                                          Pending
-                                        </span>
-                                      ) : leave.leave_status === 3 ? (
-                                        <span className="text-green-600">
-                                          {" "}
-                                          Approved
-                                        </span>
-                                      ) : leave.leave_status === -1 ? (
-                                        <span className="text-red-600">
-                                          Rejected
-                                        </span>
-                                      ) : null}
-                                    </span>
-                                  </div>
-                                ))}
-                            </div>
-                          ) : (
-                            <h3>No Previous Leave Found</h3>
-                          )}
-                        </div>
-                      )}
-                    </span>
-                  </div> */}
                 </div>
-              </div>
+              </div>)}
             </div>
           </div>
           {/* form design fields */}
