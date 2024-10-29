@@ -24,12 +24,10 @@ import {
 } from "@/utils/validation/Ems/ems.validation";
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
+import AutocompleteField from "@/components/Helpers/AutocompleteCustom";
 import { HRMS_URL } from "@/utils/api/urls";
-// import { string } from "yup";
-
-// interface stateType {
-//   state: string;
-// }
+import { Autocomplete, TextField } from '@mui/material';
+import axios from "@/lib/axiosConfig";
 
 const EmpployeePersonalDetails: React.FC<
   EmployeeDetailsProps<EmployeePersonalDetailsType>
@@ -52,7 +50,8 @@ const EmpployeePersonalDetails: React.FC<
     },
   ]);
 
-  const [stateValue, setStateValue] = useState("Jharkhand");
+  const [stateList, setStateList] = useState<any>([]);
+  const [stateValue, setStateValue] = useState<string>();
 
   // const [empMotherLang, setEmpMotherLang] = useState<
   //   [
@@ -152,6 +151,21 @@ const EmpployeePersonalDetails: React.FC<
   //   });
   // }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          `${HRMS_URL.STATE.get}`
+        );
+        setStateList(response.data?.data?.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleSubmitFormik = (
     values: EmployeePersonalDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -163,7 +177,7 @@ const EmpployeePersonalDetails: React.FC<
       if (
         val ==
         initialEmployeePersonalDetails[
-          key as keyof typeof initialEmployeePersonalDetails
+        key as keyof typeof initialEmployeePersonalDetails
         ]
       ) {
         delete values[key as keyof typeof values];
@@ -352,7 +366,33 @@ const EmpployeePersonalDetails: React.FC<
                     { id: 5, name: "General" },
                   ]}
                 />
-                <InputBox
+
+                <AutocompleteField
+                  name="emp_home_state"
+                  label="State"
+                  placeholder="Select State"
+                  options={stateList}
+                  getOptionLabel={(option) => option.state || ""}
+                  required
+                  size={'small'}
+                  error={errors.emp_home_state}
+                  touched={touched.emp_home_state}
+                  setState={setStateValue}
+                />
+                {/* <div className="flex flex-col gap-1">
+                  <label className="text-secondary text-sm">
+                    {'States'}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <Autocomplete
+                    options={stateList}
+                    getOptionLabel={(option: any) => option?.state}
+                    renderInput={(params) => <TextField {...params} placeholder="Select State" />}
+                    size="small"
+                    onChange={(e, value: any) => setStateValue(value?.state)}
+                  />
+                </div> */}
+                {/* <InputBox
                   // onChange={handleChange}
                   onChange={(e: any) => {
                     handleChange(e); // Formik will update the value
@@ -380,7 +420,7 @@ const EmpployeePersonalDetails: React.FC<
                       e.preventDefault();
                     }
                   }}
-                />
+                /> */}
                 {/* <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -480,7 +520,7 @@ const EmpployeePersonalDetails: React.FC<
                         name="emp_health_file"
                         onChange={handleChange}
                         value={undefined}
-                        // value={values.emp_health_file || ''}
+                      // value={values.emp_health_file || ''}
                       />
                     </div>
                   )}

@@ -67,7 +67,15 @@ class MasterDataRoute {
         loggerMiddleware
       ); //0203
 
-       // New route to get districts based on a state
+    app
+      .route(`${baseUrl}/master/state`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.districtController.getStates(req, res, next, "02031"),
+        loggerMiddleware
+      )
+
+    // New route to get districts based on a state
     app
       .route(`${baseUrl}/master/district-by-state`)
       .get(
@@ -108,21 +116,21 @@ class MasterDataRoute {
         loggerMiddleware
       ); //0206
 
-      app
-  .route(`${baseUrl}/employee-details`)
-  .get(
-    (req: Request, res: Response, next: NextFunction) =>
-      this.employeeController.getEmployeeDetails(req, res, next, "0207"),
-    loggerMiddleware
-  ); //0207
+    app
+      .route(`${baseUrl}/employee-details`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeController.getEmployeeDetails(req, res, next, "0207"),
+        loggerMiddleware
+      ); //0207
 
-  app
-    .route(`${baseUrl}/employee-hierarchy`)
-    .post(
-      (req: Request, res: Response, next: NextFunction) =>
-        this.employeeHierarchyController.upsertEmployeeHierarchy(req, res, next),
-      loggerMiddleware
-    );
+    app
+      .route(`${baseUrl}/employee-hierarchy`)
+      .post(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeeHierarchyController.upsertEmployeeHierarchy(req, res, next),
+        loggerMiddleware
+      );
   }
 }
 
