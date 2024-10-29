@@ -21,6 +21,7 @@ import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { Autocomplete, TextField } from "@mui/material";
+import toast from "react-hot-toast";
 
 type DDOTYPE = {
   data: [
@@ -184,18 +185,18 @@ const EmployeeOfficeDetails: React.FC<
         : initialOfficeDetails
       : initialOfficeDetails;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedFormData = sessionStorage.getItem("emp_office_details");
-      if (storedFormData) {
-        const parsedData = JSON.parse(storedFormData);
-        setInput(parsedData.ddo_code);
-        // setDdoData({
-        //   ddo_office: parsedData.office_code,
-        // });
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const storedFormData = sessionStorage.getItem("emp_office_details");
+  //     if (storedFormData) {
+  //       const parsedData = JSON.parse(storedFormData);
+  //       setInput(parsedData.ddo_code);
+  //       // setDdoData({
+  //       //   ddo_office: parsedData.office_code,
+  //       // });
+  //     }
+  //   }
+  // }, []);
 
   return (
     <>
@@ -321,18 +322,12 @@ const EmployeeOfficeDetails: React.FC<
                     renderInput={(params) => (
                       <TextField {...params} placeholder="Select DDO Code" />
                     )}
-                    onChange={(e, value) => {
-                      if (value) setInput(value.ddo_code);
-                    }}
+                    // onChange={(e, value) => {
+                    //   if (value) setInput(value.ddo_code);
+                    // }}
                     onFocus={() => {
-                      if (formikRef) {
-                        if (
-                          formikRef?.current?.values?.ddo_code === "" &&
-                          !alertShown
-                        ) {
-                          alert("Please select a treasury name");
-                          setAlertShown(true);
-                        }
+                      if (!selectedTreasury) {
+                        toast.error("Please select a treasury name")
                       }
                     }}
                   />

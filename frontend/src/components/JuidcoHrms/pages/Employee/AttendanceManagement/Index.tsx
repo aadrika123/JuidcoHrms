@@ -134,7 +134,7 @@ const AttendanceManagement = () => {
     });
 
     const res2 = await axios({
-      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}`,
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}&limit=10`,
       method: "GET",
     });
 
