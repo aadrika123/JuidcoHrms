@@ -57,7 +57,7 @@ class EmployeeAttendanceDao {
 
   //---------------------- Get Employee Attendance Details----------------------
   getEmpAttendanceHistory = async (req: Request) => {
-    const { emp_id, date } = req.query as { emp_id: string; date: string };
+    const { emp_id, date, limit } = req.query as { emp_id: string; date: string, limit: string };
 
     function convertToISODate(dateString: string) {
       let dateObject;
@@ -105,7 +105,7 @@ class EmployeeAttendanceDao {
         created_at: true,
         updated_at: true,
       },
-      orderBy: { date: "desc" },
+      // orderBy: { date: "desc" },
     };
 
     if (emp_id && emp_id !== "" && emp_id !== "undefined" && !date) {
@@ -121,7 +121,34 @@ class EmployeeAttendanceDao {
       };
     }
 
+    if (limit) {
+      query.take = Number(limit)
+    }
+
+    query.orderBy = { date: 'desc' }
+    query.distinct = ['date']
+
     const data = await prisma.employee_attendance_history.findMany(query);
+
+    await Promise.all(
+      data?.map(async (item) => {
+        const dailyRecords = await prisma.employee_attendance_history.groupBy({
+          where: {
+            employee_id: item?.employee_id,
+            date: item?.date
+          },
+          by: ['date'],
+          _min: {
+            emp_in: true,
+          },
+          _max: {
+            emp_out: true,
+          },
+        });
+        item.emp_in = dailyRecords[0]?._min?.emp_in
+        item.emp_out = dailyRecords[0]?._max?.emp_out
+      })
+    )
 
     return generateRes(data);
   };
