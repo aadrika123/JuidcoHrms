@@ -17,7 +17,20 @@ class DistrictDao {
     return generateRes(data);
   };
 
-   // New method to fetch districts based on state dynamically
+  getStates = async () => {
+    const data = await prisma.district.findMany({
+      select: {
+        state: true
+      },
+      distinct: ['state'],
+      orderBy: {
+        state: "asc",
+      },
+    });
+    return generateRes(data);
+  };
+
+  // New method to fetch districts based on state dynamically
   getByState = async (state: string) => {
     const data = await prisma.district.findMany({
       where: {

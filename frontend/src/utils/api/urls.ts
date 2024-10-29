@@ -40,6 +40,7 @@ type UrlKeys =
   | "PROPERTIES"
   | "EMP"
   | "TEAM_PARENT"
+  | "STATE"
   ;
 
 type Urls = {
@@ -77,6 +78,9 @@ export const HRMS_URL: Urls = {
   },
   DISTRICT: {
     get: "/master/district",
+  },
+  STATE: {
+    get: "/master/state",
   },
   DISTRICT2: {
     get: "/master/district-by-state",

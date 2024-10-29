@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import { Formik } from "formik";
 import {
@@ -24,6 +24,9 @@ import {
 import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
 import { HRMS_URL } from "@/utils/api/urls";
+import axios from "@/lib/axiosConfig";
+import { Autocomplete, TextField } from "@mui/material";
+import AutocompleteField from "@/components/Helpers/AutocompleteCustom";
 
 const EmpPresentAddress: React.FC<
   EmployeeDetailsProps<EmployeePresentAddressDetailsType>
@@ -32,6 +35,9 @@ const EmpPresentAddress: React.FC<
   const router = useRouter();
   const empType = useSearchParams().get("emp");
   const [confirmationOrder, setConfirmationOrder] = useState("");
+
+  const [stateList, setStateList] = useState<any>([]);
+  const [stateValue, setStateValue] = useState<string>();
 
   const updateConfirmationOrder = (value: string) => {
     setConfirmationOrder(value);
@@ -47,6 +53,21 @@ const EmpPresentAddress: React.FC<
       router.push(`${pathName}?emp=${empType}&page=5`);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          `${HRMS_URL.STATE.get}`
+        );
+        setStateList(response.data?.data?.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // const handleSubmitFormik = (
   //   values: EmployeePresentAddressDetailsType,
@@ -176,7 +197,33 @@ const EmpPresentAddress: React.FC<
                   placeholder="Enter Your Post Office"
                   name="post_office"
                 />
-                <SelectForNoApi
+
+                <AutocompleteField
+                  name="state"
+                  label="State"
+                  placeholder="Select State"
+                  options={stateList}
+                  getOptionLabel={(option) => option.state || ""}
+                  required
+                  size={'small'}
+                  error={errors.state}
+                  touched={touched.state}
+                  setState={setStateValue}
+                />
+                {/* <div className="flex flex-col gap-1">
+                  <label className="text-secondary text-sm">
+                    {'States'}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <Autocomplete
+                    options={stateList}
+                    getOptionLabel={(option: any) => option?.state}
+                    renderInput={(params) => <TextField {...params} placeholder="Select State" name="state" />}
+                    size="small"
+                    onChange={(e, value: any) => setStateValue(value?.state)}
+                  />
+                </div> */}
+                {/* <SelectForNoApi
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.state}
@@ -226,8 +273,22 @@ const EmpPresentAddress: React.FC<
                     { id: 37, name: "Jammu and Kashmir" },
                     { id: 38, name: "Ladakh" },
                   ]}
-                />
+                /> */}
+
                 <DropDownList
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.district}
+                  error={errors.district}
+                  touched={touched.district}
+                  label="District"
+                  name="district"
+                  placeholder={"Select District"}
+                  required
+                  api={`${HRMS_URL.DISTRICT2.get}?state=${stateValue}`}
+                  stateValue={stateValue}
+                />
+                {/* <DropDownList
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.district}
@@ -238,7 +299,7 @@ const EmpPresentAddress: React.FC<
                   name="district"
                   placeholder={"Choose District"}
                   api={`${HRMS_URL.DISTRICT.get}`}
-                />
+                /> */}
 
                 <SelectForNoApi
                   onChange={handleChange}
@@ -420,7 +481,21 @@ const EmpPresentAddress: React.FC<
                         }
                       }}
                     />
-                    <SelectForNoApi
+
+                    <div className="flex flex-col gap-1">
+                      <label className="text-secondary text-sm">
+                        {'States'}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <Autocomplete
+                        options={stateList}
+                        getOptionLabel={(option: any) => option?.state}
+                        renderInput={(params) => <TextField {...params} placeholder="Select State" />}
+                        size="small"
+                        onChange={(e, value: any) => setStateValue(value?.state)}
+                      />
+                    </div>
+                    {/* <SelectForNoApi
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.state_permanent}
@@ -469,7 +544,7 @@ const EmpPresentAddress: React.FC<
                         { id: 37, name: "Jammu and Kashmir" },
                         { id: 38, name: "Ladakh" },
                       ]}
-                    />
+                    /> */}
                     {/* <InputBox
                     onChange={handleChange}
                     onBlur={handleBlur}
