@@ -26,7 +26,6 @@ import SelectForNoApi from "@/components/global/atoms/SelectForNoApi";
 import DropDownList from "@/components/Helpers/DropDownList";
 import AutocompleteField from "@/components/Helpers/AutocompleteCustom";
 import { HRMS_URL } from "@/utils/api/urls";
-import { Autocomplete, TextField } from '@mui/material';
 import axios from "@/lib/axiosConfig";
 
 const EmpployeePersonalDetails: React.FC<

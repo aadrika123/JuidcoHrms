@@ -1,12 +1,12 @@
 import React from "react";
-import { useField, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import { Autocomplete, TextField } from "@mui/material";
 
 interface AutocompleteFieldProps {
     label?: React.ReactNode;
     name: string;
     placeholder: string;
-    options: Array<{ id: number; name?: string; type?: string }>;
+    options: Array<{ state: string }>;
     getOptionLabel: (option: any) => string;
     error?: string | undefined;
     touched?: boolean | undefined;
@@ -30,7 +30,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = (props) => {
             <Autocomplete
                 options={props.options}
                 getOptionLabel={props.getOptionLabel}
-                value={props?.value}
+                // value={props?.value}
                 onChange={(event, value) => { setFieldValue(props.name, value?.state || ""); props?.setState(value?.state) }}
                 onBlur={() => handleBlur({ target: { name: props.name } })}
                 renderInput={(params) => (
