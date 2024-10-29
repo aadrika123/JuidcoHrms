@@ -216,7 +216,7 @@ const EmpSalaryDetails: React.FC<
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
 
-      const newBasicPay = storedJoinData.basic_pay + totalAllowances;
+      const newBasicPay = storedJoinData.basic_pay + (totalAllowances || 0);
       // console.log("newBasicPay", newBasicPay);
       setBasicPay(newBasicPay);
     }
@@ -229,9 +229,9 @@ const EmpSalaryDetails: React.FC<
     const selected_option = e.target.value;
     let calculatedAmount = 0;
     let accountNumber = "";
-
     const currentBasicPay = basic_pay + pay_band;
     console.log("currentBasicPay", currentBasicPay);
+    // console.log('abababa', currentBasicPay)
 
     switch (selected_option) {
       case "PT":
