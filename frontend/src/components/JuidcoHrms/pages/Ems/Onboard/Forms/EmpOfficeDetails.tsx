@@ -44,11 +44,11 @@ const EmployeeOfficeDetails: React.FC<
   const router = useRouter();
   const [ddoData, setDdoData] = useState<DDOTYPE | undefined>();
   // const [isTyping, setIsTyping] = useState<boolean>(false);
-  const [input, setInput] = useState("");
+  // const [input, setInput] = useState("");
   const [treasuryList, setTreasuryList] = useState([]);
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
   const formikRef: any = useRef();
-  const [alertShown, setAlertShown] = useState(false);
+  // const [alertShown, setAlertShown] = useState(false);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -84,7 +84,7 @@ const EmployeeOfficeDetails: React.FC<
       try {
         if (selectedTreasury) {
           const response = await axios(
-            `${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`
+            `${HRMS_URL.DDO.get}?treasury=${selectedTreasury}`
           );
           // console.log(response.data?.data)
           setDdoData(response.data?.data);
@@ -141,7 +141,7 @@ const EmployeeOfficeDetails: React.FC<
     values.emp_type = empType;
 
     if (typeof window !== "undefined") {
-      values.ddo_code = input;
+      // values.ddo_code = input;
       values.ddo_designation = ddoData?.data[0].designation || "";
       values.office_code = ddoData?.data[0].office || "";
       values.office_name = ddoData?.data[0].ddo_name || "";
@@ -174,7 +174,7 @@ const EmployeeOfficeDetails: React.FC<
     office_name: "",
     office_code: "",
     ddo_designation: "",
-    ddo_code: input,
+    ddo_code: "",
     district: "",
   };
 
@@ -375,7 +375,7 @@ const EmployeeOfficeDetails: React.FC<
                   // value={values.office_code}
                   // value={input.length > 7 ? ddoData?.data[0]?.ddo_office : ""}
                   value={
-                    input.length > 7 && ddoData?.data && ddoData.data.length > 0
+                    ddoData?.data && ddoData.data.length > 0
                       ? ddoData.data[0].office
                       : ""
                   }
@@ -406,7 +406,7 @@ const EmployeeOfficeDetails: React.FC<
                   // value={values.ddo_designation}
                   // value={input.length > 7 ? ddoData?.data[0]?.ddo_designation : ""}
                   value={
-                    input.length > 7 && ddoData?.data && ddoData.data.length > 0
+                    ddoData?.data && ddoData.data.length > 0
                       ? ddoData.data[0].designation
                       : ""
                   }
@@ -436,7 +436,7 @@ const EmployeeOfficeDetails: React.FC<
                   // value={values.office_name}
                   // value={input.length > 7 ? ddoData?.data[0].ddo_name : ""}
                   value={
-                    input.length > 7 && ddoData?.data && ddoData.data.length > 0
+                    ddoData?.data && ddoData.data.length > 0
                       ? ddoData.data[0].ddo_name
                       : ""
                   }
