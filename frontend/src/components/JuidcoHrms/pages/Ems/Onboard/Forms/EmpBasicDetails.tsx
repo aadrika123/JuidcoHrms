@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /***
  * Author: Krish
  * Status: Closed
@@ -209,6 +210,7 @@ const EmployeeBasicDetails: React.FC<
             handleBlur,
             handleSubmit,
             handleReset,
+            setFieldError
           }) => (
             <form onSubmit={handleSubmit} className="relative">
               <Toaster />
@@ -672,16 +674,21 @@ const EmployeeBasicDetails: React.FC<
                   placeholder={"Enter PAN Number"}
                   type="text"
                   maxLength={10}
-                  onKeyPress={(e: any) => {
-                    if (
-                      !(
-                        (e.key >= "0" || e.key >= "9") &&
-                        (e.key <= "A" || e.key <= "Z")
-                      )
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
+                  // onKeyPress={(e: any) => {
+                  //   if (
+                  //     !(
+                  //       (e.key >= "0" || e.key >= "9") &&
+                  //       (e.key <= "A" || e.key <= "Z")
+                  //     )
+                  //   ) {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
+                  error={errors?.pan_no}
+                  touched={touched.pan_no}
+                  regEx={/^[A-Z]{5}[0-9]{4}[A-Z]$/}
+                  customError="Invalid PAN format. It should be 5 letters, 4 digits, and 1 letter."
+                  setFieldError={setFieldError}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -691,6 +698,11 @@ const EmployeeBasicDetails: React.FC<
                   name="email"
                   placeholder={"Enter Email Address"}
                   type="text"
+                  error={errors?.email}
+                  touched={touched.email}
+                  regEx={/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/i}
+                  customError="Invalid format for email"
+                  setFieldError={setFieldError}
                 />
               </div>
 

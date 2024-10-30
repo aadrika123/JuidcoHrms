@@ -203,12 +203,12 @@ const EmpSalaryDetails: React.FC<
 
     if (storedJoinData && storedJoinData.basic_pay) {
       const totalAllowances = storedAllowanceData?.reduce(
-        (sum: number, item: any) => sum + item.amount_in,
+        (sum: number, item: any) => sum + Number(item.amount_in),
         0
       );
 
-      const newBasicPay2 = storedJoinData.basic_pay;
-      const newGradePay = storedJoinData.grade_pay;
+      const newBasicPay2 = Number(storedJoinData.basic_pay);
+      const newGradePay = Number(storedJoinData.grade_pay);
 
       console.log("newGradePay", newGradePay);
       setPayBand(newGradePay);
@@ -216,7 +216,7 @@ const EmpSalaryDetails: React.FC<
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
 
-      const newBasicPay = storedJoinData.basic_pay + (totalAllowances || 0);
+      const newBasicPay = Number(storedJoinData.basic_pay) + (totalAllowances || 0);
       // console.log("newBasicPay", newBasicPay);
       setBasicPay(newBasicPay);
     }
@@ -887,8 +887,8 @@ const EmpSalaryDetails: React.FC<
                         <>
                           <th
                             key={index}
-                            // className="w-full"
-                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                          // className="w-full"
+                          // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
                           >
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>
