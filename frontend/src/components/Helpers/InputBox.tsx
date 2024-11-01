@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 /**
  * | Author- Sanjiv git
@@ -25,10 +25,32 @@ interface InputBoxProps {
   // pattern?: string;
   onKeyPress?: (e?: React.KeyboardEvent<HTMLInputElement>) => void;
   // onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  regEx?: RegExp;
+  customError?: string,
+  setFieldError?: (field: string, message: string) => void;
 }
 
 const InputBox: React.FC<InputBoxProps> = (props) => {
   const fieldId = "id_" + props.name;
+
+  let errorMessage: string | undefined = props.error
+
+
+  useEffect(() => {
+    if (props.regEx) {
+      const isInvalid = props.value && !RegExp(props.regEx).test(props.value as string);
+      if (isInvalid) {
+        errorMessage = props.customError;
+        if (props.setFieldError && props.name) {
+          props.setFieldError(props.name, props.customError || "Invalid input format");
+        }
+      }
+    }
+  }, [props.value, props.regEx, props.customError, props.setFieldError, props.name]);
+  // if (props?.regEx) {
+  //   const isValid = props.value && !props?.regEx.test(props.value as string);
+  //   errorMessage = isValid ? props?.customError : props.error;
+  // }
 
   return (
     <>
@@ -44,7 +66,7 @@ const InputBox: React.FC<InputBoxProps> = (props) => {
           onBlur={props.onBlur}
           type={props.type || "text"}
           value={props.value}
-          className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 ${props.className}`}
+          className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 ${props.className} ${props.disabled && 'cursor-not-allowed'}`}
           name={props.name}
           id={fieldId}
           // pattern={props.pattern || "[0-9]*"}
@@ -56,7 +78,7 @@ const InputBox: React.FC<InputBoxProps> = (props) => {
         />
 
         {props.touched && props.error && (
-          <div className="text-red-500">{props.error}</div>
+          <div className="text-red-500">{errorMessage}</div>
         )}
       </div>
     </>

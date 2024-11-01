@@ -321,7 +321,6 @@ class EmployeeOnBoardDao {
       },
       where: {
         emp_del: 0,
-        ulb_id: ulb_id
       },
     };
     if (emp_type !== "undefined" && emp_type !== "") {
@@ -370,6 +369,12 @@ class EmployeeOnBoardDao {
       };
     }
 
+    query.where = {
+      ...query?.where,
+      ulb_id: ulb_id
+    }
+
+    console.log(query)
     const [data, count] = await prisma.$transaction([
       prisma.employees.findMany(query),
       prisma.employees.count(),

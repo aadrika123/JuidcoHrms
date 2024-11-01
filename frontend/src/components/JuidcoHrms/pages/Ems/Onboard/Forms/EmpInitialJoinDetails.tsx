@@ -53,7 +53,7 @@ const EmpInitialJoinDetails: React.FC<
       if (
         val ==
         initialEmployeeJoinDetails[
-          key as keyof typeof initialEmployeeJoinDetails
+        key as keyof typeof initialEmployeeJoinDetails
         ]
       ) {
         delete values[key as keyof typeof values];
@@ -215,6 +215,7 @@ const EmpInitialJoinDetails: React.FC<
             handleBlur,
             handleSubmit,
             handleReset,
+            setFieldError
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 2xl:grid-cols-2 gap-x-6 gap-4 ">
@@ -325,6 +326,7 @@ const EmpInitialJoinDetails: React.FC<
                         label="Pay Scale"
                         name="pay_scale"
                         placeholder={"Please Select"}
+                        required
                         options={[
                           { id: 1, name: "1" },
                           { id: 2, name: "2" },
@@ -393,67 +395,71 @@ const EmpInitialJoinDetails: React.FC<
                         placeholder={"Please Select"}
                         options={
                           Number(values.pay_scale) >= 1 &&
-                          Number(values.pay_scale) <= 5
+                            Number(values.pay_scale) <= 5
                             ? [
-                                { id: 1800, name: "1800" },
-                                { id: 1900, name: "1900" },
-                                { id: 2000, name: "2000" },
-                                { id: 2400, name: "2400" },
-                                { id: 2800, name: "2800" },
-                              ]
+                              { id: 1800, name: "1800" },
+                              { id: 1900, name: "1900" },
+                              { id: 2000, name: "2000" },
+                              { id: 2400, name: "2400" },
+                              { id: 2800, name: "2800" },
+                            ]
                             : Number(values.pay_scale) >= 6 &&
-                                Number(values.pay_scale) <= 9
+                              Number(values.pay_scale) <= 9
                               ? [
-                                  { id: 4200, name: "4200" },
-                                  { id: 4600, name: "4600" },
-                                  { id: 4800, name: "4800" },
-                                  { id: 5400, name: "5400" },
-                                ]
+                                { id: 4200, name: "4200" },
+                                { id: 4600, name: "4600" },
+                                { id: 4800, name: "4800" },
+                                { id: 5400, name: "5400" },
+                              ]
                               : Number(values.pay_scale) >= 10 &&
-                                  Number(values.pay_scale) <= 12
+                                Number(values.pay_scale) <= 12
                                 ? [
-                                    { id: 5400, name: "5400" },
-                                    { id: 6600, name: "6600" },
-                                    { id: 7600, name: "7600" },
-                                  ]
+                                  { id: 5400, name: "5400" },
+                                  { id: 6600, name: "6600" },
+                                  { id: 7600, name: "7600" },
+                                ]
                                 : (Number(values.pay_scale) >= 13 &&
-                                      Number(values.pay_scale) <= 14) ||
-                                    values.pay_scale === "13-A"
+                                  Number(values.pay_scale) <= 14) ||
+                                  values.pay_scale === "13-A"
                                   ? [
-                                      { id: 8700, name: "8700" },
-                                      { id: 8900, name: "8900" },
-                                      { id: 10000, name: "10000" },
-                                    ]
+                                    { id: 8700, name: "8700" },
+                                    { id: 8900, name: "8900" },
+                                    { id: 10000, name: "10000" },
+                                  ]
                                   : []
                         }
                       />
                     </div>
 
-                    <InputBox
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.conf_order_number}
-                      label="Confirmation Order Number"
-                      name="conf_order_number"
-                      placeholder={"Enter Confirmation Order Number"}
-                      type="text"
-                      maxLength={10}
-                      onKeyPress={(e: any) => {
-                        if (!(e.key >= "0" && e.key <= "9")) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
+                    {confirmationOrder === "yes" && (
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.conf_order_number}
+                        label="Confirmation Order Number"
+                        name="conf_order_number"
+                        placeholder={"Enter Confirmation Order Number"}
+                        type="text"
+                        maxLength={10}
+                        onKeyPress={(e: any) => {
+                          if (!(e.key >= "0" && e.key <= "9")) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    )}
 
-                    <InputBox
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.conf_order_date}
-                      label="Confirmation Order Date"
-                      name="conf_order_date"
-                      placeholder={"Enter Confirmation Order Date"}
-                      type="date"
-                    />
+                    {confirmationOrder === "yes" && (
+                      <InputBox
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.conf_order_date}
+                        label="Confirmation Order Date"
+                        name="conf_order_date"
+                        placeholder={"Enter Confirmation Order Date"}
+                        type="date"
+                      />
+                    )}
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center">
                         Member of GIS or not
@@ -638,7 +644,7 @@ const EmpInitialJoinDetails: React.FC<
                   name="doj"
                   placeholder={"Enter Date Of Joining"}
                   type="date"
-                  // required={true}
+                // required={true}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -783,12 +789,17 @@ const EmpInitialJoinDetails: React.FC<
                   name="acc_number"
                   placeholder={"Enter Account Number"}
                   type="text"
-                  maxLength={10}
+                  // maxLength={10}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
                     }
                   }}
+                  error={errors?.acc_number}
+                  touched={touched.acc_number}
+                  regEx={/^\d{11,}$/}
+                  customError="Atleast 11 digits"
+                  setFieldError={setFieldError}
                 />
                 {values.acc_number && (
                   <div>
