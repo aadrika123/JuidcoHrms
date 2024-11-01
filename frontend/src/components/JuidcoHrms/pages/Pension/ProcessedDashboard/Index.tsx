@@ -264,10 +264,11 @@ const ProcessedDashboard = () => {
             columns={EMP_LIST_COLS}
             tableData={pensionData?.data || []}
             actionBtn
-            actionName="Status"
+            actionName="Action"
             setEmpId={removeEmployee}
             sl_no={false}
-            action_type={["edit"]}
+            action_type={["readonly"]}
+            pensionView
           />
         </div>
         <aside className="mt-16">

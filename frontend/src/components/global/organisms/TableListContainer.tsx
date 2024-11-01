@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CheckBox from "@/components/Helpers/CheckBox";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,7 +12,7 @@ export interface COLUMNS {
   WIDTH?: string;
 }
 
-type ActionType = "edit" | "readonly" | "delete";
+type ActionType = "edit" | "readonly" | "delete" | "progress";
 
 interface TLContainerProps {
   columns: COLUMNS[];
@@ -22,6 +23,7 @@ interface TLContainerProps {
   sl_no: boolean;
   thead_bg?: string;
   action_type?: ActionType[];
+  pensionView?: boolean
 }
 
 function formatDate(timestamp: string) {
@@ -264,7 +266,8 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                           {props.action_type?.includes("readonly") && (
                             <button className=" scale-125">
                               <Link
-                                href={`${pathName}/view/${data?.emp_id}`}
+                                // href={`${pathName}/view/${data?.emp_id}`}
+                                href={`${props?.pensionView ? '/ems/pension-management' : pathName}/view/${data?.emp_id}`}
                                 className=" scale-125"
                               >
                                 <svg
@@ -324,6 +327,31 @@ const TableListContainer: React.FC<TLContainerProps> = (props) => {
                               </svg>
                             </button>
                           )}
+                          {/* 
+                          {props.action_type?.includes("progress") && (
+                            <button
+                              className=" scale-125"
+                              onClick={() =>
+                                props?.setEmpId && props.setEmpId(data?.emp_id)
+                              }
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M10 4.5C6.5 4.5 3.4 7 2 10c1.4 3 4.5 5.5 8 5.5s6.6-2.5 8-5.5c-1.4-3-4.5-5.5-8-5.5zm0 9.25A3.25 3.25 0 1 1 10 7a3.25 3.25 0 0 1 0 6.75z"
+                                  fill="#726E6E"
+                                />
+                                <circle cx="10" cy="10" r="1.75" fill="#726E6E" />
+                              </svg>
+
+                            </button>
+                          )} */}
+
                         </div>
                       </td>
                     )}

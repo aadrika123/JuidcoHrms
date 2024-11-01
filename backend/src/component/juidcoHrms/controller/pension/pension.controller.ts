@@ -120,6 +120,43 @@ class PensionController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+
+  getByEmpId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    apiId: string
+  ): Promise<object> => {
+    const resObj: resObj = {
+      apiId,
+      action: "GET",
+      version: "1.0",
+    };
+
+    try {
+      const data = await this.pensionDao.getByEmpId(req);
+      if (!data) {
+        return CommonRes.NOT_FOUND(
+          resMessage(this.initMesg).NOT_FOUND,
+          data,
+          resObj,
+          res,
+          next
+        );
+      }
+
+      return CommonRes.SUCCESS(
+        resMessage(this.initMesg).FOUND,
+        data,
+        resObj,
+        res,
+        next
+      );
+    } catch (error) {
+      return CommonRes.SERVER_ERROR(error, resObj, res, next);
+    }
+  };
+
 }
 
 export default PensionController;
