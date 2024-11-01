@@ -113,6 +113,7 @@ export const HRMS_URL: Urls = {
 
   PENSION: {
     getAll: "/employee/pension/get",
+    getById: "/employee/pension",
   },
   ULB: {
     getById: "/ulb/get",

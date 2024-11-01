@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /***
  * Author: Jaideep
  * Status: Open
@@ -16,13 +17,13 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import HeadOffice from "@/assets/svg/icons/headOffice.svg";
-import JDOffice from "@/assets/svg/icons/jdOffice.svg";
-import PPO from "@/assets/svg/icons/ppo.svg";
-import GPO from "@/assets/svg/icons/gpo.svg";
-import CPO from "@/assets/svg/icons/cpo.svg";
-import PPO1 from "@/assets/svg/icons/ppo1.svg";
-import Bank from "@/assets/svg/icons/bank.svg";
+// import HeadOffice from "@/assets/svg/icons/headOffice.svg";
+// import JDOffice from "@/assets/svg/icons/jdOffice.svg";
+// import PPO from "@/assets/svg/icons/ppo.svg";
+// import GPO from "@/assets/svg/icons/gpo.svg";
+// import CPO from "@/assets/svg/icons/cpo.svg";
+// import PPO1 from "@/assets/svg/icons/ppo1.svg";
+// import Bank from "@/assets/svg/icons/bank.svg";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -31,9 +32,10 @@ import toast, { Toaster } from "react-hot-toast";
 import TableListContainer, {
   COLUMNS,
 } from "@/components/global/organisms/TableListContainer";
+// import ProgressDialog from "../ProgressDialog";
 
 // import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
-import HorizontalStepperPension from "@/components/Helpers/Widgets/StepperPension";
+// import HorizontalStepperPension from "@/components/Helpers/Widgets/StepperPension";
 export const last_work_day: string = "2024-12-31";
 const Dashboard = () => {
   const queryClient = useQueryClient();
@@ -102,11 +104,13 @@ const Dashboard = () => {
     return res.data?.data;
   };
 
+  // const [openPD, setOpenPD] = useState<boolean>(true);
+
   const [selectedFilter] = useState<number | null>(null);
   const [selectedData] = useState<number | null>(null);
 
   const [page] = useState<number>(1);
-  const [activeStep] = useState(0);
+  // const [activeStep] = useState(0);
 
   const useCodeQuery = (endpoint: string) => {
     return useQuery([endpoint, [selectedFilter, selectedData, page]], () =>
@@ -171,19 +175,20 @@ const Dashboard = () => {
 
   // const currentYear = new Date().getFullYear();
 
-  const steps = [
-    { title: "Head of Office" },
-    { title: "JD Office" },
-    { title: "PPO" },
-    { title: "GPO" },
-    { title: "CPO" },
-    { title: "PPO" },
-    { title: "Bank" },
-  ];
+  // const steps = [
+  //   { title: "Head of Office" },
+  //   { title: "JD Office" },
+  //   { title: "PPO" },
+  //   { title: "GPO" },
+  //   { title: "CPO" },
+  //   { title: "PPO" },
+  //   { title: "Bank" },
+  // ];
 
   return (
     <>
       <Toaster />
+      {/* <ProgressDialog open={openPD} setOpen={setOpenPD} /> */}
       <div className="flex items-center justify-between border-b-2 pb-7 mb-10">
         <div className="flex items-center">
           <PrimaryButton
@@ -359,8 +364,7 @@ const Dashboard = () => {
           </PrimaryButton>
         </section>
 
-        <div className="mt-8 p-4">
-          {/* <div className="mt-2 px-2 pr-4 mb-2 flex items-center justify-between text-xs text-secondary"> */}
+        {/* <div className="mt-8 p-4">
           <div className="mt-2 px-2 pr-4 mb-2 flex items-center justify-between text-xs text-secondary">
             <Image src={HeadOffice} alt="employee" width={40} height={20} />
             <Image src={JDOffice} alt="employee" width={40} height={20} />
@@ -373,9 +377,7 @@ const Dashboard = () => {
 
           <HorizontalStepperPension steps={steps} activeStep={activeStep} />
 
-          {/* <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary"> */}
           <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
-            {/* <h2>{userDetails?.name}</h2> */}
             <h2>Head of Office</h2>
             <h2>JD Office</h2>
             <h2>PPO</h2>
@@ -384,7 +386,7 @@ const Dashboard = () => {
             <h2>PPO</h2>
             <h2>Bank</h2>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <section className="m-5 p-10 shadow-lg">
@@ -397,10 +399,11 @@ const Dashboard = () => {
             columns={EMP_LIST_COLS}
             tableData={pensionData?.data || []}
             actionBtn
-            actionName="Status"
+            actionName="Action"
             setEmpId={removeEmployee}
             sl_no={false}
-            action_type={["edit"]}
+            action_type={["edit", "readonly"]}
+            pensionView
           />
         </div>
         <aside className="mt-16">

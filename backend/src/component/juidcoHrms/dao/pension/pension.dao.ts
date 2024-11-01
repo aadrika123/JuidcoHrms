@@ -62,7 +62,8 @@ class PensionDao {
             emp_id: String(emp_id),
           },
           data: {
-            isProcessed: true
+            isProcessed: true,
+            progress: 1
           }
         })
       }
@@ -152,6 +153,26 @@ class PensionDao {
 
     return generateRes(data);
   };
+
+  getByEmpId = async (req: Request) => {
+
+    const { emp_id } = req.params
+
+    const whereClause: Prisma.pension_masterWhereInput = {}
+
+    if (!emp_id) {
+      throw new Error('Employee ID required as "emp_id"')
+    }
+
+    whereClause.emp_id = String(emp_id)
+
+    const data = await prisma.pension_master.findFirst({
+      where: whereClause
+    })
+
+    return generateRes(data);
+  };
+
 }
 
 export default PensionDao;

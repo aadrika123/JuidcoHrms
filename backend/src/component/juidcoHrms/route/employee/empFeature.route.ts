@@ -197,6 +197,14 @@ class EmployeeFeatureRoute {
       ); //0317
 
     app
+      .route(`${baseUrl}/employee/pension/:emp_id`)
+      .get(
+        (req: Request, res: Response, next: NextFunction) =>
+          this.employeePensionController.getByEmpId(req, res, next, "03171"),
+        loggerMiddleware
+      ); //03171
+
+    app
       .route(`${baseUrl}/employee/attendance/count-daily`)
       .get(
         (req: Request, res: Response, next: NextFunction) =>
