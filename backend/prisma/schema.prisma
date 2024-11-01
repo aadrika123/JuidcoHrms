@@ -744,7 +744,7 @@ model payroll_master {
 model pension_master {
   id                       Int                      @id @default(autoincrement())
   beneficery_id            Int
-  emp_id                   String
+  emp_id                   String                   @unique
   emp_name                 String?
   emp_department           Int?
   doj                      String?
