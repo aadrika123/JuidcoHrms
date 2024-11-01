@@ -25,7 +25,7 @@ class PensionController {
     };
 
     try {
-      const data = await this.pensionDao.store();
+      const data = await this.pensionDao.store(req);
       // console.log(data, "dd")
       if (data === null) {
         return CommonRes.NOT_FOUND(
@@ -98,7 +98,7 @@ class PensionController {
     };
 
     try {
-      const data = await this.pensionDao.get();
+      const data = await this.pensionDao.get(req);
       if (!data) {
         return CommonRes.NOT_FOUND(
           resMessage(this.initMesg).NOT_FOUND,

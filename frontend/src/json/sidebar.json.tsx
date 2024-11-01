@@ -175,6 +175,18 @@ export const sidebarLinks: SidebarLinksProps = {
                                 />
                             ),
                         },
+                        {
+                            moduleName: "Processed Pension",
+                            path: `${url}/ems/processed-pension`,
+                            icon: (
+                                <Image
+                                    src={PensionIcon}
+                                    alt="pension"
+                                    width={100}
+                                    height={100}
+                                />
+                            ),
+                        },
                     ],
 
                     // path: `${url}/pension/gratuity_from`,

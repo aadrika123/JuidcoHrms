@@ -115,7 +115,7 @@ const Dashboard = () => {
   };
 
   const { data: empPension, error: empLstErr } = useCodeQuery(
-    `${HRMS_URL.PENSION.getAll}`
+    `${HRMS_URL.PENSION.getAll}?processed=false`
   );
 
   const { data: department } = useCodeQuery(`${HRMS_URL.DEPARTMENT.get}`);

@@ -36,6 +36,7 @@ const data = [
       "/hrms/ems/onboard",
       "/hrms/ems/payroll-management",
       "/hrms/ems/pension-management",
+      "/hrms/ems/processed-pension",
       "/hrms/ems/emp-list",
       "/hrms/comingsoon",
 
