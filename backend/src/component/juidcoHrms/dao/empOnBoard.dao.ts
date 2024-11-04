@@ -432,7 +432,17 @@ class EmployeeOnBoardDao {
         emp_join_details: {
           select: {
             department_id: true,
+            department: {
+              select: {
+                name: true
+              }
+            },
             designation_id: true,
+            designation: {
+              select: {
+                name: true
+              }
+            },
             grade_pay: true,
             task: true,
             basic_pay: true,
@@ -456,7 +466,22 @@ class EmployeeOnBoardDao {
       },
     };
 
-    const data = await prisma.employees.findFirst(query);
+    const data: any = await prisma.employees.findFirst(query);
+
+    const pension = await prisma.pension_master.findFirst({
+      where: {
+        emp_id: emp_id
+      },
+      select: {
+        last_working_day: true
+      }
+    })
+
+    if (pension && data) {
+      const newDate = new Date(data?.emp_join_details?.doj)
+      newDate.setFullYear(Number(pension?.last_working_day))
+      data.last_working_day = newDate
+    }
 
     return generateRes(data);
   };

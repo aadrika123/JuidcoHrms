@@ -15,7 +15,8 @@ import DropDownList from "@/components/Helpers/DropDownList";
 import { DateInput, formatDate } from "@fullcalendar/core/index.js";
 import { ulb_name, currentDate } from "../Index";
 import { returnEmpPension } from "./Nominee";
-import { last_work_day } from "../../Dashboard/Index";
+// import { last_work_day } from "../../Dashboard/Index";
+import dateConvertor from '@/utils/formatter/dateFormatter';
 interface RefundProps {
   onNext: () => void;
   emp_id: string;
@@ -57,6 +58,7 @@ export interface EmployeeDetailsInterface {
   emp_address_details: EmployeeAddressDetails;
   emp_personal_details: EmployeePersonalDetails;
   emp_extend: EmployeeExtend;
+  last_working_day: string
 }
 type EmployeeRefundType = EmployeeBasicDetails &
   EmployeeJoinDetails &
@@ -112,7 +114,7 @@ const Refund: React.FC<RefundProps> = ({ onNext, emp_id }) => {
       emp_details?.emp_personal_details.identification_marks || not_provided,
     last_pay_drawn: String(last_pay_drawn) || "no data",
     cause_of_leaving_service: "",
-    retiring_from_service: last_work_day || "",
+    retiring_from_service: dateConvertor(emp_details?.last_working_day || ""),
   };
   //--------------------------- INITIALIZING EMPLOYEE DETAILS ---------------------------//
 

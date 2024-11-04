@@ -106,7 +106,7 @@ export const HRMS_URL: Urls = {
   },
 
   PAYROLL: {
-    getAll: "/pay/payroll?limit=10",
+    getAll: "/pay/payroll?limit=12",
     update: "/pay/payroll/update",
     updateMany: "/pay/payroll/update-many",
   },
