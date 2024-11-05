@@ -96,7 +96,8 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
   async function storePensionData() {
     try {
       const res = await axios({
-        url: "/employee/pension/create",
+        // url: "/employee/pension/create",
+        url: "/employee/pension/update",
         method: "POST",
         data: pension_data
       })
