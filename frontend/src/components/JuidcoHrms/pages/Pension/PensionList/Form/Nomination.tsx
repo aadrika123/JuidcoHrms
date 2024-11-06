@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import PrimaryButton from "@/components/Helpers/Button";
 import React from "react";
 import goBack from "@/utils/helper";
@@ -48,13 +49,13 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
   const _nominee = queryClient.getQueryData<any>("emp_nominee_details");
   const emp_details =
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
-  const nominee = _nominee?.data[0];
+  const nominee = _nominee?.data ? _nominee?.data[0] : {};
 
   const not_provided: string = "not provided";
   const initialValues: EmployeeNomineeDetails = {
     relation: nominee?.relation || not_provided,
     nominee_address:
-      emp_details?.emp_address_details.address_primary || not_provided,
+      emp_details?.emp_address_details?.address_primary || not_provided,
     remarks: "",
     date_this: currentDate || not_provided,
     day_of: days || not_provided,
@@ -62,8 +63,8 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
     nominee_age: "" || not_provided,
   };
 
-  const handleSubmitFormik = () => {
-    console.log("click");
+  const handleSubmitFormik = (value: any) => {
+    sessionStorage.setItem('pen_nomination', JSON.stringify(value))
     router.push(`${pathName}?page=5`);
     onNext();
   };
@@ -107,7 +108,7 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
                   onChange={handleChange}
                   value={values.relation}
                   label="Relationship with the corporation Employee "
-                  name="emp_name"
+                  name="relation"
                 />
 
                 <InputBox

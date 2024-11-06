@@ -9,18 +9,20 @@ interface PensionPaymentProps {
   onNext: () => void;
 }
 
-const PensionPayment: React.FC<PensionPaymentProps> = () => {
+const PensionPayment: React.FC<PensionPaymentProps> = ({ onNext }) => {
   const pathName = usePathname();
   const router = useRouter();
 
-  const handleSubmitFormik = () => {
-    console.log("click");
+  const handleSubmitFormik = (value: any) => {
+    sessionStorage.setItem('pen_pension_payment', JSON.stringify(value))
     router.push(`${pathName}?page=8`);
-    // onNext()
+    onNext()
   };
 
   const initialValues = {
-    emp_name: "",
+    pay_order_no: "",
+    pension_date: "",
+    net_amount: "",
   };
 
   return (
@@ -32,24 +34,25 @@ const PensionPayment: React.FC<PensionPaymentProps> = () => {
               <div className="grid grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-4 ">
                 <InputBox
                   onChange={handleChange}
-                  value={values.emp_name}
+                  value={values.pay_order_no}
                   label="Pension Payment order No."
-                  name="emp_name"
+                  name="pay_order_no"
                 />
 
                 <InputBox
                   onChange={handleChange}
-                  value={values.emp_name}
+                  value={values.pension_date}
                   label="Date of Pension"
-                  name="emp_name"
+                  name="pension_date"
                   type="date"
                 />
 
                 <InputBox
                   onChange={handleChange}
-                  value={values.emp_name}
+                  value={values.net_amount}
                   label="Net Amount"
-                  name="emp_name"
+                  name="net_amount"
+                  type="number"
                 />
               </div>
               <div className="mt-5">
@@ -72,7 +75,7 @@ const PensionPayment: React.FC<PensionPaymentProps> = () => {
                   Back
                 </PrimaryButton>
 
-               
+
 
                 <PrimaryButton buttonType="submit" variant="primary">
                   Next

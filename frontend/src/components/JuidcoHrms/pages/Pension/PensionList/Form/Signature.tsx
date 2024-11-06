@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import React, { useRef, useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import { usePathname, useRouter } from "next/navigation";
 import { InnerHeading } from '@/components/Helpers/Heading';
 import PrimaryButton from '@/components/Helpers/Button';
 import goBack from '@/utils/helper';
 import { EmployeeDetailsInterface } from './Refund';
 import { useQueryClient } from 'react-query';
+import axios from "@/lib/axiosConfig"
+import Image from 'next/image';
 
 interface PensionPaymentProps {
     onNext: () => void;
@@ -15,47 +18,58 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
     const pathName = usePathname();
     const router = useRouter();
     const queryClient = useQueryClient()
+    const [imgData, setImgData] = useState<any>({})
 
     const handleClick = () => {
+        sessionStorage.setItem('pen_docs', JSON.stringify(imgData))
         router.push(`${pathName}?page=9`);
         onNext();
     }
 
-    // const fileInputRef = useRef(null);
-    // const [selectedFile, setSelectedFile] = useState(null);
+    async function uploadImage(file: File) {
+        const formData = new FormData()
+        formData.append('img', file)
+        try {
+            const res = await axios({
+                url: "/dms/get-url",
+                method: "POST",
+                data: formData
+            })
+            return res
+        } catch {
+            alert("Image upload failed")
+        }
+    }
+
+
+    // const fileInputRef = useRef<HTMLInputElement>(null)
 
     // const handleFileUpload = () => {
-    //     fileInputRef.current.click();
+    //     // Trigger the hidden file input
+    //     if (fileInputRef.current) {
+    //         fileInputRef.current.click();
+    //     }
     // };
 
-    // const handleFileChange = (event: any) => {
-    //     const file = event.target.files[0];
-    //     setSelectedFile(file); 
-    // };
-
-
-    const fileInputRef = useRef<HTMLInputElement>(null); // Explicitly define type for fileInputRef
-    const [selectedFile, setSelectedFile] = useState<File | null>(null); // Define type for selectedFile
-
-    const handleFileUpload = () => {
-        // Trigger the hidden file input
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
+    const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        // console.log(file, event?.target?.name)
+        if (file) {
+            const data: any = await uploadImage(file)
+            // console.log(data?.data?.data)
+            setImgData((prev: any) => ({
+                ...prev,
+                [event?.target?.name]: data?.data?.data
+            }))
         }
-    };
-
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        // Handle file selection
-        const file = event.target.files?.[0]; // Access files safely using optional chaining
-        setSelectedFile(file || null); // Update selectedFile state with the selected file
     };
 
 
     const emp_details =
-    queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
+        queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
     const last_pay_drawn: number =
-    Number(emp_details?.emp_join_details?.basic_pay) +
-    Number(emp_details?.emp_join_details?.grade_pay);
+        Number(emp_details?.emp_join_details?.basic_pay) +
+        Number(emp_details?.emp_join_details?.grade_pay);
 
     return (
         <>
@@ -64,51 +78,27 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
             <div className="border rounded-lg p-10 shadow-md">
                 <InnerHeading>Upload 3 copies of signature with preview of the employee</InnerHeading>
                 <div className='flex justify-between mt-5'>
-                    <div><input type="file" /></div>
-                    <div><input type="file" /></div>
-                    <div><input type="file" /></div>
-
-                </div>
-                <div className="flex items-center justify-end mt-5 gap-5">
-
-                    <PrimaryButton
-                        buttonType="button"
-                        variant={"cancel"}
-                        onClick={goBack}
-                    >
-                        Back
-                    </PrimaryButton>
-
-                    <PrimaryButton
-                        // onClick={handleReset}
-                        buttonType="button"
-                        variant={"cancel"}
-                    >
-                        Reset
-                    </PrimaryButton>
-
-                    <PrimaryButton buttonType="submit" variant="primary">
-                        Next
-                    </PrimaryButton>
+                    <div><input type="file" name='signature1' onChange={handleFileChange} />{imgData?.signature1 && (<Image src={imgData?.signature1 || ''} alt='signature1' width={150} height={75} className='p-2' />)}</div>
+                    <div><input type="file" name='signature2' onChange={handleFileChange} />{imgData?.signature2 && (<Image src={imgData?.signature2 || ''} alt='signature2' width={150} height={75} className='p-2' />)}</div>
+                    <div><input type="file" name='signature3' onChange={handleFileChange} />{imgData?.signature3 && (<Image src={imgData?.signature3 || ''} alt='signature3' width={150} height={75} className='p-2' />)}</div>
                 </div>
             </div>
 
             {/* 2nd col start */}
 
             <div className="border rounded-lg p-10 shadow-md mt-5">
-                <InnerHeading>Upload 3 copies of signature with preview of the employee</InnerHeading>
+                <InnerHeading>Upload 3 copies of photo of the employee</InnerHeading>
 
-                <div className='flex justify-between mt-10'>
+                {/* <div className='flex justify-between mt-10'>
                     <div className='flex flex-col items-center'>
-                        {/* Hidden file input */}
                         <input
                             type="file"
                             ref={fileInputRef}
+                            name='photo1'
                             style={{ display: 'none' }}
                             onChange={handleFileChange}
                         />
 
-                        {/* SVG Icon for Upload */}
                         <svg
                             className='border-2 border-[#9AC0F9] p-3'
                             onClick={handleFileUpload}
@@ -130,10 +120,9 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                         </svg>
 
 
-                        {/* Display uploaded file name or path */}
-                        {selectedFile ? (
+                        {signature1 ? (
                             <p style={{ marginTop: '0.5rem' }}>
-                                Uploaded File: {selectedFile.name}
+                                Uploaded File: {signature1.name}
                             </p>
                         ) : (
                             <p>Browse to Upload your Photo</p>
@@ -141,15 +130,14 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                     </div>
 
                     <div className='flex flex-col items-center'>
-                        {/* Hidden file input */}
                         <input
                             type="file"
                             ref={fileInputRef}
+                            name='photo2'
                             style={{ display: 'none' }}
                             onChange={handleFileChange}
                         />
 
-                        {/* SVG Icon for Upload */}
                         <svg
                             className='border-2 border-[#9AC0F9] p-3'
                             onClick={handleFileUpload}
@@ -171,10 +159,9 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                         </svg>
 
 
-                        {/* Display uploaded file name or path */}
-                        {selectedFile ? (
+                        {signature1 ? (
                             <p style={{ marginTop: '0.5rem' }}>
-                                Uploaded File: {selectedFile.name}
+                                Uploaded File: {signature1.name}
                             </p>
                         ) : (
                             <p>Browse to Upload your Photo</p>
@@ -182,15 +169,14 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                     </div>
 
                     <div className='flex flex-col items-center'>
-                        {/* Hidden file input */}
                         <input
                             type="file"
                             ref={fileInputRef}
+                            name='photo3'
                             style={{ display: 'none' }}
                             onChange={handleFileChange}
                         />
 
-                        {/* SVG Icon for Upload */}
                         <svg
                             className='border-2 border-[#9AC0F9] p-3'
                             onClick={handleFileUpload}
@@ -212,20 +198,24 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                         </svg>
 
 
-                        {/* Display uploaded file name or path */}
-                        {selectedFile ? (
+                        {signature1 ? (
                             <p style={{ marginTop: '0.5rem' }}>
-                                Uploaded File: {selectedFile.name}
+                                Uploaded File: {signature1.name}
                             </p>
                         ) : (
                             <p>Browse to Upload your Photo</p>
                         )}
                     </div>
+                </div> */}
+
+                <div className='flex justify-between mt-5'>
+                    <div><input type="file" name='photo1' onChange={handleFileChange} />{imgData?.photo1 && (<Image src={imgData?.photo1 || ''} alt='photo1' width={150} height={75} className='p-2' />)}</div>
+                    <div><input type="file" name='photo2' onChange={handleFileChange} />{imgData?.photo2 && (<Image src={imgData?.photo2 || ''} alt='photo2' width={150} height={75} className='p-2' />)}</div>
+                    <div><input type="file" name='photo3' onChange={handleFileChange} />{imgData?.photo3 && (<Image src={imgData?.photo3 || ''} alt='photo3' width={150} height={75} className='p-2' />)}</div>
                 </div>
 
 
-
-                <div className="flex items-center justify-end mt-5 gap-5">
+                {/* <div className="flex items-center justify-end mt-5 gap-5">
 
                     <PrimaryButton
                         buttonType="button"
@@ -246,7 +236,7 @@ const Signature: React.FC<PensionPaymentProps> = ({ onNext }) => {
                     <PrimaryButton buttonType="submit" variant="primary">
                         Next
                     </PrimaryButton>
-                </div>
+                </div> */}
             </div>
 
             {/* 3rd col start */}

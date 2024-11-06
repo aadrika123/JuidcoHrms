@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import PenNomineeDetails from "./details/NomineeDetails";
 import DeclarationOfRefund from "./details/DeclarationOfRefund";
 import Statement from "./details/Statement";
+import NominationForUnpaidAmount from "./details/NominationForUnpaidAmount";
 
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
@@ -197,6 +198,7 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                 <PenNomineeDetails data={nominee} singleImg={singleImg} jointImg={jointImg} />
                 <DeclarationOfRefund data={refund} />
                 <Statement data={payroll} />
+                <NominationForUnpaidAmount data={refund} />
             </div>
 
         </div>

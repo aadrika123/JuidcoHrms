@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect, useState } from "react";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
@@ -74,7 +75,7 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
+      const _data = (res && res !== 'undefined') ? JSON.parse(res as string) : {}
       setPayrollData(_data?.data);
     }
   }, []);
@@ -82,23 +83,41 @@ const FamilyDeclaration: React.FC<PensionPaymentProps> = ({ emp_id }) => {
   const familyPension: number =
     (returnEmpPension(payrollData, emp_id) * 30) / 100;
 
-  const pension_data = {
-    beneficery_id: 1,
-    emp_id: emp_id,
-    pension_amnt: returnEmpPension(payrollData, emp_id),
-    family_pension_amnt: familyPension,
-    date_of_death: "",
-    summary: "",
-    communi_sent_acc_officer: "",
-    pensioncol: "",
-  }
+  // const pension_data = {
+  //   beneficery_id: 1,
+  //   emp_id: emp_id,
+  //   pension_amnt: returnEmpPension(payrollData, emp_id),
+  //   family_pension_amnt: familyPension,
+  //   date_of_death: "",
+  //   summary: "",
+  //   communi_sent_acc_officer: "",
+  //   pensioncol: "",
+  // }
 
   async function storePensionData() {
+
+    const dataToSend: any = {};
+
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key) {
+        if (key.startsWith("pen")) {
+          dataToSend[key] = JSON.parse(sessionStorage.getItem(key) as any)
+        }
+      }
+    }
+    dataToSend['emp_id'] = emp_id
+    dataToSend['pension_amnt'] = returnEmpPension(payrollData, emp_id)
+    dataToSend['family_pension_amnt'] = familyPension
+
+    console.log(dataToSend, 'ababab')
+
     try {
       const res = await axios({
-        url: "/employee/pension/create",
+        // url: "/employee/pension/create",
+        url: "/employee/pension/update",
         method: "POST",
-        data: pension_data
+        data: dataToSend
       })
 
       if (res.status) onSave()

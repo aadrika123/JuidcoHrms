@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
@@ -27,7 +28,7 @@ interface PensionerInterface {
   permanent_address: string;
   cash: string;
   remarks: string;
-  amount: string;
+  amount: number;
 }
 
 const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
@@ -38,10 +39,10 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
 
   const emp_data =
     queryClient.getQueryData<EmployeeDetailsInterface>("emp_details");
-  console.log(emp_data);
+  // console.log(emp_data);
 
-  const handleSubmitFormik = () => {
-    console.log("click");
+  const handleSubmitFormik = (value: any) => {
+    sessionStorage.setItem('pen_declaration', JSON.stringify(value))
     router.push(`${pathName}?page=7`);
     onNext();
   };
@@ -58,13 +59,13 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
       emp_data?.emp_address_details.address_primary || not_provided,
     cash: "",
     remarks: "",
-    amount: "",
+    amount: 0,
   };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
+      const _data = (res && res !== 'undefined') ? JSON.parse(res as string) : {};
       setPayrollData(_data.data);
     }
   }, []);
@@ -143,7 +144,7 @@ const Declaration: React.FC<DecProps> = ({ onNext, emp_id }) => {
 
                   <InputBox
                     onChange={handleChange}
-                    value={returnEmpPension(payrollData, emp_id) || ""}
+                    value={returnEmpPension(payrollData, emp_id) || 0}
                     label="Amount"
                     name="amount"
                     type="number"
