@@ -15,7 +15,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-[#4338CA]",
+        primary: "bg-primary_blue",
         danger: "bg-red-400",
         cancel:
           "bg-white border text-[#4245D9] border-[#4245D9] hover:bg-neutral-50  hover:text-neutral-700",

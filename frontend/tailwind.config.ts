@@ -18,6 +18,7 @@ const config: Config = {
         secondary: "#484646F2",
         primary_green: "#E1E7FF",
         primary_blue: "#4338CA",
+        // primary_blue: "#008000",
       },
 
       fontSize: {
