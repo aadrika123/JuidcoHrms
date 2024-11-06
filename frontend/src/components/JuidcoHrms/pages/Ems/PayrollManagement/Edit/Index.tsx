@@ -461,123 +461,121 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
           <div>
             <div className="w-full sm:w-full h-auto mb-5 rounded-2xl flex flex-col relative bg-[#ffffff] pt-10 pb-10 shadow-lg">
               <div className="">
-              <div className="text-center">
-              <div className="flex flex-col items-center justify-center">
-                <Image
-                  src={JharIcon}
-                  alt="jhar_icon"
-                  width={25}
-                  height={25}
-                  className="mb-1"
-                />
-                <h1 className="text-black font-serif font-bold mb-1">
-                  GOVT. OF JHARKHAND
-                </h1>
-                <p className="text-black font-serif text-xs">
-                  MUNICIPAL CORPORATION RANCHI
-                </p>
-                <p className="text-black font-serif text-xs">RANCHI</p>
-                <div className="w-full flex justify-center p-7">
-                  <span>
-                    SALARY SLIP -{" "}
-                    {String(empData?.payroll[0]?.month).padStart(2, "0")}-
-                    {newDate} SALARY
-                  </span>
+                <div className="text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <Image
+                      src={JharIcon}
+                      alt="jhar_icon"
+                      width={25}
+                      height={25}
+                      className="mb-1"
+                    />
+                    <h1 className="text-black font-serif font-bold mb-1">
+                      GOVT. OF JHARKHAND
+                    </h1>
+                    <p className="text-black font-serif text-xs">
+                      MUNICIPAL CORPORATION RANCHI
+                    </p>
+                    <p className="text-black font-serif text-xs">RANCHI</p>
+                    <div className="w-full flex justify-center p-7">
+                      <span>
+                        SALARY SLIP -{" "}
+                        {String(empData?.payroll[0]?.month).padStart(2, "0")}-
+                        {newDate} SALARY
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              
-            </div>
-                
 
                 <div className="text-black">
-              <div className="flex w-full">
-                <table className="w-full h-[100px] border-2 border-neutral-600 m-4">
-                  <tr>
-                    <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
-                      NAME:{" "}
-                    </td>
-                    <td className=" text-xs border-2 border-neutral-600">
-                      {empData?.emp_basic_details?.emp_name}
-                    </td>
-                  </tr>
-                  <tr className="border-1px">
-                    <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
-                      DESIGNATION:
-                    </td>
-                    <td className="border-2 border-neutral-600 text-xs">
-                      {empData?.emp_join_details?.designation?.name}
-                    </td>
-                  </tr>
-                  <tr className="border-1px">
-                    <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
-                      DEPARTMENT:
-                    </td>
-                    <td className="border-2 border-neutral-600 text-xs">
-                      {empData?.emp_join_details?.department?.name}
-                    </td>
-                  </tr>
+                  <div className="flex w-full">
+                    <table className="w-full h-[100px] border-2 border-neutral-600 m-4">
+                      <tr>
+                        <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
+                          NAME:{" "}
+                        </td>
+                        <td className=" text-xs border-2 border-neutral-600">
+                          {empData?.emp_basic_details?.emp_name}
+                        </td>
+                      </tr>
+                      <tr className="border-1px">
+                        <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
+                          DESIGNATION:
+                        </td>
+                        <td className="border-2 border-neutral-600 text-xs">
+                          {empData?.emp_join_details?.designation?.name}
+                        </td>
+                      </tr>
+                      <tr className="border-1px">
+                        <td className="border-2 border-neutral-600 w-[100px] text-xs pl-2 p-1">
+                          DEPARTMENT:
+                        </td>
+                        <td className="border-2 border-neutral-600 text-xs">
+                          {empData?.emp_join_details?.department?.name}
+                        </td>
+                      </tr>
 
-                  <tr className="border-1px">
-                    <td className="border-2 border-neutral-600 w-[150px] text-xs pl-2 p-1">
-                      EMPLOYEE NUMBER:
-                    </td>
-                    <td className="border-2 border-neutral-600 text-xs">
-                      {empData?.emp_id}
-                    </td>
-                  </tr>
-                </table>
-                {/* -------------------- */}
-              </div>
-              <div className="flex flex-col m-4 mt-[-1px] border-2 border-t-2 border-y-0	 border-neutral-600">
-                <tr className="border">
-                  <td className=" p-2 font-bold text-sm">SALARY DETAILS</td>
-                  <td className=" pl-2 p-1"></td>
-                </tr>
-                <tr className="">
-                  <td className="border-2 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                    Earnings
-                  </td>
-                  <td className="border-2 border-r-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                    Deductions
-                  </td>
-                  <td className="border-2 border-r-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs"></td>
-                </tr>
+                      <tr className="border-1px">
+                        <td className="border-2 border-neutral-600 w-[150px] text-xs pl-2 p-1">
+                          EMPLOYEE NUMBER:
+                        </td>
+                        <td className="border-2 border-neutral-600 text-xs">
+                          {empData?.emp_id}
+                        </td>
+                      </tr>
+                    </table>
+                    {/* -------------------- */}
+                  </div>
+                  <div className="flex flex-col m-4 mt-[-1px] border-2 border-t-2 border-y-0	 border-neutral-600">
+                    <tr className="border">
+                      <td className=" p-2 font-bold text-sm">SALARY DETAILS</td>
+                      <td className=" pl-2 p-1"></td>
+                    </tr>
+                    <tr className="">
+                      <td className="border-2 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                        Earnings
+                      </td>
+                      <td className="border-2 border-r-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                        Deductions
+                      </td>
+                      <td className="border-2 border-r-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs"></td>
+                    </tr>
 
-                <tr className="border-1px">
-                  <td className="border-2 border-t-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12">
-                    {empData?.emp_salary_details?.emp_salary_allow?.map(
-                      (item: any, index: number) => (
-                        <tr key={index} className="border-1px ">
-                          <>
-                            <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
-                              {allowanceFullForm(item?.name) || null}
-                            </td>
-                            <td className="border-b border-neutral-600 p-2 text-xs">
-                              {item?.amount_in || 0}
-                            </td>
-                          </>
-                        </tr>
-                      )
-                    )}
-                  </td>
-                  <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 p-2 font-bold w-[50rem]">
-                    {empData?.emp_salary_details?.emp_salary_deduction?.map(
-                      (item: any, index: number) => (
-                        <tr key={index} className="border-1px">
-                          <>
-                            <td className="border-b border-neutral-600 w-[150rem] p-2 text-xs">
-                              {deductionFullForm(item?.name) || null}
-                            </td>
-                            <td className="border-b border-neutral-600 p-2 text-xs">
-                              {item?.amount_in || 0}
-                            </td>
-                          </>
-                        </tr>
-                      )
-                    )}
-                  </td>
-                </tr>
-                {/* <tr className="border-1px">
+                    <tr className="border-1px">
+                      <td className="border-2 border-t-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12">
+                        {empData?.emp_salary_details?.emp_salary_allow?.map(
+                          (item: any, index: number) => (
+                            <tr key={index} className="border-1px ">
+                              <>
+                                <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
+                                  {allowanceFullForm(item?.name) || null}
+                                </td>
+                                <td className="border-b border-neutral-600 p-2 text-xs">
+                                  {item?.amount_in || 0}
+                                </td>
+                              </>
+                            </tr>
+                          )
+                        )}
+                      </td>
+                      <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 p-2 font-bold w-[50rem]">
+                        {empData?.emp_salary_details?.emp_salary_deduction?.map(
+                          (item: any, index: number) => (
+                            <tr key={index} className="border-1px">
+                              <>
+                                <td className="border-b border-neutral-600 w-[150rem] p-2 text-xs">
+                                  {deductionFullForm(item?.name) || null}
+                                </td>
+                                <td className="border-b border-neutral-600 p-2 text-xs">
+                                  {item?.amount_in || 0}
+                                </td>
+                              </>
+                            </tr>
+                          )
+                        )}
+                      </td>
+                    </tr>
+                    {/* <tr className="border-1px">
                   <td className="border-2 border-t-0  border-l-0 border-neutral-600  font-bold w-6/12 text-xs pl-2 p-1">
                     Total Allowance (B)
                   </td>
@@ -587,163 +585,169 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs"></td>
                 </tr> */}
 
-                <tr className="border-1px">
-                  <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                  Total Allowance (B)
-                  </td>
-                  <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                  {empData?.total?.total_allowance}
-                  </td>
-                  
-                </tr>
+                    <tr className="border-1px">
+                      <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                        Total Allowance (B)
+                      </td>
+                      <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                        {empData?.total?.total_allowance}
+                      </td>
+                    </tr>
 
-                <tr className="border-1px">
-                  <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                    Basic Pay
-                  </td>
-                  <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                    {empData?.payroll[0]?.basic_pay}
-                  </td>
-                </tr>
+                    <tr className="border-1px">
+                      <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                        Basic Pay
+                      </td>
+                      <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                        {empData?.payroll[0]?.basic_pay}
+                      </td>
+                    </tr>
 
+                    <tr className="border-1px">
+                      <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                        Grade Pay
+                      </td>
+                      <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                        {empData?.emp_join_details?.grade_pay}
+                      </td>
+                    </tr>
 
-                <tr className="border-1px">
-                  <td className=" border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                    Gross Salary
-                  </td>
-                  <td className="border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                    {empData?.payroll[0]?.gross_pay}
-                  </td>
-                </tr>
-              </div>
+                    <tr className="border-1px">
+                      <td className=" border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                        Gross Salary
+                      </td>
+                      <td className="border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                        {empData?.payroll[0]?.gross_pay}
+                      </td>
+                    </tr>
+                  </div>
 
-              <div className="flex flex-col m-4 mt-[-1rem]">
-                <table className="w-full border-2 border-neutral-600">
-                  <tr className=" ">
-                    <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600  font-bold pl-2 p-1 text-xs">
-                      Employer Contribution
-                    </td>
-                    <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
-                    <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
-                    <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
-                  </tr>
-                  <tr className="border">
-                    <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 font-bold text-xs pl-2 p-1">
-                      PF Employer
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {EPF_AMOUNT}
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Deductions
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.total?.total_deductions}
-                    </td>
-                  </tr>
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      ESI Employer
-                    </td>
-                    <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {ESIC_AMOUNT}
-                    </td>
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
-                  </tr>
+                  <div className="flex flex-col m-4 mt-[-1rem]">
+                    <table className="w-full border-2 border-neutral-600">
+                      <tr className=" ">
+                        <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600  font-bold pl-2 p-1 text-xs">
+                          Employer Contribution
+                        </td>
+                        <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
+                        <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
+                        <td className=" p-2 border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 font-bold text-xs pl-2 p-1">
+                          PF Employer
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {EPF_AMOUNT}
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          Deductions
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {empData?.total?.total_deductions}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          ESI Employer
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {ESIC_AMOUNT}
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
+                      </tr>
 
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Reimbursements:
-                    </td>
-                    <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
-                    <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600">
-                      Summary
-                    </td>
-                    <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
-                  </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Reimbursements:
+                        </td>
+                        <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
+                        <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600">
+                          Summary
+                        </td>
+                        <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
+                      </tr>
 
-                 
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Medical (Reimb)
-                    </td>
-                    <td className=" border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
-                      Gross Salary
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.payroll[0]?.gross_pay}
-                    </td>
-                  </tr>
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Conv. (Reimb)
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Add: Reimbursed Allowances
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
-                  </tr>
-                  <tr className=" border">
-                    <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Telephone. (Reimb)
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2 font-bold">
-                      {/* {empData?.emp_salary_details.emp_salary_deduction?.name} */}
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
-                      Less: Deductions
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.total?.total_deductions}
-                    </td>
-                  </tr>
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Other(Reimb)
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2"></td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Less: TDS
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.payroll[0]?.tds_amount}
-                    </td>
-                  </tr>
-                  <tr className="border">
-                    <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Total Reimbursements
-                    </td>
-                    <td className=" border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
-                    {/* <td className="border p-2">Less: FBT</td>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Medical (Reimb)
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
+                          Gross Salary
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {empData?.payroll[0]?.gross_pay}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Conv. (Reimb)
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          Add: Reimbursed Allowances
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
+                      </tr>
+                      <tr className=" border">
+                        <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Telephone. (Reimb)
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2 font-bold">
+                          {/* {empData?.emp_salary_details.emp_salary_deduction?.name} */}
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
+                          Less: Deductions
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {empData?.total?.total_deductions}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Other(Reimb)
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2"></td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          Less: TDS
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {empData?.payroll[0]?.tds_amount}
+                        </td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Total Reimbursements
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
+                        {/* <td className="border p-2">Less: FBT</td>
                         <td className="border p-2">123213</td> */}
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Less: Loans Emi
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2"></td>
-                  </tr>
-                  <tr className="border">
-                    <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                      Salary (CTC) / PM
-                    </td>
-                    <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Rs.{" "}
-                      {(empData?.payroll[0]?.gross_pay as number) +
-                        EPF_AMOUNT +
-                        ESIC_AMOUNT}{" "}
-                      ONLY
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
-                      Net Salary Transfer Amount
-                    </td>
-                    <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {(empData?.payroll[0]?.net_pay as number) -
-                        (empData?.payroll[0]?.tds_amount as number)}
-                    </td>
-                  </tr>
-                  {/* <tr className="border">
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          Less: Loans Emi
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 p-2"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          Salary (CTC) / PM
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          Rs.{" "}
+                          {(empData?.payroll[0]?.gross_pay as number) +
+                            EPF_AMOUNT +
+                            ESIC_AMOUNT}{" "}
+                          ONLY
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
+                          Net Salary Transfer Amount
+                        </td>
+                        <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {(empData?.payroll[0]?.net_pay as number) -
+                            (empData?.payroll[0]?.tds_amount as number)}
+                        </td>
+                      </tr>
+                      {/* <tr className="border">
                     <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">Salary (CTC) / PA</td>
                     <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
                       Rs.{" "}
@@ -756,15 +760,17 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">Authorised by</td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 p-2"></td>
                   </tr> */}
-                  <tr className="border">
-                    <td className=" text-xs pl-2 p-1 font-bold">Prepared By</td>
-                    <td className=" text-xs pl-2 p-1">Checked By</td>
-                  </tr>
-                </table>
+                      <tr className="border">
+                        <td className=" text-xs pl-2 p-1 font-bold">
+                          Prepared By
+                        </td>
+                        <td className=" text-xs pl-2 p-1">Checked By</td>
+                      </tr>
+                    </table>
 
-                {/* -------------------------------- */}
-              </div>
-            </div>
+                    {/* -------------------------------- */}
+                  </div>
+                </div>
               </div>
               <div className="flex justify-between  p-5">
                 <div className="">

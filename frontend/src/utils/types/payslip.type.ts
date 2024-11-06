@@ -49,6 +49,7 @@ export type PayslipTypes = {
       name: string;
     };
     pay_scale: number;
+    grade_pay: number;
   };
   emp_basic_details: {
     emp_name: string;

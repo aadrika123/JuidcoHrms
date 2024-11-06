@@ -40,6 +40,7 @@ class PayslipDao {
             designation: true,
             department: true,
             pay_scale: true,
+            grade_pay: true,
           },
         },
         emp_basic_details: {

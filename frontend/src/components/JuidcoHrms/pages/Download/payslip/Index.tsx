@@ -296,12 +296,11 @@ const Download_payslip = () => {
 
                 <tr className="border-1px">
                   <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                  Total Allowance (B)
+                    Total Allowance (B)
                   </td>
                   <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                  {empData?.total?.total_allowance}
+                    {empData?.total?.total_allowance}
                   </td>
-                  
                 </tr>
 
                 <tr className="border-1px">
@@ -312,7 +311,14 @@ const Download_payslip = () => {
                     {empData?.payroll[0]?.basic_pay}
                   </td>
                 </tr>
-
+                <tr className="border-1px">
+                  <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
+                    Grade Pay
+                  </td>
+                  <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
+                    {empData?.emp_join_details?.grade_pay}
+                  </td>
+                </tr>
 
                 <tr className="border-1px">
                   <td className=" border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
@@ -370,7 +376,6 @@ const Download_payslip = () => {
                     <td className=" text-xs pl-2 p-1 font-bold text-center border-2 border-t-0 border-r-0 border-l-0 border-neutral-600"></td>
                   </tr>
 
-                 
                   <tr className="border">
                     <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
                       Medical (Reimb)
