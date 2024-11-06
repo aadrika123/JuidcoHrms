@@ -3,12 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 class EmployeeDetailsDao {
-  async getEmployeeDetailsByEmpId(empId: string) {
+  async getEmployeeDetailsByEmpId() {
     try {
-      const employeeDetails = await prisma.employees.findUnique({
-        where: {
-          emp_id: empId, // Querying by emp_id
-        },
+      const employeeDetails = await prisma.employees.findMany({
         select: {
           emp_id: true,
           emp_join_details: {
@@ -39,7 +36,7 @@ class EmployeeDetailsDao {
             select: {
               emp_name: true,
               email: true,
-              contact_no:true,
+              contact_no: true,
               pan_no: true,   // Fetching pan_no from employee_basic_details
               gps: true
             },
@@ -47,15 +44,15 @@ class EmployeeDetailsDao {
         },
       });
 
-      if (employeeDetails) {
-        // Prioritize task from employee_hierarchy if available, otherwise use from employee_join_details
-        const hierarchyTask = employeeDetails.emp_hierarchy?.[0]?.task;
-        const joinDetailsTask = employeeDetails.emp_join_details?.task;
+      // if (employeeDetails) {
+      //   // Prioritize task from employee_hierarchy if available, otherwise use from employee_join_details
+      //   const hierarchyTask = employeeDetails.emp_hierarchy?.[0]?.task;
+      //   const joinDetailsTask = employeeDetails.emp_join_details?.task;
 
-        // Set the final task value
-        const finalTask = hierarchyTask || joinDetailsTask;
-        employeeDetails.emp_join_details.task = finalTask; // Update the task value in the response
-      }
+      //   // Set the final task value
+      //   const finalTask = hierarchyTask || joinDetailsTask;
+      //   employeeDetails.emp_join_details.task = finalTask; // Update the task value in the response
+      // }
 
       return employeeDetails; // Returning the fetched employee details
     } catch (error: any) {
