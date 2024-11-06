@@ -12,7 +12,7 @@ const BackButton = () => {
         buttonType="button"
         variant={"cancel"}
         onClick={goBack}
-        className="border-0 bg-transparent hover:bg-transparent hover:text-[#3592FF] flex items-center"
+        className="border-0 bg-transparent hover:bg-transparent text-primary_blue hover:text-[#3592FF] flex items-center"
       >
         <i>
           <Image

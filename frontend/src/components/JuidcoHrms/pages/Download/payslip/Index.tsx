@@ -142,7 +142,7 @@ const Download_payslip = () => {
             <div>
               <button
                 type="submit"
-                className="w-full border border-indigo-600 bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
+                className="w-full border border-indigo-600 bg-primary_blue hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
                 onClick={fetchEmpData}
               >
                 <p className="flex justify-center">

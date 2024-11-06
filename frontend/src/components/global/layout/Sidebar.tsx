@@ -58,7 +58,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     if (typeof window !== "undefined") {
       const data = sessionStorage.getItem("user_details");
       const user_details = JSON.parse(data as string);
-      console.log(user_details, "user");
+      // console.log(user_details, "user");
       if (isTeamManagementOpen) {
         setSidebarLink(TMSidebarLinks)
       } else {
@@ -119,7 +119,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                     <ul className="h-lvh">
                       <li>
                         <details open className="w-full ">
-                          <summary className="text-[1.125rem] p-2 px-6  whitespace-nowrap bg-[#4338CA] hover:bg-[#4338CA] rounded-none font-semibold text-white">
+                          <summary className="text-[1.125rem] p-2 px-6  whitespace-nowrap bg-primary_blue hover:bg-primary_blue rounded-none font-semibold text-white">
                             <i className="w-8 bg-white rounded-md p-1">
                               {link.icon}
                             </i>
@@ -132,11 +132,11 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                                   <details open={data === sub?.moduleName}>
                                     <summary
                                       className={`${data === sub?.moduleName
-                                        ? "bg-[#4338CA] text-white m-2"
+                                        ? "bg-primary_blue text-white m-2"
                                         : "bg-transparent text-zinc-600"
-                                        } ml-2 text-[0.9375rem] p-1 pr-4 pl-3 hover:bg-[#4338CA] hover:text-white font-semibold`}
+                                        } ml-2 text-[0.9375rem] p-1 pr-4 pl-3 hover:bg-primary_blue hover:text-white font-semibold`}
                                     >
-                                      <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
+                                      <i className="w-8 rounded-md p-1.5 bg-primary_blue ">
                                         {sub.icon}
                                       </i>
                                       {sub.moduleName}
@@ -159,7 +159,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                                                   } `}
                                                 href={link.path}
                                               >
-                                                <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
+                                                <i className="w-8 rounded-md p-1.5 bg-primary_blue ">
                                                   {link.icon}
                                                 </i>
                                                 {link.moduleName}
@@ -173,12 +173,12 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                                 ) : (
                                   <li
                                     className={`w-full ${pathName === sub.path
-                                      ? "bg-[#4338CA] text-white m-2"
+                                      ? "bg-primary_blue text-white m-2"
                                       : "bg-transparent text-zinc-600"
-                                      } ml-2 p-1 pr-4 hover:bg-[#4338CA] hover:text-white font-semibold`}
+                                      } ml-2 p-1 pr-4 hover:bg-primary_blue hover:text-white font-semibold`}
                                   >
                                     <Link href={sub.path} className="w-full">
-                                      <i className="w-8 rounded-md p-1.5 bg-[#4338CA] ">
+                                      <i className="w-8 rounded-md p-1.5 bg-primary_blue ">
                                         {sub.icon}
                                       </i>
                                       <span className="text-[0.9375rem] w-full">

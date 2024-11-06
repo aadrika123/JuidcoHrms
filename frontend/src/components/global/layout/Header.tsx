@@ -103,7 +103,7 @@ const Header: React.FC<SideBarProps> = (props) => {
       <div className="flex items-center justify-center gap-3 mx-20">
         <div className="text-center">
           <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
-          <h4 className="text-[1rem] text-blue-600 font-bold ">
+          <h4 className="text-[1rem] text-primary_blue font-bold ">
             {ulb?.ulb_name}
           </h4>
         </div>
@@ -200,7 +200,7 @@ const Header: React.FC<SideBarProps> = (props) => {
             </defs>
           </svg> */}
 
-          <button onClick={logout}>
+          <button onClick={logout} className="bg-primary_blue rounded-full">
             <svg
               width="35"
               height="34"
@@ -215,7 +215,7 @@ const Header: React.FC<SideBarProps> = (props) => {
                   width="31"
                   height="30"
                   rx="9"
-                  fill="#5457D6"
+                  // fill="#5457D6"
                   shapeRendering="crispEdges"
                 />
                 <path
@@ -263,74 +263,72 @@ const Header: React.FC<SideBarProps> = (props) => {
             </svg>
           </button>
         </span>
-        <span className="w-9">
-          {/* <Image
-            src="/icons/profile.png"
-            width={100}
-            height={100}
-            alt="profile"
-          /> */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="34"
-            height="34"
-            viewBox="0 0 34 34"
-            fill="none"
-          >
-            <g filter="url(#filter0_d_935_6737)">
-              <rect
-                x="2"
-                y="0.375"
-                width="30"
-                height="30"
-                rx="10"
-                fill="#5457D6"
-                shapeRendering="crispEdges"
-              />
-              <path
-                d="M17 23.8907C17.825 23.8907 18.5 23.1811 18.5 22.3139H15.5C15.5 23.1811 16.1675 23.8907 17 23.8907ZM21.5 19.1604V15.2185C21.5 12.7982 20.27 10.7721 18.125 10.236V9.6999C18.125 9.04555 17.6225 8.51733 17 8.51733C16.3775 8.51733 15.875 9.04555 15.875 9.6999V10.236C13.7225 10.7721 12.5 12.7903 12.5 15.2185V19.1604L11 20.7372V21.5255H23V20.7372L21.5 19.1604Z"
-                fill="white"
-              />
-            </g>
-            <defs>
-              <filter
-                id="filter0_d_935_6737"
-                x="0.4"
-                y="0.275"
-                width="33.2"
-                height="33.2"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
+        
+          <span className="w-9">
+    
+          <button className="bg-primary_blue rounded-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="34"
+              height="34"
+              viewBox="0 0 34 34"
+              fill="none"
+            >
+              <g filter="url(#filter0_d_935_6737)">
+                <rect
+                  x="2"
+                  y="0.375"
+                  width="30"
+                  height="30"
+                  rx="10"
+                  // fill="#5457D6"
+                  shapeRendering="crispEdges"
                 />
-                <feOffset dy="1.5" />
-                <feGaussianBlur stdDeviation="0.8" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0.596078 0 0 0 0 0.596078 0 0 0 0 0.607843 0 0 0 0.34 0"
+                <path
+                  d="M17 23.8907C17.825 23.8907 18.5 23.1811 18.5 22.3139H15.5C15.5 23.1811 16.1675 23.8907 17 23.8907ZM21.5 19.1604V15.2185C21.5 12.7982 20.27 10.7721 18.125 10.236V9.6999C18.125 9.04555 17.6225 8.51733 17 8.51733C16.3775 8.51733 15.875 9.04555 15.875 9.6999V10.236C13.7225 10.7721 12.5 12.7903 12.5 15.2185V19.1604L11 20.7372V21.5255H23V20.7372L21.5 19.1604Z"
+                  fill="white"
                 />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_935_6737"
-                />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_935_6737"
-                  result="shape"
-                />
-              </filter>
-            </defs>
-          </svg>
-        </span>
+              </g>
+              <defs>
+                <filter
+                  id="filter0_d_935_6737"
+                  x="0.4"
+                  y="0.275"
+                  width="33.2"
+                  height="33.2"
+                  filterUnits="userSpaceOnUse"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feOffset dy="1.5" />
+                  <feGaussianBlur stdDeviation="0.8" />
+                  <feComposite in2="hardAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0.596078 0 0 0 0 0.596078 0 0 0 0 0.607843 0 0 0 0.34 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_935_6737"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_935_6737"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+        </button>
+          </span>
       </div>
     </div>
   );
