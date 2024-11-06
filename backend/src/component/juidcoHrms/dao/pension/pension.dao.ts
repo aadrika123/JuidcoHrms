@@ -164,11 +164,11 @@ class PensionDao {
       data: {
         isProcessed: true,
         progress: 1,
-        pension_amnt: pen_pension_payment?.net_amount,
+        pension_amnt: Number(pen_pension_payment?.net_amount),
         payment_order_no: pen_pension_payment?.pay_order_no,
         nom_relation: pen_nomination?.relation,
         nom_address: pen_nomination?.nominee_address,
-        nom_age: pen_nomination?.nominee_age,
+        nom_age: Number(pen_nomination?.nominee_age),
         signature_doc_1: pen_docs?.signature1,
         signature_doc_2: pen_docs?.signature2,
         signature_doc_3: pen_docs?.signature3,
@@ -178,14 +178,7 @@ class PensionDao {
       }
     })
 
-    return generateRes({
-      emp_id,
-      pen_calc_sheet,
-      pen_declaration,
-      pen_docs,
-      pen_nomination,
-      pen_pension_payment
-    })
+    return 'Successfully updated'
   };
   // update = async (req: Request) => {
   //   const {
