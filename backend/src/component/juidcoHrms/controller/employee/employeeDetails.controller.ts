@@ -16,12 +16,12 @@ class EmployeeDetailsController {
     next: NextFunction,
     apiId: string
   ): Promise<object> => {
-    const empId = req.query.emp_id; // Get emp_id from query parameters
-    if (!empId) {
-      return res
-        .status(200)
-        .json({ status: false, message: "emp_id is required" });
-    }
+    // const empId = req.query.emp_id; // Get emp_id from query parameters
+    // if (!empId) {
+    //   return res
+    //     .status(200)
+    //     .json({ status: false, message: "emp_id is required" });
+    // }
 
     const resObj = {
       action: "GET",
@@ -30,9 +30,7 @@ class EmployeeDetailsController {
     };
 
     try {
-      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId(
-        empId as string
-      ); // Use the DAO to fetch details
+      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId( );
 
       if (!employeeDetails) {
         return CommonRes.NOT_FOUND(
