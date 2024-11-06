@@ -55,7 +55,7 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
   const initialValues: EmployeeNomineeDetails = {
     relation: nominee?.relation || not_provided,
     nominee_address:
-      emp_details?.emp_address_details.address_primary || not_provided,
+      emp_details?.emp_address_details?.address_primary || not_provided,
     remarks: "",
     date_this: currentDate || not_provided,
     day_of: days || not_provided,
