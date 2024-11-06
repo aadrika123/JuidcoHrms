@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /***
  * Author: Anil
  * Status: Open
@@ -68,7 +69,7 @@ const Regularization = () => {
   const [manData, setManData] = useState<LeaveData>();
   const [leaveData, setLeaveData] = useState<LeaveTotalData>();
   const [activeStep, setActiveStep] = useState(0);
-  const [leaveAllData, setLeaveAllData] = useState<any>([]);
+  // const [leaveAllData, setLeaveAllData] = useState<any>([]);
   // const [showMore, setShowMore] = useState(false);
   // const [showMoreLeave, setShowMoreLeave] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -132,7 +133,7 @@ const Regularization = () => {
         axios
           .get(`${HRMS_URL.LEAVEGET.getAll}?employee_id=${empId}&regularization=true`)
           .then((response) => {
-            setLeaveAllData(response?.data?.data);
+            // setLeaveAllData(response?.data?.data);
             console.log("Data is returned", response.data.data);
             setLeaveLoading(false)
           })

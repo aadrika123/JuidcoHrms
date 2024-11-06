@@ -7,7 +7,7 @@
 
 "use client";
 import PrimaryButton from "@/components/Helpers/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import goBack from "@/utils/helper";
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -168,6 +168,23 @@ const Dashboard = () => {
     const confirm = window.confirm("Are you sure want to delete this Employee");
     if (confirm) mutate(id);
   };
+
+  async function createPension() {
+    try {
+      await axios({
+        url: "/employee/pension/create",
+        method: "POST",
+        data: {}
+      })
+    } catch (err: any) {
+      console.log(err)
+      alert("Error whilel creating pension")
+    }
+  }
+
+  useEffect(() => {
+    createPension()
+  }, [])
 
   // const handleChangePage = (direction: "prev" | "next") => {
   //   setPage((prevPage) => (direction === "prev" ? prevPage - 1 : prevPage + 1));

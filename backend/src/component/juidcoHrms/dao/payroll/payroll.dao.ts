@@ -116,7 +116,7 @@ class PayrollDao {
 
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
-      SELECT emp.emp_id,  emp_basic_details.emp_name, basic_pay, (emp_join_details.basic_pay + SUM(emp_allow.amount_in)) as gross_pay
+      SELECT emp.emp_id,  emp_basic_details.emp_name, basic_pay, (emp_join_details.basic_pay + emp_join_details.grade_pay + SUM(emp_allow.amount_in)) AS gross_pay
       FROM 
         employees as emp    
       JOIN 
@@ -127,7 +127,7 @@ class PayrollDao {
         employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
       JOIN 
         employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-      GROUP BY emp.emp_id, emp_join_details.basic_pay, emp_basic_details.emp_name
+      GROUP BY emp.emp_id, emp_join_details.basic_pay, emp_basic_details.emp_name , emp_join_details.grade_pay
       
     `;
 
