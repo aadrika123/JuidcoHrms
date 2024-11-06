@@ -9,6 +9,7 @@ import LeaveEncashmentRoute from "./route/leaveEncashment/leave_encashment.route
 import TeamRoute from "./route/supervisor/team.route";
 import TestRoute from "./route/test/test.route";
 import PropertiesRoute from "./route/properties/properties.route";
+import DMSRoute from "./route/dms/dms.route";
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,6 +37,7 @@ class HrmsRoute {
   private teamRoute: TeamRoute;
   private testRoute: TestRoute;
   private propertiesRoute: PropertiesRoute;
+  private dmsRoute: DMSRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
     this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
@@ -65,9 +67,12 @@ class HrmsRoute {
     this.propertiesRoute = new PropertiesRoute();
     this.propertiesRoute.configure(app); // 09
 
+    this.dmsRoute = new DMSRoute();
+    this.dmsRoute.configure(app); // 10
+
 
     this.testRoute = new TestRoute();
-    this.testRoute.configure(app); // 08
+    this.testRoute.configure(app); // 069
 
   }
 }

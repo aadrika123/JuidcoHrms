@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Formik } from "formik";
@@ -7,7 +8,7 @@ import goBack from "@/utils/helper";
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import { useQueryClient } from "react-query";
 import { EmployeeDetailsInterface } from "./Refund";
-import { not_provided } from "../Index";
+// import { not_provided } from "../Index";
 import { returnEmpPension } from "./Nominee";
 import dateConvertor from "@/utils/formatter/dateFormatter";
 
@@ -32,10 +33,10 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const handleSubmitFormik = (value) => {
-    console.log(value, 'ababab')
-    // router.push(`${pathName}?page=6`);
-    // onNext();
+  const handleSubmitFormik = (value: any) => {
+    sessionStorage.setItem('pen_calc_sheet', JSON.stringify(value))
+    router.push(`${pathName}?page=6`);
+    onNext();
   };
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
   }, [basic_data]);
 
   const initialValues: CalculationSheetInterface = {
-    date_of_appointment: basic_data?.emp_join_details.doj || not_provided,
+    date_of_appointment: basic_data?.emp_join_details.doj || '',
     date_of_retirement: dateConvertor(basic_data?.last_working_day || ""),
     total_lenght_service: String(serviceLength),
     last_pay_drawn: String(last_pay_drawn || 0),
