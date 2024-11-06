@@ -18,6 +18,14 @@ interface NomineeProps {
   emp_id: string;
 }
 
+export const bufferToBase64 = (data: any) => {
+  if (!data) {
+    return "";
+  }
+  const bufferData = Buffer.from(data, "utf-8");
+  return bufferData.toString("base64");
+};
+
 export function returnEmpPension(payrollData: any, emp_id: string) {
   if (!payrollData) return 0;
 
@@ -108,13 +116,6 @@ const Nominee: React.FC<NomineeProps> = ({ onNext, emp_id }) => {
   const [, setIsChanged] = useState<boolean>(false);
   const [, setIsLoading] = useState<boolean>(false);
 
-  const bufferToBase64 = (data: any) => {
-    if (!data) {
-      return "";
-    }
-    const bufferData = Buffer.from(data, "utf-8");
-    return bufferData.toString("base64");
-  };
 
   const handleOnchange = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));

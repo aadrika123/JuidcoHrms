@@ -758,6 +758,17 @@ model pension_master {
   pensioncol               String?
   isProcessed              Boolean                  @default(false)
   progress                 Int                      @default(0) //--> 0, 1, 2, 3, 4, 5, 6
+  signature_doc_1          String?
+  signature_doc_2          String?
+  signature_doc_3          String?
+  photo_doc_1              String?
+  photo_doc_2              String?
+  photo_doc_3              String?
+  nom_name                 String?
+  nom_age                  Int?
+  nom_relation             String?
+  nom_address              String?
+  payment_order_no         String?
   employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")

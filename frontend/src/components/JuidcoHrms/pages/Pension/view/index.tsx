@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SubHeading } from "@/components/Helpers/Heading";
 import PrimaryButton from "@/components/Helpers/Button";
 import goBack from "@/utils/helper";
@@ -18,6 +19,11 @@ import Bank from "@/assets/svg/icons/bank.svg";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useQuery } from "react-query";
 import toast from "react-hot-toast";
+
+import PenNomineeDetails from "./details/NomineeDetails";
+import DeclarationOfRefund from "./details/DeclarationOfRefund";
+import Statement from "./details/Statement";
+import NominationForUnpaidAmount from "./details/NominationForUnpaidAmount";
 
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
@@ -37,6 +43,9 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
     const [selectedFilter] = useState<number | null>(null);
     const [selectedData] = useState<number | null>(null);
     const [page] = useState<number>(1);
+    const printRef = useRef(null);
+    const [singleImg, setSingleImg] = useState<any>();
+    const [jointImg, setJointImg] = useState<any>();
 
     const steps = [
         { title: "Head of Office" },
@@ -65,13 +74,43 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
 
     const { data: empPension, error: empLstErr } = useCodeQuery(`${HRMS_URL.PENSION.getById}/${emp_id}`);
 
+    //nominee
+    const { data: nominee, error: nomineeErr } = useCodeQuery(`${HRMS_URL.NOMINEE.getById}?emp_id=${emp_id}`);
+    const { data: refund, error: refundErr } = useCodeQuery(`${HRMS_URL.EMS.getById}/${emp_id}`);
+    const { data: payroll, error: payrollErr } = useCodeQuery(`${HRMS_URL.PAYROLL.getAll}&page=1&search=${emp_id}&lastMonth=true`);
+    const fetchSingleImage = async () => {
+        try {
+            const data = await axios.get(`${HRMS_URL.FILE_UPLOAD_EMPLOYEE_SINGLE.get}?employee_id=${emp_id}`)
+            setSingleImg(data.data?.data)
+        } catch (err) {
+            console.error('Error while fetching single image')
+        }
+    }
+
+    const fetchJointImage = async () => {
+        try {
+            const data = await axios.get(`${HRMS_URL.FILE_UPLOAD_EMPLOYEE.get}?employee_id=${emp_id}`)
+            setJointImg(data.data?.data)
+        } catch (err) {
+            console.error('Error while fetching joint image')
+        }
+    }
+
+    useEffect(() => {
+        fetchSingleImage()
+        fetchJointImage()
+    }, [])
+
     useEffect(() => {
         if (empPension) {
             setActiveStep(empPension?.progress || 0)
         }
     }, [empPension])
 
-    if (empLstErr) toast.error("Failed to fetch data");
+    if (empLstErr) toast.error("Failed to fetch pension");
+    if (nomineeErr) toast.error("Failed to fetch nominee");
+    if (refundErr) toast.error("Failed to fetch refund");
+    if (payrollErr) toast.error("Failed to fetch data");
 
     return (
         <div>
@@ -115,7 +154,7 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                 </div>
                 <div>
                     <SubHeading className="mx-5 my-5 mb-0 text-4xl">
-                        View Pension {emp_id}
+                        View Pension
                     </SubHeading>
                 </div>
             </div>
@@ -144,6 +183,22 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                         <h2>Bank</h2>
                     </div>
                 </div>
+            </div>
+
+            <div
+                id="divToPrint"
+                ref={printRef}
+                className="container mx-auto flex flex-col gap-4 custom-print"
+            >
+                <div className="flex justify-center items-center gap-2">
+                    <h5 className="text-[2rem]">
+                        <b>Pension Details</b>
+                    </h5>
+                </div>
+                <PenNomineeDetails data={nominee} singleImg={singleImg} jointImg={jointImg} />
+                <DeclarationOfRefund data={refund} />
+                <Statement data={payroll} />
+                <NominationForUnpaidAmount data={refund} />
             </div>
 
         </div>

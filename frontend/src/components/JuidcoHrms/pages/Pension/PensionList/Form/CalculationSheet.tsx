@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Formik } from "formik";
@@ -7,8 +8,9 @@ import goBack from "@/utils/helper";
 import { InnerHeading, SubHeading } from "@/components/Helpers/Heading";
 import { useQueryClient } from "react-query";
 import { EmployeeDetailsInterface } from "./Refund";
-import { not_provided } from "../Index";
+// import { not_provided } from "../Index";
 import { returnEmpPension } from "./Nominee";
+import dateConvertor from "@/utils/formatter/dateFormatter";
 
 interface CalSheetProps {
   onNext: () => void;
@@ -26,11 +28,13 @@ interface CalculationSheetInterface {
 
 const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
   const [payrollData, setPayrollData] = useState<any[]>();
+  const [serviceLength, setServiceLength] = useState<number>(0);
   const pathName = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const handleSubmitFormik = () => {
+  const handleSubmitFormik = (value: any) => {
+    sessionStorage.setItem('pen_calc_sheet', JSON.stringify(value))
     router.push(`${pathName}?page=6`);
     onNext();
   };
@@ -38,7 +42,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("payroll");
-      const _data = JSON.parse(res as string);
+      const _data = (res && res !== 'undefined') ? JSON.parse(res as string) : {};
       setPayrollData(_data?.data);
     }
   }, []);
@@ -64,11 +68,18 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
     Number(basic_data?.emp_join_details?.basic_pay) +
     Number(basic_data?.emp_join_details?.grade_pay);
 
+  useEffect(() => {
+    if (basic_data) {
+      const length = new Date(basic_data?.last_working_day).getFullYear() - new Date(basic_data?.emp_join_details.doj).getFullYear()
+      setServiceLength(Math.abs(length))
+    }
+  }, [basic_data]);
+
   const initialValues: CalculationSheetInterface = {
-    date_of_appointment: basic_data?.emp_join_details.doj || not_provided,
-    date_of_retirement: "",
-    total_lenght_service: "",
-    last_pay_drawn: String(last_pay_drawn) || not_provided,
+    date_of_appointment: basic_data?.emp_join_details.doj || '',
+    date_of_retirement: dateConvertor(basic_data?.last_working_day || ""),
+    total_lenght_service: String(serviceLength),
+    last_pay_drawn: String(last_pay_drawn || 0),
     pension_admissible: familyPension || 0,
     last_gross_pay: emp_gross || 0,
   };
@@ -92,6 +103,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
                   value={values.date_of_appointment}
                   label="Date of Appointment"
                   name="date_of_appointment"
+                  type="date"
                 />
 
                 <InputBox
@@ -99,15 +111,17 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
                   value={values.date_of_retirement}
                   label="Date of retirement / death "
                   placeholder="Enter Date of retirement"
-                  name="emp_name"
+                  name="date_of_retirement"
+                  type="date"
                 />
 
                 <InputBox
                   onChange={handleChange}
                   value={values.total_lenght_service}
-                  label="Total Length Service"
+                  label="Total Length Service in year(s)"
                   placeholder="Enter Total Length Service"
                   name="total_lenght_service"
+                  disabled
                 />
 
                 <InputBox
@@ -115,6 +129,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
                   value={values.last_pay_drawn}
                   label="Last Pay Drawn"
                   name="last_pay_drawn"
+                  type="number"
                 />
 
                 <InputBox
@@ -146,7 +161,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
                         className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent"
                         id="yes"
                         name="confirmation_order"
-                        type="checkbox"
+                        type="radio"
                       />
 
                       <label htmlFor="yes">Yes</label>
@@ -161,7 +176,7 @@ const CalculationSheet: React.FC<CalSheetProps> = ({ onNext, emp_id }) => {
                         className="mr-1 appearance-none border border-zinc-400 rounded w-6 h-6 checked:bg-[#4338CA] checked:text-white  checked:border-transparent"
                         id="no"
                         name="confirmation_order"
-                        type="checkbox"
+                        type="radio"
                       />
                       <label htmlFor="no">No</label>
                     </div>
