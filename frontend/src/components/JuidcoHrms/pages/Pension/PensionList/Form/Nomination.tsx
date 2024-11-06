@@ -60,7 +60,7 @@ const Nomination: React.FC<NominationProps> = ({ onNext }) => {
     date_this: currentDate || not_provided,
     day_of: days || not_provided,
     at_place: "Ranchi" || not_provided,
-    nominee_age: "" || not_provided,
+    nominee_age: "" || '0',
   };
 
   const handleSubmitFormik = (value: any) => {
