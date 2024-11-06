@@ -71,7 +71,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
   const dispatch = useDispatch();
   const pathName = usePathname();
 
-  console.log(props.tableData, "table data");
+  // console.log(props.tableData, "table data");
 
   const EMP_LIST_COLS: COLUMNS[] = [
     {
