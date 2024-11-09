@@ -291,7 +291,8 @@ class EmployeeOnBoardDao {
     const department: string = String(req.query.department);
     const designation: string = String(req.query.designation);
     const emp_type: string = String(req.query.emp_type);
-    const { ulb_id } = req.body.auth
+    const { ulb_id } = req.body.auth;
+
 
     const query: Prisma.employeesFindManyArgs = {
       skip: (page - 1) * limit,
