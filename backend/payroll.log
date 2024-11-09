@@ -34799,3 +34799,45 @@
   message: 'Calculated Net Pay',
   timestamp: '5/11/2024, 10:51:45 am'
 }
+{
+  data: {
+    'Employee ID': 'EMP74e7db',
+    Name: 'kaushal kant  mishra',
+    'Gross Pay': 14700,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 70.67307692307692)',
+    'Salary Deducted': 0,
+    'Net Pay': 14593,
+    'Basic Pay': 10000,
+    'Grade Pay': 4200,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 500 } ],
+    Deductions: [ { 'Deduction Amount': 107 } ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '6/11/2024, 1:47:16 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP74e7db',
+    Name: 'kaushal kant  mishra',
+    'Gross Pay': 14700,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 70.67307692307692)',
+    'Salary Deducted': 0,
+    'Net Pay': 14593,
+    'Basic Pay': 10000,
+    'Grade Pay': 4200,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 500 } ],
+    Deductions: [ { 'Deduction Amount': 107 } ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '6/11/2024, 3:20:49 pm'
+}

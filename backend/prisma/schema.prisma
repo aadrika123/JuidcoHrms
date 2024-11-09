@@ -177,17 +177,19 @@ model employee_address_details {
 
 // -------------Employee Service History-----------------//
 model employee_increment_details {
-  id                  Int       @id @default(autoincrement())
-  scale               String?
-  inc_date            String?
-  inc_amount          Float?
-  basic_pay_after_inc Float?
-  vide_order_no       String?
-  vide_order_date     String?
-  employees           employees @relation(fields: [employees_id], references: [emp_id])
-  employees_id        String
-  created_at          DateTime  @default(now()) @map("created_at")
-  updated_at          DateTime  @updatedAt @map("updated_at")
+  id                           Int       @id @default(autoincrement())
+  scale                        String?
+  inc_date                     String?
+  inc_amount                   Float?
+  basic_pay_after_inc          Float?
+  vide_order_no                String?
+  vide_order_date              String?
+  esic_deduct_for_current_year Boolean? // To check ESIC will deduct or not
+  esic_stop_next_year          Boolean?
+  employees                    employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id                 String
+  created_at                   DateTime  @default(now()) @map("created_at")
+  updated_at                   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_promotion_details {
