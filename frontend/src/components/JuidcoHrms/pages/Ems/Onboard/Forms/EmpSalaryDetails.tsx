@@ -511,6 +511,12 @@ const EmpSalaryDetails: React.FC<
       isRequired: true,
       type: "number",
     },
+    {
+      HEADER: "Action",
+      ACCESSOR: "action",
+      isRequired: false,
+      type: "text",
+    },
   ];
 
   const COLUMNS_FOR_SLRY_DEDUCTION_INFRM_INFRM: COLUMNS[] = [
@@ -564,6 +570,12 @@ const EmpSalaryDetails: React.FC<
       ACCESSOR: "amount_in",
       isRequired: true,
       type: "number",
+    },
+    {
+      HEADER: "Action",
+      ACCESSOR: "action",
+      isRequired: false,
+      type: "text",
     },
   ];
 
@@ -849,6 +861,24 @@ const EmpSalaryDetails: React.FC<
                           <span>{item?.amount_in}</span>
                         ) : null}
                       </td>
+                      {index !== 0 && (
+                        <td className="w-[5%]">
+                          <Button
+                            variant="cancel"
+                            onClick={() => {
+                              setEmployeeAllowDetails((prev: any) => {
+                                prev?.splice(index, 1)
+                                return [
+                                  ...prev
+                                ]
+                              });
+                              storeEmployeeAllowDetails();
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -999,6 +1029,24 @@ const EmpSalaryDetails: React.FC<
                           />
                         )}
                       </td>
+                      {index !== 0 && (
+                        <td className="w-[5%]">
+                          <Button
+                            variant="cancel"
+                            onClick={() => {
+                              setEmployeeDeductionDetails((prev: any) => {
+                                prev?.splice(index, 1)
+                                return [
+                                  ...prev
+                                ]
+                              });
+                              storeEmployeeDeductionDetails();
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

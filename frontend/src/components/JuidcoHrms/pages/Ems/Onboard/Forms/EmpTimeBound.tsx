@@ -142,6 +142,15 @@ export const EmpTimeBound: React.FC<
     }
   };
 
+  const removeRow = (index: number) => {
+    setTableData((prev: any) => {
+      prev?.splice(index, 1)
+      return [
+        ...prev
+      ]
+    });
+  }
+
   return (
     <>
       <div className="flex justify-between mb-10">
@@ -366,6 +375,18 @@ export const EmpTimeBound: React.FC<
                       </td>
                     );
                   })}
+                  {rowIndex > 0 && (
+                    <td className="w-[5%]">
+                      <Button
+                        variant="cancel"
+                        onClick={() => {
+                          removeRow(rowIndex);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

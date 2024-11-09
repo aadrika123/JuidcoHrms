@@ -150,6 +150,11 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       ACCESSOR: "upload_edu",
       isRequired: true,
     },
+    {
+      HEADER: "Action",
+      ACCESSOR: "action",
+      isRequired: false,
+    },
   ];
 
   function onChangeTableDataHandler(
@@ -264,6 +269,15 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     } else {
       toast.error("can't add more than six education details");
     }
+  }
+
+  const removeRow = (index: number) => {
+    setTableData((prev: any) => {
+      prev?.splice(index, 1)
+      return [
+        ...prev
+      ]
+    });
   }
 
   useEffect(() => {
@@ -509,6 +523,18 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   </div>
                 </td>
                 {/* ---------------------------UPLOAD FILE----------------------------------- */}
+                {index > 3 && (
+                  <td className="w-[5%]">
+                    <Button
+                      variant="cancel"
+                      onClick={() => {
+                        removeRow(index);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                )}
               </tr>
             );
           })}
