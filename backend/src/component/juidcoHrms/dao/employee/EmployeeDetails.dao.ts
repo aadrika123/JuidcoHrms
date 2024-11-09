@@ -38,9 +38,10 @@ class EmployeeDetailsDao {
               email: true,
               contact_no: true,
               pan_no: true,   // Fetching pan_no from employee_basic_details
-              gps: true
+              gps: true,
             },
           },
+          emp_personal_details:true
         },
       });
 
