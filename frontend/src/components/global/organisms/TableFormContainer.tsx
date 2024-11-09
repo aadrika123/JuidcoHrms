@@ -207,6 +207,15 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
     }
   }
 
+  const removeRow = (index: number) => {
+    setTableData((prev: any) => {
+      prev?.splice(index, 1)
+      return [
+        ...prev
+      ]
+    });
+  }
+
   const options = [
     {
       key: "yes",
@@ -279,7 +288,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               }
                               value={
                                 (tableData[index] as Record<string, string>)[
-                                  col.ACCESSOR
+                                col.ACCESSOR
                                 ] || ""
                               }
                               name={col.ACCESSOR}
@@ -314,7 +323,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             }
                             value={
                               (tableData[index] as Record<string, string>)[
-                                col.ACCESSOR
+                              col.ACCESSOR
                               ] || ""
                             }
                             name={col.ACCESSOR}
@@ -380,7 +389,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             }
                             value={
                               (tableData[index] as Record<string, string>)?.[
-                                col.ACCESSOR
+                              col.ACCESSOR
                               ]
                             }
                             name={col.ACCESSOR}
@@ -419,7 +428,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                             }
                             value={
                               (tableData[index] as Record<string, string>)[
-                                col.ACCESSOR
+                              col.ACCESSOR
                               ] || ""
                             }
                             name={col.ACCESSOR}
@@ -433,6 +442,18 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                     </React.Fragment>
                   );
                 })}
+                {index > 0 && (
+                  <td className="w-[5%]">
+                    <Button
+                      variant="cancel"
+                      onClick={() => {
+                        removeRow(index);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                )}
               </tr>
             );
           })}

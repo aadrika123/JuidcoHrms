@@ -167,6 +167,15 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     }
   };
 
+  const removeRow = (index: number) => {
+    setTableData((prev: any) => {
+      prev?.splice(index, 1)
+      return [
+        ...prev
+      ]
+    });
+  }
+
   useEffect(() => {
     if (props.setData) {
       const filterTableData = removeObj(tableData);
@@ -389,6 +398,18 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                     // />
                   );
                 })}
+                {rowIndex > 0 && (
+                  <td className="w-[5%]">
+                    <Button
+                      variant="cancel"
+                      onClick={() => {
+                        removeRow(rowIndex);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

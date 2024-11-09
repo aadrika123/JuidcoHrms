@@ -147,6 +147,15 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
     }
   }
 
+  const removeRow = (index: number) => {
+    setTableData((prev: any) => {
+      prev?.splice(index, 1)
+      return [
+        ...prev
+      ]
+    });
+  }
+
   const options = [
     {
       key: "Yes",
@@ -327,7 +336,7 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                           "vide_order_no"
                         )
                       }
-                      
+
                       value={row?.vide_order_no}
                       placeholder={"Enter "}
                       isRequired={true}
@@ -406,6 +415,18 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                   </div>
                 </td>
                 {/* ---------------------------TRANSFER----------------------------------- */}
+                {index > 0 && (
+                  <td className="w-[5%]">
+                    <Button
+                      variant="cancel"
+                      onClick={() => {
+                        removeRow(index);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                )}
               </tr>
             );
           })}
