@@ -234,25 +234,25 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // if (error) toast.error("OOps! Failed to get employee nominee details!");
   // if (err) toast.error("OOps! Failed to get employee nominee details!");
 
-  function extractAmountFromDeductions(data: any[], key: string): number {
-    const zxt = data?.filter((object) => object.name === key);
-    if (!zxt) return 0;
-    return zxt[0]?.amount_in;
-  }
+  // function extractAmountFromDeductions(data: any[], key: string): number {
+  //   const zxt = data?.filter((object) => object.name === key);
+  //   if (!zxt) return 0;
+  //   return zxt[0]?.amount_in;
+  // }
   // const TDS_AMOUNT = extractAmountFromDeductions(
   //   deductions?.emp_salary_details.emp_salary_deduction,
   //   "TDS"
   // );
 
-  const EPF_AMOUNT = extractAmountFromDeductions(
-    empData?.emp_salary_details.emp_salary_deduction,
-    "EPF"
-  );
+  // const EPF_AMOUNT = extractAmountFromDeductions(
+  //   empData?.emp_salary_details.emp_salary_deduction,
+  //   "EPF"
+  // );
 
-  const ESIC_AMOUNT = extractAmountFromDeductions(
-    empData?.emp_salary_details.emp_salary_deduction,
-    "ESIC"
-  );
+  // const ESIC_AMOUNT = extractAmountFromDeductions(
+  //   empData?.emp_salary_details.emp_salary_deduction,
+  //   "ESIC"
+  // );
 
   // Extract ESIC employer rate from calcProperties
   const esicEmployerRate = parseFloat(
