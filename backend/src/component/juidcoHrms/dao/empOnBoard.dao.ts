@@ -424,6 +424,7 @@ class EmployeeOnBoardDao {
             emg_contact_no: true,
             aadhar_no: true,
             gender: true,
+            pan_no: true,
           },
         },
         emp_personal_details: {
