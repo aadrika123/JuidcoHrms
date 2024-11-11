@@ -48,7 +48,6 @@ const CalendarIndex: React.FC<CalendarIndexProps> = (props) => {
       }}
       datesSet={(arg) => {
         const currentStart = arg.view.currentStart;
-        console.log(currentStart, "current date");
         if (currentStart instanceof Date) {
           const monthNumber = currentStart.getMonth() + 1;
           setSelectedMonth(monthNumber.toString() as any);

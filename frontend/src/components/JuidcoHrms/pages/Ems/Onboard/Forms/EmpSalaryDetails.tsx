@@ -216,7 +216,8 @@ const EmpSalaryDetails: React.FC<
       console.log("newBasicPay2", newBasicPay2);
       setBasicPay1(newBasicPay2);
 
-      const newBasicPay = Number(storedJoinData.basic_pay) + (totalAllowances || 0);
+      const newBasicPay =
+        Number(storedJoinData.basic_pay) + (totalAllowances || 0);
       // console.log("newBasicPay", newBasicPay);
       setBasicPay(newBasicPay);
     }
@@ -273,11 +274,22 @@ const EmpSalaryDetails: React.FC<
 
       case "ESIC":
         console.log("currentBasicPayESIC", currentBasicPay);
-        if (
-          currentBasicPay >= Number(calcProperties["calc.esic.basicpaylimit"])
-        ) {
-          const calcPercentage = Number(calcProperties["calc.esic"]) / 100;
+
+        // Retrieve the ESIC basic pay limit and percentage from the properties
+        const esicLimit = Number(calcProperties["calc.esic.basicpaylimit"]);
+        const calcPercentage = Number(calcProperties["calc.esic"]) / 100;
+
+        console.log("ESIC limit:", esicLimit);
+
+        // Only deduct ESIC if the current basic pay is within the eligible limit
+        if (currentBasicPay <= esicLimit) {
+          // Calculate ESIC deduction
           calculatedAmount = Math.round(currentBasicPay * calcPercentage);
+          console.log("Calculated ESIC Deduction:", calculatedAmount);
+        } else {
+          // If the gross pay exceeds the limit, set ESIC deduction to 0
+          calculatedAmount = 0;
+          console.log("ESIC Deduction is 0 due to high pay");
         }
         break;
 
@@ -917,8 +929,8 @@ const EmpSalaryDetails: React.FC<
                         <>
                           <th
                             key={index}
-                          // className="w-full"
-                          // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                            // className="w-full"
+                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
                           >
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>
