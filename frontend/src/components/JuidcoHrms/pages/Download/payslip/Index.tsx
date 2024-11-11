@@ -49,24 +49,24 @@ const Download_payslip = () => {
     data: [],
   };
 
-  const { data: deductions, error } = useCodeQuery<PayslipTypes>(fetchTDS);
+  const { error } = useCodeQuery<PayslipTypes>(fetchTDS);
   if (error) toast.error("OOps! Failed to get employee nominee details!");
 
-  function extractAmountFromDeductions(data: any[], key: string): number {
-    const zxt = data?.filter((object) => object.name === key);
-    if (!zxt) return 0;
-    return zxt[0]?.amount_in;
-  }
+  // function extractAmountFromDeductions(data: any[], key: string): number {
+  //   const zxt = data?.filter((object) => object.name === key);
+  //   if (!zxt) return 0;
+  //   return zxt[0]?.amount_in;
+  // }
 
-  const EPF_AMOUNT = extractAmountFromDeductions(
-    deductions?.emp_salary_details.emp_salary_deduction,
-    "EPF"
-  );
+  // const EPF_AMOUNT = extractAmountFromDeductions(
+  //   deductions?.emp_salary_details.emp_salary_deduction,
+  //   "EPF"
+  // );
 
-  const ESIC_AMOUNT = extractAmountFromDeductions(
-    deductions?.emp_salary_details.emp_salary_deduction,
-    "ESIC"
-  );
+  // const ESIC_AMOUNT = extractAmountFromDeductions(
+  //   deductions?.emp_salary_details.emp_salary_deduction,
+  //   "ESIC"
+  // );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
