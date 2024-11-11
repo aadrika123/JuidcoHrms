@@ -94,12 +94,14 @@ const AttendanceManagement = () => {
   const [parentTeam, setParentTeam] = useState<any>([]);
   const [steps, setSteps] = useState<any>([]);
 
+  console.log(attndData,"attndData")
+
   useEffect(() => {
     const emp_id = JSON.parse(
       sessionStorage.getItem("user_details") || ""
     )?.emp_id;
 
-    console.log(emp_id);
+    // console.log(emp_id);
 
     setSelfId(emp_id);
   }, []);
@@ -116,7 +118,7 @@ const AttendanceManagement = () => {
   // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
   function getSelectedDate(date: string) {
     const _date = date.split("T")[0];
-    console.log(_date, "datt");
+    // console.log(_date, "datt");
     setSelectedDate(_date);
   }
 
@@ -222,7 +224,7 @@ const AttendanceManagement = () => {
       id: 3,
       label: "Absent",
       bgColor: "bg-[#FEF2F2]",
-      buttonColor: "bg-[#fc828f]",
+      buttonColor: "bg-[#FF0000]",
     },
     {
       id: 4,
@@ -255,11 +257,7 @@ const AttendanceManagement = () => {
     `${HRMS_URL.HOLIDAY.get}`
   );
 
-  const filterHolidays = selectedMonth
-    ? holidays2024.filter(
-      (holidays: any) => holidays.date.substring(0, 7) === selectedMonth
-    )
-    : [];
+  const filterHolidays = selectedMonth ? holidays2024.filter((holidays: any) => holidays.date.substring(0, 7) === selectedMonth) : [];
 
 
   // const steps = [
