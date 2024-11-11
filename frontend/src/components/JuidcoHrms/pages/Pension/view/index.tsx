@@ -24,6 +24,7 @@ import PenNomineeDetails from "./details/NomineeDetails";
 import DeclarationOfRefund from "./details/DeclarationOfRefund";
 import Statement from "./details/Statement";
 import NominationForUnpaidAmount from "./details/NominationForUnpaidAmount";
+import CalcSheet from "./details/CalcSheet";
 
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
@@ -199,6 +200,7 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                 <DeclarationOfRefund data={refund} />
                 <Statement data={payroll} />
                 <NominationForUnpaidAmount data={refund} />
+                <CalcSheet data={refund} />
             </div>
 
         </div>

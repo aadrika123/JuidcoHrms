@@ -196,7 +196,7 @@ class EmployeeAttendanceController {
     };
 
     try {
-      const data = await this.employeeAttendanceDao.emp_attend_count_daily();
+      const data = await this.employeeAttendanceDao.emp_attend_count_daily(req);
 
       if (!data) {
         return CommonRes.NOT_FOUND(
