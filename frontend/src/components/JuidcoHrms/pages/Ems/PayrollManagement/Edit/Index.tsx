@@ -327,7 +327,9 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   {employeePayrollData?.emp_name}
                 </SubHeading>
                 <InnerHeading>Employee ID- {EmpProfile?.emp_id}</InnerHeading>
-                <InnerHeading>Pan no.- 34535345345 </InnerHeading>
+                <InnerHeading>
+                  Pan no.- {EmpProfile?.emp_basic_details?.pan_no || "No data"}
+                </InnerHeading>
                 <InnerHeading>
                   Role-{" "}
                   {EmpProfile
@@ -357,7 +359,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                 <InnerHeading>
                   IFSC Code.- {EmpProfile?.emp_join_details?.ifsc || "No data"}
                 </InnerHeading>
-                <InnerHeading>UAN No- EFFG33432R</InnerHeading>
+                {/* <InnerHeading>UAN No- EFFG33432R</InnerHeading> */}
               </div>
             </div>
           </div>
@@ -834,8 +836,11 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           Net Salary Transfer Amount
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {(empData?.payroll[0]?.net_pay as number) -
-                            (empData?.payroll[0]?.tds_amount as number)}
+                          {(
+                            (empData?.payroll[0]?.gross_pay as number) -
+                            (empData?.payroll[0]?.tds_amount as number) -
+                            (empData?.total?.total_deductions as number)
+                          ).toFixed(2)}
                         </td>
                       </tr>
                       {/* <tr className="border">
