@@ -74,6 +74,7 @@ const Download_payslip = () => {
       setEmpId(emp_id);
     }
   }, [empId]);
+  const [loading, setLoading] = useState(false);
 
   const fetchEmpData = async () => {
     const formattedDate = new Date(selectedDate);
@@ -87,6 +88,8 @@ const Download_payslip = () => {
     } catch (error) {
       console.error("Error fetching employee data:", error);
       setEmpData(null);
+    }finally {
+      setLoading(false); // Set loading to false after the API call completes
     }
   };
 
@@ -95,6 +98,7 @@ const Download_payslip = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  const currentMonth = new Date().toISOString().slice(0, 7);
 
   return (
     <>
@@ -136,22 +140,30 @@ const Download_payslip = () => {
                   onChange={handleChange}
                   value={selectedDate}
                   name="monthYear"
+                  max={currentMonth}
                 />
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="w-full border border-indigo-600 bg-primary_blue hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
-                onClick={fetchEmpData}
-              >
-                <p className="flex justify-center">
-                  <span className="mt-1">
-                    <RiFilter2Line />
-                  </span>
-                  Search record
-                </p>
-              </button>
+             <button
+      type="submit"
+      className="w-full border border-indigo-600 bg-primary_blue hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
+      onClick={fetchEmpData}
+      disabled={loading} 
+    >
+      <p className="flex justify-center">
+        {loading ? (
+          <span>Loading...</span> 
+        ) : (
+          <>
+            <span className="mt-1">
+              <RiFilter2Line />
+            </span>
+            Search record
+          </>
+        )}
+      </p>
+    </button>
             </div>
           </div>
         </div>
