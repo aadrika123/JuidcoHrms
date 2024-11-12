@@ -16,6 +16,10 @@ class TestController {
     constructor() {
         this.properties = PropertiesReader(propertiesPath);
     }
+    // Public method to access properties
+    getCalcProperties() {
+        return this.properties.getAllProperties();
+    }
 
     calcEpf = async (
         req: Request,
