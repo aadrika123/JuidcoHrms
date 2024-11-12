@@ -90,21 +90,21 @@ const AttendanceManagement = () => {
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selfId, setSelfId] = useState<string>("");
+  // const [selfId, setSelfId] = useState<string>("");
   const [parentTeam, setParentTeam] = useState<any>([]);
   const [steps, setSteps] = useState<any>([]);
 
   console.log(userDetails?.emp_id,"no")
 
-  useEffect(() => {
-    const emp_id = JSON.parse(
-      sessionStorage.getItem("user_details") || ""
-    )?.emp_id;
+  // useEffect(() => {
+  //   const emp_id = JSON.parse(
+  //     sessionStorage.getItem("user_details") || ""
+  //   )?.emp_id;
 
-    // console.log(emp_id);
+  //   // console.log(emp_id);
 
-    setSelfId(emp_id);
-  }, []);
+  //   setSelfId(emp_id);
+  // }, []);
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
