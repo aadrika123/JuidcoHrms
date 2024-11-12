@@ -95,9 +95,12 @@ class PayrollDao {
   // };
 
 cal_allowance_and_deduction = async () => {
-  const esicBasicPayLimit = parseFloat(calcProperties["calc.esic.basicpaylimit"] || 21000);
-  const esicRate = parseFloat(calcProperties["calc.esic"] || 0.75) / 100;
-  const epfRate = parseFloat(calcProperties["calc.epf"] || 12) / 100;
+  const esicBasicPayLimit = parseFloat(calcProperties["calc.esic.basicpaylimit"] || "21000");
+  const esicRate = parseFloat(calcProperties["calc.esic"] || "0.75") / 100;
+  const epfRate = parseFloat(calcProperties["calc.epf"] || "12") / 100;
+  const epfEmployerRate = parseFloat(calcProperties["calc.epf.employer"] || "3.67") / 100;
+  const esicEmployerRate = parseFloat(calcProperties["calc.esic.employer"] || "3.25") / 100;
+  const epsRate = parseFloat(calcProperties["calc.eps"] || "8.33") / 100;
 
   try {
     const [deductionsResult, allowanceResult]: [
@@ -140,23 +143,33 @@ cal_allowance_and_deduction = async () => {
       );
 
       const grossPay = grossRow ? grossRow.gross_pay : 0;
-      const esicAmount = grossPay <= esicBasicPayLimit ? grossPay * esicRate : 0;
-      const epfAmount = grossPay * epfRate;
+      const basicPay = grossRow ? grossRow.basic_pay : 0;
+
+      // Calculate ESIC and EPF employer amounts
+      const esicAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicRate).toFixed(2) : "0.00";
+      const epfAmount = (grossPay * epfRate).toFixed(2);
+      const esicEmployerAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicEmployerRate).toFixed(2) : "0.00";
+      const epfEmployerAmount = (grossPay * epfEmployerRate).toFixed(2);
+      const emsEmployerAmount = (grossPay * epsRate).toFixed(2);
+
       const tdsAmount = deductionRow.tds_amount || 0;  // Directly using the TDS amount from query
       const esicDeduction = grossPay <= esicBasicPayLimit ? deductionRow.total_deductions : 0;
 
-      // Update the payroll_master table
+      // Update the payroll_master table with the calculated amounts
       prisma.payroll_master.updateMany({
         where: {
           emp_id: deductionRow.emp_id,
-          month: new Date().getMonth() + 1, // Adjust as needed for current month
+          month: new Date().getMonth() + 1, 
           year: new Date().getFullYear(),
         },
         data: {
           total_deductions: esicDeduction,
-          esic_amount: esicAmount,
-          epf_amount: epfAmount,
-          tds_amount: tdsAmount,
+          esic_amount: parseFloat(esicAmount),
+          epf_amount: parseFloat(epfAmount),
+          epf_employer_amount: parseFloat(epfEmployerAmount),
+          esic_employer_amount: parseFloat(esicEmployerAmount),
+          ems_employer_amount: parseFloat(emsEmployerAmount),
+          tds_amount: parseFloat(tdsAmount),
           gross_pay: grossPay,
         },
       });
@@ -166,9 +179,12 @@ cal_allowance_and_deduction = async () => {
         total_deductions: esicDeduction,
         total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
         gross_pay: grossPay,
-        esic_amount: esicAmount,
-        epf_amount: epfAmount,
-        tds_amount: tdsAmount,
+        esic_amount: parseFloat(esicAmount),
+        epf_amount: parseFloat(epfAmount),
+        epf_employer_amount: parseFloat(epfEmployerAmount),
+        esic_employer_amount: parseFloat(esicEmployerAmount),
+        ems_employer_amount: parseFloat(emsEmployerAmount),
+        tds_amount: parseFloat(tdsAmount),
       };
     });
 
@@ -178,6 +194,7 @@ cal_allowance_and_deduction = async () => {
     console.error("Error executing queries:", err);
   }
 };
+
   calc_regular_pay = async () => {
     const currentDate = new Date();
     const curr_month: string = (currentDate.getMonth() + 1)
@@ -203,6 +220,8 @@ cal_allowance_and_deduction = async () => {
       last_month = 12;
       last_year - 1;
     }
+
+    
 
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
