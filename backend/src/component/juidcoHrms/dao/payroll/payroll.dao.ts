@@ -168,7 +168,7 @@ cal_allowance_and_deduction = async () => {
           epf_amount: parseFloat(epfAmount),
           epf_employer_amount: parseFloat(epfEmployerAmount),
           esic_employer_amount: parseFloat(esicEmployerAmount),
-          ems_employer_amount: parseFloat(emsEmployerAmount),
+          eps_employer_amount: parseFloat(emsEmployerAmount),
           tds_amount: parseFloat(tdsAmount),
           gross_pay: grossPay,
         },
@@ -183,7 +183,7 @@ cal_allowance_and_deduction = async () => {
         epf_amount: parseFloat(epfAmount),
         epf_employer_amount: parseFloat(epfEmployerAmount),
         esic_employer_amount: parseFloat(esicEmployerAmount),
-        ems_employer_amount: parseFloat(emsEmployerAmount),
+        eps_employer_amount: parseFloat(emsEmployerAmount),
         tds_amount: parseFloat(tdsAmount),
       };
     });
