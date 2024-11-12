@@ -559,7 +559,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
           onClick={addRow}
           buttontype="button"
           variant="primary_rounded"
-          className="absolute"
+          // className="absolute"
         >
           Add
         </Button>
