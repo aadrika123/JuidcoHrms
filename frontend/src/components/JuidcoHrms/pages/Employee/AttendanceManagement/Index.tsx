@@ -94,7 +94,7 @@ const AttendanceManagement = () => {
   const [parentTeam, setParentTeam] = useState<any>([]);
   const [steps, setSteps] = useState<any>([]);
 
-  console.log(attndData,"attndData")
+  console.log(userDetails?.emp_id,"no")
 
   useEffect(() => {
     const emp_id = JSON.parse(
@@ -130,20 +130,26 @@ const AttendanceManagement = () => {
 
   // ----------->> EMPLOYEE ATTENDANCE DETAILS <<--------------------------------//
   const fetchAttendance = async (emp_id: string) => {
+    
+    console.log(emp_id,"emppp11p-------------->>") 
+
     const res = await axios({
       url: `${HRMS_URL.ATTENDANCE.get}?emp_id=${emp_id}`,
       method: "GET",
     });
 
+    console.log(emp_id,"empppp-------------->>")
+
     const res2 = await axios({
-      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}&limit=10`,
+      // url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}&limit=10`,
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}&date=${selectedDate}&limit=10`,
       method: "GET",
     });
 
     const data = res.data?.data?.data;
     const data2 = res2.data?.data?.data;
-    setAttndHistory(data2);
     setAttnd(data);
+    setAttndHistory(data2);
   };
 
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
@@ -199,7 +205,9 @@ const AttendanceManagement = () => {
   };
 
   React.useEffect(() => {
-    fetchAttendance(userDetails?.emp_id);
+
+    userDetails?.emp_id && fetchAttendance(userDetails?.emp_id);
+        
   }, [userDetails?.emp_id, selectedDate]);
 
   React.useEffect(() => {
