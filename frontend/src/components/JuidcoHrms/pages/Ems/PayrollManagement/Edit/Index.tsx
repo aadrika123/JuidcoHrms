@@ -254,17 +254,22 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //   "ESIC"
   // );
 
-  // Extract ESIC employer rate from calcProperties
+  // Extract ESIC employer rate and basic pay limit from calcProperties
   const esicEmployerRate = parseFloat(
     calcProperties["calc.esic.employer"] || 3.25
   );
+  const esicBasicPayLimit = parseFloat(
+    calcProperties["calc.esic.basicpaylimit"] || 21000
+  );
 
-  // Calculate ESIC employer contribution as 3.25% of gross pay if present
-  const ESIC_EMPLOYER_AMOUNT = empData?.payroll?.[0]?.gross_pay
-    ? parseFloat(
-        ((empData.payroll[0].gross_pay * esicEmployerRate) / 100).toFixed(2)
-      )
-    : 0;
+  // Get the gross pay from empData
+  const grossPay = empData?.payroll?.[0]?.gross_pay || 0;
+
+  // Calculate ESIC employer contribution as 3.25% of gross pay only if it is within the basic pay limit
+  const ESIC_EMPLOYER_AMOUNT =
+    grossPay && grossPay <= esicBasicPayLimit
+      ? parseFloat(((grossPay * esicEmployerRate) / 100).toFixed(2))
+      : 0;
 
   // Extract the basic pay from empData
   const basicPay = empData?.payroll?.[0]?.basic_pay || 0;
