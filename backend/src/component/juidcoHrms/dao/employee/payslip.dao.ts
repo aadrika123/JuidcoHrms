@@ -200,12 +200,12 @@ class PayslipDao {
             emp_name: true,
           },
         },
-        emp_increment_details: {
-          select: {
-            esic_deduct_for_current_year: true,
-            esic_stop_next_year: true,
-          },
-        },
+        // emp_increment_details: {
+        //   select: {
+        //     esic_deduct_for_current_year: true,
+        //     esic_stop_next_year: true,
+        //   },
+        // },
       },
       where: {
         emp_id: String(emp_id),

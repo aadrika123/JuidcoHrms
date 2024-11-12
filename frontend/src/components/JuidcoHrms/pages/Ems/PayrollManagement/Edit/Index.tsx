@@ -32,6 +32,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
   const [designation, setDesignation] = useState<any[]>([]);
+  const [calcProperties, setCalcProperties] = useState<any>({});
 
   // =================================================================================== //
   const [fromDate, setFromDate] = useState("");
@@ -110,6 +111,19 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
       const data = JSON.parse(_data as string);
       setTotalDayDiff(data);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${HRMS_URL.PROPERTIES.get}/calc`);
+        setCalcProperties(response.data?.data);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // =================================================================================== //
@@ -220,25 +234,72 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // if (error) toast.error("OOps! Failed to get employee nominee details!");
   // if (err) toast.error("OOps! Failed to get employee nominee details!");
 
-  function extractAmountFromDeductions(data: any[], key: string): number {
-    const zxt = data?.filter((object) => object.name === key);
-    if (!zxt) return 0;
-    return zxt[0]?.amount_in;
-  }
+  // function extractAmountFromDeductions(data: any[], key: string): number {
+  //   const zxt = data?.filter((object) => object.name === key);
+  //   if (!zxt) return 0;
+  //   return zxt[0]?.amount_in;
+  // }
   // const TDS_AMOUNT = extractAmountFromDeductions(
   //   deductions?.emp_salary_details.emp_salary_deduction,
   //   "TDS"
   // );
 
-  const EPF_AMOUNT = extractAmountFromDeductions(
-    empData?.emp_salary_details.emp_salary_deduction,
-    "EPF"
+  // const EPF_AMOUNT = extractAmountFromDeductions(
+  //   empData?.emp_salary_details.emp_salary_deduction,
+  //   "EPF"
+  // );
+
+  // const ESIC_AMOUNT = extractAmountFromDeductions(
+  //   empData?.emp_salary_details.emp_salary_deduction,
+  //   "ESIC"
+  // );
+
+  // Extract ESIC employer rate and basic pay limit from calcProperties
+  const esicEmployerRate = parseFloat(
+    calcProperties["calc.esic.employer"] || 3.25
+  );
+  const esicBasicPayLimit = parseFloat(
+    calcProperties["calc.esic.basicpaylimit"] || 21000
   );
 
-  const ESIC_AMOUNT = extractAmountFromDeductions(
-    empData?.emp_salary_details.emp_salary_deduction,
-    "ESIC"
+  // Get the gross pay from empData
+  const grossPay = empData?.payroll?.[0]?.gross_pay || 0;
+
+  // Calculate ESIC employer contribution as 3.25% of gross pay only if it is within the basic pay limit
+  const ESIC_EMPLOYER_AMOUNT =
+    grossPay && grossPay <= esicBasicPayLimit
+      ? parseFloat(((grossPay * esicEmployerRate) / 100).toFixed(2))
+      : 0;
+
+  // Extract the basic pay from empData
+  const basicPay = empData?.payroll?.[0]?.basic_pay || 0;
+
+  // Extract the DA amount from emp_salary_allow array
+  const daAmount =
+    empData?.emp_salary_details?.emp_salary_allow?.find(
+      (allowance) => allowance.name === "DA"
+    )?.amount_in || 0;
+
+  // Calculate total salary for EPF calculation (basic pay + DA)
+  const totalSalaryForEPF = basicPay + daAmount;
+
+  // Extract EPF employer rate from calcProperties or use the default
+  const epfEmployerRate = parseFloat(
+    calcProperties["calc.epf.employer"] || 3.67
   );
+
+  // Calculate EPF employer contribution as 3.67% of (basic pay + DA)
+  const EPF_EMPLOYER_AMOUNT = totalSalaryForEPF
+    ? parseFloat(((totalSalaryForEPF * epfEmployerRate) / 100).toFixed(2))
+    : 0;
+
+  // Extract EPS rate from calcProperties or use the default value
+  const epsRate = parseFloat(calcProperties["calc.eps"] || 8.33);
+
+  // Calculate EPS contribution as 8.33% of (basic pay + DA)
+  const EPS_AMOUNT = totalSalaryForEPF
+    ? parseFloat(((totalSalaryForEPF * epsRate) / 100).toFixed(2))
+    : 0;
   // ----------------------------GET TDS -------------------------//
 
   return (
@@ -271,7 +332,9 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                   {employeePayrollData?.emp_name}
                 </SubHeading>
                 <InnerHeading>Employee ID- {EmpProfile?.emp_id}</InnerHeading>
-                <InnerHeading>Pan no.- 34535345345 </InnerHeading>
+                <InnerHeading>
+                  Pan no.- {EmpProfile?.emp_basic_details?.pan_no || "No data"}
+                </InnerHeading>
                 <InnerHeading>
                   Role-{" "}
                   {EmpProfile
@@ -301,7 +364,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                 <InnerHeading>
                   IFSC Code.- {EmpProfile?.emp_join_details?.ifsc || "No data"}
                 </InnerHeading>
-                <InnerHeading>UAN No- EFFG33432R</InnerHeading>
+                {/* <InnerHeading>UAN No- EFFG33432R</InnerHeading> */}
               </div>
             </div>
           </div>
@@ -587,37 +650,57 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
 
                     <tr className="border-1px">
                       <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                        Total Allowance (B)
+                        <div className="flex justify-between">
+                          <div className="">Total Allowance (B)</div>
+                          <div className="">
+                            {empData?.total?.total_allowance}
+                          </div>
+                        </div>
                       </td>
                       <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                        {empData?.total?.total_allowance}
+                        {/* {empData?.total?.total_allowance} */}
                       </td>
                     </tr>
 
                     <tr className="border-1px">
                       <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                        Basic Pay
+                        <div className="flex justify-between">
+                          <div className=""> Basic Pay</div>
+                          <div className="">
+                            {empData?.payroll[0]?.basic_pay}
+                          </div>
+                        </div>
                       </td>
                       <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                        {empData?.payroll[0]?.basic_pay}
+                        {/* {empData?.payroll[0]?.basic_pay} */}
                       </td>
                     </tr>
 
                     <tr className="border-1px">
                       <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                        Grade Pay
+                        <div className="flex justify-between">
+                          <div className=""> Grade Pay</div>
+                          <div className="">
+                            {empData?.emp_join_details?.grade_pay}
+                          </div>
+                        </div>
                       </td>
                       <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                        {empData?.emp_join_details?.grade_pay}
+                        {/* {empData?.emp_join_details?.grade_pay} */}
                       </td>
                     </tr>
 
                     <tr className="border-1px">
                       <td className=" border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
-                        Gross Salary
+                        <div className="flex justify-between">
+                          <div className=""> Gross Salary</div>
+                          <div className="">
+                            {empData?.payroll[0]?.gross_pay}
+                          </div>
+                        </div>
                       </td>
                       <td className="border-2 border-t-0 border-b-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
-                        {empData?.payroll[0]?.gross_pay}
+                        {/* {empData?.payroll[0]?.gross_pay} */}
                       </td>
                     </tr>
                   </div>
@@ -634,10 +717,10 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       </tr>
                       <tr className="border">
                         <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 font-bold text-xs pl-2 p-1">
-                          PF Employer
+                          PF
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {EPF_AMOUNT}
+                          {EPF_EMPLOYER_AMOUNT}
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
                           Deductions
@@ -648,10 +731,20 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       </tr>
                       <tr className="border">
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
-                          ESI Employer
+                          ESI
                         </td>
                         <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {ESIC_AMOUNT}
+                          {ESIC_EMPLOYER_AMOUNT}
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
+                      </tr>
+                      <tr className="border">
+                        <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1 font-bold">
+                          EPS
+                        </td>
+                        <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
+                          {EPS_AMOUNT}
                         </td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
@@ -734,17 +827,23 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         </td>
                         <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
                           Rs.{" "}
-                          {(empData?.payroll[0]?.gross_pay as number) +
-                            EPF_AMOUNT +
-                            ESIC_AMOUNT}{" "}
+                          {(
+                            (empData?.payroll[0]?.gross_pay as number) +
+                            EPF_EMPLOYER_AMOUNT +
+                            EPS_AMOUNT +
+                            ESIC_EMPLOYER_AMOUNT
+                          ).toFixed(2)}{" "}
                           ONLY
                         </td>
                         <td className="border-2 border-t-0 border-r-0 border-neutral-600 text-xs pl-2 p-1">
                           Net Salary Transfer Amount
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {(empData?.payroll[0]?.net_pay as number) -
-                            (empData?.payroll[0]?.tds_amount as number)}
+                          {(
+                            (empData?.payroll[0]?.gross_pay as number) -
+                            (empData?.payroll[0]?.tds_amount as number) -
+                            (empData?.total?.total_deductions as number)
+                          ).toFixed(2)}
                         </td>
                       </tr>
                       {/* <tr className="border">

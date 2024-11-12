@@ -276,20 +276,22 @@ const EmpSalaryDetails: React.FC<
         console.log("currentBasicPayESIC", currentBasicPay);
 
         // Retrieve the ESIC basic pay limit and percentage from the properties
-        const esicLimit = Number(calcProperties["calc.esic.basicpaylimit"]);
-        const calcPercentage = Number(calcProperties["calc.esic"]) / 100;
+        {
+          const esicLimit = Number(calcProperties["calc.esic.basicpaylimit"]);
+          const calcPercentage = Number(calcProperties["calc.esic"]) / 100;
 
-        console.log("ESIC limit:", esicLimit);
+          console.log("ESIC limit:", esicLimit);
 
-        // Only deduct ESIC if the current basic pay is within the eligible limit
-        if (currentBasicPay <= esicLimit) {
-          // Calculate ESIC deduction
-          calculatedAmount = Math.round(currentBasicPay * calcPercentage);
-          console.log("Calculated ESIC Deduction:", calculatedAmount);
-        } else {
-          // If the gross pay exceeds the limit, set ESIC deduction to 0
-          calculatedAmount = 0;
-          console.log("ESIC Deduction is 0 due to high pay");
+          // Only deduct ESIC if the current basic pay is within the eligible limit
+          if (currentBasicPay <= esicLimit) {
+            // Calculate ESIC deduction
+            calculatedAmount = Math.round(currentBasicPay * calcPercentage);
+            console.log("Calculated ESIC Deduction:", calculatedAmount);
+          } else {
+            // If the gross pay exceeds the limit, set ESIC deduction to 0
+            calculatedAmount = 0;
+            console.log("ESIC Deduction is 0 due to high pay");
+          }
         }
         break;
 
