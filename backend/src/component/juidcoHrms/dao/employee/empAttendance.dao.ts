@@ -247,10 +247,12 @@ class EmployeeAttendanceDao {
     return generateRes(data11);
   };
 
-  emp_attend_count_daily = async () => {
+  emp_attend_count_daily = async (req: Request) => {
     // --------------------------- COUNT EVERY DAY EMPLOYEE ATTENDANCE --------------------------------//
     const currentDateTime = new Date().toISOString();
     const currentDate = currentDateTime.split("T")[0];
+
+    const { ulb_id } = req.body.auth
 
     const data = await prisma.$queryRaw`
       SELECT 
@@ -258,8 +260,11 @@ class EmployeeAttendanceDao {
         COUNT(DISTINCT CASE WHEN emp_in IS NULL THEN emp.emp_id ELSE NULL END)::Int AS absent_emp
       FROM employees as emp
 		  LEFT JOIN 
-        employee_attendance_history as emp_attend ON emp.emp_id = emp_attend.employee_id AND emp_attend.date = Date(${currentDate});
+        employee_attendance_history as emp_attend ON emp.emp_id = emp_attend.employee_id AND emp_attend.date = Date(${currentDate})
+        where emp.ulb_id = ${ulb_id}
     `;
+
+
 
     return generateRes(data);
   };

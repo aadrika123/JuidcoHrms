@@ -1,9 +1,9 @@
 "use client"
 
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import PrimaryButton from "../Button";
-import BackArrowIcon from "@/assets/svg/icons/back-arrow.svg"
+// import BackArrowIcon from "@/assets/svg/icons/back-arrow.svg"
 import goBack from "@/utils/helper";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
