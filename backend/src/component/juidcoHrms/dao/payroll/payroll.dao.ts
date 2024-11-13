@@ -183,7 +183,7 @@ cal_allowance_and_deduction = async () => {
         epf_amount: parseFloat(epfAmount),
         epf_employer_amount: parseFloat(epfEmployerAmount),
         esic_employer_amount: parseFloat(esicEmployerAmount),
-        ems_employer_amount: parseFloat(emsEmployerAmount),
+        ems_employer_amount: parseFloat(epsEmployerAmount),
         tds_amount: parseFloat(tdsAmount),
       };
     });
@@ -722,22 +722,26 @@ cal_allowance_and_deduction = async () => {
     const limit: number = Number(req.query.limit);
     const search = req.query.search as string;
     const lastMonth: string = String(req.query.lastMonth);
+    
+    // Get ulb_id from req.body.auth
+    const ulbId = req.body.auth?.ulb_id; // Make sure to handle undefined gracefully
+  
     // 2024-05-04 00:00:00
     const date = new Date();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-
+  
     console.log(month);
-
+  
     const pastDate = new Date(date);
     pastDate.setMonth(pastDate.getMonth() - 12);
     const pastMonth = pastDate.getMonth() + 1;
     const pastYear = pastDate.getFullYear();
-
+  
     const d = new Date(
       `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
     ).toISOString();
-
+  
     const is_month_passed = await prisma.$queryRaw<any[]>`
       SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
     `;
@@ -752,7 +756,7 @@ cal_allowance_and_deduction = async () => {
     } else {
       _month = month;
     }
-
+  
     const query: Prisma.payroll_masterFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
@@ -778,13 +782,13 @@ cal_allowance_and_deduction = async () => {
       orderBy: {
         emp_id: "asc",
       },
-
       where: {
         month: _month,
         year: _year,
       },
     };
-
+  
+    // Filter by search term if present
     if (search && typeof search === "string" && search.trim().length > 0) {
       query.where = {
         OR: [
@@ -795,7 +799,8 @@ cal_allowance_and_deduction = async () => {
         year: _year,
       };
     }
-
+  
+    // Filter by last month if provided
     if (lastMonth && lastMonth !== "" && lastMonth !== "undefined") {
       query.where = {
         OR: [
@@ -808,9 +813,17 @@ cal_allowance_and_deduction = async () => {
         ],
       };
     }
-
+  
     console.log(supervisor_id, "sup_id");
-
+  
+    // Add filter for ulb_id if it exists
+    if (ulbId) {
+      query.where = {
+        ...query.where,
+        uld_id: ulbId, // Filter by uld_id = ulbId
+      };
+    }
+  
     if (
       supervisor_id &&
       typeof supervisor_id === "string" &&
@@ -841,9 +854,9 @@ cal_allowance_and_deduction = async () => {
         }
       };
       await fetchTeam(supervisor_id);
-
+  
       console.log(hierarchyData, "hrdata");
-
+  
       query.where = {
         OR: [
           {
@@ -853,17 +866,18 @@ cal_allowance_and_deduction = async () => {
       };
       // ###################### HEIRARCHY ############################### //
     }
-
+  
     const [data, count] = await prisma.$transaction([
       prisma.payroll_master.findMany(query),
       prisma.payroll_master.count(),
     ]);
-
+  
     console.log(data, "datata");
-
+  
     // const data = await prisma.payroll_master.findMany(query);
     return generateRes(data, count, page, limit);
   };
+  
 
   // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
 
