@@ -155,3 +155,11 @@ span.react-calendar__navigation__label__labelText.react-calendar__navigation__la
     font-size: 0.7rem;
   }
 }
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

@@ -190,7 +190,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
         Employee Training Information
       </SubHeading>
 
-      <div className="overflow-auto hide-scrollbar">
+      <div className="overflow-auto ">
         <table className="overflow-x-hidden">
           <thead className="text-[1rem] bg-primary_green text-[#211F35]  ">
             <tr>
@@ -213,7 +213,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
           </thead>
           <tbody>
             {tableData?.map((rowData: any, rowIndex) => (
-              <tr key={rowIndex} className=" py-2 px-4 border-b w-full ">
+              <tr key={rowIndex} className=" py-2 px-4 border-b w-full overflow-x-auto ">
                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
                   const stateKey: any =
                     Object.keys(getInitialFormData())[colIndex];

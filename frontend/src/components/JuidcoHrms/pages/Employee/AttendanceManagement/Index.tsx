@@ -90,19 +90,21 @@ const AttendanceManagement = () => {
   const [employeeDetails, setEmployeeDetails] = useState<any>();
   const [department, setDepartment] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selfId, setSelfId] = useState<string>("");
+  // const [selfId, setSelfId] = useState<string>("");
   const [parentTeam, setParentTeam] = useState<any>([]);
   const [steps, setSteps] = useState<any>([]);
 
-  useEffect(() => {
-    const emp_id = JSON.parse(
-      sessionStorage.getItem("user_details") || ""
-    )?.emp_id;
+  console.log(userDetails?.emp_id,"no")
 
-    console.log(emp_id);
+  // useEffect(() => {
+  //   const emp_id = JSON.parse(
+  //     sessionStorage.getItem("user_details") || ""
+  //   )?.emp_id;
 
-    setSelfId(emp_id);
-  }, []);
+  //   // console.log(emp_id);
+
+  //   setSelfId(emp_id);
+  // }, []);
 
   // ----------->> GET CURRENT USER DETAILS <<--------------------------------//
   useEffect(() => {
@@ -116,7 +118,7 @@ const AttendanceManagement = () => {
   // ----------->> FUNCTION GET SELECTED DATE FROM CALENDAR <<--------------------------------//
   function getSelectedDate(date: string) {
     const _date = date.split("T")[0];
-    console.log(_date, "datt");
+    // console.log(_date, "datt");
     setSelectedDate(_date);
   }
 
@@ -128,20 +130,26 @@ const AttendanceManagement = () => {
 
   // ----------->> EMPLOYEE ATTENDANCE DETAILS <<--------------------------------//
   const fetchAttendance = async (emp_id: string) => {
+    
+    console.log(emp_id,"emppp11p-------------->>") 
+
     const res = await axios({
       url: `${HRMS_URL.ATTENDANCE.get}?emp_id=${emp_id}`,
       method: "GET",
     });
 
+    console.log(emp_id,"empppp-------------->>")
+
     const res2 = await axios({
-      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}&limit=10`,
+      // url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id ? emp_id : selfId}&date=${selectedDate}&limit=10`,
+      url: `${HRMS_URL.ATTENDANCE.getAll}?emp_id=${emp_id}&date=${selectedDate}&limit=10`,
       method: "GET",
     });
 
     const data = res.data?.data?.data;
     const data2 = res2.data?.data?.data;
-    setAttndHistory(data2);
     setAttnd(data);
+    setAttndHistory(data2);
   };
 
   // ----------->> FILTER ATTENDANCE FOR CALENDAR <<--------------------------------//
@@ -197,7 +205,9 @@ const AttendanceManagement = () => {
   };
 
   React.useEffect(() => {
-    fetchAttendance(userDetails?.emp_id);
+
+    userDetails?.emp_id && fetchAttendance(userDetails?.emp_id);
+        
   }, [userDetails?.emp_id, selectedDate]);
 
   React.useEffect(() => {
@@ -222,7 +232,7 @@ const AttendanceManagement = () => {
       id: 3,
       label: "Absent",
       bgColor: "bg-[#FEF2F2]",
-      buttonColor: "bg-[#fc828f]",
+      buttonColor: "bg-[#FF0000]",
     },
     {
       id: 4,
@@ -255,11 +265,7 @@ const AttendanceManagement = () => {
     `${HRMS_URL.HOLIDAY.get}`
   );
 
-  const filterHolidays = selectedMonth
-    ? holidays2024.filter(
-      (holidays: any) => holidays.date.substring(0, 7) === selectedMonth
-    )
-    : [];
+  const filterHolidays = selectedMonth ? holidays2024.filter((holidays: any) => holidays.date.substring(0, 7) === selectedMonth) : [];
 
 
   // const steps = [

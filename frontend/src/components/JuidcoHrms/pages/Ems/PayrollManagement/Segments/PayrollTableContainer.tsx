@@ -37,7 +37,7 @@ const Thead: React.FC<{
           <th className="px-4 w-16">
             <div
               key={props.index}
-              className={`p-5 text-[1.5rem] font-light text-blue-600`}
+              className={`p-5 text-[1.5rem] font-light text-primary_blue`}
             >
               <div className="flex gap-2">
                 <span>#</span>

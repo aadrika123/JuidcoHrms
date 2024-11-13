@@ -150,7 +150,7 @@ cal_allowance_and_deduction = async () => {
       const epfAmount = (grossPay * epfRate).toFixed(2);
       const esicEmployerAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicEmployerRate).toFixed(2) : "0.00";
       const epfEmployerAmount = (grossPay * epfEmployerRate).toFixed(2);
-      const emsEmployerAmount = (grossPay * epsRate).toFixed(2);
+      const epsEmployerAmount = (grossPay * epsRate).toFixed(2);
 
       const tdsAmount = deductionRow.tds_amount || 0;  // Directly using the TDS amount from query
       const esicDeduction = grossPay <= esicBasicPayLimit ? deductionRow.total_deductions : 0;
@@ -168,7 +168,7 @@ cal_allowance_and_deduction = async () => {
           epf_amount: parseFloat(epfAmount),
           epf_employer_amount: parseFloat(epfEmployerAmount),
           esic_employer_amount: parseFloat(esicEmployerAmount),
-          eps_employer_amount: parseFloat(emsEmployerAmount),
+          eps_employer_amount: parseFloat(epsEmployerAmount),
           tds_amount: parseFloat(tdsAmount),
           gross_pay: grossPay,
         },
@@ -183,7 +183,7 @@ cal_allowance_and_deduction = async () => {
         epf_amount: parseFloat(epfAmount),
         epf_employer_amount: parseFloat(epfEmployerAmount),
         esic_employer_amount: parseFloat(esicEmployerAmount),
-        eps_employer_amount: parseFloat(emsEmployerAmount),
+        ems_employer_amount: parseFloat(emsEmployerAmount),
         tds_amount: parseFloat(tdsAmount),
       };
     });

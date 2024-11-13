@@ -21,8 +21,8 @@ const HorizontalStepperPension: React.FC<HorizontalStepperProps> = ({
           <div
             className={`rounded-full h-6 w-10 flex items-center justify-center border ${
               index === activeStep
-                ? "bg-blue-600 border-blue-600 animate-pulse"
-                : "border-gray-400"
+                ? "bg-primary_blue border-primary_blue animate-pulse"
+                : "border-primary_blue"
             }`}
           ></div>
         </React.Fragment>

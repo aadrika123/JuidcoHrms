@@ -931,8 +931,8 @@ const EmpSalaryDetails: React.FC<
                         <>
                           <th
                             key={index}
-                            // className="w-full"
-                            // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
+                          // className="w-full"
+                          // className={`font-medium ${index === 0 ? "w-[2%]" : "w-[2%]"}`}
                           >
                             <div className="flex gap-2 py-2 px-2 rounded-md">
                               <span>{cols.HEADER}</span>

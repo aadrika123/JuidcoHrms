@@ -325,7 +325,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     <>
       <Toaster />
       <table className=" mt-4 p-5">
-        <thead className="text-[1rem] bg-[#E1E7FF] text-[#211F35] rounded-md">
+        <thead className="text-[1rem] bg-primary_green text-[#211F35] rounded-md">
           <tr>
             {COLUMNS_FOR_EDUCATION?.map((cols, index: number) => (
               <>
@@ -559,7 +559,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
           onClick={addRow}
           buttontype="button"
           variant="primary_rounded"
-          className="absolute"
+          // className="absolute"
         >
           Add
         </Button>

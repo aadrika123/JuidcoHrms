@@ -150,8 +150,8 @@ class PensionDao {
 
     const {
       emp_id,
-      pen_calc_sheet,
-      pen_declaration,
+      // pen_calc_sheet,
+      // pen_declaration,
       pen_docs,
       pen_nomination,
       pen_pension_payment
