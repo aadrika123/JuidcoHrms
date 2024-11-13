@@ -722,7 +722,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           PF
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {EPF_EMPLOYER_AMOUNT}
+                          {empData?.payroll[0]?.epf_employer_amount}
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
                           Deductions
@@ -736,7 +736,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           ESI
                         </td>
                         <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {ESIC_EMPLOYER_AMOUNT}
+                          {empData?.payroll[0]?.esic_employer_amount}
                         </td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
@@ -746,7 +746,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           EPS
                         </td>
                         <td className=" border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {EPS_AMOUNT}
+                          {empData?.payroll[0]?.eps_employer_amount}
                         </td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
                         <td className=" border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 text-xs pl-2 p-1"></td>
@@ -831,9 +831,12 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           Rs.{" "}
                           {(
                             (empData?.payroll[0]?.gross_pay as number) +
-                            EPF_EMPLOYER_AMOUNT +
-                            EPS_AMOUNT +
-                            ESIC_EMPLOYER_AMOUNT
+                            (empData?.payroll[0]
+                              ?.epf_employer_amount as number) +
+                            (empData?.payroll[0]
+                              ?.eps_employer_amount as number) +
+                            (empData?.payroll[0]
+                              ?.esic_employer_amount as number)
                           ).toFixed(2)}{" "}
                           ONLY
                         </td>
