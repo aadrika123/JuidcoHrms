@@ -774,6 +774,7 @@ model pension_master {
   nom_relation             String?
   nom_address              String?
   payment_order_no         String?
+  guardian_name            String?
   employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")

@@ -151,7 +151,7 @@ class PensionDao {
     const {
       emp_id,
       // pen_calc_sheet,
-      // pen_declaration,
+      pen_declaration,
       pen_docs,
       pen_nomination,
       pen_pension_payment
@@ -175,6 +175,7 @@ class PensionDao {
         photo_doc_1: pen_docs?.photo1,
         photo_doc_2: pen_docs?.photo2,
         photo_doc_3: pen_docs?.photo3,
+        guardian_name: pen_declaration?.guardian_name
       }
     })
 

@@ -1,16 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import dateConvertor from '@/utils/formatter/dateFormatter';
 
 export default function CalcSheet(props: any) {
 
+    const [serviceLength, setServiceLength] = useState<number>(0);
+    const [empGrossHalf, setEmpGrossHalf] = useState<number>(0);
     const { ref } = props
     const data = props?.data
+    const empPension = props?.empPension
+    const payroll = props?.payroll
 
-    const trimIfNeeded = (string: string): string => {
-        return string.length > 25 ? string.slice(0, 25) + "..." : string;
+    useEffect(() => {
+        if (data) {
+            const length = new Date(data?.last_working_day).getFullYear() - new Date(data?.emp_join_details.doj).getFullYear()
+            setServiceLength(Math.abs(length))
+        }
+    }, [data]);
 
-    }
+    const last_pay_drawn: number =
+        Number(data?.emp_join_details?.basic_pay) +
+        Number(data?.emp_join_details?.grade_pay);
+
+    useEffect(() => {
+        if (Array.isArray(payroll)) {
+            setEmpGrossHalf((payroll[0]?.gross_pay * 50) / 100)
+        }
+    }, [payroll]);
+
 
     return (
         <div ref={ref} className="rounded border-2 p-4 border-neutral">
@@ -22,13 +39,11 @@ export default function CalcSheet(props: any) {
                         <p><b>Date of Appointmentt : </b></p>
                         <p><b>Total Length Service in year(s) : </b></p>
                         <p><b>Pension admissible : </b></p>
-                        <p><b>At Place : </b></p>
                     </div>
                     <div className="flex flex-col justify-between items-end">
-                        <p>{data?.emp_basic_details?.emp_name || 'N/A'}</p>
-                        <p>{trimIfNeeded(data?.emp_join_details?.designation?.name || 'N/A')}</p>
-                        <p>{data?.emp_address_details?.address_primary || 'N/A'}</p>
-                        <p>{dateConvertor(data?.emp_basic_details?.dob) || 'N/A'}</p>
+                        <p>{dateConvertor(data?.emp_join_details?.doj) || 'N/A'}</p>
+                        <p>{serviceLength || 'N/A'}</p>
+                        <p>{empPension?.family_pension_amnt || 0}</p>
                     </div>
                 </div>
                 <div className="divider divider-horizontal"></div>
@@ -37,13 +52,11 @@ export default function CalcSheet(props: any) {
                         <p><b>Date of retirement / death : </b></p>
                         <p><b>Last Pay Drawn : </b></p>
                         <p><b>50 % of last Gross pay : </b></p>
-                        <p>&nbsp;</p>
                     </div>
                     <div className="flex flex-col justify-between items-end">
-                        <p>{trimIfNeeded(data?.emp_join_details?.department?.name || 'N/A')}</p>
-                        <p>{'N/A'}</p>
-                        <p>{trimIfNeeded(data?.emp_join_details?.department?.name || 'N/A')}</p>
-                        <p>&nbsp;</p>
+                        <p>{dateConvertor(data?.last_working_day) || 'N/A'}</p>
+                        <p>{last_pay_drawn || 'N/A'}</p>
+                        <p>{empGrossHalf || 'N/A'}</p>
                     </div>
                 </div>
             </div>
