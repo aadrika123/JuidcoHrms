@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Author: Jaideep
  * Status: Open
@@ -32,7 +33,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   const [isClient, setIsClient] = useState(false);
   const [department, setDepartment] = useState<any[]>([]);
   const [designation, setDesignation] = useState<any[]>([]);
-  const [calcProperties, setCalcProperties] = useState<any>({});
+  // const [calcProperties, setCalcProperties] = useState<any>({});
 
   // =================================================================================== //
   const [fromDate, setFromDate] = useState("");
@@ -113,18 +114,18 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${HRMS_URL.PROPERTIES.get}/calc`);
-        setCalcProperties(response.data?.data);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`${HRMS_URL.PROPERTIES.get}/calc`);
+  //       setCalcProperties(response.data?.data);
+  //     } catch (error) {
+  //       console.error("Error fetching properties:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   // =================================================================================== //
 
@@ -254,52 +255,52 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //   "ESIC"
   // );
 
-  // Extract ESIC employer rate and basic pay limit from calcProperties
-  const esicEmployerRate = parseFloat(
-    calcProperties["calc.esic.employer"] || 3.25
-  );
-  const esicBasicPayLimit = parseFloat(
-    calcProperties["calc.esic.basicpaylimit"] || 21000
-  );
+  // // Extract ESIC employer rate and basic pay limit from calcProperties
+  // const esicEmployerRate = parseFloat(
+  //   calcProperties["calc.esic.employer"] || 3.25
+  // );
+  // const esicBasicPayLimit = parseFloat(
+  //   calcProperties["calc.esic.basicpaylimit"] || 21000
+  // );
 
-  // Get the gross pay from empData
-  const grossPay = empData?.payroll?.[0]?.gross_pay || 0;
+  // // Get the gross pay from empData
+  // const grossPay = empData?.payroll?.[0]?.gross_pay || 0;
 
-  // Calculate ESIC employer contribution as 3.25% of gross pay only if it is within the basic pay limit
-  const ESIC_EMPLOYER_AMOUNT =
-    grossPay && grossPay <= esicBasicPayLimit
-      ? parseFloat(((grossPay * esicEmployerRate) / 100).toFixed(2))
-      : 0;
+  // // Calculate ESIC employer contribution as 3.25% of gross pay only if it is within the basic pay limit
+  // const ESIC_EMPLOYER_AMOUNT =
+  //   grossPay && grossPay <= esicBasicPayLimit
+  //     ? parseFloat(((grossPay * esicEmployerRate) / 100).toFixed(2))
+  //     : 0;
 
-  // Extract the basic pay from empData
-  const basicPay = empData?.payroll?.[0]?.basic_pay || 0;
+  // // Extract the basic pay from empData
+  // const basicPay = empData?.payroll?.[0]?.basic_pay || 0;
 
-  // Extract the DA amount from emp_salary_allow array
-  const daAmount =
-    empData?.emp_salary_details?.emp_salary_allow?.find(
-      (allowance) => allowance.name === "DA"
-    )?.amount_in || 0;
+  // // Extract the DA amount from emp_salary_allow array
+  // const daAmount =
+  //   empData?.emp_salary_details?.emp_salary_allow?.find(
+  //     (allowance) => allowance.name === "DA"
+  //   )?.amount_in || 0;
 
-  // Calculate total salary for EPF calculation (basic pay + DA)
-  const totalSalaryForEPF = basicPay + daAmount;
+  // // Calculate total salary for EPF calculation (basic pay + DA)
+  // const totalSalaryForEPF = basicPay + daAmount;
 
-  // Extract EPF employer rate from calcProperties or use the default
-  const epfEmployerRate = parseFloat(
-    calcProperties["calc.epf.employer"] || 3.67
-  );
+  // // Extract EPF employer rate from calcProperties or use the default
+  // const epfEmployerRate = parseFloat(
+  //   calcProperties["calc.epf.employer"] || 3.67
+  // );
 
-  // Calculate EPF employer contribution as 3.67% of (basic pay + DA)
-  const EPF_EMPLOYER_AMOUNT = totalSalaryForEPF
-    ? parseFloat(((totalSalaryForEPF * epfEmployerRate) / 100).toFixed(2))
-    : 0;
+  // // Calculate EPF employer contribution as 3.67% of (basic pay + DA)
+  // const EPF_EMPLOYER_AMOUNT = totalSalaryForEPF
+  //   ? parseFloat(((totalSalaryForEPF * epfEmployerRate) / 100).toFixed(2))
+  //   : 0;
 
-  // Extract EPS rate from calcProperties or use the default value
-  const epsRate = parseFloat(calcProperties["calc.eps"] || 8.33);
+  // // Extract EPS rate from calcProperties or use the default value
+  // const epsRate = parseFloat(calcProperties["calc.eps"] || 8.33);
 
-  // Calculate EPS contribution as 8.33% of (basic pay + DA)
-  const EPS_AMOUNT = totalSalaryForEPF
-    ? parseFloat(((totalSalaryForEPF * epsRate) / 100).toFixed(2))
-    : 0;
+  // // Calculate EPS contribution as 8.33% of (basic pay + DA)
+  // const EPS_AMOUNT = totalSalaryForEPF
+  //   ? parseFloat(((totalSalaryForEPF * epsRate) / 100).toFixed(2))
+  //   : 0;
   // ----------------------------GET TDS -------------------------//
 
   return (
