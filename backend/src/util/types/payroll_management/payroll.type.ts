@@ -7,6 +7,7 @@ export type EmployeePayrollType = {
   total_allowance: number;
   total_deductions: number;
   non_billable: number;
+  billable_days:number;
   present_days: number;
   lwp_days: number;
   salary_deducted: number;

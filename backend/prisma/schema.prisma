@@ -735,6 +735,9 @@ model payroll_master {
   basic_pay                Float?    @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
+  billable_days            Int       @default(0)
+  sundays                  Int       @default(0)
+  holidays                 Int       @default(0)
   month                    Int
   year                     Int
   employees                employees @relation(fields: [emp_id], references: [emp_id])

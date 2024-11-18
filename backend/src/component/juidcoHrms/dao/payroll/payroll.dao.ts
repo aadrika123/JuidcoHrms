@@ -8,12 +8,12 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 import netCalcLogger from "../../../../../loggers/netCalcLogger";
 import { EmployeePayrollType } from "../../../../util/types/payroll_management/payroll.type";
-import TestController from '../../controller/properties/properties.controller'; // Ensure the path is correct
-
+import TestController from "../../controller/properties/properties.controller"; // Ensure the path is correct
+import HolidaysDao from "../../dao/employee/holidays.dao";
 
 // Instantiate the TestController
 const testController = new TestController();
-const calcProperties = testController.getCalcProperties(); 
+const calcProperties = testController.getCalcProperties();
 
 const prisma = new PrismaClient();
 
@@ -27,6 +27,11 @@ class PayrollDao {
   private total_amount_released: number;
   private lwp_days_last_month: any[];
   private basic_pay: any[];
+  private attendanceDays: number;
+  private leaveDays: number;
+  private holidays: number;
+  private sundays: number;
+  private billableDays: number; 
 
   constructor() {
     this.regulary_pay = [];
@@ -37,8 +42,89 @@ class PayrollDao {
     this.total_amount_released = 0;
     this.lwp_days_last_month = [];
     this.basic_pay = [];
-    // this.offset = (1 - 1) * 2;
+    this.attendanceDays = 0;
+    this.leaveDays = 0;
+    this.holidays = 0;
+    this.sundays = 0;
+    this.billableDays = 0;
   }
+
+  // Method to calculate days (attendance, leave, holidays, Sundays)
+  calculateDaysForPayroll = async (
+    employeeId: string,
+    startDate: Date,
+    endDate: Date
+  ) => {
+    const holidaysDao = new HolidaysDao();
+    try {
+      // Query to get attendance details
+      const attendanceRecords = await prisma.employee_daily_attendance.findMany(
+        {
+          where: {
+            employee_id: employeeId,
+            date: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
+        }
+      );
+
+      // Count attendance and leave days
+      const presentDays = attendanceRecords.filter(
+        (record) => record.status === 1
+      ).length;
+      const leaveDays = await prisma.employee_leave_details.aggregate({
+        _sum: {
+          total_days: true,
+        },
+        where: {
+          employee_id: employeeId,
+          leave_status: 1, // Approved leaves only
+          leave_from: {
+            gte: startDate.toISOString().split("T")[0],
+          },
+          leave_to: {
+            lte: endDate.toISOString().split("T")[0],
+          },
+        },
+      });
+
+      // Calculate holidays and Sundays (assumes you have logic to determine these)
+      // Fetch holidays from the database using HolidaysDao
+      const holidaysData = await holidaysDao.get();
+      const holidays = holidaysData.data.filter((holiday: any) => {
+        const holidayDate = new Date(holiday.date); // Assuming holiday has a 'date' field
+        return holidayDate >= startDate && holidayDate <= endDate;
+      }).length;
+      const sundays = this.calculateSundaysBetweenDates(startDate, endDate);
+
+      return {
+        presentDays,
+        leaveDays: leaveDays._sum.total_days || 0,
+        holidays,
+        sundays,
+      };
+    } catch (err) {
+      console.error("Error calculating days for payroll:", err);
+      throw err;
+    }
+  };
+
+  // Utility function to calculate the number of Sundays between two dates
+  calculateSundaysBetweenDates = (startDate: Date, endDate: Date) => {
+    let count = 0;
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      if (currentDate.getDay() === 0) {
+        count++;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return count;
+  };
 
   // cal_allowance_and_deduction = async () => {
   //   // ---------------------------------CALCULATING ALLOWANCES AND DEDUCTIONS-------------------------------//
@@ -48,28 +134,28 @@ class PayrollDao {
   //       allowanceResult: any
   //     ] = await Promise.all([
   //       prisma.$queryRaw`
-  //       SELECT 
+  //       SELECT
   //           emp.emp_id,
   //           SUM(emp_deduct.amount_in) as total_deductions
-  //       FROM 
+  //       FROM
   //           employees as emp
-  //       JOIN 
+  //       JOIN
   //           employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
   //       JOIN
   //           employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-  //       WHERE 
+  //       WHERE
   //           emp_deduct.name != 'TDS'
   //       GROUP BY emp.emp_id
   //       `,
   //       prisma.$queryRaw`
-  //       SELECT 
+  //       SELECT
   //           emp.emp_id,
   //           SUM(emp_allow.amount_in) as total_allowance
-  //       FROM 
+  //       FROM
   //           employees as emp
-  //       JOIN 
+  //       JOIN
   //           employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-  //       JOIN 
+  //       JOIN
   //           employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
   //       GROUP BY emp.emp_id
   //       `,
@@ -94,107 +180,160 @@ class PayrollDao {
   //   }
   // };
 
-cal_allowance_and_deduction = async () => {
-  const esicBasicPayLimit = parseFloat(calcProperties["calc.esic.basicpaylimit"] || "21000");
-  const esicRate = parseFloat(calcProperties["calc.esic"] || "0.75") / 100;
-  const epfRate = parseFloat(calcProperties["calc.epf"] || "12") / 100;
-  const epfEmployerRate = parseFloat(calcProperties["calc.epf.employer"] || "3.67") / 100;
-  const esicEmployerRate = parseFloat(calcProperties["calc.esic.employer"] || "3.25") / 100;
-  const epsRate = parseFloat(calcProperties["calc.eps"] || "8.33") / 100;
+  cal_allowance_and_deduction = async () => {
+    const esicBasicPayLimit = parseFloat(
+      calcProperties["calc.esic.basicpaylimit"] || "21000"
+    );
+    const esicRate = parseFloat(calcProperties["calc.esic"] || "0.75") / 100;
+    const epfRate = parseFloat(calcProperties["calc.epf"] || "12") / 100;
+    const epfEmployerRate =
+      parseFloat(calcProperties["calc.epf.employer"] || "3.67") / 100;
+    const esicEmployerRate =
+      parseFloat(calcProperties["calc.esic.employer"] || "3.25") / 100;
+    const epsRate = parseFloat(calcProperties["calc.eps"] || "8.33") / 100;
 
-  try {
-    const [deductionsResult, allowanceResult]: [
-      deductionsResult: any,
-      allowanceResult: any
-    ] = await Promise.all([
-      prisma.$queryRaw`
-      SELECT 
-          emp.emp_id,
-          SUM(CASE WHEN emp_deduct.name != 'TDS' THEN emp_deduct.amount_in ELSE 0 END) as total_deductions,
-          SUM(CASE WHEN emp_deduct.name = 'TDS' THEN emp_deduct.amount_in ELSE 0 END) as tds_amount
-      FROM 
-          employees as emp
-      JOIN 
-          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-      JOIN
-          employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
-      GROUP BY emp.emp_id
-      `,
-      prisma.$queryRaw`
-      SELECT 
-          emp.emp_id,
-          SUM(emp_allow.amount_in) as total_allowance
-      FROM 
-          employees as emp
-      JOIN 
-          employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
-      JOIN 
-          employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-      GROUP BY emp.emp_id
-      `
-    ]);
+    try {
+      // Calculate the start and end dates dynamically (e.g., for the current month)
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      const startDate = new Date(currentYear, currentMonth, 1); // First day of the current month
+      const endDate = new Date(currentYear, currentMonth + 1, 0); // Last day of the current month
 
-    const combinedResult = deductionsResult.map((deductionRow: any) => {
-      const allowanceRow = allowanceResult.find(
-        (row: any) => row.emp_id === deductionRow.emp_id
+      // Fetch all employees
+      const employees = await prisma.employees.findMany();
+
+      // Loop through all employees and calculate payroll for each one
+      const allResults = await Promise.all(
+        employees.map(async (employee) => {
+          const employeeId = employee.emp_id;
+
+          // Calculate days (attendance, leave, holidays, Sundays)
+          const { presentDays, leaveDays, holidays, sundays } =
+            await this.calculateDaysForPayroll(employeeId, startDate, endDate);
+
+          // Set the class properties for days
+          this.attendanceDays = presentDays;
+          this.leaveDays = leaveDays;
+          this.holidays = holidays;
+          this.sundays = sundays;
+
+          // Fetch deductions and allowances for the employee
+          const [deductionsResult, allowanceResult]: [
+            deductionsResult: any,
+            allowanceResult: any
+          ] = await Promise.all([
+            prisma.$queryRaw`
+            SELECT 
+                emp.emp_id,
+                SUM(CASE WHEN emp_deduct.name != 'TDS' THEN emp_deduct.amount_in ELSE 0 END) as total_deductions,
+                SUM(CASE WHEN emp_deduct.name = 'TDS' THEN emp_deduct.amount_in ELSE 0 END) as tds_amount
+            FROM 
+                employees as emp
+            JOIN 
+                employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+            JOIN
+                employee_salary_deduction as emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
+            WHERE emp.emp_id = ${employeeId}
+            GROUP BY emp.emp_id
+          `,
+            prisma.$queryRaw`
+            SELECT 
+                emp.emp_id,
+                SUM(emp_allow.amount_in) as total_allowance
+            FROM 
+                employees as emp
+            JOIN 
+                employee_salary_details as sal_details ON emp.emp_salary_details_id = sal_details.id
+            JOIN 
+                employee_salary_allow as emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
+            WHERE emp.emp_id = ${employeeId}
+            GROUP BY emp.emp_id
+          `,
+          ]);
+
+          // Calculate billable days
+          const billableDays =
+            this.attendanceDays + this.leaveDays + this.holidays + this.sundays;
+
+          // Combine results for each employee
+          const combinedResult = deductionsResult.map((deductionRow: any) => {
+            const allowanceRow = allowanceResult.find(
+              (row: any) => row.emp_id === deductionRow.emp_id
+            );
+            const grossRow = this.gross.find(
+              (row: any) => row.emp_id === deductionRow.emp_id
+            );
+
+            const grossPay = grossRow ? grossRow.gross_pay : 0;
+            const basicPay = grossRow ? grossRow.basic_pay : 0;
+
+            // Calculate ESIC and EPF employer amounts based on grossPay and billableDays
+            const esicAmount =
+              grossPay <= esicBasicPayLimit
+                ? (grossPay * esicRate).toFixed(2)
+                : "0.00";
+            const epfAmount = (grossPay * epfRate).toFixed(2);
+            const esicEmployerAmount =
+              grossPay <= esicBasicPayLimit
+                ? (grossPay * esicEmployerRate).toFixed(2)
+                : "0.00";
+            const epfEmployerAmount = (grossPay * epfEmployerRate).toFixed(2);
+            const epsEmployerAmount = (grossPay * epsRate).toFixed(2);
+
+            const tdsAmount = deductionRow.tds_amount || 0; // Directly using the TDS amount from query
+
+            // Update the payroll_master table with the calculated amounts
+            prisma.payroll_master.updateMany({
+              where: {
+                emp_id: deductionRow.emp_id,
+                month: new Date().getMonth() + 1, // Current month
+                year: new Date().getFullYear(), // Current year
+              },
+              data: {
+                total_deductions: parseFloat(deductionRow.total_deductions),
+                esic_amount: parseFloat(esicAmount),
+                epf_amount: parseFloat(epfAmount),
+                epf_employer_amount: parseFloat(epfEmployerAmount),
+                esic_employer_amount: parseFloat(esicEmployerAmount),
+                eps_employer_amount: parseFloat(epsEmployerAmount),
+                tds_amount: parseFloat(tdsAmount),
+                gross_pay: grossPay,
+                billable_days: billableDays, // Store billable days
+                sundays: this.sundays, // Store Sundays count
+                holidays: this.holidays, // Store holidays count
+              },
+            });
+
+            return {
+              emp_id: deductionRow.emp_id,
+              total_deductions: deductionRow.total_deductions,
+              total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
+              gross_pay: grossPay,
+              esic_amount: parseFloat(esicAmount),
+              epf_amount: parseFloat(epfAmount),
+              epf_employer_amount: parseFloat(epfEmployerAmount),
+              esic_employer_amount: parseFloat(esicEmployerAmount),
+              eps_employer_amount: parseFloat(epsEmployerAmount),
+              tds_amount: parseFloat(tdsAmount),
+              billable_days: billableDays,
+              sundays: this.sundays, // Store Sundays count
+              holidays: this.holidays, // Store holidays count
+            };
+          });
+
+          return combinedResult;
+        })
       );
-      const grossRow = this.gross.find(
-        (row: any) => row.emp_id === deductionRow.emp_id
-      );
 
-      const grossPay = grossRow ? grossRow.gross_pay : 0;
-      const basicPay = grossRow ? grossRow.basic_pay : 0;
-
-      // Calculate ESIC and EPF employer amounts
-      const esicAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicRate).toFixed(2) : "0.00";
-      const epfAmount = (grossPay * epfRate).toFixed(2);
-      const esicEmployerAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicEmployerRate).toFixed(2) : "0.00";
-      const epfEmployerAmount = (grossPay * epfEmployerRate).toFixed(2);
-      const epsEmployerAmount = (grossPay * epsRate).toFixed(2);
-
-      const tdsAmount = deductionRow.tds_amount || 0;  // Directly using the TDS amount from query
-      const esicDeduction = grossPay <= esicBasicPayLimit ? deductionRow.total_deductions : 0;
-
-      // Update the payroll_master table with the calculated amounts
-      prisma.payroll_master.updateMany({
-        where: {
-          emp_id: deductionRow.emp_id,
-          month: new Date().getMonth() + 1, 
-          year: new Date().getFullYear(),
-        },
-        data: {
-          total_deductions: esicDeduction,
-          esic_amount: parseFloat(esicAmount),
-          epf_amount: parseFloat(epfAmount),
-          epf_employer_amount: parseFloat(epfEmployerAmount),
-          esic_employer_amount: parseFloat(esicEmployerAmount),
-
-          eps_employer_amount: parseFloat(epsEmployerAmount),
-          tds_amount: parseFloat(tdsAmount),
-          gross_pay: grossPay,
-        },
-      });
-
-      return {
-        emp_id: deductionRow.emp_id,
-        total_deductions: esicDeduction,
-        total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
-        gross_pay: grossPay,
-        esic_amount: parseFloat(esicAmount),
-        epf_amount: parseFloat(epfAmount),
-        epf_employer_amount: parseFloat(epfEmployerAmount),
-        esic_employer_amount: parseFloat(esicEmployerAmount),
-        eps_employer_amount: parseFloat(epsEmployerAmount),
-        tds_amount: parseFloat(tdsAmount),
-      };
-    });
-
-    this.allowances = combinedResult;
-    return generateRes(this.allowances);
-  } catch (err) {
-    console.error("Error executing queries:", err);
-  }
-};
+      // Flatten all results and store in the class property or return the result
+      this.allowances = allResults.flat();
+      return generateRes(this.allowances);
+    } catch (err) {
+      console.error("Error executing queries:", err);
+      throw new Error("Failed to calculate allowances and deductions.");
+    }
+  };
 
   calc_regular_pay = async () => {
     const currentDate = new Date();
@@ -221,8 +360,6 @@ cal_allowance_and_deduction = async () => {
       last_month = 12;
       last_year - 1;
     }
-
-    
 
     // ---------------------------------CALCULATING GROSS SALARY-------------------------------//
     this.gross = await prisma.$queryRaw`
@@ -267,7 +404,7 @@ cal_allowance_and_deduction = async () => {
       SELECT employee_id as emp_id, sum(working_hour)::int as working_hour, COUNT(DISTINCT date_trunc('day', date))::int FROM employee_daily_attendance WHERE status=1 AND EXTRACT(MONTH FROM date)::text = ${_month}::text AND EXTRACT(YEAR FROM date)::text = ${year}::text group by employee_id;
     `;
 
-    console.log(this.total_working_hours, 'now69')
+    console.log(this.total_working_hours, "now69");
 
     // this.total_working_hours = await prisma.$queryRaw`
     // SELECT employee_id as emp_id, sum(working_hour) as working_hour FROM employee_daily_attendance WHERE status!=4 group by employee_id;
@@ -335,9 +472,8 @@ cal_allowance_and_deduction = async () => {
 
       presentDays[record.emp_id] = {
         ...presentDays[record.emp_id],
-        working_days: record?.count
+        working_days: record?.count,
       };
-
     });
 
     this.lwp_days_last_month.forEach((record: any) => {
@@ -404,7 +540,8 @@ cal_allowance_and_deduction = async () => {
       const total_hours: number = numberOfWeekdaysInMonth * 8;
       const leave_days = data[record.emp_id].leave_days;
       const salary_per_hour = data[record.emp_id].gross_pay / total_hours;
-      const salary_per_day = data[record.emp_id].gross_pay / numberOfWeekdaysInMonth; //#############
+      const salary_per_day =
+        data[record.emp_id].gross_pay / numberOfWeekdaysInMonth; //#############
       const days_leave_approved = leave_days;
       const no_of_hours_leave_approved = days_leave_approved * 8;
 
@@ -433,7 +570,8 @@ cal_allowance_and_deduction = async () => {
       // -----------------------CALCULATING EMPLOYEE PRESENT DAYS -------------------------//
       // let employee_present_days =
       //   (data[record.emp_id].working_hour as number) / 8 - leave_days;
-      let employee_present_days = presentDays[record.emp_id]?.working_days as number
+      let employee_present_days = presentDays[record.emp_id]
+        ?.working_days as number;
       if (isNaN(employee_present_days) || employee_present_days < 0) {
         employee_present_days = 0;
       }
@@ -441,7 +579,8 @@ cal_allowance_and_deduction = async () => {
 
       // ----------------------- CALCULATING EMPLOYEE LWP DAYS ---------------------------//
       // let employee_lwp_days = calc_non_billable_hours / 8;
-      let employee_lwp_days = numberOfWeekdaysInMonth - presentDays[record.emp_id]?.working_days;
+      let employee_lwp_days =
+        numberOfWeekdaysInMonth - presentDays[record.emp_id]?.working_days;
       if (isNaN(employee_lwp_days)) {
         employee_lwp_days = 0;
       }
@@ -449,14 +588,16 @@ cal_allowance_and_deduction = async () => {
       // ------------------------ CALCULATING EMPLOYEE NET PAY ---------------------------//
       // const calc_non_billable_salary =
       //   salary_per_hour * calc_non_billable_hours;
-      const calc_non_billable_salary =
-        salary_per_day * employee_lwp_days;
+      const calc_non_billable_salary = salary_per_day * employee_lwp_days;
 
-      let calc_net_pay = Number((
-        data[record.emp_id].gross_pay -
-        calc_non_billable_salary -
-        data[record.emp_id].total_deductions -
-        lwp_last_month_salary).toFixed(2))
+      let calc_net_pay = Number(
+        (
+          data[record.emp_id].gross_pay -
+          calc_non_billable_salary -
+          data[record.emp_id].total_deductions -
+          lwp_last_month_salary
+        ).toFixed(2)
+      );
 
       // console.log(record.emp_id, data[record.emp_id].gross_pay, calc_non_billable_salary, data[record.emp_id].total_deductions, lwp_last_month_salary, 'now')
 
