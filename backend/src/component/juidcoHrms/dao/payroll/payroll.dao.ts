@@ -153,7 +153,7 @@ cal_allowance_and_deduction = async () => {
       const epsEmployerAmount = (grossPay * epsRate).toFixed(2);
 
       const tdsAmount = deductionRow.tds_amount || 0;  // Directly using the TDS amount from query
-      const esicDeduction = grossPay <= esicBasicPayLimit ? deductionRow.total_deductions : 0;
+      // const esicDeduction = grossPay <= esicBasicPayLimit ? deductionRow.total_deductions : 0;
 
       // Update the payroll_master table with the calculated amounts
       prisma.payroll_master.updateMany({
@@ -163,7 +163,7 @@ cal_allowance_and_deduction = async () => {
           year: new Date().getFullYear(),
         },
         data: {
-          total_deductions: esicDeduction,
+          total_deductions: deductionRow.total_deductions,
           esic_amount: parseFloat(esicAmount),
           epf_amount: parseFloat(epfAmount),
           epf_employer_amount: parseFloat(epfEmployerAmount),
@@ -177,7 +177,7 @@ cal_allowance_and_deduction = async () => {
 
       return {
         emp_id: deductionRow.emp_id,
-        total_deductions: esicDeduction,
+        total_deductions: deductionRow.total_deductions,
         total_allowance: allowanceRow ? allowanceRow.total_allowance : 0,
         gross_pay: grossPay,
         esic_amount: parseFloat(esicAmount),
@@ -918,122 +918,112 @@ cal_allowance_and_deduction = async () => {
   // --------------------- UPDATING PAYROLL FOR PERMISSIBLE LEAVE ----------------------------- //
 
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
-  update_emp_payroll_with_sheet = async (req: Request) => {
-    try {
-      const data: any[] = req.body.data;
-      const record = await prisma.$transaction(async (tx) => {
-        const getEmployeePayroll = await prisma.$queryRaw<any[]>`
-        SELECT emp_id, salary_per_hour, total_allowance, basic_pay FROM payroll_master
-      `;
+update_emp_payroll_with_sheet = async (req: Request) => {
+  try {
+    const data: any[] = req.body.data;
+    const record = await prisma.$transaction(async (tx) => {
+      const getEmployeePayroll = await prisma.$queryRaw<any[]>`
+      SELECT emp_id, salary_per_hour, total_allowance, basic_pay FROM payroll_master
+    `;
 
-        // console.log(data, "data");
+      const returnNewSalary = (
+        emp_id_x: string,
+        getEmployeePayroll: any[]
+      ): number => {
+        const employee = getEmployeePayroll?.find(
+          (emp) => emp.emp_id === emp_id_x
+        );
+        return employee?.salary_per_hour || 0;
+      };
 
-        const returnNewSalary = (
-          emp_id_x: string,
-          getEmployeePayroll: any[]
-        ): number => {
-          const employee = getEmployeePayroll?.filter(
-            (emp) => emp.emp_id === emp_id_x
-          );
+      const returnNewAllowance = (
+        emp_id_x: string,
+        getEmployeePayroll: any[]
+      ): number => {
+        const employee = getEmployeePayroll?.find(
+          (emp) => emp.emp_id === emp_id_x
+        );
+        return employee?.total_allowance || 0;
+      };
 
-          return employee[0].salary_per_hour;
-        };
+      const returnNewBasicPay = (
+        emp_id_x: string,
+        getEmployeePayroll: any[]
+      ): number => {
+        const employee = getEmployeePayroll?.find(
+          (emp) => emp.emp_id === emp_id_x
+        );
+        return employee?.basic_pay || 0;
+      };
 
-        const returnNewAllowance = (
-          emp_id_x: string,
-          getEmployeePayroll: any[]
-        ): number => {
-          const employee = getEmployeePayroll?.filter(
-            (emp) => emp.emp_id === emp_id_x
-          );
-          return employee[0]?.total_allowance;
-        };
+      // Update present days and LWP days based on working hours
+      for (const object of data) {
+        const existing_emp_id = await prisma.$queryRaw<any[]>`
+          SELECT EXISTS (SELECT 1 FROM payroll_master WHERE emp_id = ${object.emp_id});
+        `;
 
-        const returnNewBasicPay = (
-          emp_id_x: string,
-          getEmployeePayroll: any[]
-        ): number => {
-          const employee = getEmployeePayroll?.filter(
-            (emp) => emp.emp_id === emp_id_x
-          );
-          return employee[0]?.basic_pay;
-        };
+        const workingHoursPerDay = 8;
+        const totalDays = 26;
+        const workingHours = parseInt(object.working_hour);
 
-        // no.of_hrs / 26
+        let present_days = Math.floor(workingHours / workingHoursPerDay);
+        let lwp_days = totalDays - present_days;
 
-        // update present day and absent day
-        for (const object of data) {
-          const existing_emp_id = await prisma.$queryRaw<any[]>`
-            SELECT EXISTS (SELECT 1 FROM payroll_master WHERE emp_id = ${object.emp_id});
-          `;
+        const roundToNearestHalf = (num: number) => Math.round(num * 2) / 2;
 
-          const workingHoursPerDay = 8;
-          const totalDays = 26;
+        present_days = roundToNearestHalf(present_days);
+        lwp_days = roundToNearestHalf(lwp_days);
 
-          const workingHours = parseInt(object.working_hour);
-
-          let present_days = Math.floor(workingHours / workingHoursPerDay);
-          let lwp_days = totalDays - present_days;
-
-          const roundToNearestHalf = (num: number) => Math.round(num * 2) / 2;
-
-          present_days = roundToNearestHalf(present_days);
-          lwp_days = roundToNearestHalf(lwp_days);
-
-          if (present_days > totalDays) {
-            present_days = totalDays;
-            lwp_days = 0;
-          } else if (lwp_days < 0) {
-            lwp_days = 0;
-            present_days = totalDays;
-          }
-
-          const prev_allowances = returnNewAllowance(
-            object.emp_id,
-            getEmployeePayroll
-          );
-
-          const hourly_allowance: number = prev_allowances / 208;
-          const new_allowance: number = hourly_allowance * object.working_hour;
-
-          const prev_basic_pay = returnNewBasicPay(
-            object.emp_id,
-            getEmployeePayroll
-          );
-
-          const hourly_basic: number = prev_basic_pay / 208;
-          const new_basic: number = hourly_basic * object.working_hour;
-
-          // console.log(`LWP Days: ${lwp_days}, Present Days: ${present_days}`);
-          if (!existing_emp_id[0].exists === false) {
-            await tx.payroll_master.updateMany<Prisma.payroll_masterUpdateManyArgs>(
-              {
-                data: {
-                  working_hour: object.working_hour,
-                  present_days: Number(present_days),
-                  lwp_days: Number(lwp_days),
-                  total_allowance: Number(new_allowance.toFixed(2)),
-                  basic_pay: Math.floor(new_basic),
-                  net_pay:
-                    object.working_hour *
-                    returnNewSalary(object.emp_id, getEmployeePayroll),
-                },
-                where: {
-                  emp_id: object.emp_id,
-                },
-              }
-            );
-          }
+        if (present_days > totalDays) {
+          present_days = totalDays;
+          lwp_days = 0;
+        } else if (lwp_days < 0) {
+          lwp_days = 0;
+          present_days = totalDays;
         }
-      });
 
-      console.log(record);
-      return generateRes(record);
-    } catch (error) {
-      return generateRes({ message: false });
-    }
-  };
-  // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
+        const salaryPerHour = returnNewSalary(object.emp_id, getEmployeePayroll);
+        const prev_allowances = returnNewAllowance(object.emp_id, getEmployeePayroll);
+        const prev_basic_pay = returnNewBasicPay(object.emp_id, getEmployeePayroll);
+
+        // Calculate proportional allowances and basic pay based on working hours
+        const hourly_allowance = prev_allowances / 208; // Assuming 208 working hours in a month (26 days * 8 hours)
+        const new_allowance = hourly_allowance * workingHours;
+
+        const hourly_basic = prev_basic_pay / 208;
+        const new_basic = hourly_basic * workingHours;
+
+        // Calculate net pay based on salary per hour and working hours
+        const new_net_pay = (salaryPerHour * workingHours) + new_allowance + new_basic;
+
+        // Update payroll if employee exists
+        if (existing_emp_id[0].exists) {
+          await tx.payroll_master.updateMany<Prisma.payroll_masterUpdateManyArgs>({
+            data: {
+              working_hour: object.working_hour,
+              present_days: Number(present_days),
+              lwp_days: Number(lwp_days),
+              total_allowance: Number(new_allowance.toFixed(2)),
+              basic_pay: Math.floor(new_basic),
+              net_pay: Math.floor(new_net_pay),
+            },
+            where: {
+              emp_id: object.emp_id,
+            },
+          });
+        }
+      }
+    });
+
+    console.log(record);
+    return generateRes(record);
+  } catch (error) {
+    console.error(error);
+    return generateRes({ message: false });
+  }
+};
+// --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
+
 
   // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
   calc_total_amount_released = async () => {

@@ -16,7 +16,7 @@ const nextConfig = {
     // backend: "http://localhost:8000",
   },
   images: {
-    domains: ['aadrikainfomedia.com','jharkhandegovernance.com'], // Replace with your image's domain
+    domains: ["aadrikainfomedia.com", "jharkhandegovernance.com"], // Replace with your image's domain
   },
   // async rewrites() {
   //   return [

@@ -9,6 +9,19 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { generateRes } from "../../../../util/generateRes";
 
 const prisma = new PrismaClient();
+
+
+const isHolidayOrSunday = (date: Date): boolean => {
+  // Check if the date is a Sunday
+  const day = date.getDay();
+  if (day === 0) return true; // Sunday
+
+  // Check if the date matches a public holiday
+  const holidays = ["2024-12-25", "2024-01-01"]; // Replace with your holiday list
+  return holidays.includes(date.toISOString().split('T')[0]);
+};
+
+
 class EmployeeAttendanceDao {
   empIn = async (req: Request) => {
     const { emp_id } = req.body;
@@ -200,6 +213,27 @@ class EmployeeAttendanceDao {
     const dayOfWeek = today.getDay();
     const currentDate = new Date().toISOString();
     // compute number of hours
+
+     // Automatically mark Sundays and holidays as attended
+  if (isHolidayOrSunday(today)) {
+    const employees = await prisma.employees.findMany(); // Fetch all employees or use a specific subset
+
+    await Promise.all(
+      employees.map(async (employee) => {
+        // Upsert attendance for holiday or Sunday
+        await prisma.employee_daily_attendance.upsert({
+          where: { employee_id_date: { employee_id: employee.emp_id, date: new Date(currentDate) } },
+          update: { status: 1 }, // Mark as present
+          create: {
+            employee_id: employee.emp_id,
+            date: new Date(currentDate),
+            emp_in: new Date(currentDate), // Default check-in time
+            status: 1,
+          },
+        });
+      })
+    );
+  }
     const data11 = await prisma.$queryRaw<
       []
     >`select employee_id, round(extract(epoch from sum(emp_out-emp_in))/3600) as working_hour 
