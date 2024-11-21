@@ -25,6 +25,10 @@ import DeclarationOfRefund from "./details/DeclarationOfRefund";
 import Statement from "./details/Statement";
 import NominationForUnpaidAmount from "./details/NominationForUnpaidAmount";
 import CalcSheet from "./details/CalcSheet";
+import Declaration from "./details/Declaration";
+import PensionPayment from "./details/PensionPaymentView";
+import SignatureView from "./details/SignatureView";
+import FamilyView from "./details/FamilyView";
 
 export const not_provided = "Not provided";
 //--------------------------- GET DECLARATION DETAILS ---------------------------//
@@ -74,7 +78,7 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
     };
 
     const { data: empPension, error: empLstErr } = useCodeQuery(`${HRMS_URL.PENSION.getById}/${emp_id}`);
-
+    const { data: family, error: familyErr } = useCodeQuery(`${HRMS_URL.FAMILY.getById}?emp_id=${emp_id}`);
     //nominee
     const { data: nominee, error: nomineeErr } = useCodeQuery(`${HRMS_URL.NOMINEE.getById}?emp_id=${emp_id}`);
     const { data: refund, error: refundErr } = useCodeQuery(`${HRMS_URL.EMS.getById}/${emp_id}`);
@@ -111,7 +115,8 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
     if (empLstErr) toast.error("Failed to fetch pension");
     if (nomineeErr) toast.error("Failed to fetch nominee");
     if (refundErr) toast.error("Failed to fetch refund");
-    if (payrollErr) toast.error("Failed to fetch data");
+    if (payrollErr) toast.error("Failed to fetch payroll details");
+    if (familyErr) toast.error("Failed to fetch family details");
 
     return (
         <div>
@@ -200,7 +205,11 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                 <DeclarationOfRefund data={refund} />
                 <Statement data={payroll} />
                 <NominationForUnpaidAmount data={refund} />
-                <CalcSheet data={refund} />
+                <CalcSheet data={refund} empPension={empPension} payroll={payroll?.data} />
+                <Declaration data={refund} empPension={empPension} payroll={payroll?.data} />
+                <PensionPayment data={empPension} />
+                <SignatureView data={empPension} />
+                <FamilyView data={family} />
             </div>
 
         </div>
