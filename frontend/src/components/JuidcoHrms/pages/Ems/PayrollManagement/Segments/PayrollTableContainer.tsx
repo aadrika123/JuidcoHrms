@@ -136,6 +136,8 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
     }
   );
 
+  // console.log("props.tableData", props.tableData);
+
   // =================================== POST PAYROLL DATA ================================//
 
   return (
@@ -232,7 +234,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                   <div className="flex flex-row justify-between">
                     <p>Total Absent days-</p>
                     <p className="text-red-600 font-medium">
-                      {item.leave_days}
+                      {item.leave_days + item?.lwp_days}
                     </p>
                   </div>
                   <div className="flex flex-row justify-between">

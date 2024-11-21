@@ -14,15 +14,15 @@ export const employeePayrollDataRequestBody = (
     working_hour: empPayrollData.working_hour,
     total_allowance: empPayrollData.total_allowance,
     total_deductions: empPayrollData.total_deductions,
-    non_billable: empPayrollData.non_billable,
-    billable_days:empPayrollData.billable_days,
+    non_billable_days: empPayrollData.non_billable_days,
+    billable_days: empPayrollData.billable_days,
     present_days: empPayrollData.present_days,
     lwp_days: empPayrollData.lwp_days,
     status: empPayrollData.status,
     salary_deducted: empPayrollData.salary_deducted,
     net_pay: empPayrollData.net_pay,
     date: empPayrollData.date,
-    salary_per_hour: empPayrollData.salary_per_hour,
+    salary_per_day: empPayrollData.salary_per_day,
   };
 };
 

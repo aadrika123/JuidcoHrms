@@ -6,13 +6,13 @@ export type EmployeePayrollType = {
   working_hour: number;
   total_allowance: number;
   total_deductions: number;
-  non_billable: number;
-  billable_days:number;
+  non_billable_days: number;
+  billable_days: number;
   present_days: number;
   lwp_days: number;
   salary_deducted: number;
   status: number;
-  salary_per_hour: number;
+  salary_per_day: number;
   net_pay: number;
   date: Date;
 };
