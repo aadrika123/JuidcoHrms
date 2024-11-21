@@ -40769,3 +40769,4770 @@
   message: 'Calculated Net Pay',
   timestamp: '12/11/2024, 5:44:23 pm'
 }
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:06:56 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:06:56 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:06:56 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:06:56 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:06:56 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:43:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:43:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:43:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:43:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:43:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:52:54 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:52:54 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:52:54 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:52:54 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 3:52:54 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:22:58 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:22:58 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:22:58 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:22:58 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:22:58 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:31:10 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:31:10 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:31:10 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:31:10 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:31:10 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:40:27 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:40:27 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:40:27 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:40:27 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:40:27 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:44:36 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:44:36 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:44:36 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:44:36 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:44:36 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:47:06 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:47:06 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:47:06 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:47:06 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:47:06 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:55:04 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:55:04 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:55:04 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:55:04 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '18/11/2024, 4:55:04 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 9:32:34 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 9:32:34 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 9:32:34 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 9:32:34 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 9:32:34 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 10060,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 48.36538461538461)',
+    'Salary Deducted': 0,
+    'Net Pay': 8571,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 11:42:14 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 27980,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 11:42:14 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 11:42:14 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 23483,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 112.89903846153847)',
+    'Salary Deducted': 0,
+    'Net Pay': 19683,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 11:42:14 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 29100,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 139.90384615384616)',
+    'Salary Deducted': 0,
+    'Net Pay': 27036,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '19/11/2024, 11:42:14 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 18.653846153846153)',
+    'Salary Deducted': 0,
+    'Net Pay': 1816,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 1:22:58 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 15.053221153846154)',
+    'Salary Deducted': 0,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 1:22:58 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 18.653846153846153)',
+    'Salary Deducted': 0,
+    'Net Pay': 1816,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 1:22:58 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 0,
+    'LWP Days': 0,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 6.448701923076923)',
+    'Salary Deducted': 0,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 1:22:58 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': '208 hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : 23.317307692307693)',
+    'Salary Deducted': 4663,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 1:22:58 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 5,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:37:18 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:37:18 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:37:18 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:37:18 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:37:18 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:41:24 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:41:24 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:41:24 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:41:24 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 3:41:24 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:03:59 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:03:59 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:03:59 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:03:59 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:03:59 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1547,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:41:33 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': -3383,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:41:33 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1311,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:41:33 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': -1256,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:41:33 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1547,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 4:41:33 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:36:23 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:36:23 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': 0,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:36:23 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': 0,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:36:23 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': 0,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:36:23 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1547,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:38:43 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1547,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:38:43 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': -1256,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:38:43 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': -3383,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:38:43 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1311,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 5:38:43 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:24:57 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:29:48 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:29:48 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:29:48 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:29:48 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '20/11/2024, 6:29:48 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:07:18 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:07:18 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:07:18 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:07:18 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:07:18 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3363,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:22:40 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2714,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:22:40 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3363,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:22:40 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4042,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:22:40 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:22:40 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3363,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:30:59 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3363,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:30:59 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4042,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:30:59 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:30:59 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2714,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:30:59 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:37:35 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:37:35 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:37:35 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 4850,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 1,
+    'LWP Days': 25,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4041.67,
+    'Net Pay': -1255.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:37:35 am'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 11:37:35 am'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 12:50:26 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 12:50:26 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 7760,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 22,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 5690.67,
+    'Net Pay': 5.33,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 12:50:26 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 12:50:26 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 12:50:26 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:03:41 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 5820,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 24,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4656,
+    'Net Pay': -900,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:03:41 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:03:41 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:03:41 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:03:41 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 5820,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 2,
+    'LWP Days': 24,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 4656,
+    'Net Pay': -900,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:08:08 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:08:08 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:08:08 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:08:08 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:08:08 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:10:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:10:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:10:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 7760,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 22,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 5690.67,
+    'Net Pay': 5.33,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:10:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 1:10:39 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMPbce27d',
+    Name: 'Mangu  Mochi',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 4:31:44 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP3230c2',
+    Name: 'grfehaha  gggl g lug g',
+    'Gross Pay': 1341.33,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 1162.49,
+    'Net Pay': -1310.16,
+    'Basic Pay': 6000,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 2160 } ],
+    Deductions: [
+      { 'Deduction Amount': 386 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 72000 is less than 250000)',
+        'Deduction Amount': 1103
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 4:31:44 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP591b7e',
+    Name: 'Billu  Budhw',
+    'Gross Pay': 3131.07,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 2713.59,
+    'Net Pay': -3382.52,
+    'Basic Pay': 19801,
+    'Grade Pay': 1900,
+    Allowances: [ { 'Allowance Name': 'DA', 'Allowance Amount': 1782 } ],
+    Deductions: [
+      { 'Deduction Amount': 1500 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 237612 is less than 250000)',
+        'Deduction Amount': 2300
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 4:31:44 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP912e42',
+    Name: 'Rina Jha',
+    'Gross Pay': 7760,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 4,
+    'LWP Days': 22,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 5690.67,
+    'Net Pay': 1460.33,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      { 'Deduction Name': 'TDS', 'Deduction Amount': 1455 }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 4:31:44 pm'
+}
+{
+  data: {
+    'Employee ID': 'EMP4171c4',
+    Name: 'Loha Singh',
+    'Gross Pay': 3880,
+    'Leave Days': 0,
+    'Non billable hours': 'undefined hr',
+    'Present Days': 0,
+    'LWP Days': 26,
+    'Last month LWP deduction': '0 (LWP days last month : 0 * 8 * Salary per hour : undefined)',
+    'Salary Deducted': 3362.67,
+    'Net Pay': -1546.67,
+    'Basic Pay': 15000,
+    'Grade Pay': 2000,
+    Allowances: [
+      { 'Allowance Name': 'DA', 'Allowance Amount': 2100 },
+      { 'Allowance Name': 'HRA', 'Allowance Amount': 6000 },
+      { 'Allowance Name': 'MA(A)', 'Allowance Amount': 4000 }
+    ],
+    Deductions: [
+      {
+        'Deduction Name': 'PT (Basic Pay: 15000 is less than 25000)',
+        'Deduction Amount': 100
+      },
+      { 'Deduction Amount': 509 },
+      {
+        'Deduction Name': 'IT (Annual Basic Pay: 180000 is less than 250000)',
+        'Deduction Amount': 1455
+      }
+    ]
+  },
+  level: 'info',
+  message: 'Calculated Net Pay',
+  timestamp: '21/11/2024, 4:31:44 pm'
+}
