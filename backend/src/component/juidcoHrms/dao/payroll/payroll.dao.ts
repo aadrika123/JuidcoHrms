@@ -143,6 +143,7 @@ cal_allowance_and_deduction = async () => {
       );
 
       const grossPay = grossRow ? grossRow.gross_pay : 0;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const basicPay = grossRow ? grossRow.basic_pay : 0;
 
       // Calculate ESIC and EPF employer amounts
@@ -168,11 +169,7 @@ cal_allowance_and_deduction = async () => {
           epf_amount: parseFloat(epfAmount),
           epf_employer_amount: parseFloat(epfEmployerAmount),
           esic_employer_amount: parseFloat(esicEmployerAmount),
-<<<<<<< HEAD
-          eps_employer_amount: parseFloat(emsEmployerAmount),
-=======
           eps_employer_amount: parseFloat(epsEmployerAmount),
->>>>>>> f82aaa05270c07aea518bdae7c62b338cc9b4424
           tds_amount: parseFloat(tdsAmount),
           gross_pay: grossPay,
         },
@@ -187,11 +184,7 @@ cal_allowance_and_deduction = async () => {
         epf_amount: parseFloat(epfAmount),
         epf_employer_amount: parseFloat(epfEmployerAmount),
         esic_employer_amount: parseFloat(esicEmployerAmount),
-<<<<<<< HEAD
-        eps_employer_amount: parseFloat(emsEmployerAmount),
-=======
         eps_employer_amount: parseFloat(epsEmployerAmount),
->>>>>>> f82aaa05270c07aea518bdae7c62b338cc9b4424
         tds_amount: parseFloat(tdsAmount),
       };
     });
