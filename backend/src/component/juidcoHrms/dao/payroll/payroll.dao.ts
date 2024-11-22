@@ -901,154 +901,138 @@ class PayrollDao {
   // };
   // --------------------- STORING PAYROLL ------------------------------ //
 
-  get_emp_payroll = async (req: Request) => {
-    const supervisor_id = String(req.query.supervisor_id);
-    const page: number = Number(req.query.page);
-    const limit: number = Number(req.query.limit);
-    const search = req.query.search as string;
-    const lastMonth: string = String(req.query.lastMonth);
-    // 2024-05-04 00:00:00
-    const date = new Date();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+get_emp_payroll = async (req: Request) => {
+  const supervisor_id = String(req.query.supervisor_id);
+  const page: number = Number(req.query.page);
+  const limit: number = Number(req.query.limit);
+  const search = req.query.search as string;
+  const lastMonth: string = String(req.query.lastMonth);
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-    console.log(month);
+  const pastDate = new Date(date);
+  pastDate.setMonth(pastDate.getMonth() - 12);
+  const pastMonth = pastDate.getMonth() + 1;
+  const pastYear = pastDate.getFullYear();
+const {ulb_id} = req?.body?.auth;
+  const d = new Date(
+    `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
+  ).toISOString();
 
-    const pastDate = new Date(date);
-    pastDate.setMonth(pastDate.getMonth() - 12);
-    const pastMonth = pastDate.getMonth() + 1;
-    const pastYear = pastDate.getFullYear();
-
-    const d = new Date(
-      `${pastYear}-${String(pastMonth).padStart(2, "0")}-01`
-    ).toISOString();
-
-    const is_month_passed = await prisma.$queryRaw<any[]>`
-      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
-    `;
-    let _month: number = 0;
-    let _year: number = year;
-    if (is_month_passed[0].exists === false) {
-      _month = month - 1;
-      if (_month == 0 || _month == -1) {
-        _month = 12;
-        _year = year - 1;
-      }
-    } else {
-      _month = month;
+  const is_month_passed = await prisma.$queryRaw<any[]>`
+    SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
+  `;
+  let _month: number = 0;
+  let _year: number = year;
+  if (is_month_passed[0].exists === false) {
+    _month = month - 1;
+    if (_month <= 0) {
+      _month = 12;
+      _year = year - 1;
     }
+  } else {
+    _month = month;
+  }
 
-    const query: Prisma.payroll_masterFindManyArgs = {
-      skip: (page - 1) * limit,
-      take: limit,
-      select: {
-        id: true,
-        emp_id: true,
-        emp_name: true,
-        gross_pay: true,
-        leave_days: true,
-        working_hour: true,
-        total_allowance: true,
-        total_deductions: true,
-        non_billable_days: true,
-        present_days: true,
-        lwp_days: true,
-        salary_deducted: true,
-        status: true,
-        net_pay: true,
-        month: true,
-        year: true,
-        basic_pay: true,
-      },
-      orderBy: {
-        emp_id: "asc",
-      },
+  const employeeIds = await prisma.employees.findMany({
+    where: { ulb_id: ulb_id },
+    select: { emp_id: true },
+  });
+  const filteredEmpIds = employeeIds.map((e) => e.emp_id);
 
-      where: {
-        month: _month,
-        year: _year,
-      },
-    };
-
-    if (search && typeof search === "string" && search.trim().length > 0) {
-      query.where = {
-        OR: [
-          { emp_name: { contains: search, mode: "insensitive" } },
-          { emp_id: { contains: search, mode: "insensitive" } },
-        ],
-        month: _month,
-        year: _year,
-      };
-    }
-
-    if (lastMonth && lastMonth !== "" && lastMonth !== "undefined") {
-      query.where = {
-        OR: [
-          {
-            date: {
-              gte: d,
-            },
-            emp_id: { contains: search, mode: "insensitive" },
-          },
-        ],
-      };
-    }
-
-    console.log(supervisor_id, "sup_id");
-
-    if (
-      supervisor_id &&
-      typeof supervisor_id === "string" &&
-      supervisor_id.trim().length > 0 &&
-      supervisor_id !== "undefined"
-    ) {
-      // ###################### HEIRARCHY ############################### //
-      const hierarchyData: any = [];
-      const fetchTeam = async (supervisor_id: string, level = 0) => {
-        const data = await prisma.employee_hierarchy.findMany({
-          select: {
-            emp_id: true,
-          },
-          where: {
-            parent_emp: supervisor_id,
-          },
-        });
-        if (data.length > 0) {
-          // hierarchyData[level] = [];
-          await Promise.all(
-            data.map(async (item) => {
-              hierarchyData.push(item.emp_id);
-              await fetchTeam(item.emp_id, level + 1);
-            })
-          );
-        } else {
-          return;
-        }
-      };
-      await fetchTeam(supervisor_id);
-
-      console.log(hierarchyData, "hrdata");
-
-      query.where = {
-        OR: [
-          {
-            emp_id: { in: hierarchyData },
-          },
-        ],
-      };
-      // ###################### HEIRARCHY ############################### //
-    }
-
-    const [data, count] = await prisma.$transaction([
-      prisma.payroll_master.findMany(query),
-      prisma.payroll_master.count(),
-    ]);
-
-    console.log(data, "datata");
-
-    // const data = await prisma.payroll_master.findMany(query);
-    return generateRes(data, count, page, limit);
+  const query: Prisma.payroll_masterFindManyArgs = {
+    skip: (page - 1) * limit,
+    take: limit,
+    select: {
+      id: true,
+      emp_id: true,
+      emp_name: true,
+      gross_pay: true,
+      leave_days: true,
+      working_hour: true,
+      total_allowance: true,
+      total_deductions: true,
+      non_billable_days: true,
+      present_days: true,
+      lwp_days: true,
+      salary_deducted: true,
+      status: true,
+      net_pay: true,
+      month: true,
+      year: true,
+      basic_pay: true,
+    },
+    orderBy: {
+      emp_id: "asc",
+    },
+    where: {
+      month: _month,
+      year: _year,
+      emp_id: { in: filteredEmpIds },
+    },
   };
+
+  if (search && typeof search === "string" && search.trim().length > 0) {
+    query.where = {
+      OR: [
+        { emp_name: { contains: search, mode: "insensitive" } },
+        { emp_id: { contains: search, mode: "insensitive" } },
+      ],
+      emp_id: { in: filteredEmpIds },
+      month: _month,
+      year: _year,
+    };
+  }
+
+  if (lastMonth && lastMonth !== "" && lastMonth !== "undefined") {
+    query.where = {
+      ...query.where,
+      date: { gte: d },
+    };
+  }
+
+  if (
+    supervisor_id &&
+    typeof supervisor_id === "string" &&
+    supervisor_id.trim().length > 0 &&
+    supervisor_id !== "undefined"
+  ) {
+    // ###################### HEIRARCHY ############################### //
+    const hierarchyData: any = [];
+    const fetchTeam = async (supervisor_id: string, level = 0) => {
+      const data = await prisma.employee_hierarchy.findMany({
+        select: { emp_id: true },
+        where: { parent_emp: supervisor_id },
+      });
+      if (data.length > 0) {
+        await Promise.all(
+          data.map(async (item) => {
+            hierarchyData.push(item.emp_id);
+            await fetchTeam(item.emp_id, level + 1);
+          })
+        );
+      }
+    };
+    await fetchTeam(supervisor_id);
+
+    query.where = {
+      ...query.where,
+      emp_id: { in: hierarchyData.filter((id: string) => filteredEmpIds.includes(id)) },
+    };
+  }
+
+  const [data, count] = await prisma.$transaction([
+    prisma.payroll_master.findMany(query),
+    prisma.payroll_master.count({
+      where: query.where, 
+    }),
+  ]);
+
+  return generateRes(data, count, page, limit);
+};
+
+
 
   // // ----------------------GET EMP PAYROLL BY ID-----------------------------//
 
@@ -1194,35 +1178,43 @@ class PayrollDao {
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
 
   // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
-  calc_total_amount_released = async () => {
-    const date = new Date();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const is_month_passed = await prisma.$queryRaw<any[]>`
-      SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
-    `;
+calc_total_amount_released = async (ulb_id: any) => {
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-    let _month: number = 0;
-    let _year: number = year;
-    if (is_month_passed[0].exists === false) {
-      _month = month - 1;
-      if (_month == 0 || _month == -1) {
-        _month = 12;
-        _year = year - 1;
-      }
-    } else {
-      _month = month;
-    }
-    const data = await prisma.$queryRaw<any[]>`
-      SELECT 
-      SUM(CASE WHEN net_pay > 0 THEN net_pay ELSE 0 END) AS total_amount, 
-      CAST(COUNT(id) AS INTEGER) as total_employee 
-    FROM payroll_master 
-    WHERE month = ${_month} AND year = ${_year};
+  // Check if payroll data for the current month and year exists
+  const is_month_passed = await prisma.$queryRaw<any[]>`
+    SELECT EXISTS (SELECT 1 FROM payroll_master WHERE month = ${month} AND year = ${year});
   `;
 
-    return generateRes(data[0]);
-  };
+  let _month: number = 0;
+  let _year: number = year;
+
+  if (!is_month_passed[0].exists) {
+    _month = month - 1;
+    if (_month <= 0) {
+      _month = 12;
+      _year = year - 1;
+    }
+  } else {
+    _month = month;
+  }
+
+  // Fetch total net pay and total employee count filtered by ulb_id
+  const data = await prisma.$queryRaw<any[]>`
+    SELECT 
+      SUM(CASE WHEN p.net_pay > 0 THEN p.net_pay ELSE 0 END) AS total_amount, 
+      CAST(COUNT(p.id) AS INTEGER) AS total_employee 
+    FROM payroll_master p
+    JOIN employees e ON p.emp_id = e.emp_id
+    WHERE p.month = ${_month} AND p.year = ${_year} AND e.ulb_id = ${ulb_id};
+  `;
+
+  return generateRes(data[0]);
+};
+
+
   // ---------------------  CALCULATE TOTAL AMOUNT RELEASED  ------------------------------ //
 }
 
