@@ -651,10 +651,11 @@ class PayrollDao {
 
       // Calculate net pay
       const netPay =
-        data[record.emp_id].gross_pay -
-        salaryDeducted -
-        lwpLastMonthSalary -
-        data[record.emp_id].total_deductions;
+  data[record.emp_id].gross_pay -
+  salaryDeducted -
+  lwpLastMonthSalary -
+  data[record.emp_id].total_deductions -
+  (data[record.emp_id].tds_amount || 0);
 
       let date: any = `${new Date().toISOString()}`;
       date = new Date(date.split("T")[0]);
