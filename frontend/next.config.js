@@ -14,6 +14,7 @@ const nextConfig = {
   env: {
     backend: "https://aadrikainfomedia.com/auth",
     // backend: "http://localhost:7001",
+    // backend: "http://localhost:8000",
   },
   images: {
     domains: ["aadrikainfomedia.com", "jharkhandegovernance.com"], // Replace with your image's domain
