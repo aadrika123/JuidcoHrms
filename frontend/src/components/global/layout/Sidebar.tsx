@@ -92,8 +92,10 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     }
   }
 
+  console.log(userDetails,"userDetails")
+
   return (
-    <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""}`}>
+    <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""} `}>
       <div {...props}>
         <section>
           <div className="flex flex-col items-center justify-center p-5">
@@ -115,7 +117,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
             {sidebarLink?.modules?.map((link: any, index: number) => {
               return (
                 <div key={index}>
-                  <ul className="w-full menu menu-xs p-0 overflow-y-scroll">
+                  <ul className="w-full menu menu-xs p-0 overflow-y-scroll h-[35rem] scrollbar-visible">
                     <ul className="h-lvh">
                       <li>
                         <details open className="w-full ">

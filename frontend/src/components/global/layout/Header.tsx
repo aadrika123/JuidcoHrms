@@ -15,6 +15,8 @@ interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Header: React.FC<SideBarProps> = (props) => {
+
+  const [userDetails, setUserDetails] = useState<any>();
   // const pathName = usePathname();
 
   // _________ Bread Crumb ________________//
@@ -99,13 +101,23 @@ const Header: React.FC<SideBarProps> = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const data = sessionStorage.getItem("user_details");
+      const user_details = JSON.parse(data as string);
+      setUserDetails(user_details);
+    }
+  }, []);
+
   return (
     <div {...props}>
       <div className="flex items-center justify-center gap-3 mx-20">
         <div className="text-center">
           <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
           <h4 className="text-[1rem] text-primary_blue font-bold ">
-            {ulb?.ulb_name}
+            {/* {ulb?.ulb_name}
+            {userDetails?.address} */}
+            {ulb ? ulb?.ulb_name : userDetails?.address}
           </h4>
         </div>
 
