@@ -122,7 +122,7 @@ class PayrollDao {
   // Utility function to calculate the number of Sundays between two dates
   calculateSundaysBetweenDates = (startDate: Date, endDate: Date) => {
     let count = 0;
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
       if (currentDate.getDay() === 0) {
