@@ -47,29 +47,29 @@ class EmployeeOnBoardDao {
   ////////////Nodemailer code /////////////////////////////
 
   private async sendEmail(emp_id: string): Promise<void> {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.NODEMAIL_EMAIL,
-        pass: process.env.NODEMAIL_PASS,
-      },
-    });
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.NODEMAIL_EMAIL,
+      pass: process.env.NODEMAIL_PASS,
+    },
+  });
 
-    if (emp_id) {
-      const mailOptions = {
-        from: '"New Employee Onboarded" <kaushalkantmishra127@gmail.com>',
-        to: process.env.NODEMAIL_RECIPIENTS,
-        subject: "New Employee Onboarded",
-        text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
-      };
+  if (emp_id) {
+    const mailOptions = {
+      from: `"New Employee Onboarded" <${process.env.NODEMAIL_EMAIL}>`,
+      to: process.env.NODEMAIL_RECIPIENTS,
+      subject: "New Employee Onboarded",
+      text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
+    };
 
-      console.log("data", mailOptions);
-      const data = await transporter.sendMail(mailOptions);
-      console.log("res", data);
-    }
+    console.log("data", mailOptions);
+    const data = await transporter.sendMail(mailOptions);
+    console.log("res", data);
   }
+}
 
   ////////////Nodemailer code /////////////////////////////
 
