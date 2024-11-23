@@ -590,6 +590,7 @@ class PayrollDao {
         const date = new Date(currentYear, currentMonth, day);
         const dayOfWeek = date.getDay();
         if (dayOfWeek !== 0) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           numberOfWeekdaysInMonth++;
         }
       }
