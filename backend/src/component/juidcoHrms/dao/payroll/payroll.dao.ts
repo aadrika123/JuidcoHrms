@@ -388,8 +388,8 @@ class PayrollDao {
             emp.emp_id,
             emp_basic_details.emp_name,
             CAST(emp_join_details.basic_pay AS FLOAT) AS basic_pay,
-            CAST(emp_join_details.grade_pay AS FLOAT) AS grade_pay,
-            SUM(emp_allow.amount_in) AS total_allowance
+            CAST(COALESCE(emp_join_details.grade_pay, 0) AS FLOAT) AS grade_pay,
+            SUM(COALESCE(emp_allow.amount_in, 0)) AS total_allowance
           FROM 
             employees AS emp    
           JOIN 
@@ -398,7 +398,7 @@ class PayrollDao {
             employee_join_details AS emp_join_details ON emp.emp_join_details_id = emp_join_details.id
           JOIN 
             employee_salary_details AS sal_details ON emp.emp_salary_details_id = sal_details.id
-          JOIN 
+          LEFT JOIN  
             employee_salary_allow AS emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
           WHERE 
             emp.emp_id = ${employeeId}
@@ -465,17 +465,17 @@ class PayrollDao {
         this.regulary_pay = await prisma.$queryRaw`
           SELECT 
             emp_join_details.basic_pay,
-            SUM(emp_allow.amount_in) AS total_allowance,
-            SUM(emp_deduct.amount_in) AS total_deductions
+            SUM(COALESCE(emp_allow.amount_in, 0)) AS total_allowance,
+            SUM(COALESCE(emp_deduct.amount_in, 0)) AS total_deductions
           FROM 
             employees AS emp    
           JOIN 
             employee_join_details AS emp_join_details ON emp.emp_join_details_id = emp_join_details.id
           JOIN 
             employee_salary_details AS sal_details ON emp.emp_salary_details_id = sal_details.id
-          JOIN 
+          LEFT JOIN 
             employee_salary_allow AS emp_allow ON sal_details.id = emp_allow.employee_salary_details_id
-          JOIN 
+          LEFT JOIN 
             employee_salary_deduction AS emp_deduct ON sal_details.id = emp_deduct.employee_salary_details_id
           WHERE 
             emp.emp_id = ${employeeId}
