@@ -59,8 +59,8 @@ class EmployeeOnBoardDao {
 
   if (emp_id) {
     const mailOptions = {
-      from: `"New Employee Onboarded" <${process.env.NODEMAIL_EMAIL}>`,
-      to: process.env.NODEMAIL_RECIPIENTS,
+      from: `"New Employee Onboarded" <aadrikaent270@gmail.com>`,
+      to: 'rina.jha.it@gmail.com',
       subject: "New Employee Onboarded",
       text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
     };

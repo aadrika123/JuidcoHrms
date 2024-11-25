@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { Request, Response, NextFunction } from "express";
 import EmployeeDao from "../../dao/employee/EmployeeDetails.dao"; // Import the DAO
 import CommonRes from "../../../../util/helper/commonResponse";
@@ -28,9 +29,10 @@ class EmployeeDetailsController {
       apiId: apiId,
       version: "v1",
     };
-
+    const { emp_id } = req?.query;
     try {
-      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId( );
+      console.log("emp_id",emp_id)
+      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId(emp_id);
 
       if (!employeeDetails) {
         return CommonRes.NOT_FOUND(

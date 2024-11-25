@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /**
  * | Author- Krish
  * | Created for- Payroll management
@@ -122,7 +123,7 @@ class PayrollDao {
   // Utility function to calculate the number of Sundays between two dates
   calculateSundaysBetweenDates = (startDate: Date, endDate: Date) => {
     let count = 0;
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
       if (currentDate.getDay() === 0) {
@@ -611,6 +612,7 @@ class PayrollDao {
         const date = new Date(currentYear, currentMonth, day);
         const dayOfWeek = date.getDay();
         if (dayOfWeek !== 0) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           numberOfWeekdaysInMonth++;
         }
       }
