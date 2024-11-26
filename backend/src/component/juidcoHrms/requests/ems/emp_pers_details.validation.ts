@@ -200,7 +200,7 @@ export const employeePresentAddressDetailsSchema = Joi.object({
   address_primary_permanent: Joi.string().allow("", null),  // Add this field
   address_secondary_permanent: Joi.string().allow("", null), // Add this field
   block_ulb_permanent: Joi.string().allow("", null), // Add this field
-  district_permanent: Joi.number().integer().allow(null), // Add this field
+  district_permanent: Joi.number().integer().allow("",null), // Add this field
   pin_code_permanent: Joi.string().allow("", null), // Add this field
   police_station_permanent: Joi.string().allow("", null), // Add this field
   post_office_permanent: Joi.string().allow("", null), // Add this field
