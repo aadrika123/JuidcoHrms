@@ -12,8 +12,8 @@
 const nextConfig = {
   basePath: "/hrms",
   env: {
-    // backend: "https://aadrikainfomedia.com/auth",
-    backend: "http://localhost:7001",
+    backend: "https://aadrikainfomedia.com/auth",
+    // backend: "http://localhost:7001",
     // backend: "https://egov.rsccl.in/auth",
     // backend: "https://aadrikainfomedia.com/auth",
     // backend: "http://localhost:8000",
