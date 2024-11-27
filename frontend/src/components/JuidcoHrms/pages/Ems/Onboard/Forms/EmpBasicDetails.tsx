@@ -28,12 +28,22 @@ import axios from "@/lib/axiosConfig";
 import { HRMS_URL } from "@/utils/api/urls";
 import toast, { Toaster } from "react-hot-toast";
 import SelectForNoApiNew from "@/components/global/atoms/SelectForNoApiNew";
+
+interface StoredEmpOfficeDataType {
+  officeName?: string;
+  location?: string;
+  department?: string;
+  emp_type?: any;
+  [key: string]: any; // For additional dynamic keys, if needed
+}
+
 const EmployeeBasicDetails: React.FC<
   EmployeeDetailsProps<EmployeeDetailsType>
 > = (props) => {
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
+
   const [employeeName, setEmployeeName] = useState({
     emp_id: "",
     first_name: "",
@@ -45,38 +55,77 @@ const EmployeeBasicDetails: React.FC<
 
   const [selectedFileName, setSelectedFileName] = useState<any>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-    const size = event.target.files[0].size;
+  // Handle file upload and DMS integration
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    const fileType = file.type;
-
+    // Validate file type
     const acceptedFileTypes = ["image/png", "image/jpeg"];
-
-    if (!acceptedFileTypes.includes(fileType)) {
+    if (!acceptedFileTypes.includes(file.type)) {
       alert("Please upload a PNG or JPEG file.");
       return;
     }
 
-    console.log(size);
-    if (size / 1024 >= 2548) {
+    // Validate file size (max 2MB)
+    const maxSizeInBytes = 2 * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
       alert("Cannot upload more than 2MB data!");
-    } else {
-      setSelectedFileName(file ? file.name : "");
-      setImagePreview(URL.createObjectURL(file));
+      return;
+    }
+
+    try {
+      // Prepare FormData for DMS
+      const formData = new FormData();
+      formData.append("img", file);
+
+      // Upload to DMS
+      const response = await axios.post("/dms/get-url", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const imageUrl = response.data.data;
+
+      // Update session storage and component state
+      setSelectedFileName(file.name);
+      setImagePreview(imageUrl); // Set the image preview
+
+      // Update emp_image in sessionStorage
+      const existingDetails = JSON.parse(
+        sessionStorage.getItem("emp_basic_details") || "{}"
+      );
+      existingDetails.emp_image = imageUrl; // Save the URL directly to `emp_image`
+      sessionStorage.setItem(
+        "emp_basic_details",
+        JSON.stringify(existingDetails)
+      );
+
+      console.log("Image uploaded successfully:", imageUrl);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Image upload failed");
     }
   };
+
+  // Retrieve image preview and file name from session storage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedFormData = sessionStorage.getItem("emp_basic_details");
       if (storedFormData) {
         const parsedData = JSON.parse(storedFormData);
-        setSelectedFileName(parsedData.emp_image);
+        setSelectedFileName(parsedData.emp_image || "");
+        setImagePreview(parsedData.emp_image_url || null);
       }
     }
   }, []);
 
+  // Retrieve employee full name from session storage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const res = sessionStorage.getItem("employee_full_name");
@@ -91,6 +140,7 @@ const EmployeeBasicDetails: React.FC<
     }
   }, []);
 
+  // Handle name change and update session storage
   function handleChangeName(key: string, value: string) {
     sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
     setEmployeeName((prev: any) => ({
@@ -99,27 +149,36 @@ const EmployeeBasicDetails: React.FC<
     }));
   }
 
+  // Handle form submission
   const handleSubmitFormik = (
     values: EmployeeDetailsType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (typeof window !== "undefined") {
+      // Get the employee's name and ID
       const fullName = Object.values(employeeName)
-        .filter((value, key: any) => key !== "emp_id") // Filter out emp_id
+        .filter((value, key: any) => key !== "emp_id") // Exclude emp_id
         .join(" ");
-
       values.emp_name = String(fullName);
       values.emp_id = employeeName.emp_id;
-      sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
-      setSubmitting(false);
 
+      // Get the latest emp_image URL from sessionStorage
+      const storedDetails = JSON.parse(
+        sessionStorage.getItem("emp_basic_details") || "{}"
+      );
+      values.emp_image = storedDetails.emp_image || ""; // Ensure emp_image is set correctly
+
+      // Save the final form data in sessionStorage
+      sessionStorage.setItem("emp_basic_details", JSON.stringify(values));
+
+      setSubmitting(false);
       if (props.setData) {
         props.setData("emp_basic_details", values);
       }
       router.push(`${pathName}?emp=${empType}&page=3`);
     }
   };
-
+  // Initial form values
   const initialValues =
     typeof window !== "undefined"
       ? sessionStorage.getItem("emp_basic_details")
@@ -127,11 +186,35 @@ const EmployeeBasicDetails: React.FC<
         : initialEmployeeDetails
       : initialEmployeeDetails;
 
-  const storedEmpOfficeData = JSON.parse(
-    sessionStorage.getItem("emp_office_details") || "{}"
-  );
+  // const [storedEmpOfficeData, setStoredEmpOfficeData] = useState({});
+  const [storedEmpOfficeData, setStoredEmpOfficeData] =
+    useState<StoredEmpOfficeDataType>({});
 
-  // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
+  console.log(storedEmpOfficeData, "storedEmpOfficeData");
+
+  // Fetch office data from session storage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedFormData = sessionStorage.getItem("emp_basic_details");
+      if (storedFormData) {
+        const parsedData = JSON.parse(storedFormData);
+        setSelectedFileName(parsedData.emp_image || "");
+        setImagePreview(parsedData.emp_image || null);
+      }
+
+      const storedFullName = sessionStorage.getItem("employee_full_name");
+      if (storedFullName) {
+        setEmployeeName(JSON.parse(storedFullName));
+      }
+
+      const officeDetails = sessionStorage.getItem("emp_office_details");
+      if (officeDetails) {
+        setStoredEmpOfficeData(JSON.parse(officeDetails));
+      }
+    }
+  }, []);
+
+  // ------------------------- VALIDATE EMPLOYEE ID ------------------------------//
   const validateEmployeeId = async () => {
     try {
       const res = await axios({
@@ -152,9 +235,10 @@ const EmployeeBasicDetails: React.FC<
       throw new Error("something went wrong while validating employee id!");
     }
   };
-  // ------------------------- VALIDATE EMPLOYEE ID  ------------------------------//
 
-  //validation for dob
+  // ------------------------- VALIDATE EMPLOYEE ID ------------------------------//
+
+  // Validation for date of birth
   const [old, setOld] = useState(false);
   const validateDob = (e: any) => {
     const dob = new Date(e.target.value);
@@ -210,7 +294,7 @@ const EmployeeBasicDetails: React.FC<
             handleBlur,
             handleSubmit,
             handleReset,
-            setFieldError
+            setFieldError,
           }) => (
             <form onSubmit={handleSubmit} className="relative">
               <Toaster />
@@ -293,10 +377,7 @@ const EmployeeBasicDetails: React.FC<
                     name="emp_image"
                     style={{ display: "none" }}
                     accept="image/*"
-                    onChange={(event) => {
-                      handleChange(event);
-                      handleFileChange(event);
-                    }}
+                    onChange={handleFileChange}
                   />
                 </div>
 
