@@ -32,6 +32,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.10",
+    "file-saver": "^2.0.5",
     "formik": "^2.4.5",
     "framer-motion": "^11.0.24",
     "google-map-react": "^2.2.1",
