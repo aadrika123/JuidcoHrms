@@ -1,14 +1,14 @@
-2024-11-28 17:22:25 [INFO]: 
+2024-11-30 16:44:59 [INFO]: 
       Admin ID: 3961
       Username: HR.903
       Email: hradminrmc@gmail.com
       Action: POST
       Resource Path: /api/hrms/v1/pay/payroll/update
       Status Code: 200
-      Duration: 5ms
+      Duration: 67ms
       Query Params: {}
       Request Body (filtered): {
-  "id": 323,
+  "id": 325,
   "status": "approved",
   "ipAddress": "127.0.0.1"
 }
@@ -22,30 +22,30 @@ Updated Data: {
     "action": "POST"
   },
   "data": {
-    "id": 323,
-    "emp_id": "EMP200280",
-    "emp_name": "Alok  kumar",
-    "gross_pay": 1053.33,
+    "id": 325,
+    "emp_id": "EMP231a57",
+    "emp_name": "kaushal kant  mishra",
+    "gross_pay": 3386.67,
     "grade_pay": 720,
     "leave_days": 0,
     "working_hour": 0,
-    "total_allowance": 66.67,
+    "total_allowance": 0,
     "total_deductions": 100,
     "non_billable_days": 26,
     "present_days": 0,
     "lwp_days": 26,
-    "salary_deducted": 912.89,
-    "net_pay": 40.44,
+    "salary_deducted": 2935.11,
+    "net_pay": 351.56,
     "last_month_lwp_deduction": 0,
-    "salary_per_day": 35,
+    "salary_per_day": 113,
     "lwp_days_last_month": 0,
-    "epf_amount": 126.4,
-    "epf_employer_amount": 38.66,
-    "esic_amount": 7.9,
-    "esic_employer_amount": 34.23,
-    "eps_employer_amount": 87.74,
+    "epf_amount": 406.4,
+    "epf_employer_amount": 124.29,
+    "esic_amount": 25.4,
+    "esic_employer_amount": 110.07,
+    "eps_employer_amount": 282.11,
     "tds_amount": 0,
-    "basic_pay": 266.67,
+    "basic_pay": 2666.67,
     "status": "approved",
     "date": "2024-11-27T00:00:00.000Z",
     "billable_days": 4,
@@ -54,7 +54,7 @@ Updated Data: {
     "month": 11,
     "year": 2024,
     "created_at": "2024-11-27T12:10:19.681Z",
-    "updated_at": "2024-11-28T11:52:25.250Z"
+    "updated_at": "2024-11-30T11:14:59.120Z"
   }
 }
     
