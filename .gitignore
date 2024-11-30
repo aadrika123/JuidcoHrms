@@ -4,3 +4,4 @@ node_modules
 build
 hrms_error.log
 payroll.log
+admin_activity.log
