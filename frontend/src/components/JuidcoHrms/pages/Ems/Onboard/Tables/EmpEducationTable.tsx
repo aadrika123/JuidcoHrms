@@ -100,15 +100,15 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   }, [props.resetTable]);
 
 
-  const onChangeFile = (index: number, e: any) => {
-    console.log(e.target.files[0])
-    console.log(index)
-    setTableData((prev) => {
-      const temp = [...prev]
-      temp[index].upload_edu = e.target.files[0]?.name
-      return temp
-    })
-  }
+  // const onChangeFile = (index: number, e: any) => {
+  //   console.log(e.target.files[0])
+  //   console.log(index)
+  //   setTableData((prev) => {
+  //     const temp = [...prev]
+  //     temp[index].upload_edu = e.target.files[0]?.name
+  //     return temp
+  //   })
+  // }
 
    const handleFileChange = async (
      index: number,

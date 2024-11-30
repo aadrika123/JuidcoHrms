@@ -182,19 +182,28 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                   <div className="flex flex-row justify-between">
                     <p>Allowances-</p>
                     <p className="text-[#0E9D4A] font-medium">
-                      {item.total_allowance.toFixed(2)}/-
+                      {item?.total_allowance !== undefined
+                        ? item.total_allowance.toFixed(2)
+                        : "0.00"}
+                      /-
                     </p>
                   </div>
                   <div className="flex flex-row justify-between">
                     <p>Deductions-</p>
                     <p className="text-red-600 font-medium">
-                      {item.total_deductions.toFixed(2)}/-
+                      {item?.total_deductions !== undefined
+                        ? item.total_deductions.toFixed(2)
+                        : "0.00"}
+                      /-
                     </p>
                   </div>
                   <div className="flex flex-row justify-between">
                     <p>Basic-</p>
                     <p className="text-zinc-700 font-medium">
-                      {(item?.basic_pay).toFixed(2)}/-
+                      {item?.basic_pay !== undefined
+                        ? item.basic_pay.toFixed(2)
+                        : "0.00"}
+                      /-
                     </p>
                   </div>
                 </div>

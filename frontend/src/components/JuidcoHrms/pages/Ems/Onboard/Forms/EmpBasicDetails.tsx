@@ -55,7 +55,7 @@ const EmployeeBasicDetails: React.FC<
 
   const [selectedFileName, setSelectedFileName] = useState<any>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  // const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   // Handle file upload and DMS integration
   const handleFileChange = async (
