@@ -44,6 +44,7 @@ export interface EmployeePersonalDetailsType {
   emp_district: string;
   emp_blood_group: string | number;
   emp_health_status: string | number;
+  emp_health_file:string;
   emp_ltc_home_town: string;
   emp_nearest_railway_station: string;
   emp_phy_health_type: string | number;

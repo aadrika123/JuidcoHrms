@@ -343,7 +343,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="border-b border-zinc-300 p-10 shadow-lg m-5">
+      {/* <div className="border-b border-zinc-300 p-10 shadow-lg m-5">
         <div className="flex justify-between mb-5">
           <SubHeading>
             <Image src={EmployeeIcon} alt="employee" width={40} height={20} />
@@ -351,7 +351,6 @@ const Dashboard = () => {
           </SubHeading>
         </div>
 
-        {/* -----------------------------------Filter------------------------------------------ */}
         <section className="flex items-end gap-12 w-full pl-16 pb-5">
           <div className="flex flex-col gap-2">
             <label htmlFor="search-by" className="text-secondary text-lg">
@@ -385,30 +384,8 @@ const Dashboard = () => {
           </PrimaryButton>
         </section>
 
-        {/* <div className="mt-8 p-4">
-          <div className="mt-2 px-2 pr-4 mb-2 flex items-center justify-between text-xs text-secondary">
-            <Image src={HeadOffice} alt="employee" width={40} height={20} />
-            <Image src={JDOffice} alt="employee" width={40} height={20} />
-            <Image src={PPO} alt="employee" width={40} height={20} />
-            <Image src={GPO} alt="employee" width={40} height={20} />
-            <Image src={CPO} alt="employee" width={40} height={20} />
-            <Image src={PPO1} alt="employee" width={40} height={20} />
-            <Image src={Bank} alt="employee" width={40} height={20} />
-          </div>
-
-          <HorizontalStepperPension steps={steps} activeStep={activeStep} />
-
-          <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
-            <h2>Head of Office</h2>
-            <h2>JD Office</h2>
-            <h2>PPO</h2>
-            <h2>GPO</h2>
-            <h2>CPO</h2>
-            <h2>PPO</h2>
-            <h2>Bank</h2>
-          </div>
-        </div> */}
-      </div>
+        
+      </div> */}
 
       <section className="m-5 p-10 shadow-lg">
         <h2 className="text-[2rem] text-secondary font-medium">

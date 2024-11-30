@@ -11,6 +11,7 @@ import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import { Toaster } from "react-hot-toast";
 import { calculateTotalDays, removeObj } from "@/utils/helper";
 import { SubHeading } from "@/components/Helpers/Heading";
+import axios from "@/lib/axiosConfig";
 
 interface TableFormProps {
   setData: (key: string, values: any, index?: number | undefined) => void;
@@ -169,12 +170,10 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
 
   const removeRow = (index: number) => {
     setTableData((prev: any) => {
-      prev?.splice(index, 1)
-      return [
-        ...prev
-      ]
+      prev?.splice(index, 1);
+      return [...prev];
     });
-  }
+  };
 
   useEffect(() => {
     if (props.setData) {
@@ -182,6 +181,59 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       props.setData("emp_training", filterTableData);
     }
   }, [tableData]);
+
+  // File Upload Handler with DMS Integration
+  const handleFileChange = async (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type (PDF, PNG, JPEG)
+    const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
+    if (!acceptedFileTypes.includes(file.type)) {
+      alert("Please upload a valid training document (PDF, PNG, or JPEG).");
+      return;
+    }
+
+    // Validate file size (max 2MB)
+    const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSizeInBytes) {
+      alert("File cannot be more than 2MB.");
+      return;
+    }
+
+    try {
+      // Prepare FormData for DMS upload
+      const formData = new FormData();
+      formData.append("img", file);
+
+      // Step 1: Upload to DMS (replace with actual production endpoint)
+      const response = await axios.post("/dms/get-url", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Step 2: Get the file URL from the response
+      const fileUrl = response.data.data;
+
+      // Step 3: Update table data with the uploaded file URL
+      setTableData((prev) => {
+        const temp = [...prev];
+        temp[index].upload_edu = fileUrl; // Save file URL
+        return temp;
+      });
+
+      // Update session storage
+      setDataSesson();
+      console.log("Training document uploaded successfully:", fileUrl);
+    } catch (error) {
+      console.error("Error uploading training document:", error);
+      alert("Training document upload failed.");
+    }
+  };
 
   return (
     <>
@@ -213,7 +265,10 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
           </thead>
           <tbody>
             {tableData?.map((rowData: any, rowIndex) => (
-              <tr key={rowIndex} className=" py-2 px-4 border-b w-full overflow-x-auto ">
+              <tr
+                key={rowIndex}
+                className=" py-2 px-4 border-b w-full overflow-x-auto "
+              >
                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
                   const stateKey: any =
                     Object.keys(getInitialFormData())[colIndex];
@@ -373,14 +428,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
 
                         {colIndex === 7 ? (
                           <input
-                            onChange={(e) =>
-                              handleInputChange(
-                                stateKey,
-                                e.target.value,
-                                undefined,
-                                rowIndex
-                              )
-                            }
+                            onChange={(e) => handleFileChange(rowIndex, e)}
                             className="bg-transparent outline-none"
                             type="file"
                           />

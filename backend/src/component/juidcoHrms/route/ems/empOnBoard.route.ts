@@ -4,6 +4,8 @@ import express, { NextFunction, Request, Response } from "express";
 import { baseUrl } from "../../../../util/common";
 import EmployeeOnBoardController from "../../controller/empOnBoard.controller";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
+import { adminLoggerMiddleware } from "../../../../middleware/adminLoggerMiddleware ";
+
 
 /**
  * | Route - 01
@@ -26,6 +28,7 @@ class EmployeeOnBoardRoute {
     app
       .route(`${baseUrl}/employee/create`)
       .post(
+         adminLoggerMiddleware, // Middleware to log admin activities
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.create(req, res, next, "0101"),
         loggerMiddleware
@@ -68,6 +71,7 @@ class EmployeeOnBoardRoute {
     app
       .route(`${baseUrl}/employee/update`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.editEmpInfo(req, res, next, "0105"),
         loggerMiddleware
@@ -76,6 +80,7 @@ class EmployeeOnBoardRoute {
     app
       .route(`${baseUrl}/employee/remove`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.employeeOnBoardController.removeEmp(req, res, next, "0106"),
         loggerMiddleware

@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { baseUrl } from "../../../../util/common";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
 import LeaveEncashController from "../../controller/leaveEncashment/leave_encashment.controller";
+import { adminLoggerMiddleware } from "../../../../middleware/adminLoggerMiddleware ";
 
 class EmployeeClaimRoute {
   private LeaveEncashController: LeaveEncashController;
@@ -67,6 +68,7 @@ class EmployeeClaimRoute {
       app
       .route(`${baseUrl}/pension/leave_encashment/createLeaveEncash`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.LeaveEncashController.createLeaveEncash(
             req,

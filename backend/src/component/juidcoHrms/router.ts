@@ -10,6 +10,7 @@ import TeamRoute from "./route/supervisor/team.route";
 import TestRoute from "./route/test/test.route";
 import PropertiesRoute from "./route/properties/properties.route";
 import DMSRoute from "./route/dms/dms.route";
+import AdminLogRoute from "./route/adminActivityLog/AdminLogRoute";
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,6 +39,7 @@ class HrmsRoute {
   private testRoute: TestRoute;
   private propertiesRoute: PropertiesRoute;
   private dmsRoute: DMSRoute;
+  private adminLogRoute: AdminLogRoute;
   constructor(app: express.Application) {
     /// CHECKBOOK_ENTRY_ROUTE ///
     this.employeeOnBoardRoute = new EmployeeOnBoardRoute();
@@ -69,6 +71,11 @@ class HrmsRoute {
 
     this.dmsRoute = new DMSRoute();
     this.dmsRoute.configure(app); // 10
+
+    /// ADMIN LOG ROUTE ///
+    this.adminLogRoute = new AdminLogRoute();
+    this.adminLogRoute.configure(app); // 11
+
 
 
     this.testRoute = new TestRoute();

@@ -41,6 +41,7 @@ type UrlKeys =
   | "EMP"
   | "TEAM_PARENT"
   | "STATE"
+  | "ADMIN_ACTIVITY"
   ;
 
 type Urls = {
@@ -196,4 +197,7 @@ export const HRMS_URL: Urls = {
   EMP: {
     get: "/employee-details",
   },
+  ADMIN_ACTIVITY:{
+    get:"/admin/logs"
+  }
 };
