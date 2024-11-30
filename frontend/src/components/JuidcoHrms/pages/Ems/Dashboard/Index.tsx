@@ -53,7 +53,7 @@ interface LogData {
 
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [fileBlob, setFileBlob] = useState<Blob | null>(null); // State for the downloaded log file
+  // const [fileBlob, setFileBlob] = useState<Blob | null>(null); // State for the downloaded log file
   const datePickerRef = useRef<DatePicker>(null);
 
   const handleDateChange = (date: Date | null) => {
