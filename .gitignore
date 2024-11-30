@@ -2,6 +2,6 @@ node_modules
 # Keep environment variables out of version control
 .env
 build
-hrms_error.log
-payroll.log
-admin_activity.log
+backend/hrms_error.log
+backend/payroll.log
+backend/admin_activity.log
