@@ -16,7 +16,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import Image from "next/image";
+// import Image from "next/image";
 // import HeadOffice from "@/assets/svg/icons/headOffice.svg";
 // import JDOffice from "@/assets/svg/icons/jdOffice.svg";
 // import PPO from "@/assets/svg/icons/ppo.svg";
@@ -24,7 +24,7 @@ import Image from "next/image";
 // import CPO from "@/assets/svg/icons/cpo.svg";
 // import PPO1 from "@/assets/svg/icons/ppo1.svg";
 // import Bank from "@/assets/svg/icons/bank.svg";
-import EmployeeIcon from "@/assets/icons/employee 1.png";
+// import EmployeeIcon from "@/assets/icons/employee 1.png";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "@/lib/axiosConfig";
