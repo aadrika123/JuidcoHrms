@@ -48,6 +48,7 @@ class PayrollRoute {
     app
       .route(`${baseUrl}/pay/payslip`)
       .get(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.payslipController.get(req, res, next, "0404"),
         loggerMiddleware

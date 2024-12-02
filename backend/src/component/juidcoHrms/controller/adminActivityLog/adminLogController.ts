@@ -6,9 +6,11 @@ class AdminLogController {
   private LOG_FILE_PATH: string;
 
   constructor() {
-    this.LOG_FILE_PATH = path.join(__dirname, '../../../../../admin_activity.log');
+  this.LOG_FILE_PATH = path.join(__dirname, '../../../../../admin_activity.log');
+  if (!fs.existsSync(this.LOG_FILE_PATH)) {
+    fs.writeFileSync(this.LOG_FILE_PATH, ""); // Create an empty log file
   }
-
+}
   getLogsByAdminId = async (
     req: Request,
     res: Response,
