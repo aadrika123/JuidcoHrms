@@ -1,109 +1,60 @@
-2024-12-02 10:34:50 [INFO]: 
+2024-12-02 12:45:51 [INFO]: 
       Admin ID: 3961
       Username: HR.903
       Email: hradminrmc@gmail.com
-      Action: GET
-      Resource Path: /api/hrms/v1/pay/payslip?emp_id=EMP912e42&date=2024-12-02
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update
       Status Code: 200
-      Duration: 266ms
-      Query Params: {"emp_id":"EMP912e42","date":"2024-12-02"}
+      Duration: 11ms
+      Query Params: {}
       Request Body (filtered): {
-  "ipAddress": "127.0.0.1",
-  "emp_id": "EMP912e42",
-  "date": "2024-12-02"
+  "id": 323,
+  "status": "approved",
+  "ipAddress": "127.0.0.1"
 }
-      Response: {
+      Old Data: null
+Updated Data: {
   "status": true,
-  "message": "Payslip Found Successfully!!",
+  "message": "Payroll Found Successfully!!",
   "meta-data": {
-    "apiId": "0404",
-    "version": "v1",
-    "action": "GET"
+    "apiId": "0406",
+    "version": "1.0",
+    "action": "POST"
   },
   "data": {
-    "emp_id": "EMP912e42",
-    "emp_salary_details": {
-      "emp_salary_allow": [
-        {
-          "id": 7,
-          "name": "DA",
-          "wfe_date": "2024-10-17",
-          "selected_option": null,
-          "amount_in": 2100,
-          "employee_salary_details_id": 3,
-          "created_at": "2024-10-17T10:21:48.470Z",
-          "updated_at": "2024-10-17T10:21:48.470Z"
-        },
-        {
-          "id": 8,
-          "name": "HRA",
-          "wfe_date": "2024-10-17",
-          "selected_option": null,
-          "amount_in": 6000,
-          "employee_salary_details_id": 3,
-          "created_at": "2024-10-17T10:21:48.470Z",
-          "updated_at": "2024-10-17T10:21:48.470Z"
-        },
-        {
-          "id": 9,
-          "name": "MA(A)",
-          "wfe_date": "2024-10-17",
-          "selected_option": null,
-          "amount_in": 4000,
-          "employee_salary_details_id": 3,
-          "created_at": "2024-10-17T10:21:48.470Z",
-          "updated_at": "2024-10-17T10:21:48.470Z"
-        }
-      ],
-      "emp_salary_deduction": [
-        {
-          "id": 7,
-          "name": "PT",
-          "wfe_date": "2024-10-17",
-          "acnt_no": "1837646384937362",
-          "amount_in": 100,
-          "employee_salary_details_id": 3,
-          "created_at": "2024-10-17T10:21:48.470Z",
-          "updated_at": "2024-10-17T10:21:48.470Z"
-        },
-        {
-          "id": 8,
-          "name": "ESIC",
-          "wfe_date": "2024-10-17",
-          "acnt_no": "1837646384937362",
-          "amount_in": 509,
-          "employee_salary_details_id": 3,
-          "created_at": "2024-10-17T10:21:48.470Z",
-          "updated_at": "2024-10-17T10:21:48.470Z"
-        }
-      ]
-    },
-    "emp_join_details": {
-      "acc_number": "8945648293",
-      "designation": {
-        "id": 4,
-        "name": "Additional Municipal Comissioner",
-        "created_at": "2024-10-17T08:17:26.747Z",
-        "updated_at": "2024-10-17T08:17:26.747Z"
-      },
-      "department": {
-        "id": 4,
-        "name": "Cabinet Secretaritat and Vigilance Department",
-        "created_at": "2024-10-17T08:17:26.977Z",
-        "updated_at": "2024-10-17T08:17:26.977Z"
-      },
-      "pay_scale": 5,
-      "grade_pay": 2000
-    },
-    "emp_basic_details": {
-      "emp_name": "Rina Jha"
-    },
-    "total": {
-      "emp_id": "EMP912e42",
-      "total_deductions": 609,
-      "total_allowance": 12100
-    },
-    "payroll": []
+    "id": 323,
+    "emp_id": "EMP200280",
+    "emp_name": "Alok  kumar",
+    "gross_pay": 1053.33,
+    "grade_pay": 720,
+    "leave_days": 0,
+    "working_hour": 0,
+    "total_allowance": 66.67,
+    "total_deductions": 100,
+    "non_billable_days": 26,
+    "present_days": 0,
+    "lwp_days": 26,
+    "salary_deducted": 912.89,
+    "net_pay": 40.44,
+    "last_month_lwp_deduction": 0,
+    "salary_per_day": 35,
+    "lwp_days_last_month": 0,
+    "epf_amount": 126.4,
+    "epf_employer_amount": 38.66,
+    "esic_amount": 7.9,
+    "esic_employer_amount": 34.23,
+    "eps_employer_amount": 87.74,
+    "tds_amount": 0,
+    "basic_pay": 266.67,
+    "status": "approved",
+    "date": "2024-11-27T00:00:00.000Z",
+    "billable_days": 4,
+    "sundays": 4,
+    "holidays": 0,
+    "month": 11,
+    "year": 2024,
+    "created_at": "2024-11-27T12:10:19.681Z",
+    "updated_at": "2024-12-02T07:15:51.478Z"
   }
 }
     
