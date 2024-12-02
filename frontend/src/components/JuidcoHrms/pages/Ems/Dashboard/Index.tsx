@@ -93,7 +93,7 @@ export const DashboardMain = () => {
   const {
     data: logData,
     error: logError,
-    isLoading,
+    // isLoading,
   } = useCodeQuery<LogData>(logFetchConfig);
 
   useEffect(() => {
