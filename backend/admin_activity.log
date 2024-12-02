@@ -1,120 +1,109 @@
-2024-11-30 16:44:59 [INFO]: 
+2024-12-02 10:34:50 [INFO]: 
       Admin ID: 3961
       Username: HR.903
       Email: hradminrmc@gmail.com
-      Action: POST
-      Resource Path: /api/hrms/v1/pay/payroll/update
+      Action: GET
+      Resource Path: /api/hrms/v1/pay/payslip?emp_id=EMP912e42&date=2024-12-02
       Status Code: 200
-      Duration: 67ms
-      Query Params: {}
+      Duration: 266ms
+      Query Params: {"emp_id":"EMP912e42","date":"2024-12-02"}
       Request Body (filtered): {
-  "id": 325,
-  "status": "approved",
-  "ipAddress": "127.0.0.1"
+  "ipAddress": "127.0.0.1",
+  "emp_id": "EMP912e42",
+  "date": "2024-12-02"
 }
-      Old Data: null
-Updated Data: {
+      Response: {
   "status": true,
-  "message": "Payroll Found Successfully!!",
+  "message": "Payslip Found Successfully!!",
   "meta-data": {
-    "apiId": "0406",
-    "version": "1.0",
-    "action": "POST"
+    "apiId": "0404",
+    "version": "v1",
+    "action": "GET"
   },
   "data": {
-    "id": 325,
-    "emp_id": "EMP231a57",
-    "emp_name": "kaushal kant  mishra",
-    "gross_pay": 3386.67,
-    "grade_pay": 720,
-    "leave_days": 0,
-    "working_hour": 0,
-    "total_allowance": 0,
-    "total_deductions": 100,
-    "non_billable_days": 26,
-    "present_days": 0,
-    "lwp_days": 26,
-    "salary_deducted": 2935.11,
-    "net_pay": 351.56,
-    "last_month_lwp_deduction": 0,
-    "salary_per_day": 113,
-    "lwp_days_last_month": 0,
-    "epf_amount": 406.4,
-    "epf_employer_amount": 124.29,
-    "esic_amount": 25.4,
-    "esic_employer_amount": 110.07,
-    "eps_employer_amount": 282.11,
-    "tds_amount": 0,
-    "basic_pay": 2666.67,
-    "status": "approved",
-    "date": "2024-11-27T00:00:00.000Z",
-    "billable_days": 4,
-    "sundays": 4,
-    "holidays": 0,
-    "month": 11,
-    "year": 2024,
-    "created_at": "2024-11-27T12:10:19.681Z",
-    "updated_at": "2024-11-30T11:14:59.120Z"
-  }
-}
-    
-2024-11-30 18:01:46 [INFO]: 
-      Admin ID: 3961
-      Username: HR.903
-      Email: hradminrmc@gmail.com
-      Action: POST
-      Resource Path: /api/hrms/v1/pay/payroll/update
-      Status Code: 200
-      Duration: 285ms
-      Query Params: {}
-      Request Body (filtered): {
-  "id": 315,
-  "status": "reject",
-  "ipAddress": "127.0.0.1"
-}
-      Old Data: null
-Updated Data: {
-  "status": true,
-  "message": "Payroll Found Successfully!!",
-  "meta-data": {
-    "apiId": "0406",
-    "version": "1.0",
-    "action": "POST"
-  },
-  "data": {
-    "id": 315,
-    "emp_id": "EMP591b7e",
-    "emp_name": "Billu  Budhw",
-    "gross_pay": 18003.63,
-    "grade_pay": 1456.67,
-    "leave_days": 0,
-    "working_hour": 152,
-    "total_allowance": 1366.2,
-    "total_deductions": 3800,
-    "non_billable_days": 7,
-    "present_days": 19,
-    "lwp_days": 7,
-    "salary_deducted": 4200.85,
-    "net_pay": 10002.78,
-    "last_month_lwp_deduction": 0,
-    "salary_per_day": 600,
-    "lwp_days_last_month": 0,
-    "epf_amount": 2160.44,
-    "epf_employer_amount": 660.73,
-    "esic_amount": 135.03,
-    "esic_employer_amount": 585.12,
-    "eps_employer_amount": 1499.7,
-    "tds_amount": 0,
-    "basic_pay": 15180.77,
-    "status": "reject",
-    "date": "2024-11-27T00:00:00.000Z",
-    "billable_days": 23,
-    "sundays": 4,
-    "holidays": 0,
-    "month": 11,
-    "year": 2024,
-    "created_at": "2024-11-27T12:10:19.681Z",
-    "updated_at": "2024-11-30T12:31:46.201Z"
+    "emp_id": "EMP912e42",
+    "emp_salary_details": {
+      "emp_salary_allow": [
+        {
+          "id": 7,
+          "name": "DA",
+          "wfe_date": "2024-10-17",
+          "selected_option": null,
+          "amount_in": 2100,
+          "employee_salary_details_id": 3,
+          "created_at": "2024-10-17T10:21:48.470Z",
+          "updated_at": "2024-10-17T10:21:48.470Z"
+        },
+        {
+          "id": 8,
+          "name": "HRA",
+          "wfe_date": "2024-10-17",
+          "selected_option": null,
+          "amount_in": 6000,
+          "employee_salary_details_id": 3,
+          "created_at": "2024-10-17T10:21:48.470Z",
+          "updated_at": "2024-10-17T10:21:48.470Z"
+        },
+        {
+          "id": 9,
+          "name": "MA(A)",
+          "wfe_date": "2024-10-17",
+          "selected_option": null,
+          "amount_in": 4000,
+          "employee_salary_details_id": 3,
+          "created_at": "2024-10-17T10:21:48.470Z",
+          "updated_at": "2024-10-17T10:21:48.470Z"
+        }
+      ],
+      "emp_salary_deduction": [
+        {
+          "id": 7,
+          "name": "PT",
+          "wfe_date": "2024-10-17",
+          "acnt_no": "1837646384937362",
+          "amount_in": 100,
+          "employee_salary_details_id": 3,
+          "created_at": "2024-10-17T10:21:48.470Z",
+          "updated_at": "2024-10-17T10:21:48.470Z"
+        },
+        {
+          "id": 8,
+          "name": "ESIC",
+          "wfe_date": "2024-10-17",
+          "acnt_no": "1837646384937362",
+          "amount_in": 509,
+          "employee_salary_details_id": 3,
+          "created_at": "2024-10-17T10:21:48.470Z",
+          "updated_at": "2024-10-17T10:21:48.470Z"
+        }
+      ]
+    },
+    "emp_join_details": {
+      "acc_number": "8945648293",
+      "designation": {
+        "id": 4,
+        "name": "Additional Municipal Comissioner",
+        "created_at": "2024-10-17T08:17:26.747Z",
+        "updated_at": "2024-10-17T08:17:26.747Z"
+      },
+      "department": {
+        "id": 4,
+        "name": "Cabinet Secretaritat and Vigilance Department",
+        "created_at": "2024-10-17T08:17:26.977Z",
+        "updated_at": "2024-10-17T08:17:26.977Z"
+      },
+      "pay_scale": 5,
+      "grade_pay": 2000
+    },
+    "emp_basic_details": {
+      "emp_name": "Rina Jha"
+    },
+    "total": {
+      "emp_id": "EMP912e42",
+      "total_deductions": 609,
+      "total_allowance": 12100
+    },
+    "payroll": []
   }
 }
     

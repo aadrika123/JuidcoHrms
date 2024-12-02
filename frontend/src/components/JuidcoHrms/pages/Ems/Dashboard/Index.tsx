@@ -53,6 +53,7 @@ interface LogData {
 
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
   // const [fileBlob, setFileBlob] = useState<Blob | null>(null); // State for the downloaded log file
   const datePickerRef = useRef<DatePicker>(null);
 
@@ -107,26 +108,22 @@ export const DashboardMain = () => {
       toast.error("Error fetching log data!");
     }
   }, [logError]);
-  const downloadLog = async () => {
+  const downloadLog = async (
+    logData: any,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     console.log("Download button clicked", logData);
 
     // Check if the API is loading
-    if (isLoading) {
-      console.log("Data is still loading...");
-      return; // Exit early if data is loading
+    if (!logData || logData.length === 0) {
+      console.log("No log data available.");
+      alert("No log data available for download."); // Fallback message for no data
+      return;
     }
 
-    // Log data structure to understand its content
-    console.log("Log data structure:", logData);
+    setLoading(true); // Start loading spinner
 
-    // Check if logData and logData.data are available
-    // if (!logData || !logData.data || logData.data.length === 0) {
-    //   console.log("No log data available or invalid data structure:", logData);
-    //   return; // No data to download
-    // }
-    const val: any = [logData];
-    console.log("line number 128", val);
-    console.log("line number 128", typeof val);
+    const val: any = [logData]; // Wrap logData into an array to map over
     try {
       console.log("Data is valid. Proceeding with download...");
 
@@ -148,7 +145,6 @@ export const DashboardMain = () => {
         })
         .join("\n\n"); // Add a blank line between each log entry
 
-      // Log formatted text for debugging
       console.log("Formatted log text:", logText);
 
       // Create a Blob from the formatted log text
@@ -173,8 +169,12 @@ export const DashboardMain = () => {
       window.URL.revokeObjectURL(url);
 
       console.log("Activity log downloaded successfully!");
+      alert("Activity log downloaded successfully!");
     } catch (error) {
       console.error("Failed to download the log file:", error);
+      alert("Failed to download the log file. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
@@ -462,34 +462,23 @@ export const DashboardMain = () => {
           {/* First Box - See the Log * Activity */}
 
           <div
-            className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10 cursor-pointer"
-            onClick={() => downloadLog()}
+            className={`bg-[#ffffff] h-[50%] p-5 shadow-lg relative z-10 cursor-pointer ${
+              loading ? "opacity-50 pointer-events-none" : ""
+            }`}
+            onClick={() => downloadLog(logData, setLoading)}
           >
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
+                <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
+              </div>
+            )}
             <InnerHeading className="text-xl flex items-center justify-between">
               <div className="flex items-center">
                 <i className="mr-2 bg-primary_blue rounded">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="27"
-                    height="27"
-                    viewBox="0 0 27 27"
-                    fill="none"
-                  >
-                    <rect
-                      width="27"
-                      height="27"
-                      rx="8"
-                      // fill="#665DD9"
-                    />
-                    <path
-                      d="M16.5685 5.0625C19.7855 5.0625 21.8025 7.06482 21.8025 10.2965V12.2399L21.7967 12.3268C21.7542 12.6394 21.4863 12.8804 21.1621 12.8804H21.1547L21.0536 12.8723C20.9206 12.8508 20.7971 12.7873 20.7017 12.6898C20.5826 12.5679 20.5176 12.403 20.5216 12.2326V10.2965C20.5216 7.74944 19.1156 6.3434 16.5685 6.3434H10.2965C7.74208 6.3434 6.3434 7.74944 6.3434 10.2965V16.5759C6.3434 19.1229 7.74944 20.5216 10.2965 20.5216H16.5685C19.1229 20.5216 20.5216 19.1156 20.5216 16.5759C20.5216 16.2221 20.8083 15.9354 21.1621 15.9354C21.5158 15.9354 21.8025 16.2221 21.8025 16.5759C21.8025 19.8002 19.8002 21.8025 16.5759 21.8025H10.2965C7.06482 21.8025 5.0625 19.8002 5.0625 16.5759V10.2965C5.0625 7.06482 7.06482 5.0625 10.2965 5.0625H16.5685ZM9.87691 11.386C10.0468 11.3918 10.2074 11.4648 10.3234 11.5891C10.4394 11.7134 10.5012 11.8787 10.4953 12.0485V17.4003C10.4831 17.754 10.1864 18.0309 9.83274 18.0187C9.47903 18.0065 9.20218 17.7099 9.21437 17.3562V11.997L9.22578 11.8969C9.25146 11.7656 9.3183 11.6449 9.4179 11.553C9.54241 11.4382 9.70773 11.378 9.87691 11.386ZM13.4619 8.87575C13.8157 8.87575 14.1024 9.16248 14.1024 9.51619V17.3635C14.1024 17.7172 13.8157 18.004 13.4619 18.004C13.1082 18.004 12.8215 17.7172 12.8215 17.3635V9.51619C12.8215 9.16248 13.1082 8.87575 13.4619 8.87575ZM17.0102 14.2128C17.3639 14.2128 17.6506 14.4996 17.6506 14.8533V17.3562C17.6506 17.7099 17.3639 17.9966 17.0102 17.9966C16.6565 17.9966 16.3697 17.7099 16.3697 17.3562V14.8533C16.3697 14.4996 16.6565 14.2128 17.0102 14.2128Z"
-                      fill="white"
-                      fillOpacity="0.92"
-                    />
-                  </svg>
+                  {/* Your SVG icon */}
                 </i>
               </div>
-              <div className="menu flex items-center  top-0 right-0 ">
+              <div className="menu flex items-center top-0 right-0">
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
