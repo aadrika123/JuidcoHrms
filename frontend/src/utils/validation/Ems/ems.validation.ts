@@ -34,7 +34,7 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 /// ------------- Employee Basic Details ---------------------///
 export const employeeValidationSchema = yup.object({
   // emp_id: yup.string().required("Employee ID is required"),
-  emp_image: yup.string().required("Employee image is required"),
+  // emp_image: yup.string().required("Employee image is required"),
   // emp_name: yup
   //   .string()
   //   .min(3, "Must be at least 3 characters long")

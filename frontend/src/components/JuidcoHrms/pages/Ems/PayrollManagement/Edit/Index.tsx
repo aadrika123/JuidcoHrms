@@ -303,6 +303,10 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   //   : 0;
   // ----------------------------GET TDS -------------------------//
 
+  const totalDeductions =
+    (empData?.payroll[0]?.salary_deducted || 0) +
+    (empData?.payroll[0]?.last_month_lwp_deduction || 0) +
+    (empData?.payroll[0]?.total_deductions || 0);
   return (
     <>
       <Toaster />
@@ -387,9 +391,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                       viewBox="0 0 32 32"
                       fill="none"
                     >
-                      <rect width="32" height="32" rx="9" 
-                      
-                       />
+                      <rect width="32" height="32" rx="9" />
                       <path
                         d="M19.6367 6C23.4494 6 25.84 8.37312 25.84 12.2033V14.5066L25.8331 14.6096C25.7828 14.9801 25.4652 15.2656 25.0809 15.2656H25.0722L24.9524 15.256C24.7948 15.2306 24.6484 15.1554 24.5354 15.0397C24.3942 14.8952 24.3172 14.6999 24.3219 14.4979V12.2033C24.3219 9.18452 22.6555 7.5181 19.6367 7.5181H12.2033C9.1758 7.5181 7.5181 9.18452 7.5181 12.2033V19.6455C7.5181 22.6642 9.18452 24.3219 12.2033 24.3219H19.6367C22.6642 24.3219 24.3219 22.6555 24.3219 19.6455C24.3219 19.2262 24.6617 18.8864 25.0809 18.8864C25.5002 18.8864 25.84 19.2262 25.84 19.6455C25.84 23.4669 23.4669 25.84 19.6455 25.84H12.2033C8.37312 25.84 6 23.4669 6 19.6455V12.2033C6 8.37312 8.37312 6 12.2033 6H19.6367ZM11.706 13.4945C11.9073 13.5014 12.0977 13.5879 12.2352 13.7352C12.3726 13.8825 12.4459 14.0784 12.4388 14.2798V20.6226C12.4244 21.0418 12.0728 21.37 11.6536 21.3555C11.2344 21.341 10.9063 20.9895 10.9207 20.5703V14.2187L10.9343 14.1C10.9647 13.9444 11.0439 13.8013 11.162 13.6924C11.3095 13.5564 11.5055 13.4851 11.706 13.4945ZM15.9549 10.5194C16.3741 10.5194 16.7139 10.8592 16.7139 11.2785V20.579C16.7139 20.9982 16.3741 21.338 15.9549 21.338C15.5357 21.338 15.1958 20.9982 15.1958 20.579V11.2785C15.1958 10.8592 15.5357 10.5194 15.9549 10.5194ZM20.1602 16.8448C20.5794 16.8448 20.9193 17.1847 20.9193 17.6039V20.5703C20.9193 20.9895 20.5794 21.3293 20.1602 21.3293C19.741 21.3293 19.4012 20.9895 19.4012 20.5703V17.6039C19.4012 17.1847 19.741 16.8448 20.1602 16.8448Z"
                         fill="white"
@@ -610,18 +612,43 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                     <tr className="border-1px">
                       <td className="border-2 border-t-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12">
                         {empData?.emp_salary_details?.emp_salary_allow?.map(
-                          (item: any, index: number) => (
-                            <tr key={index} className="border-1px ">
-                              <>
-                                <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
-                                  {allowanceFullForm(item?.name) || null}
-                                </td>
-                                <td className="border-b border-neutral-600 p-2 text-xs">
-                                  {item?.amount_in || 0}
-                                </td>
-                              </>
-                            </tr>
-                          )
+                          (item: any, index: number) => {
+                            // Calculate the total days in the current month
+                            const currentYear =
+                              empData?.payroll?.[0]?.year ||
+                              new Date().getFullYear();
+                            const currentMonth =
+                              empData?.payroll?.[0]?.month ||
+                              new Date().getMonth() + 1;
+                            const totalDaysInMonth = new Date(
+                              currentYear,
+                              currentMonth,
+                              0
+                            ).getDate();
+
+                            // Billable days
+                            const billableDays =
+                              empData?.payroll?.[0]?.billable_days || 0;
+
+                            // Adjusted amount based on billable days
+                            const adjustedAmount =
+                              ((item?.amount_in || 0) / totalDaysInMonth) *
+                              billableDays;
+
+                            return (
+                              <tr key={index} className="border-1px ">
+                                <>
+                                  <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
+                                    {allowanceFullForm(item?.name) || null}
+                                  </td>
+                                  <td className="border-b border-neutral-600 p-2 text-xs">
+                                    {adjustedAmount.toFixed(2)}{" "}
+                                    {/* Display the prorated amount */}
+                                  </td>
+                                </>
+                              </tr>
+                            );
+                          }
                         )}
                       </td>
                       <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 p-2 font-bold w-[50rem]">
@@ -656,7 +683,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         <div className="flex justify-between">
                           <div className="">Total Allowance (B)</div>
                           <div className="">
-                            {empData?.total?.total_allowance}
+                            {empData?.payroll?.[0]?.total_allowance}
                           </div>
                         </div>
                       </td>
@@ -684,7 +711,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                         <div className="flex justify-between">
                           <div className=""> Grade Pay</div>
                           <div className="">
-                            {empData?.emp_join_details?.grade_pay}
+                            {empData?.payroll?.[0]?.grade_pay}
                           </div>
                         </div>
                       </td>
@@ -726,10 +753,10 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           {empData?.payroll[0]?.epf_employer_amount}
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          Deductions
+                          Deductions + (LWP Salary + Last Month LWP Salary)
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {empData?.total?.total_deductions}
+                          {totalDeductions}
                         </td>
                       </tr>
                       <tr className="border">
@@ -797,7 +824,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           Less: Deductions
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          {empData?.total?.total_deductions}
+                          {totalDeductions}
                         </td>
                       </tr>
                       <tr className="border">
@@ -848,7 +875,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           {(
                             (empData?.payroll[0]?.gross_pay as number) -
                             (empData?.payroll[0]?.tds_amount as number) -
-                            (empData?.total?.total_deductions as number)
+                            totalDeductions
                           ).toFixed(2)}
                         </td>
                       </tr>

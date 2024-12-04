@@ -105,6 +105,56 @@ const EmpployeePersonalDetails: React.FC<
       }
     });
   }
+  const handleHealthFileChange = async (
+  event: React.ChangeEvent<HTMLInputElement>
+) => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  // Validate file type (health certificate specific, e.g., PDF, PNG, JPEG)
+  const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
+  if (!acceptedFileTypes.includes(file.type)) {
+    alert("Please upload a valid health certificate file (PDF, PNG, or JPEG).");
+    return;
+  }
+
+  // Validate file size (max 2MB for health certificate)
+  const maxSizeInBytes = 2 * 1024 * 1024;
+  if (file.size > maxSizeInBytes) {
+    alert("Health certificate cannot be more than 2MB.");
+    return;
+  }
+
+  try {
+    // Prepare FormData for DMS upload
+    const formData = new FormData();
+    formData.append("img", file);
+
+    // Upload to DMS
+    const response = await axios.post("/dms/get-url", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    const fileUrl = response.data.data;
+
+    // Update session storage and component state with the health file URL
+    const existingDetails = JSON.parse(
+      sessionStorage.getItem("emp_personal_details") || "{}"
+    );
+    existingDetails.emp_health_file = fileUrl; // Save the URL for the health certificate
+    sessionStorage.setItem(
+      "emp_personal_details",
+      JSON.stringify(existingDetails)
+    );
+
+    console.log("Health certificate uploaded successfully:", fileUrl);
+  } catch (error) {
+    console.error("Error uploading health certificate:", error);
+    alert("Health certificate upload failed");
+  }
+};
 
   // function updateEmpMotherLang(
   //   id: number,
@@ -165,32 +215,47 @@ const EmpployeePersonalDetails: React.FC<
     fetchData();
   }, []);
 
-  const handleSubmitFormik = (
-    values: EmployeePersonalDetailsType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+const handleSubmitFormik = (
+  values: EmployeePersonalDetailsType,
+  { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+) => {
+  try {
     values.emp_lang = empLang;
-    // values.emp_mother_tounge = empMotherLang;
+
+    // Remove default values from the form if they haven't changed
     Object.keys(values).forEach((key) => {
       const val = values[key as keyof typeof values];
       if (
-        val ==
+        val ===
         initialEmployeePersonalDetails[
-        key as keyof typeof initialEmployeePersonalDetails
+          key as keyof typeof initialEmployeePersonalDetails
         ]
       ) {
         delete values[key as keyof typeof values];
       }
     });
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
-      setSubmitting(false);
-      if (props.setData) {
-        props.setData("emp_personal_details", values);
-      }
-      router.push(`${pathName}?emp=${empType}&page=4`);
+
+    // Save to session storage
+    const empData = JSON.parse(
+      sessionStorage.getItem("emp_personal_details") ?? "{}"
+    );
+    values.emp_health_file = empData.emp_health_file || null;
+
+    sessionStorage.setItem("emp_personal_details", JSON.stringify(values));
+
+    // If callback exists, send data
+    if (props.setData) {
+      props.setData("emp_personal_details", values);
     }
-  };
+
+    // Navigate to the next page
+    router.push(`${pathName}?emp=${empType}&page=4`);
+  } catch (error) {
+    console.error("Form submission failed:", error);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const initialValues =
     typeof window !== "undefined"
@@ -373,7 +438,7 @@ const EmpployeePersonalDetails: React.FC<
                   options={stateList}
                   getOptionLabel={(option) => option.state || ""}
                   required
-                  size={'small'}
+                  size={"small"}
                   error={errors.emp_home_state}
                   touched={touched.emp_home_state}
                   setState={setStateValue}
@@ -517,9 +582,8 @@ const EmpployeePersonalDetails: React.FC<
                       <input
                         type="file"
                         name="emp_health_file"
-                        onChange={handleChange}
-                        value={undefined}
-                      // value={values.emp_health_file || ''}
+                        onChange={handleHealthFileChange}
+                        value={undefined} // Ensure the file input is reset after upload
                       />
                     </div>
                   )}

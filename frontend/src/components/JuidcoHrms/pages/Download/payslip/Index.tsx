@@ -149,7 +149,7 @@ const Download_payslip = () => {
     } catch (error) {
       console.error("Error fetching employee data:", error);
       setEmpData(null);
-    }finally {
+    } finally {
       setLoading(false); // Set loading to false after the API call completes
     }
   };
@@ -160,6 +160,11 @@ const Download_payslip = () => {
     content: () => componentRef.current,
   });
   const currentMonth = new Date().toISOString().slice(0, 7);
+
+  const totalDeductions =
+    (empData?.payroll[0]?.salary_deducted || 0) +
+    (empData?.payroll[0]?.last_month_lwp_deduction || 0) +
+    (empData?.payroll[0]?.total_deductions || 0);
 
   return (
     <>
@@ -206,25 +211,25 @@ const Download_payslip = () => {
               </div>
             </div>
             <div>
-             <button
-      type="submit"
-      className="w-full border border-indigo-600 bg-primary_blue hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
-      onClick={fetchEmpData}
-      disabled={loading} 
-    >
-      <p className="flex justify-center">
-        {loading ? (
-          <span>Loading...</span> 
-        ) : (
-          <>
-            <span className="mt-1">
-              <RiFilter2Line />
-            </span>
-            Search record
-          </>
-        )}
-      </p>
-    </button>
+              <button
+                type="submit"
+                className="w-full border border-indigo-600 bg-primary_blue hover:bg-indigo-500 text-white shadow-lg rounded-md text-base px-5 py-1"
+                onClick={fetchEmpData}
+                disabled={loading}
+              >
+                <p className="flex justify-center">
+                  {loading ? (
+                    <span>Loading...</span>
+                  ) : (
+                    <>
+                      <span className="mt-1">
+                        <RiFilter2Line />
+                      </span>
+                      Search record
+                    </>
+                  )}
+                </p>
+              </button>
             </div>
           </div>
         </div>
@@ -326,18 +331,43 @@ const Download_payslip = () => {
                 <tr className="border-1px">
                   <td className="border-2 border-t-0 border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12">
                     {empData?.emp_salary_details?.emp_salary_allow?.map(
-                      (item: any, index: number) => (
-                        <tr key={index} className="border-1px ">
-                          <>
-                            <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
-                              {allowanceFullForm(item?.name) || null}
-                            </td>
-                            <td className="border-b border-neutral-600 p-2 text-xs">
-                              {item?.amount_in || 0}
-                            </td>
-                          </>
-                        </tr>
-                      )
+                      (item: any, index: number) => {
+                        // Calculate the total days in the current month
+                        const currentYear =
+                          empData?.payroll?.[0]?.year ||
+                          new Date().getFullYear();
+                        const currentMonth =
+                          empData?.payroll?.[0]?.month ||
+                          new Date().getMonth() + 1;
+                        const totalDaysInMonth = new Date(
+                          currentYear,
+                          currentMonth,
+                          0
+                        ).getDate();
+
+                        // Billable days
+                        const billableDays =
+                          empData?.payroll?.[0]?.billable_days || 0;
+
+                        // Adjusted amount based on billable days
+                        const adjustedAmount =
+                          ((item?.amount_in || 0) / totalDaysInMonth) *
+                          billableDays;
+
+                        return (
+                          <tr key={index} className="border-1px ">
+                            <>
+                              <td className="border-b border-r-0 border-neutral-600 w-[150rem] p-2 text-xs">
+                                {allowanceFullForm(item?.name) || null}
+                              </td>
+                              <td className="border-b border-neutral-600 p-2 text-xs">
+                                {adjustedAmount.toFixed(2)}{" "}
+                                {/* Display the prorated amount */}
+                              </td>
+                            </>
+                          </tr>
+                        );
+                      }
                     )}
                   </td>
                   <td className="border-2 border-t-0 border-r-0 border-l-0 border-neutral-600 p-2 font-bold w-[50rem]">
@@ -395,9 +425,7 @@ const Download_payslip = () => {
                   <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
                     <div className="flex justify-between">
                       <div className=""> Grade Pay</div>
-                      <div className="">
-                        {empData?.emp_join_details?.grade_pay}
-                      </div>
+                      <div className="">{empData?.payroll?.[0]?.grade_pay}</div>
                     </div>
                   </td>
                   <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
@@ -436,10 +464,10 @@ const Download_payslip = () => {
                       {empData?.payroll[0]?.epf_employer_amount}
                     </td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Deductions
+                      Deductions + (LWP Salary + Last Month LWP Salary)
                     </td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.total?.total_deductions}
+                      {totalDeductions}
                     </td>
                   </tr>
                   <tr className="border">
@@ -507,7 +535,7 @@ const Download_payslip = () => {
                       Less: Deductions
                     </td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      {empData?.total?.total_deductions}
+                      {totalDeductions}
                     </td>
                   </tr>
                   <tr className="border">
@@ -555,7 +583,7 @@ const Download_payslip = () => {
                       {(
                         (empData?.payroll[0]?.gross_pay as number) -
                         (empData?.payroll[0]?.tds_amount as number) -
-                        (empData?.total?.total_deductions as number)
+                        totalDeductions
                       ).toFixed(2)}
                     </td>
                   </tr>

@@ -106,6 +106,7 @@ export const employeePersonalDetailsRequestData = (
     emp_district: empPersonalDetails.emp_district,
     emp_blood_group: empPersonalDetails.emp_blood_group,
     emp_health_status: empPersonalDetails.emp_health_status,
+    emp_health_file: empPersonalDetails.emp_health_file,
     emp_ltc_home_town: empPersonalDetails.emp_ltc_home_town,
     emp_nearest_railway_station: empPersonalDetails.emp_nearest_railway_station,
     emp_phy_health_type: empPersonalDetails.emp_phy_health_type,
@@ -200,7 +201,7 @@ export const employeePresentAddressDetailsSchema = Joi.object({
   address_primary_permanent: Joi.string().allow("", null),  // Add this field
   address_secondary_permanent: Joi.string().allow("", null), // Add this field
   block_ulb_permanent: Joi.string().allow("", null), // Add this field
-  district_permanent: Joi.number().integer().allow(null), // Add this field
+  district_permanent: Joi.number().integer().allow("",null), // Add this field
   pin_code_permanent: Joi.string().allow("", null), // Add this field
   police_station_permanent: Joi.string().allow("", null), // Add this field
   post_office_permanent: Joi.string().allow("", null), // Add this field

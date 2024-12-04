@@ -97,8 +97,7 @@ export default function AddMembers() {
     setEmpLoading(true)
     axios(`${HRMS_URL.EMP.get}?emp_id=${emp_id}`)
       .then((response) => {
-        // console.log("ababababab", response?.data?.data);
-        setEmpData(response?.data?.data)
+        setEmpData(response?.data?.data[0])
       })
       .catch((error) => {
         console.error("Error fetching data:", error.response.data);
