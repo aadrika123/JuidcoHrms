@@ -47,29 +47,29 @@ class EmployeeOnBoardDao {
   ////////////Nodemailer code /////////////////////////////
 
   private async sendEmail(emp_id: string): Promise<void> {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.NODEMAIL_EMAIL,
-        pass: process.env.NODEMAIL_PASS,
-      },
-    });
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.NODEMAIL_EMAIL,
+      pass: process.env.NODEMAIL_PASS,
+    },
+  });
 
-    if (emp_id) {
-      const mailOptions = {
-        from: '"New Employee Onboarded" <kaushalkantmishra127@gmail.com>',
-        to: "rina.jha.it@gmail.com, kaushalkantmishra127@gmail.com",
-        subject: "New Employee Onboarded",
-        text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
-      };
+  if (emp_id) {
+    const mailOptions = {
+      from: `"New Employee Onboarded" <aadrikaent270@gmail.com>`,
+      to: 'rina.jha.it@gmail.com',
+      subject: "New Employee Onboarded",
+      text: `Hello, a new employee with ID ${emp_id} has been onboarded.`,
+    };
 
-      console.log("data", mailOptions);
-      const data = await transporter.sendMail(mailOptions);
-      console.log("res", data);
-    }
+    console.log("data", mailOptions);
+    const data = await transporter.sendMail(mailOptions);
+    console.log("res", data);
   }
+}
 
   ////////////Nodemailer code /////////////////////////////
 
@@ -291,7 +291,8 @@ class EmployeeOnBoardDao {
     const department: string = String(req.query.department);
     const designation: string = String(req.query.designation);
     const emp_type: string = String(req.query.emp_type);
-    const { ulb_id } = req.body.auth
+    const { ulb_id } = req.body.auth;
+
 
     const query: Prisma.employeesFindManyArgs = {
       skip: (page - 1) * limit,
@@ -424,6 +425,7 @@ class EmployeeOnBoardDao {
             emg_contact_no: true,
             aadhar_no: true,
             gender: true,
+            pan_no: true,
           },
         },
         emp_personal_details: {

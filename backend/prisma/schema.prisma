@@ -177,17 +177,19 @@ model employee_address_details {
 
 // -------------Employee Service History-----------------//
 model employee_increment_details {
-  id                  Int       @id @default(autoincrement())
-  scale               String?
-  inc_date            String?
-  inc_amount          Float?
-  basic_pay_after_inc Float?
-  vide_order_no       String?
-  vide_order_date     String?
-  employees           employees @relation(fields: [employees_id], references: [emp_id])
-  employees_id        String
-  created_at          DateTime  @default(now()) @map("created_at")
-  updated_at          DateTime  @updatedAt @map("updated_at")
+  id                           Int       @id @default(autoincrement())
+  scale                        String?
+  inc_date                     String?
+  inc_amount                   Float?
+  basic_pay_after_inc          Float?
+  vide_order_no                String?
+  vide_order_date              String?
+  esic_deduct_for_current_year Boolean? // To check ESIC will deduct or not
+  esic_stop_next_year          Boolean?
+  employees                    employees @relation(fields: [employees_id], references: [emp_id])
+  employees_id                 String
+  created_at                   DateTime  @default(now()) @map("created_at")
+  updated_at                   DateTime  @updatedAt @map("updated_at")
 }
 
 model employee_promotion_details {
@@ -712,24 +714,31 @@ model payroll_master {
   emp_id                   String
   emp_name                 String
   gross_pay                Float     @default(0)
+  grade_pay                Float     @default(0)
   leave_days               Int       @default(0)
   working_hour             Int       @default(0)
   total_allowance          Float     @default(0)
   total_deductions         Float     @default(0)
-  non_billable             Int       @default(0)
+  non_billable_days             Int       @default(0)
   present_days             Float     @default(0)
   lwp_days                 Float     @default(0)
   salary_deducted          Float     @default(0)
   net_pay                  Float     @default(0)
   last_month_lwp_deduction Float     @default(0)
-  salary_per_hour          Float     @default(0)
+  salary_per_day          Float     @default(0)
   lwp_days_last_month      Float     @default(0)
   epf_amount               Float     @default(0)
+  epf_employer_amount      Float     @default(0)
   esic_amount              Float     @default(0)
+  esic_employer_amount     Float     @default(0)
+  eps_employer_amount      Float     @default(0)
   tds_amount               Float     @default(0)
   basic_pay                Float?    @default(0)
   status                   String? // 0 -> Reject || 1 -> Approved
   date                     DateTime
+  billable_days            Int       @default(0)
+  sundays                  Int       @default(0)
+  holidays                 Int       @default(0)
   month                    Int
   year                     Int
   employees                employees @relation(fields: [emp_id], references: [emp_id])
@@ -769,6 +778,7 @@ model pension_master {
   nom_relation             String?
   nom_address              String?
   payment_order_no         String?
+  guardian_name            String?
   employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")

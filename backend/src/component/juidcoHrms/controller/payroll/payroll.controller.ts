@@ -67,8 +67,8 @@ class PayrollController {
       action: "GET",
       version: "1.0",
     };
-
-    const data = await this.payrollDao.calc_total_amount_released();
+const {ulb_id} = req?.body?.auth;
+    const data = await this.payrollDao.calc_total_amount_released(ulb_id);
     return CommonRes.SUCCESS(
       resMessage("Calculated Total Amount Released").FOUND,
       data,

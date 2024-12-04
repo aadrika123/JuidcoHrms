@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { Request, Response, NextFunction } from "express";
 import EmployeeDao from "../../dao/employee/EmployeeDetails.dao"; // Import the DAO
 import CommonRes from "../../../../util/helper/commonResponse";
@@ -16,25 +17,19 @@ class EmployeeDetailsController {
     next: NextFunction,
     apiId: string
   ): Promise<object> => {
-    const empId = req.query.emp_id; // Get emp_id from query parameters
-    if (!empId) {
-      return res
-        .status(200)
-        .json({ status: false, message: "emp_id is required" });
-    }
-
     const resObj = {
       action: "GET",
       apiId: apiId,
       version: "v1",
     };
-
+    
+    const { emp_id,  ulb_id } = req.query; // Extract emp_id and ulb_id from query parameters
+    
     try {
-      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId(
-        empId as string
-      ); // Use the DAO to fetch details
+      console.log("emp_id:", emp_id, "ulb_id:", ulb_id);
+      const employeeDetails = await this.employeeDao.getEmployeeDetailsByEmpId(emp_id, ulb_id);
 
-      if (!employeeDetails) {
+      if (!employeeDetails || employeeDetails.length === 0) {
         return CommonRes.NOT_FOUND(
           resMessage("Employee").NOT_FOUND,
           employeeDetails,

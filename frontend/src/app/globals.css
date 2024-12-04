@@ -155,3 +155,35 @@ span.react-calendar__navigation__label__labelText.react-calendar__navigation__la
     font-size: 0.7rem;
   }
 }
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* For WebKit browsers */
+.scrollbar-visible::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.scrollbar-visible::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Rounded corners for the scrollbar */
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color when hovered */
+}
+
+/* For other browsers (optional, fallback) */
+.scrollbar-visible {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #888 #f1f1f1; /* Thumb color, Track color */
+}

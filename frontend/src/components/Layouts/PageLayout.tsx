@@ -59,19 +59,20 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           </div>
 
         </div> */}
-        <div
-          className={`grid grid-cols-10  ${isSidebarCollapsed ? "sidebar-collapsed h-0" : ""}`}
+        {/* ------------------ */}
+        {/* <div
+          className={`   ${isSidebarCollapsed ? "sidebar-collapsed h-0" : "flex"}`}
         >
-          <div className="col-span-10">
-            <Header className="bg-white border-b border-b-slate-400 w-full h-20 flex items-center justify-between px-5 shadow-md mb-1" />
+          <div className="col-span-10 fixed top-0 w-full left-0 z-50">
+            <Header className="bg-white border-b border-b-slate-400 w-full h-20 flex items-center justify-between px-5 shadow-md mb-1" handleToggleSidebar={handleToggleSidebar} />
           </div>
           <div
-            className={`col-span-2 border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : ""}`}
+            className={`border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : " w-[25%]"}`}
           >
-            <Sidebar className="w-full min-h-screen" />
+            <Sidebar className="w-full min-h-screen mt-24" />
           </div>
           <div
-            className={`col-span-8 ${isSidebarCollapsed ? "col-span-full p-0" : ""}`}
+            className={`w-full mt-14 ${isSidebarCollapsed ? "col-span-full p-0" : ""}`}
           >
             <section
               className={`p-8 h-full bg-[#FCFDFF] overflow-y-auto ${isSidebarCollapsed ? "content-collapsed" : ""}`}
@@ -79,9 +80,37 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               {children}
             </section>
           </div>
+        </div> */}
+        {/* ---------------------- */}
+        <div
+          className={`${isSidebarCollapsed ? "sidebar-collapsed h-0" : "flex"}`}
+        >
+          <div className="col-span-10 fixed top-0 w-full left-0 z-50">
+            <Header
+              className="bg-white border-b border-b-slate-400 w-full h-20 flex items-center justify-between px-5 shadow-md mb-1"
+              handleToggleSidebar={handleToggleSidebar}
+            />
+          </div>
+
+          <div
+            className={`border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : "w-[25%]"}`}
+          >
+            <Sidebar className="w-full h-[45rem] overflow-auto mt-10 scrollbar-hide" />
+          </div>
+
+          <div
+            className={`w-full ${isSidebarCollapsed ? "col-span-full p-0" : ""}`}
+          >
+            <section
+              className={`p-4 bg-[#FCFDFF] overflow-y-auto ${isSidebarCollapsed ? "content-collapsed" : ""}`}
+              style={{ height: "calc(100vh - 80px)", marginTop: "80px" }} // Adjust the height based on your header size
+            >
+              {children}
+            </section>
+          </div>
         </div>
 
-        <div className="toggle-sidebar" onClick={handleToggleSidebar}>
+        {/* <div className="toggle-sidebar" onClick={handleToggleSidebar}>
           <i>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +125,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               />
             </svg>
           </i>
-        </div>
+        </div> */}
       </main>
 
       <style>{`

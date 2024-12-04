@@ -9,7 +9,6 @@ export default function NominationForUnpaidAmount(props: any) {
 
     const trimIfNeeded = (string: string): string => {
         return string.length > 25 ? string.slice(0, 25) + "..." : string;
-
     }
 
     return (

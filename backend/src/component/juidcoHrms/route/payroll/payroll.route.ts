@@ -5,6 +5,7 @@ import { baseUrl } from "../../../../util/common";
 import loggerMiddleware from "../../../../middleware/logger.middleware";
 import PayrollController from "../../controller/payroll/payroll.controller";
 import PayslipController from "../../controller/employee/paySlip.controller";
+import { adminLoggerMiddleware } from "../../../../middleware/adminLoggerMiddleware ";
 
 class PayrollRoute {
   private payrollController: PayrollController;
@@ -47,6 +48,7 @@ class PayrollRoute {
     app
       .route(`${baseUrl}/pay/payslip`)
       .get(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.payslipController.get(req, res, next, "0404"),
         loggerMiddleware
@@ -63,6 +65,7 @@ class PayrollRoute {
     app
       .route(`${baseUrl}/pay/payroll/update`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.payrollController.update_emp_payroll(req, res, next, "0406"),
         loggerMiddleware
@@ -79,6 +82,7 @@ class PayrollRoute {
     app
       .route(`${baseUrl}/pay/payroll/update-many`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.payrollController.update_emp_payroll_with_sheet(
             req,
@@ -92,6 +96,7 @@ class PayrollRoute {
     app
       .route(`${baseUrl}/pay/payroll/update-permissible`)
       .post(
+        adminLoggerMiddleware,
         (req: Request, res: Response, next: NextFunction) =>
           this.payrollController.update_payroll_permissible(
             req,

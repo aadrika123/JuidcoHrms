@@ -27,7 +27,6 @@ class EmployeeHierarchyDao {
           task: details.task,
         },
       });
-
       return employeeHierarchy;
     } catch (error) {
       console.error("Error upserting employee hierarchy:", error);

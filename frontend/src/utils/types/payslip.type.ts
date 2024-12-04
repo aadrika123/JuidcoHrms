@@ -23,6 +23,11 @@ export type EmployeePayrollType = {
   esic_amount: number;
   tds_amount: number;
   basic_pay: number;
+  esic_employer_amount: number;
+  epf_employer_amount: number;
+  eps_employer_amount: number;
+  billable_days: number;
+  grade_pay: number;
 };
 
 export type EmployeePayrollData = {
