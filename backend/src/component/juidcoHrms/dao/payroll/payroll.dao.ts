@@ -1096,108 +1096,104 @@ class PayrollDao {
   // --------------------- UPDATING PAYROLL FROM SHEET ------------------------------ //
   update_emp_payroll_with_sheet = async (req: Request) => {
     try {
+      // console.log("Raw Request Body:", req.body);
+  
       const data: any[] = req.body.data;
+  
+      if (!Array.isArray(data) || data.length === 0) {
+        console.error("Error: 'data' is either not an array or empty.");
+        return generateRes({ message: "Invalid or empty data array" });
+      }
   
       const record = await prisma.$transaction(async (tx) => {
         const getEmployeePayroll = await prisma.$queryRaw<any[]>`
-          SELECT emp_id, salary_per_day, total_allowance, basic_pay, gross_pay, total_deductions FROM payroll_master
+          SELECT emp_id, salary_per_day, total_allowance, basic_pay, grade_pay, gross_pay, total_deductions, leave_days, holidays, sundays, month, year
+          FROM payroll_master
         `;
   
-        const findEmployeePayroll = (
-          emp_id_x: string,
-          getEmployeePayroll: any[]
-        ): any => {
-          return getEmployeePayroll.find((emp) => emp.emp_id === emp_id_x);
+        // console.log("Fetched Employee Payroll Data:", getEmployeePayroll);
+  
+        const findEmployeePayroll = (emp_id_x: string, payrollData: any[]): any => {
+          return payrollData.find((emp) => emp.emp_id === emp_id_x);
         };
   
-        // Helper function for billable days calculation
-        const calculateBillableDays = async (
-          employeeId: string,
-          startDate: Date,
-          endDate: Date
-        ) => {
-          const { presentDays, leaveDays, holidays, sundays } =
-            await this.calculateDaysForPayroll(employeeId, startDate, endDate);
-  
-          return (
-            Number(presentDays) +
-            Number(leaveDays) +
-            Number(holidays) +
-            Number(sundays)
-          );
-        };
-  
-        // Loop through attendance data
         for (const object of data) {
-          const employeeData = findEmployeePayroll(
-            object.emp_id,
-            getEmployeePayroll
-          );
-  
-          if (!employeeData) {
-            console.log(
-              `Employee ID ${object.emp_id} not found in payroll_master.`
-            );
+          if (!object.emp_id) {
+            // console.log(`Skipping invalid entry (missing emp_id): ${JSON.stringify(object)}`);
             continue;
           }
   
-          const startDate = object.start_date;
-          const endDate = object.end_date;
+          const employeeData = findEmployeePayroll(object.emp_id, getEmployeePayroll);
+  
+          if (!employeeData) {
+            console.log(`Employee ID ${object.emp_id} not found in payroll_master.`);
+            continue;
+          }
+  
+          const { month, year, grade_pay, total_allowance, total_deductions, salary_per_day, leave_days, holidays, sundays } = employeeData;
+  
+          const totalDaysInMonth = new Date(year, month, 0).getDate();
           const presentDays = object.present_days || 0;
   
-          // Calculate billable days dynamically
-          const billableDays = await calculateBillableDays(
-            object.emp_id,
-            startDate,
-            endDate
-          );
+          // Calculate billable days
+          const billableDays = presentDays + Number(leave_days) + Number(holidays) + Number(sundays);
+          const nonBillableDays = totalDaysInMonth - billableDays;
   
-          // Calculate allowance and basic pay based on billable days
-          const totalAllowance = employeeData.total_allowance || 0;
-          const basicPay = employeeData.basic_pay || 0;
+          // Calculate new values based on billable days and payroll data
+          const dailyAllowanceRate = total_allowance / totalDaysInMonth;
+          const dailyBasicPayRate = employeeData.basic_pay / totalDaysInMonth;
   
-          const newAllowance = (
-            (totalAllowance / billableDays) *
-            presentDays
+          const newAllowance = (dailyAllowanceRate * presentDays).toFixed(2);
+          const newBasicPay = (dailyBasicPayRate * presentDays).toFixed(2);
+  
+          // ** New Gross Pay Calculation **
+          const newGrossPay = (
+            parseFloat(newBasicPay) +
+            parseFloat(newAllowance) +
+            parseFloat(grade_pay)
           ).toFixed(2);
-          const newBasicPay = ((basicPay / billableDays) * presentDays).toFixed(2);
   
-          // Calculate net pay
-          const salaryPerDay = employeeData.salary_per_day || 0;
-          const deductions = employeeData.total_deductions || 0;
-  
-          const grossPay = employeeData.gross_pay || 0;
-          const lwpDeduction = ((billableDays - presentDays) * salaryPerDay).toFixed(2);
+          const lwpDays = totalDaysInMonth - billableDays;
+          const salaryDeducted = (salary_per_day * lwpDays).toFixed(2);
           const newNetPay = (
-            grossPay - Number(lwpDeduction) - deductions
+            parseFloat(newGrossPay) -
+            Number(salaryDeducted) -
+            total_deductions
           ).toFixed(2);
   
-          // Update payroll data
+          console.log(`Employee ID ${object.emp_id} - Calculated Values:
+            Billable Days: ${billableDays},
+            Non-billable Days: ${nonBillableDays},
+            New Allowance: ${newAllowance},
+            New Basic Pay: ${newBasicPay},
+            New Gross Pay: ${newGrossPay},
+            LWP Days: ${lwpDays},
+            Salary Deduction: ${salaryDeducted},
+            New Net Pay: ${newNetPay}
+          `);
+  
           await tx.payroll_master.updateMany({
             data: {
               present_days: presentDays,
-              billable_days: billableDays, // Include billable days
+              billable_days: billableDays,
+              non_billable_days: nonBillableDays,
+              lwp_days: lwpDays,
+              salary_deducted: parseFloat(salaryDeducted),
+              net_pay: Math.max(parseFloat(newNetPay), 0),
               total_allowance: parseFloat(newAllowance),
               basic_pay: parseFloat(newBasicPay),
-              net_pay: Math.max(parseFloat(newNetPay), 0),
+              gross_pay: parseFloat(newGrossPay),
             },
             where: {
               emp_id: object.emp_id,
             },
           });
-  
-          console.log(`Updated Employee ID ${object.emp_id}:
-            Present Days: ${presentDays}, 
-            Billable Days: ${billableDays}, 
-            Allowance: ${parseFloat(newAllowance)}, 
-            Basic Pay: ${parseFloat(newBasicPay)}, 
-            Net Pay: ${Math.max(parseFloat(newNetPay), 0)}`);
         }
       });
   
       return generateRes(record);
     } catch (error) {
-      console.error(error);
+      console.error("Error occurred during payroll update:", error);
       return generateRes({ message: false });
     }
   };

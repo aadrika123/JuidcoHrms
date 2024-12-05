@@ -58,3 +58,411 @@ Updated Data: {
   }
 }
     
+2024-12-04 18:12:04 [INFO]: 
+      Admin ID: Unknown
+      Username: Unknown
+      Email: Unknown
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 187ms
+      Query Params: {}
+      Request Body (filtered): {}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": {
+    "message": false
+  }
+}
+    
+2024-12-04 18:19:25 [INFO]: 
+      Admin ID: Unknown
+      Username: Unknown
+      Email: Unknown
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 5ms
+      Query Params: {}
+      Request Body (filtered): {}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": {
+    "message": "Invalid or empty data array"
+  }
+}
+    
+2024-12-04 18:25:25 [INFO]: 
+      Admin ID: Unknown
+      Username: Unknown
+      Email: Unknown
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 4ms
+      Query Params: {}
+      Request Body (filtered): {}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": {
+    "message": "Invalid or empty data array"
+  }
+}
+    
+2024-12-04 18:29:30 [INFO]: 
+      Admin ID: 3919
+      Username: Unknown
+      Email: rinajha@gmail.com
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 435ms
+      Query Params: {}
+      Request Body (filtered): {
+  "data": [
+    {
+      "emp_id": "EMPbce27d",
+      "present_days": 26
+    }
+  ],
+  "ipAddress": "127.0.0.1"
+}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": null
+}
+    
+2024-12-05 11:07:30 [INFO]: 
+      Admin ID: 3919
+      Username: Unknown
+      Email: rinajha@gmail.com
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 483ms
+      Query Params: {}
+      Request Body (filtered): {
+  "data": [
+    {
+      "emp_id": "EMP591b7e",
+      "present_days": 26
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    }
+  ],
+  "ipAddress": "127.0.0.1"
+}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": null
+}
+    
+2024-12-05 12:12:30 [INFO]: 
+      Admin ID: 3919
+      Username: Unknown
+      Email: rinajha@gmail.com
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 139ms
+      Query Params: {}
+      Request Body (filtered): {
+  "data": [
+    {
+      "emp_id": "EMP591b7e",
+      "present_days": 26
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    }
+  ],
+  "ipAddress": "127.0.0.1"
+}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": null
+}
+    
+2024-12-05 12:32:29 [INFO]: 
+      Admin ID: 3919
+      Username: Unknown
+      Email: rinajha@gmail.com
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update-many
+      Status Code: 200
+      Duration: 76ms
+      Query Params: {}
+      Request Body (filtered): {
+  "data": [
+    {
+      "emp_id": "EMP591b7e",
+      "present_days": 26
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    },
+    {
+      "emp_id": null,
+      "present_days": 0
+    }
+  ],
+  "ipAddress": "127.0.0.1"
+}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0408",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": null
+}
+    

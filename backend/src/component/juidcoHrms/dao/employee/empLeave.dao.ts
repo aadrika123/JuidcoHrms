@@ -105,7 +105,8 @@ class EmployeeLeaveDao {
   get = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
     const isRegularization = req.query.regularization === 'true' ? true : false;
-
+  
+    // First, fetch the leave request details
     const leaveRequest = await prisma.employee_leave_details.findFirst({
       where: {
         employee_id: employee_id,
@@ -114,12 +115,12 @@ class EmployeeLeaveDao {
         },
         ...(isRegularization ? { emp_leave_type_id: 19 } : {
           emp_leave_type_id: {
-            not: 19
-          }
-        })
+            not: 19,
+          },
+        }),
       },
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
       select: {
         emp_leave_type: {
@@ -138,8 +139,29 @@ class EmployeeLeaveDao {
         half_day: true,
       },
     });
-    return generateRes(leaveRequest);
+  
+    // Fetch the supervisor level from employee_hierarchy table
+    const employeeHierarchy = await prisma.employee_hierarchy.findFirst({
+      where: {
+        emp_id: employee_id,
+      },
+      select: {
+        supervisor_level: true,
+      },
+    });
+  
+    // Add supervisor level to the leave request response
+    const supervisorLevel = employeeHierarchy?.supervisor_level || null;
+  
+    // Return the combined response
+    const response = {
+      ...leaveRequest,
+      supervisor_level: supervisorLevel,
+    };
+  
+    return generateRes(response);
   };
+  
 
   //-----------------------------------Get all leave List -------------------------------------//
 

@@ -116,69 +116,155 @@ class LeaveDao {
     }
   };
 
-  accept_or_deny = async (req: Request) => {
+   getEmployeeHierarchy = async (empId: string) => {
+    try {
+      const hierarchy = await prisma.employee_hierarchy.findMany({
+        where: {
+          emp_id: empId,
+        },
+        select: {
+          emp_id: true,
+          parent_emp: true,
+          supervisor_level: true,
+        },
+      });
+  
+      if (!hierarchy || hierarchy.length === 0) {
+        console.warn(`No hierarchy found for employee ID: ${empId}`);
+        return null;
+      }
+  
+      return hierarchy;
+    } catch (err) {
+      console.error("Error fetching hierarchy for employee:", empId, err);
+      throw new Error("Error fetching employee hierarchy");
+    }
+  };
+  
+  accept_or_deny = async (req: Request, res: Response) => {
     const { status, id } = req.body;
     let updatedStatus = status;
     let currentStatus: any = {};
-    if (status !== -1) {
+  
+    try {
+      console.log("Fetching current leave request details...");
+  
+      // Fetch the current leave request details
       currentStatus = await prisma.employee_leave_details.findFirst({
         where: {
           id: id,
         },
+        include: {
+          employee: true, // Include basic employee details
+        },
       });
-      updatedStatus = Number(currentStatus?.leave_status) + 1;
-    }
-
-    if (updatedStatus === 3) {
-      let leavChartid: any = {};
-      let totalLeaveDays: any = 0;
-      try {
-        leavChartid = await prisma.employee_leave_chart.findFirst({
-          select: {
-            id: true,
-            tot_prev_leave_approv: true,
-          },
-          where: {
-            employee_id: currentStatus?.employee_id,
-          },
-        });
-        totalLeaveDays = await prisma.employee_leave_details.aggregate({
-          where: {
-            employee_id: currentStatus?.employee_id,
-            leave_status: 2,
-          },
-          _sum: {
-            total_days: true,
-          },
-        });
-      } catch (err) {
-        console.log(err);
+  
+      if (!currentStatus) {
+        console.error("Leave request not found for ID:", id);
+        return res.status(404).json({ message: "Leave request not found", success: false });
       }
-      const dataToSend: any = {
-        body: {
-          employee_id: currentStatus?.employee_id,
-          leave_status: updatedStatus,
-          total_days: totalLeaveDays?._sum?.total_days,
-          emp_leave_chart_id: leavChartid.id,
-          leave_type: currentStatus?.emp_leave_type_id,
+  
+      console.log("Current Leave Status:", JSON.stringify(currentStatus, null, 2));
+  
+      // Fetch hierarchy for the employee using the separate query
+      const hierarchy = await this.getEmployeeHierarchy(currentStatus.employee_id);
+  
+      if (!hierarchy || hierarchy.length === 0) {
+        console.error(`Employee hierarchy is empty for employee ID: ${currentStatus.employee_id}`);
+        return res.status(400).json({
+          message: "Supervisor level not found for the employee due to missing hierarchy",
+          success: false,
+        });
+      }
+  
+      // Extract supervisor level
+      const supervisorLevel = Number(hierarchy[0]?.supervisor_level);
+      console.log("Supervisor Level:", supervisorLevel);
+  
+      if (isNaN(supervisorLevel) || supervisorLevel <= 0) {
+        console.error("Invalid or missing supervisor level for employee:", currentStatus.employee_id);
+        return res.status(400).json({ message: "Invalid supervisor level for the employee", success: false });
+      }
+  
+      // Determine the updated status based on supervisor level
+      if (status !== -1) {
+        updatedStatus = Math.min(Number(currentStatus.leave_status) + 1, supervisorLevel);
+        console.log("Calculated Updated Status:", updatedStatus);
+      }
+  
+      // If the leave status matches the supervisor level, finalize the leave approval
+      if (updatedStatus === supervisorLevel) {
+        console.log("Finalizing leave approval...");
+        let leaveChartId: any = {};
+        let totalLeaveDays: any = 0;
+  
+        try {
+          leaveChartId = await prisma.employee_leave_chart.findFirst({
+            select: {
+              id: true,
+              tot_prev_leave_approv: true,
+            },
+            where: {
+              employee_id: currentStatus.employee_id,
+            },
+          });
+  
+          totalLeaveDays = await prisma.employee_leave_details.aggregate({
+            where: {
+              employee_id: currentStatus.employee_id,
+              leave_status: supervisorLevel - 1, // Approved in the previous step
+            },
+            _sum: {
+              total_days: true,
+            },
+          });
+  
+          console.log("Leave Chart ID:", leaveChartId?.id);
+          console.log("Total Approved Leave Days:", totalLeaveDays?._sum?.total_days);
+        } catch (err) {
+          console.error("Error fetching leave chart or total leave days:", err);
+        }
+  
+        const dataToSend: any = {
+          body: {
+            employee_id: currentStatus.employee_id,
+            leave_status: updatedStatus,
+            total_days: totalLeaveDays?._sum?.total_days,
+            emp_leave_chart_id: leaveChartId?.id,
+            leave_type: currentStatus.emp_leave_type_id,
+            id: id,
+          },
+        };
+  
+        console.log("Updating leave chart with:", dataToSend);
+        await leaveDao.update(dataToSend);
+      }
+  
+      // Update the leave status in the database
+      console.log("Updating leave status in the database...");
+      await prisma.employee_leave_details.update({
+        where: {
           id: id,
         },
+        data: {
+          leave_status: updatedStatus,
+        },
+      });
+  
+      console.log("Leave status updated successfully!");
+      return {
+        success: true,
+        leave_status: updatedStatus,
+        message: "Leave status updated successfully",
       };
-      await leaveDao.update(dataToSend);
-    }
-
-    try {
-      const data = prisma.$queryRaw`
-                UPDATE employee_leave_details
-                SET leave_status = ${updatedStatus}
-                WHERE id=${id};
-                `;
-      return generateRes(data);
     } catch (err) {
-      console.error("Error executing queries:", err);
+      console.error("Error in accept_or_deny function:", err);
+      return res.status(500).json({ message: "Error while updating leave status", success: false });
     }
   };
-
+  
+  
+  
   listbyEmpid = async (req: Request) => {
     const { emp_id } = req.params;
     const data: any = {
