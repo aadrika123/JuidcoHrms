@@ -58,3 +58,63 @@ Updated Data: {
   }
 }
     
+2024-12-06 17:32:28 [INFO]: 
+      Admin ID: 3961
+      Username: HR.903
+      Email: hradminrmc@gmail.com
+      Action: POST
+      Resource Path: /api/hrms/v1/pay/payroll/update
+      Status Code: 200
+      Duration: 9ms
+      Query Params: {}
+      Request Body (filtered): {
+  "id": 241,
+  "status": "approved",
+  "ipAddress": "127.0.0.1"
+}
+      Old Data: null
+Updated Data: {
+  "status": true,
+  "message": "Payroll Found Successfully!!",
+  "meta-data": {
+    "apiId": "0406",
+    "version": "1.0",
+    "action": "POST"
+  },
+  "data": {
+    "id": 241,
+    "emp_id": "EMPbce27d",
+    "emp_name": "Mangu  Mochi",
+    "gross_pay": 21340,
+    "grade_pay": 1466.67,
+    "leave_days": 0,
+    "working_hour": 144,
+    "total_allowance": 0,
+    "total_deductions": 2064,
+    "non_billable_days": 8,
+    "present_days": 0,
+    "lwp_days": 26,
+    "salary_deducted": 5690.67,
+    "net_pay": 790,
+    "last_month_lwp_deduction": 0,
+    "salary_per_day": 711,
+    "lwp_days_last_month": 0,
+    "epf_amount": 2560.8,
+    "epf_employer_amount": 783.18,
+    "esic_amount": 0,
+    "esic_employer_amount": 0,
+    "eps_employer_amount": 1777.62,
+    "tds_amount": 0,
+    "basic_pay": 0,
+    "status": "approved",
+    "date": "2024-11-23T00:00:00.000Z",
+    "billable_days": 22,
+    "sundays": 4,
+    "holidays": 0,
+    "month": 11,
+    "year": 2024,
+    "created_at": "2024-11-23T07:02:43.314Z",
+    "updated_at": "2024-12-06T12:02:28.887Z"
+  }
+}
+    
