@@ -1,10 +1,20 @@
 import * as winston from "winston";
+import path from "path";
+import fs from "fs";
 const { combine, timestamp, prettyPrint, errors, json, printf } = winston.format;
 
 // Utility function for timezone formatting
 const timezone = () => {
   return new Date().toLocaleString();
 };
+
+// Ensure the public directory exists
+const publicDir = path.resolve(process.cwd(), "public");
+const adminLogPath = path.join(publicDir, "admin_activity.log");
+
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir); // Create the public directory if it doesn't exist
+}
 
 // General logger (error level) - for hrms_error.log
 const logger = winston.createLogger({
@@ -58,7 +68,7 @@ winston.loggers.add("adminLogger", {
       ),
     }),
     new winston.transports.File({
-      filename: "admin_activity.log", // File where logs will be stored
+      filename: adminLogPath, // File path in the public directory
       level: "info", // Only log info and higher levels
     }),
   ],

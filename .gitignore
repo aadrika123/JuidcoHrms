@@ -4,4 +4,4 @@ node_modules
 build
 backend/hrms_error.log
 backend/payroll.log
-backend/admin_activity.log
+backend/public/admin_activity.log
