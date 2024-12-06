@@ -1,19 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 class AdminLogController {
   private LOG_FILE_PATH: string;
 
   constructor() {
-    // Absolute path to the log file
-    this.LOG_FILE_PATH = path.resolve(__dirname, "../../../../../admin_activity.log");
-
+    const defaultLogPath = path.resolve(__dirname, "../../../../../admin_activity.log");
+    this.LOG_FILE_PATH = process.env.ADMIN_LOG_FILE_PATH || defaultLogPath;
+  
     console.log("Log file path resolved to:", this.LOG_FILE_PATH);
-
+  
     if (!fs.existsSync(this.LOG_FILE_PATH)) {
       console.log("Log file not found, creating a new empty log file...");
-      fs.writeFileSync(this.LOG_FILE_PATH, ""); 
+      fs.writeFileSync(this.LOG_FILE_PATH, "");
     }
   }
 
