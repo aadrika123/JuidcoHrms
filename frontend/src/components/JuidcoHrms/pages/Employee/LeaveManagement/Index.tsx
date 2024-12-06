@@ -37,7 +37,7 @@ interface LeaveData {
   file_upload: string | number;
   leave_status: number;
   half_day: boolean;
-  supervisor_level:number;
+  supervisor_level: number;
 }
 
 interface LeaveTotalData {
@@ -270,7 +270,7 @@ const LeaveReq = () => {
                       viewBox="0 0 32 32"
                       fill="none"
                     >
-                      <rect width="32" height="32" rx="9" 
+                      <rect width="32" height="32" rx="9"
                       // fill="#665DD9" 
                       />
                       <path
@@ -465,130 +465,133 @@ const LeaveReq = () => {
 
             {/* Leave Status Code */}
             <div className={`w-auto md:w-6/12 sm:w-full h-auto mx-5 my-5 flex flex-col relative bg-[#ffffff] p-5 shadow-lg`}>
-  <InnerHeading className="text-xl flex items-center justify-between">
-    <div className="flex items-center">
-      <i className="mr-2 bg-primary_blue rounded">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <rect width="32" height="32" rx="9" />
-          <path
-            d="M19.6367 6C23.4494 6 25.84 8.37312 25.84 12.2033V14.5066L25.8331 14.6096C25.7828 14.9801 25.4652 15.2656 25.0809 15.2656H25.0722L24.9524 15.256C24.7948 15.2306 24.6484 15.1554 24.5354 15.0397C24.3942 14.8952 24.3172 14.6999 24.3219 14.4979V12.2033C24.3219 9.18452 22.6555 7.5181 19.6367 7.5181H12.2033C9.1758 7.5181 7.5181 9.18452 7.5181 12.2033V19.6455C7.5181 22.6642 9.18452 24.3219 12.2033 24.3219H19.6367C22.6642 24.3219 24.3219 22.6555 24.3219 19.6455C24.3219 19.2262 24.6617 18.8864 25.0809 18.8864C25.5002 18.8864 25.84 19.2262 25.84 19.6455C25.84 23.4669 23.4669 25.84 19.6455 25.84H12.2033C8.37312 25.84 6 23.4669 6 19.6455V12.2033C6 8.37312 8.37312 6 12.2033 6H19.6367ZM11.706 13.4945C11.9073 13.5014 12.0977 13.5879 12.2352 13.7352C12.3726 13.8825 12.4459 14.0784 12.4388 14.2798V20.6226C12.4244 21.0418 12.0728 21.37 11.6536 21.3555C11.2344 21.341 10.9063 20.9895 10.9207 20.5703V14.2187L10.9343 14.1C10.9647 13.9444 11.0439 13.8013 11.162 13.6924C11.3095 13.5564 11.5055 13.4851 11.706 13.4945ZM15.9549 10.5194C16.3741 10.5194 16.7139 10.8592 16.7139 11.2785V20.579C16.7139 20.9982 16.3741 21.338 15.9549 21.338C15.5357 21.338 15.1958 20.9982 15.1958 20.579V11.2785C15.1958 10.8592 15.5357 10.5194 15.9549 10.5194ZM20.1602 16.8448C20.5794 16.8448 20.9193 17.1847 20.9193 17.6039V20.5703C20.9193 20.9895 20.5794 21.3293 20.1602 21.3293C19.741 21.3293 19.4012 20.9895 19.4012 20.5703V17.6039C19.4012 17.1847 19.741 16.8448 20.1602 16.8448Z"
-            fill="white" fillOpacity="0.92"
-          />
-        </svg>
-      </i>
-      Leave Status
-    </div>
-    <div className="menu flex items-center top-0 right-0">
-      <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
-      <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
-      <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
-    </div>
-  </InnerHeading>
+              <InnerHeading className="text-xl flex items-center justify-between">
+                <div className="flex items-center">
+                  <i className="mr-2 bg-primary_blue rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <rect width="32" height="32" rx="9" />
+                      <path
+                        d="M19.6367 6C23.4494 6 25.84 8.37312 25.84 12.2033V14.5066L25.8331 14.6096C25.7828 14.9801 25.4652 15.2656 25.0809 15.2656H25.0722L24.9524 15.256C24.7948 15.2306 24.6484 15.1554 24.5354 15.0397C24.3942 14.8952 24.3172 14.6999 24.3219 14.4979V12.2033C24.3219 9.18452 22.6555 7.5181 19.6367 7.5181H12.2033C9.1758 7.5181 7.5181 9.18452 7.5181 12.2033V19.6455C7.5181 22.6642 9.18452 24.3219 12.2033 24.3219H19.6367C22.6642 24.3219 24.3219 22.6555 24.3219 19.6455C24.3219 19.2262 24.6617 18.8864 25.0809 18.8864C25.5002 18.8864 25.84 19.2262 25.84 19.6455C25.84 23.4669 23.4669 25.84 19.6455 25.84H12.2033C8.37312 25.84 6 23.4669 6 19.6455V12.2033C6 8.37312 8.37312 6 12.2033 6H19.6367ZM11.706 13.4945C11.9073 13.5014 12.0977 13.5879 12.2352 13.7352C12.3726 13.8825 12.4459 14.0784 12.4388 14.2798V20.6226C12.4244 21.0418 12.0728 21.37 11.6536 21.3555C11.2344 21.341 10.9063 20.9895 10.9207 20.5703V14.2187L10.9343 14.1C10.9647 13.9444 11.0439 13.8013 11.162 13.6924C11.3095 13.5564 11.5055 13.4851 11.706 13.4945ZM15.9549 10.5194C16.3741 10.5194 16.7139 10.8592 16.7139 11.2785V20.579C16.7139 20.9982 16.3741 21.338 15.9549 21.338C15.5357 21.338 15.1958 20.9982 15.1958 20.579V11.2785C15.1958 10.8592 15.5357 10.5194 15.9549 10.5194ZM20.1602 16.8448C20.5794 16.8448 20.9193 17.1847 20.9193 17.6039V20.5703C20.9193 20.9895 20.5794 21.3293 20.1602 21.3293C19.741 21.3293 19.4012 20.9895 19.4012 20.5703V17.6039C19.4012 17.1847 19.741 16.8448 20.1602 16.8448Z"
+                        fill="white" fillOpacity="0.92"
+                      />
+                    </svg>
+                  </i>
+                  Leave Status
+                </div>
+                <div className="menu flex items-center top-0 right-0">
+                  <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                  <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
+                  <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
+                </div>
+              </InnerHeading>
 
-  {leaveLoading ? (
-    <div className="flex justify-center items-center h-full">
-      <CircularProgress />
-    </div>
-  ) : (
-    <div className="w-full flex flex-col sm:flex-row justify-between">
-      <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5xl">
-        <div className="mt-12">
-          <HorizontalStepper steps={steps} activeStep={activeStep} />
-          <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
-            {/* Optional text content for users */}
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <span className="text-sm">
-            Type of Leave - <span className="text-green-600">{manData?.emp_leave_type.name}</span>
-          </span>
-          <br />
-          <span className="text-sm">
-            Date of Leave - {manData?.leave_from} to {manData?.leave_to}
-          </span>
-          <br />
-          <span className="text-sm">
-            Total days of leave - {manData?.total_days}
-          </span>
-          <br />
-          <span className="text-sm">
-            Status of leave - 
-            {manData?.leave_status === -1 ? (
-              <span className="text-red-600">Rejected</span>
-            ) : (
-              <span className="text-green-600">
-                {manData?.supervisor_level === manData?.leave_status
-                  ? "Approved"
-                  : manData?.leave_status === 0
-                  ? "Pending"
-                  : "In Progress"}
-              </span>
-            )}
-          </span>
-        </div>
-
-        <div className="mt-4">
-          <span className="flex justify-end">
-            <button onClick={togglePopup2} className="flex items-center bg-[#F1F1F1] text-xs rounded-xl p-[6px] m-1">
-              <i className="m-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
-                  <ellipse cx="5.52235" cy="5.16062" rx="5.0663" ry="4.88035" fill="#92A0A8" />
-                </svg>
-              </i>
-              More
-              <i className="mx-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
-                  <path
-                    d="M4.07116 8.09102L7.2356 4.64648L3.82005 1.50868L4.52326 0.743223L8.69782 4.57831L4.83017 8.78831L4.07116 8.09102ZM0.415608 8.26144L3.58005 4.81689L0.164501 1.67909L0.86771 0.913637L5.04227 4.74873L1.17462 8.95873L0.415608 8.26144Z"
-                    fill="#555555"
-                  />
-                </svg>
-              </i>
-            </button>
-
-            {showMoreLeave && (
-              <div className="absolute mt-10 p-4 border border-gray-300 shadow-md z-50 bg-white">
-                <button onClick={closePopup2} className="absolute top-0 right-0 text-gray-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                {leaveAllData?.data ? (
-                  <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                    {leaveAllData?.data?.slice(0, 3)?.map((leave:any) => (
-                      <div className="flex flex-col justify-start border p-2" key={leave.id}>
-                        <span className="text-xs">Date of Leave - {leave.leave_from} to {leave.leave_to}</span>
-                        <span className="text-xs">Total days of Leave - {leave.total_days}</span>
-                        <span className="text-xs">
-                          Status of Leave - 
-                          {leave.leave_status === 0 ? (
-                            <span className="text-yellow-600">Pending</span>
-                          ) : leave.leave_status === 1 ? (
-                            <span className="text-yellow-600">Pending</span>
-                          ) : leave.leave_status === 2 ? (
-                            <span className="text-yellow-600">Pending</span>
-                          ) : leave.leave_status === 3 ? (
-                            <span className="text-green-600">Approved</span>
-                          ) : leave.leave_status === -1 ? (
-                            <span className="text-red-600">Rejected</span>
-                          ) : null}
-                        </span>
+              {leaveLoading ? (
+                <div className="flex justify-center items-center h-full">
+                  <CircularProgress />
+                </div>
+              ) : (
+                <div className="w-full flex flex-col sm:flex-row justify-between">
+                  <div className="md:w-[99.9%] m-1 flex flex-col relative p-5 max-w-5xl">
+                    <div className="mt-12">
+                      <HorizontalStepper steps={steps} activeStep={activeStep} />
+                      <div className="mt-2 px-2 pr-4 flex items-center justify-between text-xs text-secondary">
+                        {/* Optional text content for users */}
                       </div>
-                    ))}
+                    </div>
+
+                    <div className="mt-4">
+                      <span className="text-sm">
+                        Type of Leave - <span className="text-green-600">{manData?.emp_leave_type.name}</span>
+                      </span>
+                      <br />
+                      <span className="text-sm">
+                        Date of Leave - {manData?.leave_from} to {manData?.leave_to}
+                      </span>
+                      <br />
+                      <span className="text-sm">
+                        Total days of leave - {manData?.total_days}
+                      </span>
+                      <br />
+                      <span className="text-sm">
+                        Status of leave -
+                        {manData?.leave_status === -1 ? (
+                          <span className="text-red-600">Rejected</span>
+                        ) : (
+                          <span className="text-green-600">
+                            {manData?.supervisor_level == manData?.leave_status
+                              ? "Approved"
+                              : manData?.leave_status === 0
+                                ? "Pending"
+                                : "In Progress"}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="mt-4">
+                      <span className="flex justify-end">
+                        <button onClick={togglePopup2} className="flex items-center bg-[#F1F1F1] text-xs rounded-xl p-[6px] m-1">
+                          <i className="m-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
+                              <ellipse cx="5.52235" cy="5.16062" rx="5.0663" ry="4.88035" fill="#92A0A8" />
+                            </svg>
+                          </i>
+                          More
+                          <i className="mx-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+                              <path
+                                d="M4.07116 8.09102L7.2356 4.64648L3.82005 1.50868L4.52326 0.743223L8.69782 4.57831L4.83017 8.78831L4.07116 8.09102ZM0.415608 8.26144L3.58005 4.81689L0.164501 1.67909L0.86771 0.913637L5.04227 4.74873L1.17462 8.95873L0.415608 8.26144Z"
+                                fill="#555555"
+                              />
+                            </svg>
+                          </i>
+                        </button>
+
+                        {showMoreLeave && (
+                          <div className="absolute mt-10 p-4 border border-gray-300 shadow-md z-50 bg-white">
+                            <button onClick={closePopup2} className="absolute top-0 right-0 text-gray-500">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+
+                            {leaveAllData?.data ? (
+                              <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                                {leaveAllData?.data?.slice(0, 3)?.map((leave: any) => (
+                                  <div
+                                    className="flex flex-col justify-start border p-2"
+                                    key={leave.id}
+                                  >
+                                    <span className="text-xs">
+                                      Date of Leave - {leave.leave_from} to {leave.leave_to}
+                                    </span>
+                                    <span className="text-xs">
+                                      Total days of Leave - {leave.total_days}
+                                    </span>
+                                    <span className="text-xs">
+                                      Status of Leave -{" "}
+                                      {leave.leave_status === -1 ? (
+                                        <span className="text-red-600">Rejected</span>
+                                      ) : leave.supervisor_level == leave.leave_status ? (
+                                        <span className="text-green-600">Approved</span>
+                                      ) : (
+                                        <span className="text-yellow-600">Pending</span>
+                                      )}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <h3>No Previous Leave Found</h3>
+                            )}
+                          </div>
+                        )}
+                      </span>
+                    </div>
                   </div>
-                ) : (
-                  <h3>No Previous Leave Found</h3>
-                )}
-              </div>
-            )}
-          </span>
-        </div>
-      </div>
-    </div>
-  )}
-</div>
+                </div>
+              )}
+            </div>
 
           </div>
           {/* form design fields */}
