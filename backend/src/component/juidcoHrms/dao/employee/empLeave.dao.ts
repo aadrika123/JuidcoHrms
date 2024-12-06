@@ -105,7 +105,8 @@ class EmployeeLeaveDao {
   get = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
     const isRegularization = req.query.regularization === 'true' ? true : false;
-
+  
+    // First, fetch the leave request details
     const leaveRequest = await prisma.employee_leave_details.findFirst({
       where: {
         employee_id: employee_id,
@@ -114,12 +115,12 @@ class EmployeeLeaveDao {
         },
         ...(isRegularization ? { emp_leave_type_id: 19 } : {
           emp_leave_type_id: {
-            not: 19
-          }
-        })
+            not: 19,
+          },
+        }),
       },
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
       select: {
         emp_leave_type: {
@@ -138,31 +139,87 @@ class EmployeeLeaveDao {
         half_day: true,
       },
     });
-    return generateRes(leaveRequest);
+  
+    // Fetch the supervisor level from employee_hierarchy table
+    const employeeHierarchy = await prisma.employee_hierarchy.findFirst({
+      where: {
+        emp_id: employee_id,
+      },
+      select: {
+        supervisor_level: true,
+      },
+    });
+  
+    // Add supervisor level to the leave request response
+    const supervisorLevel = employeeHierarchy?.supervisor_level || null;
+  
+    // Return the combined response
+    const response = {
+      ...leaveRequest,
+      supervisor_level: supervisorLevel,
+    };
+  
+    return generateRes(response);
   };
+  
 
   //-----------------------------------Get all leave List -------------------------------------//
 
   getAll = async (req: Request) => {
     const employee_id = req.query.employee_id as string;
-    const isRegularization = req.query.regularization === 'true' ? true : false;
-    const leaveRequest = await prisma.employee_leave_details.findMany({
+    const isRegularization = req.query.regularization === 'true';
+  
+    // Fetch all leave requests for the employee
+    const leaveRequests = await prisma.employee_leave_details.findMany({
       where: {
         employee_id: employee_id,
-        ...(isRegularization ? { emp_leave_type_id: 19 } : {
-          emp_leave_type_id: {
-            not: 19
-          }
-        })
+        ...(isRegularization
+          ? { emp_leave_type_id: 19 }
+          : {
+              emp_leave_type_id: {
+                not: 19,
+              },
+            }),
       },
       orderBy: {
         created_at: "desc",
       },
+      select: {
+        id: true,
+        emp_leave_type_id: true,
+        leave_from: true,
+        leave_to: true,
+        total_days: true,
+        leave_reason: true,
+        file_upload: true,
+        half_day: true,
+        leave_status: true,
+        employee_id: true,
+        created_at: true,
+        updated_at: true,
+      },
     });
-
-    return generateRes(leaveRequest);
+  
+    // Fetch the supervisor level for the employee
+    const employeeHierarchy = await prisma.employee_hierarchy.findFirst({
+      where: {
+        emp_id: employee_id,
+      },
+      select: {
+        supervisor_level: true,
+      },
+    });
+  
+    const supervisorLevel = employeeHierarchy?.supervisor_level || null;
+  
+    // Combine leaveRequests with supervisorLevel
+    const formattedResponse = leaveRequests.map((leave) => ({
+      ...leave,
+      supervisor_level: supervisorLevel,
+    }));
+  
+    return generateRes({ data: formattedResponse });
   };
-
   // !-------------------------------Edit employee Leave List--------------------------//
   //  update = async (req: Request) => {
   //   const {

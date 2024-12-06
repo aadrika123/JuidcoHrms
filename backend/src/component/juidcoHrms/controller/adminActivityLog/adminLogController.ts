@@ -6,13 +6,14 @@ class AdminLogController {
   private LOG_FILE_PATH: string;
 
   constructor() {
-    this.LOG_FILE_PATH = path.join(__dirname, "../../../../../admin_activity.log");
+    // Absolute path to the log file
+    this.LOG_FILE_PATH = path.resolve(__dirname, "../../../../../admin_activity.log");
 
     console.log("Log file path resolved to:", this.LOG_FILE_PATH);
 
     if (!fs.existsSync(this.LOG_FILE_PATH)) {
       console.log("Log file not found, creating a new empty log file...");
-      fs.writeFileSync(this.LOG_FILE_PATH, ""); // Create an empty log file
+      fs.writeFileSync(this.LOG_FILE_PATH, ""); 
     }
   }
 

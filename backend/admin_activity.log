@@ -1,15 +1,15 @@
-2024-12-02 12:45:51 [INFO]: 
+2024-12-06 16:16:51 [INFO]: 
       Admin ID: 3961
       Username: HR.903
       Email: hradminrmc@gmail.com
       Action: POST
       Resource Path: /api/hrms/v1/pay/payroll/update
       Status Code: 200
-      Duration: 11ms
+      Duration: 5ms
       Query Params: {}
       Request Body (filtered): {
-  "id": 323,
-  "status": "approved",
+  "id": 321,
+  "status": "reject",
   "ipAddress": "127.0.0.1"
 }
       Old Data: null
@@ -22,39 +22,39 @@ Updated Data: {
     "action": "POST"
   },
   "data": {
-    "id": 323,
-    "emp_id": "EMP200280",
-    "emp_name": "Alok  kumar",
-    "gross_pay": 1053.33,
-    "grade_pay": 720,
+    "id": 321,
+    "emp_id": "EMPb50d65",
+    "emp_name": "Ram  kumar",
+    "gross_pay": 11806.67,
+    "grade_pay": 4140,
     "leave_days": 0,
-    "working_hour": 0,
-    "total_allowance": 66.67,
-    "total_deductions": 100,
-    "non_billable_days": 26,
-    "present_days": 0,
-    "lwp_days": 26,
-    "salary_deducted": 912.89,
-    "net_pay": 40.44,
+    "working_hour": 152,
+    "total_allowance": 0,
+    "total_deductions": 0,
+    "non_billable_days": 7,
+    "present_days": 19,
+    "lwp_days": 7,
+    "salary_deducted": 2754.89,
+    "net_pay": 9051.78,
     "last_month_lwp_deduction": 0,
-    "salary_per_day": 35,
+    "salary_per_day": 394,
     "lwp_days_last_month": 0,
-    "epf_amount": 126.4,
-    "epf_employer_amount": 38.66,
-    "esic_amount": 7.9,
-    "esic_employer_amount": 34.23,
-    "eps_employer_amount": 87.74,
+    "epf_amount": 1416.8,
+    "epf_employer_amount": 433.3,
+    "esic_amount": 88.55,
+    "esic_employer_amount": 383.72,
+    "eps_employer_amount": 983.5,
     "tds_amount": 0,
-    "basic_pay": 266.67,
-    "status": "approved",
+    "basic_pay": 7666.67,
+    "status": "reject",
     "date": "2024-11-27T00:00:00.000Z",
-    "billable_days": 4,
+    "billable_days": 23,
     "sundays": 4,
     "holidays": 0,
     "month": 11,
     "year": 2024,
     "created_at": "2024-11-27T12:10:19.681Z",
-    "updated_at": "2024-12-02T07:15:51.478Z"
+    "updated_at": "2024-12-06T10:46:51.361Z"
   }
 }
     
