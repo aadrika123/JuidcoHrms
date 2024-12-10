@@ -26,10 +26,10 @@ class AdminLogController {
     const adminId = req.body?.auth?.id;
     const name = req.body?.auth?.name;
     const email = req.body?.auth?.email;
-
+  
     console.log("Incoming request with Admin ID:", adminId);
     console.log("Request Auth Details - Name:", name, ", Email:", email);
-
+  
     if (!adminId) {
       return res.status(200).json({
         status: false,
@@ -37,7 +37,7 @@ class AdminLogController {
         "meta-data": { apiId, action: "GET", version: "1.0" },
       });
     }
-
+  
     try {
       if (!fs.existsSync(this.LOG_FILE_PATH)) {
         console.error("Log file not found at:", this.LOG_FILE_PATH);
@@ -47,41 +47,38 @@ class AdminLogController {
           "meta-data": { apiId, action: "GET", version: "1.0" },
         });
       }
-
+  
       console.log("Reading log file...");
       const logData = await fs.promises.readFile(this.LOG_FILE_PATH, "utf8");
       console.log("Log file read successfully, data length:", logData.length);
-
+  
+      // Split log entries by newline and filter by admin ID
       const logEntries = logData.split(/\n(?=\d{4}-\d{2}-\d{2})/);
       console.log("Total log entries found:", logEntries.length);
-
+  
       const filteredLogs = logEntries.filter((entry) =>
         entry.includes(`Admin ID: ${adminId}`)
       );
-
+  
       console.log(`Filtered ${filteredLogs.length} logs for Admin ID: ${adminId}`);
-
-      if (filteredLogs.length === 0) {
+  
+      // Parse filtered logs
+      const logs = filteredLogs
+        .map((entry) => this.parseLogEntry(entry, name, email))
+        .filter((log) => log !== null);
+  
+      console.log("Successfully parsed logs:", logs);
+  
+      // Check if any logs exist for the admin ID
+      if (logs.length === 0) {
         return res.status(200).json({
           status: false,
           message: `No logs found for the given Admin ID: ${adminId}`,
           "meta-data": { apiId, action: "GET", version: "1.0" },
         });
       }
-
-      const logs = filteredLogs
-        .map((entry) => {
-          const logComponents = this.parseLogEntry(entry, name, email);
-          if (!logComponents) {
-            console.warn(`Skipping malformed log entry: ${entry}`);
-            return null;
-          }
-          return logComponents;
-        })
-        .filter((log) => log !== null);
-
-      console.log("Successfully parsed logs:", logs);
-
+  
+      // Respond with logs if present
       return res.status(200).json({
         status: true,
         message: "Logs retrieved successfully",
@@ -90,7 +87,7 @@ class AdminLogController {
       });
     } catch (error: any) {
       console.error("Error reading log file:", error.message);
-      return res.status(200).json({
+      return res.status(500).json({
         status: false,
         message: "An error occurred while retrieving logs",
         "meta-data": { apiId, action: "GET", version: "1.0" },
