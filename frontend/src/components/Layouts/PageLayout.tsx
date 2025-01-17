@@ -5,9 +5,11 @@ import Header from "../global/layout/Header";
 import Sidebar from "../global/layout/Sidebar";
 interface PageLayoutProps {
   children: React.ReactNode;
+  className: String
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ children,className,...props }) => {
+  
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleToggleSidebar = () => {
@@ -95,7 +97,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           <div
             className={`border-r border-zinc-400 rounded-br-2xl shadow-xl mx-1 ${isSidebarCollapsed ? "hidden" : "w-[25%]"}`}
           >
-            <Sidebar className="w-full h-[45rem] overflow-auto mt-10 scrollbar-hide" />
+            <Sidebar className="w-full h-[45rem] overflow-auto mt-10 scrollbar-hide" menu={[]}/>
           </div>
 
           <div
