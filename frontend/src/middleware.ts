@@ -9,6 +9,18 @@ export function middleware(request: NextRequest) {
     ? JSON.parse(request.cookies.get("loginData")?.value as any)
     : {};
 
+  // let user:any = {};
+  // const loginDataCookie = request.cookies.get("loginData")?.value;
+  
+  // if (loginDataCookie) {
+  //   try {
+  //     user = JSON.parse(loginDataCookie); // Try to parse if cookie exists
+  //   } catch (error) {
+  //     console.error("Error parsing loginData cookie:", error);
+  //     user = {}; // If parsing fails, fallback to an empty object
+  //   }
+  // }
+
   if (!tok3n) {
     return NextResponse.redirect(new URL("/hrms/auth/login", request.url));
   }
