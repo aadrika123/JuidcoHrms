@@ -34,6 +34,7 @@ const data = [
     paths: [
       "/hrms/ems/dashboard",
       "/hrms/ems/onboard",
+      "/hrms/service-restriction",
       "/hrms/ems/payroll-management",
       "/hrms/ems/pension-management",
       "/hrms/ems/processed-pension",

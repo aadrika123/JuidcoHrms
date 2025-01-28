@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/redux/store.js", "src/components/JuidcoHrms/pages/Ems/Dashboard/Index.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/redux/store.js", "src/components/JuidcoHrms/pages/Ems/Dashboard/Index.tsx", "src/components/global/layout/Sidebar.jsx"],
   "exclude": ["node_modules"]
 }
