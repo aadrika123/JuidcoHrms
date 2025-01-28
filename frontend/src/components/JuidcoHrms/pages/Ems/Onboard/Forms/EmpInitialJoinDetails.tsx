@@ -326,7 +326,9 @@ const EmpInitialJoinDetails: React.FC<
                         label="Pay Scale"
                         name="pay_scale"
                         placeholder={"Please Select"}
-                        required
+                        required={true}
+                        error={errors.pay_scale}
+                        touched={touched.pay_scale}
                         options={[
                           { id: 1, name: "1" },
                           { id: 2, name: "2" },
@@ -392,7 +394,10 @@ const EmpInitialJoinDetails: React.FC<
                         error={errors.grade_pay}
                         label="Grade Pay"
                         name="grade_pay"
+                        required={true}
+                        touched={touched.grade_pay}
                         placeholder={"Please Select"}
+                        
                         options={
                           Number(values.pay_scale) >= 1 &&
                             Number(values.pay_scale) <= 5
@@ -638,13 +643,13 @@ const EmpInitialJoinDetails: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.doj}
-                  // error={errors.doj}
-                  // touched={touched.doj}
+                  error={errors.doj}
+                  touched={touched.doj}
                   label="Date Of Joining"
                   name="doj"
                   placeholder={"Enter Date Of Joining"}
                   type="date"
-                // required={true}
+                required={true}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
