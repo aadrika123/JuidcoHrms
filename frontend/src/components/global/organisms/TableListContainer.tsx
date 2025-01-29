@@ -37,23 +37,28 @@ function formatDate(timestamp: string) {
 
 function convertTimeToAMPM(timeString: string): string {
   if (timeString === "--") return "--";
-  console.log("Time string: ", timeString);
+
+  // Parse the time string to get the date and time object
   const time = new Date(timeString);
 
-  // const timeZoneFromDB = -0.0; //time zone value from database
-  // //get the timezone offset from local time in minutes
-  // const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
-  // //convert the offset to milliseconds, add to targetTime, and make a new Date
-  // const time = new Date(time1.getTime() + tzDifference * 60 * 1000);
-
-  let hours = time.getHours();
-  const minutes = time.getMinutes();
+  // Get the UTC hours and minutes
+  let hours = time.getUTCHours();
+  const minutes = time.getUTCMinutes();
+  
+  // Determine AM or PM
   const ampm = hours >= 12 ? "PM" : "AM";
+
+  // Convert 24-hour to 12-hour format
   hours = hours % 12;
-  hours = hours ? hours : 12;
+  hours = hours ? hours : 12;  // the hour '0' should be '12'
+
+  // Format minutes as two digits (e.g., '09' instead of '9')
   const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-  const realTime = `${hours}:${formattedMinutes} ${ampm}`;
-  return realTime;
+
+  // Return the time in 12-hour format with AM/PM
+  const formattedTime = `${hours}:${formattedMinutes} ${ampm}`;
+
+  return formattedTime;
 }
 
 const Thead: React.FC<{
