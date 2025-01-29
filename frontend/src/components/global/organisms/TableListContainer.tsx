@@ -35,53 +35,26 @@ function formatDate(timestamp: string) {
   return formattedDate;
 }
 
-// function convertTimeToAMPM(timeString: string): string {
-//   if (timeString === "--") return "--";
-//   console.log("Time string: ", timeString);
-//   const time = new Date(timeString);
-
-//   // const timeZoneFromDB = -0.0; //time zone value from database
-//   // //get the timezone offset from local time in minutes
-//   // const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
-//   // //convert the offset to milliseconds, add to targetTime, and make a new Date
-//   // const time = new Date(time1.getTime() + tzDifference * 60 * 1000);
-
-//   let hours = time.getHours();
-//   const minutes = time.getMinutes();
-//   const ampm = hours >= 12 ? "PM" : "AM";
-//   hours = hours % 12;
-//   hours = hours ? hours : 12;
-//   const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-//   const realTime = `${hours}:${formattedMinutes} ${ampm}`;
-//   return realTime;
-// }
-
 function convertTimeToAMPM(timeString: string): string {
   if (timeString === "--") return "--";
-
-  // Parse the time string to get the date and time object
+  console.log("Time string: ", timeString);
   const time = new Date(timeString);
 
-  // Get the UTC hours and minutes
-  let hours = time.getUTCHours();
-  let minutes = time.getUTCMinutes();
-  
-  // Determine AM or PM
+  // const timeZoneFromDB = -0.0; //time zone value from database
+  // //get the timezone offset from local time in minutes
+  // const tzDifference = timeZoneFromDB * 60 + time1.getTimezoneOffset();
+  // //convert the offset to milliseconds, add to targetTime, and make a new Date
+  // const time = new Date(time1.getTime() + tzDifference * 60 * 1000);
+
+  let hours = time.getHours();
+  const minutes = time.getMinutes();
   const ampm = hours >= 12 ? "PM" : "AM";
-
-  // Convert 24-hour to 12-hour format
-
-  // Convert 24-hour to 12-hour format
   hours = hours % 12;
-  hours = hours ? hours : 12;  // the hour '0' should be '12'
-
+  hours = hours ? hours : 12;
   const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-
   const realTime = `${hours}:${formattedMinutes} ${ampm}`;
-
   return realTime;
 }
-
 
 const Thead: React.FC<{
   index: number;

@@ -12,14 +12,13 @@ import Button from "@/components/global/atoms/Button";
 import Input from "@/components/global/atoms/Input";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "@/lib/axiosConfig";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
-// import { contextVar } from "@/components/common/context/contextVar";
 
 interface LoginInitialData {
   user_id: string;
@@ -29,12 +28,8 @@ interface LoginInitialData {
 const Login = () => {
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState<string>();
-  const [token, setToken] = useState<string>();
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
-
-  // const { setmenuList, setuserDetails, setheartBeatCounter } =
-  //   useContext(contextVar);
 
   // const [hide, setHide] = useState(true);
 
@@ -48,13 +43,14 @@ const Login = () => {
   const handleLogin = async (values: LoginInitialData) => {
     try {
       activateWorkingAnimation();
-      const res = await axios.post(
-        `${process.env.backend}/api/login`,{
+      const res = await axios({
+        url: `${process.env.backend}/api/login`,
+        method: "POST",
+        data: {
           email: values.user_id,
           password: values.password,
-          moduleId: 6,
-        }
-      );
+        },
+      });
 
       const data = res.data.data;
       sessionStorage.setItem("user_details", JSON.stringify(data?.userDetails));
@@ -62,17 +58,15 @@ const Login = () => {
 
       //! EMPLOYEE ID WILL COME FROM USER TABLE
       if (data) {
-        fetchMenuList();
         Cookies.set("accesstoken", data?.token);
-        localStorage.setItem("accesstoken", data?.token);
-        
-        const res2 = await axios.post(
-          `${HRMS_URL.ATTENDANCE.create}`,
-          
-           {
+
+        const res2 = await axios({
+          url: `${HRMS_URL.ATTENDANCE.create}`,
+          method: "POST",
+          data: {
             emp_id: data?.userDetails?.emp_id,
           },
-          {headers: {
+          headers: {
             Authorization: "Bearer " + data?.token,
           },
         });
@@ -104,7 +98,7 @@ const Login = () => {
         }
       } else {
         hideWorkingAnimation();
-        setErrorMsg(res.data.message);
+        setErrorMsg("You have entered wrong credentials !!");
       }
     } catch (error) {
       hideWorkingAnimation();
@@ -113,48 +107,9 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    let accesstoken: any = localStorage.getItem("accesstoken");
-    setToken(accesstoken);
-  }, []);
-
-
-  const fetchMenuList = async () => {
-    let requestBody = {
-      moduleId: 6,
-    };
-
-    try {
-      // Make API request
-      const res = await axios.post(
-         "https://aadrikainfomedia.com/auth/api/menu/by-module",
-       requestBody,
-        {
-          headers: {
-          Authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
-        }}
-      );
-
-      let data = res?.data;
-
-      if (data?.data?.userDetails && data?.data?.permission) {
-        let newdata = JSON.stringify(data?.data?.userDetails);
-        if (newdata != undefined) {
-          localStorage.setItem("userDetail", newdata);
-        }
-
-        let newPermission = JSON.stringify(data?.data?.permission);
-        if (newPermission != undefined) {
-          localStorage.setItem("userPermission", newPermission);
-        }
-
-      } else {
-        console.error("Missing required data in the API response.");
-      }
-    } catch (error) {
-      console.error("Error fetching menu list", error);
-    }
-  };
+  // const handleHideShowPass = () => {
+  //   setHide(!hide);
+  // };
 
   return (
     <>
@@ -215,54 +170,54 @@ const Login = () => {
                       type="password"
                       placeholder="Password"
                       className="mt-1 border-0 focus:border-0 visible:border-0 focus:outline-none"
-                      // type={hide ? "password" : "text"}
-                      // icon={
-                      //   hide ? (
-                      //     <svg
-                      //       onClick={handleHideShowPass}
-                      //       xmlns="http://www.w3.org/2000/svg"
-                      //       width="25"
-                      //       height="25"
-                      //       viewBox="0 0 52 50"
-                      //       fill="none"
-                      //     >
-                      //       <path
-                      //         d="M3.49755 2.5L48.4975 47.5M20.6083 19.7841C19.3017 21.134 18.4976 22.973 18.4976 25C18.4976 29.1423 21.8555 32.5 25.9975 32.5C28.0538 32.5 29.9168 31.6725 31.2715 30.3325M12.2476 11.6179C7.4993 14.7509 3.88263 19.4599 2.14258 25C5.3282 35.1427 14.804 42.5 25.998 42.5C30.9703 42.5 35.6035 41.0485 39.497 38.546M23.4975 7.62347C24.32 7.54182 25.1543 7.5 25.998 7.5C37.1923 7.5 46.668 14.8573 49.8535 25C49.1518 27.235 48.1443 29.3345 46.8805 31.25"
-                      //         stroke="black"
-                      //         strokeOpacity="0.6"
-                      //         strokeWidth="3.5"
-                      //         strokeLinecap="round"
-                      //         strokeLinejoin="round"
-                      //       />
-                      //     </svg>
-                      //   ) : (
-                      //     <svg
-                      //       onClick={handleHideShowPass}
-                      //       xmlns="http://www.w3.org/2000/svg"
-                      //       width="25"
-                      //       height="25"
-                      //       viewBox="0 0 61 61"
-                      //       fill="none"
-                      //     >
-                      //       <path
-                      //         d="M37.9794 30.0859C37.9794 34.2282 34.6217 37.5859 30.4794 37.5859C26.3374 37.5859 22.9795 34.2282 22.9795 30.0859C22.9795 25.9437 26.3374 22.5859 30.4794 22.5859C34.6217 22.5859 37.9794 25.9437 37.9794 30.0859Z"
-                      //         stroke="black"
-                      //         strokeOpacity="0.35"
-                      //         strokeWidth="3.5"
-                      //         strokeLinecap="round"
-                      //         strokeLinejoin="round"
-                      //       />
-                      //       <path
-                      //         d="M30.4808 12.5859C19.2866 12.5859 9.81094 19.9431 6.62524 30.0859C9.81089 40.2287 19.2866 47.5859 30.4808 47.5859C41.6748 47.5859 51.1505 40.2287 54.3363 30.0859C51.1505 19.9432 41.6748 12.5859 30.4808 12.5859Z"
-                      //         stroke="black"
-                      //         strokeOpacity="0.35"
-                      //         strokeWidth="3.5"
-                      //         strokeLinecap="round"
-                      //         strokeLinejoin="round"
-                      //       />
-                      //     </svg>
-                      //   )
-                      // }
+                    // type={hide ? "password" : "text"}
+                    // icon={
+                    //   hide ? (
+                    //     <svg
+                    //       onClick={handleHideShowPass}
+                    //       xmlns="http://www.w3.org/2000/svg"
+                    //       width="25"
+                    //       height="25"
+                    //       viewBox="0 0 52 50"
+                    //       fill="none"
+                    //     >
+                    //       <path
+                    //         d="M3.49755 2.5L48.4975 47.5M20.6083 19.7841C19.3017 21.134 18.4976 22.973 18.4976 25C18.4976 29.1423 21.8555 32.5 25.9975 32.5C28.0538 32.5 29.9168 31.6725 31.2715 30.3325M12.2476 11.6179C7.4993 14.7509 3.88263 19.4599 2.14258 25C5.3282 35.1427 14.804 42.5 25.998 42.5C30.9703 42.5 35.6035 41.0485 39.497 38.546M23.4975 7.62347C24.32 7.54182 25.1543 7.5 25.998 7.5C37.1923 7.5 46.668 14.8573 49.8535 25C49.1518 27.235 48.1443 29.3345 46.8805 31.25"
+                    //         stroke="black"
+                    //         strokeOpacity="0.6"
+                    //         strokeWidth="3.5"
+                    //         strokeLinecap="round"
+                    //         strokeLinejoin="round"
+                    //       />
+                    //     </svg>
+                    //   ) : (
+                    //     <svg
+                    //       onClick={handleHideShowPass}
+                    //       xmlns="http://www.w3.org/2000/svg"
+                    //       width="25"
+                    //       height="25"
+                    //       viewBox="0 0 61 61"
+                    //       fill="none"
+                    //     >
+                    //       <path
+                    //         d="M37.9794 30.0859C37.9794 34.2282 34.6217 37.5859 30.4794 37.5859C26.3374 37.5859 22.9795 34.2282 22.9795 30.0859C22.9795 25.9437 26.3374 22.5859 30.4794 22.5859C34.6217 22.5859 37.9794 25.9437 37.9794 30.0859Z"
+                    //         stroke="black"
+                    //         strokeOpacity="0.35"
+                    //         strokeWidth="3.5"
+                    //         strokeLinecap="round"
+                    //         strokeLinejoin="round"
+                    //       />
+                    //       <path
+                    //         d="M30.4808 12.5859C19.2866 12.5859 9.81094 19.9431 6.62524 30.0859C9.81089 40.2287 19.2866 47.5859 30.4808 47.5859C41.6748 47.5859 51.1505 40.2287 54.3363 30.0859C51.1505 19.9432 41.6748 12.5859 30.4808 12.5859Z"
+                    //         stroke="black"
+                    //         strokeOpacity="0.35"
+                    //         strokeWidth="3.5"
+                    //         strokeLinecap="round"
+                    //         strokeLinejoin="round"
+                    //       />
+                    //     </svg>
+                    //   )
+                    // }
                     />
                   </div>
 
