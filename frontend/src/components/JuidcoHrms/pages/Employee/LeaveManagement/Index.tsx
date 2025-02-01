@@ -501,7 +501,7 @@ const LeaveReq = () => {
 
                     <div className="mt-4">
                       <span className="text-sm">
-                        Type of Leave - <span className="text-green-600">{manData?.emp_leave_type.name}</span>
+                        Type of Leave - <span className="text-green-600">{manData?.emp_leave_type?.name}</span>
                       </span>
                       <br />
                       <span className="text-sm">
