@@ -654,7 +654,7 @@ const EmpSalaryDetails: React.FC<
 
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Salary Information
+          Employee Salary Information 
           <i>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -675,7 +675,7 @@ const EmpSalaryDetails: React.FC<
 
       {/* -----------------------Radio option for salary ----------------------------------- */}
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
-        <SubHeading>Employee Salary Information</SubHeading>
+        <SubHeading>Employee Salary Information <span className="text-red-500">*</span></SubHeading>
 
         <div className="flex items-center gap-12 text-secondary mt-4 mb-8">
           <div className="flex-all-center ">

@@ -238,10 +238,12 @@ const EmpInitialJoinDetails: React.FC<
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.designation_id}
+                      touched={touched.designation_id}
                       label="Designation"
                       placeholder="Please Select"
                       name="designation_id"
                       api={`${HRMS_URL.DESIGNATION.get}`}
+                      required
                     />
 
                     <SelectForNoApi
@@ -257,6 +259,7 @@ const EmpInitialJoinDetails: React.FC<
                         { id: 3, name: "3" },
                         { id: 4, name: "4" },
                       ]}
+                      required
                     />
 
                     <div className="flex flex-col gap-2">
@@ -326,7 +329,9 @@ const EmpInitialJoinDetails: React.FC<
                         label="Pay Scale"
                         name="pay_scale"
                         placeholder={"Please Select"}
-                        required
+                        required={true}
+                        error={errors.pay_scale}
+                        touched={touched.pay_scale}
                         options={[
                           { id: 1, name: "1" },
                           { id: 2, name: "2" },
@@ -392,7 +397,10 @@ const EmpInitialJoinDetails: React.FC<
                         error={errors.grade_pay}
                         label="Grade Pay"
                         name="grade_pay"
+                        required={true}
+                        touched={touched.grade_pay}
                         placeholder={"Please Select"}
+                        
                         options={
                           Number(values.pay_scale) >= 1 &&
                             Number(values.pay_scale) <= 5
@@ -638,13 +646,13 @@ const EmpInitialJoinDetails: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.doj}
-                  // error={errors.doj}
-                  // touched={touched.doj}
+                  error={errors.doj}
+                  touched={touched.doj}
                   label="Date Of Joining"
                   name="doj"
                   placeholder={"Enter Date Of Joining"}
                   type="date"
-                // required={true}
+                required={true}
                 />
                 <SelectForNoApi
                   onChange={handleChange}

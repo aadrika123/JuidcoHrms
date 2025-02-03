@@ -85,6 +85,7 @@ const AttendanceManagement = () => {
   const [selectedMonth, setSelectedMonth] = useState("fsdf");
   const [attndData, setAttnd] = useState<any>();
   const [attndDataHistory, setAttndHistory] = useState<any>();
+  console.log(attndDataHistory, "ghghgh")
   const [eventList, setEventList] = useState<any[]>([]);
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();

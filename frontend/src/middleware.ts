@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import data from "./json/protected_rroutes";
+// import data from "./json/protected_rroutes";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const tok3n = request.cookies.get("accesstoken")?.value;
-  const user: any = request.cookies.get("loginData")
-    ? JSON.parse(request.cookies.get("loginData")?.value as any)
-    : {};
+  // const user: any = request.cookies.get("loginData")
+  //   ? JSON.parse(request.cookies.get("loginData")?.value as any)
+  //   : {};
 
   if (!tok3n) {
     return NextResponse.redirect(new URL("/hrms/auth/login", request.url));
@@ -20,15 +20,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/hrms/auth/login", request.url));
   }
 
-  const paths = data.find(
-    (i: any) => i.user_type.toLowerCase() === user?.user_type?.toLowerCase()
-  )?.paths;
+  // const paths = data.find(
+  //   (i: any) => i.user_type.toLowerCase() === user?.user_type?.toLowerCase()
+  // )?.paths;
 
-  const u = paths?.find((i) => request.url.includes(i));
+  // const u = paths?.find((i) => request.url.includes(i));
 
-  if (!u) {
-    return NextResponse.redirect(new URL("/hrms/404", request.url));
-  }
+  // if (!u) {
+  //   return NextResponse.redirect(new URL("/hrms/404", request.url));
+  // }
 }
 
 // See "Matching Paths" below to learn more

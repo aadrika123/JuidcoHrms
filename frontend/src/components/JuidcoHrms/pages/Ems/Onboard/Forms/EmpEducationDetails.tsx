@@ -74,7 +74,7 @@ const EmpEducationDetails: React.FC<
     <div>
       <div className="flex justify-between mb-10">
         <SubHeading>
-          Employee Education & Training Details
+          Employee Education & Training Details 
           <i>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ const EmpEducationDetails: React.FC<
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
         <div className="border p-5 rounded-xl shadow overflow-auto hide-scrollbar ">
           <SubHeading className="text-[20px] pt-4">
-            Employee Education
+            Employee Education <span className="text-red-500" >*</span>
           </SubHeading>
           <EmpEducationTable
             setData={getStateData}
