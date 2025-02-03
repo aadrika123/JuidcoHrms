@@ -1,6 +1,6 @@
-
 "use client"
 
+import React from "react" // Add this line
 import Image from "next/image"
 import { useState } from "react"
 import html2canvas from "html2canvas"
@@ -70,4 +70,3 @@ const Holiday = () => {
 }
 
 export default Holiday
-
