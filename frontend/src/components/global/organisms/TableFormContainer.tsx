@@ -33,7 +33,7 @@ interface TableFormProps {
   getData: [];
   addRows?: () => void;
   session_key: string;
-  subHeading: string;
+  subHeading: string | React.ReactNode; 
   isRequired?: boolean;
   setData: (key: string, values: any, index?: number | undefined) => void;
   labels?: string[];

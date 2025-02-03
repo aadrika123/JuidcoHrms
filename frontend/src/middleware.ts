@@ -26,9 +26,9 @@ export function middleware(request: NextRequest) {
 
   const u = paths?.find((i) => request.url.includes(i));
 
-  if (!u) {
-    return NextResponse.redirect(new URL("/hrms/404", request.url));
-  }
+  // if (!u) {
+  //   return NextResponse.redirect(new URL("/hrms/404", request.url));
+  // }
 }
 
 // See "Matching Paths" below to learn more

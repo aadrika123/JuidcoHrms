@@ -238,10 +238,12 @@ const EmpInitialJoinDetails: React.FC<
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.designation_id}
+                      touched={touched.designation_id}
                       label="Designation"
                       placeholder="Please Select"
                       name="designation_id"
                       api={`${HRMS_URL.DESIGNATION.get}`}
+                      required
                     />
 
                     <SelectForNoApi
@@ -257,6 +259,7 @@ const EmpInitialJoinDetails: React.FC<
                         { id: 3, name: "3" },
                         { id: 4, name: "4" },
                       ]}
+                      required
                     />
 
                     <div className="flex flex-col gap-2">

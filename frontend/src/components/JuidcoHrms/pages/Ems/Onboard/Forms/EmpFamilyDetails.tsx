@@ -25,11 +25,11 @@ const EmployeeFamilyDetails: React.FC<
   const [employeeFamilyDetails, setEmployeeFamilyDetails] = useState([]);
   const [isValidate, setIsValidate] = useState<boolean>(true);
   const [session, setSession] = useState<number>(0);
-  // const [resetTable, setResetTable] = useState<number>(0);
 
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
+
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_family_details", JSON.stringify(values));
@@ -41,78 +41,22 @@ const EmployeeFamilyDetails: React.FC<
     }
   };
 
-  console.log(employeeFamilyDetails, "fami");
-
   // ----------------------- TABLE COLUMNS --------------------------------//
   const COLUMS_EMP_FAMILY_DETAILS: COLUMNS[] = [
-    {
-      HEADER: "SL. No.",
-      ACCESSOR: "sl_no",
-      isRequired: false,
-      sl_no: true,
-    },
-    {
-      HEADER: "Name",
-      ACCESSOR: "name",
-      isRequired: true,
-    },
-    {
-      HEADER: "Relation",
-      ACCESSOR: "relation",
-      isRequired: true,
-    },
-
-    {
-      HEADER: "D.O.B",
-      ACCESSOR: "dob",
-      isRequired: true,
-      type: "date",
-    },
-
-    {
-      HEADER: "Dependent",
-      ACCESSOR: "dependent",
-      type: "radio",
-      isRequired: true,
-    },
+    { HEADER: "SL. No.", ACCESSOR: "sl_no", isRequired: false, sl_no: true },
+    { HEADER: "Name", ACCESSOR: "name", isRequired: true },
+    { HEADER: "Relation", ACCESSOR: "relation", isRequired: true },
+    { HEADER: "D.O.B", ACCESSOR: "dob", isRequired: true, type: "date" },
+    { HEADER: "Dependent", ACCESSOR: "dependent", type: "radio", isRequired: true },
   ];
 
   const COLUMS_EMP_NOMINEE_DETAILS: COLUMNS[] = [
-    {
-      HEADER: "SL. No.",
-      ACCESSOR: "sl_no",
-      isRequired: false,
-      sl_no: true,
-    },
-    {
-      HEADER: "Nominee Name ",
-      ACCESSOR: "nominee_name",
-      isRequired: true,
-    },
-    {
-      HEADER: "Relation",
-      ACCESSOR: "relation",
-      isRequired: true,
-    },
-
-    {
-      HEADER: "Percentage",
-      ACCESSOR: "percentage",
-      isRequired: true,
-      type: "number",
-    },
-
-    {
-      HEADER: "Address",
-      ACCESSOR: "address",
-      isRequired: true,
-    },
-    {
-      HEADER: "Minor",
-      ACCESSOR: "minor",
-      isRequired: true,
-      type: "radio",
-    },
+    { HEADER: "SL. No.", ACCESSOR: "sl_no", isRequired: false, sl_no: true },
+    { HEADER: "Nominee Name", ACCESSOR: "nominee_name", isRequired: true },
+    { HEADER: "Relation", ACCESSOR: "relation", isRequired: true },
+    { HEADER: "Percentage", ACCESSOR: "percentage", isRequired: true, type: "number" },
+    { HEADER: "Address", ACCESSOR: "address", isRequired: true },
+    { HEADER: "Minor", ACCESSOR: "minor", isRequired: true, type: "radio" },
   ];
   // ----------------------- TABLE COLUMNS --------------------------------//
 
@@ -121,14 +65,9 @@ const EmployeeFamilyDetails: React.FC<
     setTabIndex(index || tabIndex);
   }
 
-  function getDataSesson() {
+  function getDataSession() {
     setSession(1);
   }
-  // function resetData() {
-  //   setResetTable(resetTable + 1);
-  // }
-
-  console.log(isValidate, "validate");
 
   return (
     <>
@@ -154,52 +93,43 @@ const EmployeeFamilyDetails: React.FC<
       </div>
 
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
-        <div className="mt-4">
-          <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
-            <TableFormContainer
-              setData={getStateData}
-              columns={COLUMS_EMP_FAMILY_DETAILS}
-              getData={[]}
-              subHeading={""}
-              session_key={"emp_fam_details"}
-              setSession={session}
-              validate={setIsValidate}
-            />
-          </div>
-          <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md mt-10">
-            <TableFormContainer
-              setData={getStateData}
-              columns={COLUMS_EMP_NOMINEE_DETAILS}
-              getData={[]}
-              subHeading={"Employee Nominee Details  "}
-              session_key={"emp_nominee_details"}
-              setSession={session}
-              validate={setIsValidate}
-            />
-          </div>
-        </div>
+        <TableFormContainer
+          setData={getStateData}
+          columns={COLUMS_EMP_FAMILY_DETAILS}
+          getData={[]}
+          subHeading="Employee Family Details"
+          session_key={"emp_fam_details"}
+          setSession={session}
+          validate={setIsValidate}
+        />
+
+        <TableFormContainer
+          setData={getStateData}
+          columns={COLUMS_EMP_NOMINEE_DETAILS}
+          getData={[]}
+          subHeading={
+            <>
+              Employee Nominee Details <span className="text-red-500">*</span>
+            </>
+          }
+          session_key={"emp_nominee_details"}
+          setSession={session}
+          validate={setIsValidate}
+        />
 
         <div className="flex items-center justify-end mt-5 gap-5">
-          <PrimaryButton
-            buttonType="button"
-            variant={"cancel"}
-            onClick={goBack}
-          >
+          <PrimaryButton buttonType="button" variant="cancel" onClick={goBack}>
             Back
           </PrimaryButton>
 
-          <PrimaryButton
-            buttonType="button"
-            variant={"cancel"}
-            // onClick={resetData}
-          >
+          <PrimaryButton buttonType="button" variant="cancel">
             Reset
           </PrimaryButton>
 
           {isValidate ? (
             <PrimaryButton
               onClick={() => {
-                getDataSesson();
+                getDataSession();
                 handleSubmitForm(employeeFamilyDetails);
               }}
               buttonType="submit"
@@ -209,9 +139,7 @@ const EmployeeFamilyDetails: React.FC<
             </PrimaryButton>
           ) : (
             <PrimaryButton
-              onClick={() => {
-                toast.error("Please fill the complete form!");
-              }}
+              onClick={() => toast.error("Please fill the complete form!")}
               variant="disabled"
             >
               Next
