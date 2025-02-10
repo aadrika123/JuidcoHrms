@@ -156,7 +156,7 @@ const Login = () => {
                         error={errors.user_id}
                         touched={touched.user_id}
                         name="user_id"
-                        className="border-0 focus:outline-none"
+                        className="border-black focus:outline-none"
                       />
                     </div>
                     <Input
@@ -169,7 +169,7 @@ const Login = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
-                      className="mt-1 border-0 focus:border-0 visible:border-0 focus:outline-none"
+                      className="mt-1 border-black focus:border-0 visible:border-0 focus:outline-none"
                     // type={hide ? "password" : "text"}
                     // icon={
                     //   hide ? (
