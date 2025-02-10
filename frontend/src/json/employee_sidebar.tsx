@@ -48,13 +48,13 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
         //   ),
         //   path: `${url}/employee/leave-management`,
         // },
-        {
-          moduleName: "Payroll",
-          icon: (
-            <Image src={PayrollIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/comingsoon`,
-        },
+        // {
+        //   moduleName: "Payroll",
+        //   icon: (
+        //     <Image src={PayrollIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/comingsoon`,
+        // },
         {
           moduleName: "Download Pay slip",
           icon: (
@@ -104,39 +104,39 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
               ),
               path: `${url}/employee/regularization`,
             },
-            {
-              moduleName: "Claims",
-              icon: (
-                <Image
-                  src={AttendanceIcon}
-                  alt="masters"
-                  width={100}
-                  height={100}
-                />
-              ),
-              path: `${url}/comingsoon`,
-            },
+            // {
+            //   moduleName: "Claims",
+            //   icon: (
+            //     <Image
+            //       src={AttendanceIcon}
+            //       alt="masters"
+            //       width={100}
+            //       height={100}
+            //     />
+            //   ),
+            //   path: `${url}/comingsoon`,
+            // },
           ],
         },
-        {
-          moduleName: "Grievances",
-          icon: <Image src={GrivIcon} alt="masters" width={100} height={100} />,
-          path: `${url}/comingsoon`,
-        },
-        {
-          moduleName: "Appraisal",
-          icon: (
-            <Image src={AppraisalIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/comingsoon`,
-        },
-        {
-          moduleName: "Survey & Feedback",
-          icon: (
-            <Image src={SurveyIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/comingsoon`,
-        },
+        // {
+        //   moduleName: "Grievances",
+        //   icon: <Image src={GrivIcon} alt="masters" width={100} height={100} />,
+        //   path: `${url}/comingsoon`,
+        // },
+        // {
+        //   moduleName: "Appraisal",
+        //   icon: (
+        //     <Image src={AppraisalIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/comingsoon`,
+        // },
+        // {
+        //   moduleName: "Survey & Feedback",
+        //   icon: (
+        //     <Image src={SurveyIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/comingsoon`,
+        // },
 
         {
           moduleName: "Holiday List",
@@ -145,21 +145,21 @@ export const EmployeeSidebarLinks: SidebarLinksProps = {
           ),
           path: `${url}/holidayList/holiday`,
         },
-        {
-          moduleName: "Gratuity",
-          icon: (
-            <Image src={HolidayIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/comingsoon`,
-        },
+        // {
+        //   moduleName: "Gratuity",
+        //   icon: (
+        //     <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/comingsoon`,
+        // },
 
-        {
-          moduleName: "Pension",
-          icon: (
-            <Image src={HolidayIcon} alt="masters" width={100} height={100} />
-          ),
-          path: `${url}/comingsoon`,
-        },
+        // {
+        //   moduleName: "Pension",
+        //   icon: (
+        //     <Image src={HolidayIcon} alt="masters" width={100} height={100} />
+        //   ),
+        //   path: `${url}/comingsoon`,
+        // },
         {
           moduleName: "Team Management",
           icon: (
