@@ -5,14 +5,14 @@ import HomeIcon from "@/assets/icons/sidebar/hrms.svg";
 import EmployeeManagementIcon from "@/assets/icons/sidebar/employee.svg";
 import DashboardIcon from "@/assets/icons/sidebar/ion_home.svg";
 import OnBoardIcon from "@/assets/icons/sidebar/mdi_user-add.svg";
-import AttendanceIcon from "@/assets/icons/sidebar/attendance.svg";
-import LeaveIcon from "@/assets/icons/sidebar/leave.svg";
+// import AttendanceIcon from "@/assets/icons/sidebar/attendance.svg";
+// import LeaveIcon from "@/assets/icons/sidebar/leave.svg";
 import PayrollIcon from "@/assets/icons/sidebar/payroll.svg";
-import SuspensionIcon from "@/assets/icons/sidebar/suspension.svg";
-import LoanIcon from "@/assets/icons/sidebar/loan.svg";
-import TerminationIcon from "@/assets/icons/sidebar/termination.svg";
+// import SuspensionIcon from "@/assets/icons/sidebar/suspension.svg";
+// import LoanIcon from "@/assets/icons/sidebar/loan.svg";
+// import TerminationIcon from "@/assets/icons/sidebar/termination.svg";
 import PensionIcon from "@/assets/icons/sidebar/pension.svg";
-import GrievanceIcon from "@/assets/icons/sidebar/grievance.svg";
+// import GrievanceIcon from "@/assets/icons/sidebar/grievance.svg";
 
 // interface UrlTypes {
 //   uri: string;
