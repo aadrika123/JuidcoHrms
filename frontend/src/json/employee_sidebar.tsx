@@ -6,11 +6,11 @@ import AttendanceIcon from "@/assets/icons/sidebar/attendance.svg";
 import LeaveIcon from "@/assets/icons/emp_sidebar/leave.svg";
 import ApplicatonIcon from "@/assets/icons/emp_sidebar/application.svg";
 import HolidayIcon from "@/assets/icons/emp_sidebar/holiday.svg";
-import PayrollIcon from "@/assets/icons/emp_sidebar/payroll.svg";
+// import PayrollIcon from "@/assets/icons/emp_sidebar/payroll.svg";
 import PayslipIcon from "@/assets/icons/emp_sidebar/payslip.svg";
-import SurveyIcon from "@/assets/icons/emp_sidebar/survey.svg";
-import AppraisalIcon from "@/assets/icons/emp_sidebar/apprasel.svg";
-import GrivIcon from "@/assets/icons/emp_sidebar/griv.svg";
+// import SurveyIcon from "@/assets/icons/emp_sidebar/survey.svg";
+// import AppraisalIcon from "@/assets/icons/emp_sidebar/apprasel.svg";
+// import GrivIcon from "@/assets/icons/emp_sidebar/griv.svg";
 // interface UrlTypes {
 //   uri: string;
 // }
