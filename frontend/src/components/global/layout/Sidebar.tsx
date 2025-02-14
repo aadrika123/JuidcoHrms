@@ -14,9 +14,14 @@ import Link from "next/link";
 import { sidebarLinks } from "@/json/sidebar.json";
 import { EmployeeSidebarLinks } from "@/json/employee_sidebar";
 import { TMSidebarLinks } from "@/json/teamManagementSidebar"
-import { usePathname } from "next/navigation";
+import { usePathname,  } from "next/navigation";
 import { InnerHeading } from "@/components/Helpers/Heading";
 import ProfileIcon from "@/assets/icons/profile_new.png";
+import axios from "axios";
+
+import { BsGrid1X2 } from "react-icons/bs";
+import { BsGrid1X2Fill } from "react-icons/bs";
+import { ChevronDown } from "lucide-react";
 
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
@@ -28,6 +33,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   const [sidebarLink, setSidebarLink] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
   const [isTeamManagementOpen, setIsTeamManagementOpen] = useState<boolean>(false);
+  const [userPermission, setuserPermission] = useState<unknown>();
 
   useEffect(() => {
     setData(localStorage.getItem("openPage"));
@@ -85,6 +91,63 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     }
   }, [isTeamManagementOpen]);
 
+  const pathname = usePathname(); // Use Next.js's usePathname for routing
+  // const router = useRouter(); // Use Next.js's useRouter for navigation
+
+  console.log("pathname", pathname);
+
+// module api for  /services-by-module
+
+
+const fetchMenuList = async () => {
+  const requestBody = {
+    moduleId: 6,
+  };
+
+  try {
+    // Make API request
+    const res = await axios.post(
+      "https://aadrikainfomedia.com/auth/api/menu/by-module",
+      requestBody,
+      {
+        headers: {
+          Authorization: `Bearer 49709|u2ZtrYa7uZCQByBXrmuO7qZr6IzxEW523vjNNI9Bd96c02c1`,
+        },
+      }
+    );
+
+    console.log("res?.datares?.data",res?.data)
+
+    const data = res?.data;
+
+    if (data?.data?.userDetails && data?.data?.permission) {
+      const newdata = JSON.stringify(data?.data?.userDetails);
+      if (newdata != undefined) {
+        localStorage.setItem("userDetail", newdata);
+      }
+
+      setuserPermission(data?.data?.permission);
+      setUserDetails(data?.data?.userDetails);
+    } else {
+      console.error("Missing required data in the API response.");
+    }
+  } catch (error) {
+    console.error("Error fetching menu list", error);
+  }
+};
+
+useEffect(() => {
+  fetchMenuList();
+}, []);
+
+
+// console.log('userPermissionuserPermission',userPermission)
+
+  
+  // useEffect(() => {
+  //   servicesModule(); // Call the function inside useEffect
+  // }, [pathname]); // Add pathname as a dependency
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const data = sessionStorage.getItem("user_details");
@@ -93,14 +156,9 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
     }
   }, []);
 
-  const TMSidebarOpen = (name: any) => {
-    if (name === 'Team Management') {
-      setIsTeamManagementOpen(true)
-      // console.log(name)
-    }
-  }
 
-  console.log(userDetails,"userDetails")
+
+  // console.log(userDetails,"userDetails")
 
   return (
     <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""} `}>
@@ -121,13 +179,27 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
 
           </div>
 
-          <div>
+
+
+          {/* 👉 =====menus======  👈*/}
+          <div className=" text-sm px-4 overflow-y-auto scrollbar-width-10 scrollbar-track-blue-100 scrollbar-thumb-blue-700 scrollbar-thumb-rounded-full scrollbar-thumb-hover-blue-500 transition-all duration-200">
+                  <nav className="relative flex flex-wrap items-center justify-between overflow-x-hidden">
+                    <ul
+                      id="side-menu"
+                      className="w-full float-none flex flex-col "
+                    >
+                      <SidebarChild items={userPermission} />
+                    </ul>
+                  </nav>
+                </div>
+
+          {/* <div>
             {sidebarLink?.modules?.map((link: any, index: number) => {
               return (
                 <div key={index}>
                   <ul className="w-full menu menu-xs p-0 overflow-y-scroll h-[35rem] scrollbar-visible">
                     <ul className="h-lvh">
-                      <li>
+                      <li>asd
                         <details open className="w-full ">
                           <summary className="text-[1.125rem] p-2 px-6  whitespace-nowrap bg-primary_blue hover:bg-primary_blue rounded-none font-semibold text-white">
                             <i className="w-8 bg-white rounded-md p-1">
@@ -207,7 +279,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </section>
       </div>
     </div>
@@ -215,3 +287,68 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
 };
 
 export default Sidebar;
+
+
+
+
+
+
+
+
+
+
+function SidebarChild({ items }: any) {
+  return (
+    <div className="w-64 min-h-screen ">
+      <nav className="space-y-4 ">
+        {items?.map((item: any) => <SidebarItem key={item.id} item={item} />)}
+      </nav>
+    </div>
+  );
+}
+
+function SidebarItem({ item }: any) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const hasChildren = item.children && item.children.length > 0;
+
+  if (hasChildren) {
+    return (
+      <div>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-[#190BC4] hover:text-white  rounded-md transition-colors"
+        >
+          <div className="flex items-center gap-2 ">
+            <BsGrid1X2Fill />
+
+            <span>{item.name}</span>
+          </div>
+          <ChevronDown
+            className={`h-4 w-4 transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+        {isOpen && (
+          <div className="pl-6 mt-3 space-y-1 bg-[#190BC4] rounded-md text-white">
+            {item.children.map((child: any) => (
+              <SidebarItem key={child.id} item={child} />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={item.path || "#"}
+      className="flex items-center mt-2  gap-2 px-4 py-2 text-sm hover:bg-[#190BC4] hover:text-white rounded-md transition-colors"
+    >
+      <BsGrid1X2 />
+      <span>{item.name}</span>
+    </Link>
+  );
+}
+
+
