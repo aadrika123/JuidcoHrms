@@ -34,7 +34,7 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
 /// ------------- Employee Basic Details ---------------------///
 export const employeeValidationSchema = yup.object({
   // emp_id: yup.string().required("Employee ID is required"),
-  emp_image: yup.string().required("Employee image is required"),
+  // emp_image: yup.string().required("Employee image is required"),
   // emp_name: yup
   //   .string()
   //   .min(3, "Must be at least 3 characters long")
@@ -218,24 +218,24 @@ export const initialEmployeeAddressDetails: EmployeePresentAddressDetailsType =
   };
 
 export const employeeJoinValidationSchema = yup.object({
-  department_id: yup.string().required("Please Choose the Correct Department"),
+  // department_id: yup.string().required("Please Choose the Correct Department"),
   // designation: yup.string().required("Please Choose the Correct Designation"),
   // task: yup
   //   .string()
   //   .min(3, "Must be at least 3 characters long")
   //   .max(50, "Max 50 characters long")
   //   .required("Please Choose Correct Task"),
-  doj: yup.string().required("Please Enter the Correct Date Of Joining"),
-  effective_pay_commision: yup
-    .string()
-    .required("Please Choose the Correct Pay Commission"),
-  pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
-  pay_band: yup.string().required("Please Enter the Correct Pay Band"),
-  grade_pay: yup.string().required("Please Enter the Correct Grade Pay"),
-  basic_pay: yup.string().required("Please Enter the Correct Basic Pay"),
-  deduction_type: yup
-    .string()
-    .required("Please Enter the Correct Deduction Type"),
+  // doj: yup.string().required("Please Enter the Correct Date Of Joining"),
+  // effective_pay_commision: yup
+  //   .string()
+  //   .required("Please Choose the Correct Pay Commission"),
+  // pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
+  // pay_band: yup.string().required("Please Enter the Correct Pay Band"),
+  // grade_pay: yup.string().required("Please Enter the Correct Grade Pay"),
+  // basic_pay: yup.string().required("Please Enter the Correct Basic Pay"),
+  // deduction_type: yup
+  //   .string()
+  //   .required("Please Enter the Correct Deduction Type"),
 });
 
 export const initialEmployeeJoinDetails: EmployeeJoinDetailsType = {

@@ -58,9 +58,7 @@ const EmployeeBasicDetails: React.FC<
   // const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   // Handle file upload and DMS integration
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -79,11 +77,13 @@ const EmployeeBasicDetails: React.FC<
     }
 
     try {
+       // Update filename before upload starts
+
       // Prepare FormData for DMS
       const formData = new FormData();
       formData.append("img", file);
 
-      // Upload to DMS
+      // Upload to DMS and wait for response
       const response = await axios.post("/dms/get-url", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -91,20 +91,15 @@ const EmployeeBasicDetails: React.FC<
       });
 
       const imageUrl = response.data.data;
+      
+      setSelectedFileName(String(imageUrl));
 
-      // Update session storage and component state
-      setSelectedFileName(file.name);
-      setImagePreview(imageUrl); // Set the image preview
+      // Update session storage and component state after receiving response
+      setImagePreview(imageUrl); // Set image preview only after response
 
-      // Update emp_image in sessionStorage
-      const existingDetails = JSON.parse(
-        sessionStorage.getItem("emp_basic_details") || "{}"
-      );
+      const existingDetails = JSON.parse(sessionStorage.getItem("emp_basic_details") || "{}");
       existingDetails.emp_image = imageUrl; // Save the URL directly to `emp_image`
-      sessionStorage.setItem(
-        "emp_basic_details",
-        JSON.stringify(existingDetails)
-      );
+      sessionStorage.setItem("emp_basic_details", JSON.stringify(existingDetails));
 
       console.log("Image uploaded successfully:", imageUrl);
     } catch (error) {
@@ -115,13 +110,9 @@ const EmployeeBasicDetails: React.FC<
 
   // Retrieve image preview and file name from session storage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedFormData = sessionStorage.getItem("emp_basic_details");
-      if (storedFormData) {
-        const parsedData = JSON.parse(storedFormData);
-        setSelectedFileName(parsedData.emp_image || "");
-        setImagePreview(parsedData.emp_image_url || null);
-      }
+    const storedDetails = JSON.parse(sessionStorage.getItem("emp_basic_details") || "{}");
+    if (storedDetails?.emp_image) {
+      setImagePreview(storedDetails.emp_image);
     }
   }, []);
 

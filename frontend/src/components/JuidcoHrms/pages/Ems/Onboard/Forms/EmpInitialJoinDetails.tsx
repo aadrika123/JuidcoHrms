@@ -231,7 +231,7 @@ const EmpInitialJoinDetails: React.FC<
                       name="department_id"
                       placeholder={"Please Select Department"}
                       api={`${HRMS_URL.DEPARTMENT.get}`}
-                      required
+                      //required
                     />
 
                     <DropDownList
@@ -243,7 +243,7 @@ const EmpInitialJoinDetails: React.FC<
                       placeholder="Please Select"
                       name="designation_id"
                       api={`${HRMS_URL.DESIGNATION.get}`}
-                      required
+                      //required
                     />
 
                     <SelectForNoApi
@@ -259,7 +259,7 @@ const EmpInitialJoinDetails: React.FC<
                         { id: 3, name: "3" },
                         { id: 4, name: "4" },
                       ]}
-                      required
+                      //required
                     />
 
                     <div className="flex flex-col gap-2">
@@ -319,7 +319,7 @@ const EmpInitialJoinDetails: React.FC<
                         name="pay_scale"
                         placeholder={"Enter Pay Scale"}
                         type="number"
-                        // required={true}
+                        // //required={true}
                         maxLength={10}
                       /> */}
                       <SelectForNoApiNew
@@ -329,7 +329,7 @@ const EmpInitialJoinDetails: React.FC<
                         label="Pay Scale"
                         name="pay_scale"
                         placeholder={"Please Select"}
-                        required={true}
+                        //required={true}
                         error={errors.pay_scale}
                         touched={touched.pay_scale}
                         options={[
@@ -365,7 +365,7 @@ const EmpInitialJoinDetails: React.FC<
                         name="grade_pay"
                         placeholder={"Enter Grade Pay"}
                         type="number"
-                        required={true}
+                        //required={true}
                       /> */}
 
                       <InputBox
@@ -380,7 +380,7 @@ const EmpInitialJoinDetails: React.FC<
                         name="pay_band"
                         placeholder={"Enter Pay Band"}
                         type="number"
-                        required={true}
+                        //required={true}
                         onKeyPress={(e: any) => {
                           if (
                             !((e.key >= "0" && e.key <= "9") || e.key === " ")
@@ -397,7 +397,7 @@ const EmpInitialJoinDetails: React.FC<
                         error={errors.grade_pay}
                         label="Grade Pay"
                         name="grade_pay"
-                        required={true}
+                        //required={true}
                         touched={touched.grade_pay}
                         placeholder={"Please Select"}
                         
@@ -628,7 +628,7 @@ const EmpInitialJoinDetails: React.FC<
                   label="Task"
                   placeholder="Enter Task"
                   name="task"
-                  // required={true}
+                  // //required={true}
                   onKeyPress={(e: any) => {
                     if (
                       !(
@@ -652,7 +652,7 @@ const EmpInitialJoinDetails: React.FC<
                   name="doj"
                   placeholder={"Enter Date Of Joining"}
                   type="date"
-                required={true}
+                //required={true}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -672,7 +672,7 @@ const EmpInitialJoinDetails: React.FC<
                     { id: 6, name: "6" },
                     { id: 7, name: "7" },
                   ]}
-                  required={employeeType && employeeType === 4 ? false : true}
+                  //required={employeeType && employeeType === 4 ? false : true}
                 />
                 {/* <InputBox
                   onChange={handleChange}
@@ -684,7 +684,7 @@ const EmpInitialJoinDetails: React.FC<
                   name="basic_pay"
                   placeholder={"Enter Basic Pay"}
                   type="number"
-                  required={true}
+                  //required={true}
                 /> */}
                 <InputBox
                   onChange={handleChange}
@@ -704,7 +704,7 @@ const EmpInitialJoinDetails: React.FC<
                       : "Enter Basic Pay"
                   }
                   type="number"
-                  required={employeeType && employeeType === 4 ? false : true}
+                  //required={employeeType && employeeType === 4 ? false : true}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -719,7 +719,7 @@ const EmpInitialJoinDetails: React.FC<
                     { id: 1, name: "GPF" },
                     { id: 2, name: "CPS" },
                   ]}
-                  required={employeeType && employeeType === 4 ? false : true}
+                  //required={employeeType && employeeType === 4 ? false : true}
                 />
 
                 <InputBox

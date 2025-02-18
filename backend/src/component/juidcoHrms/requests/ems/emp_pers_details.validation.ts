@@ -396,18 +396,18 @@ export const employeeJoinDetailsRequestData = (
   };
 };
 export const employeeJoinValidationSchema = Joi.object({
-  department_id: Joi.number().required(), // Use department_id for the field
+  department_id: Joi.number().allow(null, ""), // Use department_id for the field
   designation_id: Joi.number().allow(null), // Changed to designation_id
   task: Joi.string().allow(null, ""),
   doj: Joi.string().allow(null, ""),
   effective_pay_commision: Joi.string().allow(null, ""), // Adjusted to match Prisma
   pay_scale: Joi.number().allow(null, ""),
-  pay_band: Joi.number().required(),
+  pay_band: Joi.number().allow(null, ""),
   grade_pay: Joi.number().allow(null, ""),
-  basic_pay: Joi.number().required(),
+  basic_pay: Joi.number().allow(null, ""),
   acc_no: Joi.string().allow(null, ""),
   acc_number: Joi.string().allow(null, ""), // Changed to string to match Prisma
-  deduction_type: Joi.string().required(), // Changed to string to match Prisma
+  deduction_type: Joi.string().allow(null, ""), // Changed to string to match Prisma
 
   // Optional fields
   class: Joi.string().allow(null, ""),
