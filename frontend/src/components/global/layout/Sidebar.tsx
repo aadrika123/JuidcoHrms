@@ -28,7 +28,7 @@ interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Sidebar: React.FC<SideBarProps> = (props) => {
-  const pathName = usePathname();
+  // const pathName = usePathname();
   const [data, setData] = useState<string | null>();
   const [sidebarLink, setSidebarLink] = useState<any>();
   const [userDetails, setUserDetails] = useState<any>();
@@ -38,9 +38,10 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   useEffect(() => {
     setData(localStorage.getItem("openPage"));
   }, []);
-  const handleClick = (moduleName: string) => {
-    localStorage.setItem("openPage", moduleName);
-  };
+  // const handleClick = (moduleName: string) => {
+  //   localStorage.setItem("openPage", moduleName);
+  // };
+  console.log("sidebarLink",sidebarLink)
 
   // useEffect(() => {
   //     if (typeof window !== "undefined") {
