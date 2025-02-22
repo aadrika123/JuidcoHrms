@@ -108,7 +108,7 @@ const fetchMenuList = async () => {
   try {
     // Make API request
     const res = await axios.post(
-      "https://aadrikainfomedia.com/auth/api/menu/by-module",
+      `${process.env.backend}/api/menu/by-module`,
       requestBody,
       {
         headers: {
@@ -164,7 +164,7 @@ useEffect(() => {
   return (
     <div className={`${props.className} ${data === "UD&HD" ? "hidden" : ""} `}>
       <div {...props}>
-        <section>
+        <section >
           <div className="flex flex-col items-center justify-center p-5">
             {/* <Image src="/logo/jh-logo.png" width={100} height={100} alt="logo" /> */}
             <Image src={ProfileIcon} width={100} height={100} alt="logo" />
@@ -314,7 +314,7 @@ function SidebarItem({ item }: any) {
 
   if (hasChildren) {
     return (
-      <div>
+      <div >
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-[#190BC4] hover:text-white  rounded-md transition-colors"
