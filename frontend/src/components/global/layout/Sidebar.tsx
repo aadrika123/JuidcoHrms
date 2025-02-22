@@ -22,6 +22,7 @@ import axios from "axios";
 import { BsGrid1X2 } from "react-icons/bs";
 import { BsGrid1X2Fill } from "react-icons/bs";
 import { ChevronDown } from "lucide-react";
+import Cookies from "js-cookie";
 
 interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
@@ -69,9 +70,14 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
   // }, [isTeamManagementOpen]);
 
 
+    const Auth = Cookies.get("accesstoken");
+    const t0k3n = `Bearer ${Auth}`;
+
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const data = sessionStorage.getItem("user_details");
+      console.log("data",data)
       const user_details = JSON.parse(data as string);
       // console.log(user_details, "user");
       if (isTeamManagementOpen) {
@@ -112,7 +118,7 @@ const fetchMenuList = async () => {
       requestBody,
       {
         headers: {
-          Authorization: `Bearer 49709|u2ZtrYa7uZCQByBXrmuO7qZr6IzxEW523vjNNI9Bd96c02c1`,
+          Authorization: `Bearer ${Auth}`,
         },
       }
     );
