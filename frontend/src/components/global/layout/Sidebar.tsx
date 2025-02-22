@@ -71,7 +71,7 @@ const Sidebar: React.FC<SideBarProps> = (props) => {
 
 
     const Auth = Cookies.get("accesstoken");
-    const t0k3n = `Bearer ${Auth}`;
+    // const t0k3n = `Bearer ${Auth}`;
 
 
   useEffect(() => {
