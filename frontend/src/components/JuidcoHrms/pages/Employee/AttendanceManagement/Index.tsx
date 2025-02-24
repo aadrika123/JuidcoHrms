@@ -85,7 +85,7 @@ const AttendanceManagement = () => {
   const [selectedMonth, setSelectedMonth] = useState("fsdf");
   const [attndData, setAttnd] = useState<any>();
   const [attndDataHistory, setAttndHistory] = useState<any>();
-  console.log(attndDataHistory, "ghghgh")
+  // console.log(attndDataHistory, "ghghgh")
   const [eventList, setEventList] = useState<any[]>([]);
   const [userDetails, setUserDetails] = useState<any>();
   const [employeeDetails, setEmployeeDetails] = useState<any>();
@@ -95,7 +95,7 @@ const AttendanceManagement = () => {
   const [parentTeam, setParentTeam] = useState<any>([]);
   const [steps, setSteps] = useState<any>([]);
 
-  console.log(userDetails?.emp_id,"no")
+  // console.log(userDetails?.emp_id,"no")
 
   // useEffect(() => {
   //   const emp_id = JSON.parse(
