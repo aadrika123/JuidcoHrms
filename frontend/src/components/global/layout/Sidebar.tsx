@@ -209,7 +209,7 @@ useEffect(() => {
                     <ul className="h-lvh">
                       <li>asd
                         <details open className="w-full ">
-                          <summary className="text-[1.125rem] p-2 px-6  whitespace-nowrap bg-primary_blue hover:bg-primary_blue rounded-none font-semibold text-white">
+                          <summary className="text-[1.125rem] p-2 px-6 whitespace-nowrap bg-primary_blue hover:bg-primary_blue rounded-none font-semibold text-white">
                             <i className="w-8 bg-white rounded-md p-1">
                               {link.icon}
                             </i>
