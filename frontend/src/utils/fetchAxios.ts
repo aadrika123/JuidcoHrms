@@ -14,6 +14,7 @@ export type FetchAxios = {
   data: any;
   res_type: 1 | 2 | 3;
   query_key: string;
+  responseType?: "json" | "blob" | "text";
 };
 
 async function fetchAxios<T>(
@@ -21,7 +22,8 @@ async function fetchAxios<T>(
   url_extend: string,
   method: "GET" | "POST",
   data: any,
-  res_type: 1 | 2 | 3
+  res_type: 1 | 2 | 3,
+  responseType: "json" | "blob" | "text" = "json"
 ): Promise<T[]> {
   if (data === undefined || data === null || !data) return [];
 
@@ -30,7 +32,11 @@ async function fetchAxios<T>(
       method: method,
       url: `${url}${url_extend}`,
       data: data,
+      responseType,
     });
+    if (responseType === "blob") {
+      return res.data; // Directly return blob data for file downloads
+    }
 
     if (res_type === 1) {
       return res.data?.data || [];

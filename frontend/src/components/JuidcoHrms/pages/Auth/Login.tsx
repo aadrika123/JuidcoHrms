@@ -30,6 +30,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
+    const [errrrr, setErrrrr] = useState<boolean>();
 
   // const [hide, setHide] = useState(true);
 
@@ -83,17 +84,24 @@ const Login = () => {
           const storedData = sessionStorage.getItem("user_details");
           const data = storedData && JSON.parse(storedData);
           if (data?.user_type === "Employee") {
+            setErrrrr(false)
             dispatch(login(data)), "a";
             if (typeof window !== "undefined")
               window.location.replace("/hrms/employee/attendance-management");
           } else if (data?.user_type === "TL") {
+            setErrrrr(false)
             dispatch(login(data)), "a";
             if (typeof window !== "undefined")
               window.location.replace("/hrms/employee/attendance-management");
-          } else {
+          } else if(data?.user_type === 'Admin') {
+            setErrrrr(false)
             dispatch(login(data));
             if (typeof window !== "undefined")
               window.location.replace("/hrms/ems/dashboard");
+          }
+          else {
+            setErrrrr(true)
+            hideWorkingAnimation();
           }
         }
       } else {
@@ -114,6 +122,18 @@ const Login = () => {
   return (
     <>
       {workingAnimation}
+
+      {errrrr && (
+  <p className="bg-red-600 text-white pt-2 p-2 rounded mb-4 fixed top-14 left-0 right-0 z-50 text-center flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="mr-2">
+      <polygon points="12,2 22,22 2,22" fill="yellow" stroke="black" strokeWidth="2" />
+      <text x="12" y="17" fontSize="12" textAnchor="middle" fill="black" fontFamily="Arial">!</text>
+    </svg>
+    <span>
+      Permission Denied. You are not authorized to access this page. Please contact your administrator for more information.
+    </span>
+  </p>
+)}
       <div className="max-w-full w-full px-2 sm:px-12 lg:pr-20 mb-12 lg:mb-0">
         <div className="relative">
           <div className="p-6 sm:py-8 sm:px-12 rounded-lg bg-white darks:bg-gray-800 shadow-xl">
@@ -156,7 +176,7 @@ const Login = () => {
                         error={errors.user_id}
                         touched={touched.user_id}
                         name="user_id"
-                        className="border-0 focus:outline-none"
+                        className="border-black focus:outline-none"
                       />
                     </div>
                     <Input
@@ -169,7 +189,7 @@ const Login = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
-                      className="mt-1 border-0 focus:border-0 visible:border-0 focus:outline-none"
+                      className="mt-1 border-black focus:border-0 visible:border-0 focus:outline-none"
                     // type={hide ? "password" : "text"}
                     // icon={
                     //   hide ? (

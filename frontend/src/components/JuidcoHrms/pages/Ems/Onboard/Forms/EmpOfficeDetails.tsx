@@ -218,6 +218,7 @@ const EmployeeOfficeDetails: React.FC<
               />
             </svg>
           </i>
+          
         </SubHeading>
         <h5>Steps-1/10</h5>
       </div>
@@ -259,7 +260,7 @@ const EmployeeOfficeDetails: React.FC<
             </div>
           </div>
         </section>
-        <SubHeading className="text-[20px] py-4">Office Details</SubHeading>
+        <SubHeading className="text-[20px] py-4">Office Details  <span className="text-red-500" >*</span></SubHeading>
         <Formik
           innerRef={formikRef}
           initialValues={initialValues}
@@ -293,7 +294,7 @@ const EmployeeOfficeDetails: React.FC<
 
                 <div className="flex flex-col gap-1">
                   <label className="text-secondary text-sm">
-                    Treasury Name
+                    Treasury Name <span className="text-red-500" >*</span>
                   </label>
                   <Autocomplete
                     disablePortal
@@ -313,7 +314,7 @@ const EmployeeOfficeDetails: React.FC<
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-secondary text-sm">DDO Code</label>
+                  <label className="text-secondary text-sm">DDO Code  <span className="text-red-500" >*</span>  </label>
                   <Autocomplete
                     disablePortal
                     size="small"

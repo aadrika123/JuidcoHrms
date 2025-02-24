@@ -382,7 +382,7 @@ const Regularization = () => {
                   <span className="text-sm">
                     Type of Regularization-{" "}
                     <span className="text-green-600">
-                      {manData?.emp_leave_type.name}
+                      {manData?.emp_leave_type?.name}
                     </span>
                   </span>
                   <span className="text-sm">

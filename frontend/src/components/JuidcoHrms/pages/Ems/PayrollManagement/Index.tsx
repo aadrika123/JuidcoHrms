@@ -108,7 +108,7 @@ const PayrollManagement = () => {
         </div>
         <div className="w-40 flex flex-col gap-3">
           <span className="text-[#63ADCB] text-[1.63544rem]">
-            {payrollCount?.total_amount}/-
+            {(payrollCount?.total_amount ?? 0).toFixed(2)}/-
           </span>
           <span>Total No. of Amount</span>
         </div>

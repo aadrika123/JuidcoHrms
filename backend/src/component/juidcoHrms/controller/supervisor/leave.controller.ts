@@ -45,7 +45,7 @@ class LeaveController {
             version: "1.0",
         };
 
-        const data = await this.leaveDao.accept_or_deny(req);
+        const data = await this.leaveDao.accept_or_deny(req, res);
         return CommonRes.SUCCESS(
             resMessage("Leave status changed").FOUND,
             data,

@@ -231,18 +231,28 @@ const LeaveForm = () => {
     }
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    values: LeaveInitialData
+  ) => {
     const selectedDate = new Date(e.target.value);
     const currentDate = new Date();
 
     currentDate.setHours(0, 0, 0, 0);
     selectedDate.setHours(0, 0, 0, 0);
 
-    if (selectedDate < currentDate) {
+    console.log("values?.emp_leave_type_id", values?.emp_leave_type_id);
+
+    // Allow backdates only for sick leave
+    if (values?.emp_leave_type_id === 1) {
+      console.log("Sick leave selected, backdate is allowed.");
+      return true; // Allow backdate
+    } else if (selectedDate < currentDate) {
       alert("Cannot select past dates!");
-      return false;
+      return false; // Block backdate
     }
-    return true;
+
+    return true; // Valid future date
   };
 
   const initialValues = {
@@ -350,7 +360,7 @@ const LeaveForm = () => {
                           label="From"
                           placeholder="From"
                           onChange={(e) => {
-                            if (handleDateChange(e)) {
+                            if (handleDateChange(e, values)) {
                               handleChange(e);
                             }
                           }}
@@ -364,7 +374,7 @@ const LeaveForm = () => {
                           label="To"
                           placeholder="To"
                           onChange={(e) => {
-                            if (handleDateChange(e)) {
+                            if (handleDateChange(e, values)) {
                               handleChange(e);
                             }
                           }}

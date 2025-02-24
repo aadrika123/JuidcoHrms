@@ -62,7 +62,7 @@ const TimeSheet = () => {
         const row = rows[i];
         const record = {
           emp_id: row[0],
-          working_hour: row[row.length - 1],
+          present_days: row[row.length - 1],
         };
 
         d.push(record);

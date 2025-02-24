@@ -6,6 +6,8 @@
 
 "use client";
 import React, { useState, useRef } from "react";
+import axios from "axios";
+
 import {
   SubHeading,
   InnerHeading,
@@ -31,10 +33,30 @@ interface AttendanceCount {
   present_emp: number;
   absent_emp: number;
 }
+// interface LogData {
+//   status: boolean;
+//   message: string;
+//   "meta-data": {
+//     apiId: string;
+//     action: string;
+//     version: string;
+//   };
+//   data: Array<{
+//     date: string;
+//     adminId: string;
+//     username: string;
+//     action: string;
+//     statusCode: string;
+//     requestBody: any;
+//     responseBody: any;
+//   }>; // The `data` field is an array of log entries
+// }
 // ----------------- TYPES -----------------------//
 
 export const DashboardMain = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  // const [fileBlob, setFileBlob] = useState<Blob | null>(null); // State for the downloaded log file
   const datePickerRef = useRef<DatePicker>(null);
 
   const handleDateChange = (date: Date | null) => {
@@ -60,6 +82,170 @@ export const DashboardMain = () => {
 
   //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
 
+  // ------------------ FETCH LOG DATA ------------------- //
+
+  // const logFetchConfig: FetchAxios = {
+  //   url: `${HRMS_URL.ADMIN_ACTIVITY.get}`,
+  //   url_extend: "",
+  //   method: "GET",
+  //   res_type: 1,
+  //   query_key: "activity_log_download",
+  //   data: [],
+  // };
+
+  // const {
+  //   data: logData,
+  //   error: logError,
+  //   // isLoading,
+  // } = useCodeQuery<LogData>(logFetchConfig);
+
+  // useEffect(() => {
+  //   if (logData) {
+  //     console.log("Log data:", logData);
+  //   }
+  // }, [logData]);
+
+  // useEffect(() => {
+  //   if (logError) {
+  //     console.error("Error fetching log data:", logError);
+  //     toast.error("Error fetching log data!");
+  //   }
+  // }, [logError]);
+  // const downloadLog = async (
+  //   logData: any,
+  //   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  // ) => {
+  //   console.log("Download button clicked", logData);
+
+  //   // Check if the API is loading
+  //   if (!logData || logData.length === 0) {
+  //     console.log("No log data available.");
+  //     // alert("No log data available for download."); // Fallback message for no data
+  //     return;
+  //   }
+
+  //   setLoading(true); // Start loading spinner
+
+  //   const val: any = [logData]; // Wrap logData into an array to map over
+  //   try {
+  //     console.log("Data is valid. Proceeding with download...");
+
+  //     // Format the log data into a readable text format
+  //     const logText = val
+  //       .map((entry: any) => {
+  //         const formattedLog = [
+  //           `Date: ${entry.date}`,
+  //           `Admin ID: ${entry.adminId}`,
+  //           `Username: ${entry.username}`,
+  //           `Name: ${entry.name}`,
+  //           `Email: ${entry.email}`,
+  //           `Action: ${entry.action}`,
+  //           `Status Code: ${entry.statusCode}`,
+  //           `Request Body: ${JSON.stringify(entry.requestBody, null, 2)}`,
+  //           `Response Body: ${JSON.stringify(entry.responseBody, null, 2)}`,
+  //         ].join("\n");
+  //         return formattedLog;
+  //       })
+  //       .join("\n\n"); // Add a blank line between each log entry
+
+  //     console.log("Formatted log text:", logText);
+
+  //     // Create a Blob from the formatted log text
+  //     const blob = new Blob([logText], { type: "text/plain" });
+
+  //     // Create a download link for the Blob
+  //     const url = window.URL.createObjectURL(blob);
+
+  //     // Create an anchor element to trigger the download
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.download = "activity-log.txt"; // The file name to download
+
+  //     // Append the link to the document body
+  //     document.body.appendChild(link);
+
+  //     // Trigger a click on the link to start the download
+  //     link.click();
+
+  //     // Clean up the DOM and revoke the object URL
+  //     document.body.removeChild(link);
+  //     window.URL.revokeObjectURL(url);
+
+  //     console.log("Activity log downloaded successfully!");
+  //     // alert("Activity log downloaded successfully!");
+  //   } catch (error) {
+  //     console.error("Failed to download the log file:", error);
+  //     // alert("Failed to download the log file. Please try again.");
+  //   } finally {
+  //     setLoading(false); // Stop loading spinner
+  //   }
+  // };
+
+  const downloadLog = async (
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    console.log("Download button clicked");
+  
+    setLoading(true); // Start loading spinner
+  
+    try {
+      // Fetch log data from API
+      const response = await axios.get(`${process.env.backend}/api/hrms/v1/admin/logs`);
+  
+      // Extract logs from the response
+      const logData = response.data?.data; // ✅ Access 'data' inside response
+  
+      if (!logData || logData.length === 0) {
+        console.warn("No log data available.");
+        // toast.warning("No log data available for download.");
+        return;
+      }
+  
+      console.log("Data fetched successfully:", logData);
+  
+      // Format the log data into a readable text format
+      const logText = logData
+        .map((entry: any, index: number) => {
+          return [
+            `Log Entry ${index + 1}`,
+            `----------------------`,
+            `Date: ${entry.date}`,
+            `Admin ID: ${entry.adminId}`,
+            `Username: ${entry.username}`,
+            `Name: ${entry.name}`,
+            `Email: ${entry.email}`,
+            `Action: ${entry.action}`,
+            `Status Code: ${entry.statusCode}`,
+            `Request Body: ${JSON.stringify(entry.requestBody, null, 2)}`,
+            `Response Body: ${JSON.stringify(entry.responseBody, null, 2)}`,
+            ``,
+          ].join("\n");
+        })
+        .join("\n"); // Add a blank line between each log entry
+  
+      // Create a Blob from the formatted log text
+      const blob = new Blob([logText], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+  
+      // Create an anchor element to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "activity-log.txt"; // The file name to download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+  
+      console.log("Activity log downloaded successfully!");
+      toast.success("Activity log downloaded successfully!");
+    } catch (error) {
+      console.error("Failed to fetch/download the log file:", error);
+      toast.error("Failed to download the log file. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading spinner
+    }
+  };
+  
   /* -----------------------Chart Implementation   ----------------------------------- */
   const chartOptions = {
     chart: {
@@ -94,16 +280,13 @@ export const DashboardMain = () => {
     xaxis: {
       categories: ["2021", "2022", "2023", "2024"],
     },
-    // legend: {
-    //   show: false,
-    // },
     legend: {
       show: true,
-      position: 'bottom',
-      horizontalAlign: 'center',
+      position: "bottom",
+      horizontalAlign: "center",
       labels: {
-        useSeriesColors: true
-      }
+        useSeriesColors: true,
+      },
     },
     dataLabels: {
       enabled: false,
@@ -128,10 +311,6 @@ export const DashboardMain = () => {
       },
     },
   };
-
-  {
-    /* -----------------------Chart Implementation   ----------------------------------- */
-  }
 
   return (
     <>
@@ -195,9 +374,12 @@ export const DashboardMain = () => {
                   viewBox="0 0 32 32"
                   fill="none"
                 >
-                  <rect width="32" height="32" rx="9" 
-                  // fill="#665DD9"
-                   />
+                  <rect
+                    width="32"
+                    height="32"
+                    rx="9"
+                    // fill="#665DD9"
+                  />
                   <path
                     d="M19.6367 6C23.4494 6 25.84 8.37312 25.84 12.2033V14.5066L25.8331 14.6096C25.7828 14.9801 25.4652 15.2656 25.0809 15.2656H25.0722L24.9524 15.256C24.7948 15.2306 24.6484 15.1554 24.5354 15.0397C24.3942 14.8952 24.3172 14.6999 24.3219 14.4979V12.2033C24.3219 9.18452 22.6555 7.5181 19.6367 7.5181H12.2033C9.1758 7.5181 7.5181 9.18452 7.5181 12.2033V19.6455C7.5181 22.6642 9.18452 24.3219 12.2033 24.3219H19.6367C22.6642 24.3219 24.3219 22.6555 24.3219 19.6455C24.3219 19.2262 24.6617 18.8864 25.0809 18.8864C25.5002 18.8864 25.84 19.2262 25.84 19.6455C25.84 23.4669 23.4669 25.84 19.6455 25.84H12.2033C8.37312 25.84 6 23.4669 6 19.6455V12.2033C6 8.37312 8.37312 6 12.2033 6H19.6367ZM11.706 13.4945C11.9073 13.5014 12.0977 13.5879 12.2352 13.7352C12.3726 13.8825 12.4459 14.0784 12.4388 14.2798V20.6226C12.4244 21.0418 12.0728 21.37 11.6536 21.3555C11.2344 21.341 10.9063 20.9895 10.9207 20.5703V14.2187L10.9343 14.1C10.9647 13.9444 11.0439 13.8013 11.162 13.6924C11.3095 13.5564 11.5055 13.4851 11.706 13.4945ZM15.9549 10.5194C16.3741 10.5194 16.7139 10.8592 16.7139 11.2785V20.579C16.7139 20.9982 16.3741 21.338 15.9549 21.338C15.5357 21.338 15.1958 20.9982 15.1958 20.579V11.2785C15.1958 10.8592 15.5357 10.5194 15.9549 10.5194ZM20.1602 16.8448C20.5794 16.8448 20.9193 17.1847 20.9193 17.6039V20.5703C20.9193 20.9895 20.5794 21.3293 20.1602 21.3293C19.741 21.3293 19.4012 20.9895 19.4012 20.5703V17.6039C19.4012 17.1847 19.741 16.8448 20.1602 16.8448Z"
                     fill="white"
@@ -303,8 +485,11 @@ export const DashboardMain = () => {
                   viewBox="0 0 32 32"
                   fill="none"
                 >
-                  <rect width="32" height="32" rx="9" 
-                  // fill="#665DD9" 
+                  <rect
+                    width="32"
+                    height="32"
+                    rx="9"
+                    // fill="#665DD9"
                   />
                   <path
                     d="M19.6367 6C23.4494 6 25.84 8.37312 25.84 12.2033V14.5066L25.8331 14.6096C25.7828 14.9801 25.4652 15.2656 25.0809 15.2656H25.0722L24.9524 15.256C24.7948 15.2306 24.6484 15.1554 24.5354 15.0397C24.3942 14.8952 24.3172 14.6999 24.3219 14.4979V12.2033C24.3219 9.18452 22.6555 7.5181 19.6367 7.5181H12.2033C9.1758 7.5181 7.5181 9.18452 7.5181 12.2033V19.6455C7.5181 22.6642 9.18452 24.3219 12.2033 24.3219H19.6367C22.6642 24.3219 24.3219 22.6555 24.3219 19.6455C24.3219 19.2262 24.6617 18.8864 25.0809 18.8864C25.5002 18.8864 25.84 19.2262 25.84 19.6455C25.84 23.4669 23.4669 25.84 19.6455 25.84H12.2033C8.37312 25.84 6 23.4669 6 19.6455V12.2033C6 8.37312 8.37312 6 12.2033 6H19.6367ZM11.706 13.4945C11.9073 13.5014 12.0977 13.5879 12.2352 13.7352C12.3726 13.8825 12.4459 14.0784 12.4388 14.2798V20.6226C12.4244 21.0418 12.0728 21.37 11.6536 21.3555C11.2344 21.341 10.9063 20.9895 10.9207 20.5703V14.2187L10.9343 14.1C10.9647 13.9444 11.0439 13.8013 11.162 13.6924C11.3095 13.5564 11.5055 13.4851 11.706 13.4945ZM15.9549 10.5194C16.3741 10.5194 16.7139 10.8592 16.7139 11.2785V20.579C16.7139 20.9982 16.3741 21.338 15.9549 21.338C15.5357 21.338 15.1958 20.9982 15.1958 20.579V11.2785C15.1958 10.8592 15.5357 10.5194 15.9549 10.5194ZM20.1602 16.8448C20.5794 16.8448 20.9193 17.1847 20.9193 17.6039V20.5703C20.9193 20.9895 20.5794 21.3293 20.1602 21.3293C19.741 21.3293 19.4012 20.9895 19.4012 20.5703V17.6039C19.4012 17.1847 19.741 16.8448 20.1602 16.8448Z"
@@ -344,29 +529,24 @@ export const DashboardMain = () => {
         >
           {/* First Box - See the Log * Activity */}
 
-          <div className="bg-[#ffffff] h-[50%] p-5  shadow-lg relative z-10">
+          <div
+            className={`bg-[#ffffff] h-[50%] p-5 shadow-lg relative z-10 cursor-pointer ${
+              loading ? "opacity-50 pointer-events-none" : ""
+            }`}
+            onClick={() => downloadLog( setLoading)}
+          >
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
+                <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
+              </div>
+            )}
             <InnerHeading className="text-xl flex items-center justify-between">
               <div className="flex items-center">
                 <i className="mr-2 bg-primary_blue rounded">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="27"
-                    height="27"
-                    viewBox="0 0 27 27"
-                    fill="none"
-                  >
-                    <rect width="27" height="27" rx="8" 
-                    // fill="#665DD9"
-                     />
-                    <path
-                      d="M16.5685 5.0625C19.7855 5.0625 21.8025 7.06482 21.8025 10.2965V12.2399L21.7967 12.3268C21.7542 12.6394 21.4863 12.8804 21.1621 12.8804H21.1547L21.0536 12.8723C20.9206 12.8508 20.7971 12.7873 20.7017 12.6898C20.5826 12.5679 20.5176 12.403 20.5216 12.2326V10.2965C20.5216 7.74944 19.1156 6.3434 16.5685 6.3434H10.2965C7.74208 6.3434 6.3434 7.74944 6.3434 10.2965V16.5759C6.3434 19.1229 7.74944 20.5216 10.2965 20.5216H16.5685C19.1229 20.5216 20.5216 19.1156 20.5216 16.5759C20.5216 16.2221 20.8083 15.9354 21.1621 15.9354C21.5158 15.9354 21.8025 16.2221 21.8025 16.5759C21.8025 19.8002 19.8002 21.8025 16.5759 21.8025H10.2965C7.06482 21.8025 5.0625 19.8002 5.0625 16.5759V10.2965C5.0625 7.06482 7.06482 5.0625 10.2965 5.0625H16.5685ZM9.87691 11.386C10.0468 11.3918 10.2074 11.4648 10.3234 11.5891C10.4394 11.7134 10.5012 11.8787 10.4953 12.0485V17.4003C10.4831 17.754 10.1864 18.0309 9.83274 18.0187C9.47903 18.0065 9.20218 17.7099 9.21437 17.3562V11.997L9.22578 11.8969C9.25146 11.7656 9.3183 11.6449 9.4179 11.553C9.54241 11.4382 9.70773 11.378 9.87691 11.386ZM13.4619 8.87575C13.8157 8.87575 14.1024 9.16248 14.1024 9.51619V17.3635C14.1024 17.7172 13.8157 18.004 13.4619 18.004C13.1082 18.004 12.8215 17.7172 12.8215 17.3635V9.51619C12.8215 9.16248 13.1082 8.87575 13.4619 8.87575ZM17.0102 14.2128C17.3639 14.2128 17.6506 14.4996 17.6506 14.8533V17.3562C17.6506 17.7099 17.3639 17.9966 17.0102 17.9966C16.6565 17.9966 16.3697 17.7099 16.3697 17.3562V14.8533C16.3697 14.4996 16.6565 14.2128 17.0102 14.2128Z"
-                      fill="white"
-                      fillOpacity="0.92"
-                    />
-                  </svg>
+                  {/* Your SVG icon */}
                 </i>
               </div>
-              <div className="menu flex items-center  top-0 right-0 ">
+              <div className="menu flex items-center top-0 right-0">
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full mb-1"></div>
                 <div className="dot w-1 h-1 bg-gray-700 rounded-full"></div>
@@ -394,9 +574,12 @@ export const DashboardMain = () => {
                     viewBox="0 0 27 27"
                     fill="none"
                   >
-                    <rect width="27" height="27" rx="8" 
-                    // fill="#665DD9"
-                     />
+                    <rect
+                      width="27"
+                      height="27"
+                      rx="8"
+                      // fill="#665DD9"
+                    />
                     <path
                       d="M16.5685 5.0625C19.7855 5.0625 21.8025 7.06482 21.8025 10.2965V12.2399L21.7967 12.3268C21.7542 12.6394 21.4863 12.8804 21.1621 12.8804H21.1547L21.0536 12.8723C20.9206 12.8508 20.7971 12.7873 20.7017 12.6898C20.5826 12.5679 20.5176 12.403 20.5216 12.2326V10.2965C20.5216 7.74944 19.1156 6.3434 16.5685 6.3434H10.2965C7.74208 6.3434 6.3434 7.74944 6.3434 10.2965V16.5759C6.3434 19.1229 7.74944 20.5216 10.2965 20.5216H16.5685C19.1229 20.5216 20.5216 19.1156 20.5216 16.5759C20.5216 16.2221 20.8083 15.9354 21.1621 15.9354C21.5158 15.9354 21.8025 16.2221 21.8025 16.5759C21.8025 19.8002 19.8002 21.8025 16.5759 21.8025H10.2965C7.06482 21.8025 5.0625 19.8002 5.0625 16.5759V10.2965C5.0625 7.06482 7.06482 5.0625 10.2965 5.0625H16.5685ZM9.87691 11.386C10.0468 11.3918 10.2074 11.4648 10.3234 11.5891C10.4394 11.7134 10.5012 11.8787 10.4953 12.0485V17.4003C10.4831 17.754 10.1864 18.0309 9.83274 18.0187C9.47903 18.0065 9.20218 17.7099 9.21437 17.3562V11.997L9.22578 11.8969C9.25146 11.7656 9.3183 11.6449 9.4179 11.553C9.54241 11.4382 9.70773 11.378 9.87691 11.386ZM13.4619 8.87575C13.8157 8.87575 14.1024 9.16248 14.1024 9.51619V17.3635C14.1024 17.7172 13.8157 18.004 13.4619 18.004C13.1082 18.004 12.8215 17.7172 12.8215 17.3635V9.51619C12.8215 9.16248 13.1082 8.87575 13.4619 8.87575ZM17.0102 14.2128C17.3639 14.2128 17.6506 14.4996 17.6506 14.8533V17.3562C17.6506 17.7099 17.3639 17.9966 17.0102 17.9966C16.6565 17.9966 16.3697 17.7099 16.3697 17.3562V14.8533C16.3697 14.4996 16.6565 14.2128 17.0102 14.2128Z"
                       fill="white"

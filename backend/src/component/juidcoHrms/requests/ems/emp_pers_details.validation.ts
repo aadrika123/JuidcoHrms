@@ -106,6 +106,7 @@ export const employeePersonalDetailsRequestData = (
     emp_district: empPersonalDetails.emp_district,
     emp_blood_group: empPersonalDetails.emp_blood_group,
     emp_health_status: empPersonalDetails.emp_health_status,
+    emp_health_file: empPersonalDetails.emp_health_file,
     emp_ltc_home_town: empPersonalDetails.emp_ltc_home_town,
     emp_nearest_railway_station: empPersonalDetails.emp_nearest_railway_station,
     emp_phy_health_type: empPersonalDetails.emp_phy_health_type,
@@ -200,7 +201,7 @@ export const employeePresentAddressDetailsSchema = Joi.object({
   address_primary_permanent: Joi.string().allow("", null),  // Add this field
   address_secondary_permanent: Joi.string().allow("", null), // Add this field
   block_ulb_permanent: Joi.string().allow("", null), // Add this field
-  district_permanent: Joi.number().integer().allow(null), // Add this field
+  district_permanent: Joi.number().integer().allow("",null), // Add this field
   pin_code_permanent: Joi.string().allow("", null), // Add this field
   police_station_permanent: Joi.string().allow("", null), // Add this field
   post_office_permanent: Joi.string().allow("", null), // Add this field
@@ -395,18 +396,18 @@ export const employeeJoinDetailsRequestData = (
   };
 };
 export const employeeJoinValidationSchema = Joi.object({
-  department_id: Joi.number().required(), // Use department_id for the field
+  department_id: Joi.number().allow(null, ""), // Use department_id for the field
   designation_id: Joi.number().allow(null), // Changed to designation_id
   task: Joi.string().allow(null, ""),
   doj: Joi.string().allow(null, ""),
   effective_pay_commision: Joi.string().allow(null, ""), // Adjusted to match Prisma
   pay_scale: Joi.number().allow(null, ""),
-  pay_band: Joi.number().required(),
+  pay_band: Joi.number().allow(null, ""),
   grade_pay: Joi.number().allow(null, ""),
-  basic_pay: Joi.number().required(),
+  basic_pay: Joi.number().allow(null, ""),
   acc_no: Joi.string().allow(null, ""),
   acc_number: Joi.string().allow(null, ""), // Changed to string to match Prisma
-  deduction_type: Joi.string().required(), // Changed to string to match Prisma
+  deduction_type: Joi.string().allow(null, ""), // Changed to string to match Prisma
 
   // Optional fields
   class: Joi.string().allow(null, ""),

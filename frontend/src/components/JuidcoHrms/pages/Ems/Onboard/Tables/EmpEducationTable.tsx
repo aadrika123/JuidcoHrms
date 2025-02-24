@@ -10,6 +10,8 @@ import { EmployeeEducation } from "@/utils/types/employee.type";
 import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
 import toast, { Toaster } from "react-hot-toast";
 import { removeObj } from "@/utils/helper";
+import axios from "@/lib/axiosConfig";
+
 3;
 interface TableFormProps {
   validate: (value: boolean) => void;
@@ -60,10 +62,10 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
     })
   );
 
-  const [tableData, setTableData] = useState<any[]>(
-    JSON.parse(sessionStorage.getItem("emp_education") as string) ||
-    initialTableData
-  );
+ const [tableData, setTableData] = useState<any[]>(
+   JSON.parse(sessionStorage.getItem("emp_education") as string) ||
+     initialTableData
+ );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -98,15 +100,69 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   }, [props.resetTable]);
 
 
-  const onChangeFile = (index: number, e: any) => {
-    console.log(e.target.files[0])
-    console.log(index)
-    setTableData((prev) => {
-      const temp = [...prev]
-      temp[index].upload_edu = e.target.files[0]?.name
-      return temp
-    })
-  }
+  // const onChangeFile = (index: number, e: any) => {
+  //   console.log(e.target.files[0])
+  //   console.log(index)
+  //   setTableData((prev) => {
+  //     const temp = [...prev]
+  //     temp[index].upload_edu = e.target.files[0]?.name
+  //     return temp
+  //   })
+  // }
+
+   const handleFileChange = async (
+     index: number,
+     event: React.ChangeEvent<HTMLInputElement>
+   ) => {
+     const file = event.target.files?.[0];
+     if (!file) return;
+
+     // Validate file type (e.g., PDF, PNG, JPEG)
+     const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
+     if (!acceptedFileTypes.includes(file.type)) {
+       alert(
+         "Please upload a valid education certificate file (PDF, PNG, or JPEG)."
+       );
+       return;
+     }
+
+     // Validate file size (max 2MB)
+     const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+     if (file.size > maxSizeInBytes) {
+       alert("File cannot be more than 2MB.");
+       return;
+     }
+
+     try {
+       // Prepare FormData for DMS upload
+       const formData = new FormData();
+       formData.append("img", file);
+
+       // Step 1: Upload to DMS (Replace with actual production endpoint)
+       const response = await axios.post("/dms/get-url", formData, {
+         headers: {
+           "Content-Type": "multipart/form-data",
+         },
+       });
+
+       // Step 2: Get the file URL from the response
+       const fileUrl = response.data.data;
+
+       // Step 3: Update session storage and table data with the file URL
+       setTableData((prev) => {
+         const temp = [...prev];
+         temp[index].upload_edu = fileUrl; // Set the uploaded file URL
+         return temp;
+       });
+
+       // Update sessionStorage
+       setDataSesson();
+       console.log("Education file uploaded successfully:", fileUrl);
+     } catch (error) {
+       console.error("Error uploading education file:", error);
+       alert("Education file upload failed.");
+     }
+   };
 
 
   const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
@@ -443,7 +499,9 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                         "passing_year"
                       )
                     }
-                    onBlur={(e) => { onBlurHandler(e.target.value, index) }}
+                    onBlur={(e) => {
+                      onBlurHandler(e.target.value, index);
+                    }}
                     value={row?.passing_year}
                     maxLength={4}
                     type="text"
@@ -514,9 +572,9 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                         //         "upload_edu"
                         //     )
                         // }
-                        onChange={(e) => { onChangeFile(index, e) }}
+                        onChange={(e) => handleFileChange(index, e)}
                         required
-                      // value={row?.upload_edu}
+                        // value={row?.upload_edu}
                       />
                     </div>
                     <p className="text-xs">{row?.upload_edu}</p>

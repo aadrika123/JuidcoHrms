@@ -1,0 +1,7 @@
+node_modules
+# Keep environment variables out of version control
+.env
+build
+backend/hrms_error.log
+backend/payroll.log
+backend/public/admin_activity.log
