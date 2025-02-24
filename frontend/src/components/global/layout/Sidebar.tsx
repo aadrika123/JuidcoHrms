@@ -178,7 +178,8 @@ useEffect(() => {
             <InnerHeading className="font-bold">
               {userDetails?.user_type}
             </InnerHeading>
-            <InnerHeading>{userDetails?.name}</InnerHeading>
+            <h1 className="text-2xl text-black font-semibold">{userDetails?.userName}</h1>
+            <h2 className="text-sm text-black">{userDetails?.roles}</h2>
 
             {isTeamManagementOpen && (
               <p onClick={() => setIsTeamManagementOpen(false)} className="border-2 text-zinc-800 rounded-sm p-1 cursor-pointer"> {'<-'} Back to main menu</p>
@@ -328,7 +329,7 @@ function SidebarItem({ item }: any) {
           <div className="flex items-center gap-2 ">
             <BsGrid1X2Fill />
 
-            <span>{item.name}</span>
+            <span >{item.name}</span>
           </div>
           <ChevronDown
             className={`h-4 w-4 transition-transform duration-200 ${
