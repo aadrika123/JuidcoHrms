@@ -625,7 +625,7 @@ this.lwp_days_last_month = await prisma.$queryRaw`
               gte: new Date(currentYear, currentMonth, 1),
               lte: new Date(currentYear, currentMonth, totalDaysInMonth),
             },
-            status: 1, // Filter directly for present status
+            // status: 1, // commented the status becouse previous code of daily attendence status conflict
           },
           select: {
             date: true, // Only select the date column for uniqueness check
