@@ -513,9 +513,21 @@ class PayrollDao {
 
     console.log(this.total_working_hours, "now69");
 
-    this.lwp_days_last_month = await prisma.$queryRaw`
-        SELECT employee_id as emp_id, COUNT(employee_id)::Int as last_month_lwp FROM employee_daily_attendance WHERE EXTRACT(DAY FROM date) > 26 AND EXTRACT(MONTH FROM date) = ${last_month} AND EXTRACT(YEAR FROM date) = ${last_year} AND status = 0  GROUP BY employee_id
-    `;
+    // this.lwp_days_last_month = await prisma.$queryRaw`
+    //     SELECT employee_id as emp_id, COUNT(employee_id)::Int as last_month_lwp FROM employee_daily_attendance WHERE EXTRACT(DAY FROM date) > 26 AND EXTRACT(MONTH FROM date) = ${last_month} AND EXTRACT(YEAR FROM date) = ${last_year} AND status = 0  GROUP BY employee_id
+    // `;
+
+    const lastMonthStartDate = new Date(last_year, last_month - 2, 26); // 26th of last month
+const lastMonthEndDate = new Date(last_year, last_month - 1, 0); // Last day of last month
+
+this.lwp_days_last_month = await prisma.$queryRaw`
+    SELECT employee_id AS emp_id, 
+           COUNT(DISTINCT date)::Int AS last_month_lwp 
+    FROM employee_daily_attendance 
+    WHERE date BETWEEN ${lastMonthStartDate} AND ${lastMonthEndDate} 
+          AND status = 0  
+    GROUP BY employee_id;
+`;
 
     const c_month = parseInt(curr_month, 10);
     this.no_of_leave_approved = await prisma.$queryRaw`
