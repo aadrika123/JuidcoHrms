@@ -1,4 +1,4 @@
-                      //!-----------------------------------------------------------------//
+//!-----------------------------------------------------------------//
 // !Author: Krish
 // !status: Open
 // !modified_by: kaushal_dev
@@ -54,6 +54,7 @@ model employees {
   created_at              DateTime                      @default(now()) @map("created_at")
   updated_at              DateTime                      @updatedAt @map("updated_at")
   employee_hierarchy      employee_hierarchy[]          @relation("ParentRelation")
+  areer_and_adjustment    areer_and_adjustment[]
 }
 
 model employee_office_details {
@@ -719,13 +720,13 @@ model payroll_master {
   working_hour             Int       @default(0)
   total_allowance          Float     @default(0)
   total_deductions         Float     @default(0)
-  non_billable_days             Int       @default(0)
+  non_billable_days        Int       @default(0)
   present_days             Float     @default(0)
   lwp_days                 Float     @default(0)
   salary_deducted          Float     @default(0)
   net_pay                  Float     @default(0)
   last_month_lwp_deduction Float     @default(0)
-  salary_per_day          Float     @default(0)
+  salary_per_day           Float     @default(0)
   lwp_days_last_month      Float     @default(0)
   epf_amount               Float     @default(0)
   epf_employer_amount      Float     @default(0)
@@ -779,8 +780,21 @@ model pension_master {
   nom_address              String?
   payment_order_no         String?
   guardian_name            String?
-  employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id])
+  employee_nominee_details employee_nominee_details @relation(fields: [beneficery_id], references: [id]) 
   employees                employees                @relation(fields: [emp_id], references: [emp_id])
   created_at               DateTime                 @default(now()) @map("created_at")
   updated_at               DateTime                 @default(now()) @map("updated_at")
+}
+
+model areer_and_adjustment {
+  id         Int       @id @default(autoincrement())
+  emp_id     String    @unique
+  areers     Decimal   @default(0.0) @db.Decimal(10, 2)
+  adjustment Decimal   @default(0.0) @db.Decimal(10, 2)
+  remarks    String?
+  employees  employees @relation(fields: [emp_id], references: [emp_id])
+  date       DateTime
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 }

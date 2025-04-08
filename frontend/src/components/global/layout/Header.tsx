@@ -111,7 +111,7 @@ const Header: React.FC<SideBarProps> = (props) => {
 
   return (
     <div {...props}>
-      <div className="flex items-center justify-center gap-3 mx-20">
+      <div className="flex items-center justify-center gap-3 mx-15">
         <div className="text-center">
           <h1 className="text-[2rem] text-primary font-bold ">UD&HD</h1>
           <h4 className="text-[1rem] text-primary_blue font-bold ">
@@ -121,7 +121,7 @@ const Header: React.FC<SideBarProps> = (props) => {
           </h4>
         </div>
 
-        <div className="toggle-sidebar" onClick={props?.handleToggleSidebar}>
+        <div className="toggle-sidebar ml-[-100px]" onClick={props?.handleToggleSidebar}>
           <i>
             <svg
               xmlns="http://www.w3.org/2000/svg"

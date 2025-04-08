@@ -1124,8 +1124,8 @@ const EmpSalaryDetails: React.FC<
               onClick={() => {
                 // getDataSesson();
                 handleSubmitForm({
-                  emp_salary_allow_details: employeeDeductionDetails,
-                  emp_salary_deduction_details: employeeAllowDetails,
+                  emp_salary_allow_details: employeeAllowDetails,
+                  emp_salary_deduction_details: employeeDeductionDetails
                 });
               }}
               buttonType="submit"

@@ -28,6 +28,7 @@ export const initialOfficeDetails: EmployeeOfficeDetaislType = {
   ddo_designation: "",
   ddo_code: "",
   district: "",
+  treasury_name: ""
 };
 /// ------------- Employee Office Details ---------------------///
 

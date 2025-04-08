@@ -52,6 +52,9 @@ const EmpployeePersonalDetails: React.FC<
   const [stateList, setStateList] = useState<any>([]);
   const [stateValue, setStateValue] = useState<string>();
 
+  console.log(stateValue, "ssssssssssssssssssssss")
+  console.log(stateList, "ssssssssssssssyyyyyyyyyssssssss")
+
   // const [empMotherLang, setEmpMotherLang] = useState<
   //   [
   //     {
@@ -156,49 +159,7 @@ const EmpployeePersonalDetails: React.FC<
   }
 };
 
-  // function updateEmpMotherLang(
-  //   id: number,
-  //   key: string,
-  //   value: string | number
-  // ) {
-  //   setEmpMotherLang((prev: any): any => {
-  //     const updatedData = [...prev];
-  //     const row = { ...updatedData[id] };
-
-  //     if (Array.isArray(row[key])) {
-  //       if (row[key].includes(value)) {
-  //         row[key] = row[key].filter((lang: string) => lang !== value);
-  //       } else {
-  //         row[key] = [...row[key], value];
-  //       }
-  //     } else {
-  //       row[key] = value;
-  //     }
-
-  //     updatedData[id] = { ...row };
-  //     return updatedData;
-  //   });
-  // }
-  // function addEmpMotherLang() {
-  //   setEmpMotherLang((prev: any) => {
-  //     const lastObj = prev[prev.length - 1];
-
-  //     // Check if all values in 'lastObj' are empty
-  //     const lastObjEmpty = Object.values(lastObj).every((item) => item === "");
-
-  //     if (!lastObjEmpty) {
-  //       return [
-  //         ...prev,
-  //         {
-  //           lang: "",
-  //           lang_type: [],
-  //         },
-  //       ];
-  //     } else {
-  //       return prev;
-  //     }
-  //   });
-  // }
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -256,6 +217,13 @@ const handleSubmitFormik = (
     setSubmitting(false);
   }
 };
+useEffect(() => {
+  if (stateValue) {
+    // setStateList([]);
+    setStateValue(stateValue); // Ensures stateValue is properly updated
+  }
+}, [stateValue]);
+
 
   const initialValues =
     typeof window !== "undefined"
@@ -279,6 +247,14 @@ const handleSubmitFormik = (
             },
           ]
         );
+
+        // Ensure state and district values are restored properly
+        if (empData.emp_home_state) {
+          setStateValue(empData.emp_home_state);  
+        }
+        if (empData.emp_district) {
+          setStateValue(empData.emp_district);  
+        }
       }
     }
   }, []);
@@ -441,87 +417,13 @@ const handleSubmitFormik = (
                   size={"small"}
                   error={errors.emp_home_state}
                   touched={touched.emp_home_state}
-                  setState={setStateValue}
-                />
-                {/* <div className="flex flex-col gap-1">
-                  <label className="text-secondary text-sm">
-                    {'States'}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <Autocomplete
-                    options={stateList}
-                    getOptionLabel={(option: any) => option?.state}
-                    renderInput={(params) => <TextField {...params} placeholder="Select State" />}
-                    size="small"
-                    onChange={(e, value: any) => setStateValue(value?.state)}
-                  />
-                </div> */}
-                {/* <InputBox
-                  // onChange={handleChange}
-                  onChange={(e: any) => {
-                    handleChange(e); // Formik will update the value
-                    setStateValue(e.target.value); // Custom logic, e.g., logging
+                  setState={(val) => { 
+                    setStateValue(val);  
+                    handleChange({ target: { name: "emp_home_state", value: val } });
                   }}
-                  onBlur={handleBlur}
                   value={values.emp_home_state}
-                  error={errors.emp_home_state}
-                  touched={touched.emp_home_state}
-                  label="Home State"
-                  name="emp_home_state"
-                  placeholder={"Enter Home State"}
-                  required={true}
-                  // maxLength={20}
-                  // onChange={(e: any) => setStateValue(e.target.value)}
-                  onKeyPress={(e: any) => {
-                    // setStateValue(e.target.value);
-                    if (
-                      !(
-                        (e.key >= "a" && e.key <= "z") ||
-                        (e.key >= "A" && e.key <= "Z") ||
-                        e.key === " "
-                      )
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
-                /> */}
-                {/* <SelectForNoApi
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.emp_district}
-                  error={errors.emp_district}
-                  touched={touched.emp_district}
-                  label="District"
-                  name="emp_district"
-                  placeholder={"Enter District"}
-                  required={true}
-                  options={[
-                    { id: 1, name: "Deoghar" },
-                    { id: 2, name: "Dumka" },
-                    { id: 3, name: "Bokaro" },
-                    { id: 4, name: "Giridih" },
-                    { id: 5, name: "Koderma" },
-                    { id: 6, name: "Godda" },
-                    { id: 7, name: "Chatra" },
-                    { id: 8, name: "Dhanbad" },
-                    { id: 9, name: "Gharwha" },
-                    { id: 10, name: "East-Singhbhum" },
-                    { id: 11, name: "Jamtara" },
-                    { id: 12, name: "Saraikela-Kharsawan" },
-                    { id: 13, name: "Ranchi" },
-                    { id: 14, name: "Pakur" },
-                    { id: 15, name: "Latehar" },
-                    { id: 16, name: "Hazaribagh" },
-                    { id: 17, name: "Lohardaga" },
-                    { id: 18, name: "Palamu" },
-                    { id: 19, name: "Ramghar" },
-                    { id: 20, name: "Simdega" },
-                    { id: 21, name: "West-Singhbhum" },
-                    { id: 22, name: "Sahebganj" },
-                    { id: 23, name: "Gumla" },
-                    { id: 24, name: "Khunti" },
-                  ]}
-                /> */}
+                />
+                
 
                 <DropDownList
                   onChange={handleChange}
@@ -583,7 +485,7 @@ const handleSubmitFormik = (
                         type="file"
                         name="emp_health_file"
                         onChange={handleHealthFileChange}
-                        value={undefined} // Ensure the file input is reset after upload
+                        value={undefined} 
                       />
                     </div>
                   )}

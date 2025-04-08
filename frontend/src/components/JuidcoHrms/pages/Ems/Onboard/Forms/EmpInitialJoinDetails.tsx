@@ -694,7 +694,7 @@ const EmpInitialJoinDetails: React.FC<
                   touched={touched.basic_pay}
                   label={
                     employeeType && employeeType === 4
-                      ? "Effective Daily Wage"
+                      ? "Effective Daily Wage (monthly)"
                       : " Basic Pay"
                   }
                   name="basic_pay"
