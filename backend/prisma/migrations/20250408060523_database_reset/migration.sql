@@ -10,6 +10,7 @@ CREATE TABLE "employees" (
     "emp_join_details_id" INTEGER NOT NULL,
     "emp_loan_details_id" INTEGER NOT NULL,
     "emp_salary_details_id" INTEGER NOT NULL,
+    "ulb_id" INTEGER NOT NULL DEFAULT 2,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -24,7 +25,7 @@ CREATE TABLE "employee_office_details" (
     "office_code" TEXT,
     "ddo_designation" TEXT,
     "ddo_code" TEXT,
-    "district" INTEGER NOT NULL,
+    "district" INTEGER,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -49,6 +50,7 @@ CREATE TABLE "employee_basic_details" (
     "height" TEXT,
     "cps" TEXT,
     "gps" TEXT NOT NULL,
+    "email" TEXT,
     "emp_type" INTEGER NOT NULL,
     "dob" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,7 +67,7 @@ CREATE TABLE "employee_personal_details" (
     "religion" TEXT NOT NULL,
     "emp_categories" TEXT NOT NULL,
     "emp_home_state" TEXT NOT NULL,
-    "emp_district" INTEGER NOT NULL,
+    "emp_district" INTEGER,
     "emp_blood_group" TEXT NOT NULL,
     "emp_health_status" TEXT NOT NULL,
     "emp_health_file" TEXT,
@@ -76,7 +78,7 @@ CREATE TABLE "employee_personal_details" (
     "emp_family_name" TEXT,
     "emp_office_name" TEXT,
     "emp_org_name" TEXT,
-    "emp_lang" JSONB NOT NULL,
+    "emp_lang" JSONB,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -86,10 +88,10 @@ CREATE TABLE "employee_personal_details" (
 -- CreateTable
 CREATE TABLE "employee_family_details" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "relation" TEXT NOT NULL,
-    "dob" TEXT NOT NULL,
-    "dependent" TEXT NOT NULL,
+    "name" TEXT,
+    "relation" TEXT,
+    "dob" TEXT,
+    "dependent" TEXT,
     "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -100,11 +102,11 @@ CREATE TABLE "employee_family_details" (
 -- CreateTable
 CREATE TABLE "employee_nominee_details" (
     "id" SERIAL NOT NULL,
-    "nominee_name" TEXT NOT NULL,
-    "relation" TEXT NOT NULL,
-    "percentage" DOUBLE PRECISION NOT NULL,
-    "address" TEXT NOT NULL,
-    "minor" TEXT NOT NULL,
+    "nominee_name" TEXT,
+    "relation" TEXT,
+    "percentage" DOUBLE PRECISION,
+    "address" TEXT,
+    "minor" TEXT,
     "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -120,7 +122,7 @@ CREATE TABLE "employee_address_details" (
     "village" TEXT NOT NULL,
     "post_office" TEXT,
     "state" TEXT NOT NULL,
-    "district" INTEGER NOT NULL,
+    "district" INTEGER,
     "block_ulb" TEXT,
     "pin_code" TEXT NOT NULL,
     "police_station" TEXT,
@@ -144,12 +146,14 @@ CREATE TABLE "employee_address_details" (
 -- CreateTable
 CREATE TABLE "employee_increment_details" (
     "id" SERIAL NOT NULL,
-    "scale" TEXT NOT NULL,
-    "inc_date" TEXT NOT NULL,
-    "inc_amount" DOUBLE PRECISION NOT NULL,
-    "basic_pay_after_inc" DOUBLE PRECISION NOT NULL,
-    "vide_order_no" TEXT NOT NULL,
-    "vide_order_date" TEXT NOT NULL,
+    "scale" TEXT,
+    "inc_date" TEXT,
+    "inc_amount" DOUBLE PRECISION,
+    "basic_pay_after_inc" DOUBLE PRECISION,
+    "vide_order_no" TEXT,
+    "vide_order_date" TEXT,
+    "esic_deduct_for_current_year" BOOLEAN,
+    "esic_stop_next_year" BOOLEAN,
     "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -160,11 +164,11 @@ CREATE TABLE "employee_increment_details" (
 -- CreateTable
 CREATE TABLE "employee_promotion_details" (
     "id" SERIAL NOT NULL,
-    "designation" JSONB NOT NULL,
-    "scale" JSONB NOT NULL,
-    "vide_order_no" TEXT NOT NULL,
-    "vide_order_date" TEXT NOT NULL,
-    "transfer" TEXT NOT NULL,
+    "designation" JSONB,
+    "scale" JSONB,
+    "vide_order_no" TEXT,
+    "vide_order_date" TEXT,
+    "transfer" TEXT,
     "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -175,12 +179,12 @@ CREATE TABLE "employee_promotion_details" (
 -- CreateTable
 CREATE TABLE "employee_transfer_details" (
     "id" SERIAL NOT NULL,
-    "designation" JSONB NOT NULL,
-    "office" JSONB NOT NULL,
-    "join_date" TEXT NOT NULL,
-    "vide_order_no" TEXT NOT NULL,
-    "vide_order_date" TEXT NOT NULL,
-    "transfer_after_prom" TEXT NOT NULL,
+    "designation" JSONB,
+    "office" JSONB,
+    "join_date" TEXT,
+    "vide_order_no" TEXT,
+    "vide_order_date" TEXT,
+    "transfer_after_prom" TEXT,
     "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -202,6 +206,7 @@ CREATE TABLE "employee_salary_allow" (
     "id" SERIAL NOT NULL,
     "name" TEXT,
     "wfe_date" TEXT,
+    "selected_option" TEXT,
     "amount_in" DOUBLE PRECISION,
     "employee_salary_details_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -299,12 +304,12 @@ CREATE TABLE "employee_training_details" (
 -- CreateTable
 CREATE TABLE "employee_timebound_details" (
     "id" SERIAL NOT NULL,
-    "pay_scale" JSONB NOT NULL,
-    "inc_amt" TEXT NOT NULL,
-    "b_after_pay" TEXT NOT NULL,
-    "vide_order_no" TEXT NOT NULL,
-    "vide_order_date" TEXT NOT NULL,
-    "remarks" TEXT NOT NULL,
+    "pay_scale" JSONB,
+    "inc_amt" TEXT,
+    "b_after_pay" TEXT,
+    "vide_order_no" TEXT,
+    "vide_order_date" TEXT,
+    "remarks" TEXT,
     "employees_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -448,8 +453,11 @@ CREATE TABLE "employee_hierarchy" (
     "id" SERIAL NOT NULL,
     "emp_id" TEXT NOT NULL,
     "parent_emp" TEXT NOT NULL,
+    "supervisor_level" TEXT,
+    "immediate_supervisor" TEXT,
+    "task" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "employee_hierarchy_pkey" PRIMARY KEY ("id")
 );
@@ -491,7 +499,7 @@ CREATE TABLE "employee_leave_details" (
     "emp_leave_type_id" INTEGER NOT NULL,
     "leave_from" TEXT,
     "leave_to" TEXT,
-    "total_days" INTEGER,
+    "total_days" DOUBLE PRECISION,
     "leave_reason" TEXT,
     "file_upload" TEXT,
     "half_day" BOOLEAN,
@@ -507,26 +515,26 @@ CREATE TABLE "employee_leave_details" (
 CREATE TABLE "employee_leave_chart" (
     "id" SERIAL NOT NULL,
     "tot_leave_allow_year" INTEGER,
-    "tot_bal_leave_year" INTEGER,
-    "tot_prev_leave_approv" INTEGER,
-    "sick_leave" INTEGER DEFAULT 20,
-    "earned_leave" INTEGER DEFAULT 10,
-    "personal_leave" INTEGER DEFAULT 30,
-    "commuted_leave" INTEGER DEFAULT 20,
-    "leave_not_due" INTEGER DEFAULT 10,
-    "extraordinary_leave" INTEGER DEFAULT 10,
-    "privileged_leave" INTEGER DEFAULT 10,
-    "leave_entitlements_for_vacation" INTEGER DEFAULT 20,
-    "leave_on_adoption" INTEGER DEFAULT 10,
-    "leave_to_female_on_adoption" INTEGER DEFAULT 10,
-    "child_care_leave" INTEGER DEFAULT 10,
-    "wrill" INTEGER DEFAULT 20,
-    "special_leave_on_enquiry" INTEGER DEFAULT 10,
-    "study_leave" INTEGER DEFAULT 10,
-    "ad_hoc_employees" INTEGER DEFAULT 10,
-    "leave_salary" INTEGER DEFAULT 10,
-    "special_casual_leave" INTEGER DEFAULT 10,
-    "paternity_leave" INTEGER DEFAULT 10,
+    "tot_bal_leave_year" DOUBLE PRECISION,
+    "tot_prev_leave_approv" DOUBLE PRECISION,
+    "sick_leave" DOUBLE PRECISION DEFAULT 20,
+    "earned_leave" DOUBLE PRECISION DEFAULT 10,
+    "personal_leave" DOUBLE PRECISION DEFAULT 30,
+    "commuted_leave" DOUBLE PRECISION DEFAULT 20,
+    "leave_not_due" DOUBLE PRECISION DEFAULT 10,
+    "extraordinary_leave" DOUBLE PRECISION DEFAULT 10,
+    "privileged_leave" DOUBLE PRECISION DEFAULT 10,
+    "leave_entitlements_for_vacation" DOUBLE PRECISION DEFAULT 20,
+    "leave_on_adoption" DOUBLE PRECISION DEFAULT 10,
+    "leave_to_female_on_adoption" DOUBLE PRECISION DEFAULT 10,
+    "child_care_leave" DOUBLE PRECISION DEFAULT 10,
+    "wrill" DOUBLE PRECISION DEFAULT 20,
+    "special_leave_on_enquiry" DOUBLE PRECISION DEFAULT 10,
+    "study_leave" DOUBLE PRECISION DEFAULT 10,
+    "ad_hoc_employees" DOUBLE PRECISION DEFAULT 10,
+    "leave_salary" DOUBLE PRECISION DEFAULT 10,
+    "special_casual_leave" DOUBLE PRECISION DEFAULT 10,
+    "paternity_leave" DOUBLE PRECISION DEFAULT 10,
     "employee_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -550,7 +558,7 @@ CREATE TABLE "leave_encashment" (
     "application_id" TEXT NOT NULL,
     "employee_id" TEXT NOT NULL,
     "emp_name" TEXT,
-    "earned_leave" INTEGER DEFAULT 0,
+    "earned_leave" DOUBLE PRECISION DEFAULT 0,
     "total_days_for_applied" INTEGER DEFAULT 0,
     "leave_balance_after_apply" INTEGER DEFAULT 0,
     "per_basic_pay" INTEGER DEFAULT 0,
@@ -597,6 +605,7 @@ CREATE TABLE "language" (
 CREATE TABLE "district" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "state" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -649,23 +658,31 @@ CREATE TABLE "payroll_master" (
     "emp_id" TEXT NOT NULL,
     "emp_name" TEXT NOT NULL,
     "gross_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "grade_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "leave_days" INTEGER NOT NULL DEFAULT 0,
     "working_hour" INTEGER NOT NULL DEFAULT 0,
     "total_allowance" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "total_deductions" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "non_billable" INTEGER NOT NULL DEFAULT 0,
-    "present_days" INTEGER NOT NULL DEFAULT 0,
-    "lwp_days" INTEGER NOT NULL DEFAULT 0,
+    "non_billable_days" INTEGER NOT NULL DEFAULT 0,
+    "present_days" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "lwp_days" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "salary_deducted" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "net_pay" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "last_month_lwp_deduction" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "salary_per_hour" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "salary_per_day" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "lwp_days_last_month" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "epf_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "epf_employer_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "esic_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "esic_employer_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "eps_employer_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "tds_amount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "basic_pay" DOUBLE PRECISION DEFAULT 0,
     "status" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
+    "billable_days" INTEGER NOT NULL DEFAULT 0,
+    "sundays" INTEGER NOT NULL DEFAULT 0,
+    "holidays" INTEGER NOT NULL DEFAULT 0,
     "month" INTEGER NOT NULL,
     "year" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -690,20 +707,57 @@ CREATE TABLE "pension_master" (
     "summary" TEXT,
     "communi_sent_acc_officer" TEXT,
     "pensioncol" TEXT,
+    "isProcessed" BOOLEAN NOT NULL DEFAULT false,
+    "progress" INTEGER NOT NULL DEFAULT 0,
+    "signature_doc_1" TEXT,
+    "signature_doc_2" TEXT,
+    "signature_doc_3" TEXT,
+    "photo_doc_1" TEXT,
+    "photo_doc_2" TEXT,
+    "photo_doc_3" TEXT,
+    "nom_name" TEXT,
+    "nom_age" INTEGER,
+    "nom_relation" TEXT,
+    "nom_address" TEXT,
+    "payment_order_no" TEXT,
+    "guardian_name" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "pension_master_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "areer_and_adjustment" (
+    "id" SERIAL NOT NULL,
+    "emp_id" TEXT NOT NULL,
+    "areers" DECIMAL(10,2) NOT NULL DEFAULT 0.0,
+    "adjustment" DECIMAL(10,2) NOT NULL DEFAULT 0.0,
+    "remarks" TEXT,
+    "date" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "areer_and_adjustment_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "employees_emp_id_key" ON "employees"("emp_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "employee_hierarchy_emp_id_key" ON "employee_hierarchy"("emp_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "leave_encashment_application_id_key" ON "leave_encashment"("application_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "payroll_master_emp_id_month_year_key" ON "payroll_master"("emp_id", "month", "year");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "pension_master_emp_id_key" ON "pension_master"("emp_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "areer_and_adjustment_emp_id_key" ON "areer_and_adjustment"("emp_id");
 
 -- AddForeignKey
 ALTER TABLE "employees" ADD CONSTRAINT "employees_emp_office_details_id_fkey" FOREIGN KEY ("emp_office_details_id") REFERENCES "employee_office_details"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -784,6 +838,9 @@ ALTER TABLE "employee_daily_attendance" ADD CONSTRAINT "employee_daily_attendanc
 ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "employee_hierarchy" ADD CONSTRAINT "employee_hierarchy_parent_emp_fkey" FOREIGN KEY ("parent_emp") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "employee_claim" ADD CONSTRAINT "employee_claim_employees_id_fkey" FOREIGN KEY ("employees_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -812,3 +869,6 @@ ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_beneficery_id_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "pension_master" ADD CONSTRAINT "pension_master_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "areer_and_adjustment" ADD CONSTRAINT "areer_and_adjustment_emp_id_fkey" FOREIGN KEY ("emp_id") REFERENCES "employees"("emp_id") ON DELETE RESTRICT ON UPDATE CASCADE;
