@@ -114,6 +114,33 @@ class PayrollRoute {
     //       this.payrollController.download_payroll(req, res, next, "0409"),
     //     loggerMiddleware
     //   ); //0409
+
+    app
+      .route(`${baseUrl}/pay/payroll/areer-adjustment`)
+      .post(
+        adminLoggerMiddleware,
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.calc_arrers_adjustment_create(
+            req,
+            res,
+            next,
+            "0409"
+          ),
+        loggerMiddleware
+      ); //0410
+    app
+      .route(`${baseUrl}/pay/payroll/get-areer-adjustment`)
+      .get(
+        adminLoggerMiddleware,
+        (req: Request, res: Response, next: NextFunction) =>
+          this.payrollController.calc_arrers_adjustment_get(
+            req,
+            res,
+            next,
+            "0409"
+          ),
+        loggerMiddleware
+      ); //0410
   }
 }
 

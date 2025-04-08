@@ -49,36 +49,7 @@ const EmployeeOfficeDetails: React.FC<
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
   const formikRef: any = useRef();
   const [selectedDdo, setSelectedDdo] = useState<any>(null);
-  // const [alertShown, setAlertShown] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (selectedTreasury) {
-  //         const response = await axios(`${HRMS_URL.DDO.get}?search=${input}&treasury=${selectedTreasury}`);
-  //         setDdoData(response.data?.data);
-  //       } else {
-  //         if (formikRef) {
-  //           if (formikRef?.current?.values?.ddo_code === '') {
-  //             alert('Please select a treasury name')
-  //           }
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   const debounce = setTimeout(() => {
-  //     if (input.trim() !== "") {
-  //       fetchData();
-  //     }
-  //   }, 300);
-
-  //   return () => clearTimeout(debounce);
-
-  //   // fetchData();
-  // }, [input]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,13 +61,7 @@ const EmployeeOfficeDetails: React.FC<
           // console.log(response.data?.data)
           setDdoData(response.data?.data);
         }
-        // else {
-        //   if (formikRef) {
-        //     if (formikRef?.current?.values?.ddo_code === '') {
-        //       alert('Please select a treasury name')
-        //     }
-        //   }
-        // }
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -147,6 +112,8 @@ const EmployeeOfficeDetails: React.FC<
       values.office_code = ddoData?.data[0].office || "";
       values.office_name = ddoData?.data[0].ddo_name || "";
 
+      values.treasury_name = selectedTreasury || "";
+
       sessionStorage.setItem("emp_office_details", JSON.stringify(values));
       sessionStorage.setItem("emp_type", JSON.stringify(empType));
       setSubmitting(false);
@@ -161,6 +128,29 @@ const EmployeeOfficeDetails: React.FC<
       }
     }
   };
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    const savedOfficeDetails = sessionStorage.getItem("emp_office_details");
+    if (savedOfficeDetails) {
+      const parsedDetails = JSON.parse(savedOfficeDetails);
+      formikRef.current?.setValues(parsedDetails);
+      setSelectedTreasury(parsedDetails.treasury_name); // Ensure Treasury gets selected
+      setInput(parsedDetails.ddo_code); // Ensure DDO code is filled
+      setSelectedDdo({
+        ddo_code: parsedDetails.ddo_code,
+        ddo_name: parsedDetails.office_name,
+        designation: parsedDetails.ddo_designation,
+        office: parsedDetails.office_code,
+      });
+    }
+
+    const savedEmpType = sessionStorage.getItem("emp_type");
+    if (savedEmpType) {
+      setEmpType(JSON.parse(savedEmpType));
+    }
+  }
+}, [pathName]);
+
 
   useEffect(() => {
     typeof window !== "undefined"
@@ -170,6 +160,8 @@ const EmployeeOfficeDetails: React.FC<
       : "";
   }, [pathName]);
 
+  
+
   const initialOfficeDetails: EmployeeOfficeDetaislType = {
     emp_type: 0,
     office_name: "",
@@ -177,6 +169,7 @@ const EmployeeOfficeDetails: React.FC<
     ddo_designation: "",
     ddo_code: "",
     district: "",
+    treasury_name: "",
   };
 
   const initialValues =
@@ -186,18 +179,7 @@ const EmployeeOfficeDetails: React.FC<
         : initialOfficeDetails
       : initialOfficeDetails;
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const storedFormData = sessionStorage.getItem("emp_office_details");
-  //     if (storedFormData) {
-  //       const parsedData = JSON.parse(storedFormData);
-  //       setInput(parsedData.ddo_code);
-  //       // setDdoData({
-  //       //   ddo_office: parsedData.office_code,
-  //       // });
-  //     }
-  //   }
-  // }, []);
+      console.log("kkkkkkkkkkaaaaaaaa",initialValues)
 
   return (
     <>
@@ -307,9 +289,11 @@ const EmployeeOfficeDetails: React.FC<
                         placeholder="Select Treasury Name"
                       />
                     )}
+                    value={selectedTreasury}
                     onChange={(e, value) => {
                       treasuryHandle(e, value);
                     }}
+                   
                   />
                 </div>
 
@@ -324,6 +308,7 @@ const EmployeeOfficeDetails: React.FC<
                     renderInput={(params) => (
                       <TextField {...params} placeholder="Select DDO Code" />
                     )}
+                    value={selectedDdo}
                     onChange={(e, value) => {
                       if (value) {
                         setInput(value.ddo_code);
