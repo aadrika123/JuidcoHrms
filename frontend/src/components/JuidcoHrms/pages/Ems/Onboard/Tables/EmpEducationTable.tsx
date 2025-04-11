@@ -278,18 +278,18 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       //     setIsTyping(false);
       // }, 1500);
 
-      // if (
-      //   Object.values(row)
-      //     .slice(1)
-      //     .every((key) => key !== "") ||
-      //   Object.values(row)
-      //     .slice(1)
-      //     .every((key) => key === "")
-      // ) {
-      //   props.validate(true);
-      // } else {
-      //   props.validate(false);
-      // }
+      if (
+        Object.values(row)
+          .slice(1)
+          .every((key) => key !== "") ||
+        Object.values(row)
+          .slice(1)
+          .every((key) => key === "")
+      ) {
+        props.validate(true);
+      } else {
+        props.validate(false);
+      }
 
       updatedData[id] = { ...row } as EmployeeEducation;
       return updatedData;

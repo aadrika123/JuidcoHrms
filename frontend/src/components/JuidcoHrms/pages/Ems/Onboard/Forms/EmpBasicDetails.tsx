@@ -53,7 +53,7 @@ const EmployeeBasicDetails: React.FC<
   const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
   const [isAdult, setIsAdult] = useState<boolean>(false);
 
-  // const [selectedFileName, setSelectedFileName] = useState<any>();
+  const [selectedFileName, setSelectedFileName] = useState<any>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   // const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
@@ -92,7 +92,7 @@ const EmployeeBasicDetails: React.FC<
 
       const imageUrl = response.data.data;
       
-      // setSelectedFileName(String(imageUrl));
+      setSelectedFileName(String(imageUrl));
 
       // Update session storage and component state after receiving response
       setImagePreview(imageUrl); // Set image preview only after response
@@ -132,24 +132,13 @@ const EmployeeBasicDetails: React.FC<
   }, []);
 
   // Handle name change and update session storage
-  // function handleChangeName(key: string, value: string) {
-  //   sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
-  //   setEmployeeName((prev: any) => ({
-  //     ...prev,
-  //     [key]: value,
-  //   }));
-  // }
-
   function handleChangeName(key: string, value: string) {
-    setEmployeeName((prev: any) => {
-      const updatedState = { ...prev, [key]: value };
-      
-      sessionStorage.setItem("employee_full_name", JSON.stringify(updatedState)); 
-      
-      return updatedState;
-    });
+    sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
+    setEmployeeName((prev: any) => ({
+      ...prev,
+      [key]: value,
+    }));
   }
-  
 
   // Handle form submission
   const handleSubmitFormik = (
@@ -200,7 +189,7 @@ const EmployeeBasicDetails: React.FC<
       const storedFormData = sessionStorage.getItem("emp_basic_details");
       if (storedFormData) {
         const parsedData = JSON.parse(storedFormData);
-        // setSelectedFileName(parsedData.emp_image || "");
+        setSelectedFileName(parsedData.emp_image || "");
         setImagePreview(parsedData.emp_image || null);
       }
 
@@ -341,10 +330,10 @@ const EmployeeBasicDetails: React.FC<
                     {touched.emp_image && errors.emp_image && (
                       <div className="text-red-500">{errors.emp_image}</div>
                     )}
-                    {/* <br></br>
+                    <br></br>
                     {selectedFileName && (
                       <span className="ml-2">{selectedFileName}</span>
-                    )} */}
+                    )}
                   </p>
 
                   <label

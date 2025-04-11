@@ -13,13 +13,13 @@ interface AutocompleteFieldProps {
     className?: string;
     required?: boolean;
     disabled?: boolean;
-    size?: any;
-    setState?: (value: string) => void;
-    value?: string;
+    size?: any,
+    setState?: any
 }
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = (props) => {
-    const { setFieldValue, handleBlur, values } = useFormikContext<any>();
+    // const [, , helpers] = useField(props.name);
+    const { setFieldValue, handleBlur } = useFormikContext();
 
     return (
         <div className="flex flex-col gap-1">
@@ -30,26 +30,26 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = (props) => {
             <Autocomplete
                 options={props.options}
                 getOptionLabel={props.getOptionLabel}
-                value={
-                    props.options.find((option) => option.state === values[props.name]) || null
-                }
-                onChange={(event, value) => { 
-                    setFieldValue(props.name, value?.state || ""); 
-                    props.setState?.(value?.state || "");
-                }}
+                // value={props?.value}
+                onChange={(event, value) => { setFieldValue(props.name, value?.state || ""); props?.setState(value?.state) }}
                 onBlur={() => handleBlur({ target: { name: props.name } })}
                 renderInput={(params) => (
                     <TextField
                         {...params}
                         placeholder={props.placeholder}
-                        error={Boolean(props.touched && props.error)}
-                        helperText={props.touched && props.error}
+                        // error={Boolean(props.touched && props.error)}
+                        // helperText={props.touched && props.error}
                         name={props.name}
                         disabled={props.disabled}
+                    // className={props.className}
                     />
                 )}
-                size={props.size || "small"}
+                size={props?.size || 'small'}
+            // isOptionEqualToValue={(option, value) => option.id === value.id}
             />
+            {props.touched && props.error && (
+                <div className="text-red-500">{props.error}</div>
+            )}
         </div>
     );
 };

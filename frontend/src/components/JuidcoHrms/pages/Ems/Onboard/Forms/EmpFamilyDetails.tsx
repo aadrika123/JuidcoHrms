@@ -6,7 +6,7 @@
  * Date: 24/02/2024
  */
 
-import React, { useState , useEffect} from "react";
+import React, { useState } from "react";
 
 import type { EmployeeFamilyDetailsType } from "@/utils/types/employee.type";
 import { SubHeading } from "@/components/Helpers/Heading";
@@ -29,15 +29,6 @@ const EmployeeFamilyDetails: React.FC<
   const pathName = usePathname();
   const router = useRouter();
   const empType = useSearchParams().get("emp");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedFamilyDetails = sessionStorage.getItem("emp_family_details");
-      if (savedFamilyDetails) {
-        setEmployeeFamilyDetails(JSON.parse(savedFamilyDetails));
-      }
-    }
-  }, []);
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
