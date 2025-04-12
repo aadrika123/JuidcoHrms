@@ -53,7 +53,7 @@ const EmployeeBasicDetails: React.FC<
   const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
   const [isAdult, setIsAdult] = useState<boolean>(false);
 
-  const [selectedFileName, setSelectedFileName] = useState<any>();
+  // const [selectedFileName, setSelectedFileName] = useState<any>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   // const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
@@ -90,7 +90,7 @@ const EmployeeBasicDetails: React.FC<
       const imageUrl = response.data.data;
   
       // Update preview and state
-      setSelectedFileName(String(imageUrl));
+      // setSelectedFileName(String(imageUrl));
       setImagePreview(imageUrl);
   
       // Update Formik value here 🔥
@@ -191,7 +191,7 @@ const EmployeeBasicDetails: React.FC<
       const storedFormData = sessionStorage.getItem("emp_basic_details");
       if (storedFormData) {
         const parsedData = JSON.parse(storedFormData);
-        setSelectedFileName(parsedData.emp_image || "");
+        // setSelectedFileName(parsedData.emp_image || "");
         setImagePreview(parsedData.emp_image || null);
       }
 

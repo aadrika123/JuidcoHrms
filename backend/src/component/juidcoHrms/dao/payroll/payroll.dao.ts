@@ -777,8 +777,7 @@ class PayrollDao {
   
       const startDate = new Date(currentYear, currentMonth, 1);
       const endDate = new Date(currentYear, currentMonth, totalDaysInMonth);
-  
-      // ✅ Use your function here
+
       const payrollMeta = await this.calculateDaysForPayroll(record.emp_id, startDate, endDate);
       const presentDaysCount = payrollMeta.presentDays;
       // console.log(presentDaysCount, "presentDaysCount")
