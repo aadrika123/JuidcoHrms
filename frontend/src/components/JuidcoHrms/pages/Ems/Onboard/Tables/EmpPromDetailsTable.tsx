@@ -285,12 +285,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                       isRequired={true}
                       maxLength={2}
                       onKeyPress={(e: any) => {
-                        if (
-                          !(
-                            (e.key >= "0" && e.key <= "9") ||
-                            e.key === " "
-                          )
-                        ) {
+                        const regex = /^[0-9]$/;
+                        if (!regex.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
@@ -311,12 +307,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                       isRequired={true}
                       maxLength={2}
                       onKeyPress={(e: any) => {
-                        if (
-                          !(
-                            (e.key >= "0" && e.key <= "9") ||
-                            e.key === " "
-                          )
-                        ) {
+                        const regex = /^[0-9]$/;
+                        if (!regex.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
@@ -342,14 +334,8 @@ const EmployeePromotionDetailsTable: React.FC<TableFormProps> = (props) => {
                       isRequired={true}
                       maxLength={10}
                       onKeyPress={(e: any) => {
-                        if (
-                          !(
-                            (e.key >= "a" && e.key <= "z") ||
-                            (e.key >= "A" && e.key <= "Z") ||
-                            (e.key >= "0" && e.key <= "9") ||
-                            e.key === " "
-                          )
-                        ) {
+                        const regex = /^[a-zA-Z0-9]$/;
+                        if (!regex.test(e.key)) {
                           e.preventDefault();
                         }
                       }}

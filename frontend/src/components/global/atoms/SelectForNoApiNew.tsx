@@ -9,7 +9,7 @@ import { useField } from "formik";
  */
 
 interface Option {
-  id: number;
+  id: number | string;
   name?: string;
   type?: string;
   code?: string;
@@ -41,7 +41,7 @@ const SelectForNoApiNew: React.FC<SelectProps> = (props) => {
   const fieldId = "id_" + props.name;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = parseInt(e.target.value);
+    const selectedValue = e.target.value;
     props.onChange && props.onChange(e);
     setValue(selectedValue);
     // const selectedOption = e.target.options[e.target.selectedIndex].dataset;

@@ -296,17 +296,10 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               isRequired={col.isRequired}
                               maxLength={col.max_text}
                               onKeyPress={(e: any) => {
-                                if (col.max_text)
-                                  if (
-                                    !(
-                                      (e.key >= "a" && e.key <= "z") ||
-                                      (e.key >= "A" && e.key <= "Z") ||
-                                      (e.key >= "0" && e.key <= "9") ||
-                                      e.key === " "
-                                    )
-                                  ) {
-                                    e.preventDefault();
-                                  }
+                                const regex = /^[0-9]$/;
+                                if (!regex.test(e.key)) {
+                                  e.preventDefault();
+                                }
                               }}
                             />
                           )
@@ -339,6 +332,12 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                                 ) {
                                   e.preventDefault();
                                 }
+                              }
+                            }}
+                            onKeyPress={(e: any) => {
+                              const regex = /^[0-9]$/;
+                              if (!regex.test(e.key)) {
+                                e.preventDefault();
                               }
                             }}
                           />
