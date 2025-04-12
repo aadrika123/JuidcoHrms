@@ -162,10 +162,16 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
             }));
             updatedData[rowIndex].tot_day_training = ""; // Optional: clear invalid total
           } else {
+            // setValidationErrors((prev) => {
+            //   const { [rowIndex]: _, ...rest } = prev;
+            //   return rest; // remove error for this row if valid
+            // });
             setValidationErrors((prev) => {
-              const { [rowIndex]: _, ...rest } = prev;
-              return rest; // remove error for this row if valid
+              const newErrors = { ...prev };
+              delete newErrors[rowIndex];
+              return newErrors;
             });
+            
 
             const total_days = calculateTotalDays(fromDate, toDate).toString();
             updatedData[rowIndex].tot_day_training = total_days;
