@@ -401,7 +401,7 @@ const Download_payslip = () => {
                   <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
                     <div className="flex justify-between">
                       <div className="">Total Allowance (B)</div>
-                      <div className="">{empData?.total?.total_allowance}</div>
+                      <div className="">{empData?.payroll[0]?.total_allowance}</div>
                     </div>
                   </td>
                   <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
