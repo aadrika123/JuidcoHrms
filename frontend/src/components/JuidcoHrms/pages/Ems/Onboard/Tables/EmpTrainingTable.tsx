@@ -53,6 +53,8 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       getInitialFormData(),
     ]
   );
+  const [validationErrors, setValidationErrors] = useState<{ [key: number]: string }>({});
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -141,25 +143,43 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   ) => {
     setTableData((prevFormData) => {
       const updatedData = [...prevFormData];
-      const total_days = calculateTotalDays(
-        updatedData[rowIndex as number].starting_from.from,
-        updatedData[rowIndex as number].end_to.to
-      ).toString();
-      updatedData[rowIndex as number].tot_day_training = total_days;
-      console.log(updatedData, "days");
+
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
           updatedData[rowIndex][fieldName] = { [nestedKey]: value };
         } else {
           updatedData[rowIndex][fieldName][nestedKey] = value;
         }
-      } else {
-        updatedData[rowIndex as any][fieldName] = value;
+
+        const fromDate = updatedData[rowIndex]?.starting_from?.from;
+        const toDate = updatedData[rowIndex]?.end_to?.to;
+
+        if (fromDate && toDate) {
+          if (new Date(toDate) < new Date(fromDate)) {
+            setValidationErrors((prev) => ({
+              ...prev,
+              [rowIndex]: "'To' date cannot be earlier than 'From' date.",
+            }));
+            updatedData[rowIndex].tot_day_training = ""; // Optional: clear invalid total
+          } else {
+            setValidationErrors((prev) => {
+              const { [rowIndex]: _, ...rest } = prev;
+              return rest; // remove error for this row if valid
+            });
+
+            const total_days = calculateTotalDays(fromDate, toDate).toString();
+            updatedData[rowIndex].tot_day_training = total_days;
+          }
+        }
+      } else if (rowIndex !== undefined) {
+        updatedData[rowIndex][fieldName] = value;
       }
 
       return updatedData;
     });
   };
+
+
   const addRow = () => {
     setDataSesson();
     if (addedRows < 6) {
@@ -298,12 +318,8 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                               )
                             }
                             onKeyPress={(e: any) => {
-                              if (
-                                !(
-                                  (e.key >= "a" || e.key >= "A") &&
-                                  (e.key <= "z" || e.key <= "Z")
-                                )
-                              ) {
+                              const regex = /^[a-zA-Z0-9.]$/;
+                              if (!regex.test(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -345,13 +361,8 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                               )
                             }
                             onKeyPress={(e: any) => {
-                              if (
-                                !(
-                                  ((e.key >= "a" || e.key >= "A") &&
-                                    (e.key <= "z" || e.key <= "Z")) ||
-                                  e.key <= " "
-                                )
-                              ) {
+                              const regex = /^[a-zA-Z0-9.]$/;
+                              if (!regex.test(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -381,26 +392,27 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                         ) : null}
 
                         {colIndex === 5 ? (
-                          <div className=" inline-flex items-center pt-1 pb-1 my-2">
-                            <React.Fragment>
+                          <div className="inline-flex flex-col pt-1 pb-1 my-2">
+                            <div className="flex items-center">
                               <p className="ml-2 mr-2">To:</p>
                               <input
                                 type="date"
-                                className=" p-2 bg-transparent border border-gray-300"
+                                className="p-2 bg-transparent border border-gray-300"
                                 placeholder="Enter End To"
                                 onChange={(e) =>
-                                  handleInputChange(
-                                    stateKey,
-                                    e.target.value,
-                                    "to",
-                                    rowIndex
-                                  )
+                                  handleInputChange(stateKey, e.target.value, "to", rowIndex)
                                 }
                                 value={rowData[stateKey]?.to || ""}
                               />
-                            </React.Fragment>
+                            </div>
+                            {validationErrors[rowIndex] && (
+                              <p className="text-red-500 text-sm ml-12 mt-1">
+                                {validationErrors[rowIndex]}
+                              </p>
+                            )}
                           </div>
                         ) : null}
+
 
                         {colIndex === 6 ? (
                           <input

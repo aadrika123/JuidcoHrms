@@ -157,6 +157,7 @@ const EmpPresentAddress: React.FC<
                   required={true}
                   placeholder="Enter Present Address"
                   name="address_primary"
+                  maxLength={50}
                 />
 
                 <InputBox
@@ -166,6 +167,7 @@ const EmpPresentAddress: React.FC<
                   label="Address-2"
                   name="address_secondary"
                   placeholder={"Enter Present Address"}
+                  maxLength={50}
                 />
                 <InputBox
                   onChange={handleChange}
@@ -193,9 +195,18 @@ const EmpPresentAddress: React.FC<
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.post_office}
+                  error={errors.post_office}
+                  touched={touched.post_office}
                   label="Post Office"
                   placeholder="Enter Your Post Office"
                   name="post_office"
+                  onKeyPress={(e: any) => {
+                    const regex = /^[a-zA-Z0-9]$/;
+                    if (!regex.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  required
                 />
 
                 <AutocompleteField

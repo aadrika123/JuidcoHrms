@@ -49,7 +49,7 @@ const EmployeeOfficeDetails: React.FC<
   const [selectedTreasury, setSelectedTreasury] = useState<string | null>(null);
   const formikRef: any = useRef();
   const [selectedDdo, setSelectedDdo] = useState<any>(null);
-  
+  // const [alertShown, setAlertShown] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +61,13 @@ const EmployeeOfficeDetails: React.FC<
           // console.log(response.data?.data)
           setDdoData(response.data?.data);
         }
-        
+        // else {
+        //   if (formikRef) {
+        //     if (formikRef?.current?.values?.ddo_code === '') {
+        //       alert('Please select a treasury name')
+        //     }
+        //   }
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -85,6 +91,12 @@ const EmployeeOfficeDetails: React.FC<
   const treasuryHandle = (e: React.SyntheticEvent, value: string | null) => {
     if (value) {
       setSelectedTreasury(value);
+    } else {
+      
+      setSelectedTreasury(null);
+      setInput("");
+      setSelectedDdo(null);
+      setDdoData(undefined);
     }
   };
 
@@ -94,11 +106,6 @@ const EmployeeOfficeDetails: React.FC<
     }
   }, []);
 
-  // const handleInputChange = (e: any) => {
-  //   setIsTyping(true);
-  //   const inputValue: string = e.target.value;
-  //   setInput(inputValue);
-  // };
 
   const handleSubmitFormik = (
     values: EmployeeOfficeDetaislType,
@@ -111,8 +118,6 @@ const EmployeeOfficeDetails: React.FC<
       values.ddo_designation = ddoData?.data[0].designation || "";
       values.office_code = ddoData?.data[0].office || "";
       values.office_name = ddoData?.data[0].ddo_name || "";
-
-      values.treasury_name = selectedTreasury || "";
 
       sessionStorage.setItem("emp_office_details", JSON.stringify(values));
       sessionStorage.setItem("emp_type", JSON.stringify(empType));
@@ -128,29 +133,6 @@ const EmployeeOfficeDetails: React.FC<
       }
     }
   };
-  useEffect(() => {
-  if (typeof window !== "undefined") {
-    const savedOfficeDetails = sessionStorage.getItem("emp_office_details");
-    if (savedOfficeDetails) {
-      const parsedDetails = JSON.parse(savedOfficeDetails);
-      formikRef.current?.setValues(parsedDetails);
-      setSelectedTreasury(parsedDetails.treasury_name); // Ensure Treasury gets selected
-      setInput(parsedDetails.ddo_code); // Ensure DDO code is filled
-      setSelectedDdo({
-        ddo_code: parsedDetails.ddo_code,
-        ddo_name: parsedDetails.office_name,
-        designation: parsedDetails.ddo_designation,
-        office: parsedDetails.office_code,
-      });
-    }
-
-    const savedEmpType = sessionStorage.getItem("emp_type");
-    if (savedEmpType) {
-      setEmpType(JSON.parse(savedEmpType));
-    }
-  }
-}, [pathName]);
-
 
   useEffect(() => {
     typeof window !== "undefined"
@@ -160,8 +142,6 @@ const EmployeeOfficeDetails: React.FC<
       : "";
   }, [pathName]);
 
-  
-
   const initialOfficeDetails: EmployeeOfficeDetaislType = {
     emp_type: 0,
     office_name: "",
@@ -169,7 +149,6 @@ const EmployeeOfficeDetails: React.FC<
     ddo_designation: "",
     ddo_code: "",
     district: "",
-    treasury_name: "",
   };
 
   const initialValues =
@@ -178,8 +157,6 @@ const EmployeeOfficeDetails: React.FC<
         ? JSON.parse(sessionStorage.getItem("emp_office_details") ?? "{}")
         : initialOfficeDetails
       : initialOfficeDetails;
-
-      console.log("kkkkkkkkkkaaaaaaaa",initialValues)
 
   return (
     <>
@@ -279,6 +256,7 @@ const EmployeeOfficeDetails: React.FC<
                     Treasury Name <span className="text-red-500" >*</span>
                   </label>
                   <Autocomplete
+                    clearOnEscape
                     disablePortal
                     size="small"
                     options={treasuryList}
@@ -289,11 +267,9 @@ const EmployeeOfficeDetails: React.FC<
                         placeholder="Select Treasury Name"
                       />
                     )}
-                    value={selectedTreasury}
                     onChange={(e, value) => {
                       treasuryHandle(e, value);
                     }}
-                   
                   />
                 </div>
 
@@ -303,12 +279,12 @@ const EmployeeOfficeDetails: React.FC<
                     disablePortal
                     size="small"
                     options={ddoData ? ddoData?.data : []}
+                    value={selectedDdo}
                     getOptionLabel={(option) => option?.ddo_code || ""}
                     sx={{ width: "100%" }}
                     renderInput={(params) => (
                       <TextField {...params} placeholder="Select DDO Code" />
                     )}
-                    value={selectedDdo}
                     onChange={(e, value) => {
                       if (value) {
                         setInput(value.ddo_code);
@@ -322,42 +298,6 @@ const EmployeeOfficeDetails: React.FC<
                     }}
                   />
                 </div>
-
-                {/* <div className="flex flex-col relative">
-                  <label className="text-sm text-secondary">DDO Code</label>
-                  <input
-                    placeholder="Type DDO code here"
-                    value={input}
-                    onChange={handleInputChange}
-                    onBlur={() =>
-                      setTimeout(() => {
-                        setIsTyping(false)
-                      }, 250)
-                    }
-                    className="border border-zinc-400 h-12 rounded-lg pl-3 bg-transparent mt-1"
-                  />
-
-                  {isTyping && (
-                    <div className="absolute top-[5rem] left-0 w-[20rem] h-[30rem] rounded-md overflow-scroll">
-                      <ul
-                        className={`${isTyping ? "border bg-white" : "bg-transparent border-0	"}`}
-                      >
-                        {ddoData?.data?.map((item: any, i: number) => (
-                          <li
-                            onClick={() => {
-                              setInput(item.ddo_code);
-                              setIsTyping(false);
-                            }}
-                            className="text-sm font-semibold p-2 border-b cursor-pointer"
-                            key={i}
-                          >
-                            {item.ddo_code}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div> */}
 
                 <InputBox
                   onChange={handleChange}

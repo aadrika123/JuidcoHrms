@@ -53,60 +53,59 @@ const EmployeeBasicDetails: React.FC<
   const [isEmpExist, setIsEmpExist] = useState<boolean>(false);
   const [isAdult, setIsAdult] = useState<boolean>(false);
 
-  // const [selectedFileName, setSelectedFileName] = useState<any>();
+  const [selectedFileName, setSelectedFileName] = useState<any>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   // const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   // Handle file upload and DMS integration
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
-    // Validate file type
+  
     const acceptedFileTypes = ["image/png", "image/jpeg"];
     if (!acceptedFileTypes.includes(file.type)) {
       alert("Please upload a PNG or JPEG file.");
       return;
     }
-
-    // Validate file size (max 2MB)
+  
     const maxSizeInBytes = 2 * 1024 * 1024;
     if (file.size > maxSizeInBytes) {
       alert("Cannot upload more than 2MB data!");
       return;
     }
-
+  
     try {
-       // Update filename before upload starts
-
-      // Prepare FormData for DMS
       const formData = new FormData();
       formData.append("img", file);
-
-      // Upload to DMS and wait for response
+  
       const response = await axios.post("/dms/get-url", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       const imageUrl = response.data.data;
-      
-      // setSelectedFileName(String(imageUrl));
-
-      // Update session storage and component state after receiving response
-      setImagePreview(imageUrl); // Set image preview only after response
-
+  
+      // Update preview and state
+      setSelectedFileName(String(imageUrl));
+      setImagePreview(imageUrl);
+  
+      // Update Formik value here 🔥
+      setFieldValue("emp_image", imageUrl);
+  
+      // Also update sessionStorage
       const existingDetails = JSON.parse(sessionStorage.getItem("emp_basic_details") || "{}");
-      existingDetails.emp_image = imageUrl; // Save the URL directly to `emp_image`
+      existingDetails.emp_image = imageUrl;
       sessionStorage.setItem("emp_basic_details", JSON.stringify(existingDetails));
-
-      console.log("Image uploaded successfully:", imageUrl);
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Image upload failed");
     }
   };
+  
 
   // Retrieve image preview and file name from session storage
   useEffect(() => {
@@ -132,24 +131,13 @@ const EmployeeBasicDetails: React.FC<
   }, []);
 
   // Handle name change and update session storage
-  // function handleChangeName(key: string, value: string) {
-  //   sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
-  //   setEmployeeName((prev: any) => ({
-  //     ...prev,
-  //     [key]: value,
-  //   }));
-  // }
-
   function handleChangeName(key: string, value: string) {
-    setEmployeeName((prev: any) => {
-      const updatedState = { ...prev, [key]: value };
-      
-      sessionStorage.setItem("employee_full_name", JSON.stringify(updatedState)); 
-      
-      return updatedState;
-    });
+    sessionStorage.setItem("employee_full_name", JSON.stringify(employeeName));
+    setEmployeeName((prev: any) => ({
+      ...prev,
+      [key]: value,
+    }));
   }
-  
 
   // Handle form submission
   const handleSubmitFormik = (
@@ -163,6 +151,9 @@ const EmployeeBasicDetails: React.FC<
         .join(" ");
       values.emp_name = String(fullName);
       values.emp_id = employeeName.emp_id;
+      if (values.emp_type) {
+        values.emp_type = Number(values.emp_type);
+      }
 
       // Get the latest emp_image URL from sessionStorage
       const storedDetails = JSON.parse(
@@ -200,7 +191,7 @@ const EmployeeBasicDetails: React.FC<
       const storedFormData = sessionStorage.getItem("emp_basic_details");
       if (storedFormData) {
         const parsedData = JSON.parse(storedFormData);
-        // setSelectedFileName(parsedData.emp_image || "");
+        setSelectedFileName(parsedData.emp_image || "");
         setImagePreview(parsedData.emp_image || null);
       }
 
@@ -297,6 +288,7 @@ const EmployeeBasicDetails: React.FC<
             handleSubmit,
             handleReset,
             setFieldError,
+            setFieldValue
           }) => (
             <form onSubmit={handleSubmit} className="relative">
               <Toaster />
@@ -341,8 +333,8 @@ const EmployeeBasicDetails: React.FC<
                     {touched.emp_image && errors.emp_image && (
                       <div className="text-red-500">{errors.emp_image}</div>
                     )}
-                    {/* <br></br>
-                    {selectedFileName && (
+                    <br></br>
+                    {/* {selectedFileName && (
                       <span className="ml-2">{selectedFileName}</span>
                     )} */}
                   </p>
@@ -379,7 +371,7 @@ const EmployeeBasicDetails: React.FC<
                     name="emp_image"
                     style={{ display: "none" }}
                     accept="image/*"
-                    onChange={handleFileChange}
+                    onChange={(e) => handleFileChange(e, setFieldValue)}
                   />
                 </div>
 
@@ -582,12 +574,8 @@ const EmployeeBasicDetails: React.FC<
                   required={true}
                   maxLength={10}
                   onKeyPress={(e: any) => {
-                    if (
-                      !(
-                        (e.key >= "0" || e.key >= "A" || e.key >= "a") &&
-                        (e.key <= "9" || e.key <= "Z" || e.key <= "z")
-                      )
-                    ) {
+                    const regex = /^[a-zA-Z0-9]$/;
+                    if (!regex.test(e.key)) {
                       e.preventDefault();
                     }
                   }}
@@ -757,16 +745,12 @@ const EmployeeBasicDetails: React.FC<
                   placeholder={"Enter PAN Number"}
                   type="text"
                   maxLength={10}
-                  // onKeyPress={(e: any) => {
-                  //   if (
-                  //     !(
-                  //       (e.key >= "0" || e.key >= "9") &&
-                  //       (e.key <= "A" || e.key <= "Z")
-                  //     )
-                  //   ) {
-                  //     e.preventDefault();
-                  //   }
-                  // }}
+                  onKeyPress={(e: any) => {
+                    const regex = /^[A-Z0-9]$/;
+                    if (!regex.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   error={errors?.pan_no}
                   touched={touched.pan_no}
                   regEx={/^[A-Z]{5}[0-9]{4}[A-Z]$/}

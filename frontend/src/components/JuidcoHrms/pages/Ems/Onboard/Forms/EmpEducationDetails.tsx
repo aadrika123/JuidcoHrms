@@ -26,15 +26,14 @@ const EmpEducationDetails: React.FC<
   const [isValidate, setIsValidate] = useState<boolean>(false);
   const [session, setSession] = useState<boolean>(false);
   const [resetTable, setResetTable] = useState<number>(0);
-  const [employeeEducationDetails, setEmployeeEducationDetails] = useState<
-    EmployeeEducationDetailsType[]
-  >([]);
+  const [employeeEducationDetails, setEmployeeEducationDetails] = useState([]);
   const pathName = usePathname();
   const router = useRouter();
 
   const handleSubmitForm = (values: any) => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("emp_education_details", JSON.stringify(values));
+
       if (props.setData) {
         props.setData("emp_education_details", values, tabIndex);
       }
@@ -43,8 +42,7 @@ const EmpEducationDetails: React.FC<
   };
 
   function getStateData(key: string, values: any, index?: number) {
-    const updatedDetails = Array.isArray(values) ? values : [values];
-    setEmployeeEducationDetails(updatedDetails);
+    setEmployeeEducationDetails((prev: any) => ({ ...prev, [key]: values }));
     setTabIndex(index || tabIndex);
   }
 
@@ -56,6 +54,8 @@ const EmpEducationDetails: React.FC<
     setResetTable(resetTable + 1);
   }
 
+  //////////////////////////////////////////////////////////////////
+
   const [employeeType, setEmployeeType] = useState<number>();
 
   useEffect(() => {
@@ -63,20 +63,12 @@ const EmpEducationDetails: React.FC<
     const storedJoinData = storedJoinDataString
       ? JSON.parse(storedJoinDataString)
       : null;
-    setEmployeeType(storedJoinData?.emp_type);
+
+    const empType = storedJoinData?.emp_type;
+    setEmployeeType(empType);
   }, []);
 
-  useEffect(() => {
-    const isValid = employeeEducationDetails.some((entry:any) =>
-      entry.stream &&
-      entry.board &&
-      entry.passing_year &&
-      entry.marks !== undefined &&
-      entry.grade &&
-      entry.upload_edu
-    );
-    setIsValidate(isValid);
-  }, [employeeEducationDetails]);
+  ////////////////////////////////////////////////////////////////
 
   return (
     <div>
@@ -104,7 +96,7 @@ const EmpEducationDetails: React.FC<
       <div className="border rounded-lg bg-white border-[#D9E4FB] p-10 px-10 shadow-md">
         <div className="border p-5 rounded-xl shadow overflow-auto hide-scrollbar ">
           <SubHeading className="text-[20px] pt-4">
-            Employee Education <span className="text-red-500">*</span>
+            Employee Education <span className="text-red-500" >*</span>
           </SubHeading>
           <EmpEducationTable
             setData={getStateData}
@@ -114,22 +106,44 @@ const EmpEducationDetails: React.FC<
           />
         </div>
 
-        <div className={`border p-5 rounded-xl shadow mt-6 ${employeeType && employeeType === 4 ? "hidden" : "block"}`}>
+        {/* <div className="border p-5 rounded-xl shadow mt-6 ">
           <EmployeeTrainingTable
             setData={getStateData}
             setSession={session}
             validate={setIsValidate}
             resetTable={resetTable}
           />
-        </div>
+        </div> */}
+        {
+          <div
+            className={`border p-5 rounded-xl shadow mt-6 ${employeeType && employeeType === 4 ? "hidden" : "block"}`}
+          >
+            <EmployeeTrainingTable
+              setData={getStateData}
+              setSession={session}
+              validate={setIsValidate}
+              resetTable={resetTable}
+            />
+          </div>
+        }
 
         <div className="flex items-center justify-end mt-5 gap-5">
-          <PrimaryButton buttonType="button" variant="cancel" onClick={goBack}>
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={goBack}
+          >
             Back
           </PrimaryButton>
-          <PrimaryButton buttonType="button" variant="cancel" onClick={resetData}>
+
+          <PrimaryButton
+            buttonType="button"
+            variant={"cancel"}
+            onClick={resetData}
+          >
             Reset
           </PrimaryButton>
+
           {isValidate ? (
             <PrimaryButton
               onClick={() => {
@@ -144,7 +158,7 @@ const EmpEducationDetails: React.FC<
           ) : (
             <PrimaryButton
               onClick={() => {
-                toast.error("Please fill at least one level of education!");
+                toast.error("Please fill the complete form!");
               }}
               variant="disabled"
             >

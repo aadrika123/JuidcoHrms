@@ -278,18 +278,18 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       //     setIsTyping(false);
       // }, 1500);
 
-      // if (
-      //   Object.values(row)
-      //     .slice(1)
-      //     .every((key) => key !== "") ||
-      //   Object.values(row)
-      //     .slice(1)
-      //     .every((key) => key === "")
-      // ) {
-      //   props.validate(true);
-      // } else {
-      //   props.validate(false);
-      // }
+      if (
+        Object.values(row)
+          .slice(1)
+          .every((key) => key !== "") ||
+        Object.values(row)
+          .slice(1)
+          .every((key) => key === "")
+      ) {
+        props.validate(true);
+      } else {
+        props.validate(false);
+      }
 
       updatedData[id] = { ...row } as EmployeeEducation;
       return updatedData;
@@ -436,6 +436,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     value={row.edu_level}
                     placeholder={"Enter "}
                     isRequired={true}
+                    
                   />
                 </td>
                 {/* -----------------------Edu Level----------------------------------- */}
@@ -449,14 +450,8 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     placeholder={"Enter "}
                     isRequired={true}
                     onKeyPress={(e: any) => {
-                      if (
-                        !(
-                          ((e.key >= "a" || e.key >= "A") &&
-                            (e.key <= "z" || e.key <= "Z")) ||
-                          e.key === " " ||
-                          e.key === ","
-                        )
-                      ) {
+                      const regex = /^[a-zA-Z0-9.]$/;
+                      if (!regex.test(e.key)) {
                         e.preventDefault();
                       }
                     }}
@@ -474,14 +469,8 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                       placeholder={"Enter "}
                       isRequired={true}
                       onKeyPress={(e: any) => {
-                        if (
-                          !(
-                            ((e.key >= "a" || e.key >= "A") &&
-                              (e.key <= "z" || e.key <= "Z")) ||
-                            e.key === " " ||
-                            e.key === "."
-                          )
-                        ) {
+                        const regex = /^[a-zA-Z0-9.]$/;
+                        if (!regex.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
@@ -609,7 +598,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
 
       < div className="w-full flex items-start justify-between mt-3" >
         <span className="text-xs italic">
-          P.S-You can add more 4 other information of education
+          P.S-You can add more 2 other information of education
         </span>
       </div >
       <div className="w-full flex items-center justify-end mt-3 mb-3">

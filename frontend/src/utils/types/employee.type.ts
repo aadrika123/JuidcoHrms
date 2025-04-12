@@ -39,7 +39,6 @@ export interface EmployeeOfficeDetaislType {
   ddo_designation: string;
   ddo_code: string;
   district: string;
-  treasury_name: string;
 }
 
 export interface EmployeeDetailsType {
