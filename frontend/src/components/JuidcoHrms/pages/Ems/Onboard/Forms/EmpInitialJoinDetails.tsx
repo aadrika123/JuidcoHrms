@@ -129,7 +129,7 @@ const EmpInitialJoinDetails: React.FC<
       } else if (Number(values.pay_scale) === 15) {
         if (!(Number(payBandValue) >= 67000 && Number(payBandValue) <= 79000)) {
           toast.error(
-            `Pay Band 6700 - 79000 is allowed as Pay Scale is ${values?.pay_scale}`
+            `Pay Band 67000 - 79000 is allowed as Pay Scale is ${values?.pay_scale}`
           );
           values.pay_band = "";
         }

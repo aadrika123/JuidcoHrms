@@ -232,7 +232,7 @@ export const employeeJoinValidationSchema = yup.object({
     .required("Please Choose the Correct Pay Commission"),
   pay_scale: yup.string().required("Please Enter the Correct Pay Scale"),
   pay_band: yup.number().required("Please Enter the Correct Pay Band"),
-  grade_pay: yup.number().required("Please Enter the Correct Grade Pay"),
+  // grade_pay: yup.number().required("Please Enter the Correct Grade Pay"),
   basic_pay: yup.number().required("Please Enter the Correct Basic Pay"),
   // deduction_type: yup
   //   .string()
