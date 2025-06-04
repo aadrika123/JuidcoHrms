@@ -20,6 +20,10 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   isRequired?: boolean | false;
+  autoComplete?: string;
+  onCopy?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+  onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+  onCut?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = (props) => {
@@ -37,6 +41,10 @@ const Input: React.FC<InputProps> = (props) => {
           placeholder={props.placeholder}
           onChange={props.onChange}
           onBlur={props.onBlur}
+          onCopy={props.onCopy}
+          onPaste={props.onPaste}
+          onCut={props.onCut}
+          autoComplete={props.autoComplete}
           type={props.type}
           value={props.value}
           className={`text-primary h-[40px] p-3 rounded-lg border bg-transparent border-zinc-400 ${props.className}`}

@@ -162,7 +162,7 @@ const Download_payslip = () => {
   const currentMonth = new Date().toISOString().slice(0, 7);
 
   const totalDeductions =
-    (empData?.payroll[0]?.salary_deducted || 0) +
+    // (empData?.payroll[0]?.salary_deducted || 0) +
     (empData?.payroll[0]?.last_month_lwp_deduction || 0) +
     (empData?.payroll[0]?.total_deductions || 0);
 
@@ -401,7 +401,7 @@ const Download_payslip = () => {
                   <td className=" border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-6/12 text-xs">
                     <div className="flex justify-between">
                       <div className="">Total Allowance (B)</div>
-                      <div className="">{empData?.total?.total_allowance}</div>
+                      <div className="">{empData?.payroll[0]?.total_allowance}</div>
                     </div>
                   </td>
                   <td className="border-2 border-t-0  border-l-0 border-neutral-600 pl-2 p-1 font-bold w-[50rem] text-xs">
@@ -464,7 +464,7 @@ const Download_payslip = () => {
                       {empData?.payroll[0]?.epf_employer_amount}
                     </td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                      Deductions + (LWP Salary + Last Month LWP Salary)
+                      Deductions + Last Month LWP Salary
                     </td>
                     <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
                       {totalDeductions}

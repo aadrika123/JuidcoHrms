@@ -246,8 +246,14 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                         )
                       }
                       value={row?.designation?.from}
-                      placeholder={"Enter "}
+                      placeholder={"Enter "}    
                       isRequired={true}
+                      onKeyPress={(e: any) => {
+                        const regex = /^[a-zA-Z0-9.]$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
 
                     <p>To:</p>
@@ -263,6 +269,12 @@ const EmployeeTransferDetailsTable: React.FC<TableFormProps> = (props) => {
                       value={row.designation?.to}
                       placeholder={"Enter "}
                       isRequired={true}
+                      onKeyPress={(e: any) => {
+                        const regex = /^[a-zA-Z0-9.]$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </React.Fragment>
                 </td>

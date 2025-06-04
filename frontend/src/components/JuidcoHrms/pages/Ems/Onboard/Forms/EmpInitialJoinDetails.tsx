@@ -62,6 +62,8 @@ const EmpInitialJoinDetails: React.FC<
     if (typeof window !== "undefined") {
       const formData = {
         ...values,
+        pay_scale: values.pay_scale ? Number(values.pay_scale) : undefined,
+        grade_pay: values.grade_pay ? Number(values.grade_pay) : undefined,
         confirmation_order: confirmationOrder,
         member_gis: gisOrder,
       };
@@ -127,7 +129,7 @@ const EmpInitialJoinDetails: React.FC<
       } else if (Number(values.pay_scale) === 15) {
         if (!(Number(payBandValue) >= 67000 && Number(payBandValue) <= 79000)) {
           toast.error(
-            `Pay Band 6700 - 79000 is allowed as Pay Scale is ${values?.pay_scale}`
+            `Pay Band 67000 - 79000 is allowed as Pay Scale is ${values?.pay_scale}`
           );
           values.pay_band = "";
         }
@@ -231,7 +233,7 @@ const EmpInitialJoinDetails: React.FC<
                       name="department_id"
                       placeholder={"Please Select Department"}
                       api={`${HRMS_URL.DEPARTMENT.get}`}
-                      //required
+                      required
                     />
 
                     <DropDownList
@@ -243,7 +245,7 @@ const EmpInitialJoinDetails: React.FC<
                       placeholder="Please Select"
                       name="designation_id"
                       api={`${HRMS_URL.DESIGNATION.get}`}
-                      //required
+                      // required
                     />
 
                     <SelectForNoApi
@@ -333,25 +335,25 @@ const EmpInitialJoinDetails: React.FC<
                         error={errors.pay_scale}
                         touched={touched.pay_scale}
                         options={[
-                          { id: 1, name: "1" },
-                          { id: 2, name: "2" },
-                          { id: 3, name: "3" },
-                          { id: 4, name: "4" },
-                          { id: 5, name: "5" },
-                          { id: 6, name: "6" },
-                          { id: 7, name: "7" },
-                          { id: 8, name: "8" },
-                          { id: 9, name: "9" },
-                          { id: 10, name: "10" },
-                          { id: 11, name: "11" },
-                          { id: 12, name: "12" },
-                          { id: 13, name: "13" },
-                          { id: 14, name: "13-A" },
-                          { id: 15, name: "14" },
-                          { id: 16, name: "15" },
-                          { id: 17, name: "16" },
-                          { id: 18, name: "17" },
-                          { id: 19, name: "18" },
+                          { id: "1", name: "1" },
+                          { id: "2", name: "2" },
+                          { id: "3", name: "3" },
+                          { id: "4", name: "4" },
+                          { id: "5", name: "5" },
+                          { id: "6", name: "6" },
+                          { id: "7", name: "7" },
+                          { id: "8", name: "8" },
+                          { id: "9", name: "9" },
+                          { id: "10", name: "10" },
+                          { id: "11", name: "11" },
+                          { id: "12", name: "12" },
+                          { id: "13", name: "13" },
+                          { id: "13-A", name: "13-A" }, 
+                          { id: "14", name: "14" },
+                          { id: "15", name: "15" },
+                          { id: "16", name: "16" },
+                          { id: "17", name: "17" },
+                          { id: "18", name: "18" },
                         ]}
                       />
 
@@ -380,7 +382,7 @@ const EmpInitialJoinDetails: React.FC<
                         name="pay_band"
                         placeholder={"Enter Pay Band"}
                         type="number"
-                        // required={true}
+                        required={true}
                         onKeyPress={(e: any) => {
                           if (
                             !((e.key >= "0" && e.key <= "9") || e.key === " ")
@@ -509,7 +511,13 @@ const EmpInitialJoinDetails: React.FC<
                             label="GIS Account No"
                             name="gis_account"
                             placeholder={"Enter GIS Account No."}
-                            type="number"
+                            type="text"
+                            onKeyPress={(e: any) => {
+                              const regex = /^[a-zA-Z0-9.]$/;
+                              if (!regex.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         )}
                       </div>
@@ -694,7 +702,7 @@ const EmpInitialJoinDetails: React.FC<
                   touched={touched.basic_pay}
                   label={
                     employeeType && employeeType === 4
-                      ? "Effective Daily Wage"
+                      ? "Effective Daily Wage (monthly)"
                       : " Basic Pay"
                   }
                   name="basic_pay"
@@ -704,7 +712,13 @@ const EmpInitialJoinDetails: React.FC<
                       : "Enter Basic Pay"
                   }
                   type="number"
-                  //required={employeeType && employeeType === 4 ? false : true}
+                  required={employeeType && employeeType === 4 ? false : true}
+                  onKeyPress={(e: any) => {
+                    const regex = /^[0-9.]$/;
+                    if (!regex.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -749,6 +763,12 @@ const EmpInitialJoinDetails: React.FC<
                   label="Branch Name"
                   name="branch_name"
                   placeholder={"Enter Branch Name"}
+                  onKeyPress={(e: any) => {
+                    const regex = /^[a-zA-Z0-9.]$/;
+                    if (!regex.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <SelectForNoApi
                   onChange={handleChange}
@@ -797,7 +817,7 @@ const EmpInitialJoinDetails: React.FC<
                   name="acc_number"
                   placeholder={"Enter Account Number"}
                   type="text"
-                  // maxLength={10}
+                  maxLength={15}
                   onKeyPress={(e: any) => {
                     if (!(e.key >= "0" && e.key <= "9")) {
                       e.preventDefault();
@@ -819,6 +839,12 @@ const EmpInitialJoinDetails: React.FC<
                       name="ifsc"
                       placeholder={"Enter IFSC Code"}
                       maxLength={12}
+                      onKeyPress={(e: any) => {
+                        const regex = /^[a-zA-Z0-9]$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
                 )}
@@ -854,3 +880,4 @@ const EmpInitialJoinDetails: React.FC<
 };
 
 export default EmpInitialJoinDetails;
+  

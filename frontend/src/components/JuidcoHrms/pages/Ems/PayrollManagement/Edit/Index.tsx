@@ -304,7 +304,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
   // ----------------------------GET TDS -------------------------//
 
   const totalDeductions =
-    (empData?.payroll[0]?.salary_deducted || 0) +
+    // (empData?.payroll[0]?.salary_deducted || 0) +
     (empData?.payroll[0]?.last_month_lwp_deduction || 0) +
     (empData?.payroll[0]?.total_deductions || 0);
   return (
@@ -753,7 +753,7 @@ const EditEmployeePayroll = ({ emp }: { emp: string }) => {
                           {empData?.payroll[0]?.epf_employer_amount}
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
-                          Deductions + (LWP Salary + Last Month LWP Salary)
+                          Deductions + Last Month LWP Salary
                         </td>
                         <td className="border-2 border-t-0 border-r-0  border-neutral-600 text-xs pl-2 p-1">
                           {totalDeductions}

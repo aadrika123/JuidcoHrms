@@ -753,7 +753,7 @@ const handleSubmitFormik = (
                       name="emp_family_name"
                       placeholder={"Enter Family Name"}
                       required={true}
-                      // maxLength={60}
+                      maxLength={50}
                       onKeyPress={(e: any) => {
                         if (
                           !(
