@@ -511,7 +511,7 @@ const EmpInitialJoinDetails: React.FC<
                             label="GIS Account No"
                             name="gis_account"
                             placeholder={"Enter GIS Account No."}
-                            type="number"
+                            type="text"
                             onKeyPress={(e: any) => {
                               const regex = /^[a-zA-Z0-9.]$/;
                               if (!regex.test(e.key)) {
