@@ -19,6 +19,8 @@ import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
+import CryptoJS from "crypto-js";
+
 
 interface LoginInitialData {
   user_id: string;
@@ -39,6 +41,26 @@ const Login = () => {
     password: Yup.string().required("Password is required"),
   });
 
+  function encryptPassword(plainPassword: string): string {
+  const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
+
+  const key = CryptoJS.enc.Latin1.parse(
+    CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
+  );
+
+  const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
+  const iv = CryptoJS.enc.Latin1.parse(ivString);
+
+  const encrypted = CryptoJS.AES.encrypt(plainPassword, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+}
+
+
   ///////////////// Handling Login Logics /////////////
 
   const handleLogin = async (values: LoginInitialData) => {
@@ -49,7 +71,7 @@ const Login = () => {
         method: "POST",
         data: {
           email: values.user_id,
-          password: values.password,
+          password: encryptPassword(values.password),
         },
       });
 
@@ -176,6 +198,10 @@ const Login = () => {
                         error={errors.user_id}
                         touched={touched.user_id}
                         name="user_id"
+                        autoComplete="new-Username"
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
                         className="border-black focus:outline-none"
                       />
                     </div>
@@ -189,6 +215,10 @@ const Login = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
+                      autoComplete="new-Password"
+                      onCopy={(e) => e.preventDefault()}
+                      onPaste={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()} 
                       className="mt-1 border-black focus:border-0 visible:border-0 focus:outline-none"
                     // type={hide ? "password" : "text"}
                     // icon={

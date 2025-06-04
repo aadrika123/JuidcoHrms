@@ -11,6 +11,7 @@ import netCalcLogger from "../../../../../loggers/netCalcLogger";
 import { EmployeePayrollType } from "../../../../util/types/payroll_management/payroll.type";
 import TestController from "../../controller/properties/properties.controller";
 import HolidaysDao from "../../dao/employee/holidays.dao";
+import { Console } from "console";
 
 const testController = new TestController();
 const calcProperties = testController.getCalcProperties();
@@ -187,6 +188,8 @@ class PayrollDao {
     return this.billableDays;
   };
 
+
+
   cal_allowance_and_deduction = async () => {
     const esicBasicPayLimit = parseFloat(calcProperties["calc.esic.basicpaylimit"] || "21000");
     const esicRate = parseFloat(calcProperties["calc.esic"] || "0.75") / 100;
@@ -218,7 +221,7 @@ class PayrollDao {
 
           const billableDays = this.attendanceDays + this.leaveDays + this.holidays + this.sundays;
 
-          const [deductionsResult, allowanceResult]: any = await Promise.all([
+          const [deductionsResult, allowanceResult, joinDetails, daResult]: any = await Promise.all([
             prisma.$queryRaw`
             SELECT 
               emp.emp_id,
@@ -246,6 +249,19 @@ class PayrollDao {
             WHERE emp.emp_id = ${employeeId}
             GROUP BY emp.emp_id
           `,
+            prisma.employee_join_details.findFirst({
+              where: { employee: { some: { emp_id: employeeId } } },
+              select: { basic_pay: true },
+            }),
+            prisma.employee_salary_allow.findFirst({
+              where: {
+                employee_salary_details: {
+                  employee: { some: { emp_id: employeeId } },
+                },
+                name: 'DA',
+              },
+              select: { amount_in: true },
+            }),
           ]);
 
           const totalAllowances = allowanceResult.length ? allowanceResult[0].total_allowance || 0 : 0;
@@ -256,13 +272,19 @@ class PayrollDao {
             ? deductionsResult.map((deductionRow: any) => {
               const grossRow = this.gross.find((row) => row.emp_id === deductionRow.emp_id);
               const grossPay = grossRow ? grossRow.gross_pay : 0;
-              console.log
+
+              const basicPay = joinDetails?.basic_pay || 0;
+              const daAmount = daResult?.amount_in || 0;
+              const baseForEpfEps = basicPay + daAmount;
+
+
+              console.log("basicPay ---->", basicPay ,  "daAmount ---------->",  daAmount)
 
               const esicAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicRate).toFixed(2) : "0.00";
-              const epfAmount = (grossPay * epfRate).toFixed(2);
+              const epfAmount = (baseForEpfEps * epfRate).toFixed(2);
+              const epfEmployerAmount = (baseForEpfEps * epfEmployerRate).toFixed(2);
+              const epsEmployerAmount = (baseForEpfEps * epsRate).toFixed(2);
               const esicEmployerAmount = grossPay <= esicBasicPayLimit ? (grossPay * esicEmployerRate).toFixed(2) : "0.00";
-              const epfEmployerAmount = (grossPay * epfEmployerRate).toFixed(2);
-              const epsEmployerAmount = (grossPay * epsRate).toFixed(2);
 
               const tdsAmount = deductionRow.tds_amount || 0;
 
@@ -723,101 +745,101 @@ class PayrollDao {
   calc_net_pay = async () => {
     await this.calc_regular_pay();
     await this.cal_allowance_and_deduction();
-  
+
     const data: any = {};
     const presentDays: any = {};
     let dataToSendForLogging: any = {};
-  
+
     for (const emp of this.gross) {
       data[emp.emp_id] = {
         ...emp,
         leave_days: 0,
       };
     }
-  
+
     for (const record of this.total_working_hours) {
       const working_hour = Number(record.working_hour);
-  
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         working_hour: working_hour,
       };
-  
+
       presentDays[record.emp_id] = {
         ...presentDays[record.emp_id],
         working_days: record?.count,
       };
     }
-  
+
     for (const record of this.lwp_days_last_month) {
       const lwp_days = Number(record.last_month_lwp);
-  
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         lwp_days_last_month: lwp_days,
       };
     }
-  
+
     for (const record of this.no_of_leave_approved) {
       data[record.emp_id].leave_days = Number(record.days_leave_approved);
     }
-  
+
     for (const record of this.allowances) {
       data[record.emp_id] = {
         ...data[record.emp_id],
         ...record,
       };
     }
-  
+
     for (const record of this.gross) {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth();
       const currentYear = currentDate.getFullYear();
       const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  
+
       const startDate = new Date(currentYear, currentMonth, 1);
       const endDate = new Date(currentYear, currentMonth, totalDaysInMonth);
 
       const payrollMeta = await this.calculateDaysForPayroll(record.emp_id, startDate, endDate);
       const presentDaysCount = payrollMeta.presentDays;
       // console.log(presentDaysCount, "presentDaysCount")
-  
+
       // Get billable days
       const billableDays: number = await this.calculateBillableDays(record.emp_id, startDate, endDate);
       const billableDaysNum = typeof billableDays === "number" ? billableDays : 0;
-  
+
       const salaryPerDay = data[record.emp_id].gross_pay / billableDaysNum;
-  
+
       const lwpDays = totalDaysInMonth - billableDaysNum;
       const salaryDeducted = salaryPerDay * lwpDays;
-  
+
       const lwpLastMonthRecord = this.lwp_days_last_month.find(lwp => lwp.emp_id === record.emp_id);
       const lwpDaysLastMonth = lwpLastMonthRecord ? lwpLastMonthRecord.last_month_lwp : 0;
       const lwpLastMonthSalary = lwpDaysLastMonth * salaryPerDay;
-  
+
       const netPay = data[record.emp_id].gross_pay -
         // salaryDeducted -
         lwpLastMonthSalary -
         data[record.emp_id].total_deductions -
         (data[record.emp_id].tds_amount || 0);
-  
+
       let date: any = `${new Date().toISOString()}`;
       date = new Date(date.split("T")[0]);
-  
+
       data[record.emp_id] = {
         ...data[record.emp_id],
         non_billable_days: lwpDays || 0,
         present_days: presentDaysCount,
         lwp_days: lwpDays,
         salary_deducted: parseFloat(salaryDeducted.toFixed(2)) || 0,
-        net_pay: parseFloat(netPay.toFixed(2))|| 0,
+        net_pay: parseFloat(netPay.toFixed(2)) || 0,
         last_month_lwp_deduction: Math.round(lwpLastMonthSalary),
         date: date,
         salary_per_day: parseFloat(salaryPerDay.toFixed(2)) || 0,
         month: currentMonth + 1,
         year: currentYear,
       };
-  
+
       dataToSendForLogging = {
         ...dataToSendForLogging,
         [record.emp_id]: {
@@ -826,25 +848,25 @@ class PayrollDao {
         },
       };
     }
-  
+
     const keys = Object.keys(data);
     this.employee_payroll_data = [];
-  
+
     for (const key of keys) {
       if (data[key]["emp_id"]) {
         this.employee_payroll_data.push(data[key]);
       }
     }
-  
+
     await prisma.payroll_master.createMany({
       data: this.employee_payroll_data,
     });
-  
+
     await netCalcLogger(this.employee_payroll_data, dataToSendForLogging);
-  
+
     return generateRes(this.employee_payroll_data);
   };
-  
+
 
   // --------------------- STORING PAYROLL ------------------------------ //
 
@@ -1192,4 +1214,3 @@ class PayrollDao {
 }
 
 export default PayrollDao;
- 
