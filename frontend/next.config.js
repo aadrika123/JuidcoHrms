@@ -35,6 +35,36 @@ const nextConfig = {
   // },
 };
 
+const ContentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https://aadrikainfomedia.com https://jharkhandegovernance.com;
+  font-src 'self';
+  connect-src *;
+  frame-src *;
+`;
+
+const securityHeaders = [
+  {
+    key: 'Content-Security-Policy',
+    value: ContentSecurityPolicy.replace(/\n/g, '').replace(/\s{2,}/g, ' ').trim(),
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff',
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin',
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY',
+  },
+];
+
+
 module.exports = nextConfig;
 
 // /** @type {import('next').NextConfig} */
