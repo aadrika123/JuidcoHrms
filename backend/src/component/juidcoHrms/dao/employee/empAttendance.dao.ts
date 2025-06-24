@@ -252,7 +252,7 @@ class EmployeeAttendanceDao {
     const currentDateTime = new Date().toISOString();
     const currentDate = currentDateTime.split("T")[0];
 
-    const { ulb_id } = req.body.auth
+    const { ulb_id } = req.body.auth ||2;
 
     const data = await prisma.$queryRaw`
       SELECT 
