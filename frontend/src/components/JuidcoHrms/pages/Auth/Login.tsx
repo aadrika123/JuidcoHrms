@@ -45,7 +45,7 @@ const Login = () => {
   const [captchaInput, setCaptchaInput] = useState("");
   const {
     captchaImage,
-    captchaInputField,
+    // captchaInputField,
     verifyCaptcha,
     generateRandomCaptcha,
   } = useCaptchaGenerator();
