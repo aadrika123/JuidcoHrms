@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
 import CryptoJS from "crypto-js";
+import useCaptchaGenerator from "@/components/JuidcoHrms/pages/Auth/useCaptchaGenerator";
 
 
 interface LoginInitialData {
@@ -32,7 +33,8 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [workingAnimation, activateWorkingAnimation, hideWorkingAnimation] =
     useWorkingAnimation();
-    const [errrrr, setErrrrr] = useState<boolean>();
+  const [errrrr, setErrrrr] = useState<boolean>();
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
 
   // const [hide, setHide] = useState(true);
 
@@ -40,30 +42,44 @@ const Login = () => {
     user_id: Yup.string().required("User Id is required"),
     password: Yup.string().required("Password is required"),
   });
+  const [captchaInput, setCaptchaInput] = useState("");
+  const {
+    captchaImage,
+    captchaInputField,
+    verifyCaptcha,
+    generateRandomCaptcha,
+  } = useCaptchaGenerator();
 
   function encryptPassword(plainPassword: string): string {
-  const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
+    const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
 
-  const key = CryptoJS.enc.Latin1.parse(
-    CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
-  );
+    const key = CryptoJS.enc.Latin1.parse(
+      CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
+    );
 
-  const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
-  const iv = CryptoJS.enc.Latin1.parse(ivString);
+    const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
+    const iv = CryptoJS.enc.Latin1.parse(ivString);
 
-  const encrypted = CryptoJS.AES.encrypt(plainPassword, key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  });
+    const encrypted = CryptoJS.AES.encrypt(plainPassword, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
 
-  return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-}
+    return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+  }
 
 
   ///////////////// Handling Login Logics /////////////
 
   const handleLogin = async (values: LoginInitialData) => {
+    if (!verifyCaptcha(captchaInput)) {
+      setCaptchaError("Captcha is incorrect");
+      generateRandomCaptcha(); // Optionally refresh it
+      return;
+    } else {
+      setCaptchaError(null); // clear previous error if any
+    }
     try {
       activateWorkingAnimation();
       const res = await axios({
@@ -115,7 +131,7 @@ const Login = () => {
             dispatch(login(data)), "a";
             if (typeof window !== "undefined")
               window.location.replace("/hrms/employee/attendance-management");
-          } else if(data?.user_type === 'Admin') {
+          } else if (data?.user_type === 'Admin') {
             setErrrrr(false)
             dispatch(login(data));
             if (typeof window !== "undefined")
@@ -146,16 +162,16 @@ const Login = () => {
       {workingAnimation}
 
       {errrrr && (
-  <p className="bg-red-600 text-white pt-2 p-2 rounded mb-4 fixed top-14 left-0 right-0 z-50 text-center flex items-center justify-center">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="mr-2">
-      <polygon points="12,2 22,22 2,22" fill="yellow" stroke="black" strokeWidth="2" />
-      <text x="12" y="17" fontSize="12" textAnchor="middle" fill="black" fontFamily="Arial">!</text>
-    </svg>
-    <span>
-      Permission Denied. You are not authorized to access this page. Please contact your administrator for more information.
-    </span>
-  </p>
-)}
+        <p className="bg-red-600 text-white pt-2 p-2 rounded mb-4 fixed top-14 left-0 right-0 z-50 text-center flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="mr-2">
+            <polygon points="12,2 22,22 2,22" fill="yellow" stroke="black" strokeWidth="2" />
+            <text x="12" y="17" fontSize="12" textAnchor="middle" fill="black" fontFamily="Arial">!</text>
+          </svg>
+          <span>
+            Permission Denied. You are not authorized to access this page. Please contact your administrator for more information.
+          </span>
+        </p>
+      )}
       <div className="max-w-full w-full px-2 sm:px-12 lg:pr-20 mb-12 lg:mb-0">
         <div className="relative">
           <div className="p-6 sm:py-8 sm:px-12 rounded-lg bg-white darks:bg-gray-800 shadow-xl">
@@ -218,8 +234,11 @@ const Login = () => {
                       autoComplete="new-Password"
                       onCopy={(e) => e.preventDefault()}
                       onPaste={(e) => e.preventDefault()}
-                      onCut={(e) => e.preventDefault()} 
+                      onCut={(e) => e.preventDefault()}
                       className="mt-1 border-black focus:border-0 visible:border-0 focus:outline-none"
+
+
+
                     // type={hide ? "password" : "text"}
                     // icon={
                     //   hide ? (
@@ -270,6 +289,40 @@ const Login = () => {
                     // }
                     />
                   </div>
+                  <div className="mt-4 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">Captcha</label>
+                    <img
+                      src={captchaImage}
+                      alt="Captcha"
+                      className="w-48 h-14 mt-2 border border-gray-300 rounded"
+                    />
+                    <button
+                      type="button"
+                      onClick={generateRandomCaptcha}
+                      className="mt-1 text-sm text-blue-500 underline"
+                    >
+                      Refresh Captcha
+                    </button>
+                  </div>
+                  {/* Captcha Input */}
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Enter Captcha"
+                      value={captchaInput}
+                      onChange={(e) => setCaptchaInput(e.target.value)}
+                      className="w-full p-2 border rounded border-black focus:outline-none"
+                      autoComplete="off"
+                      spellCheck={false}
+                      onPaste={(e) => e.preventDefault()}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
+                    />
+                    {captchaError && (
+                      <p className="text-sm text-red-500 mt-1">{captchaError}</p>
+                    )}
+                  </div>
+
 
                   <div className="grid mt-6">
                     <Button
