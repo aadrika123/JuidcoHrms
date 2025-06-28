@@ -214,7 +214,7 @@ const Login = () => {
                         error={errors.user_id}
                         touched={touched.user_id}
                         name="user_id"
-                        autoComplete="new-Username"
+                        autoComplete="off"
                         onCopy={(e) => e.preventDefault()}
                         onPaste={(e) => e.preventDefault()}
                         onCut={(e) => e.preventDefault()}
@@ -231,7 +231,7 @@ const Login = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
-                      autoComplete="new-Password"
+                      autoComplete="off"
                       onCopy={(e) => e.preventDefault()}
                       onPaste={(e) => e.preventDefault()}
                       onCut={(e) => e.preventDefault()}
