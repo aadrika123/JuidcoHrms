@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import Image from "next/image";
-// import { usePathname } from "next/navigation";
-// import { formatString } from "@/utils/helper";
 import { SubHeading } from "@/components/Helpers/Heading";
 import Cookies from "js-cookie";
 import axios from "@/lib/axiosConfig";
@@ -17,29 +14,6 @@ interface SideBarProps extends React.HTMLAttributes<HTMLDivElement> {
 const Header: React.FC<SideBarProps> = (props) => {
 
   const [userDetails, setUserDetails] = useState<any>();
-  // const pathName = usePathname();
-
-  // _________ Bread Crumb ________________//
-  // const breadCrumb = pathName
-  //   .split("/")
-  //   .filter((k) => k !== "")
-  //   .map((part, index) => {
-  //     const replaced = part.includes("finance")
-  //       ? part.replace("finance", "Financial Accounts Management System")
-  //       : part;
-
-  //     const bread = replaced.replace(/\d+$/, "");
-
-  //     return (
-  //       <React.Fragment key={index}>
-  //         {index > 0 && (
-  //           <img className="px-2" src="/icons/svg/right.svg" alt=">" />
-  //         )}
-  //         {formatString(bread)}
-  //       </React.Fragment>
-  //     );
-  //   });
-  // _________ Bread Crumb ________________//
 
   //--------------------------- GET EMPLOYEE NOMINEE DETAILS ---------------------------//
   const [ulbId, setUlbId] = useState<string>("");
@@ -138,29 +112,6 @@ const Header: React.FC<SideBarProps> = (props) => {
           </i>
         </div>
 
-        {/* <i>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="28"
-            height="19"
-            viewBox="0 0 28 19"
-            fill="none"
-          >
-            <path
-              d="M6.79957 3.82241V0.0578613H27.6723V3.82241H6.79957ZM6.79957 11.3515V7.58695H27.6723V11.3515H6.79957ZM6.79957 18.8806V15.116H27.6723V18.8806H6.79957ZM2.32685 3.82241C1.90442 3.82241 1.55058 3.64171 1.26532 3.28031C0.980059 2.91892 0.836931 2.47219 0.835938 1.94013C0.835938 1.40682 0.979065 0.960098 1.26532 0.599956C1.55157 0.239815 1.90542 0.0591162 2.32685 0.0578613C2.74927 0.0578613 3.10361 0.23856 3.38986 0.599956C3.67612 0.961352 3.81875 1.40808 3.81776 1.94013C3.81776 2.47344 3.67463 2.9208 3.38837 3.2822C3.10212 3.64359 2.74828 3.82366 2.32685 3.82241ZM2.32685 11.3515C1.90442 11.3515 1.55058 11.1708 1.26532 10.8094C0.980059 10.448 0.836931 10.0013 0.835938 9.46922C0.835938 8.93591 0.979065 8.48919 1.26532 8.12905C1.55157 7.76891 1.90542 7.58821 2.32685 7.58695C2.74927 7.58695 3.10361 7.76765 3.38986 8.12905C3.67612 8.49044 3.81875 8.93717 3.81776 9.46922C3.81776 10.0025 3.67463 10.4499 3.38837 10.8113C3.10212 11.1727 2.74828 11.3528 2.32685 11.3515ZM2.32685 18.8806C1.90442 18.8806 1.55058 18.6999 1.26532 18.3385C0.980059 17.9771 0.836931 17.5304 0.835938 16.9983C0.835938 16.465 0.979065 16.0183 1.26532 15.6581C1.55157 15.298 1.90542 15.1173 2.32685 15.116C2.74927 15.116 3.10361 15.2967 3.38986 15.6581C3.67612 16.0195 3.81875 16.4663 3.81776 16.9983C3.81776 17.5316 3.67463 17.979 3.38837 18.3404C3.10212 18.7018 2.74828 18.8818 2.32685 18.8806Z"
-              fill="#555555"
-            />
-          </svg>
-        </i> */}
-
-        {/* <div className="text-sm breadcrumbs p-0">
-          <ul className="text-[#625e5eb7]">
-            <li>
-              <a className="text-primary font-medium">E-Governance</a>
-            </li>
-            <li>{breadCrumb}</li>
-          </ul>
-        </div> */}
       </div>
       <div className="flex items-center gap-2">
         <SubHeading className="mr-5">
@@ -169,66 +120,7 @@ const Header: React.FC<SideBarProps> = (props) => {
 
         {/* <SearchBox /> */}
         <span>
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="39"
-            height="39"
-            viewBox="0 0 34 34"
-            fill="none"
-          >
-            <g filter="url(#filter0_d_319_2861)">
-              <rect
-                x="2"
-                y="1"
-                width="30"
-                height="29"
-                rx="10"
-                fill="#12743B"
-                shapeRendering="crispEdges"
-              />
-              <path
-                d="M17 23.625C17.825 23.625 18.5 22.95 18.5 22.125H15.5C15.5 22.95 16.1675 23.625 17 23.625ZM21.5 19.125V15.375C21.5 13.0725 20.27 11.145 18.125 10.635V10.125C18.125 9.5025 17.6225 9 17 9C16.3775 9 15.875 9.5025 15.875 10.125V10.635C13.7225 11.145 12.5 13.065 12.5 15.375V19.125L11 20.625V21.375H23V20.625L21.5 19.125Z"
-                fill="white"
-              />
-            </g>
-            <defs>
-              <filter
-                id="filter0_d_319_2861"
-                x="0.4"
-                y="0.9"
-                width="33.2"
-                height="32.2"
-                filterUnits="userSpaceOnUse"
-                colorInterpolation="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
-                />
-                <feOffset dy="1.5" />
-                <feGaussianBlur stdDeviation="0.8" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0.596078 0 0 0 0 0.596078 0 0 0 0 0.607843 0 0 0 0.34 0"
-                />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_319_2861"
-                />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_319_2861"
-                  result="shape"
-                />
-              </filter>
-            </defs>
-          </svg> */}
+          
 
           <button onClick={logout} className="bg-primary_blue rounded-full">
             <svg

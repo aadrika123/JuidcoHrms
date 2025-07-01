@@ -296,7 +296,7 @@ const TableFormContainer: React.FC<TableFormProps> = (props) => {
                               isRequired={col.isRequired}
                               maxLength={col.max_text}
                               onKeyPress={(e: any) => {
-                                const regex = /^[0-9]$/;
+                                const regex = /^[0-9 a-z A-Z]$/;
                                 if (!regex.test(e.key)) {
                                   e.preventDefault();
                                 }

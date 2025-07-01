@@ -8,48 +8,59 @@ import state_seed from "./seeder/masters/states.seed";
 import ulb_seed from "./seeder/masters/ulb.seed";
 import holidays_seeder from "./seeder/masters/holiday.seed";
 import empLeave_seeder from "./seeder/employee/emp_leave_type.seed";
-import employee_seeder from "./seeder/employee/employee.seed";
-// import employee_attendance_seeder from "./seeder/employee/emp_attendance_seed";
-import { generate_attendance } from "./seeder/employee/attend.seed";
-import { attend_history_seed } from "./seeder/employee/attend_history";
-import { leave_encash_seed } from "./seeder/employee/encash.seed";
 import { ddoSeeder } from "./seeder/masters/ddo.seed";
-import hierarchy_seeder from "./seeder/supervisor/hierarchy.seed";
-import PayrollDao from "../src/component/juidcoHrms/dao/payroll/payroll.dao";
 import { emp_type_seeder } from "./seeder/masters/emp_type.seed";
 
 const prisma = new PrismaClient();
-
-const payroll = new PayrollDao();
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 async function main() {
-  await emp_type_seeder();
-  await designation_seeder();
-  await department_seeder();
-  await district_seed();
-  await language_seed();
-  await state_seed();
-  await ulb_seed();
-  await holidays_seeder();
-  await empLeave_seeder();
-  await leave_encash_seed();
-  await ddoSeeder();
-  await employee_seeder();
-  await generate_attendance();
-  await attend_history_seed();
+  try {
+    console.log("🔁 Starting seed process...");
 
-  setTimeout(async () => {
-    await payroll.calc_net_pay();
-    await hierarchy_seeder();
+    console.log("🧾 Seeding emp types...");
+    await emp_type_seeder();
+
+    console.log("🏷️ Seeding designations...");
+    await designation_seeder();
+
+    console.log("🏢 Seeding departments...");
+    await department_seeder();
+
+    console.log("🌍 Seeding districts...");
+    await district_seed();
+
+    console.log("🗣️ Seeding languages...");
+    await language_seed();
+
+    console.log("🏙️ Seeding states...");
+    await state_seed();
+
+    console.log("🏛️ Seeding ULBs...");
+    await ulb_seed();
+
+    console.log("📅 Seeding holidays...");
+    await holidays_seeder();
+
+    console.log("📄 Seeding leave types...");
+    await empLeave_seeder();
+
+    console.log("🧾 Seeding DDO...");
+    await ddoSeeder();
+
+    console.log("⏳ Waiting 9 seconds before foreign wrapper...");
+    await delay(9000);
+
+    console.log("🔗 Setting up foreign wrapper...");
     await foreign_wrapper();
-  }, 9000);
+
+    console.log("✅ All seeders completed.");
+  } catch (err) {
+    console.error("❌ Seeding failed:", err);
+  } finally {
+    console.log("🔌 Disconnecting Prisma...");
+    await prisma.$disconnect();
+    console.log("🏁 Prisma disconnected. Seeder script finished.");
+  }
 }
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    // process.exit(1)
-  });
+main();
