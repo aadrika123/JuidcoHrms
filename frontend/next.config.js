@@ -1,22 +1,12 @@
-
-/** @type {import('next').NextConfig} */
-
 const nextConfig = {
   basePath: "/hrms",
   env: {
 
     // backend: "https://aadrikainfomedia.com/auth",
-
-     backend: "https://jharkhandegovernance.com/auth",
+    backend: "https://jharkhandegovernance.com/auth",
     // backend: "http://localhost:7001",
     // backend: "https://egov.rsccl.in/auth",
-    //backend: "http://localhost:8000",
-
-//     backend: "https://jharkhandegovernance.com/auth",
-    // backend: "http://localhost:7001",
-    // backend: "https://egov.rsccl.in/auth",
-//    backend: "http://localhost:8000",
-
+    // backend: "http://localhost:8000",
   },
   images: {
     domains: ["aadrikainfomedia.com", "jharkhandegovernance.com"],
@@ -33,6 +23,8 @@ const nextConfig = {
 
 
 module.exports = nextConfig;
+
+
 
 
 
