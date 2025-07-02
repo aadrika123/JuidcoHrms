@@ -33,24 +33,7 @@ interface AttendanceCount {
   present_emp: number;
   absent_emp: number;
 }
-// interface LogData {
-//   status: boolean;
-//   message: string;
-//   "meta-data": {
-//     apiId: string;
-//     action: string;
-//     version: string;
-//   };
-//   data: Array<{
-//     date: string;
-//     adminId: string;
-//     username: string;
-//     action: string;
-//     statusCode: string;
-//     requestBody: any;
-//     responseBody: any;
-//   }>; // The `data` field is an array of log entries
-// }
+
 // ----------------- TYPES -----------------------//
 
 export const DashboardMain = () => {
@@ -84,102 +67,6 @@ export const DashboardMain = () => {
 
   // ------------------ FETCH LOG DATA ------------------- //
 
-  // const logFetchConfig: FetchAxios = {
-  //   url: `${HRMS_URL.ADMIN_ACTIVITY.get}`,
-  //   url_extend: "",
-  //   method: "GET",
-  //   res_type: 1,
-  //   query_key: "activity_log_download",
-  //   data: [],
-  // };
-
-  // const {
-  //   data: logData,
-  //   error: logError,
-  //   // isLoading,
-  // } = useCodeQuery<LogData>(logFetchConfig);
-
-  // useEffect(() => {
-  //   if (logData) {
-  //     console.log("Log data:", logData);
-  //   }
-  // }, [logData]);
-
-  // useEffect(() => {
-  //   if (logError) {
-  //     console.error("Error fetching log data:", logError);
-  //     toast.error("Error fetching log data!");
-  //   }
-  // }, [logError]);
-  // const downloadLog = async (
-  //   logData: any,
-  //   setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  // ) => {
-  //   console.log("Download button clicked", logData);
-
-  //   // Check if the API is loading
-  //   if (!logData || logData.length === 0) {
-  //     console.log("No log data available.");
-  //     // alert("No log data available for download."); // Fallback message for no data
-  //     return;
-  //   }
-
-  //   setLoading(true); // Start loading spinner
-
-  //   const val: any = [logData]; // Wrap logData into an array to map over
-  //   try {
-  //     console.log("Data is valid. Proceeding with download...");
-
-  //     // Format the log data into a readable text format
-  //     const logText = val
-  //       .map((entry: any) => {
-  //         const formattedLog = [
-  //           `Date: ${entry.date}`,
-  //           `Admin ID: ${entry.adminId}`,
-  //           `Username: ${entry.username}`,
-  //           `Name: ${entry.name}`,
-  //           `Email: ${entry.email}`,
-  //           `Action: ${entry.action}`,
-  //           `Status Code: ${entry.statusCode}`,
-  //           `Request Body: ${JSON.stringify(entry.requestBody, null, 2)}`,
-  //           `Response Body: ${JSON.stringify(entry.responseBody, null, 2)}`,
-  //         ].join("\n");
-  //         return formattedLog;
-  //       })
-  //       .join("\n\n"); // Add a blank line between each log entry
-
-  //     console.log("Formatted log text:", logText);
-
-  //     // Create a Blob from the formatted log text
-  //     const blob = new Blob([logText], { type: "text/plain" });
-
-  //     // Create a download link for the Blob
-  //     const url = window.URL.createObjectURL(blob);
-
-  //     // Create an anchor element to trigger the download
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.download = "activity-log.txt"; // The file name to download
-
-  //     // Append the link to the document body
-  //     document.body.appendChild(link);
-
-  //     // Trigger a click on the link to start the download
-  //     link.click();
-
-  //     // Clean up the DOM and revoke the object URL
-  //     document.body.removeChild(link);
-  //     window.URL.revokeObjectURL(url);
-
-  //     console.log("Activity log downloaded successfully!");
-  //     // alert("Activity log downloaded successfully!");
-  //   } catch (error) {
-  //     console.error("Failed to download the log file:", error);
-  //     // alert("Failed to download the log file. Please try again.");
-  //   } finally {
-  //     setLoading(false); // Stop loading spinner
-  //   }
-  // };
 
   const downloadLog = async (
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -251,7 +138,7 @@ export const DashboardMain = () => {
     chart: {
       type: "donut",
     },
-    series: [count_attendance?.present_emp, count_attendance?.absent_emp],
+    series: [count_attendance?.present_emp ?? 0, count_attendance?.absent_emp?? 0],
     labels: ["Present", "Absent"],
     colors: ["#665DD9", "#3592FF"],
     dataLabels: {
