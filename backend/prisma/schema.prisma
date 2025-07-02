@@ -164,7 +164,7 @@ model employee_address_details {
   village_permanent           String?
   post_office_permanent       String?
   state_permanent             String?
-  district_permanent          String?
+  district_permanent          Int?
   block_ulb_permanent         String?
   pin_code_permanent          String?
   police_station_permanent    String?

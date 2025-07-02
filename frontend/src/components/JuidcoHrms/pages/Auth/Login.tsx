@@ -75,6 +75,7 @@ const Login = () => {
   const handleLogin = async (values: LoginInitialData) => {
     if (!verifyCaptcha(captchaInput)) {
       setCaptchaError("Captcha is incorrect");
+       setCaptchaInput(""); 
       generateRandomCaptcha(); // Optionally refresh it
       return;
     } else {
