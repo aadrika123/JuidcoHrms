@@ -281,7 +281,7 @@ model employee_join_details {
   conf_order_date         String?
   member_gis              String?
   appoint_authority       String?
-  gis_account             Float?
+  gis_account             String?
   ulb                     String?
   last_inc_order          String?
   name_of_service         String?
