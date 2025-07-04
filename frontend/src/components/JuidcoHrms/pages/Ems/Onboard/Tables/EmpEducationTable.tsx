@@ -263,7 +263,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
   }, [tableData])
 
   const onBlurHandler = (value: any, index: number) => {
-    let isError = false
+    // let isError = false
     setTableData((prev) => {
       const temp = [...prev]
       if (value) {
@@ -271,20 +271,20 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
           if (temp[index - 1]?.passing_year >= value) {
             toast.error("Passing year must be greater than last education passing year")
             temp[index].passing_year = ""
-            isError = true
+            // isError = true
           }
         }
         if (temp[index + 1]?.passing_year) {
           if (temp[index + 1]?.passing_year <= value) {
             toast.error("Passing year must be less than next education passing year")
             temp[index].passing_year = ""
-            isError = true
+            // isError = true
           }
         }
         if (new Date(value) > new Date()) {
           toast.error("Passing year cannot be greater than current date")
           temp[index].passing_year = ""
-          isError = true
+          // isError = true
         }
       }
       return temp
