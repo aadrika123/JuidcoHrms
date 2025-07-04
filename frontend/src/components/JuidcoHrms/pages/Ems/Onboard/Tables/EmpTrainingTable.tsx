@@ -1,40 +1,24 @@
+"use client"
+
 /***
  * Author: Krish
  * Status: Open
- * Uses: EMployee promotion details is a section of Emp Service details
+ * Uses: Employee promotion details is a section of Emp Service details
  */
 
-import React, { useEffect, useState } from "react";
-import Button from "../../../../../global/atoms/Button";
-
-import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
-import { Toaster } from "react-hot-toast";
-import { calculateTotalDays, removeObj } from "@/utils/helper";
-import { SubHeading } from "@/components/Helpers/Heading";
-import axios from "@/lib/axiosConfig";
+import React, { useEffect, useState } from "react"
+import Button from "../../../../../global/atoms/Button"
+import type { COLUMNS } from "@/components/global/organisms/TableFormContainer"
+import { Toaster } from "react-hot-toast"
+import { calculateTotalDays, removeObj } from "@/utils/helper"
+import { SubHeading } from "@/components/Helpers/Heading"
+import axios from "@/lib/axiosConfig"
 
 interface TableFormProps {
-  setData: (key: string, values: any, index?: number | undefined) => void;
-  setSession: boolean;
-  validate: (value: boolean) => void;
-  resetTable: number;
+  setData: (key: string, values: any, index?: number | undefined) => void
+  setSession: boolean
+  resetTable: number
 }
-
-// interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-//   isRequired?: boolean;
-// }
-
-// const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
-//   return (
-//     <>
-//       <input
-//         className={` p-2 bg-transparent outline-none rounded-xl ${isRequired && "placeholder-zinc-400"}`}
-//         type="text"
-//         {...props}
-//       />
-//     </>
-//   );
-// };
 
 const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
   const getInitialFormData: any = () => ({
@@ -46,47 +30,45 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
     end_to: "",
     tot_day_training: "",
     upload_edu: "",
-  });
-  const [addedRows, setAddedRows] = useState<number>(0);
-  const [tableData, setTableData] = useState<any[]>(
-    JSON.parse(sessionStorage.getItem("emp_training") as string) || [
-      getInitialFormData(),
-    ]
-  );
-  const [validationErrors, setValidationErrors] = useState<{ [key: number]: string }>({});
+  })
 
+  const [addedRows, setAddedRows] = useState<number>(0)
+  const [tableData, setTableData] = useState<any[]>(
+    JSON.parse(sessionStorage.getItem("emp_training") as string) || [getInitialFormData()],
+  )
+  const [validationErrors, setValidationErrors] = useState<{ [key: number]: string }>({})
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedData = sessionStorage.getItem("emp_training");
-      if (storedData !== null)
-        setTableData(storedData ? JSON.parse(storedData) : [{}]);
+      const storedData = sessionStorage.getItem("emp_training")
+      if (storedData !== null) {
+        const parsedData = storedData ? JSON.parse(storedData) : [getInitialFormData()]
+        setTableData(parsedData)
+      }
     }
-  }, [props.setSession]);
+  }, [props.setSession])
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
       tableData?.forEach((val, i: number) => {
-        delete tableData[i].sl_no;
-      });
+        delete tableData[i].sl_no
+      })
 
-      sessionStorage.setItem("emp_training", JSON.stringify(tableData));
+      sessionStorage.setItem("emp_training", JSON.stringify(tableData))
     }
   }
 
   const handleReset = (): void => {
-    setTableData([getInitialFormData()]);
-  };
-
-  console.log(tableData, "dd");
+    setTableData([getInitialFormData()])
+  }
 
   useEffect(() => {
-    setDataSesson();
-  }, [props.setSession]);
+    setDataSesson()
+  }, [tableData])
 
   useEffect(() => {
-    if (props.resetTable !== 0) handleReset();
-  }, [props.resetTable]);
+    if (props.resetTable !== 0) handleReset()
+  }, [props.resetTable])
 
   const COLUMNS_FOR_EMP_TRNG_INFRM: COLUMNS[] = [
     {
@@ -104,25 +86,21 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       ACCESSOR: "training_type",
       isRequired: true,
     },
-
     {
       HEADER: "Name of Institution",
       ACCESSOR: "name_of_institution",
       isRequired: true,
     },
-
     {
       HEADER: "Starting From",
       ACCESSOR: "starting_from",
       isRequired: true,
     },
-
     {
       HEADER: "End To",
       ACCESSOR: "end_to",
       isRequired: true,
     },
-
     {
       HEADER: "Total Days of Training",
       ACCESSOR: "total_days_of_train",
@@ -133,140 +111,123 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
       ACCESSOR: "upload_edu",
       isRequired: true,
     },
-  ];
+  ]
 
-  const handleInputChange = (
-    fieldName: string,
-    value: string | number,
-    nestedKey?: string,
-    rowIndex?: number
-  ) => {
+  const handleInputChange = (fieldName: string, value: string | number, nestedKey?: string, rowIndex?: number) => {
     setTableData((prevFormData) => {
-      const updatedData = [...prevFormData];
+      const updatedData = [...prevFormData]
 
       if (nestedKey !== undefined && rowIndex !== undefined) {
         if (typeof updatedData[rowIndex][fieldName] !== "object") {
-          updatedData[rowIndex][fieldName] = { [nestedKey]: value };
+          updatedData[rowIndex][fieldName] = { [nestedKey]: value }
         } else {
-          updatedData[rowIndex][fieldName][nestedKey] = value;
+          updatedData[rowIndex][fieldName][nestedKey] = value
         }
 
-        const fromDate = updatedData[rowIndex]?.starting_from?.from;
-        const toDate = updatedData[rowIndex]?.end_to?.to;
+        const fromDate = updatedData[rowIndex]?.starting_from?.from
+        const toDate = updatedData[rowIndex]?.end_to?.to
 
         if (fromDate && toDate) {
           if (new Date(toDate) < new Date(fromDate)) {
             setValidationErrors((prev) => ({
               ...prev,
               [rowIndex]: "'To' date cannot be earlier than 'From' date.",
-            }));
-            updatedData[rowIndex].tot_day_training = ""; // Optional: clear invalid total
+            }))
+            updatedData[rowIndex].tot_day_training = ""
           } else {
-            // setValidationErrors((prev) => {
-            //   const { [rowIndex]: _, ...rest } = prev;
-            //   return rest; // remove error for this row if valid
-            // });
             setValidationErrors((prev) => {
-              const newErrors = { ...prev };
-              delete newErrors[rowIndex];
-              return newErrors;
-            });
-            
+              const newErrors = { ...prev }
+              delete newErrors[rowIndex]
+              return newErrors
+            })
 
-            const total_days = calculateTotalDays(fromDate, toDate).toString();
-            updatedData[rowIndex].tot_day_training = total_days;
+            const total_days = calculateTotalDays(fromDate, toDate).toString()
+            updatedData[rowIndex].tot_day_training = total_days
           }
         }
       } else if (rowIndex !== undefined) {
-        updatedData[rowIndex][fieldName] = value;
+        updatedData[rowIndex][fieldName] = value
       }
 
-      return updatedData;
-    });
-  };
-
+      return updatedData
+    })
+  }
 
   const addRow = () => {
-    setDataSesson();
+    setDataSesson()
     if (addedRows < 6) {
-      setTableData((prevData) => [...prevData, getInitialFormData()]);
-      setAddedRows((prevRows) => prevRows + 1);
+      setTableData((prevData) => [...prevData, getInitialFormData()])
+      setAddedRows((prevRows) => prevRows + 1)
     }
-  };
+  }
 
   const removeRow = (index: number) => {
     setTableData((prev: any) => {
-      prev?.splice(index, 1);
-      return [...prev];
-    });
-  };
+      const newData = [...prev]
+      newData.splice(index, 1)
+      return newData
+    })
+  }
 
   useEffect(() => {
     if (props.setData) {
-      const filterTableData = removeObj(tableData);
-      props.setData("emp_training", filterTableData);
+      const filterTableData = removeObj(tableData)
+      props.setData("emp_training", filterTableData)
     }
-  }, [tableData]);
+  }, [tableData])
 
   // File Upload Handler with DMS Integration
-  const handleFileChange = async (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleFileChange = async (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
 
     // Validate file type (PDF, PNG, JPEG)
-    const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
+    const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"]
     if (!acceptedFileTypes.includes(file.type)) {
-      alert("Please upload a valid training document (PDF, PNG, or JPEG).");
-      return;
+      alert("Please upload a valid training document (PDF, PNG, or JPEG).")
+      return
     }
 
     // Validate file size (max 2MB)
-    const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+    const maxSizeInBytes = 2 * 1024 * 1024 // 2MB
     if (file.size > maxSizeInBytes) {
-      alert("File cannot be more than 2MB.");
-      return;
+      alert("File cannot be more than 2MB.")
+      return
     }
 
     try {
       // Prepare FormData for DMS upload
-      const formData = new FormData();
-      formData.append("img", file);
+      const formData = new FormData()
+      formData.append("img", file)
 
       // Step 1: Upload to DMS (replace with actual production endpoint)
       const response = await axios.post("/dms/get-url", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
+      })
 
       // Step 2: Get the file URL from the response
-      const fileUrl = response.data.data;
+      const fileUrl = response.data.data
 
       // Step 3: Update table data with the uploaded file URL
       setTableData((prev) => {
-        const temp = [...prev];
-        temp[index].upload_edu = fileUrl; // Save file URL
-        return temp;
-      });
+        const temp = [...prev]
+        temp[index].upload_edu = fileUrl // Save file URL
+        return temp
+      })
 
-      // Update session storage
-      setDataSesson();
-      console.log("Training document uploaded successfully:", fileUrl);
+      console.log("Training document uploaded successfully:", fileUrl)
     } catch (error) {
-      console.error("Error uploading training document:", error);
-      alert("Training document upload failed.");
+      console.error("Error uploading training document:", error)
+      alert("Training document upload failed.")
     }
-  };
+  }
 
   return (
     <>
       <Toaster />
-      <SubHeading className="text-[20px] pt-4 mb-4">
-        Employee Training Information
-      </SubHeading>
+      <SubHeading className="text-[20px] pt-4 mb-4">Employee Training Information</SubHeading>
 
       <div className="overflow-auto ">
         <table className="overflow-x-hidden">
@@ -274,15 +235,9 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
             <tr>
               {COLUMNS_FOR_EMP_TRNG_INFRM?.map((cols, index: number) => (
                 <>
-                  <th
-                    key={index}
-                    className={`font-medium ${index === 0 ? "w-[2%]" : "w-[5%]"}`}
-                  >
+                  <th key={index} className={`font-medium ${index === 0 ? "w-[2%]" : "w-[5%]"}`}>
                     <div className="flex gap-2 py-4 px-6 rounded-md">
-                      <span>
-                        {cols.HEADER}
-                        {/* <span>{index === 0 ? "" : "*"}</span> */}
-                      </span>
+                      <span>{cols.HEADER}</span>
                     </div>
                   </th>
                 </>
@@ -291,13 +246,9 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
           </thead>
           <tbody>
             {tableData?.map((rowData: any, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className=" py-2 px-4 border-b w-full overflow-x-auto "
-              >
+              <tr key={rowIndex} className=" py-2 px-4 border-b w-full overflow-x-auto ">
                 {COLUMNS_FOR_EMP_TRNG_INFRM.map((column, colIndex) => {
-                  const stateKey: any =
-                    Object.keys(getInitialFormData())[colIndex];
+                  const stateKey: any = Object.keys(getInitialFormData())[colIndex]
                   return (
                     <>
                       <td key={colIndex} className="px-5">
@@ -315,18 +266,11 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                             className=" bg-transparent outline-none"
                             placeholder={`Enter ${column.HEADER}`}
                             value={rowData[stateKey]}
-                            onChange={(e) =>
-                              handleInputChange(
-                                stateKey,
-                                e.target.value,
-                                undefined,
-                                rowIndex
-                              )
-                            }
+                            onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                             onKeyPress={(e: any) => {
-                              const regex = /^[a-zA-Z0-9.]$/;
+                              const regex = /^[a-zA-Z0-9.]$/
                               if (!regex.test(e.key)) {
-                                e.preventDefault();
+                                e.preventDefault()
                               }
                             }}
                           />
@@ -336,16 +280,9 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                           <select
                             className="bg-white border p-1 mx-2"
                             value={rowData[stateKey]}
-                            onChange={(e) =>
-                              handleInputChange(
-                                stateKey,
-                                e.target.value,
-                                undefined,
-                                rowIndex
-                              )
-                            }
+                            onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                           >
-                            <option>Please Select Option</option>
+                            <option value="">Please Select Option</option>
                             <option value="Basic">Basic</option>
                             <option value="Intermediate">Intermediate</option>
                             <option value="Advance">Advance</option>
@@ -358,18 +295,11 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                             className=" bg-transparent outline-none"
                             placeholder={`Enter ${column.HEADER}`}
                             value={rowData[stateKey]}
-                            onChange={(e) =>
-                              handleInputChange(
-                                stateKey,
-                                e.target.value,
-                                undefined,
-                                rowIndex
-                              )
-                            }
+                            onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                             onKeyPress={(e: any) => {
-                              const regex = /^[a-zA-Z0-9.]$/;
+                              const regex = /^[a-zA-Z0-9.]$/
                               if (!regex.test(e.key)) {
-                                e.preventDefault();
+                                e.preventDefault()
                               }
                             }}
                           />
@@ -383,14 +313,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 type="date"
                                 className=" p-2 bg-transparent border border-gray-300"
                                 placeholder="Enter Starting From"
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    stateKey,
-                                    e.target.value,
-                                    "from",
-                                    rowIndex
-                                  )
-                                }
+                                onChange={(e) => handleInputChange(stateKey, e.target.value, "from", rowIndex)}
                                 value={rowData[stateKey]?.from || ""}
                               />
                             </React.Fragment>
@@ -405,20 +328,15 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                                 type="date"
                                 className="p-2 bg-transparent border border-gray-300"
                                 placeholder="Enter End To"
-                                onChange={(e) =>
-                                  handleInputChange(stateKey, e.target.value, "to", rowIndex)
-                                }
+                                onChange={(e) => handleInputChange(stateKey, e.target.value, "to", rowIndex)}
                                 value={rowData[stateKey]?.to || ""}
                               />
                             </div>
                             {validationErrors[rowIndex] && (
-                              <p className="text-red-500 text-sm ml-12 mt-1">
-                                {validationErrors[rowIndex]}
-                              </p>
+                              <p className="text-red-500 text-sm ml-12 mt-1">{validationErrors[rowIndex]}</p>
                             )}
                           </div>
                         ) : null}
-
 
                         {colIndex === 6 ? (
                           <input
@@ -426,19 +344,12 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                             className=" bg-transparent outline-none"
                             placeholder={`Enter ${column.HEADER}`}
                             value={rowData["tot_day_training"]}
-                            onChange={(e) =>
-                              handleInputChange(
-                                stateKey,
-                                e.target.value,
-                                undefined,
-                                rowIndex
-                              )
-                            }
+                            onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
                             disabled
                             maxLength={3}
                             onKeyPress={(e: any) => {
                               if (!(e.key >= "0" && e.key <= "9")) {
-                                e.preventDefault();
+                                e.preventDefault()
                               }
                             }}
                           />
@@ -453,23 +364,14 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
                         ) : null}
                       </td>
                     </>
-
-                    // : (
-                    // <input
-                    //   type="text"
-                    //   className=" bg-transparent outline-none"
-                    //   placeholder={`Enter ${column.placeholder}`}
-                    //   value={colIndex === 0 ? rowIndex + 1 : rowData[stateKey]}
-                    //   onChange={(e) => handleInputChange(stateKey, e.target.value, undefined, rowIndex)}
-                    // />
-                  );
+                  )
                 })}
                 {rowIndex > 0 && (
                   <td className="w-[5%]">
                     <Button
                       variant="cancel"
                       onClick={() => {
-                        removeRow(rowIndex);
+                        removeRow(rowIndex)
                       }}
                     >
                       Delete
@@ -488,7 +390,7 @@ const EmployeeTrainingTable: React.FC<TableFormProps> = (props) => {
         </Button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default EmployeeTrainingTable;
+export default EmployeeTrainingTable

@@ -561,7 +561,7 @@ const LeaveForm = () => {
                       <span className="text-green-600">
                         {leaveData ? (
                           <>
-                            {leaveData.leave_status === 3
+                            {leaveData.leave_status === 1
                               ? "Approve"
                               : "Pending"}
                           </>

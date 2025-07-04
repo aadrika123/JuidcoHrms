@@ -1,27 +1,27 @@
+"use client"
+
 /***
  * Author: Krish
  * Status: Open
- * Uses: EMployee promotion details is a section of Emp Service details
+ * Uses: Employee promotion details is a section of Emp Service details
  */
 
-import React, { useEffect, useState } from "react";
-import Button from "../../../../../global/atoms/Button";
-import { EmployeeEducation } from "@/utils/types/employee.type";
-import { COLUMNS } from "@/components/global/organisms/TableFormContainer";
-import toast, { Toaster } from "react-hot-toast";
-import { removeObj } from "@/utils/helper";
-import axios from "@/lib/axiosConfig";
+import React, { useEffect, useState } from "react"
+import Button from "../../../../../global/atoms/Button"
+import type { EmployeeEducation } from "@/utils/types/employee.type"
+import type { COLUMNS } from "@/components/global/organisms/TableFormContainer"
+import toast, { Toaster } from "react-hot-toast"
+import { removeObj } from "@/utils/helper"
+import axios from "@/lib/axiosConfig"
 
-3;
 interface TableFormProps {
-  validate: (value: boolean) => void;
-  setData: (key: string, values: any, index?: number | undefined) => void;
-  setSession: boolean;
-  resetTable: number;
+  setData: (key: string, values: any, index?: number | undefined) => void
+  setSession: boolean
+  resetTable: number
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  isRequired?: boolean;
+  isRequired?: boolean
 }
 
 const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
@@ -33,137 +33,111 @@ const InputField: React.FC<InputFieldProps> = ({ isRequired, ...props }) => {
         {...props}
       />
     </>
-  );
-};
+  )
+}
 
 const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
-  // const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  // const [isTyping, setIsTyping] = useState<boolean>(false);
+  const initialTableData: EmployeeEducation[] = Array.from({ length: 4 }, (_, index) => ({
+    edu_level:
+      index === 0
+        ? "Matriculation"
+        : index === 1
+          ? "Intermediate"
+          : index === 2
+            ? "Graduation"
+            : index === 3
+              ? "Post Graduation"
+              : "",
+    stream: "",
+    board: "",
+    passing_year: "",
+    marks: undefined,
+    grade: "",
+    upload_edu: "",
+  }))
 
-  const initialTableData: EmployeeEducation[] = Array.from(
-    { length: 4 },
-    (_, index) => ({
-      edu_level:
-        index === 0
-          ? "Matriculation"
-          : index === 1
-            ? "Intermediate"
-            : index === 2
-              ? "Graduation"
-              : index === 3
-                ? "Post Graduation"
-                : "",
-      stream: "",
-      board: "",
-      passing_year: "",
-      marks: undefined,
-      grade: "",
-      upload_edu: "",
-    })
-  );
-
- const [tableData, setTableData] = useState<any[]>(
-   JSON.parse(sessionStorage.getItem("emp_education") as string) ||
-     initialTableData
- );
+  const [tableData, setTableData] = useState<any[]>(
+    JSON.parse(sessionStorage.getItem("emp_education") as string) || initialTableData,
+  )
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedData = sessionStorage.getItem("emp_education");
-      if (storedData !== null)
-        setTableData(storedData ? JSON.parse(storedData) : [{}]);
-      props.validate(true);
+      const storedData = sessionStorage.getItem("emp_education")
+      if (storedData !== null) {
+        const parsedData = storedData ? JSON.parse(storedData) : initialTableData
+        setTableData(parsedData)
+      }
     }
-  }, [props.setSession]);
+  }, [props.setSession])
 
   function setDataSesson() {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("emp_education", JSON.stringify(tableData));
+      sessionStorage.setItem("emp_education", JSON.stringify(tableData))
     }
   }
+
   const handleReset = (): void => {
-    // const emptyTableData = [...initialTableData];
-    const emptyTableData = initialTableData.resetData();
+    const emptyTableData = [...initialTableData]
     emptyTableData?.forEach((m) => {
-      m.marks = "" as string;
-    });
-    setTableData(emptyTableData);
-    props.validate(true);
-  };
+      m.marks = "" as any
+    })
+    setTableData(emptyTableData)
+  }
 
   useEffect(() => {
-    setDataSesson();
-  }, [props.setSession]);
+    setDataSesson()
+  }, [tableData])
 
   useEffect(() => {
-    if (props.resetTable !== 0) handleReset();
-  }, [props.resetTable]);
+    if (props.resetTable !== 0) handleReset()
+  }, [props.resetTable])
 
+  const handleFileChange = async (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
 
-  // const onChangeFile = (index: number, e: any) => {
-  //   console.log(e.target.files[0])
-  //   console.log(index)
-  //   setTableData((prev) => {
-  //     const temp = [...prev]
-  //     temp[index].upload_edu = e.target.files[0]?.name
-  //     return temp
-  //   })
-  // }
+    // Validate file type (e.g., PDF, PNG, JPEG)
+    const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"]
+    if (!acceptedFileTypes.includes(file.type)) {
+      alert("Please upload a valid education certificate file (PDF, PNG, or JPEG).")
+      return
+    }
 
-   const handleFileChange = async (
-     index: number,
-     event: React.ChangeEvent<HTMLInputElement>
-   ) => {
-     const file = event.target.files?.[0];
-     if (!file) return;
+    // Validate file size (max 2MB)
+    const maxSizeInBytes = 2 * 1024 * 1024 // 2MB
+    if (file.size > maxSizeInBytes) {
+      alert("File cannot be more than 2MB.")
+      return
+    }
 
-     // Validate file type (e.g., PDF, PNG, JPEG)
-     const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"];
-     if (!acceptedFileTypes.includes(file.type)) {
-       alert(
-         "Please upload a valid education certificate file (PDF, PNG, or JPEG)."
-       );
-       return;
-     }
+    try {
+      // Prepare FormData for DMS upload
+      const formData = new FormData()
+      formData.append("img", file)
 
-     // Validate file size (max 2MB)
-     const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
-     if (file.size > maxSizeInBytes) {
-       alert("File cannot be more than 2MB.");
-       return;
-     }
+      // Step 1: Upload to DMS (Replace with actual production endpoint)
+      const response = await axios.post("/dms/get-url", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
 
-     try {
-       // Prepare FormData for DMS upload
-       const formData = new FormData();
-       formData.append("img", file);
+      // Step 2: Get the file URL from the response
+      const fileUrl = response.data.data
 
-       // Step 1: Upload to DMS (Replace with actual production endpoint)
-       const response = await axios.post("/dms/get-url", formData, {
-         headers: {
-           "Content-Type": "multipart/form-data",
-         },
-       });
+      // Step 3: Update session storage and table data with the file URL
+      setTableData((prev) => {
+        const temp = [...prev]
+        temp[index].upload_edu = fileUrl // Set the uploaded file URL
+        return temp
+      })
 
-       // Step 2: Get the file URL from the response
-       const fileUrl = response.data.data;
-
-       // Step 3: Update session storage and table data with the file URL
-       setTableData((prev) => {
-         const temp = [...prev];
-         temp[index].upload_edu = fileUrl; // Set the uploaded file URL
-         return temp;
-       });
-
-       // Update sessionStorage
-       setDataSesson();
-       console.log("Education file uploaded successfully:", fileUrl);
-     } catch (error) {
-       console.error("Error uploading education file:", error);
-       alert("Education file upload failed.");
-     }
-   };
-
+      console.log("Education file uploaded successfully:", fileUrl)
+    } catch (error) {
+      console.error("Error uploading education file:", error)
+      alert("Education file upload failed.")
+    }
+  }
 
   const COLUMNS_FOR_EDUCATION: COLUMNS[] = [
     {
@@ -211,23 +185,18 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       ACCESSOR: "action",
       isRequired: false,
     },
-  ];
+  ]
 
-  function onChangeTableDataHandler(
-    id: number,
-    value: string | number,
-    key: string,
-    innerKey?: string
-  ) {
+  function onChangeTableDataHandler(id: number, value: string | number, key: string, innerKey?: string) {
     setTableData((prev) => {
-      const updatedData = [...prev];
-      const row: Record<string, any> = { ...updatedData[id] };
+      const updatedData = [...prev]
+      const row: Record<string, any> = { ...updatedData[id] }
 
       if (key === "marks") {
         if (!row[key]) {
-          row[key] = {};
+          row[key] = {}
         }
-        value = Math.min(Number(value), 100);
+        value = Math.min(Number(value), 100)
 
         row["grade"] =
           (value as number) >= 60
@@ -240,109 +209,58 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   ? "FAIL"
                   : (value as number) === 0
                     ? ""
-                    : "";
+                    : ""
       }
 
       if (innerKey) {
         if (!row[key]) {
-          row[key] = {};
+          row[key] = {}
         }
-        const nestedObject: Record<string, string | boolean | number> =
-          row[key];
-        nestedObject[innerKey] = value;
+        const nestedObject: Record<string, string | boolean | number> = row[key]
+        nestedObject[innerKey] = value
       } else {
-        row[key] = value;
+        row[key] = value
       }
 
-      // if (timeoutId) {
-      //     clearTimeout(timeoutId);
-      // }
-
-      // setIsTyping(true);
-
-      // if (key === "passing_year") {
-      //     setTimeoutId(
-      //         setTimeout(() => {
-      //             if (!isTyping && id > 0) {
-      //                 const prevRow = updatedData[id - 1];
-      //                 if (row["passing_year"] < prevRow["passing_year"]) {
-      //                     toast.error("Passing Year must be greator than previous year");
-      //                 }
-      //             }
-      //         }, 1500)
-      //     );
-      // }
-
-      // Reset typing status after 1500ms (1.5 seconds)
-      // setTimeout(() => {
-      //     setIsTyping(false);
-      // }, 1500);
-
-      if (
-        Object.values(row)
-          .slice(1)
-          .every((key) => key !== "") ||
-        Object.values(row)
-          .slice(1)
-          .every((key) => key === "")
-      ) {
-        props.validate(true);
-      } else {
-        props.validate(false);
-      }
-
-      updatedData[id] = { ...row } as EmployeeEducation;
-      return updatedData;
-    });
+      updatedData[id] = { ...row } as EmployeeEducation
+      return updatedData
+    })
   }
 
   function addRow() {
-    setDataSesson();
-    // props.setSession("emp_education", tableData);
-    const lastRow = tableData[tableData.length - 1];
-
-    const isLastRowEmpty = Object.values(lastRow).every(
-      (row) =>
-        row !== undefined &&
-        Object?.values(row as any).every((val) => val !== "")
-    );
-
+    setDataSesson()
     if (tableData.length < 6) {
-      if (isLastRowEmpty) {
-        setTableData((prev: any) => [
-          ...prev,
-          {
-            edu_level: "",
-            stream: "",
-            board: "",
-            passing_year: "",
-            marks: undefined,
-            grade: "",
-            upload_edu: "",
-          },
-        ]);
-      }
+      setTableData((prev: any) => [
+        ...prev,
+        {
+          edu_level: "",
+          stream: "",
+          board: "",
+          passing_year: "",
+          marks: undefined,
+          grade: "",
+          upload_edu: "",
+        },
+      ])
     } else {
-      toast.error("can't add more than six education details");
+      toast.error("can't add more than six education details")
     }
   }
 
   const removeRow = (index: number) => {
     setTableData((prev: any) => {
-      prev?.splice(index, 1)
-      return [
-        ...prev
-      ]
-    });
+      const newData = [...prev]
+      newData.splice(index, 1)
+      return newData
+    })
   }
 
   useEffect(() => {
     if (props.setData) {
-      const filterTableData = removeObj(tableData);
-      props.setData("emp_education", filterTableData);
+      const filterTableData = removeObj(tableData)
+      props.setData("emp_education", filterTableData)
     }
-  }, [tableData]);
-
+  }, [tableData])
 
   const onBlurHandler = (value: any, index: number) => {
     let isError = false
@@ -351,31 +269,27 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
       if (value) {
         if (temp[index - 1]?.passing_year) {
           if (temp[index - 1]?.passing_year >= value) {
-            toast.error("Passing year must be greater than last education passing year");
-            temp[index].passing_year = ''
+            toast.error("Passing year must be greater than last education passing year")
+            temp[index].passing_year = ""
             isError = true
           }
         }
         if (temp[index + 1]?.passing_year) {
           if (temp[index + 1]?.passing_year <= value) {
-            toast.error("Passing year must be less than next education passing year");
-            temp[index].passing_year = ''
+            toast.error("Passing year must be less than next education passing year")
+            temp[index].passing_year = ""
             isError = true
           }
         }
         if (new Date(value) > new Date()) {
-          toast.error("Passing year cannot be greater than current date");
-          temp[index].passing_year = ''
+          toast.error("Passing year cannot be greater than current date")
+          temp[index].passing_year = ""
           isError = true
-        }
-        if (!isError) {
-          props.validate(true)
         }
       }
       return temp
     })
   }
-
 
   return (
     <>
@@ -385,16 +299,11 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
           <tr>
             {COLUMNS_FOR_EDUCATION?.map((cols, index: number) => (
               <>
-                <th
-                  key={index}
-                  className={`font-medium ${index === 0 ? "w-[2%]" : "w-[10%]"}`}
-                >
+                <th key={index} className={`font-medium ${index === 0 ? "w-[2%]" : "w-[10%]"}`}>
                   <div className="flex gap-2 py-4 px-6 rounded-md">
                     <span>
                       {cols.HEADER}
-                      <span className="text-red-500">
-                        {index === 0 ? "" : "*"}
-                      </span>
+                      <span className="text-red-500">{index === 0 ? "" : "*"}</span>
                     </span>
                   </div>
                 </th>
@@ -426,33 +335,25 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     </svg>
                   </span>
                   <InputField
-                    onChange={(e) =>
-                      onChangeTableDataHandler(
-                        index,
-                        e.target.value,
-                        "edu_level"
-                      )
-                    }
+                    onChange={(e) => onChangeTableDataHandler(index, e.target.value, "edu_level")}
                     value={row.edu_level}
                     placeholder={"Enter "}
                     isRequired={true}
-                    
+                    readOnly={index < 4} // Make first 4 rows read-only for education level
                   />
                 </td>
                 {/* -----------------------Edu Level----------------------------------- */}
                 {/* ---------------------------STREAM----------------------------------- */}
                 <td className=" px-6">
                   <InputField
-                    onChange={(e) =>
-                      onChangeTableDataHandler(index, e.target.value, "stream")
-                    }
+                    onChange={(e) => onChangeTableDataHandler(index, e.target.value, "stream")}
                     value={row?.stream}
                     placeholder={"Enter "}
                     isRequired={true}
                     onKeyPress={(e: any) => {
-                      const regex = /^[a-zA-Z0-9.]$/;
+                      const regex = /^[a-zA-Z0-9.]$/
                       if (!regex.test(e.key)) {
-                        e.preventDefault();
+                        e.preventDefault()
                       }
                     }}
                   />
@@ -462,16 +363,14 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 <td className="px-6 ">
                   <React.Fragment>
                     <InputField
-                      onChange={(e) =>
-                        onChangeTableDataHandler(index, e.target.value, "board")
-                      }
+                      onChange={(e) => onChangeTableDataHandler(index, e.target.value, "board")}
                       value={row.board}
                       placeholder={"Enter "}
                       isRequired={true}
                       onKeyPress={(e: any) => {
-                        const regex = /^[a-zA-Z0-9.]$/;
+                        const regex = /^[a-zA-Z0-9.]$/
                         if (!regex.test(e.key)) {
-                          e.preventDefault();
+                          e.preventDefault()
                         }
                       }}
                     />
@@ -481,22 +380,16 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------PASSING YEAR----------------------------------- */}
                 <td className=" px-6">
                   <InputField
-                    onChange={(e) =>
-                      onChangeTableDataHandler(
-                        index,
-                        e.target.value,
-                        "passing_year"
-                      )
-                    }
+                    onChange={(e) => onChangeTableDataHandler(index, e.target.value, "passing_year")}
                     onBlur={(e) => {
-                      onBlurHandler(e.target.value, index);
+                      onBlurHandler(e.target.value, index)
                     }}
                     value={row?.passing_year}
                     maxLength={4}
                     type="text"
                     onKeyPress={(e: any) => {
                       if (!(e.key >= "0" && e.key <= "9")) {
-                        e.preventDefault();
+                        e.preventDefault()
                       }
                     }}
                     placeholder={"Enter "}
@@ -507,18 +400,12 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------MARKS----------------------------------- */}
                 <td className=" px-6">
                   <InputField
-                    onChange={(e) =>
-                      onChangeTableDataHandler(
-                        index,
-                        Number(e.target.value),
-                        "marks"
-                      )
-                    }
+                    onChange={(e) => onChangeTableDataHandler(index, Number(e.target.value), "marks")}
                     type="text"
                     maxLength={3}
                     onKeyPress={(e: any) => {
                       if (!(e.key >= "0" && e.key <= "9")) {
-                        e.preventDefault();
+                        e.preventDefault()
                       }
                     }}
                     value={row?.marks}
@@ -530,9 +417,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------GRADE----------------------------------- */}
                 <td className=" px-6">
                   <InputField
-                    onChange={(e) =>
-                      onChangeTableDataHandler(index, e.target.value, "grade")
-                    }
+                    onChange={(e) => onChangeTableDataHandler(index, e.target.value, "grade")}
                     value={row?.grade}
                     placeholder={"Enter "}
                     isRequired={true}
@@ -543,9 +428,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                 {/* ---------------------------UPLOAD FILE----------------------------------- */}
                 <td className=" px-6">
                   <div>
-                    <p className="text-zinc-600 whitespace-nowrap ">
-                      Browse File
-                    </p>
+                    <p className="text-zinc-600 whitespace-nowrap ">Browse File</p>
 
                     <div className="w-[8rem] h-[2rem] bg-transparent  border border-blue-300 rounded-xl flex flex-col items-center justify-center">
                       <label htmlFor={`xyz-${index}`}>Upload Image</label>
@@ -554,16 +437,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                         type="file"
                         id={`xyz-${index}`}
                         style={{ display: "none" }}
-                        // onChange={(e) =>
-                        //     onChangeTableDataHandler(
-                        //         index,
-                        //         e.target.value,
-                        //         "upload_edu"
-                        //     )
-                        // }
                         onChange={(e) => handleFileChange(index, e)}
-                        required
-                        // value={row?.upload_edu}
                       />
                     </div>
                     <p className="text-xs">{row?.upload_edu}</p>
@@ -575,7 +449,7 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                     <Button
                       variant="cancel"
                       onClick={() => {
-                        removeRow(index);
+                        removeRow(index)
                       }}
                     >
                       Delete
@@ -583,36 +457,21 @@ const EmployeeEducationTable: React.FC<TableFormProps> = (props) => {
                   </td>
                 )}
               </tr>
-            );
+            )
           })}
-        </tbody >
-      </table >
-      {/* <div className="w-full flex items-start justify-end mt-3">
-        <span className="text-xs italic">
-          P.S-You can add more 4 other information of education
-        </span>
-        <Button onClick={addRow} buttontype="button" variant="primary_rounded">
-          Add
-        </Button>
-      </div> */}
+        </tbody>
+      </table>
 
-      < div className="w-full flex items-start justify-between mt-3" >
-        <span className="text-xs italic">
-          P.S-You can add more 2 other information of education
-        </span>
-      </div >
+      <div className="w-full flex items-start justify-between mt-3">
+        <span className="text-xs italic">P.S-You can add more 2 other information of education</span>
+      </div>
       <div className="w-full flex items-center justify-end mt-3 mb-3">
-        <Button
-          onClick={addRow}
-          buttontype="button"
-          variant="primary_rounded"
-          // className="absolute"
-        >
+        <Button onClick={addRow} buttontype="button" variant="primary_rounded">
           Add
         </Button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default EmployeeEducationTable;
+export default EmployeeEducationTable
