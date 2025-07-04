@@ -254,7 +254,7 @@ class EmployeeLeaveDao {
     console.log(req);
 
     const leaveRequest: any = await prisma.$transaction(async (tx) => {
-      if (leave_status === 3) {
+      if (leave_status === 1) {
         let updateFields = `tot_bal_leave_year = tot_leave_allow_year - ${`(tot_prev_leave_approv + ${total_days})`} , tot_prev_leave_approv = tot_prev_leave_approv + ${total_days}`;
         if (leave_type) {
           const leave: any = await tx.employee_leave_type.findFirst({
@@ -306,7 +306,7 @@ class EmployeeLeaveDao {
 
       // Author : Krish
       // ====================== UPDATE ATTENDANCE STATUS ===============================//
-      if (leave_status == 3) {
+      if (leave_status == 1) {
         const leave_days = await tx.employee_leave_details.findMany({
           select: {
             leave_from: true,
