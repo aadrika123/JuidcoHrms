@@ -12,14 +12,14 @@ interface Holiday {
   name: string
 }
 
-interface HolidayResponse {
-  status: boolean
-  message: string
-  data: {
-    totalPage: number
-    data: Holiday[]
-  }
-}
+// interface HolidayResponse {
+//   status: boolean
+//   message: string
+//   data: {
+//     totalPage: number
+//     data: Holiday[]
+//   }
+// }
 
 const Holiday = () => {
   const [holidays, setHolidays] = useState<Holiday[]>([])
@@ -85,7 +85,7 @@ const Holiday = () => {
 
   const generateCalendarDays = () => {
     const firstDay = new Date(selectedYear, selectedMonth, 1)
-    const lastDay = new Date(selectedYear, selectedMonth + 1, 0)
+    // const lastDay = new Date(selectedYear, selectedMonth + 1, 0)
     const startDate = new Date(firstDay)
     startDate.setDate(startDate.getDate() - firstDay.getDay())
 
