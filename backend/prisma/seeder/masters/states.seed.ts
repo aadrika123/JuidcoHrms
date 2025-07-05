@@ -44,12 +44,22 @@ const states = [
 ];
 
 const state_seed = async () => {
-  for (const stateName of states) {
-    await prisma.indianstates.create({
-      data: {
-        name: stateName,
-      },
-    });
+  try {
+    // Step 1: Delete all existing states
+    await prisma.indianstates.deleteMany({});
+
+    // Step 2: Insert new states
+    for (const stateName of states) {
+      await prisma.indianstates.create({
+        data: { name: stateName },
+      });
+    }
+
+    console.log("✅ Indian states seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding Indian states:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

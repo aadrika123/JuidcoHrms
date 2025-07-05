@@ -760,11 +760,27 @@ const dist = [
   { name: "Kolkata", state: "West Bengal" },
   { name: "Paschim (West) Burdwan (Bardhaman)", state: "West Bengal" }
 ];
+
 const district_seed = async () => {
-  for (const district of dist) {
-    await prisma.district.create({
-      data: district,
-    });
+  try {
+    console.log("🧹 Deleting all existing districts...");
+    await prisma.district.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE district_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting new districts...");
+    for (const district of dist) {
+      await prisma.district.create({
+        data: district,
+      });
+    }
+
+    console.log("✅ Districts seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding districts:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

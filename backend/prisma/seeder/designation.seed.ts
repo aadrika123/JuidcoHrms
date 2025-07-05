@@ -139,10 +139,23 @@ const designation = [
 ];
 
 const designation_seeder = async () => {
-  for (const des of designation) {
-    await prisma.designation.create({
-      data: des,
-    });
+  try {
+    console.log("🧹 Deleting existing designations...");
+    await prisma.designation.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE designation_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting designations...");
+    for (const des of designation) {
+      await prisma.designation.create({ data: des });
+    }
+
+    console.log("✅ Designations seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding designations:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

@@ -26,10 +26,25 @@ const holidays = [
 ];
 
 const holidays_seeder = async () => {
-  for (const holidaysleave of holidays) {
-    await prisma.holidays.create({
-      data: holidaysleave,
-    });
+  try {
+    console.log("🧹 Deleting all existing holidays...");
+    await prisma.holidays.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE holidays_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting holidays...");
+    for (const holidaysleave of holidays) {
+      await prisma.holidays.create({
+        data: holidaysleave,
+      });
+    }
+
+    console.log("✅ Holidays seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding holidays:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 export default holidays_seeder;

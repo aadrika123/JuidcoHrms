@@ -514,16 +514,18 @@ const LeaveReq = () => {
                       <br />
                       <span className="text-sm">
                         Status of leave -
-                        {manData?.leave_status === -1 ? (
-                          <span className="text-red-600">Rejected</span>
-                        ) : (
-                          <span className="text-green-600">
-                            {manData?.supervisor_level == manData?.leave_status
-                              ? "Approved"
-                              : manData?.leave_status === 0
-                                ? "Pending"
-                                : "In Progress"}
-                          </span>
+                        {manData?.leave_status == null ? null : (
+                          manData.leave_status === -1 ? (
+                            <span className="text-red-600">Rejected</span>
+                          ) : (
+                            <span className="text-green-600">
+                              {manData.supervisor_level === manData.leave_status
+                                ? "Approved"
+                                : manData.leave_status === 0
+                                  ? "Pending"
+                                  : "In Progress"}
+                            </span>
+                          )
                         )}
                       </span>
                     </div>

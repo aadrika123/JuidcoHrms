@@ -45,10 +45,25 @@ const ulbs = [
 ];
 
 const ulb_seed = async () => {
-  for (const ulb of ulbs) {
-    await prisma.ulb.create({
-      data: ulb,
-    });
+  try {
+    console.log("🧹 Deleting all existing ULBs...");
+    await prisma.ulb.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE ulb_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting ULBs...");
+    for (const ulb of ulbs) {
+      await prisma.ulb.create({
+        data: ulb,
+      });
+    }
+
+    console.log("✅ ULBs seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding ULBs:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
