@@ -53,7 +53,7 @@ const EmpSalaryDetails: React.FC<EmployeeDetailsProps<EmployeeSalaryDetailType>>
   function storeEmployeeAllowDetails() {
     if (typeof window !== "undefined") {
       const cleanedAllowDetails = employeeAllowDetails.map((element) => {
-        const { selected_option, ...rest } = element
+        const { ...rest } = element
         return rest
       })
       sessionStorage.setItem("emp_salary_allow_details", JSON.stringify(cleanedAllowDetails))
