@@ -29,10 +29,25 @@ const languages = [
 ];
 
 const language_seed = async () => {
-  for (const language of languages) {
-    await prisma.language.create({
-      data: language,
-    });
+  try {
+    console.log("🧹 Deleting all existing languages...");
+    await prisma.language.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE language_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting languages...");
+    for (const language of languages) {
+      await prisma.language.create({
+        data: language,
+      });
+    }
+
+    console.log("✅ Languages seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding languages:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

@@ -8,10 +8,22 @@ export const ddoSeeder = async () => {
   const file_path = "./prisma/data/ddo_code3.csv";
 
   try {
-    console.log("🧹 Resetting ID sequence for 'ddo' table...");
+    console.group("📌 DDO Seeder");
+
+    console.log("🧹 Deleting all existing DDO records...");
+    await prisma.ddo.deleteMany();
+
+    console.log("🔄 Resetting ID sequence...");
     await prisma.$executeRawUnsafe(`ALTER SEQUENCE ddo_id_seq RESTART WITH 1`);
-    console.log("📄 Reading CSV and seeding DDO data...");
-    const results: any[] = [];
+
+    console.log("📄 Reading CSV and seeding data...");
+    const results: {
+      TreasuryName?: string;
+      DDOCODE?: string;
+      DDONAME?: string;
+      DESIGNATION?: string;
+      OFFICE?: string;
+    }[] = [];
 
     await new Promise<void>((resolve, reject) => {
       fs.createReadStream(file_path)
@@ -20,40 +32,30 @@ export const ddoSeeder = async () => {
         .on("end", async () => {
           for (const row of results) {
             const record = {
-              treasury_name: row.TreasuryName?.toString() || "",
-              ddo_code: row.DDOCODE?.toString() || "",
-              ddo_name: row.DDONAME?.toString() || "",
-              designation: row.DESIGNATION?.toString() || "",
-              office: row.OFFICE?.toString() || "",
+              treasury_name: row.TreasuryName?.trim() || "",
+              ddo_code: row.DDOCODE?.trim() || "",
+              ddo_name: row.DDONAME?.trim() || "",
+              designation: row.DESIGNATION?.trim() || "",
+              office: row.OFFICE?.trim() || "",
             };
 
             try {
-              const existingRecord = await prisma.ddo.findFirst({
-                where: { ddo_code: record.ddo_code },
-              });
-
-              if (!existingRecord) {
-                await prisma.ddo.create({ data: record });
-                // console.log(`➕ Inserted new record: ${JSON.stringify(record)}`);
-              } else {
-                await prisma.ddo.update({
-                  where: { id: existingRecord.id },
-                  data: record,
-                });
-                // console.log(`♻️  Updated existing record with ID: ${existingRecord.id}`);
-              }
+              await prisma.ddo.create({ data: record });
+              // console.log(`Inserted: ${record.ddo_code}`);
             } catch (error) {
-              console.error(`❌ Error processing record ${JSON.stringify(record)}:`, error);
+              console.error(`❌ Error inserting record ${record.ddo_code}:`, error);
             }
           }
-
-          resolve(); // Important to signal seeder completion
+          resolve();
         })
         .on("error", reject);
     });
 
     console.log("✅ DDO seeding complete.");
+    console.groupEnd();
   } catch (error) {
-    console.error("❌ Error occurred during DDO seeding:", error);
+    console.error("❌ Error during DDO seeding:", error);
+  } finally {
+    await prisma.$disconnect();
   }
 };

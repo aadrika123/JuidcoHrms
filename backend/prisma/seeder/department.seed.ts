@@ -72,10 +72,23 @@ const department = [
 ];
 
 const department_seeder = async () => {
-  for (const dep of department) {
-    await prisma.department.create({
-      data: dep,
-    });
+  try {
+    console.log("🧹 Deleting all existing departments...");
+    await prisma.department.deleteMany({});
+
+    console.log("🔄 Resetting ID sequence...");
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE department_id_seq RESTART WITH 1`);
+
+    console.log("🌱 Inserting departments...");
+    for (const dep of department) {
+      await prisma.department.create({ data: dep });
+    }
+
+    console.log("✅ Departments seeded successfully.");
+  } catch (err) {
+    console.error("❌ Error seeding departments:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
