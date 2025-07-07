@@ -12,15 +12,15 @@ import BackButton from "@/components/Helpers/Widgets/BackButton";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EmployeeIcon from "@/assets/icons/employee 1.png";
-import ExcelIcon from "@/assets/icons/excel 1.png";
-import Chronometer from "@/assets/icons/chronometer 1.png";
+// import ExcelIcon from "@/assets/icons/excel 1.png";
+// import Chronometer from "@/assets/icons/chronometer 1.png";
 import { useQuery } from "react-query";
 import { HRMS_URL } from "@/utils/api/urls";
 import PrimaryButton from "@/components/Helpers/Button";
 import PayrollTableContainer from "../../Ems/PayrollManagement/Segments/PayrollTableContainer";
 import axios from "@/lib/axiosConfig";
 import toast from "react-hot-toast";
-import readXlsxFile from "read-excel-file";
+// import readXlsxFile from "read-excel-file";
 import { useMutation, useQueryClient } from "react-query";
 import NextPrevPagination from "@/components/global/molecules/NextPrevPagination";
 import { EmployeePayrollData } from "@/utils/types/payslip.type";
@@ -32,13 +32,14 @@ type PayrollCount = {
 type TableData = EmployeePayrollData | PayrollCount;
 
 const TimeSheet = () => {
-  const [selectedFileName] = useState("");
+  // const [selectedFileName] = useState("");
   const [excelData, setExcelData] = useState<any[]>([]);
   const [showExcelConfMsg, setShowExcelConfMsg] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [searchQuey, setSearchQuery] = useState<string>("");
   const [hitSearch, setHitSearch] = useState<string>("false");
   const [selfId, setSelfId] = useState<string>("");
+  console.log("setExcelData", setExcelData);
 
   useEffect(() => {
     const emp_id = JSON.parse(
@@ -52,25 +53,25 @@ const TimeSheet = () => {
 
   console.log(selfId);
 
-  const handleFileRead = (e: React.ChangeEvent<any>) => {
-    const file = e.target.files[0];
-    setShowExcelConfMsg(true);
-    readXlsxFile(file).then(async (rows) => {
-      const n = rows.length;
-      const d: any[] = [];
-      for (let i = 1; i < n; i++) {
-        const row = rows[i];
-        const record = {
-          emp_id: row[0],
-          present_days: row[row.length - 1],
-        };
+  // const handleFileRead = (e: React.ChangeEvent<any>) => {
+  //   const file = e.target.files[0];
+  //   setShowExcelConfMsg(true);
+  //   readXlsxFile(file).then(async (rows) => {
+  //     const n = rows.length;
+  //     const d: any[] = [];
+  //     for (let i = 1; i < n; i++) {
+  //       const row = rows[i];
+  //       const record = {
+  //         emp_id: row[0],
+  //         present_days: row[row.length - 1],
+  //       };
 
-        d.push(record);
-      }
+  //       d.push(record);
+  //     }
 
-      setExcelData(d);
-    });
-  };
+  //     setExcelData(d);
+  //   });
+  // };
 
   const uploadSheetAPI = async () => {
     try {
@@ -258,7 +259,7 @@ const TimeSheet = () => {
 
         {/* --------------------------------Excel -------------------------------------------- */}
 
-        <div className="flex justify-between mt-10 shadow-md p-5">
+        {/* <div className="flex justify-between mt-10 shadow-md p-5">
           <SubHeading>
             <Image src={ExcelIcon} alt="excel" width={40} height={20} />
             <Image
@@ -293,7 +294,7 @@ const TimeSheet = () => {
                   <span className="ml-2">{selectedFileName}</span>
                 )}
               </label>
-              {/* Hidden file input */}
+            
               <input
                 type="file"
                 id="file_upload"
@@ -303,39 +304,9 @@ const TimeSheet = () => {
               />
             </div>
 
-            {/* <div className="right-0 flex items-start gap-3 border bporder-zinc-200 rounded-md p-3">
-            Download Time-sheet
-            <label htmlFor="file_upload">
-              <span className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 21 21"
-                  fill="none"
-                  className="mt-1"
-                >
-                  <path
-                    d="M10.5 9.25487L7.40425 6.15825L8.02287 5.52912L10.0625 7.56875V0H10.9375V7.56875L12.9762 5.53L13.5957 6.15825L10.5 9.25487ZM5.78812 12.25C5.38562 12.25 5.04962 12.1152 4.78012 11.8457C4.51062 11.5762 4.37558 11.24 4.375 10.8369V8.71675H5.25V10.8369C5.25 10.971 5.306 11.0944 5.418 11.207C5.53 11.3196 5.65337 11.3756 5.78812 11.375H15.2119C15.346 11.375 15.4694 11.319 15.582 11.207C15.6946 11.095 15.7506 10.9716 15.75 10.8369V8.71675H16.625V10.8369C16.625 11.2394 16.4902 11.5754 16.2207 11.8449C15.9512 12.1144 15.615 12.2494 15.2119 12.25H5.78812Z"
-                    fill="#403B3B"
-                  />
-                </svg>
-              </span>
-              {selectedFileName && (
-                <span className="ml-2">{selectedFileName}</span>
-              )}
-            </label>
-        
-            <input
-              type="file"
-              id="file_upload"
-              name="file_upload"
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-          </div> */}
+            
           </div>
-        </div>
+        </div> */}
 
         {/* --------------------------------Excel -------------------------------------------- */}
 

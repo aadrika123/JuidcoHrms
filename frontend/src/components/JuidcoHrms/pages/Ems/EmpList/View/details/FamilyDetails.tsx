@@ -16,7 +16,7 @@ export default function FamilyDetails(props: any) {
     // }
 
     return (
-        <div className="rounded border-2 p-4 border-neutral">
+        <div className="rounded border-2 p-4 border-neutral text-black">
             <h5 className="text-xl"><b>Family Details</b></h5>
             <div className="divider divider-neutral"></div>
             {data?.map((item: any, index: number) => (

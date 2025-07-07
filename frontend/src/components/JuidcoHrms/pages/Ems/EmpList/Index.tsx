@@ -28,20 +28,33 @@ const EmployeeList = () => {
   const [dataList, setDataList] = useState<any[]>([]);
 
   const EMP_LIST_COLS: COLUMNS[] = [
-    {
-      HEADER: "Employee Name",
-      ACCESSOR: "emp_name",
-    },
+  { HEADER: "Employee Name", ACCESSOR: "emp_name" },
+  { HEADER: "Employment ID", ACCESSOR: "emp_id" },
+];
 
-    {
-      HEADER: "Employment ID",
-      ACCESSOR: "emp_id",
-    },
-    {
-      HEADER: `${selectedFilter === "" || selectedFilter === 0 ? "Department" : selectedFilter === 1 ? "Designation" : selectedFilter === 2 ? "Employee Type" : ""}`,
-      ACCESSOR: `${selectedFilter === "" || selectedFilter === 0 ? "dep_name" : selectedFilter === 1 ? "des_name" : selectedFilter === 2 ? "emp_type_name" : ""}`,
-    },
-  ];
+// Conditionally push filter column (only if not filtering by Employee Name)
+if (selectedFilter !== 3) {
+  EMP_LIST_COLS.push({
+    HEADER:
+      selectedFilter === "" || selectedFilter === 0
+        ? "Department"
+        : selectedFilter === 1
+        ? "Designation"
+        : selectedFilter === 2
+        ? "Employee Type"
+        : "",
+    ACCESSOR:
+      selectedFilter === "" || selectedFilter === 0
+        ? "dep_name"
+        : selectedFilter === 1
+        ? "des_name"
+        : selectedFilter === 2
+        ? "emp_type_name"
+        : "",
+  });
+}
+
+
 
   const queryClient = useQueryClient();
 
@@ -67,8 +80,18 @@ const EmployeeList = () => {
   };
 
   const { data: empLstData, error: empLstErr } = useCodeQuery(
-    `${HRMS_URL.EMS.get}&page=${page}${selectedFilter === 0 ? `&department=${selectedData}` : selectedFilter === 1 ? `&designation=${selectedData}` : selectedFilter === 2 ? `&emp_type=${selectedData}` : ""}`
+    `${HRMS_URL.EMS.get}&page=${page}${selectedFilter === 0
+      ? `&department=${selectedData}`
+      : selectedFilter === 1
+        ? `&designation=${selectedData}`
+        : selectedFilter === 2
+          ? `&emp_type=${selectedData}`
+          : selectedFilter === 3
+            ? `&emp_id=${selectedData}`
+            : ""
+    }`
   );
+
   const { data: empCount, error: empCountErr } = useCodeQuery(
     `${HRMS_URL.EMP_COUNT.get}`
   );
@@ -100,15 +123,39 @@ const EmployeeList = () => {
   // FILTER BY DEPARTMENT , DESIGNATION, EMPLOYEE TYPE
   useEffect(() => {
     (async () => {
-      const res = await axios({
-        url: `${selectedFilter === 0 ? HRMS_URL.DEPARTMENT.get : selectedFilter === 1 ? HRMS_URL.DESIGNATION.get : selectedFilter === 2 ? HRMS_URL.EMPLOYEE_TYPE_MASTER.getAll : ""}`,
-        method: "GET",
-      });
+      let url: string | null = null;
 
-      setDataList(res.data?.data?.data);
-      setSelectedData("");
+      if (selectedFilter === 0) {
+        url = HRMS_URL.DEPARTMENT.get ?? null;
+      } else if (selectedFilter === 1) {
+        url = HRMS_URL.DESIGNATION.get ?? null;
+      } else if (selectedFilter === 2) {
+        url = HRMS_URL.EMPLOYEE_TYPE_MASTER.getAll ?? null;
+      } else if (selectedFilter === 3) {
+        url = HRMS_URL.EMS.getNames ?? null;
+      }
+
+      if (url !== null) {
+        try {
+          const res = await axios({
+            url: url,
+            method: "GET",
+          });
+
+          const data = selectedFilter === 3 ? res.data?.data : res.data?.data?.data;
+          setDataList(data || []);
+          setSelectedData("");
+        } catch (err) {
+          console.error("Error fetching filter data:", err);
+          setDataList([]);
+        }
+      } else {
+        setDataList([]);
+      }
     })();
   }, [selectedFilter]);
+
+
 
   // REMOVE EMPLOYEE
   const remEmployee = async (id: number) => {
@@ -216,6 +263,7 @@ const EmployeeList = () => {
             <option value={0}>Department</option>
             <option value={1}>Designation</option>
             <option value={2}>Employee Type</option>
+            <option value={3}>Employee Name</option>
           </select>
         </div>
 
@@ -225,7 +273,7 @@ const EmployeeList = () => {
           </label>
           <select
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setSelectedData(parseInt(e.target.value))
+              setSelectedData(e.target.value)
             }
             className="p-3 rounded-lg shadow-inner border-2 border-zinc-400 w-64 max-w-xs bg-white "
           >
@@ -233,9 +281,11 @@ const EmployeeList = () => {
               Select Filter By
             </option>
             {dataList?.map((k: any) => {
+              const id = k.id ?? k.emp_id;
+              const name = k.name ?? k.emp_name;
               return (
-                <option key={k.id} value={k.id}>
-                  {k.name}
+                <option key={id} value={id}>
+                  {name}
                 </option>
               );
             })}

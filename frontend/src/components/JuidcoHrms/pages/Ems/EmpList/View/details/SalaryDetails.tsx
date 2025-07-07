@@ -8,7 +8,7 @@ export default function SalaryDetails(props: any) {
   const { data } = props;
 
   return (
-    <div className="rounded border-2 p-4 border-neutral">
+    <div className="rounded border-2 p-4 border-neutral text-black">
       <h5 className="text-xl">
         <b>Salary Details</b>
       </h5>

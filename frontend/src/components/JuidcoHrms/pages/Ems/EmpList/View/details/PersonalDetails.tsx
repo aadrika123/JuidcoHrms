@@ -17,7 +17,7 @@ export default function PersonalDetails(props: any) {
   };
 
   return (
-    <div ref={ref} className="rounded border-2 p-4 border-neutral ">
+    <div ref={ref} className="rounded border-2 p-4 border-neutral text-black">
       <h5 className="text-xl">
         <b>Personal Details</b>
       </h5>
