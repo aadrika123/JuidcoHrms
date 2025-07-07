@@ -223,6 +223,25 @@ class EmployeeOnBoardController {
       return CommonRes.SERVER_ERROR(error, resObj, res, next);
     }
   };
+  getEmployeeNames = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  apiId: string
+): Promise<object> => {
+  const resObj: resObj = {
+    apiId,
+    action: "GET",
+    version: "1.0",
+  };
+
+  try {
+    const data = await this.employeeOnBoardDao.getEmployeeNames();
+    return CommonRes.SUCCESS("Employee names fetched successfully", data, resObj, res, next);
+  } catch (error: any) {
+    return CommonRes.SERVER_ERROR(error, resObj, res, next);
+  }
+};
 
   getEmployeeCount = async (
     req: Request,

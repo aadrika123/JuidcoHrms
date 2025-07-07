@@ -6,7 +6,7 @@ export default function BasicDetails(props: any) {
     const { data, ref } = props
 
     return (
-        <div ref={ref} className="rounded border-2 p-4 border-neutral">
+        <div ref={ref} className="rounded border-2 p-4 border-neutral text-black">
             <h5 className="text-xl"><b>Basic Details</b></h5>
             <div className="divider divider-neutral"></div>
             <div className="flex flex-row justify-between gap-10">

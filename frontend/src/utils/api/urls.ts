@@ -47,6 +47,7 @@ type UrlKeys =
 type Urls = {
   [key in UrlKeys]: {
     get?: string;
+    getNames?: string;
     create?: string;
     update?: string;
     updateMany?: string;
@@ -63,6 +64,7 @@ type Urls = {
 export const HRMS_URL: Urls = {
   EMS: {
     get: "/employee/get?limit=10",
+    getNames: "/employee/name-list",
     create: "/employee/create",
     update: "/employee/update",
     getById: "/employee/get-single",

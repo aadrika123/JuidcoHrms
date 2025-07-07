@@ -90,299 +90,272 @@ class EmployeeOnBoardDao {
 
   // !-----------------------------Add New or Existing Employee to the System------------------------------//
   store = async (req: Request) => {
-    const {
-      emp_office_details,
-      emp_basic_details,
-      emp_personal_details,
-      emp_family_details,
-      emp_address_details,
-      emp_service_history,
-      emp_timebound_details,
-      emp_salary_details,
-      emp_education_details,
-      emp_join_details,
-      emp_loan_details,
-    } = req.body;
+  const {
+    emp_office_details,
+    emp_basic_details,
+    emp_personal_details,
+    emp_family_details,
+    emp_address_details,
+    emp_service_history,
+    emp_timebound_details,
+    emp_salary_details,
+    emp_education_details,
+    emp_join_details,
+    emp_loan_details,
+  } = req.body;
 
-    const { ulb_id } = req.body.auth
+  const { ulb_id } = req.body.auth;
 
-    const { emp_education, emp_training } = emp_education_details;
+  const { emp_education, emp_training } = emp_education_details;
 
-    let empFamilyDetails: any = undefined;
-    let empNomineeDetails: any = undefined;
+  let empFamilyDetails: any = undefined;
+  let empNomineeDetails: any = undefined;
 
-    if (emp_family_details !== undefined) {
-      console.log("yess");
-      const { emp_fam_details, emp_nominee_details } = emp_family_details;
-      empFamilyDetails = this.filterReqBody(emp_fam_details);
+  if (emp_family_details !== undefined) {
+    const { emp_fam_details, emp_nominee_details } = emp_family_details;
+    empFamilyDetails = this.filterReqBody(emp_fam_details);
+    empNomineeDetails = this.filterReqBody(emp_nominee_details);
+  }
 
-      empNomineeDetails = this.filterReqBody(emp_nominee_details);
+  let empIncDetails: any = undefined;
+  let empPromDetails: any = undefined;
+  let empTransDetails: any = undefined;
+  if (emp_service_history !== undefined) {
+    const { emp_inc_details, emp_prom_details, emp_trans_details } = emp_service_history;
+    empIncDetails = this.filterReqBody(emp_inc_details);
+    empPromDetails = this.filterReqBody(emp_prom_details);
+    empTransDetails = this.filterReqBody(emp_trans_details);
+  }
+
+  let empSalaryAllowDetails: any = undefined;
+  let empSalaryDeductionDetails: any = undefined;
+  if (emp_salary_details !== undefined) {
+    const { emp_salary_allow_details, emp_salary_deduction_details } = emp_salary_details;
+    empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
+    if (emp_salary_deduction_details !== undefined) {
+      empSalaryDeductionDetails = this.filterReqBody(emp_salary_deduction_details);
     }
+  }
 
-    // ===================
-    console.log(emp_join_details, "service");
-    //
+  let empLoan: any = undefined;
+  let empLoanPrincipal: any = undefined;
+  let empLoanRecovery: any = undefined;
+  if (emp_loan_details !== undefined) {
+    const { emp_loan_inform, emp_principal_inform, emp_recovery_inform } = emp_loan_details;
+    empLoan = this.filterReqBody(emp_loan_inform);
+    empLoanPrincipal = this.filterReqBody(emp_principal_inform);
+    empLoanRecovery = this.filterReqBody(emp_recovery_inform);
+  }
 
-    let empIncDetails: any = undefined;
-    let empPromDetails: any = undefined;
-    let empTransDetails: any = undefined;
-    if (emp_service_history !== undefined) {
-      const { emp_inc_details, emp_prom_details, emp_trans_details } =
-        emp_service_history;
-      empIncDetails = this.filterReqBody(emp_inc_details);
-      empPromDetails = this.filterReqBody(emp_prom_details);
-      empTransDetails = this.filterReqBody(emp_trans_details);
-    }
+  let empTimeBound: any = undefined;
+  if (emp_timebound_details !== undefined) {
+    empTimeBound = this.filterReqBody(emp_timebound_details);
+  }
 
-    let empSalaryAllowDetails: any = undefined;
-    let empSalaryDeductionDetails: any = undefined;
-    if (emp_salary_details !== undefined) {
-      const { emp_salary_allow_details, emp_salary_deduction_details } =
-        emp_salary_details;
-      console.log(emp_salary_deduction_details);
-      empSalaryAllowDetails = this.filterReqBody(emp_salary_allow_details);
-      if (emp_salary_deduction_details !== undefined) {
-        empSalaryDeductionDetails = this.filterReqBody(
-          emp_salary_deduction_details
-        );
-      }
-    }
+  const empEducationData = this.filterReqBody(emp_education);
+  const empTrainData = this.filterReqBody(emp_training);
 
-    let empLoan: any = undefined;
-    let empLoanPrincipal: any = undefined;
-    let empLoanRecovery: any = undefined;
-    if (emp_loan_details !== undefined) {
-      const { emp_loan_inform, emp_principal_inform, emp_recovery_inform } =
-        emp_loan_details;
+  const employeeData = await prisma.$transaction(async (tx) => {
+    const empOffice = await this.createEmployeeDetails(
+      tx,
+      "employee_office_details",
+      employeeOfficeDetailRequestData(emp_office_details)
+    );
 
-      empLoan = this.filterReqBody(emp_loan_inform);
-      empLoanPrincipal = this.filterReqBody(emp_principal_inform);
-      empLoanRecovery = this.filterReqBody(emp_recovery_inform);
-    }
+    const empBasic = await this.createEmployeeDetails(
+      tx,
+      "employee_basic_details",
+      employeeBasicDetailRequestData(emp_basic_details)
+    );
 
-    let empTimeBound: any = undefined;
-    if (emp_timebound_details !== undefined) {
-      empTimeBound = this.filterReqBody(emp_timebound_details);
-    }
+    const empPersonal = await this.createEmployeeDetails(
+      tx,
+      "employee_personal_details",
+      employeePersonalDetailsRequestData(emp_personal_details)
+    );
 
-    //
+    const empAddress = await this.createEmployeeDetails(
+      tx,
+      "employee_address_details",
+      employeePresentAddressDetailsRequestData(emp_address_details)
+    );
 
-    const empEducationData = this.filterReqBody(emp_education);
-    const empTrainData = this.filterReqBody(emp_training);
+    const empJoining = await this.createEmployeeDetails(
+      tx,
+      "employee_join_details",
+      employeeJoinDetailsRequestData(emp_join_details)
+    );
 
-    const employeeData = await prisma.$transaction(async (tx) => {
-      const empOffice = await this.createEmployeeDetails(
-        tx,
-        "employee_office_details",
-        employeeOfficeDetailRequestData(emp_office_details)
-      );
-
-      const empBasic = await this.createEmployeeDetails(
-        tx,
-        "employee_basic_details",
-        employeeBasicDetailRequestData(emp_basic_details)
-      );
-      ``;
-
-      const empPersonal = await this.createEmployeeDetails(
-        tx,
-        "employee_personal_details",
-        employeePersonalDetailsRequestData(emp_personal_details)
-      );
-
-      const empAddress = await this.createEmployeeDetails(
-        tx,
-        "employee_address_details",
-        employeePresentAddressDetailsRequestData(emp_address_details)
-      );
-
-      const empJoining = await this.createEmployeeDetails(
-        tx,
-        "employee_join_details",
-        employeeJoinDetailsRequestData(emp_join_details)
-      );
-
-      const empSalaryData = {
-        emp_salary_allow: {
-          create: empSalaryAllowDetails,
-        },
-        emp_salary_deduction: {
-          create: empSalaryDeductionDetails,
-        },
-      };
-
-      const empLoanData = {
-        emp_loan: {
-          create: empLoan,
-        },
-        emp_loan_Principal: {
-          create: empLoanPrincipal,
-        },
-        emp_loan_recovery: {
-          create: empLoanRecovery,
-        },
-      };
-
-      const empSalaryDetails = await this.createEmployeeDetails(
-        tx,
-        "employee_salary_details",
-        empSalaryData
-      );
-
-      const empLoanDetails = await this.createEmployeeDetails(
-        tx,
-        "employee_loan_details",
-        empLoanData
-      );
-
-      const employeeDatas = {
-        emp_office_details_id: empOffice.id,
-        emp_basic_details_id: empBasic.id,
-        emp_id:
-          emp_basic_details.emp_id && emp_basic_details.emp_id !== ""
-            ? emp_basic_details.emp_id
-            : empBasic?.emp_id,
-        emp_type: emp_office_details.emp_type,
-        emp_personal_details_id: empPersonal.id,
-        emp_address_details_id: empAddress.id,
-        emp_join_details_id: empJoining.id,
-        emp_salary_details_id: empSalaryDetails.id,
-        emp_loan_details_id: empLoanDetails.id,
-        emp_family_details: {
-          create: empFamilyDetails,
-        },
-        emp_nominee_details: {
-          create: empNomineeDetails,
-        },
-        emp_increment_details: {
-          create: empIncDetails,
-        },
-        emp_promotion_details: {
-          create: empPromDetails,
-        },
-        emp_transfer_details: {
-          create: empTransDetails,
-        },
-        emp_timebound_details: {
-          create: empTimeBound,
-        },
-        emp_education_details: {
-          create: empEducationData,
-        },
-        emp_training_details: {
-          create: empTrainData,
-        },
-        ulb_id: Number(ulb_id)
-      };
-
-      return await this.createEmployeeDetails(tx, "employees", employeeDatas);
-    });
-    ////////////Nodemailer code /////////////////////////////
-
-    await this.sendEmail(employeeData.emp_id);
-
-    ////////////Nodemailer code /////////////////////////////
-    return employeeData;
-  };
-  // !-----------------------------Get Employee List------------------------------//
-  get = async (req: Request) => {
-    const page: number = Number(req.query.page);
-    const limit: number = Number(req.query.limit);
-    const department: string = String(req.query.department);
-    const designation: string = String(req.query.designation);
-    const emp_type: string = String(req.query.emp_type);
-    const { ulb_id } = req.body.auth;
-
-
-    const query: Prisma.employeesFindManyArgs = {
-      skip: (page - 1) * limit,
-      take: limit,
-      select: {
-        emp_id: true,
-        emp_basic_details: {
-          select: {
-            emp_name: true,
-            dob: true,
-            emp_type: true,
-            emp_type_master: true,
-          },
-        },
-        emp_join_details: {
-          select: {
-            department: true,
-            grade_pay: true,
-            doj: true,
-            designation: true,
-            basic_pay: true,
-          },
-        },
-
-        created_at: true,
-        updated_at: true,
+    const empSalaryData = {
+      emp_salary_allow: {
+        create: empSalaryAllowDetails,
       },
-      where: {
-        emp_del: 0,
+      emp_salary_deduction: {
+        create: empSalaryDeductionDetails,
       },
     };
-    if (emp_type !== "undefined" && emp_type !== "") {
-      query.where = {
-        OR: [
-          {
-            emp_basic_details: {
-              emp_type: {
-                equals: Number(emp_type),
-              },
-            },
-          },
-        ],
-      };
-    } else if (department !== "undefined" && department !== "") {
-      query.where = {
-        OR: [
-          {
-            emp_join_details: {
-              OR: [
-                {
-                  department_id: {
-                    equals: Number(department),
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      };
-    } else if (designation !== "undefined" && designation !== "") {
-      query.where = {
-        OR: [
-          {
-            emp_join_details: {
-              OR: [
-                {
-                  designation_id: {
-                    equals: Number(designation),
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      };
-    }
 
-    query.where = {
-      ...query?.where,
-      ulb_id: ulb_id
-    }
+    const empLoanData = {
+      emp_loan: {
+        create: empLoan,
+      },
+      emp_loan_Principal: {
+        create: empLoanPrincipal,
+      },
+      emp_loan_recovery: {
+        create: empLoanRecovery,
+      },
+    };
 
-    console.log(query)
-    const [data, count] = await prisma.$transaction([
-      prisma.employees.findMany(query),
-      prisma.employees.count(),
-    ]);
+    const empSalaryDetails = await this.createEmployeeDetails(tx, "employee_salary_details", empSalaryData);
+    const empLoanDetails = await this.createEmployeeDetails(tx, "employee_loan_details", empLoanData);
 
-    return generateRes(data, count, page, limit);
+    const emp_id =
+      emp_basic_details.emp_id && emp_basic_details.emp_id !== ""
+        ? emp_basic_details.emp_id
+        : empBasic?.emp_id;
+
+    const employeeDatas = {
+      emp_office_details_id: empOffice.id,
+      emp_basic_details_id: empBasic.id,
+      emp_id,
+      emp_type: emp_office_details.emp_type,
+      emp_personal_details_id: empPersonal.id,
+      emp_address_details_id: empAddress.id,
+      emp_join_details_id: empJoining.id,
+      emp_salary_details_id: empSalaryDetails.id,
+      emp_loan_details_id: empLoanDetails.id,
+      emp_family_details: { create: empFamilyDetails },
+      emp_nominee_details: { create: empNomineeDetails },
+      emp_increment_details: { create: empIncDetails },
+      emp_promotion_details: { create: empPromDetails },
+      emp_transfer_details: { create: empTransDetails },
+      emp_timebound_details: { create: empTimeBound },
+      emp_education_details: { create: empEducationData },
+      emp_training_details: { create: empTrainData },
+      ulb_id: Number(ulb_id),
+    };
+
+    const employee = await this.createEmployeeDetails(tx, "employees", employeeDatas);
+
+    // ✅ Add employee_hierarchy automatically
+    await tx.employee_hierarchy.create({
+      data: {
+        emp_id: employee.emp_id,
+        parent_emp: "EMP912e42",       // Default supervisor
+        supervisor_level: "1",         // Default level
+        immediate_supervisor: null,    // Optional
+        task: null,                    // Optional
+      },
+    });
+
+    return employee;
+  });
+
+  // Optional: Send email
+  await this.sendEmail(employeeData.emp_id);
+
+  return employeeData;
+};
+
+  // !-----------------------------Get Employee List------------------------------//
+  get = async (req: Request) => {
+  const page: number = Number(req.query.page);
+  const limit: number = Number(req.query.limit);
+  const department: string = String(req.query.department);
+  const designation: string = String(req.query.designation);
+  const emp_type: string = String(req.query.emp_type);
+  const emp_id: string = String(req.query.emp_id);
+  const { ulb_id } = req.body.auth;
+
+  const whereClause: any = {
+    emp_del: 0,
+    ulb_id: ulb_id,
   };
+
+  if (emp_id && emp_id !== "undefined" && emp_id.trim() !== "") {
+    whereClause.emp_id = emp_id;
+  }
+
+  if (emp_type && emp_type !== "undefined" && emp_type.trim() !== "") {
+    whereClause.emp_basic_details = {
+      emp_type: Number(emp_type),
+    };
+  }
+
+  if (department && department !== "undefined" && department.trim() !== "") {
+    whereClause.emp_join_details = {
+      ...(whereClause.emp_join_details || {}),
+      department_id: Number(department),
+    };
+  }
+
+  if (designation && designation !== "undefined" && designation.trim() !== "") {
+    whereClause.emp_join_details = {
+      ...(whereClause.emp_join_details || {}),
+      designation_id: Number(designation),
+    };
+  }
+
+  const query: Prisma.employeesFindManyArgs = {
+    skip: (page - 1) * limit,
+    take: limit,
+    select: {
+      emp_id: true,
+      emp_basic_details: {
+        select: {
+          emp_name: true,
+          dob: true,
+          emp_type: true,
+          emp_type_master: true,
+        },
+      },
+      emp_join_details: {
+        select: {
+          department: true,
+          grade_pay: true,
+          doj: true,
+          designation: true,
+          basic_pay: true,
+        },
+      },
+      created_at: true,
+      updated_at: true,
+    },
+    where: whereClause,
+  };
+
+  const [data, count] = await prisma.$transaction([
+    prisma.employees.findMany(query),
+    prisma.employees.count({ where: whereClause }),
+  ]);
+
+  return generateRes(data, count, page, limit);
+};
+
+
+  getEmployeeNames = async () => {
+  const data = await prisma.employees.findMany({
+    where: {
+      emp_del: 0,
+    },
+    select: {
+      emp_id: true,
+      emp_basic_details: {
+        select: {
+          emp_name: true,
+        },
+      },
+    },
+  });
+
+  // Flatten the structure for frontend use
+  return data.map((emp) => ({
+    id: emp.emp_id,
+    name: emp.emp_basic_details?.emp_name || "",
+  }));
+};
+
 
   // get total, existing and new employee //
   getEmployeeCount = async (req: Request) => {
