@@ -30,7 +30,7 @@ export default function CalcSheet(props: any) {
 
 
     return (
-        <div ref={ref} className="rounded border-2 p-4 border-neutral">
+        <div ref={ref} className="rounded border-2 p-4 border-neutral text-black">
             <h5 className="text-xl"><b>Calculations sheet of pensioner and family pension</b></h5>
             <div className="divider divider-neutral"></div>
             <div className={`flex flex-row justify-between gap-10`}>

@@ -225,7 +225,7 @@ export default function AddMembers() {
                         <option value={""} >
                           Select
                         </option>
-                        {[1, 2, 3, 4].map((item, index) => (
+                        {[1].map((item, index) => (
                           <option key={index} value={item} >
                             {item}
                           </option>

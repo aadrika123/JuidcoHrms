@@ -196,7 +196,7 @@ const ViewPension = ({ emp_id }: { emp_id: string }) => {
                 ref={printRef}
                 className="container mx-auto flex flex-col gap-4 custom-print"
             >
-                <div className="flex justify-center items-center gap-2">
+                <div className="flex justify-center items-center gap-2 text-black">
                     <h5 className="text-[2rem]">
                         <b>Pension Details</b>
                     </h5>
