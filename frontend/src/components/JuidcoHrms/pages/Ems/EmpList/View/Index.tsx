@@ -105,7 +105,7 @@ const ViewEmpList: React.FC<ViewEmpListProps> = (props) => {
         ref={printRef}
         className="container mx-auto flex flex-col gap-4 custom-print"
       >
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-2 text-black">
           <Image src={JharIcon} alt="jhar_logo" width={50} />
           <h5 className="text-[2rem]">
             <b>Service Book History</b>

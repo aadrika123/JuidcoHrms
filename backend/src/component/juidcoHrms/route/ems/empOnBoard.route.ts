@@ -41,6 +41,13 @@ class EmployeeOnBoardRoute {
           this.employeeOnBoardController.get(req, res, next, "0102"),
         loggerMiddleware
       ); //0102
+      app
+  .route(`${baseUrl}/employee/name-list`)
+  .get(
+    (req: Request, res: Response, next: NextFunction) =>
+      this.employeeOnBoardController.getEmployeeNames(req, res, next, "0109"),
+    loggerMiddleware
+  );
 
     app
       .route(`${baseUrl}/employee/count`)
