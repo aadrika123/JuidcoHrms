@@ -9,7 +9,7 @@ export default function PenNomineeDetails(props: any) {
     const data = props?.data?.data
 
     return (
-        <div ref={ref} className="rounded border-2 p-4 border-neutral">
+        <div ref={ref} className="rounded border-2 p-4 border-neutral text-black">
             <h5 className="text-xl"><b>Nominee Details</b></h5>
             <div className="divider divider-neutral"></div>
             {data?.map((item: any, index: number) => (

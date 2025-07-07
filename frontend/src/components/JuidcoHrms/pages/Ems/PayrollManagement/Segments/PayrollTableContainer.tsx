@@ -181,7 +181,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                 <div className="pl-5 ">
                   <div className="flex flex-row justify-between">
                     <p>Allowances-</p>
-                    <p className="text-[#0E9D4A] font-medium">
+                    <p className="text-[#a2dfbb] font-medium">
                       {item?.total_allowance !== undefined
                         ? item.total_allowance.toFixed(2)
                         : "0.00"}
@@ -190,7 +190,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                   </div>
                   <div className="flex flex-row justify-between">
                     <p>Deductions-</p>
-                    <p className="text-red-600 font-medium">
+                    <p className="text-red-300 font-medium">
                       {item?.total_deductions !== undefined
                         ? item.total_deductions.toFixed(2)
                         : "0.00"}
@@ -236,13 +236,13 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
                 <div className="pl-5">
                   <div className="flex flex-row justify-between">
                     <p>Total Present days-</p>
-                    <p className="text-[#0E9D4A] font-medium">
+                    <p className="text-[#a2dfbb] font-medium">
                       {item.present_days}
                     </p>
                   </div>
                   <div className="flex flex-row justify-between">
                     <p>Total Absent days-</p>
-                    <p className="text-red-600 font-medium">
+                    <p className="text-red-300 font-medium">
                       {item.leave_days + item?.lwp_days}
                     </p>
                   </div>
@@ -276,7 +276,7 @@ const PayrollTableContainer: React.FC<TLContainerProps> = (props) => {
               {/* =================== Net Salary ======================== */}
               <td className="py-3 text-xl text-zinc-600 font-light">
                 <div className="pl-5">
-                  <p className="text-2xl font-medium text-[#0E9D4A] ">
+                  <p className="text-2xl font-medium text-[#a2dfbb] ">
                     {item.net_pay}/-
                   </p>
                 </div>

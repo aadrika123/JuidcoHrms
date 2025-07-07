@@ -238,7 +238,7 @@ export const DashboardMain = () => {
                   className={`w-full md:w-[48.5%] flex flex-col items-center justify-center relative p-4 bg-red-25 rounded-lg border-l-4 border-red-200`}
                 >
                   <span className="text-red-400 text-3xl font-bold">{count_attendance?.absent_emp}</span>
-                  <InnerTextHeading className="text-center text-red-500 text-sm font-medium">
+                  <InnerTextHeading className="text-center text-red-400 text-sm font-medium">
                     Absent Employees
                   </InnerTextHeading>
                 </div>
