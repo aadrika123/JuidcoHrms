@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import HrmsRoute from "./component/juidcoHrms/router";
 import cors from "cors";
@@ -10,6 +10,10 @@ app.use(cors());
 
 /// JUIDCO_FINANCE ///
 new HrmsRoute( app);
+app.get("/", (req: Request, res: Response) => {
+  res.send("Welcome to HRMS");
+});
+
 
 // app.use(loggerMiddleware);
 
