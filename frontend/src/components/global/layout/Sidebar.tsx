@@ -16,7 +16,7 @@ import { EmployeeSidebarLinks } from "@/json/employee_sidebar";
 import { TMSidebarLinks } from "@/json/teamManagementSidebar"
 import { usePathname,  } from "next/navigation";
 import { InnerHeading } from "@/components/Helpers/Heading";
-import ProfileIcon from "@/assets/icons/profile_new.png";
+import profile2 from "@/assets/icons/profile2.png";
 import axios from "axios";
 
 import { BsGrid1X2 } from "react-icons/bs";
@@ -173,7 +173,7 @@ useEffect(() => {
         <section >
           <div className="flex flex-col items-center justify-center p-5">
             {/* <Image src="/logo/jh-logo.png" width={100} height={100} alt="logo" /> */}
-            <Image src={ProfileIcon} width={100} height={100} alt="logo" />
+            <Image src={profile2} width={100} height={100} alt="logo" />
             <br />
             <InnerHeading className="font-bold">
               {userDetails?.user_type}
