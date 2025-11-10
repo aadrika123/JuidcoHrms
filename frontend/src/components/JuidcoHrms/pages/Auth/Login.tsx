@@ -17,7 +17,6 @@ import axios from "@/lib/axiosConfig";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/auth.reducer";
 import Cookies from "js-cookie";
-import { HRMS_URL } from "@/utils/api/urls";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
 import CryptoJS from "crypto-js"
 import UseSystemUniqueID from "@/components/hooks/useGenerateSystemUniqueId";
@@ -79,7 +78,7 @@ const Login = () => {
   const [captchaInput, setCaptchaInput] = useState("");
   const [captchaError, setCaptchaError] = useState<string | null>(null);
   const [captchaImage, setCaptchaImage] = useState<string>("");
-  const { uniqueId, fingerprint } = UseSystemUniqueID();
+  const { fingerprint } = UseSystemUniqueID();
 
   const LoginSchema = Yup.object().shape({
     user_id: Yup.string().required("User Id is required"),
