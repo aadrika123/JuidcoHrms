@@ -16,6 +16,10 @@ app.get("/", (req: Request, res: Response) => {
 
 /// JUIDCO_FINANCE ///
 new HrmsRoute( app);
+app.get("/", (req: Request, res: Response) => {
+  res.send("Welcome to HRMS");
+});
+
 
 // app.use(loggerMiddleware);
 

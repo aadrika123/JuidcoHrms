@@ -354,14 +354,14 @@ const Login = () => {
             </Formik>
             <div className="my-2">
               <div className="flex flex-col items-center justify-center flex-wrap gapx-x-2 gap-y-2 w-full poppins">
-                <span
+                {/* <span
                   className="text-gray-700 text-sm font-semibold cursor-pointer w-full text-center"
                   onClick={() => {
                     // setmobileCardStatus(true)
                   }}
                 >
                   Forgot Password
-                </span>
+                </span> */}
               </div>
             </div>
           </div>
