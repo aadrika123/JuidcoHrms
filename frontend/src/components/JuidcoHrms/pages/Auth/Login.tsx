@@ -20,12 +20,34 @@ import Cookies from "js-cookie";
 import { HRMS_URL } from "@/utils/api/urls";
 import { useWorkingAnimation } from "@/components/Helpers/Widgets/useWorkingAnimation";
 import CryptoJS from "crypto-js";
-import useCaptchaGenerator from "@/components/JuidcoHrms/pages/Auth/useCaptchaGenerator";
-
+import UseSystemUniqueID from "@/components/hooks/useGenerateSystemUniqueId";
 
 interface LoginInitialData {
   user_id: string;
   password: string;
+}
+
+interface CaptchaData {
+  captcha_code: string;
+  captcha_id: string;
+}
+
+const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
+
+function decryptCaptcha(encryptedText: string): string {
+  const key = CryptoJS.enc.Latin1.parse(
+    CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
+  );
+  const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
+  const iv = CryptoJS.enc.Latin1.parse(ivString);
+
+  const decrypted = CryptoJS.AES.decrypt(encryptedText, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
 const Login = () => {
@@ -35,28 +57,87 @@ const Login = () => {
     useWorkingAnimation();
   const [errrrr, setErrrrr] = useState<boolean>();
   const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [captchaData, setCaptchaData] = useState<CaptchaData | null>(null);
+  const [captchaImage, setCaptchaImage] = useState<string>("");
+  const { fingerprint } = UseSystemUniqueID();
 
-  // const [hide, setHide] = useState(true);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const LoginSchema = Yup.object().shape({
     user_id: Yup.string().required("User Id is required"),
     password: Yup.string().required("Password is required"),
   });
   const [captchaInput, setCaptchaInput] = useState("");
-  const {
-    captchaImage,
-    // captchaInputField,
-    verifyCaptcha,
-    generateRandomCaptcha,
-  } = useCaptchaGenerator();
+
+  const drawCaptcha = (captchaText: string) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 200;
+    canvas.height = 70;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.fillStyle = "#E3F2FD";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < 7; i++) {
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+      ctx.bezierCurveTo(
+        Math.random() * canvas.width,
+        Math.random() * canvas.height,
+        Math.random() * canvas.width,
+        Math.random() * canvas.height,
+        Math.random() * canvas.width,
+        Math.random() * canvas.height
+      );
+      ctx.strokeStyle = `rgba(0, 0, 0, 0.3)`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    ctx.font = "bold 30px Arial";
+    for (let i = 0; i < captchaText.length; i++) {
+      ctx.save();
+      const x = 20 + i * 30;
+      const y = 40 + Math.random() * 10;
+      const angle = (Math.random() - 0.5) * 0.6;
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = `rgba(0,0,0,${Math.random() * 0.9 + 0.1})`;
+      ctx.fillText(captchaText[i], 0, 0);
+      ctx.restore();
+    }
+
+    setCaptchaImage(canvas.toDataURL());
+  };
+
+  const fetchCaptcha = React.useCallback(async () => {
+    try {
+      const res = await axios.post(`${process.env.backend}/api/login-Captcha`);
+      const captchaData = res.data.data;
+      const decryptedCaptcha = decryptCaptcha(captchaData.captcha_code);
+      setCaptchaData(captchaData);
+      drawCaptcha(decryptedCaptcha);
+      setCaptchaInput("");
+      setCaptchaError(null);
+    } catch (error) {
+      console.error("Failed to fetch captcha:", error);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    fetchCaptcha();
+    const interval = setInterval(fetchCaptcha, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [fetchCaptcha]);
 
   function encryptPassword(plainPassword: string): string {
-    const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
-
     const key = CryptoJS.enc.Latin1.parse(
       CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
     );
-
     const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
     const iv = CryptoJS.enc.Latin1.parse(ivString);
 
@@ -73,23 +154,31 @@ const Login = () => {
   ///////////////// Handling Login Logics /////////////
 
   const handleLogin = async (values: LoginInitialData) => {
-    if (!verifyCaptcha(captchaInput)) {
-      setCaptchaError("Captcha is incorrect");
-       setCaptchaInput(""); 
-      generateRandomCaptcha(); // Optionally refresh it
+    if (!captchaInput.trim()) {
+      setCaptchaError("Please enter captcha");
       return;
-    } else {
-      setCaptchaError(null); // clear previous error if any
+    }
+    
+    if (!captchaData) {
+      setCaptchaError("Captcha not loaded");
+      return;
     }
     try {
       activateWorkingAnimation();
+
+      const payload = {
+        email: values.user_id,
+        password: encryptPassword(values.password),
+        captcha_code: encryptPassword(captchaInput),
+        captcha_id: captchaData.captcha_id,
+        moduleId: 6,
+        systemUniqueId: fingerprint,
+      };
+
       const res = await axios({
         url: `${process.env.backend}/api/login`,
         method: "POST",
-        data: {
-          email: values.user_id,
-          password: encryptPassword(values.password),
-        },
+        data: payload,
       });
 
       const data = res.data.data;
@@ -222,88 +311,67 @@ const Login = () => {
                         className="border-black focus:outline-none"
                       />
                     </div>
-                    <Input
-                      label="Password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                      error={errors.password}
-                      touched={touched.password}
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                      autoComplete="off"
-                      onCopy={(e) => e.preventDefault()}
-                      onPaste={(e) => e.preventDefault()}
-                      onCut={(e) => e.preventDefault()}
-                      className="mt-1 border-black focus:border-0 visible:border-0 focus:outline-none"
-
-
-
-                    // type={hide ? "password" : "text"}
-                    // icon={
-                    //   hide ? (
-                    //     <svg
-                    //       onClick={handleHideShowPass}
-                    //       xmlns="http://www.w3.org/2000/svg"
-                    //       width="25"
-                    //       height="25"
-                    //       viewBox="0 0 52 50"
-                    //       fill="none"
-                    //     >
-                    //       <path
-                    //         d="M3.49755 2.5L48.4975 47.5M20.6083 19.7841C19.3017 21.134 18.4976 22.973 18.4976 25C18.4976 29.1423 21.8555 32.5 25.9975 32.5C28.0538 32.5 29.9168 31.6725 31.2715 30.3325M12.2476 11.6179C7.4993 14.7509 3.88263 19.4599 2.14258 25C5.3282 35.1427 14.804 42.5 25.998 42.5C30.9703 42.5 35.6035 41.0485 39.497 38.546M23.4975 7.62347C24.32 7.54182 25.1543 7.5 25.998 7.5C37.1923 7.5 46.668 14.8573 49.8535 25C49.1518 27.235 48.1443 29.3345 46.8805 31.25"
-                    //         stroke="black"
-                    //         strokeOpacity="0.6"
-                    //         strokeWidth="3.5"
-                    //         strokeLinecap="round"
-                    //         strokeLinejoin="round"
-                    //       />
-                    //     </svg>
-                    //   ) : (
-                    //     <svg
-                    //       onClick={handleHideShowPass}
-                    //       xmlns="http://www.w3.org/2000/svg"
-                    //       width="25"
-                    //       height="25"
-                    //       viewBox="0 0 61 61"
-                    //       fill="none"
-                    //     >
-                    //       <path
-                    //         d="M37.9794 30.0859C37.9794 34.2282 34.6217 37.5859 30.4794 37.5859C26.3374 37.5859 22.9795 34.2282 22.9795 30.0859C22.9795 25.9437 26.3374 22.5859 30.4794 22.5859C34.6217 22.5859 37.9794 25.9437 37.9794 30.0859Z"
-                    //         stroke="black"
-                    //         strokeOpacity="0.35"
-                    //         strokeWidth="3.5"
-                    //         strokeLinecap="round"
-                    //         strokeLinejoin="round"
-                    //       />
-                    //       <path
-                    //         d="M30.4808 12.5859C19.2866 12.5859 9.81094 19.9431 6.62524 30.0859C9.81089 40.2287 19.2866 47.5859 30.4808 47.5859C41.6748 47.5859 51.1505 40.2287 54.3363 30.0859C51.1505 19.9432 41.6748 12.5859 30.4808 12.5859Z"
-                    //         stroke="black"
-                    //         strokeOpacity="0.35"
-                    //         strokeWidth="3.5"
-                    //         strokeLinecap="round"
-                    //         strokeLinejoin="round"
-                    //       />
-                    //     </svg>
-                    //   )
-                    // }
-                    />
+                    {/* Password Input with Eye Icon */}
+                    <div className="relative">
+                      <Input
+                        label="Password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                        error={errors.password}
+                        touched={touched.password}
+                        autoComplete="off"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        className="mt-1 border-1 pr-10"
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none mt-3"
+                      >
+                        {showPassword ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 11-4.243-4.243m4.242 4.242L9.88 9.88" />
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                   </div>
+                  {/* Captcha Display */}
                   <div className="mt-4 mb-2">
                     <label className="block text-sm font-medium text-gray-700">Captcha</label>
-                    <img
-                      src={captchaImage}
-                      alt="Captcha"
-                      className="w-48 h-14 mt-2 border border-gray-300 rounded"
-                    />
-                    <button
-                      type="button"
-                      onClick={generateRandomCaptcha}
-                      className="mt-1 text-sm text-blue-500 underline"
-                    >
-                      Refresh Captcha
-                    </button>
+                    <div className="flex items-center gap-2 mt-2">
+                      {captchaImage ? (
+                        <img
+                          src={captchaImage}
+                          alt="Captcha"
+                          className="w-48 h-14 border border-gray-300 rounded"
+                        />
+                      ) : (
+                        <div className="w-48 h-14 border border-gray-300 rounded flex items-center justify-center bg-gray-100">
+                          Loading captcha...
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={fetchCaptcha}
+                        className="p-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                   {/* Captcha Input */}
                   <div className="mb-4">
